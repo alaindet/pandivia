@@ -4,3 +4,12 @@
 
 // Core
 @include app-root();
+@include app-typography();
+// @include app-grid($app-grid-configuration);
+// @include app-spacing($app-spacing-configuration);
+
+// Vendors
+@include app-vendor-material();
+
+// Components
+@include app-component-container();

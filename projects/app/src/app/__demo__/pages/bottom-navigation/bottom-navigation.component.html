@@ -1,0 +1,11 @@
+<div class="demo-cage">
+  <app-bottom-navigation
+    [items]="navigationItems"
+    [selectedItem]="currentNavigationItem"
+    (selected)="onNavigate($event)"
+  ></app-bottom-navigation>
+
+  <hr>
+
+  <button appButton (click)="onClearNavigation()">Clear</button>
+</div>

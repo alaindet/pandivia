@@ -1,0 +1,43 @@
+@import 'scoped';
+
+.app-bottom-navigation-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: 0.15s all ease-out;
+  background-color: $app-color-grey-50;
+  flex: 1 1 0;
+
+  &:hover {
+    background-color: scale_color($app-color-grey-600, $lightness: +30%);
+  }
+
+  &:focus {
+    background-color: $app-color-grey-600;
+  }
+
+  &.-selected {
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      background-color: $app-color-secondary-700;
+      bottom: 0;
+    }
+  }
+
+  > ._icon {
+    font-size: 1.66rem;
+    font-weight: bold;
+    color: $app-color-secondary-700;
+  }
+  
+  > ._label {
+    // ...
+  }
+}

@@ -1,0 +1,11 @@
+@mixin app-centered() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin app-centered-inline() {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}

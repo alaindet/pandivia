@@ -1,0 +1,29 @@
+<h1>Items</h1>
+
+<ng-container *ngIf="loaded$ | async; else loadingTemplate">
+  <ul>
+    <li
+      *ngFor="let item of items$ | async"
+      [class.-done]="item.isDone"
+    >
+
+      <div class="_amount">
+        <button type="button" class="_amount-change">-</button>
+        <div class="_amount-value">{{ item.amount }}</div>
+        <button type="button" class="_amount-change">+</button>
+      </div>
+
+      <div class="_name">{{ item.name }}</div>
+
+      <div class="_controls">
+        <button type="button"></button>
+        <button *ngIf="item.isDone" type="button">Check</button>
+      </div>
+
+    </li>
+  </ul>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <p>Loading...</p>
+</ng-template>

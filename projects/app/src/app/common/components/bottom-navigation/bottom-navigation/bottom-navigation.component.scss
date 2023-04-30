@@ -1,0 +1,9 @@
+@import 'scoped';
+
+.app-bottom-navigation {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  // border-top: 2px solid $app-color-grey-600;
+  box-shadow: 0 -10px 10px -10px rgba(0,0,0,0.2);
+}

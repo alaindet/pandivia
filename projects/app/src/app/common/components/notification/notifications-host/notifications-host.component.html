@@ -1,0 +1,10 @@
+<app-notification
+  *ngIf="!!notification?.id"
+  [notificationId]="notification!.id"
+  [notificationType]="notification!.type"
+  [dismissAfter]="NOTIFICATION_TIMEOUT"
+  [more]="notification!.more"
+  (dismissed)="dismissed.emit()"
+>
+  {{ notification!.message }}
+</app-notification>

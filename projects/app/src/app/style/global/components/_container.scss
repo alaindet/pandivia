@@ -1,0 +1,33 @@
+@mixin app-component-container() {
+  $container: (
+    'mobile': (
+      'gutter': 10px,
+      'breakpoint': 0,
+    ),
+    'tablet': (
+      'gutter': 20px,
+      'breakpoint': 768px,
+    ),
+    'desktop': (
+      'gutter': 72px,
+      'breakpoint': 1024px,
+    )
+  );
+
+  .container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+
+    @each $device, $device-data in $container {
+
+      $gutter: map-get($device-data, 'gutter');
+      $breakpoint: map-get($device-data, 'breakpoint');
+
+      @media screen and (min-width: $breakpoint) {
+        padding-left: $gutter;
+        padding-right: $gutter;
+      }
+    }
+  }
+}

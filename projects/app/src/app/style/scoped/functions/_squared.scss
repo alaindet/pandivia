@@ -1,0 +1,11 @@
+@mixin app-squared($size: 1rem, $font-size: 1rem) {
+  width: $size !important;
+  min-width: $size !important;
+  max-width: $size !important;
+  height: $size !important;
+  min-height: $size !important;
+  max-height: $size !important;
+
+  font-size: $font-size;
+  line-height: $font-size;
+}

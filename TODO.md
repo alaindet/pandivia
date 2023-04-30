@@ -1,0 +1,23 @@
+- [ ] Add i18n
+- [ ] Add a11y
+- [ ] https://mswjs.io/
+
+# Components
+- [ ] Checkbox
+- [x] Floating button
+- [ ] Badges
+- [x] Bottom Navigation
+- [ ] Quantity input
+- [ ] Text input
+  - [ ] Status
+  - [ ] Icon
+  - [ ] Debounced input event
+  - [ ] Clearable 
+- [ ] Floating menu
+- [ ] Modal
+- [ ] List
+  - [ ] List item
+    - [ ] Actions
+    - [ ] isSelectable
+    - [ ] isSelected
+    - [ ] Secondary text

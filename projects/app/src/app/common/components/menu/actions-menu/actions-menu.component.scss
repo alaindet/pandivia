@@ -1,0 +1,91 @@
+@import 'scoped';
+
+.app-actions-menu {
+  $caret-side: 0.5rem;
+  $caret-height: 0.5rem * 1.73205080757;
+
+  position: relative;
+  display: block;
+  width: fit-content;
+
+  &-button {
+    // ...
+  }
+
+  &-items {
+    transform: translateY(1rem);
+    position: absolute;
+    z-index: 2;
+    isolation: isolate;
+    background-color: $app-color-white;
+    border: 2px solid $app-color-grey-600;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 0.25rem;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+
+    &::after {
+      content: '';
+      border-left: $caret-side solid transparent;
+      border-right: $caret-side solid transparent;
+      border-bottom: $caret-height solid $app-color-grey-600;
+      position: absolute;
+      z-index: -1;
+      top: -1 * $caret-height;
+      right: $caret-height;
+    }
+
+    &.-open {
+      display: block;
+    }
+
+    &.-position-left {
+      left: auto;
+      right: 0;
+
+      &::after {
+        right: $caret-height;
+        left: auto;
+      }
+    }
+
+    &.-position-right {
+      left: 0;
+      right: auto;
+
+      &::after {
+        right: auto;
+        left: $caret-height; 
+      }
+    }
+  }
+
+  &-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    mat-icon {
+      font-size: 1.5rem;
+    }
+
+    &:hover, &:focus, &.-focused {
+      background-color: $app-color-primary-500;
+      color: $app-color-black;
+    }
+
+    &.-last {
+      border-bottom-left-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    &.-first {
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
+    }
+  }
+}

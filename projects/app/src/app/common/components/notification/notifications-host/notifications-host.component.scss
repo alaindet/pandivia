@@ -1,0 +1,27 @@
+@import 'scoped';
+
+.app-notifications-host {
+  position: fixed;
+  z-index: 2;
+  transition: 0.3s all ease-out;
+  opacity: 0;
+
+  &.-position-top-right {
+    top: 2rem;
+    right: 2rem;
+  }
+
+  // TODO: Other positions...
+
+  &.-open {
+    opacity: 1;
+  }
+
+  // TODO: Make it mobile-first
+  @media (max-width: 768px) {
+    top: auto !important;
+    bottom: 2.5vh !important;
+    left: 2.5vw !important;
+    wight: 2.5vw !important;
+  }
+}

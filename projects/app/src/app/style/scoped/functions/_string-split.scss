@@ -1,0 +1,26 @@
+// Based on
+// https://github.com/alaindet/sass-pal/blob/main/src/helpers/functions/string/_split.scss
+@function app-string-split($string, $separator: ' ')
+{
+  $output: ();
+
+  // Divide the letters
+  @if ($separator == '') {
+    @for $i from 1 through str-length($string) {
+      $char: str-slice($string, $i, $i);
+      $output: append($output, $char);
+    }
+    @return $output;
+  }
+
+  $index: str-index($string, $separator);
+  @while ($index != null) {
+    $bit: str-slice($string, 1, $index - 1);
+    $output: append($output, $bit);
+    $string: str-slice($string, $index + 1);
+    $index: str-index($string, $separator);
+  }
+  $output: append($output, $string);
+
+  @return $output;
+}

@@ -2,9 +2,116 @@
 // Color variables
 // Ex.: $app-color-mycolor: #123456;
 //
+// Old color palette
+// $app-color-white: rgb(255, 255, 255);
+// $app-color-beige: rgb(248,242,230);
+// $app-color-red: rgba(241,86,55);
+// $app-color-red-dark: rgb(218, 78, 50);
+// $app-color-yellow: rgba(221,178,24);
+// $app-color-yellow-dark: scale_color($app-color-yellow, $lightness: -10%);
+// $app-color-green: rgba(154,181,166);
+// $app-color-green-dark: rgb(99, 155, 124);
+// $app-color-black: rgb(18, 52, 86);
 
-$app-color-beige: rgb(248,242,230);
-$app-color-red: rgba(241,86,55);
-$app-color-yellow: rgba(221,178,24);
-$app-color-green: rgba(154,181,166);
+// $app-color-primary: $app-color-yellow;
+// $app-color-primary-dark: $app-color-yellow-dark;
+// $app-color-primary-contrast: $app-color-black;
+
+// $app-color-secondary: $app-color-green;
+// $app-color-secondary-dark: $app-color-green-dark;
+// $app-color-secondary-contrast: #000000;
+
+$app-color-beige-50: #FFFEFE;
+$app-color-beige-100: #FFFEFC;
+$app-color-beige-200: #FEFCF8;
+$app-color-beige-300: #FEFBF4;
+$app-color-beige-400: #FDF7EC;
+$app-color-beige-500: #FCF4E4;
+$app-color-beige-600: #E3DCCD;
+$app-color-beige-700: #979289;
+$app-color-beige-800: #716E67;
+$app-color-beige-900: #4C4944;
+
+$app-color-yellow-50: #FDFBF4;
+$app-color-yellow-100: #FCF8E8;
+$app-color-yellow-200: #F6ECC6;
+$app-color-yellow-300: #F1E1A4;
+$app-color-yellow-400: #E7CB60;
+$app-color-yellow-500: #DCB41C;
+$app-color-yellow-600: #C6A219;
+$app-color-yellow-700: #846C11;
+$app-color-yellow-800: #63510D;
+$app-color-yellow-900: #423608;
+
+$app-color-malva-50: #FBF8FA;
+$app-color-malva-100: #F8F1F4;
+$app-color-malva-200: #ECDCE4;
+$app-color-malva-300: #E1C7D4;
+$app-color-malva-400: #CB9EB4;
+$app-color-malva-500: #B47494;
+$app-color-malva-600: #A26885;
+$app-color-malva-700: #6C4659;
+$app-color-malva-800: #513443;
+$app-color-malva-900: #36232C;
+
+$app-color-green-50: #F7FAF8;
+$app-color-green-100: #EFF6F2;
+$app-color-green-200: #D6E8DE;
+$app-color-green-300: #BEDBCB;
+$app-color-green-400: #8DBFA3;
+$app-color-green-500: #5CA47C;
+$app-color-green-600: #539470;
+$app-color-green-700: #37624A;
+$app-color-green-800: #294A38;
+$app-color-green-900: #1C3125;
+
+// Aliases --------------------------------------------------------------------
+$app-color-grey-50: #FFFEFE;
+$app-color-grey-100: #FFFEFC;
+$app-color-grey-200: #FEFCF8;
+$app-color-grey-300: #FEFBF4;
+$app-color-grey-400: #FDF7EC;
+$app-color-grey-500: #FCF4E4;
+$app-color-grey-600: #E3DCCD;
+$app-color-grey-700: #979289;
+$app-color-grey-800: #716E67;
+$app-color-grey-900: #4C4944;
+
+$app-color-primary-50: #FDFBF4;
+$app-color-primary-100: #FCF8E8;
+$app-color-primary-200: #F6ECC6;
+$app-color-primary-300: #F1E1A4;
+$app-color-primary-400: #E7CB60;
+$app-color-primary-500: #DCB41C;
+$app-color-primary-600: #C6A219;
+$app-color-primary-700: #846C11;
+$app-color-primary-800: #63510D;
+$app-color-primary-900: #423608;
+
+$app-color-secondary-50: #FBF8FA;
+$app-color-secondary-100: #F8F1F4;
+$app-color-secondary-200: #ECDCE4;
+$app-color-secondary-300: #E1C7D4;
+$app-color-secondary-400: #CB9EB4;
+$app-color-secondary-500: #B47494;
+$app-color-secondary-600: #A26885;
+$app-color-secondary-700: #6C4659;
+$app-color-secondary-800: #513443;
+$app-color-secondary-900: #36232C;
+
+$app-color-tertiary-50: #F7FAF8;
+$app-color-tertiary-100: #EFF6F2;
+$app-color-tertiary-200: #D6E8DE;
+$app-color-tertiary-300: #BEDBCB;
+$app-color-tertiary-400: #8DBFA3;
+$app-color-tertiary-500: #5CA47C;
+$app-color-tertiary-600: #539470;
+$app-color-tertiary-700: #37624A;
+$app-color-tertiary-800: #294A38;
+$app-color-tertiary-900: #1C3125;
+
+// Utilities ------------------------------------------------------------------
+$app-color-white: $app-color-grey-200;
 $app-color-black: rgb(18, 52, 86);
+$app-color-error: #DA452E;
+$app-color-success: $app-color-green-500;

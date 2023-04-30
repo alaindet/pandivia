@@ -1,0 +1,9 @@
+$app-grid-configuration: (
+  prefix: '',
+  columns: 12,
+  breakpoints: (
+    's': 768px,
+    'm': 1024px,
+    'l': 1280px,
+  ),
+);

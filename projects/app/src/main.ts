@@ -1,7 +1,29 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideEffects } from '@ngrx/effects';
 
-import { AppModule } from './app/app.module';
+import { environment } from '@app/environment';
+import { rootReducer, rootEffects } from '@app/core/store';
+import { AppComponent } from './app/app.component';
+import { APP_ROUTES } from './app/routes';
 
+if (environment.production) {
+  enableProdMode();
+}
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom([
+      BrowserModule,
+      HttpClientModule,
+    ]),
+    provideRouter(APP_ROUTES),
+    provideStore(rootReducer),
+    environment.production ? [] : provideStoreDevtools(),
+    provideEffects(rootEffects),
+  ],
+}).catch(err => console.error(err));

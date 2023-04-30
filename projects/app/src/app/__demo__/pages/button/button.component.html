@@ -1,0 +1,76 @@
+<h2>Color</h2>
+<div class="buttons">
+  <div><button appButton="primary">Primary</button> (default)</div>
+  <button appButton="secondary">Secondary</button>
+  <button appButton="tertiary">Tertiary</button>
+  <button appButton="outline">Outline</button>
+  <button appButton="ghost">Ghost</button>
+</div>
+
+<h2>Size</h2>
+<div class="buttons">
+  <button appButton size="small">Small</button>
+  <p><button appButton size="medium">Medium</button> (default)</p>
+  <button appButton size="large">Large</button>
+</div>
+
+<h2>Circled</h2>
+<div class="buttons">
+  <button appButton isCircle withIconOnly size="small">
+    <mat-icon>schedule</mat-icon>
+  </button>
+  <button appButton isCircle withIconOnly size="medium">
+    <mat-icon>schedule</mat-icon>
+  </button>
+  <button appButton isCircle withIconOnly size="large">
+    <mat-icon>schedule</mat-icon>
+  </button>
+</div>
+
+<h2>Disabled</h2>
+<button appButton [disabled]="true">Disabled</button>
+
+<h2>With icon</h2>
+<div class="buttons">
+  <button appButton withIcon="right">
+    Search <mat-icon>search</mat-icon>
+  </button>
+  <button appButton withIcon="left">
+    <mat-icon>search</mat-icon> Search
+  </button>
+</div>
+
+<h2>With icon only</h2>
+<div class="buttons">
+  <button appButton withIconOnly size="small">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button appButton withIconOnly size="medium">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button appButton withIconOnly size="large">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<h2>Floating buttons</h2>
+
+<button appButton isCircle withIconOnly size="large" floating="fixed" [floatingPos]="{
+  bottom: '2rem',
+  right: '2rem'
+}">
+  <mat-icon>add</mat-icon>
+</button>
+
+<br><br>
+
+<div class="fab-container">
+  <button appButton isCircle withIconOnly size="medium" floating="container">
+    <mat-icon>clear</mat-icon>
+  </button>
+
+  <p>Magna in do est ea do incididunt aliquip aliquip esse ea. Aliquip voluptate nulla ipsum ipsum ex commodo et adipisicing. Ex et exercitation irure id cillum sit deserunt deserunt mollit sunt ex consectetur proident.</p>
+  <p>Excepteur est consectetur non id adipisicing ea pariatur adipisicing et cillum laborum irure occaecat dolor. Exercitation enim cillum nulla enim tempor pariatur ex. Aliquip aute ad anim sint ex. Adipisicing ullamco enim do ad duis ad nisi pariatur labore minim eu et laboris eiusmod. Ex nisi dolore nulla ullamco ipsum ut voluptate. Eu excepteur voluptate dolore deserunt nulla velit irure quis consequat. Proident voluptate minim est duis voluptate.</p>
+  <p>Sunt mollit commodo aliquip do duis. Mollit sit proident culpa in elit sunt ex amet sunt aliqua reprehenderit. Nisi laboris duis fugiat ea eiusmod cillum esse reprehenderit nulla velit eu ullamco adipisicing irure. Aute non occaecat id sint laboris laboris cupidatat labore proident.</p>
+
+</div>

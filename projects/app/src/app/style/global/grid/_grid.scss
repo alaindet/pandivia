@@ -1,0 +1,54 @@
+@use 'sass:math';
+
+// https://codepen.io/alaindet/pen/MWmxrJb
+@mixin app-grid($config) {
+
+  $prefix: app-map-get($config, 'prefix');
+  $breakpoints: app-map-get($config, 'breakpoints');
+  $cols: app-map-get($config, 'columns');
+
+  .#{$prefix}rows {
+    box-sizing: border-box;
+  }
+
+  .#{$prefix}cols {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+
+    > * {
+      box-sizing: border-box;
+    }
+  }
+
+  .#{$prefix}row {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+
+    > * {
+      box-sizing: border-box;
+    }
+  }
+
+  .#{$prefix}col {
+    flex: 1 1 0;
+
+    @for $i from 1 through $cols {
+      &-#{$i} {
+        flex-basis: app-decimal-round($i * (math.div(100%, $cols)), 3);
+      }
+    }
+
+    @each $breakpoint-key, $breakpoint-value in $breakpoints {
+      @media screen and (min-width: $breakpoint-value) {
+        @for $i from 1 through $cols {
+          &-#{$breakpoint-key}-#{$i} {
+            flex-basis: app-decimal-round($i * (math.div(100%, $cols)), 3);
+          }
+        }
+      }
+    }
+
+  }
+}

@@ -1,0 +1,35 @@
+<ng-container *ngIf="!!vm">
+
+  <div class="app-actions-menu-button">
+    <ng-container [ngTemplateOutlet]="vm.templates.button"></ng-container>
+  </div>
+
+  <ul
+    #itemsElementRef
+    [attr.id]="vm.itemsId"
+    role="menu"
+    tabindex="-1"
+    [attr.aria-labelledby]="vm.buttonId"
+    [attr.aria-activedescendant]="vm.focused"
+    class="app-actions-menu-items -position-{{ position }}"
+    [class.-open]="vm.isOpen"
+  >
+    <li
+      *ngFor="let action of vm.actions; let first = first; let last = last"
+      class="app-actions-menu-item"
+      [class.-focused]="vm.focused === action.id"
+      [class.-first]="first"
+      [class.-last]="last"
+      role="menuitem"
+      [attr.id]="action.id"
+      tabindex="-1"
+      (click)="onActionClicked($event, action.id)"
+      (mouseover)="onActionMouseover($event, action.id)"
+    >
+      <ng-container
+        [ngTemplateOutlet]="vm.templates.item"
+        [ngTemplateOutletContext]="{ $implicit: action }"
+      ></ng-container>
+    </li>
+  </ul>
+</ng-container>
