@@ -1,0 +1,44 @@
+<h2>Basic</h2>
+<div class="demo-cases">
+  <app-checkbox [checked]="true">Checked by default</app-checkbox>
+  <app-checkbox>Unchecked by default</app-checkbox>
+</div>
+
+<h2>Color</h2>
+<div class="demo-cases">
+  <app-checkbox color="primary" [checked]="true">
+    Primary
+  </app-checkbox>
+  <app-checkbox color="secondary" [checked]="true">
+    Secondary
+  </app-checkbox>
+  <app-checkbox color="tertiary" [checked]="true">
+    Tertiary
+  </app-checkbox>
+  <app-checkbox color="black" [checked]="true">
+    Black
+  </app-checkbox>
+</div>
+
+<h2>Disabled</h2>
+<div class="demo-cases">
+  <app-checkbox [isDisabled]="true" [checked]="false">
+    Disabled and unchecked
+  </app-checkbox>
+  <app-checkbox [isDisabled]="true" [checked]="true">
+    Disabled and checked
+  </app-checkbox>
+</div>
+
+<h2>Size</h2>
+<div class="demo-cases">
+  <app-checkbox size="32px" [checked]="true">
+    Custom size 32px
+  </app-checkbox>
+  <app-checkbox size="48px" [checked]="true">
+    Custom size 48px
+  </app-checkbox>
+  <app-checkbox size="64px" [checked]="true">
+    Custom size 64px
+  </app-checkbox>
+</div>

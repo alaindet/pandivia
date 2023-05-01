@@ -1,0 +1,149 @@
+@import 'scoped';
+
+@mixin app-checkbox-color($parent: '', $color: black) {
+  #{$parent}.-checked ._checkmark::before {
+    background-color: $app-color-primary-500;
+    border-color: $app-color-primary-500;
+  }
+}
+
+.app-checkbox {
+  --app-checkbox-size: 1rem;
+  --app-checkbox-input-size: calc(0.5 * var(--app-checkbox-size));
+  --app-checkbox-offset: calc(0.5 * var(--app-checkbox-size) - 0.5 * var(--app-checkbox-input-size));
+  --app-checkbox-border-size: clamp(1px, calc(var(--app-checkbox-size) / 10), 2px);
+  --app-checkbox-border-radius: calc(0.2 * var(--app-checkbox-size));
+
+  display: block;
+
+  &.-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &.-color-primary.-checked ._checkmark::before {
+    background-color: $app-color-primary-500;
+    border-color: $app-color-primary-500;
+  }
+
+  &.-color {
+    &-primary {
+      &.-checked ._checkmark::before {
+        background-color: $app-color-primary-500;
+        border-color: $app-color-primary-500;
+      }
+    }
+
+    &-secondary {
+      &.-checked ._checkmark::before {
+        background-color: $app-color-secondary-500;
+        border-color: $app-color-secondary-500;
+      }
+    }
+
+    &-tertiary {
+      &.-checked ._checkmark::before {
+        background-color: $app-color-tertiary-500;
+        border-color: $app-color-tertiary-500;
+      }
+    }
+
+    &-black {
+      &.-checked ._checkmark::before {
+        background-color: $app-color-black;
+        border-color: $app-color-black;
+      }
+    }
+  }
+
+  &.-checked {
+    ._checkmark {
+
+      &::before {
+        background-color: black;
+        border-color: black;
+      }
+
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    outline: 2px solid transparent;
+    outline-offset: 1px;
+
+    &:focus-within {
+      outline-color: $app-color-grey-600;
+    }
+  }
+
+  ._checkmark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+    width: var(--app-checkbox-size);
+    height: var(--app-checkbox-size);
+
+    // Square
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: var(--app-checkbox-border-size) solid $app-color-grey-600;
+      border-radius: var(--app-checkbox-border-radius);
+      background-color: $app-color-white;
+      z-index: 1;
+      width: var(--app-checkbox-size);
+      height: var(--app-checkbox-size);
+    }
+
+    // Check symbol
+    &::after {
+      --w: calc(0.70 * var(--app-checkbox-size));
+      --h: calc(0.35 * var(--app-checkbox-size));
+
+      content: '';
+      position: absolute;
+      border: var(--app-checkbox-border-size) solid $app-color-white;
+      border-left: 0;
+      border-top: 0;
+      z-index: 2;
+      transform-origin: center;
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: 0.1s opacity ease-in;
+      left: var(--h);
+      height: var(--w);
+      width: var(--h);
+      top: 0;
+    }
+  }
+
+  input[type='checkbox'] {
+    width: var(--app-checkbox-input-size);
+    height: var(--app-checkbox-input-size);
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  ._content:not(:empty) {
+    position: relative;
+    top: 1px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+
+    &:hover {
+      color: $app-color-grey-900;
+    }
+  }
+}
