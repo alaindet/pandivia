@@ -1,0 +1,14 @@
+<label>
+  <span class="_checkmark">
+    <input
+      #inputRef
+      [attr.id]="id"
+      type="checkbox"
+      [disabled]="isDisabled"
+      (change)="onCheckboxChange($event)"
+    >
+  </span>
+  <span class="_content">
+    <ng-content></ng-content>
+  </span>
+</label>

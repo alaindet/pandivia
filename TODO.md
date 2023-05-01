@@ -12,7 +12,7 @@
   - [ ] Status
   - [ ] Icon
   - [ ] Debounced input event
-  - [ ] Clearable 
+  - [ ] Clearable
 - [ ] Floating menu
 - [ ] Modal
 - [ ] List
