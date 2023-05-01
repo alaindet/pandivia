@@ -15,6 +15,10 @@
   - [ ] Clearable 
 - [ ] Floating menu
 - [ ] Modal
+  - [ ] https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+  - [ ] https://stackblitz.com/edit/angular-ivy-ob8vrt?file=src%2Fapp%2Fmodal.component.ts
+  - [ ] https://medium.com/@damodara.puddu/when-to-use-angulars-dynamic-components-ce40db069359
+  - [ ] https://angular.io/guide/dynamic-component-loader
 - [ ] List
   - [ ] List item
     - [ ] Actions
