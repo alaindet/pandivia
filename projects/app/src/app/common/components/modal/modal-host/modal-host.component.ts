@@ -16,14 +16,18 @@ const IMPORTS = [
   standalone: true,
   imports: IMPORTS,
   template: `
-    <div class="app-modal">
+    <div class="_modal">
       <ng-container #modalTarget></ng-container>
-      <div class="_dismiss">
-        <button type="button" appButton="secondary" (click)="onDismiss()">
-          <mat-icon>clear</mat-icon>
-        </button>
-      </div>
+      <button
+        type="button"
+        class="_dismiss"
+        appButton="secondary"
+        (click)="onDismiss()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
     </div>
+    <div class="_backdrop"></div>
   `,
   styleUrls: ['./modal-host.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -42,6 +46,10 @@ export class ModalHostComponent {
   ngOnInit() {
     this.modalService.registerTarget(this.modalTarget);
     this.modalService.open$.subscribe(open => {
+
+      // TODO: Remove
+      console.log('modal changed open state', open);
+
       this.cssOpen = open;
       this.cdr.detectChanges();
     });

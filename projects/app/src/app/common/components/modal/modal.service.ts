@@ -54,6 +54,7 @@ export class ModalService implements OnDestroy {
     this.target.clear();
     const modalData: ModalTemplateInput<TInput> = { $implicit: data };
     const viewRef = this.target.createEmbeddedView(template, modalData);
+    this._open$.next(true);
     this.modalTemplateRefs[modalId] = viewRef;
 
     const closed = firstValueFrom(

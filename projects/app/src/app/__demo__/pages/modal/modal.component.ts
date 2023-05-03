@@ -30,9 +30,13 @@ export class ModalDemoPageComponent {
 
   async onOpenModal() {
 
-    const modal = this.modal.openByTemplate('demo-modal-one', this.modalOneRef, {
-      value: 'Hello World!',
-    });
+    const modal = this.modal.openByTemplate<ModalOneInput, ModalOneOutput>(
+      'demo-modal-one',
+      this.modalOneRef,
+      {
+        value: 'Hello World!',
+      },
+    );
 
     const result = await modal.closed;
     console.log('modal closed', result);
