@@ -3,5 +3,8 @@
 <button appButton (click)="onOpenModal()">Open modal</button>
 
 <ng-template #modalOne let-data>
-  <input type="text" [value]="data.text">
+  <label>
+    An input
+    <input type="text" [value]="data.text">
+  </label>
 </ng-template>

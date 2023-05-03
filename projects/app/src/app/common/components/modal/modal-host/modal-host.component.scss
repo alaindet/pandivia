@@ -1,9 +1,18 @@
 @import 'scoped';
 
-.app-modal-container {
-  // ...
-}
+.app-modal-host {
+  background-color: rgba(0,0,0,0.2);
+  filter: blur(10px);
+  display: none;
 
-.app-modal {
-  // ...
+  &.-open {
+    display: block;
+  }
+
+  .app-modal {
+    isolation: isolate;
+    z-index: 1;
+    width: min($app-modal-width, 90vw);
+    max-width: 100vw;
+  }
 }

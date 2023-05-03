@@ -5,11 +5,13 @@ import { Store } from '@ngrx/store';
 
 import { notificationsActions, selectNotification } from './core/store';
 import { NotificationsHostComponent } from './common/components';
+import { ModalHostComponent } from './common/components/modal';
 
 const IMPORTS = [
   CommonModule,
   RouterModule,
   NotificationsHostComponent,
+  ModalHostComponent,
 ];
 
 @Component({

@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
-import { ModalService } from '@app/common/components/modal';
+
+import { ModalService, ModalTemplateInput } from '@app/common/components/modal';
 
 type ModalOneInput = {
   value: string | null;
+};
+
+type ModalOneOutput = {
+  value: string;
 };
 
 const IMPORTS = [
@@ -21,9 +26,15 @@ export class ModalDemoPageComponent {
   modal = inject(ModalService);
 
   @ViewChild('modalOne', { static: true, read: TemplateRef<ModalOneInput> })
-  modalOneRef!: TemplateRef<ModalOneInput>;
+  modalOneRef!: TemplateRef<ModalTemplateInput<ModalOneInput>>;
 
-  onOpenModal() {
-    
+  async onOpenModal() {
+
+    const modal = this.modal.openByTemplate('demo-modal-one', this.modalOneRef, {
+      value: 'Hello World!',
+    });
+
+    const result = await modal.closed;
+    console.log('modal closed', result);
   }
 }
