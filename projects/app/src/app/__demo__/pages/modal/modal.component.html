@@ -1,3 +1,7 @@
 <p>Modal demo page</p>
 
-<ng-container #modalTarget></ng-container>
+<button appButton (click)="onOpenModal()">Open modal</button>
+
+<ng-template #modalOne let-data>
+  <input type="text" [value]="data.text">
+</ng-template>
