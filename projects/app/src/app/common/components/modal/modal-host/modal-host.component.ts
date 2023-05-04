@@ -15,20 +15,7 @@ const IMPORTS = [
   selector: 'app-modal-host',
   standalone: true,
   imports: IMPORTS,
-  template: `
-    <div class="_modal">
-      <ng-container #modalTarget></ng-container>
-      <button
-        type="button"
-        class="_dismiss"
-        appButton="secondary"
-        (click)="onDismiss()"
-      >
-        <mat-icon>clear</mat-icon>
-      </button>
-    </div>
-    <div class="_backdrop"></div>
-  `,
+  templateUrl: './modal-host.component.html',
   styleUrls: ['./modal-host.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-modal-host' },
