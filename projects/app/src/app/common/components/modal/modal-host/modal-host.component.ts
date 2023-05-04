@@ -33,10 +33,6 @@ export class ModalHostComponent {
   ngOnInit() {
     this.modalService.registerTarget(this.modalTarget);
     this.modalService.open$.subscribe(open => {
-
-      // TODO: Remove
-      console.log('modal changed open state', open);
-
       this.cssOpen = open;
       this.cdr.detectChanges();
     });

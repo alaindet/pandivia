@@ -1,10 +1,20 @@
 <!-- TODO: Use <dialog>? -->
-<div class="_modal">
+<div
+  class="_modal"
+  role="dialog"
+  aria-labelledby="modal-title"
+  aria-describedby="modal-body"
+>
+  <h2 class="_title" id="modal-title">
+    TODO: Modal title
+  </h2>
 
-  <div class="_title">TODO: Modal title</div>
-
-  <div class="_body">
+  <div class="_body" id="modal-body">
     <ng-container #modalTarget></ng-container>
+  </div>
+
+  <div class="_footer">
+    TODO: Footer
   </div>
 
   <div class="_dismiss">
@@ -22,4 +32,4 @@
 
 </div>
 
-<div class="_backdrop"></div>
+<div class="_backdrop" (click)="onDismiss()"></div>

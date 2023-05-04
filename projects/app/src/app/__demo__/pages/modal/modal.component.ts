@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
 
+import { ButtonComponent } from '@app/common/components';
 import { ModalService, ModalTemplateInput } from '@app/common/components/modal';
 
 type ModalOneInput = {
@@ -13,6 +14,7 @@ type ModalOneOutput = {
 
 const IMPORTS = [
   CommonModule,
+  ButtonComponent,
 ];
 
 @Component({
