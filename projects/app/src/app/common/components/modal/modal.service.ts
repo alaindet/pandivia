@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, EmbeddedViewRef, Injectable, OnDestroy, TemplateRef, ViewContainerRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactory, EmbeddedViewRef, Injectable, OnDestroy, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 
 import { DataSource, OnceSource } from '@app/common/sources';
 import { Subject, firstValueFrom, takeUntil, tap } from 'rxjs';
-import { ModalConfig, ModalRef, ModalTemplateInput } from './types';
+import { ModalComponent, ModalConfig, ModalRef, ModalTemplateInput } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -37,52 +37,56 @@ export class ModalService implements OnDestroy {
     this.ref?.close();
   }
 
-  openByTemplate<TInput extends any, TOutput extends any>(
-    modalId: string,
-    template: TemplateRef<ModalTemplateInput<TInput>>,
-    data: TInput,
-  ): ModalRef<TOutput> {
+  // openByTemplate<TInput extends any, TOutput extends any>(
+  //   modalId: string,
+  //   template: TemplateRef<ModalTemplateInput<TInput>>,
+  //   data: TInput,
+  // ): ModalRef<TOutput> {
 
+  //   if (!this.target) {
+  //     throw new Error('Missing modal target');
+  //   }
+
+  //   this.modalTemplateRefs[modalId]?.destroy();
+
+  //   const closed$ = new Subject<TOutput | undefined>();
+
+  //   this.target.clear();
+  //   const modalData: ModalTemplateInput<TInput> = { $implicit: data };
+  //   const viewRef = this.target.createEmbeddedView(template, modalData);
+  //   this._open$.next(true);
+  //   this.modalTemplateRefs[modalId] = viewRef;
+
+  //   const closed = firstValueFrom(
+  //     closed$.pipe(
+  //       takeUntil(this.once.event$),
+  //       tap(() => this._open$.next(false)),
+  //     )
+  //   );
+
+  //   const close = (data?: TOutput) => {
+  //     this.modalTemplateRefs[modalId]?.destroy();
+  //     closed$.next(data);
+  //   };
+
+  //   const ref = { closed, close };
+  //   this.ref = ref;
+
+  //   return ref;
+  // }
+
+  // TODO
+  open<TInput extends any, TComponent extends any>(
+    component: TComponent,
+    data: TInput,
+  ) {
     if (!this.target) {
       throw new Error('Missing modal target');
     }
 
-    this.modalTemplateRefs[modalId]?.destroy();
-
-    const closed$ = new Subject<TOutput | undefined>();
-
     this.target.clear();
-    const modalData: ModalTemplateInput<TInput> = { $implicit: data };
-    const viewRef = this.target.createEmbeddedView(template, modalData);
-    this._open$.next(true);
-    this.modalTemplateRefs[modalId] = viewRef;
-
-    const closed = firstValueFrom(
-      closed$.pipe(
-        takeUntil(this.once.event$),
-        tap(() => this._open$.next(false)),
-      )
-    );
-
-    const close = (data?: TOutput) => {
-      this.modalTemplateRefs[modalId]?.destroy();
-      closed$.next(data);
-    };
-
-    const ref = { closed, close };
-    this.ref = ref;
-
-    return ref;
-  }
-
-  // TODO
-  showByComponent<T extends any>(
-    modalId: string,
-    component: any, // TODO: Typing
-    data: T,
-  ): ModalService {
-    // ...
-
-    return this;
+    const ref = this.target.createComponent(component);
+    ref.instance.data = data;
+    ref.instance.ref = ref;
   }
 }

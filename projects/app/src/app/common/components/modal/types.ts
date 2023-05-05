@@ -11,3 +11,7 @@ export type ModalRef<TOutput extends any> = {
   closed: Promise<TOutput | undefined>,
   close: (data?: TOutput) => void;
 };
+
+export interface ModalComponent<TInput extends any> {
+  data: TInput;
+}
