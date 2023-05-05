@@ -22,22 +22,28 @@
     overflow-y: auto;
     background-color: $app-color-white;
     border-radius: 0.5rem;
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
 
-    ._title {
-      margin-top: 0;
+    header {
+      h2 {
+        margin: 0;
+      }
     }
 
     ._body {
+      margin: 1rem 0;
       flex-grow: 1;
     }
 
-    ._footer {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
+    footer {
+      .default-footer {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        align-items: center;
+      }
     }
 
     ._dismiss {

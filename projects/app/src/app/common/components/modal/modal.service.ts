@@ -1,20 +1,22 @@
-import { ChangeDetectorRef, Injectable, OnDestroy, ViewContainerRef, inject } from '@angular/core';
+import { Injectable, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 
-import { DataSource, OnceSource, EventSource } from '@app/common/sources';
-import { Observable, Subject, take } from 'rxjs';
-import { ModalRef } from './types';
+import { DataSource, EventSource, OnceSource } from '@app/common/sources';
+import { filter, map, take } from 'rxjs';
+import { MODAL_OUTPUT_STATUS, BaseModalComponent, ModalOutput, ModalRef } from './types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService implements OnDestroy {
 
-  private cdr = inject(ChangeDetectorRef);
-
   private once = new OnceSource();
   private target: ViewContainerRef | null = null;
   private _open$ = new DataSource<boolean>(false, this.once.event$);
-  private _closed$ = new EventSource<any>(this.once.event$);
+  private _closed$ = new EventSource<ModalOutput<any>>(this.once.event$);
+  private _confirmClicked$ = new EventSource<void>(this.once.event$);
+
+  headerTemplate: TemplateRef<void> | null = null;
+  footerTemplate: TemplateRef<void> | null = null;
   open$ = this._open$.data$;
 
   ngOnDestroy() {
@@ -25,41 +27,93 @@ export class ModalService implements OnDestroy {
     this.target = target;
   }
 
-  close<TOutput extends any>(outputData?: TOutput) {
-    this.target?.clear();
-    this._open$.next(false);
-    this._closed$.next(outputData);
+  registerHeaderTemplate(template: TemplateRef<void>) {
+    this.headerTemplate = template;
   }
 
-  open<TInput extends any, TOutput extends any>(
-    componentClass: any, // TODO: Type?
-    inputData: TInput,
-  ): ModalRef<TInput, TOutput> {
+  registerFooterTemplate(template: TemplateRef<void>) {
+    this.footerTemplate = template;
+  }
 
+  close<TOutput extends any>(output: ModalOutput<TOutput>) {
+    this.clear();
+    this._closed$.next(output);
+  }
+
+  closed() {
+    return this._closed$.event$.pipe(take(1));
+  }
+
+  cancel() {
+    this.clear();
+    this._closed$.next({
+      status: MODAL_OUTPUT_STATUS.CANCELED,
+      data: undefined,
+    });
+  }
+
+  canceled() {
+    return this._closed$.event$.pipe(
+      filter(({ status }) => status === MODAL_OUTPUT_STATUS.CANCELED),
+      map(({ data }) => data),
+      take(1),
+    );
+  }
+
+  confirm<TOutput extends any>(data: TOutput) {
+    this.clear();
+    this._closed$.next({
+      status: MODAL_OUTPUT_STATUS.CONFIRMED,
+      data,
+    });
+  }
+
+  confirmed() {
+    return this._closed$.event$.pipe(
+      filter(({ status }) => status === MODAL_OUTPUT_STATUS.CONFIRMED),
+      map(({ data }) => data),
+      take(1),
+    );
+  }
+
+  clickConfirm() {
+    this._confirmClicked$.next();
+  }
+
+  // TODO: Better typing needed
+  open<TInput extends any, TOutput extends any>(
+    componentClass: typeof BaseModalComponent<TInput, TOutput>,
+    data: TInput,
+  ): ModalRef<TInput, TOutput> {
+    
     if (!this.target) {
       throw new Error('Missing modal target');
     }
 
     this.target.clear();
-    const componentRef = this.target.createComponent(componentClass);
 
-    const close = (outputData?: TOutput) => {
-      this.target!.clear();
-      this._open$.next(false);
-      this._closed$.next(outputData);
+    const modalRef: ModalRef<TInput, TOutput> = {
+      data,
+      cancel: this.cancel.bind(this),
+      canceled: this.canceled.bind(this),
+      confirm: this.confirm.bind(this),
+      confirmed: this.confirmed.bind(this),
+      confirmClicked$: this._confirmClicked$.event$,
+      closed: this.closed.bind(this),
     };
 
-    const closed = () => {
-      return this._closed$.event$.pipe(take(1)) as Observable<TOutput | undefined>;
-    };
-
-    const modalRef: ModalRef<TInput, TOutput> = { inputData, close, closed };
-    const instance = componentRef.instance as any; // TODO: Type
+    const component = this.target.createComponent(componentClass as any);
+    const instance = component.instance as BaseModalComponent<TInput, TOutput>;
     instance.modal = modalRef;
 
-    this.cdr.detectChanges();
     this._open$.next(true);
-
     return modalRef;
+  }
+
+  private clear(): void {
+    this.target!.clear();
+    this._open$.next(false);
+    this.headerTemplate = null;
+    this.footerTemplate = null;
   }
 }

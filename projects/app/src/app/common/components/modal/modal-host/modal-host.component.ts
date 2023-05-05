@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component, HostBinding, ViewChild, ViewContainerRef,
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ModalService } from '../modal.service';
 import { ButtonComponent } from '../../button';
+import { ModalService } from '../modal.service';
 
 const IMPORTS = [
   CommonModule,
@@ -22,8 +22,8 @@ const IMPORTS = [
 })
 export class ModalHostComponent {
 
+  private cdr = inject(ChangeDetectorRef);
   modalService = inject(ModalService);
-  cdr = inject(ChangeDetectorRef);
 
   @HostBinding('class.-open') cssOpen = false;
 
@@ -39,6 +39,10 @@ export class ModalHostComponent {
   }
 
   onDismiss() {
-    this.modalService.close();
+    this.modalService.cancel();
+  }
+
+  onConfirm() {
+    this.modalService.clickConfirm();
   }
 }

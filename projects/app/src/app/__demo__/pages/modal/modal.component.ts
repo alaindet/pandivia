@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 
 import { ButtonComponent } from '@app/common/components';
 import { ModalService } from '@app/common/components/modal';
-import { ModalOneInput, ModalOneOutput, ModalOneComponent } from './modal-one.component';
+import { ModalOneInput, ModalOneOutput, ModalOneComponent } from './modal-one';
 
 const IMPORTS = [
   CommonModule,
@@ -30,8 +30,10 @@ export class ModalDemoPageComponent {
       ModalOneComponent,
       data,
     );
-
-    ref.closed().subscribe(output => this.onCloseModal(output));
+    
+    ref.canceled().subscribe(() => console.log('canceled'));
+    ref.confirmed().subscribe(data => console.log('confirmed', data));
+    ref.closed().subscribe(output => console.log('closed', output));
   }
 
   onCloseModal(data?: ModalOneOutput) {
