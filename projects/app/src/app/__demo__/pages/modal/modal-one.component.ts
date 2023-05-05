@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+export type ModalOneInput = {
+  value: string | null;
+};
+
+export type ModalOneOutput = {
+  value: string;
+};
+
 const IMPORTS = [
   CommonModule,
 ];
