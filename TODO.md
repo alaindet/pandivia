@@ -7,6 +7,7 @@
 # Components
 - [ ] Badges
 - [ ] Quantity input (aka inline listbox)
+  - [ ] https://www.magentaa11y.com/checklist-web/radio/
 - [ ] Tooltip
 - [ ] Text input
   - [ ] Status
