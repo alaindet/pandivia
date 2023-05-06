@@ -12,7 +12,7 @@
   - [ ] Status
   - [ ] Icon
   - [ ] Debounced input event
-  - [ ] Clearable 
+  - [ ] Clearable
 - [ ] Floating menu
 - [ ] Modal
   - [ ] https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
