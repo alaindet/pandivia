@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { BaseModalComponent } from '@app/common/components';
+import { BaseModalComponent, ButtonComponent, ModalFooterDirective, ModalHeaderDirective } from '@app/common/components';
 import { ModalOneInput, ModalOneOutput } from './types';
 
 const IMPORTS = [
   CommonModule,
   ReactiveFormsModule,
+  ModalHeaderDirective,
+  ModalFooterDirective,
+  ButtonComponent,
 ];
 
 @Component({
