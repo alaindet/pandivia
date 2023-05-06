@@ -14,6 +14,7 @@ export class ModalService implements OnDestroy {
   private _open$ = new DataSource<boolean>(false, this.once.event$);
   private _closed$ = new EventSource<ModalOutput<any>>(this.once.event$);
   private _confirmClicked$ = new EventSource<void>(this.once.event$);
+  private focusedBeforeModal: HTMLElement | null = null;
 
   headerTemplate: TemplateRef<void> | null = null;
   footerTemplate: TemplateRef<void> | null = null;
@@ -86,6 +87,8 @@ export class ModalService implements OnDestroy {
     data: TInput,
   ): ModalRef<TInput, TOutput> {
     
+    this.focusedBeforeModal = document.activeElement as HTMLElement | null;
+
     if (!this.target) {
       throw new Error('Missing modal target');
     }
@@ -115,5 +118,6 @@ export class ModalService implements OnDestroy {
     this._open$.next(false);
     this.headerTemplate = null;
     this.footerTemplate = null;
+    setTimeout(() => this.focusedBeforeModal?.focus());
   }
 }

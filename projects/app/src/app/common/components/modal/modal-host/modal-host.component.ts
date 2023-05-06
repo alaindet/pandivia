@@ -4,8 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '../../button';
 import { ModalService } from '../modal.service';
-import { createKeyboardFocusTrap } from '@app/common/utils';
 import { OnceSource } from '@app/common/sources';
+import { createModalKeyboardController } from './keyboard.controller';
 
 const IMPORTS = [
   CommonModule,
@@ -38,10 +38,16 @@ export class ModalHostComponent implements OnDestroy {
 
   ngOnInit() {
     this.modalService.registerTarget(this.modalTarget);
-    const element = this.modalRef.nativeElement;
-    const focusTrap = createKeyboardFocusTrap(element, this.once.event$);
+
+    const keyboardController = createModalKeyboardController(
+      this.modalRef.nativeElement,
+      this.once.event$,
+    );
+
+    keyboardController.canceled$.subscribe(() => this.modalService.cancel());
+
     this.modalService.open$.subscribe(open => {
-      open ? focusTrap.enable() : focusTrap.disable();
+      open ? keyboardController.enable() : keyboardController.disable();
       this.cssOpen = open;
       this.cdr.detectChanges();
     });
