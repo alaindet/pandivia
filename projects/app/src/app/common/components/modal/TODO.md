@@ -1,2 +1,0 @@
-- [ ] Add keyboard management
-- [ ] When opening the modal, backup the focused element, then focus the FIRST focusable element in the modal and trap the focus in the modal
