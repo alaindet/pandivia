@@ -6,7 +6,8 @@
 
 # Components
 - [ ] Badges
-- [ ] Quantity input
+- [ ] Quantity input (aka inline listbox)
+- [ ] Tooltip
 - [ ] Text input
   - [ ] Status
   - [ ] Icon

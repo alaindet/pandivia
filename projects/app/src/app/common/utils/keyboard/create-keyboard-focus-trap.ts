@@ -4,7 +4,6 @@ import { KEYBOARD_KEY } from '@app/common/types';
 import { FOCUSABLE_SELECTORS } from './focusable-selectors';
 import { DataSource, EventSource } from '@app/common/sources';
 
-// TODO: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 export function createKeyboardFocusTrap(root: HTMLElement, signal$: Observable<void>) {
 
   const isEnabled$ = new DataSource<boolean>(false, signal$);
@@ -19,21 +18,18 @@ export function createKeyboardFocusTrap(root: HTMLElement, signal$: Observable<v
       return;
     }
 
-    // Disable focus back on first focusable element
     const firstFocusable = focusables.item(0) as HTMLElement;
-
-    // TODO
+    const lastFocusable = focusables.item(focusables.length - 1) as HTMLElement;
+    
+    // Disable focus back on first focusable element
     onKeydown(firstFocusable)
       .pipe(filter(isFocusingPrevious))
-      .subscribe(() => firstFocusable.focus());
+      .subscribe(stopEvent);
 
     // Disable focus next on last focusable element
-    const lastFocusable = focusables.item(focusables.length - 1) as HTMLElement;
-
-    // TODO
     onKeydown(lastFocusable)
       .pipe(filter(isFocusingNext))
-      .subscribe(() => lastFocusable.focus());
+      .subscribe(stopEvent);
 
     // Start by focusing the first focusable item to trap the focus
     setTimeout(() => firstFocusable.focus());
@@ -57,6 +53,11 @@ export function createKeyboardFocusTrap(root: HTMLElement, signal$: Observable<v
       takeUntil(signal$),
       takeUntil(stop$.event$),
     );
+  }
+
+  function stopEvent(event: Event) {
+    event.stopImmediatePropagation();
+    event.preventDefault();
   }
 
   return {

@@ -1,0 +1,4 @@
+- [ ] Backup focus on modal open
+- [ ] Restore focus on modal close
+- [ ] Close modal on ESC pressed (unless in a input?)
+- [ ] https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
