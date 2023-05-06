@@ -1,2 +1,2 @@
 export * from './focusable-selectors';
-export * from './focus-trap';
+export * from './keyboard-focus-trap';

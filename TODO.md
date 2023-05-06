@@ -1,6 +1,8 @@
 - [ ] Add i18n
 - [ ] Add a11y
 - [ ] https://mswjs.io/
+- [ ] Add Firebase
+- [ ] Add PWA
 
 # Components
 - [ ] Badges

@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, HostBinding, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostBinding, OnDestroy, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '../../button';
 import { ModalService } from '../modal.service';
-import { createFocusTrap } from '@app/common/utils';
+import { createKeyboardFocusTrap } from '@app/common/utils';
+import { OnceSource } from '@app/common/sources';
 
 const IMPORTS = [
   CommonModule,
@@ -21,8 +22,9 @@ const IMPORTS = [
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-modal-host' },
 })
-export class ModalHostComponent {
+export class ModalHostComponent implements OnDestroy {
 
+  private once = new OnceSource();
   private cdr = inject(ChangeDetectorRef);
   modalService = inject(ModalService);
 
@@ -36,12 +38,17 @@ export class ModalHostComponent {
 
   ngOnInit() {
     this.modalService.registerTarget(this.modalTarget);
-    const focusTrap = createFocusTrap(this.modalRef.nativeElement);
+    const element = this.modalRef.nativeElement;
+    const focusTrap = createKeyboardFocusTrap(element, this.once.event$);
     this.modalService.open$.subscribe(open => {
       open ? focusTrap.enable() : focusTrap.disable();
       this.cssOpen = open;
       this.cdr.detectChanges();
     });
+  }
+
+  ngOnDestroy() {
+    this.once.trigger();
   }
 
   onDismiss() {
