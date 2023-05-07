@@ -3,11 +3,14 @@
 - [ ] https://mswjs.io/
 - [ ] Add Firebase
 - [ ] Add PWA
+- [ ] Use the navigation menu hover+selected effect from this website https://www.magentaa11y.com/demos/ for the bottom navigation component
+- [ ] Research alternative for VM pattern without *ngIf
 
 # Components
 - [ ] Badges
 - [ ] Quantity input (aka inline listbox)
 - [ ] Tooltip
+- [ ] Form field with aria-invalid etc
 - [ ] Text input
   - [ ] Status
   - [ ] Icon

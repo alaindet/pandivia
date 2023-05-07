@@ -1,0 +1,21 @@
+<h2>Inside form</h2>
+
+<pre>{{ { value: myForm.value, errors: myForm.errors } | json }}</pre>
+
+<form [formGroup]="myForm">
+  <app-quantity-input
+    formControlName="quantity"
+  ></app-quantity-input>
+</form>
+
+<h2>Outside form</h2>
+<p>...</p>
+
+<h2>With min/max</h2>
+<p>...</p>
+
+<h2>Colors</h2>
+<p>...</p>
+
+<h2>Disabled</h2>
+<p>...</p>

@@ -11,15 +11,17 @@ import { CheckboxDemoPageComponent } from './pages/checkbox/checkbox.component';
 import { ColorSwatchesDemoPageComponent } from './pages/color-swatches/color-swatches.component';
 import { MenuDemoPageComponent } from './pages/actions-menu/actions-menu.component';
 import { ModalDemoPageComponent } from './pages/modal/modal.component';
+import { QuantityInputDemoPageComponent } from './pages/quantity-input/quantity-input.component';
 // ...
 
 export const DEMO_PAGES: DemoRoute[] = [
+  demoRoute('bottom-navigation', 'Bottom Navigation', BottomNavigationDemoPageComponent),
   demoRoute('button', 'Button', ButtonDemoPageComponent),
   demoRoute('checkbox', 'Checkbox', CheckboxDemoPageComponent),
   demoRoute('color-swatches', 'Color Swatches', ColorSwatchesDemoPageComponent),
   demoRoute('menu', 'Menu', MenuDemoPageComponent),
   demoRoute('modal', 'Modal', ModalDemoPageComponent),
-  demoRoute('bottom-navigation', 'Bottom Navigation', BottomNavigationDemoPageComponent),
+  demoRoute('quantity-input', 'Quantity Input', QuantityInputDemoPageComponent),
   // ...
 ];
 
