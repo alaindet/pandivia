@@ -1,0 +1,77 @@
+<div
+  #modalRef
+  class="_modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-header"
+  aria-describedby="modal-body"
+>
+  <header id="modal-header">
+    <ng-container
+      [ngTemplateOutlet]="modalService.headerTemplate ?? defaultHeaderTemplate"
+    ></ng-container>
+  </header>
+
+  <div class="_dismiss">
+    <button
+      type="button"
+      appButton="ghost"
+      withIconOnly
+      isCircle
+      size="small"
+      (click)="onDismiss()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+
+  <div class="_body" id="modal-body">
+    <ng-container #modalTarget></ng-container>
+  </div>
+
+  <footer>
+    <ng-container
+      [ngTemplateOutlet]="modalService.footerTemplate ?? defaultFooterTemplate"
+    ></ng-container>
+  </footer>
+</div>
+
+<div class="_backdrop" (click)="onDismiss()"></div>
+
+<!-- Template: Default header -->
+<ng-template #defaultHeaderTemplate>
+  <h2>&nbsp;</h2>
+</ng-template>
+
+<!-- Template: Default footer -->
+<ng-template #defaultFooterTemplate>
+
+  <div class="default-footer">
+
+    <!-- Cancel -->
+    <button
+      type="button"
+      appButton="outline"
+      size="small"
+      withIcon="left"
+      (click)="onDismiss()"
+    >
+      <mat-icon>close</mat-icon>
+      Close
+    </button>
+
+    <!-- Confirm -->
+    <button
+      type="button"
+      appButton="primary"
+      withIcon="left"
+      size="small"
+      (click)="onConfirm()"
+    >
+      <mat-icon>check</mat-icon>
+      Confirm
+    </button>
+
+  </div>
+
+</ng-template>

@@ -1,0 +1,20 @@
+<ng-container *appModalHeader>
+  <h2>The modal header</h2>
+</ng-container>
+
+<form [formGroup]="myForm">
+  <p>The modal body</p>
+  <label>
+    Just an input
+    <input type="text" placeholder="Enter value..." formControlName="text">
+  </label>
+</form>
+
+<!-- <ng-container *appModalFooter>
+  <button type="button" appButton="ghost" (click)="onCancel()">
+    Cancel
+  </button>
+  <button type="button" appButton="primary" (click)="onConfirm()">
+    Confirm
+  </button>
+</ng-container> -->
