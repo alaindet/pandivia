@@ -6,7 +6,10 @@
 
 # Components
 - [ ] Badges
-- [ ] Quantity input (aka inline listbox)
+- [ ] Quick number input
+  - [ ] https://www.magentaa11y.com/checklist-web/radio/
+  - [ ] It combines quick choices (buttons) and custom values (input type="number")
+  - [ ] Can become a "quick input" generalized component
 - [ ] Tooltip
 - [ ] Text input
   - [ ] Status
