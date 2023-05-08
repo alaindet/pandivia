@@ -17,6 +17,9 @@ const IMPORTS = [
   templateUrl: './quantity-input.component.html',
 })
 export class QuantityInputDemoPageComponent {
+
+  consoleLog = console.log;
+
   myForm = new FormGroup({
     quantity: new FormControl(null, [Validators.required]),
   });

@@ -8,7 +8,6 @@
 
 # Components
 - [ ] Badges
-- [ ] Quantity input (aka inline listbox)
 - [ ] Tooltip
 - [ ] Form field with aria-invalid etc
 - [ ] Text input

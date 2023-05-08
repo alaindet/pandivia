@@ -9,13 +9,24 @@
 </form>
 
 <h2>Outside form</h2>
-<p>...</p>
+<app-quantity-input
+  [value]="2"
+  (changed)="consoleLog('changed', $event)"
+></app-quantity-input>
 
 <h2>With min/max</h2>
-<p>...</p>
-
-<h2>Colors</h2>
-<p>...</p>
+<p>min: 1, max: 10</p>
+<app-quantity-input
+  [value]="1"
+  [min]="1"
+  [max]="10"
+  (changed)="consoleLog('changed', $event)"
+></app-quantity-input>
 
 <h2>Disabled</h2>
-<p>...</p>
+<app-quantity-input
+  [isDisabled]="true"
+></app-quantity-input>
+
+<h2>Color</h2>
+<p>TODO...</p>

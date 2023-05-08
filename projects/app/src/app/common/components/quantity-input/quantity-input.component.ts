@@ -1,12 +1,12 @@
-import { Component, EventEmitter, HostBinding, Input, OnDestroy, Output, forwardRef } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { combineLatest, map } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
 import { DataSource, OnceSource } from '@app/common/sources';
 import { AsyncPipe, NgIf } from '@angular/common';
-
-type QuantityInputColor = 'primary' | 'secondary' | 'tertiary' | 'outline';
+import { getRandomHash } from '@app/common/utils';
+import { ButtonComponent } from '../button';
 
 const QUANTITY_INPUT_FORM_PROVIDER = {
   provide: NG_VALUE_ACCESSOR,
@@ -18,6 +18,7 @@ const IMPORTS = [
   NgIf,
   AsyncPipe,
   MatIconModule,
+  ButtonComponent,
 ];
 
 @Component({
@@ -27,13 +28,15 @@ const IMPORTS = [
   templateUrl: './quantity-input.component.html',
   styleUrls: ['./quantity-input.component.scss'],
   providers: [QUANTITY_INPUT_FORM_PROVIDER],
+  host: { class: 'app-quantity-input' },
+  encapsulation: ViewEncapsulation.None,
 })
-export class QuantityInputComponent implements ControlValueAccessor, OnDestroy {
-  
+export class QuantityInputComponent implements ControlValueAccessor, OnInit, OnDestroy {
+
+  @Input() id?: string;
   @Input() value = 1;
   @Input() min?: number;
   @Input() max?: number;
-  @Input() color: QuantityInputColor = 'primary';
   @Input() @HostBinding('class.-disabled') isDisabled = false;
 
   @Output() changed = new EventEmitter<number>();
@@ -54,12 +57,21 @@ export class QuantityInputComponent implements ControlValueAccessor, OnDestroy {
 
   // @publicApi
   increment(): void {
+    if (this.isDisabled) return;
     this._value$.next(value => value + 1);
   }
 
   // @publicApi
   decrement(): void {
+    if (this.isDisabled) return;
     this._value$.next(value => value - 1);
+  }
+
+  ngOnInit() {
+    if (!this.id) {
+      const randomHash = getRandomHash(3);
+      this.id = `app-quantity-input-${randomHash}`;
+    }
   }
 
   ngOnDestroy() {
@@ -67,11 +79,13 @@ export class QuantityInputComponent implements ControlValueAccessor, OnDestroy {
   }
 
   onIncrement() {
+    if (this.isDisabled) return;
     this.increment();
     this.outputValue();
   }
 
   onDecrement() {
+    if (this.isDisabled) return;
     this.decrement();
     this.outputValue();
   }
@@ -99,12 +113,12 @@ export class QuantityInputComponent implements ControlValueAccessor, OnDestroy {
 
   private isMinusEnabled(value: number): boolean {
     if (this.min === undefined) return true;
-    return value >= this.min;
+    return value > this.min;
   }
 
   private isPlusEnabled(value: number): boolean {
     if (this.max === undefined) return true;
-    return value <= this.max;
+    return value < this.max;
   }
 
   private outputValue(): void {

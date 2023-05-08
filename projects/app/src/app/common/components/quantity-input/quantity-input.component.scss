@@ -1,5 +1,41 @@
 @import 'scoped';
 
 .app-quantity-input {
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 6.6rem;
+
+  > .-decrement {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  > .-increment {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > ._value {
+    flex-grow: 1;
+    width: 100%;
+    height: 32px; // Height of small button
+    border: 0;
+    border-top: 2px solid $app-color-primary-500;
+    border-bottom: 2px solid $app-color-primary-500;
+    background-color: $app-color-primary-200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+    font-weight: bold;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  &.-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }

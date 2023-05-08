@@ -3,13 +3,17 @@
   <!-- Decrement -->
   <button
     type="button"
-    class="_button -decrement"
-    [class.-disabled]="!vm.isMinusEnabled"
+    appButton="primary"
+    size="small"
+    withIconOnly
+    [disabled]="!vm.isMinusEnabled"
+    class="-decrement"
     (click)="onDecrement()"
   >
     <mat-icon>remove</mat-icon>
   </button>
 
+  <!-- Value -->
   <span class="_value">
     {{ vm.value }}
   </span>
@@ -17,8 +21,11 @@
   <!-- Increment -->
   <button
     type="button"
-    class="_button -increment"
-    [class.-disabled]="!vm.isPlusEnabled"
+    appButton="primary"
+    size="small"
+    withIconOnly
+    [disabled]="!vm.isPlusEnabled"
+    class="-increment"
     (click)="onIncrement()"
   >
     <mat-icon>add</mat-icon>
