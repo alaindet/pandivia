@@ -12,6 +12,7 @@ import { ColorSwatchesDemoPageComponent } from './pages/color-swatches/color-swa
 import { MenuDemoPageComponent } from './pages/actions-menu/actions-menu.component';
 import { ModalDemoPageComponent } from './pages/modal/modal.component';
 import { QuickInputDemoPageComponent } from './pages/quick-input/quick-input.component';
+import { TextInputDemoPageComponent } from './pages/text-input/text-input.component';
 // ...
 
 export const DEMO_PAGES: DemoRoute[] = [
@@ -22,6 +23,7 @@ export const DEMO_PAGES: DemoRoute[] = [
   demoRoute('menu', 'Menu', MenuDemoPageComponent),
   demoRoute('modal', 'Modal', ModalDemoPageComponent),
   demoRoute('quick-input', 'Quick Input', QuickInputDemoPageComponent),
+  demoRoute('text-input', 'Text Input', TextInputDemoPageComponent),
   // ...
 ];
 

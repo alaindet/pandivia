@@ -1,10 +1,13 @@
+import { JsonPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TextInputComponent } from '@app/common/components';
+import { ButtonComponent, TextInputComponent } from '@app/common/components';
 
 const IMPORTS = [
+  NgIf,
   ReactiveFormsModule,
+  JsonPipe,
   TextInputComponent,
 ];
 
@@ -15,5 +18,14 @@ const IMPORTS = [
   templateUrl: './text-input.component.html',
 })
 export class TextInputDemoPageComponent {
-  // ...
+
+  consoleLog = console.log;
+
+  myForm = new FormGroup({
+    myTextInput: new FormControl('', [Validators.required]),
+  });
+
+  get fMyTextInput(): FormControl {
+    return this.myForm.get('myTextInput')! as FormControl;
+  }
 }

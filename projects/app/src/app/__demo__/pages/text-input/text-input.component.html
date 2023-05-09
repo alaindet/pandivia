@@ -1,1 +1,34 @@
 <h2>In a form</h2>
+
+<pre>{{ { value: myForm.value, errors: fMyTextInput.errors } | json }}</pre>
+
+<form [formGroup]="myForm">
+  <app-text-input
+    type="text"
+    formControlName="myTextInput"
+    [status]="
+      fMyTextInput.touched
+        ? (fMyTextInput.hasError('required') ? 'error' : 'success')
+        : undefined
+    "
+    placeholder="Enter some text here..."
+  ></app-text-input>
+  <p *ngIf="fMyTextInput.touched && fMyTextInput.hasError('required')">
+    Required field
+  </p>
+</form>
+
+<h2>Outside form</h2>
+<app-text-input
+  type="text"
+  [value]=""
+  (changed)="consoleLog('changed', $event)"
+  (inputChanged)="consoleLog('inputChanged', $event)"
+  placeholder="Enter some text here..."
+  [attrs]="{
+    'autocomplete': true,
+    'aria-controls': 'the-autocomplete',
+    'required': true,
+    'readonly': false,
+  }"
+></app-text-input>
