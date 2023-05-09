@@ -4,3 +4,4 @@ export * from './menu/actions-menu';
 export * from './modal';
 export * from './notification';
 export * from './quick-input';
+export * from './text-input';

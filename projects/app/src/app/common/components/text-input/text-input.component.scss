@@ -1,0 +1,122 @@
+@import 'scoped';
+
+.app-text-input {
+  --app-text-input-width: fit-content;
+
+  position: relative;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+
+  input::placeholder {
+    color: $app-color-grey-400;
+  }
+
+  &.-with-custom-width {
+    width: var(--app-text-input-width);
+
+    ._input {
+      min-width: 0;
+    }
+  }
+
+  &.-full-width {
+    width: 100% !important;
+
+    ._input {
+      min-width: auto;
+      width: 100% !important;
+    }
+  }
+
+  ._input {
+    border: 1px solid $app-color-grey-600;
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1rem;
+    min-width: 19.25rem;
+    height: 45px;
+    padding: 0 45px 0 15px;
+    color: $app-color-black;
+
+    &:hover {
+      border-color: $app-color-grey-700;
+    }
+
+    &:focus {
+      outline: 0;
+      border-color: $app-color-black;
+      box-shadow: 0 2px 5px #0e141a1a;
+    }
+  }
+
+  ._icons {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    right: 15px;
+  }
+
+  ._password-icon,
+  ._clearable-icon {
+    border: 0;
+    background-color: transparent;
+    width: 20px;
+    height: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    i {
+      font-size: 14px;
+      line-height: 14px;
+    }
+
+    &:hover {
+      color: $app-color-grey-500;
+    }
+
+    &:focus {
+      outline: 0;
+      border-color: $app-color-black;
+      color: $app-color-grey-600;
+    }
+
+    &.-with-status {
+      margin-right: 4px;
+    }
+  }
+
+  // Status -------------------------------------------------------------------
+  &.-status {
+    &-success {
+      ._input { border-color: $app-color-success }
+      ._status-icon { color: $app-color-success }
+    }
+
+    &-error {
+      ._input { border-color: $app-color-error }
+      ._status-icon { color: $app-color-error }
+    }
+  }
+
+  // Disabled -----------------------------------------------------------------
+  &.-disabled ._input, & input[readonly], & input[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  // Hide native icons
+  & input::-ms-clear,
+  & input::-ms-reveal {
+    display: none;
+  }
+
+  & input[type="search"]::-webkit-search-decoration,
+  & input[type="search"]::-webkit-search-cancel-button,
+  & input[type="search"]::-webkit-search-results-button,
+  & input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance:none;
+  }
+}

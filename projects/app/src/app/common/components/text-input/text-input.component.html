@@ -1,0 +1,45 @@
+<!-- The input -->
+<input
+  #inputRef
+  [attr.id]="id"
+  [attr.type]="(type === 'password' && showPassword) ? 'text' : type"
+  [attr.placeholder]="placeholder"
+  class="_input"
+  (change)="onInputChange($event)"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+>
+
+<!-- Icons -->
+<div class="_icons">
+
+  <!-- Clearable icon -->
+  <button
+    *ngIf="clearable"
+    class="_clearable-icon"
+    [class.-with-status]="!!status"
+    type="button"
+    (click)="onClearInput()"
+  >
+    <mat-icon>clear</mat-icon>
+  </button>
+
+  <!-- Password icon -->
+  <button
+    *ngIf="type === 'password'"
+    class="_password-icon"
+    [class.-with-status]="!!status"
+    type="button"
+    (click)="onTogglePasswordVisibility()"
+  >
+    <mat-icon>{{ !showPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+  </button>
+
+  <!-- Status icon -->
+  <mat-icon *ngIf="withStatusIcon && status">
+    <ng-container [ngSwitch]="status">
+      <ng-container *ngSwithCase="'success'">check_circle_outline</ng-container>
+      <ng-container *ngSwithCase="'error'">error_outline</ng-container>
+    </ng-container>
+  </mat-icon>
+</div>
