@@ -1,0 +1,75 @@
+<h2>Basic</h2>
+<app-form-field>
+  <app-form-field-label>
+    This is a label
+  </app-form-field-label>
+  <app-text-input type="text"></app-text-input>
+</app-form-field>
+
+<h2><code>isRequired</code> on label</h2>
+<app-form-field>
+  <app-form-field-label [isRequired]="true">
+    A required field
+  </app-form-field-label>
+  <app-text-input type="text"></app-text-input>
+</app-form-field>
+
+<h2>With hint</h2>
+<app-form-field>
+  <app-form-field-label>
+    With hint
+  </app-form-field-label>
+  <app-text-input type="text"></app-text-input>
+  <app-form-field-hint>
+    This should help you fill the control
+  </app-form-field-hint>
+</app-form-field>
+
+<h2>With error</h2>
+<app-form-field>
+  <app-form-field-label>
+    With error
+  </app-form-field-label>
+  <app-text-input type="text"></app-text-input>
+  <app-form-field-error>
+    There's something terribly wrong with your control
+  </app-form-field-error>
+  <app-form-field-error>
+    Another ugly error
+  </app-form-field-error>
+</app-form-field>
+
+<h2>With hint and error</h2>
+<app-form-field>
+  <app-form-field-label>
+    With error
+  </app-form-field-label>
+  <app-text-input type="text"></app-text-input>
+  <app-form-field-hint>
+    This should help you fill the control
+  </app-form-field-hint>
+  <app-form-field-error>
+    This field is required
+  </app-form-field-error>
+</app-form-field>
+
+<h2>Dynamic</h2>
+<form [formGroup]="myForm">
+  <app-form-field>
+    <app-form-field-label>
+      Your name
+    </app-form-field-label>
+    <app-text-input
+      type="text"
+      formControlName="firstName"
+    ></app-text-input>
+    <app-form-field-hint>
+      This should help you fill the control
+    </app-form-field-hint>
+    <app-form-field-error
+      *ngIf="fFirstName.touched && fFirstName.hasError('required')"
+    >
+      This field is required
+    </app-form-field-error>
+  </app-form-field>
+</form>
