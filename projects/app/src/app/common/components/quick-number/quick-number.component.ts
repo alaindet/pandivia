@@ -1,5 +1,5 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { AsyncPipe, NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
 import { ControlValueAccessor } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { combineLatest, of } from 'rxjs';
@@ -7,56 +7,49 @@ import { combineLatest, of } from 'rxjs';
 import { DataSource, EventSource, OnceSource } from '@app/common/sources';
 import { didInputChange } from '@app/common/utils';
 import { ButtonComponent } from '../button';
-import { QUICK_INPUT_MODE, QuickInputMode } from './types';
 
 const IMPORTS = [
   NgIf,
-  NgFor,
   AsyncPipe,
-  NgTemplateOutlet,
-  NgSwitch,
-  NgSwitchCase,
   MatIconModule,
   ButtonComponent,
 ];
 
 @Component({
-  selector: 'app-quick-input',
+  selector: 'app-quick-number',
   standalone: true,
   imports: IMPORTS,
-  templateUrl: './quick-input.component.html',
-  styleUrls: ['./quick-input.component.scss'],
+  templateUrl: './quick-number.component.html',
+  styleUrls: ['./quick-number.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-quick-input' },
+  host: { class: 'app-quick-number' },
 })
-export class QuickInputComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+export class QuickNumberComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
   
-  @Input() value?: number;
-  @Input() values: number[] = [1, 2, 3];
+  @Input() value = 1;
+  @Input() min?: number;
+  @Input() max?: number;
   @Input() isDisabled = false;
 
   @Output() changed = new EventEmitter<number>();
 
   private once = new OnceSource();
-  private value$ = new DataSource<number | null>(null, this.once.event$);
-  private mode$ = new DataSource<QuickInputMode>(QUICK_INPUT_MODE.CHOICES, this.once.event$);
+  private value$ = new DataSource<number>(this.value, this.once.event$);
   private changed$ = new EventSource<number>();
   private onChange!: (value: number | null) => void;
   private onTouched!: () => void;
 
-  QUICK_INPUT_MODE = QUICK_INPUT_MODE;
   vm$ = combineLatest({
     value: this.value$.data$,
-    values: of(this.values),
-    mode: this.mode$.data$,
+    isDecrementDisabled: of(false), // TODO
+    isIncrementDisabled: of(false), // TODO
   });
 
   ngOnInit() {
     this.changed$.event$.subscribe(value => {
       this.changed.emit(value);
-      if (this.onChange) {
-        this.onChange(value);
-      }
+      if (this.onChange) this.onChange(value);
+      if (this.onTouched) this.onTouched();
     });
   }
 
@@ -70,22 +63,17 @@ export class QuickInputComponent implements OnInit, OnChanges, OnDestroy, Contro
     this.once.trigger();
   }
 
-  onSwitchToEdit() {
-    this.mode$.next(QUICK_INPUT_MODE.EDITING);
+  onDecrement() {
+    this.value$.next(value => value - 1);
   }
 
-  onSwitchToChoices() {
-    this.mode$.next(QUICK_INPUT_MODE.CHOICES);
-  }
-
-  onSelectValue(value: number) {
-    console.log('onSelectValue', value);
-    this.value$.next(value);
+  onIncrement() {
+    this.value$.next(value => value + 1);
   }
 
   // ControlValueAccessor
   writeValue(value: number | null) {
-    this.value$.next(value);
+    this.value$.next(value ?? 1);
   }
 
   // ControlValueAccessor

@@ -1,0 +1,23 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <button
+    type="button"
+    appButton="primary"
+    size="small"
+    title="Decrement value"
+    (click)="onDecrement()"
+  >
+    <mat-icon>remove</mat-icon>
+  </button>
+
+  <span class="_value">{{ vm.value }}</span>
+
+  <button
+    type="button"
+    appButton="primary"
+    size="small"
+    title="Increment value"
+    (click)="onIncrement()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</ng-container>
