@@ -2,8 +2,9 @@
 
 .app-form-field-label {
   label {
+    display: inline-block;
     color: $app-color-black;
-    margin-bottom: 0.625rem;
+    margin-bottom: 0.5rem;
     font-weight: bold;
   }
 }

@@ -1,1 +1,6 @@
 - [ ] Hide all <app-form-field-hint> when any <app-form-field-error> shows up
+- [ ] Add container for hints and errors on form field
+- [ ] Give flex, direction column, gap 0.33rem, margin top 0.5rem to container
+- [ ] Style with :not(:empty) pseudo-selector
+- [ ] Add [hideWithError] boolean input to hint
+- [ ] Use service to check hideWithError
