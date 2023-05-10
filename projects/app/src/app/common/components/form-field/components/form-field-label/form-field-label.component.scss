@@ -1,0 +1,9 @@
+@import 'scoped';
+
+.app-form-field-label {
+  label {
+    color: $app-color-black;
+    margin-bottom: 0.625rem;
+    font-weight: bold;
+  }
+}

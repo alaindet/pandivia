@@ -9,6 +9,7 @@ import { BottomNavigationDemoPageComponent } from './pages/bottom-navigation/bot
 import { ButtonDemoPageComponent } from './pages/button/button.component';
 import { CheckboxDemoPageComponent } from './pages/checkbox/checkbox.component';
 import { ColorSwatchesDemoPageComponent } from './pages/color-swatches/color-swatches.component';
+import { FormFieldDemoPageComponent } from './pages/form-field/form-field.component';
 import { MenuDemoPageComponent } from './pages/actions-menu/actions-menu.component';
 import { ModalDemoPageComponent } from './pages/modal/modal.component';
 import { QuickNumberDemoPageComponent } from './pages/quick-number/quick-number.component';
@@ -20,6 +21,7 @@ export const DEMO_PAGES: DemoRoute[] = [
   demoRoute('button', 'Button', ButtonDemoPageComponent),
   demoRoute('checkbox', 'Checkbox', CheckboxDemoPageComponent),
   demoRoute('color-swatches', 'Color Swatches', ColorSwatchesDemoPageComponent),
+  demoRoute('form-field', 'Form Field', FormFieldDemoPageComponent),
   demoRoute('menu', 'Menu', MenuDemoPageComponent),
   demoRoute('modal', 'Modal', ModalDemoPageComponent),
   demoRoute('quick-number', 'Quick Number', QuickNumberDemoPageComponent),
