@@ -1,2 +1,16 @@
+<h2>In a form</h2>
+<form [formGroup]="myForm">
+  <pre>{{ { value: myForm.value, errors: myForm.errors } | json }}</pre>
+  <app-quick-number
+    formControlName="myQuickNumber"
+  ></app-quick-number>
+</form>
+
+<h2>With min/max limits</h2>
+<p>Min: {{ min }}, Max: {{ max }}</p>
 <app-quick-number
+  [value]="value"
+  [min]="min"
+  [max]="max"
+  (changed)="consoleLog('changed', $event)"
 ></app-quick-number>

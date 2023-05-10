@@ -3,6 +3,9 @@
     type="button"
     appButton="primary"
     size="small"
+    withIconOnly
+    [disabled]="vm.isDecrementDisabled"
+    class="-decrement"
     title="Decrement value"
     (click)="onDecrement()"
   >
@@ -15,6 +18,9 @@
     type="button"
     appButton="primary"
     size="small"
+    withIconOnly
+    [disabled]="vm.isIncrementDisabled"
+    class="-increment"
     title="Increment value"
     (click)="onIncrement()"
   >

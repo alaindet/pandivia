@@ -18,7 +18,7 @@
   </p>
 </form>
 
-<h2>Outside form</h2>
+<h2>Outside a form</h2>
 <app-text-input
   type="text"
   [value]=""
@@ -32,3 +32,46 @@
     'readonly': false,
   }"
 ></app-text-input>
+
+<h2>Disabled</h2>
+<app-text-input
+  type="text"
+  value="This is disabled"
+  [isDisabled]="true"
+  (changed)="consoleLog('changed', $event)"
+></app-text-input>
+
+<h2>Custom widths</h2>
+
+<h3>Full width</h3>
+<p>
+  <app-text-input
+    type="text"
+    value="Full width"
+    placeholder="Full width"
+    [withFullWidth]="true"
+    (changed)="consoleLog('changed', $event)"
+  ></app-text-input>
+</p>
+
+<h3>Custom width: 6rem</h3>
+<p>
+  <app-text-input
+    type="text"
+    value="Custom width (6rem)"
+    placeholder="Custom width (6rem)"
+    width="6rem"
+    (changed)="consoleLog('changed', $event)"
+  ></app-text-input>
+</p>
+
+<h3>Custom width: 30rem</h3>
+<p>
+  <app-text-input
+    type="text"
+    value="Custom width (30rem)"
+    placeholder="Custom width (30rem)"
+    width="30rem"
+    (changed)="consoleLog('changed', $event)"
+  ></app-text-input>
+</p>

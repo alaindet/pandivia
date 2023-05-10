@@ -57,12 +57,13 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
   private inputRef!: ElementRef<HTMLInputElement>;
 
   @HostBinding('class') cssClass = '';
-  @HostBinding('style.--width') cssWidth = '';
+  @HostBinding('style.--app-text-input-width') cssWidth = '';
 
   private onChange!: (val: any) => {};
 	private onTouched!: () => {};
 
   ngOnInit() {
+
     if (!this.id) {
       this.id = `app-text-input-${getRandomHash(3)}`;
     }

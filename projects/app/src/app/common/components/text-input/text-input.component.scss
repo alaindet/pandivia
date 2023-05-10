@@ -8,8 +8,13 @@
   justify-content: space-between;
   align-items: center;
   width: fit-content;
+  max-width: 100% !important;
 
-  input::placeholder {
+  > input {
+    min-width: 0!important;
+  }
+
+  > input::placeholder {
     color: $app-color-grey-700;
   }
 
@@ -69,10 +74,6 @@
     align-items: center;
     right: 1rem;
   }
-
-  // ._status-icon {
-  //   font-size: 1rem;
-  // }
 
   // Status -------------------------------------------------------------------
   &.-status {

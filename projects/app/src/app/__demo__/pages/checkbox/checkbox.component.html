@@ -1,3 +1,11 @@
+<h2>In a form</h2>
+<form [formGroup]="myForm">
+  <pre>{{ { value: myForm.value, errors: myForm.errors } | json }}</pre>
+  <app-checkbox formControlName="myCheckbox1">My checkbox 1</app-checkbox>
+  &nbsp;
+  <app-checkbox formControlName="myCheckbox2">My checkbox 2</app-checkbox>
+</form>
+
 <h2>Basic</h2>
 <div class="demo-cases">
   <app-checkbox [checked]="true">Checked by default</app-checkbox>
