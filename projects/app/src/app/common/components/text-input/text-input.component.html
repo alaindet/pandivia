@@ -1,0 +1,39 @@
+<!-- The input -->
+<input
+  #inputRef
+  [attr.id]="id"
+  [attr.type]="type"
+  [attr.placeholder]="placeholder"
+  [disabled]="isDisabled"
+  class="_input"
+  (change)="onInputChange($event)"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+>
+
+<!-- Icons -->
+<div class="_icons">
+
+  <!-- Clearable icon -->
+  <button
+    *ngIf="clearable"
+    appButton="ghost"
+    type="button"
+    isCircle
+    withIconOnly
+    size="extra-small"
+    (click)="onClearInput()"
+  >
+    &times;
+  </button>
+
+  <!-- Status icon -->
+  <mat-icon width="1rem"
+    *ngIf="withStatusIcon && status"
+    [ngSwitch]="status"
+    class="_status-icon"
+  >
+    <ng-container *ngSwitchCase="'success'">check</ng-container>
+    <ng-container *ngSwitchCase="'error'">clear</ng-container>
+  </mat-icon>
+</div>
