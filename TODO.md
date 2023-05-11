@@ -7,15 +7,9 @@
 # Components
 - [ ] Badges
 - [ ] Tooltip
-- [ ] Form field
 - [ ] Textarea
 - [ ] Select component
   - [ ] Native menu
-- [ ] Text input
-  - [ ] Status
-  - [ ] Icon
-  - [ ] Debounced input event
-  - [ ] Clearable
 - [ ] List
   - [ ] List item
     - [ ] Actions
