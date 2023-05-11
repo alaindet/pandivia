@@ -1,8 +1,10 @@
-import { NgIf } from '@angular/common';
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
+import { FormFieldContextService } from '../../context.service';
 
 const IMPORTS = [
   NgIf,
+  AsyncPipe,
 ];
 
 @Component({
@@ -10,16 +12,30 @@ const IMPORTS = [
   standalone: true,
   imports: IMPORTS,
   encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-form-field-label' },
   template: `
-    <label [attr.for]="id"
+    <label [attr.for]="id$ | async"
       ><ng-content></ng-content
       ><ng-container *ngIf="isRequired">*</ng-container>
     </label>
   `,
-  styleUrls: ['./form-field-label.component.scss'],
-  host: { class: 'app-form-field-label' },
+  styles: [`
+    @import 'scoped';
+
+    .app-form-field-label {
+      label {
+        display: inline-block;
+        color: $app-color-black;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+    }
+  `],
 })
 export class FormFieldLabelComponent {
-  @Input() id!: string;
+
+  context = inject(FormFieldContextService);
+  id$ = this.context.getId();
+
   @Input() isRequired = false;
 }

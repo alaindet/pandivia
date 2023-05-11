@@ -1,5 +1,5 @@
 <h2>Basic</h2>
-<app-form-field>
+<app-form-field id="demo-basic">
   <app-form-field-label>
     This is a label
   </app-form-field-label>
@@ -7,7 +7,7 @@
 </app-form-field>
 
 <h2><code>isRequired</code> on label</h2>
-<app-form-field>
+<app-form-field id="demo-required">
   <app-form-field-label [isRequired]="true">
     A required field
   </app-form-field-label>
@@ -15,7 +15,7 @@
 </app-form-field>
 
 <h2>With hint</h2>
-<app-form-field>
+<app-form-field id="demo-hint">
   <app-form-field-label>
     With hint
   </app-form-field-label>
@@ -26,7 +26,7 @@
 </app-form-field>
 
 <h2>With error</h2>
-<app-form-field>
+<app-form-field id="demo-errors">
   <app-form-field-label>
     With error
   </app-form-field-label>
@@ -40,7 +40,7 @@
 </app-form-field>
 
 <h2>With hint and error</h2>
-<app-form-field>
+<app-form-field id="demo-hint-error">
   <app-form-field-label>
     With error
   </app-form-field-label>
@@ -55,21 +55,38 @@
 
 <h2>Dynamic</h2>
 <form [formGroup]="myForm">
-  <app-form-field>
+  <app-form-field id="demo-dynamic">
     <app-form-field-label>
       Your name
     </app-form-field-label>
     <app-text-input
       type="text"
       formControlName="firstName"
+      [withErrorId]="
+        fFirstName.valid
+        ? null
+        : fFirstName.hasError('required')
+          ? 'demo-dynamic-required'
+          : fFirstName.hasError('minlength')
+            ? 'demo-dynamic-minlength'
+            : null
+      "
+      [status]="!fFirstName.touched ? undefined : (fFirstName.valid ? 'success' : 'error')"
     ></app-text-input>
     <app-form-field-hint>
       This should help you fill the control
     </app-form-field-hint>
     <app-form-field-error
       *ngIf="fFirstName.touched && fFirstName.hasError('required')"
+      errorId="demo-dynamic-required"
     >
       This field is required
+    </app-form-field-error>
+    <app-form-field-error
+      *ngIf="fFirstName.touched && fFirstName.hasError('minlength')"
+      errorId="demo-dynamic-minlength"
+    >
+      Must have at least 3 characters
     </app-form-field-error>
   </app-form-field>
 </form>
