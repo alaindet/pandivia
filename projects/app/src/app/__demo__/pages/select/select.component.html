@@ -1,0 +1,19 @@
+<h2>In a form</h2>
+<form [formGroup]="myForm">
+  <pre>{{ { value: myForm.value, errors: myForm.errors } | json }}</pre>
+  
+  <app-select
+    id="inside-form"
+    formControlName="mySelected"
+  ></app-select>
+
+  <app-select
+    id="inside-form"
+    formControlName="myNotSelected"
+  ></app-select>
+</form>
+
+<h2>Outside a form</h2>
+<app-select
+  id="outside-form"
+></app-select>
