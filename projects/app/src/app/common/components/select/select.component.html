@@ -1,5 +1,10 @@
-<select #selectRef class="_select" [attr.id]="id" (change)="onSelectChange()">
-
+<select
+  #selectRef
+  class="_select"
+  [attr.id]="id"
+  [disabled]="isDisabled"
+  (change)="onSelectChange()"
+>
   <option #defaultOptionRef *ngIf="withDefaultOption" value="" [selected]="selectedValue === null">
     Select...
   </option>
@@ -9,5 +14,4 @@
       {{ option.label }}
     </option>
   </ng-container>
-
 </select>
