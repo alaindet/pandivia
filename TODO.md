@@ -18,3 +18,5 @@
     - [ ] isSelectable
     - [ ] isSelected
     - [ ] Secondary text
+
+- Make [attrs] input of text-input dynamic with a diffing algo

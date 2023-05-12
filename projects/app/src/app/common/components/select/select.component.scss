@@ -1,5 +1,76 @@
 @import 'scoped';
 
 .app-select {
-  // ...
+  --app-select-width: fit-content;
+  --app-select-caret-size: 0.66rem;
+
+  position: relative;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  max-width: 100% !important;
+
+  &.-with-custom-width {
+    width: var(--app-select-width);
+  }
+
+  &:focus-within {
+    &::after {
+      // transform: rotate(-225deg);
+      border-color: $app-color-grey-800;
+    }
+  }
+
+  ._select {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    border: 2px solid $app-color-grey-600;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    min-width: 0!important;
+    width: 19.25rem;
+    height: 2.8rem;
+    padding: 0 1rem;
+    color: $app-color-black;
+    transition: 0.15s border-color ease-in-out;
+
+    &:hover {
+      border-color: $app-color-grey-700;
+    }
+
+    &:focus {
+      outline: 0;
+      border-color: $app-color-black;
+      box-shadow: 0 2px 5px #0e141a1a;
+    }
+  }
+
+  // Caret
+  // Note: this is the wrapper's after, not the select's after, sadly
+  // https://stackoverflow.com/a/3533807
+  &::after {
+    position: absolute;
+    content: '';
+    width: var(--app-select-caret-size);
+    height: var(--app-select-caret-size);
+    transform: rotate(-45deg);
+    border-left: 3px solid black;
+    border-bottom: 3px solid black;
+    right: 1rem;
+    transition: 0.15s transform ease-in-out;
+  }
+
+  &.-status {
+    &-success ._select { border-color: $app-color-success }
+    &-error ._select { border-color: $app-color-error }
+  }
+
+  &.-disabled ._select,
+  & select[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
