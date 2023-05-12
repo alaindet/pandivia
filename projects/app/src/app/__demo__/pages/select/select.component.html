@@ -5,15 +5,18 @@
   <app-select
     id="inside-form"
     formControlName="mySelected"
+    [options]="options"
   ></app-select>
 
   <app-select
     id="inside-form"
     formControlName="myNotSelected"
+    [options]="options"
   ></app-select>
 </form>
 
 <h2>Outside a form</h2>
 <app-select
   id="outside-form"
+  [options]="options"
 ></app-select>

@@ -1,1 +1,12 @@
-<p>app-select</p>
+<select #selectRef [attr.id]="id" (change)="onSelectChange()">
+
+  <option *ngIf="withDefaultOption" value="" [selected]="selectedValue === null">
+    Select...
+  </option>
+  
+  <ng-container *ngFor="let option of options">
+    <option [value]="option.value" [selected]="selectedValue === option.value">
+      {{ option.label }}
+    </option>
+  </ng-container>
+</select>
