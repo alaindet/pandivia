@@ -8,6 +8,8 @@
 - [ ] Badges
 - [ ] Tooltip
 - [ ] Textarea
+- [ ] Loading spinner
+- [ ] Skeleton
 - [ ] Select component
   - [ ] Native menu
 - [ ] List
