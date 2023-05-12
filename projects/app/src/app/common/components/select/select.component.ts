@@ -1,5 +1,5 @@
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DataSource, OnceSource } from '@app/common/sources';
 
@@ -34,6 +34,7 @@ export class SelectComponent implements OnInit, OnChanges, OnDestroy, ControlVal
   @Input() value?: string;
   @Input() @HostBinding('class.-disabled') isDisabled = false;
   @Input() options: FormOption[] = [];
+  @Input() width?: string;
   @Input() withDefaultOption = true;
 
   @ViewChild('selectRef', { static: true })
@@ -41,11 +42,12 @@ export class SelectComponent implements OnInit, OnChanges, OnDestroy, ControlVal
 
   @Output() selected = new EventEmitter<string | null>();
 
+  @HostBinding('style.--app-select-width') cssWidth = '';
+
   private once = new OnceSource();
   private onChange!: (val: any) => {};
 	private onTouched!: () => {};
 
-  // selectedIndex$ = new DataSource<number | null>(number, this.once.event$);
   private selectedValue$ = new DataSource<string | null>(null, this.once.event$);
   selectedValue: string | null = null;
 
@@ -61,6 +63,10 @@ export class SelectComponent implements OnInit, OnChanges, OnDestroy, ControlVal
     if (didInputChange(changes['value'])) {
       this.selectedValue$.next(this.value ?? null);
     }
+
+    if (didInputChange(changes['width'])) {
+      this.cssWidth = !!this.width ? this.width : 'fit-content';
+    }
   }
 
   ngOnDestroy() {
@@ -69,6 +75,7 @@ export class SelectComponent implements OnInit, OnChanges, OnDestroy, ControlVal
 
   // Thanks to https://linuxhint.com/select-onchange-javascript/
   onSelectChange() {
+
     let index = this.selectRef.nativeElement.selectedIndex;
 
     if (this.withDefaultOption && index === 0) {
@@ -106,6 +113,7 @@ export class SelectComponent implements OnInit, OnChanges, OnDestroy, ControlVal
 
   private outputValue(value: string | null): void {
     this.selectedValue$.next(value);
+    this.selected.emit(value);
     if (this.onChange) this.onChange(value);
     if (this.onTouched) this.onTouched();
   }

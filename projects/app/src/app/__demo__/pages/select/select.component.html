@@ -1,12 +1,14 @@
 <h2>In a form</h2>
 <form [formGroup]="myForm">
   <pre>{{ { value: myForm.value, errors: myForm.errors } | json }}</pre>
-  
+
   <app-select
     id="inside-form"
     formControlName="mySelected"
     [options]="options"
   ></app-select>
+
+  <br>
 
   <app-select
     id="inside-form"
@@ -19,4 +21,45 @@
 <app-select
   id="outside-form"
   [options]="options"
+  (selected)="consoleLog('selected', $event)"
+></app-select>
+
+<h2>With status</h2>
+<app-select
+  id="status-success"
+  [options]="options"
+  status="success"
+  (selected)="consoleLog('selected', $event)"
+></app-select>
+
+<br>
+
+<app-select
+  id="status-error"
+  [options]="options"
+  status="error"
+  (selected)="consoleLog('selected', $event)"
+></app-select>
+
+<h2>Custom width</h2>
+<app-select
+  id="custom-width"
+  [options]="options"
+  width=""
+  (selected)="consoleLog('selected', $event)"
+></app-select>
+
+<h2>Without default option</h2>
+<app-select
+  id="no-default-option"
+  [options]="options"
+  [withDefaultOption]="false"
+  (selected)="consoleLog('selected', $event)"
+></app-select>
+
+<h2>Disabled</h2>
+<app-select
+  id="disabled"
+  [options]="options"
+  [isDisabled]="true"
 ></app-select>
