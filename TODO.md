@@ -7,18 +7,16 @@
 # Components
 - [ ] Badges
 - [ ] Tooltip
-- [ ] Form field
 - [ ] Textarea
+- [ ] Loading spinner
+- [ ] Skeleton
 - [ ] Select component
   - [ ] Native menu
-- [ ] Text input
-  - [ ] Status
-  - [ ] Icon
-  - [ ] Debounced input event
-  - [ ] Clearable
 - [ ] List
   - [ ] List item
     - [ ] Actions
     - [ ] isSelectable
     - [ ] isSelected
     - [ ] Secondary text
+
+- Make [attrs] input of text-input dynamic with a diffing algo
