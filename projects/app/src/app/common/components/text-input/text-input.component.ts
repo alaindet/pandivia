@@ -175,11 +175,9 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 
     if (this.width) {
       cssClasses.push('-with-custom-width');
-      this.cssWidth = this.width;
-    } else {
-      this.cssWidth = '';
     }
 
+    this.cssWidth = !!this.width ? this.width : 'fit-content';
     this.cssClass = cssClasses.length ? cssClasses.join(' ') : '';
   }
 }
