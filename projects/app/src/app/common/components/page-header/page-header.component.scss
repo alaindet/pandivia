@@ -1,0 +1,32 @@
+@import 'scoped';
+
+.app-page-header {
+  padding: 1rem;
+  // padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid $app-color-beige-800;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  ._left:not(:empty) {
+    margin-right: 1rem;
+  }
+
+  ._main:not(:empty) {
+    flex-grow: 1;
+
+    & > h1,
+    & > h2,
+    & > h3,
+    & > h4,
+    & > h5,
+    & > h6 {
+      margin: 0;
+    }
+  }
+
+  ._right:not(:empty) {
+    margin-left: 1rem;
+  }
+}

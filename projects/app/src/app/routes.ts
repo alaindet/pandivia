@@ -8,15 +8,25 @@ const routes: Routes = [
     redirectTo: '/lists',
   },
   {
-    path: 'lists',
-    loadChildren: () => import('@app/features/lists')
-      .then(m => m.LISTS_ROUTES),
+    path: 'list',
+    loadComponent: () => import('@app/features/list')
+      .then(m => m.ListFeatureComponent),
   },
   {
-    path: 'lists/:listid/items',
-    loadComponent: () => import('@app/features/items')
-      .then(m => m.ItemsFeatureComponent),
+    path: 'inventory',
+    loadComponent: () => import('@app/features/inventory')
+      .then(m => m.InventoryFeatureComponent),
   },
+  // {
+  //   path: 'lists',
+  //   loadChildren: () => import('@app/features/lists')
+  //     .then(m => m.LISTS_ROUTES),
+  // },
+  // {
+  //   path: 'lists/:listid/items',
+  //   loadComponent: () => import('@app/features/items')
+  //     .then(m => m.ItemsFeatureComponent),
+  // },
 ];
 
 if (!environment.production) {
