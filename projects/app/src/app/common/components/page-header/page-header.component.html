@@ -1,4 +1,17 @@
 <div class="_left">
+
+  <!-- Back button -->
+  <button
+    *ngIf="withBackButton"
+    type="button"
+    appButton="ghost"
+    isCircle
+    withIconOnly
+    (click)="onBackClicked()"
+  >
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
   <ng-content select="[slot='left']"></ng-content>
 </div>
 

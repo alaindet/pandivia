@@ -1,65 +1,47 @@
-import { Component } from '@angular/core';
+import { filter } from 'rxjs';
+import { Component, HostBinding, inject, OnInit } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+
+import { ButtonComponent } from '@app/common/components';
+import { MediaQueryService } from '@app/common/services';
+
+const IMPORTS = [
+  NgIf,
+  MatIconModule,
+  ButtonComponent,
+];
 
 @Component({
   selector: 'app-demo-layout',
   standalone: true,
-  template: `
-    <header>
-      <ng-content select="[slot='header']"></ng-content>
-    </header>
-    <div class="content">
-      <main>
-        <ng-content></ng-content>
-        <ng-content slot="main"></ng-content>
-      </main>
-      <aside>
-        <ng-content select="[slot='aside']"></ng-content>
-      </aside>
-    </div>
-  `,
-  styles: [`
-    @import 'scoped';
-
-    $app-demo-content-height: $app-demo-header-height + $app-demo-header-margin;
-    $app-demo-border: #aaa;
-
-    :host {
-      position: absolute;
-      display: flex;
-      flex-direction: column;
-      inset: 0;
-    }
-
-    header {
-      border-bottom: 2px solid $app-demo-border;
-      padding: 1rem 0;
-      height: $app-demo-header-height;
-      margin: $app-demo-header-margin;
-      margin-top: 0;
-    }
-
-    .content {
-      display: flex;
-      height: calc(100vh - #{$app-demo-content-height});
-    }
-
-    aside {
-      order: 1;
-      overflow-y: auto;
-      border-right: 2px solid $app-demo-border;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      width: fit-content;
-    }
-
-    main {
-      order: 2;
-      width: 100%;
-      overflow-y: auto;
-      padding: 1rem;
-    }
-  `],
+  imports: IMPORTS,
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
 })
-export class DemoLayoutComponent {
-  // ...
+export class DemoLayoutComponent implements OnInit {
+
+  private mediaQuery = inject(MediaQueryService);
+  private router = inject(Router);
+
+  @HostBinding('class.-mobile') isMobile = false;
+  @HostBinding('class.-open') isOpen = false;
+
+  ngOnInit() {
+
+    this.mediaQuery.getFromMobileDown()
+      .subscribe(isMobile => this.isMobile = isMobile);
+
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe(() => this.closeMenu());
+  }
+
+  closeMenu() {
+    this.isOpen = false;
+  }
+
+  openMenu() {
+    this.isOpen = true;
+  }
 }

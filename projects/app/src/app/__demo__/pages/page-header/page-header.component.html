@@ -1,0 +1,24 @@
+<app-page-header [withBackButton]="true">
+
+  <ng-container slot="right">
+    <app-actions-menu
+      id="page-header-menu"
+      [actions]="actions"
+      position="left"
+      (actionConfirmed)="consoleLog($event)"
+    >
+      <ng-container *appActionsMenuButton>
+        <button type="button" appButton="outline" type="button" isCircle withIconOnly>
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+      </ng-container>
+
+      <ng-container *appActionsMenuItem="let action">
+        <mat-icon>{{ action.icon }}</mat-icon>
+        {{ action.label }}
+      </ng-container>
+    </app-actions-menu>
+  </ng-container>
+
+  <h1>My page header</h1>
+</app-page-header>

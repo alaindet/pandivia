@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostBinding, Input, inject, OnInit } from '@angular/core';
+import { MediaQueryService } from '@app/common/services';
 
 @Component({
   selector: 'app-demo-header',
@@ -13,6 +14,12 @@ import { Component, Input } from '@angular/core';
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
+
+      &.-mobile {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
     }
 
     h1 {
@@ -20,6 +27,15 @@ import { Component, Input } from '@angular/core';
     }
   `],
 })
-export class DemoHeaderComponent {
+export class DemoHeaderComponent implements OnInit {
+
   @Input() version!: string;
+
+  private mediaQuery = inject(MediaQueryService);
+
+  @HostBinding('class.-mobile') isMobile = false;
+
+  ngOnInit() {
+    this.mediaQuery.getFromMobileDown().subscribe(x => this.isMobile = x);
+  }
 }
