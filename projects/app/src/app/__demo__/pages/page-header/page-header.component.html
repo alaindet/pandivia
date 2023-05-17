@@ -1,4 +1,14 @@
+<app-page-header>
+  <h1>Basic</h1>
+</app-page-header>
+
+<app-page-header [withControlledBackButton]="true" (backClicked)="consoleLog('backClicked')">
+  <h1>With controlled back button</h1>
+</app-page-header>
+
 <app-page-header [withBackButton]="true">
+  
+  <h1>With contextual menu</h1>
 
   <ng-container slot="right">
     <app-actions-menu
@@ -19,6 +29,5 @@
       </ng-container>
     </app-actions-menu>
   </ng-container>
-
-  <h1>My page header</h1>
 </app-page-header>
+

@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, inject } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, inject, EventEmitter, Output } from '@angular/core';
 import { Location, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -25,8 +25,22 @@ export class PageHeaderComponent {
   private location = inject(Location);
 
   @Input() withBackButton = false;
+  @Input() withControlledBackButton = false;
+
+  @Output() backClicked = new EventEmitter<void>();
 
   onBackClicked() {
-    this.location.back();
+
+    if (this.withControlledBackButton) {
+      this.backClicked.emit();
+      return;
+    }
+
+    if (this.withBackButton) {
+      this.location.back();
+      return;  
+    }
+
+    // Do nothing by default
   }
 }
