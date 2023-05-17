@@ -1,3 +1,27 @@
-<p>list feature component</p>
+<app-page-header>
+  
+  <h1>List</h1>
 
-<h1>List</h1>
+  <ng-container slot="right">
+    <app-actions-menu
+      id="list-contextual-menu"
+      [actions]="contextualMenu"
+      position="left"
+      (actionConfirmed)="onListContextualAction($event)"
+    >
+      <ng-container *appActionsMenuButton>
+        <button type="button" appButton="outline" type="button" isCircle withIconOnly>
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+      </ng-container>
+
+      <ng-container *appActionsMenuItem="let action">
+        <mat-icon>{{ action.icon }}</mat-icon>
+        {{ action.label }}
+      </ng-container>
+    </app-actions-menu>
+  </ng-container>
+
+</app-page-header>
+
+<p>The page content goes here...</p>

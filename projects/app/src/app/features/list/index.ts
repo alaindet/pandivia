@@ -1,1 +1,3 @@
-export * from './list.component';
+import { ListFeatureComponent } from './list.component';
+
+export default ListFeatureComponent;

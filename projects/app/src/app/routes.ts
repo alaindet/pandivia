@@ -5,17 +5,15 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/lists',
+    redirectTo: '/list',
   },
   {
     path: 'list',
-    loadComponent: () => import('@app/features/list')
-      .then(m => m.ListFeatureComponent),
+    loadComponent: () => import('@app/features/list'),
   },
   {
     path: 'inventory',
-    loadComponent: () => import('@app/features/inventory')
-      .then(m => m.InventoryFeatureComponent),
+    loadComponent: () => import('@app/features/inventory'),
   },
   // {
   //   path: 'lists',
