@@ -20,10 +20,6 @@
 
   &.-with-custom-width {
     width: var(--app-text-input-width);
-
-    ._input {
-      min-width: 0;
-    }
   }
 
   &.-full-width {

@@ -45,6 +45,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
   @Input() @HostBinding('class.-clearable') clearable = false;
   @Input() placeholder = '';
   @Input() withStatusIcon = true;
+  @Input() withErrorId: string | null = null;
   @Input() @HostBinding('class.-full-width') withFullWidth = false;
   @Input() @HostBinding('class.-disabled') isDisabled = false;
   @Input() width?: string;
@@ -174,11 +175,9 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 
     if (this.width) {
       cssClasses.push('-with-custom-width');
-      this.cssWidth = this.width;
-    } else {
-      this.cssWidth = '';
     }
 
+    this.cssWidth = !!this.width ? this.width : 'fit-content';
     this.cssClass = cssClasses.length ? cssClasses.join(' ') : '';
   }
 }

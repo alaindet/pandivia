@@ -4,6 +4,8 @@
   [attr.id]="id"
   [attr.type]="type"
   [attr.placeholder]="placeholder"
+  [attr.aria-invalid]="withErrorId !== null ? 'true' : 'false'"
+  [attr.aria-errormessage]="withErrorId"
   [disabled]="isDisabled"
   class="_input"
   (change)="onInputChange($event)"

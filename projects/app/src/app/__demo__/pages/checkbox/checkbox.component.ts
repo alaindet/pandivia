@@ -28,5 +28,5 @@ export class CheckboxDemoPageComponent {
   myForm = new FormGroup({
     myCheckbox1: new FormControl(true, [Validators.required]),
     myCheckbox2: new FormControl(false, [Validators.required]),
-  })
+  });
 }
