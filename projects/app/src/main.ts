@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { importProvidersFrom } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,10 +10,6 @@ import { environment } from '@app/environment';
 import { rootReducer, rootEffects } from '@app/core/store';
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/routes';
-
-if (environment.production) {
-  enableProdMode();
-}
 
 bootstrapApplication(AppComponent, {
   providers: [
