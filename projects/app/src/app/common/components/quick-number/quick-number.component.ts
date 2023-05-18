@@ -1,11 +1,11 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, Provider, SimpleChanges, ViewEncapsulation, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, Provider, SimpleChanges, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { combineLatest, map } from 'rxjs';
 
-import { DataSource, EventSource, OnceSource } from '@app/common/sources';
-import { didInputChange } from '@app/common/utils';
+import { DataSource, OnceSource } from '@app/common/sources';
+import { didInputChange, getRandomHash } from '@app/common/utils';
 import { ButtonComponent } from '../button';
 
 const QUICK_NUMBER_FORM_PROVIDER: Provider = {
@@ -32,8 +32,9 @@ const IMPORTS = [
   providers: [QUICK_NUMBER_FORM_PROVIDER],
   host: { class: 'app-quick-number' },
 })
-export class QuickNumberComponent implements OnChanges, OnDestroy, ControlValueAccessor {
+export class QuickNumberComponent implements OnChanges, OnInit, OnDestroy, ControlValueAccessor {
 
+  @Input() id?: string;
   @Input() value = 1;
   @Input() min?: number;
   @Input() max?: number;
@@ -52,6 +53,13 @@ export class QuickNumberComponent implements OnChanges, OnDestroy, ControlValueA
     isIncrementDisabled: this.value$.data$.pipe(map(this.isIncrementDisabled.bind(this))),
   });
 
+  ngOnInit() {
+    if (!this.id) {
+      const randomHash = getRandomHash(3);
+      this.id = `app-quick-number-${randomHash}`;
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (didInputChange(changes['value'])) {
       this.value$.next(this.value ?? null);
@@ -60,6 +68,18 @@ export class QuickNumberComponent implements OnChanges, OnDestroy, ControlValueA
 
   ngOnDestroy() {
     this.once.trigger();
+  }
+
+  // @publicApi
+  decrement() {
+    if (this.isDisabled) return;
+    this.value$.next(value => value - 1);
+  }
+  
+  // @publicApi
+  increment() {
+    if (this.isDisabled) return;
+    this.value$.next(value => value + 1);
   }
 
   onDecrement() {
@@ -71,8 +91,9 @@ export class QuickNumberComponent implements OnChanges, OnDestroy, ControlValueA
   }
 
   // ControlValueAccessor
-  writeValue(value: number | null) {
-    this.value$.next(value ?? 1);
+  writeValue(value: number | null | any): void {
+    const newValue = (value === null || typeof value !== 'number') ? 1 : value;
+    this.value$.next(newValue);
   }
 
   // ControlValueAccessor

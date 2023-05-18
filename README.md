@@ -8,3 +8,4 @@ Pandivia is a simple shopping list web application powered by Angular and a Fire
 - https://www.w3.org/WAI/ARIA/apg/patterns/
 - https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 - https://www.atlassian.com/git/tutorials/git-log
+- https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
