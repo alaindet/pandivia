@@ -1,5 +1,7 @@
 import { TemplateRef } from '@angular/core';
 
+import { TemplateImplicitContext } from '@app/common/types';
+
 export type ActionsMenuItem = {
   id: string;
   label: string;
@@ -13,7 +15,7 @@ export type ActionsMenuFocusable = ActionsMenuItem['id'] | ActionsMenuButtonFocu
 
 export type ActionsMenuTemplates = {
   button: TemplateRef<void> | null;
-  item: TemplateRef<ActionsMenuItem> | null;
+  item: TemplateRef<TemplateImplicitContext<ActionsMenuItem>> | null;
 };
 
 export type ActionsMenuViewModel = {

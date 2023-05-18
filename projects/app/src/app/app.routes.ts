@@ -15,23 +15,18 @@ const routes: Routes = [
     path: 'inventory',
     loadComponent: () => import('@app/features/inventory'),
   },
-  // {
-  //   path: 'lists',
-  //   loadChildren: () => import('@app/features/lists')
-  //     .then(m => m.LISTS_ROUTES),
-  // },
-  // {
-  //   path: 'lists/:listid/items',
-  //   loadComponent: () => import('@app/features/items')
-  //     .then(m => m.ItemsFeatureComponent),
-  // },
+
+  // This is an example section
+  {
+    path: 'counter',
+    loadChildren: () => import('@app/features/__counter__'),
+  },
 ];
 
 if (!environment.production) {
   routes.push({
     path: 'demo',
-    loadChildren: () => import('@app/__demo__')
-      .then(m => m.DEMO_ROUTES),
+    loadChildren: () => import('@app/__demo__'),
   });
 }
 
