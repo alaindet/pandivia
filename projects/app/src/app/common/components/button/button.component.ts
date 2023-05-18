@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnI
 import { asBoolean, cssClassesList } from '@app/common/utils';
 
 type ButtonColor = 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ghost';
-type ButtonSize = 'small' | 'medium' | 'large';
+type ButtonSize = 'extra-small' | 'small' | 'medium' | 'large';
 type ButtonFloatingType = 'container' | 'fixed';
 type ButtonFloatingPosition = {
   top?: string;

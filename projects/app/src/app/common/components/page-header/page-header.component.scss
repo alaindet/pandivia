@@ -1,0 +1,33 @@
+@import 'scoped';
+
+.app-page-header {
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid $app-color-grey-600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  ._left:not(:empty) {
+    margin-right: 1rem;
+  }
+
+  ._main:not(:empty) {
+    flex-grow: 1;
+    position: relative;
+    top: -2px; // Terrible terrible hack
+
+    & > h1,
+    & > h2,
+    & > h3,
+    & > h4,
+    & > h5,
+    & > h6 {
+      margin: 0;
+    }
+  }
+
+  ._right:not(:empty) {
+    margin-left: 1rem;
+  }
+}

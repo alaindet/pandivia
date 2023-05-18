@@ -5,18 +5,26 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/lists',
+    redirectTo: '/list',
   },
   {
-    path: 'lists',
-    loadChildren: () => import('@app/features/lists')
-      .then(m => m.LISTS_ROUTES),
+    path: 'list',
+    loadComponent: () => import('@app/features/list'),
   },
   {
-    path: 'lists/:listid/items',
-    loadComponent: () => import('@app/features/items')
-      .then(m => m.ItemsFeatureComponent),
+    path: 'inventory',
+    loadComponent: () => import('@app/features/inventory'),
   },
+  // {
+  //   path: 'lists',
+  //   loadChildren: () => import('@app/features/lists')
+  //     .then(m => m.LISTS_ROUTES),
+  // },
+  // {
+  //   path: 'lists/:listid/items',
+  //   loadComponent: () => import('@app/features/items')
+  //     .then(m => m.ItemsFeatureComponent),
+  // },
 ];
 
 if (!environment.production) {

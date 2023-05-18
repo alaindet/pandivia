@@ -1,14 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
+import { filter, map, startWith } from 'rxjs';
 
-import { DEMO_PAGES } from './routes';
-import { DemoNavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
 import { DemoHeaderComponent } from './components/header/header.component';
 import { DemoLayoutComponent } from './components/layout/layout.component';
+import { DemoNavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
+import { DEMO_PAGES } from './routes';
 import { DEMO_VERSION } from './version';
-import { filter, map, of, startWith, switchMap, tap } from 'rxjs';
-import { Title } from '@angular/platform-browser';
 
 const IMPORTS = [
   CommonModule,

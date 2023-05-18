@@ -1,0 +1,30 @@
+@import 'scoped';
+
+.app-quick-number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: $app-color-primary-200;
+  width: -moz-fit-content;
+  width: fit-content;
+
+  .-decrement {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .-increment {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  ._value {
+    padding: 0 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}

@@ -1,0 +1,77 @@
+<h2>In a form</h2>
+
+<pre>{{ { value: myForm.value, errors: fMyTextInput.errors } | json }}</pre>
+
+<form [formGroup]="myForm">
+  <app-text-input
+    type="text"
+    formControlName="myTextInput"
+    [status]="
+      fMyTextInput.touched
+        ? (fMyTextInput.hasError('required') ? 'error' : 'success')
+        : undefined
+    "
+    placeholder="Enter some text here..."
+  ></app-text-input>
+  <p *ngIf="fMyTextInput.touched && fMyTextInput.hasError('required')">
+    Required field
+  </p>
+</form>
+
+<h2>Outside a form</h2>
+<app-text-input
+  type="text"
+  [value]=""
+  (changed)="consoleLog('changed', $event)"
+  (inputChanged)="consoleLog('inputChanged', $event)"
+  placeholder="Enter some text here..."
+  [attrs]="{
+    'autocomplete': true,
+    'aria-controls': 'the-autocomplete',
+    'required': true,
+    'readonly': false,
+  }"
+></app-text-input>
+
+<h2>Disabled</h2>
+<app-text-input
+  type="text"
+  value="This is disabled"
+  [isDisabled]="true"
+  (changed)="consoleLog('changed', $event)"
+></app-text-input>
+
+<h2>Custom widths</h2>
+
+<h3>Full width</h3>
+<p>
+  <app-text-input
+    type="text"
+    value="Full width"
+    placeholder="Full width"
+    [withFullWidth]="true"
+    (changed)="consoleLog('changed', $event)"
+  ></app-text-input>
+</p>
+
+<h3>Custom width: 6rem</h3>
+<p>
+  <app-text-input
+    type="text"
+    value="Custom width (6rem)"
+    placeholder="Custom width (6rem)"
+    width="6rem"
+    (changed)="consoleLog('changed', $event)"
+  ></app-text-input>
+</p>
+
+<h3>Custom width: 30rem</h3>
+<p>
+  <app-text-input
+    type="text"
+    value="Custom width (30rem)"
+    placeholder="Custom width (30rem)"
+    width="30rem"
+    (changed)="consoleLog('changed', $event)"
+  ></app-text-input>
+</p>
