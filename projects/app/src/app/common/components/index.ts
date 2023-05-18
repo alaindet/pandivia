@@ -1,5 +1,6 @@
 export * from './bottom-navigation';
 export * from './button';
+export * from './linear-spinner';
 export * from './menu/actions-menu';
 export * from './modal';
 export * from './notification';

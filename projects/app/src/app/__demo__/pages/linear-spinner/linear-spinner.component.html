@@ -1,0 +1,13 @@
+<h2>In page</h2>
+<button type="button" appButton (click)="inPage = !inPage">
+  {{ inPage ? 'Hide in page spinner' : 'Show in page spinner' }}
+</button>
+
+<app-linear-spinner *ngIf="inPage"></app-linear-spinner>
+
+<h2>Fixed to viewport</h2>
+<button type="button" appButton (click)="fixedToViewport = !fixedToViewport">
+  {{ fixedToViewport ? 'Hide fixed spinner' : 'Show fixed spinner' }}
+</button>
+
+<app-linear-spinner *ngIf="fixedToViewport" [fixed]="true"></app-linear-spinner>
