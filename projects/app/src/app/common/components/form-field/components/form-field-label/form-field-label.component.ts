@@ -1,5 +1,6 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
+
 import { FormFieldContextService } from '../../context.service';
 
 const IMPORTS = [
@@ -14,7 +15,7 @@ const IMPORTS = [
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-form-field-label' },
   template: `
-    <label [attr.for]="id$ | async"
+    <label [attr.for]="context.id()"
       ><ng-content></ng-content
       ><ng-container *ngIf="isRequired">*</ng-container>
     </label>
@@ -35,7 +36,6 @@ const IMPORTS = [
 export class FormFieldLabelComponent {
 
   context = inject(FormFieldContextService);
-  id$ = this.context.getId();
 
   @Input() isRequired = false;
 }

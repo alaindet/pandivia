@@ -37,6 +37,6 @@ export class FormFieldComponent implements OnChanges {
   @Input() id!: string;
 
   ngOnChanges() {
-    this.context.setId(this.id);
+    this.context.id.set(this.id);
   }
 }
