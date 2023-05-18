@@ -9,23 +9,20 @@
 }
 
 @keyframes linearSpinnerAnimation {
-  0% {
-    transform: translateX(-300%);
+  from {
+    transform: translateX(-100%);
   }
 
-  50% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(300%);
+  to {
+    transform: translateX(200%);
   }
 }
 
 .app-linear-spinner {
-  height: 0.33rem;
+  height: 4px;
   width: 100%;
   display: block;
+  overflow: hidden;
 
   &.-color {
     &-primary {
@@ -51,8 +48,10 @@
   ._bar {
     height: 100%;
     width: 50%;
-    animation-duration: 3s;
+    animation-duration: 2s;
     animation-name: linearSpinnerAnimation;
     animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
   }
 }
