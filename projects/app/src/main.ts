@@ -1,25 +1,7 @@
-import { importProvidersFrom } from '@angular/core';
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { provideStore } from '@ngrx/store';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideEffects } from '@ngrx/effects';
+import { bootstrapApplication } from '@angular/platform-browser';
 
-import { environment } from '@app/environment';
-import { rootReducer, rootEffects } from '@app/core/store';
+import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import { APP_ROUTES } from './app/routes';
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    importProvidersFrom([
-      BrowserModule,
-      HttpClientModule,
-    ]),
-    provideRouter(APP_ROUTES),
-    provideStore(rootReducer),
-    environment.production ? [] : provideStoreDevtools(),
-    provideEffects(rootEffects),
-  ],
-}).catch(err => console.error(err));
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));

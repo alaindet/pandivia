@@ -8,5 +8,5 @@ import { ActionsMenuItem } from '../types';
   host: { class: 'app-actions-menu-button' },
 })
 export class ActionsMenuItemDirective {
-  template = inject(TemplateRef<ActionsMenuItem>);
+  template = inject(TemplateRef<{ $implicit: ActionsMenuItem }>);
 }
