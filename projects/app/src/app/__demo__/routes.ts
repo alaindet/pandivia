@@ -10,6 +10,7 @@ import { ButtonDemoPageComponent } from './pages/button/button.component';
 import { CheckboxDemoPageComponent } from './pages/checkbox/checkbox.component';
 import { ColorSwatchesDemoPageComponent } from './pages/color-swatches/color-swatches.component';
 import { FormFieldDemoPageComponent } from './pages/form-field/form-field.component';
+import { LinearSpinnerDemoPageComponent } from './pages/linear-spinner/linear-spinner.component';
 import { MenuDemoPageComponent } from './pages/actions-menu/actions-menu.component';
 import { ModalDemoPageComponent } from './pages/modal/modal.component';
 import { PageHeaderDemoPageComponent } from './pages/page-header/page-header.component';
@@ -24,6 +25,7 @@ export const DEMO_PAGES: DemoRoute[] = [
   demoRoute('checkbox', 'Checkbox', CheckboxDemoPageComponent),
   demoRoute('color-swatches', 'Color Swatches', ColorSwatchesDemoPageComponent),
   demoRoute('form-field', 'Form Field', FormFieldDemoPageComponent),
+  demoRoute('linear-spinner', 'Linear Spinner', LinearSpinnerDemoPageComponent),
   demoRoute('menu', 'Menu', MenuDemoPageComponent),
   demoRoute('modal', 'Modal', ModalDemoPageComponent),
   demoRoute('page-header', 'Page Header', PageHeaderDemoPageComponent),
