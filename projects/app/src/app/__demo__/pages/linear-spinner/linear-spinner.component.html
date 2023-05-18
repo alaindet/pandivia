@@ -1,0 +1,13 @@
+<h2>In page</h2>
+<app-linear-spinner color="primary"></app-linear-spinner>
+&nbsp;
+<app-linear-spinner color="secondary"></app-linear-spinner>
+&nbsp;
+<app-linear-spinner color="tertiary"></app-linear-spinner>
+
+<h2>Fixed to viewport</h2>
+<button type="button" appButton (click)="fixedToViewport = !fixedToViewport">
+  {{ fixedToViewport ? 'Hide fixed spinner' : 'Show fixed spinner' }}
+</button>
+
+<app-linear-spinner *ngIf="fixedToViewport" [fixed]="true"></app-linear-spinner>
