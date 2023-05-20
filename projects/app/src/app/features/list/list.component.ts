@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 import { LIST_CONTEXTUAL_MENU } from './contextual-menu';
 import { ListService } from './list.service';
+import { Store } from '@ngrx/store';
 
 const IMPORTS = [
   PageHeaderComponent,
@@ -23,16 +24,12 @@ const IMPORTS = [
 })
 export class ListFeatureComponent implements OnInit {
 
-  private listService = inject(ListService);
+  private store = inject(Store);
 
-  items: any[] = [];
   contextualMenu = LIST_CONTEXTUAL_MENU;
 
   ngOnInit() {
-    this.listService.getItems().subscribe(items => {
-      this.items = items;
-      console.log('items', items);
-    });
+    this.store.dispatch();
   }
 
   onListContextualAction(action: string) {

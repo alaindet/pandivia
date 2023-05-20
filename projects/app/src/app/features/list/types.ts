@@ -1,8 +1,12 @@
 export type ListItem = {
   id: string;
   name: string;
-  description: string;
   amount: number;
   isDone: boolean;
-  category: string;
+  description?: string;
+  category?: string;
+};
+
+export type GroupedListItems = {
+  category: string | 'no-category';
 };
