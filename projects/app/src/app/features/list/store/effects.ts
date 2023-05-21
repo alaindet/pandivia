@@ -6,9 +6,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as fromActions from './actions';
 import { selectListExists } from './selectors';
 import { ListService } from '../list.service';
+import { loaderActions, notificationsActions } from '@app/core/store';
 
 @Injectable()
-export class CounterEffects {
+export class ListEffects {
 
   private store = inject(Store);
   private actions = inject(Actions);
@@ -25,6 +26,30 @@ export class CounterEffects {
     ofType(fromActions.fetchItemsActions.forceFetchItems),
     switchMap(() => fetchItemsHelper(this.listService)),
   ));
+
+  // TODO: Generalize?
+  startLoader$ = createEffect(() => this.actions.pipe(
+    ofType(
+      fromActions.fetchItemsActions.fetchItems,
+      fromActions.fetchItemsActions.forceFetchItems,
+    ),
+    switchMap(() => of(loaderActions.start())),
+  ));
+
+  // TODO: Generalize?
+  stopLoader$ = createEffect(() => this.actions.pipe(
+    ofType(
+      fromActions.fetchItemsActions.fetchItemsSuccess,
+      fromActions.fetchItemsActions.fetchItemsError,
+    ),
+    switchMap(() => of(loaderActions.stop())),
+  ));
+
+  // TODO: Generalize?
+  showError$ = createEffect(() => this.actions.pipe(
+    ofType(fromActions.fetchItemsActions.fetchItemsError),
+    switchMap(action => of(notificationsActions.addError({ message: action.error }))),
+  ));
 }
 
 function fetchItemsHelper(listService: ListService) {
@@ -36,3 +61,7 @@ function fetchItemsHelper(listService: ListService) {
     })
   )
 }
+
+export const LIST_FEATURE_EFFECTS = [
+  ListEffects,
+];

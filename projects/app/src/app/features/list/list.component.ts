@@ -1,10 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Store } from '@ngrx/store';
+import { Store, provideState } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
 
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 import { LIST_CONTEXTUAL_MENU } from './contextual-menu';
-import { fetchItems } from './store';
+import { LIST_FEATURE_EFFECTS, LIST_FEATURE_NAME, fetchItemsActions, listReducer } from './store';
 
 const IMPORTS = [
   PageHeaderComponent,
@@ -21,6 +22,10 @@ const IMPORTS = [
   imports: IMPORTS,
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
+  providers: [
+    provideState(LIST_FEATURE_NAME, listReducer),
+    provideEffects(...LIST_FEATURE_EFFECTS),
+  ],
 })
 export class ListFeatureComponent implements OnInit {
 
@@ -29,7 +34,7 @@ export class ListFeatureComponent implements OnInit {
   contextualMenu = LIST_CONTEXTUAL_MENU;
 
   ngOnInit() {
-    this.store.dispatch(fetchItems());
+    this.store.dispatch(fetchItemsActions.fetchItems());
   }
 
   onListContextualAction(action: string) {
