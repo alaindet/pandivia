@@ -6,7 +6,7 @@
     <ng-container slot="right">
       <app-actions-menu
         id="list-contextual-menu"
-        [actions]="contextualMenu"
+        [actions]="listContextualMenu"
         position="left"
         (actionConfirmed)="onListContextualAction($event)"
       >
@@ -32,19 +32,16 @@
   </app-page-header>
 </header>
 
-<ul *ngIf="items$ | async as itemGroups">
+<!-- List -->
+<ul *ngIf="items$ | async as itemGroups" class="_items">
   <li *ngFor="let group of itemGroups">
     <h2>{{ group.category }}</h2>
-    <ul>
-      <li
+    <app-shopping-list>
+      <app-shopping-list-item
         *ngFor="let item of group.items"
-        [class.-done]="item.isDone"
-        (click)="onItemClick(item.id)"
-      >
-        {{ item.amount }}x <strong>{{ item.name }}</strong>
-        <br>
-        <span *ngIf="item.description">{{ item.description }}</span>
-      </li>
-    </ul>
+        [item]="item"
+        [actions]="itemContextualMenu"
+      />
+    </app-shopping-list>
   </li>
 </ul>

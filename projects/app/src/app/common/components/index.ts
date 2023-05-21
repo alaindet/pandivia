@@ -7,4 +7,5 @@ export * from './notification';
 export * from './page-header';
 export * from './quick-number';
 export * from './select';
+export * from './shopping-list';
 export * from './text-input';

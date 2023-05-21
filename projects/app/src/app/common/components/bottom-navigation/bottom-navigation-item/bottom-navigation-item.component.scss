@@ -6,8 +6,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem 1rem;
-  padding-bottom: 1rem;
+  padding: 0.33rem 0.5rem;
+  padding-bottom: 0.5rem;
   cursor: pointer;
   transition: 0.15s all ease-out;
   background-color: $app-color-grey-50;
@@ -21,8 +21,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 8px;
-    // background-color: $app-color-secondary-600;
+    height: 5px;
     background-color: $app-color-primary-500;
     transform: scaleY(0);
     transform-origin: bottom;
@@ -39,13 +38,12 @@
     background-color: $app-color-primary-600;
   }
 
-  > ._icon {
-    font-size: 1.66rem;
-    font-weight: bold;
+  > ._icon .mat-icon {
     color: $app-color-black;
   }
 
   > ._label {
-    // ...
+    font-size: 0.8rem;
+    letter-spacing: 1px;
   }
 }

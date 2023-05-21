@@ -1,0 +1,46 @@
+<div class="_info" (click)="onDone()">
+
+  <div class="_first-row">
+    <div class="_amount">
+      {{ item.amount }}x
+    </div>
+    
+    <div class="_name">
+      {{ item.name }}
+    </div>
+  </div>
+
+  <!-- <div class="_second-row">
+    <div class="_description">
+      {{ item.description }}
+    </div>
+  </div> -->
+
+</div>
+
+<div class="_actions">
+  <app-actions-menu
+    [id]="'app-shopping-list-item-' + item.id"
+    [actions]="actions"
+    position="left"
+    (actionConfirmed)="onContextualMenuAction($event)"
+  >
+    <ng-container *appActionsMenuButton>
+      <button
+        type="button"
+        appButton="ghost"
+        size="small"
+        type="button"
+        isCircle
+        withIconOnly
+      >
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+    </ng-container>
+
+    <ng-container *appActionsMenuItem="let action">
+      <mat-icon>{{ action.icon }}</mat-icon>
+      {{ action.label }}
+    </ng-container>
+  </app-actions-menu>
+</div>

@@ -1,0 +1,35 @@
+@import 'scoped';
+
+.app-shopping-list-item {
+  display: flex;
+  align-items: flex-start;
+  border: 1px solid $app-color-grey-600;
+  border-radius: 0.33rem;
+  background-color: $app-color-white;
+
+  ._info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1rem;
+    cursor: pointer;
+  }
+
+  ._actions {
+    padding: 0.5rem;
+  }
+
+  ._first-row {
+    display: flex;
+    align-items: center;
+  }
+
+  ._amount {
+    margin-right: 0.5rem;
+  }
+
+  ._description {
+    font-size: 0.9em;
+    font-style: italic;
+  }
+}

@@ -3,8 +3,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
-import { LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './contextual-menu';
+import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent, ShoppingListComponent, ShoppingListItemComponent } from '@app/common/components';
+import { ITEM_CONTEXTUAL_MENU, LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './contextual-menu';
 import { fetchItemsActions, selectGroupedListItems } from './store';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
@@ -17,6 +17,8 @@ const IMPORTS = [
   ActionsMenuItemDirective,
   MatIconModule,
   ButtonComponent,
+  ShoppingListComponent,
+  ShoppingListItemComponent,
 ];
 
 @Component({
@@ -31,7 +33,8 @@ export class ListFeatureComponent implements OnInit {
   private store = inject(Store);
 
   items$ = this.store.select(selectGroupedListItems);
-  contextualMenu = LIST_CONTEXTUAL_MENU;
+  listContextualMenu = LIST_CONTEXTUAL_MENU;
+  itemContextualMenu = ITEM_CONTEXTUAL_MENU;
 
   ngOnInit() {
     this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' }));
