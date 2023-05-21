@@ -1,13 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Store, provideState } from '@ngrx/store';
-import { provideEffects } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
-import { LIST_CONTEXTUAL_MENU } from './contextual-menu';
-import { LIST_FEATURE_EFFECTS, LIST_FEATURE_NAME, fetchItemsActions, listReducer } from './store';
+import { LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './contextual-menu';
+import { fetchItemsActions, selectGroupedListItems } from './store';
+import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
+import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 
 const IMPORTS = [
+  CommonModule,
   PageHeaderComponent,
   ActionsMenuComponent,
   ActionsMenuButtonDirective,
@@ -22,22 +25,29 @@ const IMPORTS = [
   imports: IMPORTS,
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  providers: [
-    provideState(LIST_FEATURE_NAME, listReducer),
-    provideEffects(...LIST_FEATURE_EFFECTS),
-  ],
 })
 export class ListFeatureComponent implements OnInit {
 
   private store = inject(Store);
 
+  items$ = this.store.select(selectGroupedListItems);
   contextualMenu = LIST_CONTEXTUAL_MENU;
 
   ngOnInit() {
+    this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' }));
+    this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_LIST.id }));
     this.store.dispatch(fetchItemsActions.fetchItems());
   }
 
   onListContextualAction(action: string) {
-    console.log('onListContextualAction', action);
+    switch (action) {
+      case LIST_REFRESH_ACTION.id:
+        this.store.dispatch(fetchItemsActions.forceFetchItems());
+        break;
+    }
+  }
+
+  onItemClick(itemId: string) {
+    console.log('onItemClick', itemId);
   }
 }

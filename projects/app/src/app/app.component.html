@@ -1,10 +1,22 @@
-<router-outlet></router-outlet>
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<!-- TODO: Move demo to another project -->
+<footer *ngIf="isNotDemo$ | async">
+  <app-bottom-navigation
+    *ngIf="navigation$ | async as navigation"
+    [items]="navigation.items"
+    [selectedItem]="navigation.current"
+    (selected)="onBottomNavigationChange($event)"
+  ></app-bottom-navigation>
+</footer>
 
 <app-modal-host></app-modal-host>
 
 <app-notifications-host
   [notification]="notification$ | async"
-  (dismissed)="dismissNotification()"
+  (dismissed)="onDismissNotification()"
 ></app-notifications-host>
 
 <app-linear-spinner

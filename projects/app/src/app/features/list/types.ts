@@ -7,6 +7,7 @@ export type ListItem = {
   category?: string;
 };
 
-export type GroupedListItems = {
+export type CategorizedListItems = {
   category: string | 'no-category';
+  items: ListItem[];
 };

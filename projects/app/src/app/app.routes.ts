@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'list',
-    loadComponent: () => import('@app/features/list'),
+    loadChildren: () => import('@app/features/list'),
   },
   {
     path: 'inventory',
@@ -17,10 +17,10 @@ const routes: Routes = [
   },
 
   // This is an example section
-  {
-    path: 'counter',
-    loadChildren: () => import('@app/features/__counter__'),
-  },
+  // {
+  //   path: 'counter',
+  //   loadChildren: () => import('@app/features/__counter__'),
+  // },
 ];
 
 if (!environment.production) {

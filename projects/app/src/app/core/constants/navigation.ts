@@ -1,0 +1,25 @@
+import { BottomNavigationItem } from '@app/common/components';
+
+export const NAVIGATION_ITEM_INVENTORY: BottomNavigationItem = {
+  id: 'inventory',
+  icon: 'inventory_2',
+  label: 'Inventory', // TODO: Translate
+};
+
+export const NAVIGATION_ITEM_LIST: BottomNavigationItem = {
+  id: 'list',
+  icon: 'format_list_bulleted',
+  label: 'List', // TODO: Translate
+};
+
+export const NAVIGATION_ITEM_USER: BottomNavigationItem = {
+  id: 'user',
+  icon: 'person',
+  label: 'User', // TODO: Translate
+};
+
+export const NAVIGATION_ITEMS: BottomNavigationItem[] = [
+  NAVIGATION_ITEM_INVENTORY,
+  NAVIGATION_ITEM_LIST,
+  NAVIGATION_ITEM_USER,
+];

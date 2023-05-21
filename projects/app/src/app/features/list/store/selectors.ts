@@ -15,7 +15,7 @@ export const selectListStatus = createSelector(
 
 export const selectListExists = createSelector(
   selectListFeature,
-  state => state.status !== LOADING_STATUS.IDLE,
+  state => state.status === LOADING_STATUS.IDLE,
 );
 
 export const selectGroupedListItems = createSelector(

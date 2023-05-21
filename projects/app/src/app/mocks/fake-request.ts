@@ -1,4 +1,4 @@
-import { Observable, map, of, switchMap, throwError, timer } from 'rxjs';
+import { Observable, map, of, switchMap, tap, throwError, timer } from 'rxjs';
 
 export type FakeRequestConfig = {
   delay?: number;
@@ -12,18 +12,23 @@ export function fakeRequest<T = any>(
   data: T,
   config?: FakeRequestConfig,
 ): Observable<T> {
+
   const failRate = config?.failRate ?? 0;
   const delay = config?.delay ?? 0;
   const failed = didRequestFail(failRate);
-  const source$: Observable<any> = (delay > 0) ? of(true) : timer(delay);
+  const source$: Observable<any> = (delay > 0) ? timer(delay) : of(true);
 
   if (failed) {
     return source$.pipe(
+      tap(() => console.log('[fakeRequest] Failed')),
       switchMap(() => throwError(() => new Error('Request failed'))),
     );
   }
 
-  return source$.pipe(map(() => data));
+  return source$.pipe(
+    tap(() => console.log('[fakeRequest] Success', data)),
+    map(() => data),
+  );
 }
 
 function didRequestFail(failRate: number): boolean {
@@ -35,5 +40,5 @@ function didRequestFail(failRate: number): boolean {
     return true;
   }
 
-  return Math.random() > failRate;
+  return Math.random() <= failRate;
 }

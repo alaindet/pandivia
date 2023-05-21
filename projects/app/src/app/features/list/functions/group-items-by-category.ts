@@ -1,6 +1,6 @@
-import { ListItem } from '../types';
+import { CategorizedListItems, ListItem } from '../types';
 
-export function groupItemsByCategory(items: ListItem[]) {
+export function groupItemsByCategory(items: ListItem[]): CategorizedListItems[] {
   const grouped: { [category: string]: any[] } = {};
 
   for (const item of items) {

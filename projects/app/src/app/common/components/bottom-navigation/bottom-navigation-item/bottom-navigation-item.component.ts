@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { BOTTOM_NAVIGATION_ITEM_ICON, BottomNavigationItemIcon } from './types';
-
-const ICON_MAP: { [key in BottomNavigationItemIcon]: string } = {
-  [BOTTOM_NAVIGATION_ITEM_ICON.LIST]: 'format_list_bulleted',
-  [BOTTOM_NAVIGATION_ITEM_ICON.STAR]: 'star',
-  [BOTTOM_NAVIGATION_ITEM_ICON.USER]: 'person',
+const ICON_MAP: { [key: string]: string } = {
+  list: 'format_list_bulleted',
+  star: 'star',
+  user: 'person',
 };
 
 const IMPORTS = [
@@ -31,7 +29,7 @@ export class BottomNavigationItemComponent {
   @Input() id!: string;
 
   @Input('icon')
-  set iconInput(val: BottomNavigationItemIcon) {
+  set iconInput(val: string) {
     this.icon = ICON_MAP[val];
   }
   icon!: string;

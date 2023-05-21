@@ -24,3 +24,13 @@ export const selectUiIsLoading = createSelector(
   selectUiFeature,
   state => state.loading,
 );
+
+export const selectTitle = createSelector(
+  selectUiFeature,
+  state => state.title,
+);
+
+export const selectNavigation = createSelector(
+  selectUiFeature,
+  state => state.navigation,
+);

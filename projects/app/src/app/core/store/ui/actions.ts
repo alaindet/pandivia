@@ -1,6 +1,7 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { Notification } from '@app/common/types';
+import { BottomNavigationItem } from '@app/common/components';
 
 export const notificationsActions = createActionGroup({
   source: 'UI/Notifications',
@@ -18,3 +19,13 @@ export const loaderActions = createActionGroup({
     'Stop': emptyProps(),
   },
 });
+
+export const setCurrentNavigation = createAction(
+  '[UI/Navigation] Set current item',
+  props<{ current: BottomNavigationItem['id'] }>()
+);
+
+export const setCurrentTitle = createAction(
+  '[UI/Title] Set current title',
+  props<{ title: string }>(),
+);

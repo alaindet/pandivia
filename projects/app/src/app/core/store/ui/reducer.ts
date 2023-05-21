@@ -33,4 +33,12 @@ export const uiReducer = createReducer(
   immerOn(fromActions.loaderActions.stop, state => {
     state.loading = false;
   }),
+
+  immerOn(fromActions.setCurrentNavigation, (state, { current }) => {
+    state.navigation.current = current;
+  }),
+
+  immerOn(fromActions.setCurrentTitle, (state, { title }) => {
+    state.title = title;
+  }),
 );

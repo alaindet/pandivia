@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-
-import { notificationsActions, selectNotification, selectUiIsLoading } from './core/store';
-import { LinearSpinnerComponent, NotificationsHostComponent, ModalHostComponent } from './common/components';
+import { Component, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
+
+import { filter, map } from 'rxjs';
+import { BottomNavigationComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
+import { notificationsActions, selectNavigation, selectNotification, selectUiIsLoading } from './core/store';
 
 const IMPORTS = [
   NgIf,
@@ -13,6 +14,7 @@ const IMPORTS = [
   NotificationsHostComponent,
   ModalHostComponent,
   LinearSpinnerComponent,
+  BottomNavigationComponent,
 ];
 
 @Component({
@@ -26,11 +28,23 @@ const IMPORTS = [
   },
 })
 export class AppComponent {
+
   private store = inject(Store);
+  private router = inject(Router);
+
   notification$ = this.store.select(selectNotification);
   loading$ = this.store.select(selectUiIsLoading);
+  navigation$ = this.store.select(selectNavigation);
+  isNotDemo$ = this.router.events.pipe(
+    filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+    map(e => !e.url.startsWith('/demo')),
+  );
 
-  dismissNotification() {
+  onDismissNotification() {
     this.store.dispatch(notificationsActions.dismiss());
+  }
+
+  onBottomNavigationChange(navigateTo: string) {
+    console.log('onBottomNavigationChange', navigateTo);
   }
 }

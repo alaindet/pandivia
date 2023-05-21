@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
 import { BottomNavigationItemComponent } from '../bottom-navigation-item/bottom-navigation-item.component';
-import { BottomNavigationItem } from '../bottom-navigation-item/types';
+import { BottomNavigationItem } from '../types';
 
 const IMPORTS = [
   CommonModule,
