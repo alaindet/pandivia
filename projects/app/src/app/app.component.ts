@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { filter, map } from 'rxjs';
 import { BottomNavigationComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
 import { notificationsActions, selectNavigation, selectNotification, selectUiIsLoading } from './core/store';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 const IMPORTS = [
   NgIf,
@@ -15,6 +16,7 @@ const IMPORTS = [
   ModalHostComponent,
   LinearSpinnerComponent,
   BottomNavigationComponent,
+  MatIconModule,
 ];
 
 @Component({

@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-const ICON_MAP: { [key: string]: string } = {
-  list: 'format_list_bulleted',
-  star: 'star',
-  user: 'person',
-};
-
 const IMPORTS = [
   MatIconModule,
 ];
@@ -27,12 +21,6 @@ const IMPORTS = [
 export class BottomNavigationItemComponent {
 
   @Input() id!: string;
-
-  @Input('icon')
-  set iconInput(val: string) {
-    this.icon = ICON_MAP[val];
-  }
-  icon!: string;
-
+  @Input() icon!: string;
   @Input() @HostBinding('class.-selected') isSelected = false;
 }

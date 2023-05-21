@@ -1,2 +1,2 @@
-export const MOCK_CATEGORY_FOO = 'foo';
-export const MOCK_CATEGORY_BAR = 'bar';
+export const MOCK_CATEGORY_FOO = 'Foo';
+export const MOCK_CATEGORY_BAR = 'Bar';
