@@ -17,5 +17,10 @@ export const selectNotification = createSelector(
 
 export const selectNotificationsExist = createSelector(
   selectUiFeature,
-  (state) => state.notifications.length > 0,
+  state => state.notifications.length > 0,
+);
+
+export const selectUiIsLoading = createSelector(
+  selectUiFeature,
+  state => state.loading,
 );

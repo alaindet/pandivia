@@ -1,16 +1,13 @@
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { ListItem } from '../types';
 
-export const fetchItems = createAction(
-  '[List] Fetch items',
-);
-
-export const fetchItemsSuccess = createAction(
-  '[List] Fetch items success',
-  props<{ items: ListItem[] }>(),
-);
-
-export const fetchItemsError = createAction(
-  '[List] Fetch items error',
-);
+export const fetchItemsActions = createActionGroup({
+  source: 'List',
+  events: {
+    'Fetch items': emptyProps(),
+    'Force fetch items': emptyProps(),
+    'Fetch items success': props<{ items: ListItem[] }>(),
+    'Fetch items error': props<{ error: string }>(),
+  },
+});

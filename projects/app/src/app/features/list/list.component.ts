@@ -1,10 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { Store } from '@ngrx/store';
 
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 import { LIST_CONTEXTUAL_MENU } from './contextual-menu';
-import { ListService } from './list.service';
-import { Store } from '@ngrx/store';
+import { fetchItems } from './store';
 
 const IMPORTS = [
   PageHeaderComponent,
@@ -29,7 +29,7 @@ export class ListFeatureComponent implements OnInit {
   contextualMenu = LIST_CONTEXTUAL_MENU;
 
   ngOnInit() {
-    this.store.dispatch();
+    this.store.dispatch(fetchItems());
   }
 
   onListContextualAction(action: string) {

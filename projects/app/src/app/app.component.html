@@ -6,3 +6,8 @@
   [notification]="notification$ | async"
   (dismissed)="dismissNotification()"
 ></app-notifications-host>
+
+<app-linear-spinner
+  *ngIf="loading$ | async"
+  [fixed]="true"
+></app-linear-spinner>

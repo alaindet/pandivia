@@ -5,6 +5,9 @@ export type FakeRequestConfig = {
   failRate?: number; // 0 <= failRate <= 1
 };
 
+export const MOCK_FAIL_RATE = 0.2;
+export const MOCK_DELAY = 500;
+
 export function fakeRequest<T = any>(
   data: T,
   config?: FakeRequestConfig,

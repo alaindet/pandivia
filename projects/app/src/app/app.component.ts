@@ -1,17 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
-import { notificationsActions, selectNotification } from './core/store';
-import { NotificationsHostComponent } from './common/components';
-import { ModalHostComponent } from './common/components/modal';
+import { notificationsActions, selectNotification, selectUiIsLoading } from './core/store';
+import { LinearSpinnerComponent, NotificationsHostComponent, ModalHostComponent } from './common/components';
 import { Store } from '@ngrx/store';
 
 const IMPORTS = [
-  CommonModule,
+  NgIf,
+  AsyncPipe,
   RouterOutlet,
   NotificationsHostComponent,
   ModalHostComponent,
+  LinearSpinnerComponent,
 ];
 
 @Component({
@@ -27,6 +28,7 @@ const IMPORTS = [
 export class AppComponent {
   private store = inject(Store);
   notification$ = this.store.select(selectNotification);
+  loading$ = this.store.select(selectUiIsLoading);
 
   dismissNotification() {
     this.store.dispatch(notificationsActions.dismiss());
