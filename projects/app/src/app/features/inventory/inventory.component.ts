@@ -22,13 +22,13 @@ const IMPORTS = [
 ];
 
 @Component({
-  selector: 'app-inventory-feature',
+  selector: 'app-inventory-page',
   standalone: true,
   imports: IMPORTS,
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss'],
 })
-export class InventoryFeatureComponent implements OnInit {
+export class InventoryPageComponent implements OnInit {
 
   private store = inject(Store);
 

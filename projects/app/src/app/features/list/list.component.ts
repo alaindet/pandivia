@@ -22,13 +22,13 @@ const IMPORTS = [
 ];
 
 @Component({
-  selector: 'app-list-feature',
+  selector: 'app-list-page',
   standalone: true,
   imports: IMPORTS,
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListFeatureComponent implements OnInit {
+export class ListPageComponent implements OnInit {
 
   private store = inject(Store);
 

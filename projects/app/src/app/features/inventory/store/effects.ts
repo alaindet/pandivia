@@ -1,20 +1,21 @@
 import { Injectable, inject } from '@angular/core';
-import { catchError, filter, map, of, switchMap, withLatestFrom } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { filter, switchMap, withLatestFrom } from 'rxjs';
 
-import { loaderActions, notificationsActions } from '@app/core/store';
-import * as fromActions from './actions';
-import { selectInventoryExists } from './selectors';
+import { createUiController } from '@app/core/store/ui';
 import { InventoryService } from '../inventory.service';
+import * as fromActions from './actions';
 import { fetchItemsHelper } from './helpers';
+import { selectInventoryExists } from './selectors';
 
 @Injectable()
-export class ListEffects {
+export class InventoryEffects {
 
   private store = inject(Store);
   private actions = inject(Actions);
   private inventoryService = inject(InventoryService);
+  private ui = createUiController(this.actions);
 
   fetchItems$ = createEffect(() => this.actions.pipe(
     ofType(fromActions.fetchInventoryItemsActions.fetchItems),
@@ -28,31 +29,21 @@ export class ListEffects {
     switchMap(() => fetchItemsHelper(this.inventoryService)),
   ));
 
-  // TODO: Generalize?
-  startLoader$ = createEffect(() => this.actions.pipe(
-    ofType(
-      fromActions.fetchInventoryItemsActions.fetchItems,
-      fromActions.fetchInventoryItemsActions.forceFetchItems,
-    ),
-    switchMap(() => of(loaderActions.start())),
-  ));
+  startLoader$ = this.ui.startLoaderOn(
+    fromActions.fetchInventoryItemsActions.fetchItems,
+    fromActions.fetchInventoryItemsActions.forceFetchItems,
+  );
 
-  // // TODO: Generalize?
-  // stopLoader$ = createEffect(() => this.actions.pipe(
-  //   ofType(
-  //     fromActions.fetchInventoryItemsActions.fetchItemsSuccess,
-  //     fromActions.fetchInventoryItemsActions.fetchItemsError,
-  //   ),
-  //   switchMap(() => of(loaderActions.stop())),
-  // ));
+  stopLoader$ = this.ui.stopLoaderOn(
+    fromActions.fetchInventoryItemsActions.fetchItemsSuccess,
+    fromActions.fetchInventoryItemsActions.fetchItemsError,
+  );
 
-  // // TODO: Generalize?
-  // showError$ = createEffect(() => this.actions.pipe(
-  //   ofType(fromActions.fetchInventoryItemsActions.fetchItemsError),
-  //   switchMap(action => of(notificationsActions.addError({ message: action.error }))),
-  // ));
+  showError$ = this.ui.showErrorOn(
+    fromActions.fetchInventoryItemsActions.fetchItemsError,
+  );
 }
 
-export const LIST_FEATURE_EFFECTS = [
-  ListEffects,
+export const INVENTORY_FEATURE_EFFECTS = [
+  InventoryEffects,
 ];

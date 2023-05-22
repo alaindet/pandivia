@@ -13,14 +13,12 @@ const routes: Routes = [
   },
   {
     path: 'inventory',
-    loadComponent: () => import('@app/features/inventory'),
+    loadChildren: () => import('@app/features/inventory'),
   },
-
-  // This is an example section
-  // {
-  //   path: 'counter',
-  //   loadChildren: () => import('@app/features/__counter__'),
-  // },
+  {
+    path: 'user',
+    loadChildren: () => import('@app/features/user'),
+  },
 ];
 
 if (!environment.production) {

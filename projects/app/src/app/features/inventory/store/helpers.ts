@@ -1,9 +1,7 @@
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 import { InventoryService } from '../inventory.service';
 import * as fromActions from './actions';
-import { createEffect, ofType } from '@ngrx/effects';
-import { loaderActions } from '@app/core';
 
 export function fetchItemsHelper(inventoryService: InventoryService) {
 
@@ -17,12 +15,4 @@ export function fetchItemsHelper(inventoryService: InventoryService) {
       return of(onError({ error }));
     })
   )
-}
-
-// TODO
-export function startLoaderOn(actions$: any, targetActions: any[]) {
-  return createEffect(() => actions$.pipe(
-    ofType(...targetActions),
-    switchMap(() => of(loaderActions.start())),
-  ));
 }

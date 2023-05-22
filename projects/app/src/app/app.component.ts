@@ -2,8 +2,9 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-
 import { filter, map } from 'rxjs';
+
+import * as fromNavigation from '@app/core/constants/navigation';
 import { BottomNavigationComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
 import { notificationsActions, selectNavigation, selectNotification, selectUiIsLoading } from './core/store';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
@@ -25,9 +26,7 @@ const IMPORTS = [
   imports: IMPORTS,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  host: {
-    class: 'container',
-  },
+  host: { class: 'container' },
 })
 export class AppComponent {
 
@@ -47,6 +46,16 @@ export class AppComponent {
   }
 
   onBottomNavigationChange(navigateTo: string) {
-    console.log('onBottomNavigationChange', navigateTo);
+    switch (navigateTo) {
+      case fromNavigation.NAVIGATION_ITEM_INVENTORY.id:
+        this.router.navigate(['/inventory']);
+        break;
+      case fromNavigation.NAVIGATION_ITEM_LIST.id:
+        this.router.navigate(['/list']);
+        break;
+      case fromNavigation.NAVIGATION_ITEM_USER.id:
+        this.router.navigate(['/user/profile']);
+        break;
+    }
   }
 }

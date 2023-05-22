@@ -10,5 +10,5 @@ export const INVENTORY_FEATURE_NAME = 'inventory';
 
 export const INVENTORY_FEATURE_INITIAL_STATE: InventoryFeatureState = {
   items: [],
-  status: LOADING_STATUS.IDLE,
+  status: LOADING_STATUS.PRISTINE,
 };

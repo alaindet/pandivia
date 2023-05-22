@@ -10,5 +10,5 @@ export const LIST_FEATURE_NAME = 'list';
 
 export const LIST_FEATURE_INITIAL_STATE: ListFeatureState = {
   items: [],
-  status: LOADING_STATUS.IDLE,
+  status: LOADING_STATUS.PRISTINE,
 };
