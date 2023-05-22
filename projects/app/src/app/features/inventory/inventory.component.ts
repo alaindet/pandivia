@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent, ShoppingListComponent, ShoppingListItemComponent } from '@app/common/components';
 import { ITEM_CONTEXTUAL_MENU, LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './contextual-menu';
-import { fetchItemsActions, selectGroupedListItems } from './store';
+import { fetchInventoryItemsActions, selectInventoryCategorizedItems } from './store';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { NAVIGATION_ITEM_INVENTORY, NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
+import { NAVIGATION_ITEM_INVENTORY } from '@app/core/constants/navigation';
 
 const IMPORTS = [
   CommonModule,
@@ -32,20 +32,20 @@ export class InventoryFeatureComponent implements OnInit {
 
   private store = inject(Store);
 
-  items$ = this.store.select(selectGroupedListItems);
+  items$ = this.store.select(selectInventoryCategorizedItems);
   listContextualMenu = LIST_CONTEXTUAL_MENU;
   itemContextualMenu = ITEM_CONTEXTUAL_MENU;
 
   ngOnInit() {
     this.store.dispatch(setCurrentTitle({ title: 'Inventory - Pandivia' }));
     this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_INVENTORY.id }));
-    this.store.dispatch(fetchItemsActions.fetchItems());
+    this.store.dispatch(fetchInventoryItemsActions.fetchItems());
   }
 
   onListContextualAction(action: string) {
     switch (action) {
       case LIST_REFRESH_ACTION.id:
-        this.store.dispatch(fetchItemsActions.forceFetchItems());
+        this.store.dispatch(fetchInventoryItemsActions.forceFetchItems());
         break;
     }
   }
