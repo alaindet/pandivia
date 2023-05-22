@@ -8,19 +8,19 @@ import { LOADING_STATUS } from '@app/common/types';
 export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
   immerOn(
-    fromActions.fetchItemsActions.fetchItems,
-    fromActions.fetchItemsActions.forceFetchItems,
+    fromActions.fetchListItemsActions.fetchItems,
+    fromActions.fetchListItemsActions.forceFetchItems,
     state => {
       state.status = LOADING_STATUS.LOADING;
     },
   ),
 
-  immerOn(fromActions.fetchItemsActions.fetchItemsSuccess, (state, { items }) => {
+  immerOn(fromActions.fetchListItemsActions.fetchItemsSuccess, (state, { items }) => {
     state.status = LOADING_STATUS.IDLE;
     state.items = items;
   }),
 
-  immerOn(fromActions.fetchItemsActions.fetchItemsError, state => {
+  immerOn(fromActions.fetchListItemsActions.fetchItemsError, state => {
     state.status = LOADING_STATUS.ERROR;
   }),
 );

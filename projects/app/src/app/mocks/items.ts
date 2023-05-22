@@ -1,5 +1,5 @@
+import { ListItem } from '@app/core';
 import { getRandomHash } from '@app/common/utils';
-import { ListItem } from '@app/features/list';
 import { MOCK_CATEGORY_BAR, MOCK_CATEGORY_FOO } from './categories';
 
 export const MOCK_ITEMS: ListItem[] = [

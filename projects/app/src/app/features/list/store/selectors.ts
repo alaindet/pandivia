@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import { groupItemsByCategory } from '@app/core/functions';
 import { LOADING_STATUS } from '@app/common/types';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
-import { groupItemsByCategory } from '../functions';
 
 const selectListFeature = createFeatureSelector<ListFeatureState>(
   LIST_FEATURE_NAME,
@@ -18,15 +18,16 @@ export const selectListExists = createSelector(
   state => state.status === LOADING_STATUS.IDLE,
 );
 
-export const selectGroupedListItems = createSelector(
+export const selectListCategorizedItems = createSelector(
   selectListFeature,
   state => groupItemsByCategory(state.items),
 );
 
-export const selectGroupedToDoListItems = createSelector(
+export const selectListItemsByCategory = (category?: string) => createSelector(
   selectListFeature,
   state => {
-    const todoItems = state.items.filter(item => !item.isDone);
-    return groupItemsByCategory(todoItems);
+    const cat = category ?? 'no-category';
+    const items = state.items.filter(it => it.category === cat);
+    return groupItemsByCategory(items);
   },
 );

@@ -7,7 +7,7 @@ import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_ITEMS, fakeRequest 
 @Injectable({
   providedIn: 'root',
 })
-export class ListService {
+export class InventoryService {
 
   private config: FakeRequestConfig = {
     failRate: MOCK_FAIL_RATE,

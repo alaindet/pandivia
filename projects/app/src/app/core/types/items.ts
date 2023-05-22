@@ -1,10 +1,13 @@
-export type ListItem = {
+export type InventoryItem = {
   id: string;
   name: string;
   amount: number;
-  isDone: boolean;
   description?: string;
   category?: string;
+};
+
+export type ListItem = InventoryItem & {
+  isDone: boolean;
 };
 
 export type CategorizedListItems = {

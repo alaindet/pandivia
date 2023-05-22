@@ -1,5 +1,5 @@
+import { ListItem } from '@app/core';
 import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
-import { ListItem } from '../types';
 
 export type ListFeatureState = {
   items: ListItem[];

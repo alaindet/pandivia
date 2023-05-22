@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ListItem } from '@app/features/list';
+import { ListItem } from '@app/core';
 import { ButtonComponent } from '../../button';
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem, ActionsMenuItemDirective } from '../../menu/actions-menu';
 
