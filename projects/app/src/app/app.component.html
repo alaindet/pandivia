@@ -2,7 +2,7 @@
   <router-outlet></router-outlet>
 </main>
 
-<!-- TODO: Move demo to another project -->
+<!-- TODO: Move demo to another project! -->
 <footer *ngIf="isNotDemo$ | async">
   <app-bottom-navigation
     *ngIf="navigation$ | async as navigation"
@@ -20,6 +20,6 @@
 ></app-notifications-host>
 
 <app-linear-spinner
-  *ngIf="loading$ | async"
+  *ngIf="loading"
   [fixed]="true"
 ></app-linear-spinner>

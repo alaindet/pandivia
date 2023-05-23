@@ -15,6 +15,10 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     },
   ),
 
+  immerOn(fromActions.fetchListItemsActions.fetchItemsCached, state => {
+    state.status = LOADING_STATUS.IDLE;
+  }),
+
   immerOn(fromActions.fetchListItemsActions.fetchItemsSuccess, (state, { items }) => {
     state.status = LOADING_STATUS.IDLE;
     state.items = items;

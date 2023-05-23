@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { groupItemsByCategory } from '@app/core/functions';
-import { LOADING_STATUS } from '@app/common/types';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
 
 const selectListFeature = createFeatureSelector<ListFeatureState>(
@@ -13,9 +12,9 @@ export const selectListStatus = createSelector(
   state => state.status,
 );
 
-export const selectListExists = createSelector(
+export const selectListShouldFetch = createSelector(
   selectListFeature,
-  state => state.status === LOADING_STATUS.IDLE,
+  state => !state.items.length,
 );
 
 export const selectListCategorizedItems = createSelector(

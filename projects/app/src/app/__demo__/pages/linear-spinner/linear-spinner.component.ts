@@ -1,8 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { ButtonComponent } from '@app/common/components';
 
-import { LinearSpinnerComponent } from '@app/common/components/linear-spinner/linear-spinner.component';
+import { ButtonComponent, LinearSpinnerComponent } from '@app/common/components';
 
 const IMPORTS = [
   NgIf,

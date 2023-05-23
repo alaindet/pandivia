@@ -22,10 +22,6 @@ export const uiReducer = createReducer(
     state.notifications.pop();
   }),
 
-  immerOn(fromActions.notificationsActions.dismiss, state => {
-    state.notifications.pop();
-  }),
-
   immerOn(fromActions.loaderActions.start, state => {
     state.loading = true;
   }),

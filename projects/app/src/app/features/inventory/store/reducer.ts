@@ -15,6 +15,10 @@ export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
     },
   ),
 
+  immerOn(fromActions.fetchInventoryItemsActions.fetchItemsCached, state => {
+    state.status = LOADING_STATUS.IDLE;
+  }),
+
   immerOn(fromActions.fetchInventoryItemsActions.fetchItemsSuccess, (state, { items }) => {
     state.status = LOADING_STATUS.IDLE;
     state.items = items;

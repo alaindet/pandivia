@@ -1,13 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { filter, switchMap, withLatestFrom } from 'rxjs';
+import { of, switchMap, withLatestFrom } from 'rxjs';
 
 import { createUiController } from '@app/core/store/ui';
 import { ListService } from '../list.service';
 import * as fromActions from './actions';
 import { fetchItemsHelper } from './helpers';
-import { selectListExists } from './selectors';
+import { selectListShouldFetch } from './selectors';
 
 @Injectable()
 export class ListEffects {
@@ -19,9 +19,11 @@ export class ListEffects {
 
   fetchItems$ = createEffect(() => this.actions.pipe(
     ofType(fromActions.fetchListItemsActions.fetchItems),
-    withLatestFrom(this.store.select(selectListExists)),
-    filter(([_, exists]) => !exists),
-    switchMap(() => fetchItemsHelper(this.listService)),
+    withLatestFrom(this.store.select(selectListShouldFetch)),
+    switchMap(([_, shouldFetch]) => shouldFetch
+      ? fetchItemsHelper(this.listService)
+      : of(fromActions.fetchListItemsActions.fetchItemsCached())
+    ),
   ));
 
   forceFetchItems$ = createEffect(() => this.actions.pipe(
@@ -37,6 +39,7 @@ export class ListEffects {
   stopLoader$ = this.ui.stopLoaderOn(
     fromActions.fetchListItemsActions.fetchItemsSuccess,
     fromActions.fetchListItemsActions.fetchItemsError,
+    fromActions.fetchListItemsActions.fetchItemsCached,
   );
 
   showError$ = this.ui.showErrorOn(

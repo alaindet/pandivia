@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { groupItemsByCategory } from '@app/core/functions';
-import { LOADING_STATUS } from '@app/common/types';
 import { INVENTORY_FEATURE_NAME, InventoryFeatureState } from './state';
 
 const selectInventoryFeature = createFeatureSelector<InventoryFeatureState>(
@@ -13,9 +12,9 @@ export const selectInventoryStatus = createSelector(
   state => state.status,
 );
 
-export const selectInventoryExists = createSelector(
+export const selectInventoryShouldFetch = createSelector(
   selectInventoryFeature,
-  state => state.status === LOADING_STATUS.IDLE,
+  state => !state.items.length,
 );
 
 export const selectInventoryCategorizedItems = createSelector(

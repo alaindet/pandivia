@@ -23,3 +23,9 @@ export const NAVIGATION_ITEMS: BottomNavigationItem[] = [
   NAVIGATION_ITEM_LIST,
   NAVIGATION_ITEM_USER,
 ];
+
+export const NAVIGATION_ROUTES = {
+  [NAVIGATION_ITEM_INVENTORY.id]: '/inventory',
+  [NAVIGATION_ITEM_LIST.id]: '/list',
+  [NAVIGATION_ITEM_USER.id]: '/user/profile',
+};

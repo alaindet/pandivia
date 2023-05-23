@@ -21,7 +21,7 @@ export class BottomNavigationDemoPageComponent {
   navigationItems: any[] = [
     { id: 'lists', icon: 'list', label: 'Lists', },
     { id: 'current', icon: 'star', label: 'Items', },
-    { id: 'user', icon: 'user', label: 'User', },
+    { id: 'user', icon: 'person', label: 'User', },
   ];
 
   currentNavigationItem: string | null = null;

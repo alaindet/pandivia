@@ -118,6 +118,6 @@ export class ModalService implements OnDestroy {
     this._open$.next(false);
     this.headerTemplate = null;
     this.footerTemplate = null;
-    setTimeout(() => this.focusedBeforeModal?.focus());
+    queueMicrotask(() => this.focusedBeforeModal?.focus());
   }
 }

@@ -13,6 +13,7 @@ import { FormFieldDemoPageComponent } from './pages/form-field/form-field.compon
 import { LinearSpinnerDemoPageComponent } from './pages/linear-spinner/linear-spinner.component';
 import { MenuDemoPageComponent } from './pages/actions-menu/actions-menu.component';
 import { ModalDemoPageComponent } from './pages/modal/modal.component';
+import { NotificationDemoPageComponent } from './pages/notification/notification.component';
 import { PageHeaderDemoPageComponent } from './pages/page-header/page-header.component';
 import { QuickNumberDemoPageComponent } from './pages/quick-number/quick-number.component';
 import { SelectDemoPageComponent } from './pages/select/select.component';
@@ -28,6 +29,7 @@ export const DEMO_PAGES: DemoRoute[] = [
   demoRoute('linear-spinner', 'Linear Spinner', LinearSpinnerDemoPageComponent),
   demoRoute('menu', 'Menu', MenuDemoPageComponent),
   demoRoute('modal', 'Modal', ModalDemoPageComponent),
+  demoRoute('notification', 'Notification', NotificationDemoPageComponent),
   demoRoute('page-header', 'Page Header', PageHeaderDemoPageComponent),
   demoRoute('quick-number', 'Quick Number', QuickNumberDemoPageComponent),
   demoRoute('select', 'Select', SelectDemoPageComponent),

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, ViewEncapsulation, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewEncapsulation, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NOTIFICATION_TYPE, NotificationType } from '@app/common/types';
@@ -26,7 +26,11 @@ const IMPORTS = [
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificationComponent implements OnChanges{
+export class NotificationComponent implements OnChanges {
+
+  private cdr = inject(ChangeDetectorRef);
+  private host = inject(ElementRef);
+  private renderer = inject(Renderer2);
 
   @Input() notificationId!: number;
   @Input() notificationType!: NotificationType;
@@ -35,10 +39,6 @@ export class NotificationComponent implements OnChanges{
 
   @Output() dismissed = new EventEmitter<void>();
 
-  @HostBinding('class') cssClasses!: string;
-  @HostBinding('class.-stopped') cssStopped = true;
-  @HostBinding('class.-animating') cssAnimating = false;
-
   @HostBinding('style.--app-notification-transition-duration')
   cssDuration = `${NOTIFICATION_TIMEOUT}ms`;
 
@@ -46,30 +46,32 @@ export class NotificationComponent implements OnChanges{
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if (didInputChange(changes['notificationId'])) {
-      this.stopAnimation();
-    }
-
-    if (didInputChange(changes['notificationType'])) {
-      this.cssClasses = `-type-${this.notificationType}`;
-      this.notificationIcon = NOTIFICATION_ICON[this.notificationType];
-    }
+    const el = this.host.nativeElement;
 
     if (didInputChange(changes['dismissAfter'])) {
       this.cssDuration = `${this.dismissAfter}ms`;
     }
 
-    // TODO: This is seriously bad
-    setTimeout(() => this.startAnimation(), 20);
-  }
+    if (didInputChange(changes['notificationType'])) {
+      this.notificationIcon = NOTIFICATION_ICON[this.notificationType];
 
-  private startAnimation(): void {
-    this.cssStopped = false;
-    this.cssAnimating = true;
-  }
+      if (!changes['notificationType'].isFirstChange()) {
+        const cssPrev = `-type-${changes['notificationType'].previousValue}`;
+        this.renderer.removeClass(el, cssPrev);
+      }
 
-  private stopAnimation(): void {
-    this.cssStopped = true;
-    this.cssAnimating = false;
+      this.renderer.addClass(el, `-type-${this.notificationType}`);
+    }
+
+    if (didInputChange(changes['notificationId'])) {
+      this.renderer.removeClass(el, '-animating');
+      this.renderer.addClass(el, '-stopped');
+    }
+
+    setTimeout(() => {
+      this.renderer.removeClass(el, '-stopped');
+      this.renderer.addClass(el, '-animating');
+      this.cdr.detectChanges();
+    }, 20);
   }
 }
