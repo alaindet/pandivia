@@ -1,5 +1,8 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { NgFor } from '@angular/common';
+
+import { didInputChange } from '@app/common/utils';
+import { ShoppingListService } from '../shopping-list.service';
 
 const IMPORTS = [
   NgFor,
@@ -14,7 +17,19 @@ const IMPORTS = [
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-shopping-list' },
+  providers: [ShoppingListService],
 })
-export class ShoppingListComponent {
-  
+export class ShoppingListComponent implements OnChanges {
+
+  private svc = inject(ShoppingListService);
+
+  @Input() isSelectable = false;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (didInputChange(changes['isSelectable'])) {
+      this.isSelectable
+        ? this.svc.enableSelectability()
+        : this.svc.disableSelectability();
+    }
+  }
 }

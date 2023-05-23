@@ -36,6 +36,8 @@ export class ListPageComponent implements OnInit {
   listContextualMenu = LIST_CONTEXTUAL_MENU;
   itemContextualMenu = ITEM_CONTEXTUAL_MENU;
 
+  selectableList = false;
+
   ngOnInit() {
     this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' }));
     this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_LIST.id }));

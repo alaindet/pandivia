@@ -1,10 +1,12 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, ViewEncapsulation, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ListItem } from '@app/core';
 import { ButtonComponent } from '../../button';
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem, ActionsMenuItemDirective } from '../../menu/actions-menu';
+import { ShoppingListService } from '../shopping-list.service';
+import { CheckboxComponent } from '../../checkbox';
 
 const IMPORTS = [
   NgIf,
@@ -13,6 +15,7 @@ const IMPORTS = [
   ActionsMenuItemDirective,
   MatIconModule,
   ButtonComponent,
+  CheckboxComponent,
 ];
 
 @Component({
@@ -27,6 +30,9 @@ const IMPORTS = [
 })
 export class ShoppingListItemComponent implements OnChanges {
 
+  private svc = inject(ShoppingListService);
+  isSelectable = this.svc.isSelectable;
+
   @Input({ required: true }) item!: ListItem;
   @Input({ required: true }) actions!: ActionsMenuItem[];
 
@@ -40,6 +46,10 @@ export class ShoppingListItemComponent implements OnChanges {
 
   onDone() {
     this.doneChanged.emit(!this.item.isDone);
+  }
+
+  onSelected(isSelected: boolean) {
+    this.svc.selectItem(this.item.id, isSelected);
   }
 
   onContextualMenuAction(action: string) {

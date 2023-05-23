@@ -1,10 +1,14 @@
 <div class="_info" (click)="onDone()">
 
   <div class="_first-row">
+    <div *ngIf="isSelectable()" class="_selection">
+      <app-checkbox [id]="item.id" (changed)="onSelected($event)"></app-checkbox>
+    </div>
+
     <div class="_amount">
       {{ item.amount }}x
     </div>
-    
+
     <div class="_name">
       {{ item.name }}
     </div>
