@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
 
 import { EventSource, OnceSource } from '@app/common/sources';
+import { effectOnChange } from '@app/common/utils';
 
 @Injectable()
 export class ShoppingListService implements OnDestroy {
@@ -9,7 +10,10 @@ export class ShoppingListService implements OnDestroy {
   selectionChange = new EventSource<any>(this.once.event$);
 
   isSelectable = signal(false);
-  // createSignalEvent
+  selectionMap = signal<{ [key: string]: boolean }>({});
+  selectionChanged = effectOnChange(this.selectionMap, selectionMap => {
+    this.selectionChange.next(this.selectionMapToList(selectionMap));
+  });
 
   ngOnDestroy() {
     this.once.trigger();
@@ -24,6 +28,26 @@ export class ShoppingListService implements OnDestroy {
   }
 
   selectItem(itemId: string, isSelected: boolean) {
-    console.log(itemId, isSelected); // TODO: Remove
+
+    console.log('itemId', itemId, 'isSelected', isSelected); // TODO: Remove
+
+    this.selectionMap.update(selectionMap => {
+      const newMap = { ...selectionMap, [itemId]: isSelected };
+
+      console.log('selectionMap', selectionMap); // TODO: Remove
+      return { ...selectionMap, [itemId]: isSelected };
+    });
+  }
+
+  private selectionMapToList(selection: { [key: string]: boolean }): string[] {
+    const result: string[] = [];
+
+    for (const itemId of Object.keys(selection)) {
+      if (selection[itemId]) {
+        result.push(itemId);
+      }
+    }
+
+    return result;
   }
 }

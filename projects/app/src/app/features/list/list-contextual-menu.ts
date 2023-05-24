@@ -6,16 +6,14 @@ export const LIST_REFRESH_ACTION: ActionsMenuItem = {
   icon: 'refresh',
 };
 
-export const LIST_CONTEXTUAL_MENU: ActionsMenuItem[] = [
-  LIST_REFRESH_ACTION,
-];
-
-export const ITEM_DELETE_ACTION: ActionsMenuItem = {
-  id: 'delete',
-  label: 'Delete', // TODO: Translate
-  icon: 'delete',
+// TODO: Dynamic?
+export const LIST_SELECT_ITEMS_ACTION: ActionsMenuItem = {
+  id: 'select-items',
+  label: 'Select items', // TODO: Translate
+  icon: 'checklist',
 };
 
-export const ITEM_CONTEXTUAL_MENU: ActionsMenuItem[] = [
-  ITEM_DELETE_ACTION,
+export const LIST_CONTEXTUAL_MENU: ActionsMenuItem[] = [
+  LIST_REFRESH_ACTION,
+  LIST_SELECT_ITEMS_ACTION,
 ];

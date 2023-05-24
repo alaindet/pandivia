@@ -1,17 +1,22 @@
 import { Signal, effect } from '@angular/core';
 
-export function createSignalEvent<T = any>(
+export function effectOnChange<T = any>(
   signal: Signal<T>,
   callback: (data: T) => void,
 ): void {
   let firstChange = true;
 
   effect(() => {
-    signal() // <-- Create dependency
+
+    // Create dependency on signal
+    signal();
+
+    // Skip first automatic trigger with default value
     if (firstChange) {
       firstChange = false;
       return;
     }
+
     callback(signal());
   });
 }

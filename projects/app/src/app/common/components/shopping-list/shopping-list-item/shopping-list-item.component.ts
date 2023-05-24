@@ -32,6 +32,7 @@ export class ShoppingListItemComponent implements OnChanges {
 
   private svc = inject(ShoppingListService);
   isSelectable = this.svc.isSelectable;
+  selectionMap = this.svc.selectionMap;
 
   @Input({ required: true }) item!: ListItem;
   @Input({ required: true }) actions!: ActionsMenuItem[];
@@ -48,8 +49,8 @@ export class ShoppingListItemComponent implements OnChanges {
     this.doneChanged.emit(!this.item.isDone);
   }
 
-  onSelected(isSelected: boolean) {
-    this.svc.selectItem(this.item.id, isSelected);
+  onSelected(isSelected: boolean | null) {
+    this.svc.selectItem(this.item.id, !!isSelected);
   }
 
   onContextualMenuAction(action: string) {

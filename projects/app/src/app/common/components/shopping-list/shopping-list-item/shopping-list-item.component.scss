@@ -7,6 +7,11 @@
   border-radius: 0.33rem;
   background-color: $app-color-white;
 
+  ._selection {
+    padding: 1rem;
+    padding-right: 0;
+  }
+
   ._info {
     display: flex;
     flex-direction: column;
