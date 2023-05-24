@@ -12,7 +12,7 @@ const IMPORTS = [
   selector: 'app-shopping-list',
   standalone: true,
   imports: IMPORTS,
-  templateUrl: './shopping-list.component.html',
+  template: '<ng-content></ng-content>',
   styleUrls: ['./shopping-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

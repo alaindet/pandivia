@@ -1,19 +1,19 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
 
-import { EventSource, OnceSource } from '@app/common/sources';
-import { effectOnChange } from '@app/common/utils';
+import { DataSource, EventSource, OnceSource } from '@app/common/sources';
 
 @Injectable()
 export class ShoppingListService implements OnDestroy {
 
   private once = new OnceSource();
-  selectionChange = new EventSource<any>(this.once.event$);
 
   isSelectable = signal(false);
-  selectionMap = signal<{ [key: string]: boolean }>({});
-  selectionChanged = effectOnChange(this.selectionMap, selectionMap => {
-    this.selectionChange.next(this.selectionMapToList(selectionMap));
-  });
+
+  private _selectionMap$ = new DataSource<{ [key: string]: boolean }>({}, this.once.event$);
+  selectionMap$ = this._selectionMap$.data$;
+
+  private _selectionChanged$ = new EventSource<string[]>(this.once.event$);
+  selectionChanged$ = this._selectionChanged$.event$;
 
   ngOnDestroy() {
     this.once.trigger();
@@ -30,13 +30,12 @@ export class ShoppingListService implements OnDestroy {
   selectItem(itemId: string, isSelected: boolean) {
 
     console.log('itemId', itemId, 'isSelected', isSelected); // TODO: Remove
-
-    this.selectionMap.update(selectionMap => {
-      const newMap = { ...selectionMap, [itemId]: isSelected };
-
-      console.log('selectionMap', selectionMap); // TODO: Remove
-      return { ...selectionMap, [itemId]: isSelected };
-    });
+    const selectionMap = this._selectionMap$.getCurrent();
+    console.log('selectionMap before', selectionMap); // TODO: Remove
+    const newMap = { ...selectionMap, [itemId]: isSelected };
+    console.log('selectionMap after', newMap); // TODO: Remove
+    this._selectionMap$.next(newMap);
+    this._selectionChanged$.next(this.selectionMapToList(selectionMap));
   }
 
   private selectionMapToList(selection: { [key: string]: boolean }): string[] {

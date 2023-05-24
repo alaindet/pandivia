@@ -1,7 +1,8 @@
 <div *ngIf="isSelectable()" class="_selection">
   <app-checkbox
     [id]="item.id"
-    [checked]="!!selectionMap()[item.id]"
+    [checked]="isSelected"
+    color="black"
     (changed)="onSelected($event)"
   ></app-checkbox>
 </div>

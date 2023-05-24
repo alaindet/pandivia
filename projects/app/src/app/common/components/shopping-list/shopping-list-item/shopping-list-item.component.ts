@@ -1,5 +1,5 @@
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, Output, ViewEncapsulation, inject } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ListItem } from '@app/core';
@@ -10,6 +10,7 @@ import { CheckboxComponent } from '../../checkbox';
 
 const IMPORTS = [
   NgIf,
+  AsyncPipe,
   ActionsMenuComponent,
   ActionsMenuButtonDirective,
   ActionsMenuItemDirective,
@@ -28,11 +29,12 @@ const IMPORTS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-shopping-list-item' },
 })
-export class ShoppingListItemComponent implements OnChanges {
+export class ShoppingListItemComponent implements OnInit, OnChanges {
 
   private svc = inject(ShoppingListService);
   isSelectable = this.svc.isSelectable;
-  selectionMap = this.svc.selectionMap;
+  selectionMap$ = this.svc.selectionMap$;
+  isSelected = false;
 
   @Input({ required: true }) item!: ListItem;
   @Input({ required: true }) actions!: ActionsMenuItem[];
@@ -40,6 +42,12 @@ export class ShoppingListItemComponent implements OnChanges {
   @Output() doneChanged = new EventEmitter<boolean>();
 
   @HostBinding('class.-done') cssDone = false;
+
+  ngOnInit() {
+    this.svc.selectionMap$.subscribe(selectionMap => {
+      this.isSelected = !!selectionMap[this.item.id];
+    });
+  }
 
   ngOnChanges() {
     this.cssDone = this.item.isDone;

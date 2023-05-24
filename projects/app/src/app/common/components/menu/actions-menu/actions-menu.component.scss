@@ -6,7 +6,6 @@
 
   position: relative;
   display: block;
-  width: fit-content;
 
   &-button {
     // ...
@@ -25,6 +24,7 @@
     padding: 0;
     margin: 0;
     display: none;
+    width: max-content;
 
     &::after {
       content: '';
@@ -57,7 +57,7 @@
 
       &::after {
         right: auto;
-        left: $caret-height; 
+        left: $caret-height;
       }
     }
   }
@@ -68,6 +68,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    width: 100%;
 
     mat-icon {
       font-size: 1.5rem;
