@@ -7,6 +7,7 @@ import { IndexDemoPageComponent } from './pages/_index/index.component';
 // Pages
 import { BottomNavigationDemoPageComponent } from './pages/bottom-navigation/bottom-navigation.component';
 import { ButtonDemoPageComponent } from './pages/button/button.component';
+import { CardListDemoPageComponent } from './pages/card-list/card-list.component';
 import { CheckboxDemoPageComponent } from './pages/checkbox/checkbox.component';
 import { ColorSwatchesDemoPageComponent } from './pages/color-swatches/color-swatches.component';
 import { FormFieldDemoPageComponent } from './pages/form-field/form-field.component';
@@ -23,6 +24,7 @@ import { TextInputDemoPageComponent } from './pages/text-input/text-input.compon
 export const DEMO_PAGES: DemoRoute[] = [
   demoRoute('bottom-navigation', 'Bottom Navigation', BottomNavigationDemoPageComponent),
   demoRoute('button', 'Button', ButtonDemoPageComponent),
+  demoRoute('card-list', 'Card List', CardListDemoPageComponent),
   demoRoute('checkbox', 'Checkbox', CheckboxDemoPageComponent),
   demoRoute('color-swatches', 'Color Swatches', ColorSwatchesDemoPageComponent),
   demoRoute('form-field', 'Form Field', FormFieldDemoPageComponent),

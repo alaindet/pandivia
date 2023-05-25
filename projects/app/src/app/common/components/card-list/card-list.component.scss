@@ -1,0 +1,63 @@
+@import 'scoped';
+
+.app-card-list {
+  display: block;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+
+  > ._header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.33rem;
+    margin-bottom: 0.33rem;
+    border-bottom: 1px solid #ccc;
+  }
+
+  ._title h2 {
+    display: inline-block;
+  }
+
+  ._pin {
+    margin-left: 0.5rem;
+  }
+
+  > ._header ._left {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  > ._header ._right {
+    display: flex;
+    align-items: center;
+  } 
+
+  > ._items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ._item {
+    padding: 0.33rem;
+  }
+
+  ._item-header {
+    display: flex;
+    align-items: center;
+  }
+
+  ._item-header ._left {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  ._item-header ._right {
+    display: flex;
+    align-items: center;
+  }
+}

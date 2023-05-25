@@ -36,12 +36,6 @@
 <ul *ngIf="items$ | async as itemGroups" class="_items">
   <li *ngFor="let group of itemGroups">
     <h2>{{ group.category }}</h2>
-    <app-shopping-list>
-      <app-shopping-list-item
-        *ngFor="let item of group.items"
-        [item]="item"
-        [actions]="itemContextualMenu"
-      />
-    </app-shopping-list>
+    group.items
   </li>
 </ul>

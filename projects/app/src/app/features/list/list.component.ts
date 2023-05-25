@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent, ShoppingListComponent, ShoppingListItemComponent } from '@app/common/components';
+import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 import { LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION, LIST_SELECT_ITEMS_ACTION } from './list-contextual-menu';
 import { ITEM_CONTEXTUAL_MENU } from './item-contextual-menu';
 import { fetchListItemsActions, selectListCategorizedItems } from './store';
@@ -18,8 +18,8 @@ const IMPORTS = [
   ActionsMenuItemDirective,
   MatIconModule,
   ButtonComponent,
-  ShoppingListComponent,
-  ShoppingListItemComponent,
+  // ShoppingListComponent,
+  // ShoppingListItemComponent,
 ];
 
 @Component({

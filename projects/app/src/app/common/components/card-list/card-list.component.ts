@@ -1,15 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor } from '@angular/common';
 
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem, ActionsMenuItemDirective } from '../menu/actions-menu';
+import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
-
-export type Item = { id: string } & Record<string, any>;
-
-export type ItemActionsFn = (item: Item) => ActionsMenuItem[];
-export type ItemActionOutput = { itemId: string, action: string };
+import { ItemActionOutput, ItemActionsFn } from './types';
 
 const IMPORTS = [
   NgFor,
@@ -17,7 +13,6 @@ const IMPORTS = [
   CheckboxComponent,
   ButtonComponent,
   ActionsMenuComponent,
-  ActionsMenuItemDirective,
   ActionsMenuButtonDirective,
 ];
 
@@ -26,17 +21,21 @@ const IMPORTS = [
   standalone: true,
   imports: IMPORTS,
   templateUrl: './card-list.component.html',
+  styleUrls: ['./card-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-card-list' },
 })
 export class CardListComponent {
 
-  @Input() items!: any[];
-  @Input() itemActionsFn!: ItemActionsFn;
-  @Input() listActions!: ActionsMenuItem[];
+  @Input({ required: true }) title!: string;
+  @Input({ required: true }) items!: any[];
+  @Input({ required: true }) itemActionsFn!: ItemActionsFn;
+  @Input({ required: true }) listActions!: ActionsMenuItem[];
+  @Input() isPinned = false;
 
   @Output() listActionClicked = new EventEmitter<string>();
   @Output() itemActionClicked = new EventEmitter<ItemActionOutput>();
-
-  listTitle = 'TODO: Title';
+  @Output() pinned = new EventEmitter<boolean>();
 
   onListAction(action: string) {
     this.listActionClicked.emit(action);
@@ -44,5 +43,10 @@ export class CardListComponent {
 
   onItemAction(itemId: string, action: string) {
     this.itemActionClicked.emit({ itemId, action });
+  }
+
+  onTogglePin() {
+    this.isPinned = !this.isPinned;
+    this.pinned.emit(this.isPinned);
   }
 }
