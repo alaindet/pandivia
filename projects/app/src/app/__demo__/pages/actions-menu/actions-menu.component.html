@@ -1,38 +1,24 @@
 <app-actions-menu
   style="margin-left: 5rem;"
-  [id]="'my-demo-menu'"
+  id="my-demo-menu-left"
   [actions]="actions"
   position="left"
   (actionConfirmed)="consoleLog($event)"
 >
-  <ng-container *appActionsMenuButton>
-    <button appButton size="small" type="button">
-      Left
-    </button>
-  </ng-container>
-
-  <ng-container *appActionsMenuItem="let action">
-    <mat-icon>{{ action.icon }}</mat-icon>
-    {{ action.label }}
-  </ng-container>
+  <button *appActionsMenuButton appButton size="small" type="button">
+    Left
+  </button>
 </app-actions-menu>
 
 <hr>
 
 <app-actions-menu
-  [id]="'my-demo-menu'"
+  id="my-demo-menu-right"
   [actions]="actions"
   position="right"
   (actionConfirmed)="consoleLog($event)"
 >
-  <ng-container *appActionsMenuButton>
-    <button appButton size="small" type="button">
-      Right
-    </button>
-  </ng-container>
-
-  <ng-container *appActionsMenuItem="let action">
-    <mat-icon>{{ action.icon }}</mat-icon>
-    {{ action.label }}
-  </ng-container>
+  <button *appActionsMenuButton appButton size="small" type="button">
+    Right
+  </button>
 </app-actions-menu>

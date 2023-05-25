@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 import { ActionsMenuItem, ActionsMenuViewModel } from './types';
 import { ButtonComponent } from '../../button';
@@ -7,9 +7,15 @@ import { ActionsMenuService } from './services/actions-menu.service';
 import { ActionsMenuItemDirective } from './directives/actions-menu-item.directive';
 import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
 import { filterNull } from '@app/common/rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { doOnce } from '@app/common/utils';
 
 const IMPORTS = [
-  CommonModule,
+  NgIf,
+  NgFor,
+  NgTemplateOutlet,
+  ButtonComponent,
+  MatIconModule,
 ];
 
 @Component({
@@ -27,6 +33,7 @@ export class ActionsMenuComponent implements OnInit {
 
   private svc = inject(ActionsMenuService);
   private cdr = inject(ChangeDetectorRef);
+  private host = inject(ElementRef);
   vm: ActionsMenuViewModel | null = null;
 
   @Input() id!: string;
@@ -53,18 +60,22 @@ export class ActionsMenuComponent implements OnInit {
     this.svc.templates.setButton(dir.template);
   }
 
-  @ContentChild(ButtonComponent)
-  set buttonChild(menuButton: ButtonComponent) {
-    if (!menuButton) return;
-    this.svc.init.buttonElement(menuButton.getNativeElement());
-  }
-
   ngOnInit() {
-    // TODO: This is quite bad
+
+    const initializeButton = doOnce(() => {
+      setTimeout(() => {
+        const buttonQuery = '.app-actions-menu-button button';
+        const button = this.host.nativeElement.querySelector(buttonQuery);
+        this.svc.init.buttonElement(button);
+      }, 100);
+    });
+
     this.svc.vm.pipe(filterNull()).subscribe(vm => {
       this.vm = vm;
       this.cdr.markForCheck();
+      initializeButton();
     });
+
     this.svc.init.id(this.id);
     this.svc.init.actions(this.actions);
     this.svc.actions.confirmed$.subscribe(actionId => this.actionConfirmed.emit(actionId));

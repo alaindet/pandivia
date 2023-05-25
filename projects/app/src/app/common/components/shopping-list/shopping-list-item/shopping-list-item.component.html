@@ -34,22 +34,16 @@
     position="left"
     (actionConfirmed)="onContextualMenuAction($event)"
   >
-    <ng-container *appActionsMenuButton>
-      <button
-        type="button"
-        appButton="ghost"
-        size="small"
-        type="button"
-        isCircle
-        withIconOnly
-      >
-        <mat-icon>more_horiz</mat-icon>
-      </button>
-    </ng-container>
-
-    <ng-container *appActionsMenuItem="let action">
-      <mat-icon>{{ action.icon }}</mat-icon>
-      {{ action.label }}
-    </ng-container>
+    <button
+      *appActionsMenuButton
+      type="button"
+      appButton="ghost"
+      size="small"
+      type="button"
+      isCircle
+      withIconOnly
+    >
+      <mat-icon>more_horiz</mat-icon>
+    </button>
   </app-actions-menu>
 </div>

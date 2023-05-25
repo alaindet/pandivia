@@ -12,6 +12,11 @@ export function createButtonElementController(parent: ActionsMenuService) {
   let el: HTMLButtonElement | null = null;
 
   function init(inputEl: HTMLButtonElement) {
+
+    if (el !== null) {
+      return;
+    }
+
     el = inputEl;
     listenToReady(inputEl);
     listenToFocus(inputEl);

@@ -5,11 +5,11 @@
   $caret-height: 0.5rem * 1.73205080757;
 
   position: relative;
-  display: block;
+  display: inline-block;
 
-  &-button {
-    // ...
-  }
+  // &-button {
+  //   // ...
+  // }
 
   &-items {
     transform: translateY(1rem);
