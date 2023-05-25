@@ -1,0 +1,58 @@
+<app-card-list
+  [items]="[
+    {
+      id: 'aaa',
+      name: 'Pineapple',
+      amount: 1,
+      isDone: false,
+      description: 'A pineapple, any pineapple is fine',
+      category: 'shop-foo'
+    }
+  ]"
+  [listActions]="[
+    { id: 'category:complete', icon: 'check', label: 'Complete all items' },
+    { id: 'category:delete', icon: 'trash', label: 'Delete all items' },
+  ]"
+  [itemActions]="[
+    { id: 'item:complete', icon: 'check', label: 'Complete' },
+    { id: 'item:delete', icon: 'trash', label: 'Delete' }
+  ]"
+  (listActionClicke)="consoleLog('listActionClicked', $event)"
+  (itemActionClicked)="consoleLog('itemActionClicked', $event)"
+/>
+
+
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+- Create default templates on actionsMenu* directives
+- Default templates must have (...) buttons and icon + name items
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO
+TODO

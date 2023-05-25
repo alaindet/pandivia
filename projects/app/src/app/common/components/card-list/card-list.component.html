@@ -1,0 +1,85 @@
+<div class="_header">
+
+  <div class="_left">
+    <div class="_title">
+      {{ listTitle }}
+    </div>
+    <div class="_pin">
+      <mat-icon>push_pin</mat-icon>
+    </div>
+  </div>
+
+  <div class="_right">
+    <app-actions-menu
+      [id]="listTitle + '-menu'"
+      [actions]="listActions"
+      position="left"
+      (actionConfirmed)="onListAction($event)"
+    >
+      <ng-container *appActionsMenuButton>
+        <button type="button" appButton="outline" isCircle size="small">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+      </ng-container>
+
+      <ng-container *appActionsMenuItem="let action">
+        <mat-icon>{{ action.icon }}</mat-icon>
+        {{ action.label }}
+      </ng-container>
+    </app-actions-menu>
+  </div>
+
+</div>
+
+<ul class="_items">
+  <li *ngFor="let item of items">
+
+    <div class="_item-header">
+
+      <div class="_left">
+        <app-checkbox
+          [id]="item.id"
+          [checked]="item.isDone"
+          color="black"
+        >
+          {{ item.amount }}x {{ item.name }}
+        </app-checkbox>
+      </div>
+
+      <div class="_right">
+
+        <!-- Show/hide description -->
+        <button
+          type="button"
+          appButton="ghost"
+          isCircle
+          size="small"
+        >
+          <mat-icon>notes</mat-icon>
+        </button>
+
+        <!-- Actions (TODO: Careful about itemActionsFn(item)!) -->
+        <app-actions-menu
+          [id]="item.id + '-menu'"
+          [actions]="itemActionsFn(item)"
+          position="left"
+          (actionConfirmed)="onItemAction(item.id, $event)"
+        >
+          <ng-container *appActionsMenuButton>
+            <button type="button" appButton="outline" isCircle size="small">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </ng-container>
+
+          <ng-container *appActionsMenuItem="let action">
+            <mat-icon>{{ action.icon }}</mat-icon>
+            {{ action.label }}
+          </ng-container>
+        </app-actions-menu>
+
+      </div>
+
+    </div>
+
+  </li>
+</ul>
