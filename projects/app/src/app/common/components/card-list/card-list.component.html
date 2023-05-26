@@ -15,28 +15,18 @@
   </div>
 
   <div class="_right">
-
-    <div class="_list-actions">
-      <app-actions-menu
-        [id]="title + '-menu'"
-        [actions]="listActions"
-        position="left"
-        (actionConfirmed)="onListAction($event)"
-      >
-        <ng-container *appActionsMenuButton>
-          <button type="button" appButton="ghost" withIconOnly isCircle size="small">
-            <mat-icon>more_horiz</mat-icon>
-          </button>
-        </ng-container>
-      </app-actions-menu>
-    </div>
-
-    <!-- Todo: Caret for toggling items -->
-    <div class="_toggle-items">
-      <button type="button" appButton="ghost" withIconOnly isCircle size="small">
-        <mat-icon>expand_more</mat-icon>
-      </button>
-    </div>
+    <app-actions-menu
+      [id]="title + '-menu'"
+      [actions]="listActions"
+      position="left"
+      (actionConfirmed)="onListAction($event)"
+    >
+      <ng-container *appActionsMenuButton>
+        <button type="button" appButton="ghost" withIconOnly isCircle size="small">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+      </ng-container>
+    </app-actions-menu>
   </div>
 
 </div>

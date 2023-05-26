@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 import { ActionsMenuItem, ActionsMenuViewModel } from './types';
@@ -40,7 +40,18 @@ export class ActionsMenuComponent implements OnInit {
   @Input() actions: ActionsMenuItem[] = [];
   @Input() position: 'left' | 'right' = 'left';
 
+  @Input()
+  set offsetY(offsetY: number | string) {
+    this.cssOffsetY = (typeof offsetY === 'number')
+      ? `${offsetY}px`
+      : offsetY;
+
+    console.log(this.cssOffsetY);
+  }
+
   @Output() actionConfirmed = new EventEmitter<string>();
+
+  @HostBinding('style.--app-actions-menu-offset-y') cssOffsetY = '0';
 
   @ViewChild('itemsElementRef')
   set itemsElementRefChild(ref: ElementRef<HTMLElement>) {

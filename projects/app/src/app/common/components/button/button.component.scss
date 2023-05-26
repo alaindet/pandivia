@@ -83,6 +83,11 @@
       padding: 0.25rem 0.40rem;
       font-size: 0.75rem;
       line-height: 0.75rem;
+      height: 1.5rem;
+
+      mat-icon {
+        transform: scale(0.75);
+      }
 
       &.-with-icon-only {
         @include app-squared(1.5rem, 1.2rem);

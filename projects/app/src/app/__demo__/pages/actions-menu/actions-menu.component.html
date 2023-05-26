@@ -1,3 +1,4 @@
+<h2>Position</h2>
 <app-actions-menu
   style="margin-left: 5rem;"
   id="my-demo-menu-left"
@@ -6,7 +7,7 @@
   (actionConfirmed)="consoleLog($event)"
 >
   <button *appActionsMenuButton appButton size="small" type="button">
-    Left
+    Left (default)
   </button>
 </app-actions-menu>
 
@@ -20,5 +21,43 @@
 >
   <button *appActionsMenuButton appButton size="small" type="button">
     Right
+  </button>
+</app-actions-menu>
+
+<h2>Offset</h2>
+<app-actions-menu
+  id="my-demo-menu-offset-0"
+  [actions]="actions"
+  offsetY="0px"
+  (actionConfirmed)="consoleLog($event)"
+>
+  <button *appActionsMenuButton appButton size="small" type="button">
+    0px (default)
+  </button>
+</app-actions-menu>
+
+&nbsp;
+
+<app-actions-menu
+  id="my-demo-menu-offset-05rem"
+  [actions]="actions"
+  offsetY="0.5rem"
+  (actionConfirmed)="consoleLog($event)"
+>
+  <button *appActionsMenuButton appButton size="small" type="button">
+    0.5rem
+  </button>
+</app-actions-menu>
+
+&nbsp;
+
+<app-actions-menu
+  id="my-demo-menu-offset-32px"
+  [actions]="actions"
+  offsetY="32px"
+  (actionConfirmed)="consoleLog($event)"
+>
+  <button *appActionsMenuButton appButton size="small" type="button">
+    32px
   </button>
 </app-actions-menu>
