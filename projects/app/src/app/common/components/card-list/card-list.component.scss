@@ -2,7 +2,6 @@
 
 .app-card-list {
   display: block;
-  padding: 1rem;
   border-radius: 0.5rem;
   background-color: $app-color-white;
   border: 2px solid $app-color-grey-600;
@@ -10,9 +9,9 @@
   > ._header {
     display: flex;
     align-items: center;
+    padding: 1rem;
     padding-bottom: 0.33rem;
-    margin-bottom: 0.33rem;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $app-color-grey-600;
   }
 
   ._title h2 {
@@ -43,7 +42,25 @@
   }
 
   ._item {
-    padding: 0.33rem;
+    padding: 0.33rem 1rem;
+    border-bottom: 2px solid $app-color-grey-600;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+  }
+
+  ._item.-last {
+    border-bottom: none;
+  }
+
+  ._item-info {
+    font-size: 0.9em;
+  }
+
+  .-crossed {
+    text-decoration: line-through !important;
+    color: #666;
   }
 
   ._item-header {
@@ -55,10 +72,15 @@
     flex-grow: 1;
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 
   ._item-header ._right {
     display: flex;
     align-items: center;
+  }
+
+  ._toggle-description {
+    margin-right: 0.33rem;
   }
 }

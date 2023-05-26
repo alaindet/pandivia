@@ -54,10 +54,10 @@
 <app-actions-menu
   id="my-demo-menu-offset-32px"
   [actions]="actions"
-  offsetY="32px"
+  offsetY="-32px"
   (actionConfirmed)="consoleLog($event)"
 >
   <button *appActionsMenuButton appButton size="small" type="button">
-    32px
+    -16px
   </button>
 </app-actions-menu>

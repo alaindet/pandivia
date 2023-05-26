@@ -45,8 +45,6 @@ export class ActionsMenuComponent implements OnInit {
     this.cssOffsetY = (typeof offsetY === 'number')
       ? `${offsetY}px`
       : offsetY;
-
-    console.log(this.cssOffsetY);
   }
 
   @Output() actionConfirmed = new EventEmitter<string>();

@@ -32,14 +32,26 @@
 </div>
 
 <ul class="_items">
-  <li *ngFor="let item of items" class="_item">
-
+  <li
+    *ngFor="let item of items; let last = last"
+    class="_item"
+    [class.-last]="last"
+  >
     <div class="_item-header">
 
-      <div class="_left">
-        <app-checkbox [id]="item.id" [checked]="item.isDone" color="black">
-          {{ item.amount }}x {{ item.name }}
-        </app-checkbox>
+      <div class="_left" (click)="onToggleItem(item.id)">
+          <div class="_item-info">
+          <app-checkbox
+            [id]="item.id"
+            [checked]="item.isDone"
+            color="black"
+            (changed)="onToggleItem(item.id, $event)"
+          >
+            <span [class.-crossed]="item.isDone">
+              {{ item.amount }}x {{ item.name }}
+            </span>
+          </app-checkbox>
+        </div>
       </div>
 
       <div class="_right">
@@ -62,6 +74,7 @@
           [id]="item.id + '-menu'"
           [actions]="itemActionsFn(item)"
           position="left"
+          offsetY="-2rem"
           (actionConfirmed)="onItemAction(item.id, $event)"
         >
           <ng-container *appActionsMenuButton>
