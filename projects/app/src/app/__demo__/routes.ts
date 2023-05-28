@@ -5,7 +5,7 @@ import { DemoPageComponent } from './demo.component';
 import { IndexDemoPageComponent } from './pages/_index/index.component';
 
 // Pages
-import { BottomNavigationDemoPageComponent } from './pages/bottom-navigation/bottom-navigation.component';
+import { BottomMenuDemoPageComponent } from './pages/bottom-menu/bottom-menu.component';
 import { ButtonDemoPageComponent } from './pages/button/button.component';
 import { CardListDemoPageComponent } from './pages/card-list/card-list.component';
 import { CheckboxDemoPageComponent } from './pages/checkbox/checkbox.component';
@@ -22,7 +22,7 @@ import { TextInputDemoPageComponent } from './pages/text-input/text-input.compon
 // ...
 
 export const DEMO_PAGES: DemoRoute[] = [
-  demoRoute('bottom-navigation', 'Bottom Navigation', BottomNavigationDemoPageComponent),
+  demoRoute('bottom-menu', 'Bottom Menu', BottomMenuDemoPageComponent),
   demoRoute('button', 'Button', ButtonDemoPageComponent),
   demoRoute('card-list', 'Card List', CardListDemoPageComponent),
   demoRoute('checkbox', 'Checkbox', CheckboxDemoPageComponent),

@@ -1,7 +1,7 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { Notification } from '@app/common/types';
-import { BottomNavigationItem } from '@app/common/components';
+import { BottomMenuItem } from '@app/common/components';
 
 export const notificationsActions = createActionGroup({
   source: 'UI/Notifications',
@@ -22,7 +22,7 @@ export const loaderActions = createActionGroup({
 
 export const setCurrentNavigation = createAction(
   '[UI/Navigation] Set current item',
-  props<{ current: BottomNavigationItem['id'] }>()
+  props<{ current: BottomMenuItem['id'] }>()
 );
 
 export const setCurrentTitle = createAction(

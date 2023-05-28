@@ -9,6 +9,7 @@ import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirect
 import { LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION, LIST_SELECT_ITEMS_ACTION } from './list-contextual-menu';
 import { ITEM_CONTEXTUAL_MENU } from './item-contextual-menu';
 import { fetchListItemsActions, selectListCategorizedItems } from './store';
+import { StackedLayoutService } from '@app/common/layouts';
 
 const IMPORTS = [
   CommonModule,
@@ -32,6 +33,7 @@ const IMPORTS = [
 export class ListPageComponent implements OnInit {
 
   private store = inject(Store);
+  private layout = inject(StackedLayoutService);
 
   items$ = this.store.select(selectListCategorizedItems);
   listContextualMenu = LIST_CONTEXTUAL_MENU;
@@ -41,6 +43,8 @@ export class ListPageComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' }));
+    this.layout.title.set('List');
+    this.layout.headerActions.set(LIST_CONTEXTUAL_MENU);
     this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_LIST.id }));
     this.store.dispatch(fetchListItemsActions.fetchItems());
   }

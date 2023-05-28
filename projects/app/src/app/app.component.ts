@@ -1,13 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { filter, map } from 'rxjs';
 
-import { NAVIGATION_ROUTES } from '@app/core';
-import { BottomNavigationComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
-import { notificationsActions, selectNavigation, selectNotification, selectUiIsLoading } from './core/store';
 import { MatIconModule } from '@angular/material/icon';
+import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
+import { notificationsActions, selectNotification, selectUiIsLoading } from './core/store';
 
 const IMPORTS = [
   NgIf,
@@ -16,7 +14,7 @@ const IMPORTS = [
   NotificationsHostComponent,
   ModalHostComponent,
   LinearSpinnerComponent,
-  BottomNavigationComponent,
+  BottomMenuComponent,
   MatIconModule,
 ];
 
@@ -31,18 +29,9 @@ const IMPORTS = [
 export class AppComponent implements OnInit {
 
   private store = inject(Store);
-  private router = inject(Router);
 
-  notification$ = this.store.select(selectNotification);
   loading = false;
-  navigation$ = this.store.select(selectNavigation);
-
-  // TODO: Move demo to another project!
-  // TODO: Anchor bottom navigation to layout
-  isNotDemo$ = this.router.events.pipe(
-    filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-    map(e => !e.url.startsWith('/demo')),
-  );
+  notification$ = this.store.select(selectNotification);
 
   ngOnInit() {
     // This guarantees no NG0100 error happens
@@ -53,9 +42,5 @@ export class AppComponent implements OnInit {
 
   onDismissNotification() {
     this.store.dispatch(notificationsActions.dismiss());
-  }
-
-  onBottomNavigationChange(navigationItem: string) {
-    this.router.navigate([NAVIGATION_ROUTES[navigationItem]]);
   }
 }

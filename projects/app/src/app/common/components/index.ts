@@ -1,4 +1,4 @@
-export * from './bottom-navigation';
+export * from './bottom-menu';
 export * from './button';
 export * from './card-list';
 export * from './linear-spinner';

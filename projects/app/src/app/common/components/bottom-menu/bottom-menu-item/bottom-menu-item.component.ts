@@ -6,19 +6,19 @@ const IMPORTS = [
 ];
 
 @Component({
-  selector: 'app-bottom-navigation-item',
+  selector: 'app-bottom-menu-item',
   standalone: true,
   imports: IMPORTS,
-  templateUrl: './bottom-navigation-item.component.html',
-  styleUrls: ['./bottom-navigation-item.component.scss'],
+  templateUrl: './bottom-menu-item.component.html',
+  styleUrls: ['./bottom-menu-item.component.scss'],
   host: {
-    class: 'app-bottom-navigation-item',
+    class: 'app-bottom-menu-item',
     tabindex: '0',
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BottomNavigationItemComponent {
+export class BottomMenuItemComponent {
 
   @Input() id!: string;
   @Input() icon!: string;

@@ -1,4 +1,4 @@
-import { BottomNavigationItem } from '@app/common/components';
+import { BottomMenuItem } from '@app/common/components';
 import { Notification } from '@app/common/types';
 import { NAVIGATION_ITEMS } from '@app/core/constants/navigation';
 
@@ -7,8 +7,8 @@ export type UiFeatureState = {
   loading: boolean;
   title: string;
   navigation: {
-    items: BottomNavigationItem[];
-    current: BottomNavigationItem['id'] | null;
+    items: BottomMenuItem[];
+    current: BottomMenuItem['id'] | null;
   };
 };
 

@@ -1,0 +1,16 @@
+<app-layout-stacked
+  [title]="svc.title()"
+
+  [withBackButton]="svc.withBackButton()"
+  [withControlledBackButton]="svc.withControlledBackButton()"
+  (backButtonClicked)="svc.clickControlledBackButton()"
+
+  [headerActions]="svc.headerActions()"
+  (headerActionClicked)="onHeaderAction($event)"
+
+  [footerActions]="nav.items"
+  [footerCurrentAction]="nav.current"
+  (footerActionClicked)="onBottomNavigation($event)"
+>
+  <router-outlet></router-outlet>
+</app-layout-stacked>

@@ -1,14 +1,14 @@
-<!-- <header>
+<header>
   <app-page-header>
 
-    <h1>List</h1>
+    <h1>{{ title }}</h1>
 
     <ng-container slot="right">
       <app-actions-menu
-        id="list-contextual-menu"
-        [actions]="listContextualMenu"
+        [id]="title"
+        [actions]="headerActions"
         position="left"
-        (actionConfirmed)="onListContextualAction($event)"
+        (actionConfirmed)="onHeaderAction($event)"
       >
         <button
           *appActionsMenuButton
@@ -24,12 +24,16 @@
     </ng-container>
 
   </app-page-header>
-</header> -->
+</header>
 
-<!-- List -->
-<ul *ngIf="items$ | async as itemGroups" class="_items">
-  <li *ngFor="let group of itemGroups">
-    <h2>{{ group.category }}</h2>
-    group.items
-  </li>
-</ul>
+<main>
+  <ng-content></ng-content>
+</main>
+
+<footer>
+  <app-bottom-menu
+    [items]="footerActions"
+    [selectedItem]="footerCurrentAction"
+    (selected)="onBottomMenuChange($event)"
+  ></app-bottom-menu>
+</footer>
