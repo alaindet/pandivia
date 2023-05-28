@@ -1,32 +1,3 @@
-<!-- <header>
-  <app-page-header>
-
-    <h1>List</h1>
-
-    <ng-container slot="right">
-      <app-actions-menu
-        id="list-contextual-menu"
-        [actions]="listContextualMenu"
-        position="left"
-        (actionConfirmed)="onListContextualAction($event)"
-      >
-        <button
-          *appActionsMenuButton
-          type="button"
-          appButton="outline"
-          type="button"
-          isCircle
-          withIconOnly
-        >
-          <mat-icon>more_horiz</mat-icon>
-        </button>
-      </app-actions-menu>
-    </ng-container>
-
-  </app-page-header>
-</header> -->
-
-<!-- List -->
 <ul *ngIf="items$ | async as itemGroups" class="_items">
   <li *ngFor="let group of itemGroups">
     <h2>{{ group.category }}</h2>

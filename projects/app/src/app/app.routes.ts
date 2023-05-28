@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
+
 import { environment } from '@app/environment';
-import { RootPageComponent } from './core';
+import { LoggedPageCollectionComponent } from '@app/core';
 
 const DEFAULT_ROUTE = '/list';
 
@@ -12,7 +13,8 @@ let routes: Routes = [
   },
   {
     path: '',
-    component: RootPageComponent,
+    component: LoggedPageCollectionComponent,
+    canActivate: [], // TODO: Add logged user check
     children: [
       {
         path: 'list',
@@ -28,6 +30,13 @@ let routes: Routes = [
       },
     ],
   },
+
+  // TODO: Add login page
+  // {
+  //   path: 'login',
+  //   // ...
+  // },
+
   {
     path: '**',
     redirectTo: DEFAULT_ROUTE,

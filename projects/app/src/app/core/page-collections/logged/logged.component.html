@@ -1,11 +1,11 @@
 <app-layout-stacked
-  [title]="svc.title()"
+  [title]="layout.title()"
 
-  [withBackButton]="svc.withBackButton()"
-  [withControlledBackButton]="svc.withControlledBackButton()"
-  (backButtonClicked)="svc.clickControlledBackButton()"
+  [withBackButton]="layout.withBackButton()"
+  [withControlledBackButton]="layout.withControlledBackButton()"
+  (backButtonClicked)="layout.clickControlledBackButton()"
 
-  [headerActions]="svc.headerActions()"
+  [headerActions]="layout.headerActions()"
   (headerActionClicked)="onHeaderAction($event)"
 
   [footerActions]="nav.items"

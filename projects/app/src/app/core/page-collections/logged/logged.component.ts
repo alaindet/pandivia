@@ -1,11 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layouts';
-import { Store } from '@ngrx/store';
-import { selectNavigation } from '../store';
 import { BottomMenuItem } from '@app/common/components';
-import { NAVIGATION_ROUTES } from '../constants';
+import { NAVIGATION_ROUTES } from '../../constants';
+import { selectNavigation, selectTitle } from '../../store';
 
 const IMPORTS = [
   StackedLayoutComponent,
@@ -13,17 +13,18 @@ const IMPORTS = [
 ];
 
 @Component({
-  selector: 'app-root-page',
+  selector: 'app-logged-page-collection',
   standalone: true,
   imports: IMPORTS,
-  templateUrl: './root-page.component.html',
+  templateUrl: './logged.component.html',
   providers: [StackedLayoutService],
 })
-export class RootPageComponent implements OnInit {
+export class LoggedPageCollectionComponent implements OnInit {
   
-  svc = inject(StackedLayoutService);
+  layout = inject(StackedLayoutService);
   private router = inject(Router);
   private store = inject(Store);
+
   nav!: { items: BottomMenuItem[]; current: string | null; };
 
   ngOnInit() {
@@ -31,7 +32,7 @@ export class RootPageComponent implements OnInit {
   }
 
   onHeaderAction(action: string) {
-    console.log('RootPageComponent.onHeaderAction', action);
+    this.layout.clickHeaderAction(action);
   }
 
   onBottomNavigation(actionId: BottomMenuItem['id']) {

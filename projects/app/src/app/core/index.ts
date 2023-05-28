@@ -1,5 +1,5 @@
 export * from './constants';
 export * from './functions';
-export * from './root-page/root-page.component';
+export * from './page-collections';
 export * from './store';
 export * from './types';
