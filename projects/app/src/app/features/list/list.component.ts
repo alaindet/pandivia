@@ -1,24 +1,18 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 
-import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
-import { LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './list-contextual-menu';
-import { ITEM_CONTEXTUAL_MENU } from './item-contextual-menu';
-import { fetchListItemsActions, selectListCategorizedItems } from './store';
 import { StackedLayoutService } from '@app/common/layouts';
+import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
+import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
+import { ITEM_CONTEXTUAL_MENU } from './item-contextual-menu';
+import { LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './list-contextual-menu';
+import { fetchListItemsActions, selectListCategorizedItems } from './store';
 
 const IMPORTS = [
-  CommonModule,
-  PageHeaderComponent,
-  ActionsMenuComponent,
-  ActionsMenuButtonDirective,
-  ActionsMenuItemDirective,
-  MatIconModule,
-  ButtonComponent,
+  NgIf,
+  NgFor,
+  AsyncPipe,
 ];
 
 @Component({
@@ -38,11 +32,10 @@ export class ListPageComponent implements OnInit {
   itemContextualMenu = ITEM_CONTEXTUAL_MENU;
 
   ngOnInit() {
-    this.layout.title.set('List');
-    this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' }));
-    this.layout.headerActions.set(LIST_CONTEXTUAL_MENU);
-    this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_LIST.id }));
+    this.initPageMetadata();
+    this.layout.setHeaderActions(LIST_CONTEXTUAL_MENU);
     this.store.dispatch(fetchListItemsActions.fetchItems());
+    this.layout.headerActionEvent.subscribe(this.onListContextualAction.bind(this));
   }
 
   onListContextualAction(action: string) {
@@ -55,5 +48,11 @@ export class ListPageComponent implements OnInit {
 
   onItemClick(itemId: string) {
     console.log('onItemClick', itemId);
+  }
+
+  private initPageMetadata(): void {
+    this.layout.setTitle('List');
+    this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' }));
+    this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_LIST.id }));
   }
 }

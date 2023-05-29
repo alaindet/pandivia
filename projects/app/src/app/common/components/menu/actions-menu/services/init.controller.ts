@@ -4,7 +4,7 @@ import { ActionsMenuItem } from '../types';
 
 export function createInitController(parent: ActionsMenuService) {
   const wg = createWaitGroup({
-    workers: 2,
+    workers: 3,
     done: () => parent.core.ready(),
   });
 
@@ -14,7 +14,12 @@ export function createInitController(parent: ActionsMenuService) {
   };
 
   const actions = (actions: ActionsMenuItem[]) => {
-    parent.actions.init(actions);
+    parent.actions.initOrUpdate(actions);
+    wg.done();
+  };
+
+  const focus = () => {
+    parent.focus.init();
     wg.done();
   };
 
@@ -26,5 +31,11 @@ export function createInitController(parent: ActionsMenuService) {
     parent.itemsElement.init(el);
   };
 
-  return { id, actions, buttonElement, itemsElement };
+  return {
+    id,
+    actions,
+    focus,
+    buttonElement,
+    itemsElement,
+  };
 }

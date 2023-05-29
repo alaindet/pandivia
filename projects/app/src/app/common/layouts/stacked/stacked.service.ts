@@ -1,6 +1,16 @@
-import { Injectable, OnDestroy, signal } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+
+import { DataSource, EventSource, OnceSource } from '@app/common/sources';
+import { BACK_BUTTON_STATUS } from '@app/common/types';
+import { StackedLayoutViewModel } from './types';
 import { ActionsMenuItem } from '@app/common/components';
-import { EventSource, OnceSource } from '@app/common/sources';
+import { Observable } from 'rxjs';
+
+const VM: StackedLayoutViewModel = {
+  title: '',
+  headerActions: [],
+  backButton: BACK_BUTTON_STATUS.NONE,
+};
 
 @Injectable()
 export class StackedLayoutService implements OnDestroy {
@@ -8,21 +18,22 @@ export class StackedLayoutService implements OnDestroy {
   private once = new OnceSource();
 
   // State
-  title = signal('');
-  headerActions = signal<ActionsMenuItem[]>([]);
-  withBackButton = signal(false);
-  withControlledBackButton = signal(false);
+  private _vm$ = new DataSource<StackedLayoutViewModel>(VM, this.once.event$);
 
   // Events
-  _backClicked$ = new EventSource<void>(this.once.event$);
-  _headerActionClicked$ = new EventSource<string>(this.once.event$);
+  private _controlledBackButtonEvent$ = new EventSource<void>(this.once.event$);
+  private _headerActionEvent$ = new EventSource<string>(this.once.event$);
 
-  get backClickedEvent() {
-    return this._backClicked$.event$;
+  get vm(): Observable<StackedLayoutViewModel> {
+    return this._vm$.data$;
   }
 
-  get headerActionClicked() {
-    return this._headerActionClicked$.event$;
+  get controlledBackButtonEvent() {
+    return this._controlledBackButtonEvent$.event$
+  }
+
+  get headerActionEvent() {
+    return this._headerActionEvent$.event$;
   }
 
   ngOnDestroy(): void {
@@ -30,19 +41,39 @@ export class StackedLayoutService implements OnDestroy {
   }
 
   clickControlledBackButton() {
-    this._backClicked$.next();
+    this._controlledBackButtonEvent$.next();
   }
 
   clickHeaderAction(actionId: string) {
-    this._headerActionClicked$.next(actionId);
+    this._headerActionEvent$.next(actionId);
+  }
+
+  setTitle(title: string) {
+    this._vm$.next(vm => ({ ...vm, title }));
+  }
+
+  setHeaderActions(headerActions: ActionsMenuItem[]) {
+    this._vm$.next(vm => ({ ...vm, headerActions }));
+  }
+
+  clearHeaderActions() {
+    this._vm$.next(vm => ({ ...vm, headerActions: [] }));
+  }
+
+  enableBackButton() {
+    this._vm$.next(vm => ({ ...vm, backButton: BACK_BUTTON_STATUS.NATIVE }));
+  }
+
+  disableBackButton() {
+    this._vm$.next(vm => ({ ...vm, backButton: BACK_BUTTON_STATUS.NONE }));
   }
 
   enableControlledBackButton() {
-    this.withControlledBackButton.set(true);
-    return this._backClicked$.event$;
+    this._vm$.next(vm => ({ ...vm, backButton: BACK_BUTTON_STATUS.CONTROLLED }));
+    return this._controlledBackButtonEvent$.event$;
   }
 
   disabledControlledBackButton() {
-    this.withControlledBackButton.set(false);
+    this._vm$.next(vm => ({ ...vm, backButton: BACK_BUTTON_STATUS.NONE }));
   }
 }

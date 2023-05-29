@@ -3,8 +3,10 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation, inject } fro
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem, BottomMenuComponent, BottomMenuItem, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from './stacked.service';
 import { MatIconModule } from '@angular/material/icon';
+import { NgIf } from '@angular/common';
 
 const IMPORTS = [
+  NgIf,
   ActionsMenuComponent,
   ActionsMenuButtonDirective,
   PageHeaderComponent,

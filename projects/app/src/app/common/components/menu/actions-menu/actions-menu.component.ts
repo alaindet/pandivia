@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 import { ActionsMenuItem, ActionsMenuViewModel } from './types';
@@ -8,7 +8,7 @@ import { ActionsMenuItemDirective } from './directives/actions-menu-item.directi
 import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
 import { filterNull } from '@app/common/rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import { doOnce } from '@app/common/utils';
+import { didInputChange, doOnce } from '@app/common/utils';
 
 const IMPORTS = [
   NgIf,
@@ -29,7 +29,7 @@ const IMPORTS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ActionsMenuService],
 })
-export class ActionsMenuComponent implements OnInit {
+export class ActionsMenuComponent implements OnInit, OnChanges {
 
   private svc = inject(ActionsMenuService);
   private cdr = inject(ChangeDetectorRef);
@@ -87,7 +87,17 @@ export class ActionsMenuComponent implements OnInit {
 
     this.svc.init.id(this.id);
     this.svc.init.actions(this.actions);
-    this.svc.actions.confirmed$.subscribe(actionId => this.actionConfirmed.emit(actionId));
+    this.svc.init.focus();
+    this.svc.actions.confirmed$.subscribe(actionId => {
+      this.actionConfirmed.emit(actionId);
+    });
+  }
+
+  // TODO: Remove
+  ngOnChanges(changes: SimpleChanges): void {
+    if (didInputChange(changes['actions'])) {
+      this.svc.actions.initOrUpdate(this.actions);
+    }
   }
 
   onActionClicked(event: MouseEvent, actionId: string) {

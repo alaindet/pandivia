@@ -37,9 +37,9 @@ export class InventoryPageComponent implements OnInit {
   itemContextualMenu = ITEM_CONTEXTUAL_MENU;
 
   ngOnInit() {
-    this.layout.title.set('Inventory');
+    this.layout.setTitle('Inventory');
     this.store.dispatch(setCurrentTitle({ title: 'Inventory - Pandivia' }));
-    this.layout.headerActions.set(LIST_CONTEXTUAL_MENU);
+    this.layout.setHeaderActions(LIST_CONTEXTUAL_MENU);
     this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_INVENTORY.id }));
     this.store.dispatch(fetchInventoryItemsActions.fetchItems());
   }

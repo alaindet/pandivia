@@ -5,6 +5,13 @@ import { ACTIONS_MENU_BUTTON_FOCUSED, ActionsMenuFocusable, ActionsMenuItem } fr
 export function createFocusController(parent: ActionsMenuService) {
 
   const focused$ = new DataSource<ActionsMenuFocusable | null>(null, parent.core.destroy$);
+  let actions: ActionsMenuItem[] | null = null;
+  let searchableActions: string[] | null = null;
+
+  function init() {
+    parent.actions.actions$.subscribe(x => actions = x);
+    parent.actions.searchableActions$.subscribe(x => searchableActions = x);
+  }
 
   function button() {
     focused$.next(ACTIONS_MENU_BUTTON_FOCUSED);
@@ -21,7 +28,6 @@ export function createFocusController(parent: ActionsMenuService) {
   function last() {
     byIdWithActions(actions => actions[actions.length - 1].id);
   }
-
 
   function previous() {
     byIdWithActions(actions => {
@@ -46,8 +52,6 @@ export function createFocusController(parent: ActionsMenuService) {
   }
 
   function search(letter: string) {
-    const actions = parent.actions.getActions();
-    const searchableActions = parent.actions.getSearchableActions();
     if (!actions || !searchableActions) return focused$.next(null);
     const index = searchableActions.findIndex(x => x === letter);
     focused$.next(actions[index].id);
@@ -58,7 +62,6 @@ export function createFocusController(parent: ActionsMenuService) {
   }
 
   function byIdWithActions(fn: (actions: ActionsMenuItem[]) => string) {
-    const actions = parent.actions.getActions();
     if (!actions) return focused$.next(null);
     focused$.next(fn(actions));
   }
@@ -66,6 +69,7 @@ export function createFocusController(parent: ActionsMenuService) {
   return {
     focused$: focused$.data$,
     getFocused: () => focused$.getCurrent(),
+    init,
     first,
     last,
     previous,

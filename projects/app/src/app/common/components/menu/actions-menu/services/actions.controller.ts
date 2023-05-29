@@ -8,7 +8,7 @@ export function createActionsController(parent: ActionsMenuService) {
   const searchableActions$ = new DataSource<string[] | null>(null, parent.core.destroy$);
   const confirmed$ = new EventSource<ActionsMenuItem['id']>(parent.core.destroy$);
 
-  function init(actions: ActionsMenuItem[]) {
+  function initOrUpdate(actions: ActionsMenuItem[]) {
     actions$.next(actions);
     const searchableActions: string[] = [];
 
@@ -33,9 +33,8 @@ export function createActionsController(parent: ActionsMenuService) {
 
   return {
     actions$: actions$.data$,
-    getActions: () => actions$.getCurrent(),
-    getSearchableActions: () => searchableActions$.getCurrent(),
-    init,
+    searchableActions$: searchableActions$.data$,
+    initOrUpdate,
     confirmed$: confirmed$.event$,
     confirm,
     confirmFocused,
