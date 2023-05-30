@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor } from '@angular/common';
 
@@ -6,6 +6,7 @@ import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem } fro
 import { CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
 import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
+import { didInputChange } from '@app/common/utils';
 
 const IMPORTS = [
   NgFor,
@@ -25,7 +26,7 @@ const IMPORTS = [
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-card-list' },
 })
-export class CardListComponent {
+export class CardListComponent implements OnChanges {
 
   @Input({ required: true }) title!: string;
   @Input({ required: true }) items!: any[];
@@ -37,6 +38,18 @@ export class CardListComponent {
   @Output() itemActionClicked = new EventEmitter<ItemActionOutput>();
   @Output() itemToggled = new EventEmitter<ItemToggledOutput>();
   @Output() pinned = new EventEmitter<boolean>();
+
+  actionsMap = new Map<number, ActionsMenuItem[]>();
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (didInputChange(changes['items'])) {
+      const actionsMap = new Map<number, ActionsMenuItem[]>();
+      this.items.forEach((item, index) => {
+        actionsMap.set(index, this.itemActionsFn(item));
+      });
+      this.actionsMap = actionsMap;
+    }
+  }
 
   onListAction(action: string) {
     this.listActionClicked.emit(action);

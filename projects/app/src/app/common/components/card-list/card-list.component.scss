@@ -10,12 +10,12 @@
     display: flex;
     align-items: center;
     padding: 1rem;
-    padding-bottom: 0.33rem;
     border-bottom: 1px solid $app-color-grey-600;
   }
 
   ._title h2 {
     display: inline-block;
+    margin: 0;
   }
 
   ._pin {

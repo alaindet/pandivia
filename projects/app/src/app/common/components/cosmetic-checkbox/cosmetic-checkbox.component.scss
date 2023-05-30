@@ -1,0 +1,37 @@
+@import 'scoped';
+
+.app-cosmetic-checkbox {
+  --app-cosmetic-checkbox-size: 20px;
+
+  background-color: black;
+  min-width: var(--app-cosmetic-checkbox-size);
+  max-width: var(--app-cosmetic-checkbox-size);
+  width: var(--app-cosmetic-checkbox-size);
+  min-height: var(--app-cosmetic-checkbox-size);
+  max-height: var(--app-cosmetic-checkbox-size);
+  height: var(--app-cosmetic-checkbox-size);
+
+  &::after {
+    // ...
+  }
+
+  // &.-checked::after {
+
+  // }
+
+  &.-color-primary {
+    background-color: $app-color-primary-500;
+  }
+
+  &.-color-secondary {
+    // ...
+  }
+
+  &.-color-tertiary {
+    // ...
+  }
+
+  &.-color-black {
+    // ...
+  }
+}

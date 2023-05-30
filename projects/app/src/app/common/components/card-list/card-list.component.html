@@ -33,7 +33,7 @@
 
 <ul class="_items">
   <li
-    *ngFor="let item of items; let last = last"
+    *ngFor="let item of items; let last = last; let index = index"
     class="_item"
     [class.-last]="last"
   >
@@ -69,10 +69,9 @@
           </button>
         </div>
 
-        <!-- Actions (TODO: Careful about itemActionsFn(item)!) -->
         <app-actions-menu
           [id]="item.id + '-menu'"
-          [actions]="itemActionsFn(item)"
+          [actions]="actionsMap.get(index) ?? []"
           position="left"
           offsetY="-2rem"
           (actionConfirmed)="onItemAction(item.id, $event)"
@@ -87,6 +86,5 @@
       </div>
 
     </div>
-
   </li>
 </ul>

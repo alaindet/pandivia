@@ -1,8 +1,8 @@
 import { Renderer2, inject } from '@angular/core';
 import { filter, fromEvent, switchMap, take, takeUntil } from 'rxjs';
 
-import { onKeydown } from '@app/common/utils';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
+import { onKeydown } from '@app/common/utils';
 import { ACTIONS_MENU_BUTTON_FOCUSED } from '../types';
 import { ActionsMenuService } from './actions-menu.service';
 

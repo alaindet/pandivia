@@ -93,7 +93,6 @@ export class ActionsMenuComponent implements OnInit, OnChanges {
     });
   }
 
-  // TODO: Remove
   ngOnChanges(changes: SimpleChanges): void {
     if (didInputChange(changes['actions'])) {
       this.svc.actions.initOrUpdate(this.actions);

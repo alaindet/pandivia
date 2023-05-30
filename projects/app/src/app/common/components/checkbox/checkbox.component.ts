@@ -43,8 +43,8 @@ export class CheckboxComponent implements OnInit, OnChanges, ControlValueAccesso
 
   id!: string;
 
-  private onChange!: (val: any) => {};
-	private onTouched!: () => {};
+  private onChange!: (val: any) => void;
+	private onTouched!: () => void;
 
   ngOnInit() {
     let id = this._id;
