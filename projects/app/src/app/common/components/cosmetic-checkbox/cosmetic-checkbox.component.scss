@@ -1,5 +1,25 @@
 @import 'scoped';
 
+@mixin app-cosmetic-checkbox-color(
+  $color-checked: black,
+  $color-hover-checked: #444,
+  $color-hover-unchecked: #ddd,
+) {
+  &:hover ._checkmark {
+    background-color: $color-hover-unchecked;
+  }
+
+  &.-checked ._checkmark {
+    background-color: $color-checked;
+    border-color: $color-checked;
+  }
+
+  &.-checked:hover ._checkmark {
+    background-color: $color-hover-checked;
+    border-color: $color-hover-checked;
+  }
+}
+
 .app-cosmetic-checkbox {
   display: flex;
   align-items: center;
@@ -8,7 +28,8 @@
     --app-cosmetic-checkbox-size: 20px;
 
     position: relative;
-    background-color: black;
+    background-color: $app-color-white;
+    border: 2px solid $app-color-grey-600;
     min-width: var(--app-cosmetic-checkbox-size);
     max-width: var(--app-cosmetic-checkbox-size);
     width: var(--app-cosmetic-checkbox-size);
@@ -38,8 +59,19 @@
     }
   }
 
+  &.-interactable {
+    cursor: pointer;
+  }
+
   ._content:not(:empty) {
     margin-left: 0.5rem;
+  }
+
+  &.-interactable:hover,
+  &.-interactable:focus {
+    ._content {
+      color: $app-color-grey-900;
+    }
   }
 
   &.-checked {
@@ -49,11 +81,17 @@
   }
 
   &.-color-primary {
-    ._checkmark {
-      background-color: $app-color-primary-500;
-    }
+    @include app-cosmetic-checkbox-color(
+      $app-color-primary-500,
+      $app-color-primary-600,
+      $app-color-grey-600,
+    );
   }
 
+  // TODO: @include app-cosmetic-checkbox-color(...)
+  // TODO: Add keyboard functionality
+  // TODO: Change name to cosmetic checkbox
+  // TODO: Remove checkbox?!
   &.-color-secondary {
     ._checkmark {
       background-color: $app-color-secondary-500;
