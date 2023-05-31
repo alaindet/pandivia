@@ -5,7 +5,10 @@ type CosmeticCheckboxColor = 'primary' | 'secondary' | 'tertiary' | 'black';
 @Component({
   selector: 'app-cosmetic-checkbox',
   standalone: true,
-  template: '', // <-- Nothing to see here
+  template: `
+    <span class="_checkmark"></span>
+    <span class="_content"><ng-content></ng-content></span>
+  `,
   styleUrls: ['./cosmetic-checkbox.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
