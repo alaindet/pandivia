@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, HostBinding } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, HostBinding, OnInit } from '@angular/core';
 
 type CosmeticCheckboxColor = 'primary' | 'secondary' | 'tertiary' | 'black';
 
@@ -11,8 +11,15 @@ type CosmeticCheckboxColor = 'primary' | 'secondary' | 'tertiary' | 'black';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-cosmetic-checkbox' },
 })
-export class CosmeticCheckboxComponent {
+export class CosmeticCheckboxComponent implements OnInit {
+  
   @Input() @HostBinding('class.-checked') checked = false;
   @Input() color: CosmeticCheckboxColor = 'primary';
   @Input() @HostBinding('style.--app-cosmetic-checkbox-size') size = '20px';
+
+  @HostBinding('class') cssClasses!: string;
+
+  ngOnInit() {
+    this.cssClasses = `-color-${this.color}`;
+  }
 }
