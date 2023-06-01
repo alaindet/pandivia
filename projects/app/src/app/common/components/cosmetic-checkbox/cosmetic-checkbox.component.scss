@@ -3,12 +3,7 @@
 @mixin app-cosmetic-checkbox-color(
   $color-checked: black,
   $color-hover-checked: #444,
-  $color-hover-unchecked: #ddd,
 ) {
-  &:hover ._checkmark {
-    background-color: $color-hover-unchecked;
-  }
-
   &.-checked ._checkmark {
     background-color: $color-checked;
     border-color: $color-checked;
@@ -23,6 +18,15 @@
 .app-cosmetic-checkbox {
   display: flex;
   align-items: center;
+  border-radius: 0.25rem;
+
+  &:focus {
+    outline-offset: 2px;
+  }
+
+  &:hover ._checkmark {
+    background-color: $app-color-grey-600;
+  }
 
   ._checkmark {
     --app-cosmetic-checkbox-size: 20px;
@@ -84,29 +88,27 @@
     @include app-cosmetic-checkbox-color(
       $app-color-primary-500,
       $app-color-primary-600,
-      $app-color-grey-600,
     );
   }
 
-  // TODO: @include app-cosmetic-checkbox-color(...)
-  // TODO: Add keyboard functionality
-  // TODO: Change name to cosmetic checkbox
-  // TODO: Remove checkbox?!
   &.-color-secondary {
-    ._checkmark {
-      background-color: $app-color-secondary-500;
-    }
+    @include app-cosmetic-checkbox-color(
+      $app-color-secondary-500,
+      $app-color-secondary-600,
+    );
   }
 
   &.-color-tertiary {
-    ._checkmark {
-      background-color: $app-color-tertiary-500;
-    }
+    @include app-cosmetic-checkbox-color(
+      $app-color-tertiary-500,
+      $app-color-tertiary-600,
+    );
   }
 
   &.-color-black {
-    ._checkmark {
-      background-color: $app-color-black;
-    }
+    @include app-cosmetic-checkbox-color(
+      $app-color-black,
+      scale_color($app-color-black, $lightness: 10%),
+    );
   }
 }
