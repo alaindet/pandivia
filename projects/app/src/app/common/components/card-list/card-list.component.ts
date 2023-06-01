@@ -60,9 +60,6 @@ export class CardListComponent implements OnChanges {
   }
 
   onToggleItem(itemId: string, isDone: boolean | null = null) {
-
-    console.log('onToggleItem', itemId, isDone); // TODO: Remove
-
     if (isDone !== null) {
       this.itemToggled.emit({ itemId, isDone });
     } else {

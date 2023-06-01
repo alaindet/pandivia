@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild, ElementRef, HostBinding, Provider, forwardRef, ViewEncapsulation, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, Provider, SimpleChanges, ViewEncapsulation, forwardRef, inject } from '@angular/core';
+import { filter, fromEvent, merge, takeUntil } from 'rxjs';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
+import { EventSource, OnceSource } from '@app/common/sources';
+import { KEYBOARD_KEY as KB } from '@app/common/types';
 import { didInputChange, getRandomHash } from '@app/common/utils';
-
-type CheckboxColor = 'primary' | 'secondary' | 'tertiary' | 'black';
 
 const CHECKBOX_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -12,66 +12,91 @@ const CHECKBOX_FORM_PROVIDER: Provider = {
 	multi: true,
 };
 
-const IMPORTS = [
-  CommonModule,
-];
-
 @Component({
   selector: 'app-checkbox',
+  exportAs: 'app-checkbox',
   standalone: true,
-  imports: IMPORTS,
-  templateUrl: './checkbox.component.html',
+  template: `
+    <span class="_checkmark"></span>
+    <span class="_content"><ng-content></ng-content></span>
+  `,
   styleUrls: ['./checkbox.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'app-checkbox',
+    role: 'checkbox',
+  },
   providers: [CHECKBOX_FORM_PROVIDER],
-  host: { class: 'app-checkbox' },
 })
-export class CheckboxComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
-  @Input('id') _id?: string;
-  @Input('checked') _checked = false;
-  @Input() @HostBinding('class.-disabled') isDisabled = false;
-  @Input() @HostBinding('style.--app-checkbox-size') size = '20px';
-  @Input() color: CheckboxColor = 'primary';
+  private host = inject(ElementRef);
 
-  @Output() changed = new EventEmitter<boolean | null>();
-
-  @ViewChild('inputRef', { static: true }) inputRef!: ElementRef<HTMLInputElement>;
-
-  @HostBinding('class.-checked') checked = false;
-  @HostBinding('class') cssClass?: string;
-
-  id!: string;
-
+  private once = new OnceSource();
+  private disableEvents$ = new EventSource<void>(this.once.event$);
   private onChange!: (val: any) => void;
 	private onTouched!: () => void;
 
-  ngOnInit() {
-    let id = this._id;
-    if (!id) id = `app-checkbox-${getRandomHash(3)}`;
-    this.id = id;
+  @Input() @HostBinding('attr.id') id?: string;
+  @Input() @HostBinding('class.-checked') @HostBinding('attr.aria-checked') checked = false;
+  @Input() @HostBinding('style.--app-checkbox-size') size = '20px';
+  @Input() @HostBinding('class.-disabled') isDisabled = false;
+  @Input() color: 'primary' | 'secondary' | 'tertiary' | 'black' = 'primary';
+  @Input() isInteractable = true;
+  @Input() @HostBinding('attr.aria-labelledby') ariaLabelledBy?: string;
 
-    this.cssClass = `-color-${this.color}`;
+  @Output() changed = new EventEmitter<boolean>();
+
+  @HostBinding('class') cssClasses = '-color-primary';
+  @HostBinding('class.-interactable') cssIsInteractable = true;
+  @HostBinding('tabindex') tabIndex = '0';
+
+  // @publicApi
+  toggle() {
+    this.checked = !this.checked;
+    this.changed.emit(this.checked);
+    if (this.onChange) this.onChange(this.checked);
+    if (this.onTouched) this.onTouched();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (didInputChange(changes['_checked'])) {
-      this.inputRef.nativeElement.checked = this._checked;
-      this.checked = this._checked;
+  ngOnInit() {
+
+    if (!this.id) {
+      this.id = 'app-checkbox-' + getRandomHash(3);
+    }
+
+    if (this.isInteractable) {
+      this.toggleInteractivity();
+    }
+
+    if (this.isDisabled) {
+      this.disableEvents$.next();
+      this.tabIndex = '-1';
     }
   }
 
-  onCheckboxChange(event: Event) {
-    event.stopImmediatePropagation();
-    this.checked = this.inputRef.nativeElement.checked;
-    this.changed.emit(this.checked);
-    if (this?.onChange) this.onChange(this.checked);
-    if (this?.onTouched) this.onTouched();
+  ngOnChanges(changes: SimpleChanges) {
+    if (didInputChange(changes['isInteractable'])) {
+      this.toggleInteractivity();
+    }
+
+    if (didInputChange(changes['color'])) {
+      this.cssClasses = `-color-${this.color}`;
+    }
+
+    if (didInputChange(changes['isDisabled'])) {
+      this.disableEvents$.next();
+      this.tabIndex = '-1';
+    }
+  }
+
+  ngOnDestroy() {
+    this.once.trigger();
   }
 
   // From ControlValueAccessor
 	writeValue(value: boolean): void {
-    this.inputRef.nativeElement.checked = value;
     this.checked = value;
 	}
 
@@ -88,5 +113,33 @@ export class CheckboxComponent implements OnInit, OnChanges, ControlValueAccesso
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
+  }
+
+  private toggleInteractivity(): void {
+    this.cssIsInteractable = this.isInteractable;
+    this.tabIndex = this.isInteractable ? '0' : '-1';
+    this.disableEvents$.next();
+
+    if (!this.isInteractable || this.isDisabled) {
+      return;
+    }
+
+    const el = this.host.nativeElement;
+    const clicked$ = fromEvent<MouseEvent>(el, 'click');
+
+    const spaceOrEnterPressed$ = fromEvent<KeyboardEvent>(el, 'keydown').pipe(
+      filter(e => e.key === KB.SPACE || e.key === KB.ENTER),
+    );
+
+    const toggleCheckbox$ = merge(clicked$, spaceOrEnterPressed$).pipe(
+      takeUntil(this.once.event$),
+      takeUntil(this.disableEvents$.event$),
+    );
+
+    toggleCheckbox$.subscribe((event: Event) => {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      this.toggle();
+    });
   }
 }

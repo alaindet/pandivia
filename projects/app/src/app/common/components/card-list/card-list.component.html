@@ -39,9 +39,10 @@
   >
     <div class="_item-header">
 
-      <div class="_left" (click)="onToggleItem(item.id)">
+      <div class="_left" (click)="theCheckbox.toggle()">
           <div class="_item-info">
           <app-checkbox
+            #theCheckbox="app-checkbox"
             [id]="item.id"
             [checked]="item.isDone"
             color="black"

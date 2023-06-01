@@ -2,14 +2,14 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { CheckboxComponent, CosmeticCheckboxComponent } from '@app/common/components';
+import { ButtonComponent, CheckboxComponent } from '@app/common/components';
 
 const IMPORTS = [
   CommonModule,
   ReactiveFormsModule,
   CheckboxComponent,
-  CosmeticCheckboxComponent,
   JsonPipe,
+  ButtonComponent,
 ];
 
 @Component({
@@ -26,6 +26,9 @@ const IMPORTS = [
   `],
 })
 export class CheckboxDemoPageComponent {
+
+  consoleLog = console.log;
+
   myForm = new FormGroup({
     myCheckbox1: new FormControl(true, [Validators.required]),
     myCheckbox2: new FormControl(false, [Validators.required]),
