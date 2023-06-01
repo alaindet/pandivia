@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ActionsMenuItem, CardListComponent, ItemActionsFn } from '@app/common/components';
+import { ActionsMenuItem, CardListComponent, ItemActionsFn, ItemActionOutput, ItemToggledOutput } from '@app/common/components';
 import { ListItem } from '@app/core';
 
 const IMPORTS = [
@@ -62,4 +62,41 @@ export class CardListDemoPageComponent {
       { id: 'item:delete', icon: 'delete', label: 'Delete' },
     ];
   };
+
+  onListAction(action: string) {
+    switch(action) {
+      case 'category:tick':
+        this.items = this.items.map(item => ({ ...item, isDone: true }));
+        break;
+      case 'category:delete':
+        this.items = [];
+        break;
+    }
+  }
+
+  onItemToggle({ itemId, isDone }: ItemToggledOutput) {
+    this.items = this.items.map(item => {
+      return item.id !== itemId ? item : { ...item, isDone };
+    });
+  }
+
+  onItemAction({ itemId, action }: ItemActionOutput) {
+    switch (action) {
+      case 'item:tick':
+        this.items = this.items.map(item => {
+          return item.id !== itemId ? item : { ...item, isDone: true };
+        });
+        break;
+      case 'item:undo':
+        this.items = this.items.map(item => {
+          return item.id !== itemId ? item : { ...item, isDone: false };
+        });
+        break;
+      case 'item:delete':
+        this.items = this.items.filter(item => {
+          return item.id !== itemId;
+        });
+        break;
+    }
+  }
 }

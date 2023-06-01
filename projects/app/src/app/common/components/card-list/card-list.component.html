@@ -19,6 +19,7 @@
       [id]="title + '-menu'"
       [actions]="listActions"
       position="left"
+      offsetY="-2rem"
       (actionConfirmed)="onListAction($event)"
     >
       <ng-container *appActionsMenuButton>
@@ -40,7 +41,7 @@
     <div class="_item-header">
 
       <div class="_left" (click)="theCheckbox.toggle()">
-          <div class="_item-info">
+        <div class="_item-info">
           <app-checkbox
             #theCheckbox="app-checkbox"
             [id]="item.id"

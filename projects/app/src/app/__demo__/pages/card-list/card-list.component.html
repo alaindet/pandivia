@@ -3,8 +3,8 @@
   [items]="items"
   [listActions]="listActions"
   [itemActionsFn]="itemActionsFn"
-  (listActionClicke)="consoleLog('listActionClicked', $event)"
-  (itemActionClicked)="consoleLog('itemActionClicked', $event)"
-  (itemToggled)="consoleLog('itemToggled', $event)"
+  (listActionClicked)="onListAction($event)"
+  (itemActionClicked)="onItemAction($event)"
+  (itemToggled)="onItemToggle($event)"
   (pinned)="consoleLog('pinned', $event)"
 />

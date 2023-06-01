@@ -9,8 +9,8 @@
   > ._header {
     display: flex;
     align-items: center;
-    padding: 1rem;
     border-bottom: 1px solid $app-color-grey-600;
+    padding: 1rem;
   }
 
   ._title h2 {
@@ -42,7 +42,6 @@
   }
 
   ._item {
-    padding: 0.33rem 1rem;
     border-bottom: 2px solid $app-color-grey-600;
 
     &:hover {
@@ -66,9 +65,13 @@
   ._item-header {
     display: flex;
     align-items: center;
+    height: $app-card-list-item-height;
   }
 
   ._item-header ._left {
+    height: 100%;
+    padding: 0.33rem 1rem;
+    padding-right: 0;
     flex-grow: 1;
     display: flex;
     align-items: center;
@@ -76,6 +79,8 @@
   }
 
   ._item-header ._right {
+    padding: 0.33rem 1rem;
+    padding-left: 0;
     display: flex;
     align-items: center;
   }
