@@ -23,3 +23,14 @@ export const listFilterActions = createActionGroup({
     'Clear all filters': emptyProps(),
   },
 });
+
+export const listItemActions = createActionGroup({
+  source: 'List/Items',
+  events: {
+    'Undo item': props<{ itemId: string }>(),
+    'Complete item': props<{ itemId: string }>(),
+    'Toggle item': props<{ itemId: string }>(),
+    'Increment item amount': props<{ itemId: string }>(),
+    'Decrement item amount': props<{ itemId: string }>(),
+  },
+});

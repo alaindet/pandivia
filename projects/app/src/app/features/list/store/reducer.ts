@@ -49,4 +49,41 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     state.filters[LIST_FILTER.CATEGORY] = null;
     state.filters[LIST_FILTER.IS_DONE] = null;
   }),
+
+  immerOn(fromActions.listItemActions.undoItem, (state, { itemId }) => {
+    const index = state.items.findIndex(item => item.id === itemId);
+    if (index === -1) return;
+    state.items[index].isDone = false;
+  }),
+
+  immerOn(fromActions.listItemActions.completeItem, (state, { itemId }) => {
+    const index = state.items.findIndex(item => item.id === itemId);
+    if (index === -1) return;
+    state.items[index].isDone = true;
+  }),
+
+  immerOn(fromActions.listItemActions.toggleItem, (state, { itemId }) => {
+    const index = state.items.findIndex(item => item.id === itemId);
+    if (index === -1) return;
+    state.items[index].isDone = !state.items[index].isDone;
+  }),
+
+  immerOn(fromActions.listItemActions.incrementItemAmount, (state, { itemId }) => {
+    const index = state.items.findIndex(item => item.id === itemId);
+    if (index === -1) return;
+    state.items[index].amount += 1;
+  }),
+
+  immerOn(fromActions.listItemActions.decrementItemAmount, (state, { itemId }) => {
+    const index = state.items.findIndex(item => item.id === itemId);
+    if (index === -1) return;
+    state.items[index].amount -= 1;
+
+    // Automatic delete?
+    // if (state.items[index].amount === 1) {
+    //   state.items = state.items.filter(item => item.id !== itemId);
+    // } else {
+    //   state.items[index].amount -= 1;
+    // }
+  }),
 );

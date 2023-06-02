@@ -83,7 +83,7 @@
           [id]="item.id + '-menu'"
           [actions]="itemActionsMap.get(item.id) ?? []"
           position="left"
-          offsetY="-2rem"
+          offsetY="-4rem"
           (actionConfirmed)="onItemAction(item.id, $event)"
         >
           <ng-container *appActionsMenuButton>
