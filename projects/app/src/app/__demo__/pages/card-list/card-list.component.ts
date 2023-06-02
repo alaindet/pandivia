@@ -38,7 +38,7 @@ export class CardListDemoPageComponent {
       name: 'Pepperoni',
       amount: 1,
       isDone: false,
-      description: 'Pepperoni, just some pepperoni, whatever that is',
+      // description: 'Pepperoni, just some pepperoni, whatever that is',
       category: 'shop-foo',
     },
   ];

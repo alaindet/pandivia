@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxComponent } from '../checkbox';
@@ -9,6 +9,7 @@ import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
 import { didInputChange } from '@app/common/utils';
 
 const IMPORTS = [
+  NgIf,
   NgFor,
   MatIconModule,
   CheckboxComponent,
@@ -29,9 +30,9 @@ const IMPORTS = [
 export class CardListComponent implements OnChanges {
 
   @Input({ required: true }) title!: string;
+  @Input({ required: true }) listActions!: ActionsMenuItem[];
   @Input({ required: true }) items!: any[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
-  @Input({ required: true }) listActions!: ActionsMenuItem[];
   @Input() isPinned = false;
 
   @Output() listActionClicked = new EventEmitter<string>();
@@ -39,15 +40,16 @@ export class CardListComponent implements OnChanges {
   @Output() itemToggled = new EventEmitter<ItemToggledOutput>();
   @Output() pinned = new EventEmitter<boolean>();
 
-  actionsMap = new Map<number, ActionsMenuItem[]>();
+  itemActionsMap = new Map<string, ActionsMenuItem[]>();
+  itemsDescriptionMap = new Map<string, boolean>();
 
   ngOnChanges(changes: SimpleChanges) {
     if (didInputChange(changes['items'])) {
-      const actionsMap = new Map<number, ActionsMenuItem[]>();
-      this.items.forEach((item, index) => {
-        actionsMap.set(index, this.itemActionsFn(item));
+      const itemActionsMap = new Map<string, ActionsMenuItem[]>();
+      this.items.forEach(item => {
+        itemActionsMap.set(item.id, this.itemActionsFn(item));
       });
-      this.actionsMap = actionsMap;
+      this.itemActionsMap = itemActionsMap;
     }
   }
 
@@ -55,8 +57,9 @@ export class CardListComponent implements OnChanges {
     this.listActionClicked.emit(action);
   }
 
-  onItemAction(itemId: string, action: string) {
-    this.itemActionClicked.emit({ itemId, action });
+  onTogglePin() {
+    this.isPinned = !this.isPinned;
+    this.pinned.emit(this.isPinned);
   }
 
   onToggleItem(itemId: string, isDone: boolean | null = null) {
@@ -68,8 +71,12 @@ export class CardListComponent implements OnChanges {
     }
   }
 
-  onTogglePin() {
-    this.isPinned = !this.isPinned;
-    this.pinned.emit(this.isPinned);
+  onItemAction(itemId: string, action: string) {
+    this.itemActionClicked.emit({ itemId, action });
+  }
+
+  onToggleDescription(itemId: string) {
+    const existing = this.itemsDescriptionMap.get(itemId) ?? false;
+    this.itemsDescriptionMap.set(itemId, !existing);
   }
 }

@@ -4,7 +4,7 @@
   display: block;
   border-radius: 0.5rem;
   background-color: $app-color-white;
-  border: 2px solid $app-color-grey-600;
+  border: 1px solid $app-color-grey-600;
 
   > ._header {
     display: flex;
@@ -59,7 +59,7 @@
 
   .-crossed {
     text-decoration: line-through !important;
-    color: #666;
+    color: $app-color-grey-800;
   }
 
   ._item-header {
@@ -87,5 +87,12 @@
 
   ._toggle-description {
     margin-right: 0.33rem;
+  }
+
+  ._item-description {
+    padding: 1rem;
+    padding-top: 0;
+    font-size: 0.85em;
+    font-style: italic;
   }
 }

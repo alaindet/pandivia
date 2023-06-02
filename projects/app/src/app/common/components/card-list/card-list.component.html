@@ -7,7 +7,13 @@
     </div>
 
     <div class="_pin">
-      <button appButton isCircle withIcon="left" size="extra-small" (click)="onTogglePin()">
+      <button
+        appButton="ghost"
+        isCircle
+        withIcon="left"
+        size="extra-small"
+        (click)="onTogglePin()"
+      >
         <mat-icon>{{ isPinned ? 'clear' : 'push_pin' }}</mat-icon>
         {{ isPinned ? 'Unpin' : 'Pin' }}
       </button>
@@ -59,27 +65,35 @@
       <div class="_right">
 
         <!-- Show/hide description -->
-        <div class="_toggle-description">
+        <div class="_toggle-description" *ngIf="!!item.description">
           <button
             type="button"
             appButton="ghost"
             withIconOnly
             isCircle
             size="small"
+            (click)="onToggleDescription(item.id)"
           >
-            <mat-icon>notes</mat-icon>
+            <mat-icon>{{ !!itemsDescriptionMap.get(item.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
           </button>
         </div>
 
+        <!-- Actions -->
         <app-actions-menu
           [id]="item.id + '-menu'"
-          [actions]="actionsMap.get(index) ?? []"
+          [actions]="itemActionsMap.get(item.id) ?? []"
           position="left"
           offsetY="-2rem"
           (actionConfirmed)="onItemAction(item.id, $event)"
         >
           <ng-container *appActionsMenuButton>
-            <button type="button" appButton="outline" withIconOnly isCircle size="small">
+            <button
+              type="button"
+              appButton="ghost"
+              withIconOnly
+              isCircle
+              size="small"
+            >
               <mat-icon>more_horiz</mat-icon>
             </button>
           </ng-container>
@@ -87,6 +101,10 @@
 
       </div>
 
+    </div>
+    
+    <div *ngIf="!!itemsDescriptionMap.get(item.id)" class="_item-description">
+      {{ item.description }}
     </div>
   </li>
 </ul>

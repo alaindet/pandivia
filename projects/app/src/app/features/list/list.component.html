@@ -1,6 +1,15 @@
-<ul *ngIf="items$ | async as itemGroups" class="_items">
+<ul *ngIf="items$ | async as itemGroups" class="_cards">
   <li *ngFor="let group of itemGroups">
-    <h2>{{ group.category }}</h2>
-    group.items
+    <app-card-list
+      [title]="group.category"
+      [items]="group.items"
+      [listActions]="categoryContextualMenus.get(group.category) ?? []"
+      [itemActionsFn]="getItemActions"
+      [isPinned]="true"
+      (listActionClicked)="onListAction($event)"
+      (itemActionClicked)="onItemAction($event)"
+      (itemToggled)="onItemToggle($event)"
+      (pinned)="onPinCategory(group.category, $event)"
+    />
   </li>
 </ul>
