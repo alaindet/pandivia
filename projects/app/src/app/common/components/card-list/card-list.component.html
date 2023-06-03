@@ -40,7 +40,11 @@
 
 <ul class="_items">
   <li
-    *ngFor="let item of items; let last = last; let index = index"
+    *ngFor="
+      let item of items; let last = last;
+      let index = index;
+      trackBy: trackByItemId;
+    "
     class="_item"
     [class.-last]="last"
   >

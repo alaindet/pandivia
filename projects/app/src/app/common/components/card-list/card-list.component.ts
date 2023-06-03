@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewE
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf } from '@angular/common';
 
+import { ListItem } from '@app/core';
 import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
@@ -18,6 +19,11 @@ const IMPORTS = [
   ActionsMenuButtonDirective,
 ];
 
+/*
+TODO:
+- Generalize items input
+- Accept custom template for items
+*/
 @Component({
   selector: 'app-card-list',
   standalone: true,
@@ -31,7 +37,7 @@ export class CardListComponent implements OnChanges {
 
   @Input({ required: true }) title!: string;
   @Input({ required: true }) listActions!: ActionsMenuItem[];
-  @Input({ required: true }) items!: any[];
+  @Input({ required: true }) items!: ListItem[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
   @Input() isPinned = false;
 
@@ -66,7 +72,7 @@ export class CardListComponent implements OnChanges {
     if (isDone !== null) {
       this.itemToggled.emit({ itemId, isDone });
     } else {
-      const isDone = !this.items.find(it => it.id === itemId).isDone;
+      const isDone = !this.items.find(it => it.id === itemId)?.isDone;
       this.itemToggled.emit({ itemId, isDone });
     }
   }
@@ -78,5 +84,9 @@ export class CardListComponent implements OnChanges {
   onToggleDescription(itemId: string) {
     const existing = this.itemsDescriptionMap.get(itemId) ?? false;
     this.itemsDescriptionMap.set(itemId, !existing);
+  }
+
+  trackByItemId(index: number, item: ListItem): string {
+    return item.id;
   }
 }

@@ -2,20 +2,24 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { ListItem } from '@app/core';
+import { CategorizedListItems, ListItem } from '@app/core';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 import { StackedLayoutService } from '@app/common/layouts';
-import { ActionsMenuItem, CardListComponent, ItemActionOutput, ItemToggledOutput } from '@app/common/components';
+import { ActionsMenuItem, ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput } from '@app/common/components';
 import { LIST_CONTEXTUAL_MENU, LIST_ACTION_REFRESH } from './list-contextual-menu';
 import { fetchListItemsActions, listItemActions, listFilterActions, selectListCategorizedFilteredItems, selectListFilters } from './store';
 import * as itemMenuAction from './item-contextual-menu';
+import { MatIconModule } from '@angular/material/icon';
+import { ListFilterToken } from './types';
 
 const IMPORTS = [
   NgIf,
   NgFor,
   AsyncPipe,
   CardListComponent,
+  ButtonComponent,
+  MatIconModule,
 ];
 
 @Component({
@@ -89,6 +93,11 @@ export class ListPageComponent implements OnInit {
     }
   }
 
+  onRemoveFilter(filter: ListFilterToken) {
+    const name = filter.key;
+    this.store.dispatch(listFilterActions.clearFilterByName({ name }));
+  }
+
   getItemActions(item: ListItem): ActionsMenuItem[] {
     return [
       item.isDone ? itemMenuAction.ITEM_ACTION_UNDO : itemMenuAction.ITEM_ACTION_COMPLETE,
@@ -97,6 +106,10 @@ export class ListPageComponent implements OnInit {
       itemMenuAction.ITEM_ACTION_DECREMENT,
       itemMenuAction.ITEM_ACTION_DELETE,
     ];
+  }
+
+  trackByCategory(index: number, group: CategorizedListItems): string {
+    return group.category;
   }
 
   private initPageMetadata(): void {

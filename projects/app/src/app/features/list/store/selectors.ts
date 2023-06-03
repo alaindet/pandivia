@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { groupItemsByCategory } from '@app/core/functions';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
 import { ListItem } from '@app/core';
-import { LIST_FILTER } from '../types';
+import { LIST_FILTER, ListFilter, ListFilterToken, ListFilters } from '../types';
 
 const selectListFeature = createFeatureSelector<ListFeatureState>(
   LIST_FEATURE_NAME,
@@ -47,10 +47,21 @@ export const selectListCategorizedFilteredItems = createSelector(
   },
 );
 
-// TODO
 export const selectListFilters = createSelector(
   selectListFeature,
-  state => state.filters,
+  (state): ListFilterToken[] | null => {
+    const keys = Object.keys(state.filters) as (keyof ListFilters)[];
+    const filters: ListFilterToken[] = [];
+
+    for (const key of keys) {
+      const value = state.filters[key];
+      if (value !== null) {
+        filters.push({ key, value });
+      }
+    }
+
+    return filters.length ? filters : null;
+  },
 );
 
 // export const selectListItemsByCategory = (category?: string) => createSelector(

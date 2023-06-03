@@ -1,6 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { ListItem } from '@app/core';
+import { ListFilter, ListFilterToken } from '../types';
 
 export const fetchListItemsActions = createActionGroup({
   source: 'List',
@@ -20,6 +21,7 @@ export const listFilterActions = createActionGroup({
     'Clear category filter': emptyProps(),
     'Set done filter': props<{ isDone: boolean }>(),
     'Clear done filter': emptyProps(),
+    'Clear filter by name': props<{ name: ListFilter }>(),
     'Clear all filters': emptyProps(),
   },
 });

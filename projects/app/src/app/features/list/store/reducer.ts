@@ -50,6 +50,10 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     state.filters[LIST_FILTER.IS_DONE] = null;
   }),
 
+  immerOn(fromActions.listFilterActions.clearFilterByName, (state, { name }) => {
+    state.filters[name] = null;
+  }),
+
   immerOn(fromActions.listItemActions.undoItem, (state, { itemId }) => {
     const index = state.items.findIndex(item => item.id === itemId);
     if (index === -1) return;

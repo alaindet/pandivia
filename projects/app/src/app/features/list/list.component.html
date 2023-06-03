@@ -1,5 +1,22 @@
+<!-- Filters -->
+<ul *ngIf="filters$ | async as filters" class="_filters">
+  <li *ngFor="let filter of filters">
+    <button
+      type="button"
+      appButton="secondary"
+      withIcon="left"
+      size="extra-small"
+      (click)="onRemoveFilter(filter)"
+    >
+      <mat-icon>clear</mat-icon>
+      {{ filter.value }}
+    </button>
+  </li>
+</ul>
+
+<!-- Items -->
 <ul *ngIf="items$ | async as itemGroups" class="_cards">
-  <li *ngFor="let group of itemGroups">
+  <li *ngFor="let group of itemGroups; trackBy: trackByCategory">
     <app-card-list
       [title]="group.category"
       [items]="group.items"

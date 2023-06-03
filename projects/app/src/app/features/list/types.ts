@@ -11,3 +11,8 @@ export type ListFilters = {
   [LIST_FILTER.CATEGORY]: string | null;
   [LIST_FILTER.IS_DONE]: boolean | null;
 };
+
+export type ListFilterToken = {
+  key: ListFilter;
+  value: any; // TODO: Add type
+};
