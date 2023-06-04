@@ -3,17 +3,18 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MatIconModule } from '@angular/material/icon';
-import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput } from '@app/common/components';
+import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { CategorizedListItems } from '@app/core';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { combineLatest } from 'rxjs';
+import { combineLatest, startWith } from 'rxjs';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
 import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
 import * as categoryMenuAction from './category.contextual-menu';
 import { ListFilterToken } from './types';
+import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
 
 const IMPORTS = [
   NgIf,
@@ -35,6 +36,7 @@ export class ListPageComponent implements OnInit {
 
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
+  private modal = inject(ModalService);
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenuAction.CATEGORY_CONTEXTUAL_MENU;
   getItemContextualMenu = itemMenuAction.getItemContextualMenu;
@@ -43,7 +45,7 @@ export class ListPageComponent implements OnInit {
     itemGroups: this.store.select(selectListCategorizedFilteredItems),
     filters: this.store.select(selectListFilters),
     pinnedCategory: this.store.select(selectListCategoryFilter),
-  });
+  }).pipe(startWith(null));
 
   ngOnInit() {
     this.initPageMetadata();
@@ -67,9 +69,17 @@ export class ListPageComponent implements OnInit {
         // TODO: Ask first
         // this.store.dispatch(listAllItemsActions.removeCompleted());
         break;
+
       case listMenuAction.LIST_ACTION_REMOVE.id:
-        // TODO: Ask first
-        // this.store.dispatch(listAllItemsActions.remove());
+        this.modal.open(ConfirmPromptModalComponent, {
+          action: listMenuAction.LIST_ACTION_REMOVE.id,
+          type: 'list',
+          value: null,
+          title: 'Remove list',
+          message: 'Do you want to remove all items from the list?', // TODO: Translate
+        }).confirmed().subscribe(() => {
+          this.store.dispatch(listAllItemsActions.remove());
+        });
         break;
     }
   }

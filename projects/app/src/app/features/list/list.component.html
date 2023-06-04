@@ -17,7 +17,7 @@
   </ul>
 
   <!-- Items -->
-  <ul *ngIf="vm.itemGroups" class="_cards">
+  <ul *ngIf="vm.itemGroups.length" class="_cards">
     <li *ngFor="let group of vm.itemGroups; trackBy: trackByCategory">
       <app-card-list
         [title]="group.category"
