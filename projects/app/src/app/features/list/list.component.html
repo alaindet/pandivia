@@ -1,27 +1,36 @@
-<app-page-header>
-  
-  <h1>List</h1>
+<ng-container *ngIf="vm$ | async as vm">
 
-  <ng-container slot="right">
-    <app-actions-menu
-      id="list-contextual-menu"
-      [actions]="contextualMenu"
-      position="left"
-      (actionConfirmed)="onListContextualAction($event)"
-    >
-      <ng-container *appActionsMenuButton>
-        <button type="button" appButton="outline" type="button" isCircle withIconOnly>
-          <mat-icon>more_horiz</mat-icon>
-        </button>
-      </ng-container>
+  <!-- Filters -->
+  <ul *ngIf="vm.filters" class="_filters">
+    <li *ngFor="let filter of vm.filters">
+      <button
+        type="button"
+        appButton="secondary"
+        withIcon="left"
+        size="extra-small"
+        (click)="onRemoveFilter(filter)"
+      >
+        <mat-icon>clear</mat-icon>
+        {{ filter.value }}
+      </button>
+    </li>
+  </ul>
 
-      <ng-container *appActionsMenuItem="let action">
-        <mat-icon>{{ action.icon }}</mat-icon>
-        {{ action.label }}
-      </ng-container>
-    </app-actions-menu>
-  </ng-container>
+  <!-- Items -->
+  <ul *ngIf="vm.itemGroups.length" class="_cards">
+    <li *ngFor="let group of vm.itemGroups; trackBy: trackByCategory">
+      <app-card-list
+        [title]="group.category"
+        [items]="group.items"
+        [listActions]="CATEGORY_CONTEXTUAL_MENU"
+        [itemActionsFn]="getItemContextualMenu"
+        [isPinned]="vm.pinnedCategory === group.category"
+        (listActionClicked)="onCategoryAction(group.category, $event)"
+        (itemActionClicked)="onItemAction($event)"
+        (itemToggled)="onItemToggle($event)"
+        (pinned)="onPinCategory(group.category, $event)"
+      />
+    </li>
+  </ul>
 
-</app-page-header>
-
-<p>The page content goes here...</p>
+</ng-container>

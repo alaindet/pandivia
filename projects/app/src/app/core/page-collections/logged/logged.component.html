@@ -1,0 +1,17 @@
+<app-layout-stacked
+  *ngIf="vm$ | async as vm"
+  [title]="vm.layout.title"
+
+  [withBackButton]="vm.layout.backButton === BACK_BUTTON_STATUS.NATIVE"
+  [withControlledBackButton]="vm.layout.backButton === BACK_BUTTON_STATUS.CONTROLLED"
+  (backButtonClicked)="layout.clickControlledBackButton()"
+
+  [headerActions]="vm.layout.headerActions"
+  (headerActionClicked)="onHeaderAction($event)"
+
+  [footerActions]="vm.nav.items"
+  [footerCurrentAction]="vm.nav.current"
+  (footerActionClicked)="onBottomNavigation($event)"
+>
+  <router-outlet></router-outlet>
+</app-layout-stacked>

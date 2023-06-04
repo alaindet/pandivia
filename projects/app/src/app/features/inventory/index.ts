@@ -1,3 +1,3 @@
-import { InventoryFeatureComponent } from './inventory.component';
+import { INVENTORY_ROUTES } from './inventory.routes';
 
-export default InventoryFeatureComponent;
+export default INVENTORY_ROUTES;

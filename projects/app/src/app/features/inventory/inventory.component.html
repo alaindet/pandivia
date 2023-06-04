@@ -1,1 +1,6 @@
-<p>inventory feature component</p>
+<ul *ngIf="items$ | async as itemGroups" class="_items">
+  <li *ngFor="let group of itemGroups">
+    <h2>{{ group.category }}</h2>
+    group.items
+  </li>
+</ul>

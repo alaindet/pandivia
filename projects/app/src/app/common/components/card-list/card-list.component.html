@@ -1,0 +1,114 @@
+<div class="_header">
+
+  <div class="_left">
+
+    <div class="_title">
+      <h2>{{ title }}</h2>
+    </div>
+
+    <div class="_pin">
+      <button
+        appButton="ghost"
+        isCircle
+        withIcon="left"
+        size="extra-small"
+        (click)="onTogglePin()"
+      >
+        <mat-icon>{{ isPinned ? 'clear' : 'push_pin' }}</mat-icon>
+        {{ isPinned ? 'Unpin' : 'Pin' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="_right">
+    <app-actions-menu
+      [id]="title + '-menu'"
+      [actions]="listActions"
+      position="left"
+      offsetY="-2rem"
+      (actionConfirmed)="onListAction($event)"
+    >
+      <ng-container *appActionsMenuButton>
+        <button type="button" appButton="ghost" withIconOnly isCircle size="small">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+      </ng-container>
+    </app-actions-menu>
+  </div>
+
+</div>
+
+<ul class="_items">
+  <li
+    *ngFor="
+      let item of items; let last = last;
+      let index = index;
+      trackBy: trackByItemId;
+    "
+    class="_item"
+    [class.-last]="last"
+  >
+    <div class="_item-header">
+
+      <div class="_left" (click)="theCheckbox.toggle()">
+        <div class="_item-info">
+          <app-checkbox
+            #theCheckbox="app-checkbox"
+            [id]="item.id"
+            [checked]="item.isDone"
+            color="black"
+            (changed)="onToggleItem(item.id, $event)"
+          >
+            <span [class.-crossed]="item.isDone">
+              {{ item.amount }}x {{ item.name }}
+            </span>
+          </app-checkbox>
+        </div>
+      </div>
+
+      <div class="_right">
+
+        <!-- Show/hide description -->
+        <div class="_toggle-description" *ngIf="!!item.description">
+          <button
+            type="button"
+            appButton="ghost"
+            withIconOnly
+            isCircle
+            size="small"
+            (click)="onToggleDescription(item.id)"
+          >
+            <mat-icon>{{ !!itemsDescriptionMap.get(item.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+
+        <!-- Actions -->
+        <app-actions-menu
+          [id]="item.id + '-menu'"
+          [actions]="itemActionsMap.get(item.id) ?? []"
+          position="left"
+          offsetY="-4rem"
+          (actionConfirmed)="onItemAction(item.id, $event)"
+        >
+          <ng-container *appActionsMenuButton>
+            <button
+              type="button"
+              appButton="ghost"
+              withIconOnly
+              isCircle
+              size="small"
+            >
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </ng-container>
+        </app-actions-menu>
+
+      </div>
+
+    </div>
+    
+    <div *ngIf="!!itemsDescriptionMap.get(item.id)" class="_item-description">
+      {{ item.description }}
+    </div>
+  </li>
+</ul>

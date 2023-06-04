@@ -1,30 +1,67 @@
 <h2>In a form</h2>
 <form [formGroup]="myForm">
   <pre>{{ { value: myForm.value, errors: myForm.errors } | json }}</pre>
-  <app-checkbox formControlName="myCheckbox1">My checkbox 1</app-checkbox>
+
+  <label>
+    <app-checkbox formControlName="myCheckbox1" [id]="'myCheckbox1'">
+      My checkbox 1
+    </app-checkbox>
+  </label>
+
   &nbsp;
-  <app-checkbox formControlName="myCheckbox2">My checkbox 2</app-checkbox>
+
+  <label>
+    <app-checkbox
+      formControlName="myCheckbox2"
+      [id]="'myCheckbox2'"
+      ariaLabelledBy="the-checkbox2-label"
+    >
+      My checkbox 2
+    </app-checkbox>
+  </label>
+
+  <br>
+  <span id="the-checkbox2-label">I am the label of checkbox 2</span>
 </form>
 
-<h2>Basic</h2>
-<div class="demo-cases">
-  <app-checkbox [checked]="true">Checked by default</app-checkbox>
-  <app-checkbox>Unchecked by default</app-checkbox>
-</div>
-
 <h2>Color</h2>
+
 <div class="demo-cases">
   <app-checkbox color="primary" [checked]="true">
-    Primary
+    Primary checked
   </app-checkbox>
+
   <app-checkbox color="secondary" [checked]="true">
-    Secondary
+    Secondary checked
   </app-checkbox>
+
   <app-checkbox color="tertiary" [checked]="true">
-    Tertiary
+    Tertiary checked
   </app-checkbox>
+
   <app-checkbox color="black" [checked]="true">
-    Black
+    Black checked
+  </app-checkbox>
+
+  <app-checkbox [checked]="false">
+    Unchecked
+  </app-checkbox>
+</div>
+
+<h2>Custom size</h2>
+
+<div class="demo-cases">
+  <app-checkbox color="primary" [checked]="true" size="16px">
+    16px
+  </app-checkbox>
+  <app-checkbox color="primary" [checked]="true" size="20px">
+    20px (default)
+  </app-checkbox>
+  <app-checkbox color="primary" [checked]="true" size="32px">
+    32px
+  </app-checkbox>
+  <app-checkbox color="primary" [checked]="true" size="48px">
+    48px
   </app-checkbox>
 </div>
 
@@ -38,15 +75,17 @@
   </app-checkbox>
 </div>
 
-<h2>Size</h2>
+<h2>Non-interactive</h2>
 <div class="demo-cases">
-  <app-checkbox size="32px" [checked]="true">
-    Custom size 32px
+  <app-checkbox
+    #theCheckbox="app-checkbox"
+    [isInteractable]="false"
+    (changed)="consoleLog('non interactive changed', $event)"
+  >
+    Non-interactive (controlled externally)
   </app-checkbox>
-  <app-checkbox size="48px" [checked]="true">
-    Custom size 48px
-  </app-checkbox>
-  <app-checkbox size="64px" [checked]="true">
-    Custom size 64px
-  </app-checkbox>
+
+  <button appButton="outline" size="small" (click)="theCheckbox.toggle()">
+    Toggle
+  </button>
 </div>

@@ -21,6 +21,7 @@
   background-color: var(--app-notification-background);
   color: $app-color-white;
   font-size: 0.85rem;
+  border-radius: 0.33rem;
 
   &.-type-success {
     --app-notification-background: #{$app-color-success};
@@ -30,15 +31,15 @@
     --app-notification-background: #{$app-color-error};
   }
 
-  &.-stopped {
+  &.-animating {
     --app-notification-transition-width: 0;
+  }
+
+  &.-stopped {
+    --app-notification-transition-width: 1;
     & > ._progress {
       transition: none;
     }
-  }
-
-  &.-animating {
-    --app-notification-transition-width: 1;
   }
 
   > ._icon {

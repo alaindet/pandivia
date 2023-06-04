@@ -1,7 +1,9 @@
 <ng-container *ngIf="!!vm">
 
   <div class="app-actions-menu-button">
-    <ng-container [ngTemplateOutlet]="vm.templates.button"></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="vm.templates.button ?? defaultButtonTemplate"
+    ></ng-container>
   </div>
 
   <ul
@@ -27,9 +29,28 @@
       (mouseover)="onActionMouseover($event, action.id)"
     >
       <ng-container
-        [ngTemplateOutlet]="vm.templates.item"
+        [ngTemplateOutlet]="vm.templates.item ?? defaultItemTemplate"
         [ngTemplateOutletContext]="{ $implicit: action }"
       ></ng-container>
     </li>
   </ul>
 </ng-container>
+
+<!-- Template: Default button -->
+<ng-template #defaultButtonTemplate>
+  <button
+    type="button"
+    appButton="outline"
+    type="button"
+    isCircle
+    withIconOnly
+  >
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+</ng-template>
+
+<!-- Template: Default item -->
+<ng-template #defaultItemTemplate let-action>
+  <mat-icon>{{ action.icon }}</mat-icon>
+  {{ action.label }}
+</ng-template>

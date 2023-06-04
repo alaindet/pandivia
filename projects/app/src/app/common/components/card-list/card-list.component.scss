@@ -1,0 +1,98 @@
+@import 'scoped';
+
+.app-card-list {
+  display: block;
+  border-radius: 0.5rem;
+  background-color: $app-color-white;
+  border: 1px solid $app-color-grey-600;
+
+  > ._header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $app-color-grey-600;
+    padding: 1rem;
+  }
+
+  ._title h2 {
+    display: inline-block;
+    margin: 0;
+  }
+
+  ._pin {
+    margin-left: 0.5rem;
+  }
+
+  > ._header ._left {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  > ._header ._right {
+    display: flex;
+    align-items: center;
+  }
+
+  > ._items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ._item {
+    border-bottom: 2px solid $app-color-grey-600;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+  }
+
+  ._item.-last {
+    border-bottom: none;
+  }
+
+  ._item-info {
+    font-size: 0.9em;
+  }
+
+  .-crossed {
+    text-decoration: line-through !important;
+    color: $app-color-grey-800;
+  }
+
+  ._item-header {
+    display: flex;
+    align-items: center;
+    height: $app-card-list-item-height;
+  }
+
+  ._item-header ._left {
+    height: 100%;
+    padding: 0.33rem 1rem;
+    padding-right: 0;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  ._item-header ._right {
+    padding: 0.33rem 1rem;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  ._toggle-description {
+    margin-right: 0.33rem;
+  }
+
+  ._item-description {
+    padding: 1rem;
+    padding-top: 0;
+    font-size: 0.85em;
+    font-style: italic;
+  }
+}

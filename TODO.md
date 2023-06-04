@@ -1,0 +1,3 @@
+- While item menu is open on card list, set item as "active" and style it as hovering
+- Clear list filters on page change?
+- Show delete warning when decrementing amount to zero

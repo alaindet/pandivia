@@ -1,3 +1,5 @@
-import { ListFeatureComponent } from './list.component';
+export * from './types';
 
-export default ListFeatureComponent;
+import { LIST_ROUTES } from './list.routes';
+
+export default LIST_ROUTES;

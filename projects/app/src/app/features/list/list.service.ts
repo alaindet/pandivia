@@ -1,28 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { ITEMS } from './items';
+import { ListItem } from '@app/core';
+import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_ITEMS, fakeRequest } from '@app/mocks';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ListService {
 
-  getItems(): Observable<any> {
-    return of(ITEMS).pipe(map(items => {
+  private config: FakeRequestConfig = {
+    failRate: MOCK_FAIL_RATE,
+    delay: MOCK_DELAY,
+  };
 
-      const groupedByCategory: { [category: string]: any[] } = {};
-
-      items.forEach(item => {
-        if (!groupedByCategory[item.category.id]) {
-          groupedByCategory[item.category.id] = [];
-        }
-        groupedByCategory[item.category.id].push(item);
-      });
-
-      return Object.entries(groupedByCategory).map(([category, items]) => {
-        return { category: items[0].category, items };
-      });
-    }));
+  getItems(): Observable<ListItem[]> {
+    return fakeRequest(MOCK_ITEMS, this.config);
   }
 }

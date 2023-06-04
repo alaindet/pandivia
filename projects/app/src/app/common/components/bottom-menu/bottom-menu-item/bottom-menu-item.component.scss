@@ -1,0 +1,49 @@
+@import 'scoped';
+
+.app-bottom-menu-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.33rem 0.5rem;
+  padding-bottom: 0.5rem;
+  cursor: pointer;
+  transition: 0.15s all ease-out;
+  background-color: $app-color-grey-50;
+  flex: 1 1 0;
+  -webkit-user-select: none;
+  user-select: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background-color: $app-color-primary-500;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: 0.15s all ease-in-out;
+  }
+
+  &:hover::after {
+    transform: scaleY(1.5) !important;
+    background-color: $app-color-primary-500 !important;
+  }
+
+  &:focus::after, &.-selected::after {
+    transform: scaleY(1);
+    background-color: $app-color-primary-600;
+  }
+
+  > ._icon .mat-icon {
+    color: $app-color-black;
+  }
+
+  > ._label {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+}

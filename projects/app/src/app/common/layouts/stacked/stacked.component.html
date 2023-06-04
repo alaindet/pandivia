@@ -1,0 +1,39 @@
+<header>
+  <app-page-header>
+
+    <h1>{{ title }}</h1>
+
+    <ng-container slot="right" *ngIf="!!headerActions.length">
+      <app-actions-menu
+        [id]="title"
+        [actions]="headerActions"
+        position="left"
+        (actionConfirmed)="onHeaderAction($event)"
+      >
+        <button
+          *appActionsMenuButton
+          type="button"
+          appButton="outline"
+          type="button"
+          isCircle
+          withIconOnly
+        >
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+      </app-actions-menu>
+    </ng-container>
+
+  </app-page-header>
+</header>
+
+<main>
+  <ng-content></ng-content>
+</main>
+
+<footer>
+  <app-bottom-menu
+    [items]="footerActions"
+    [selectedItem]="footerCurrentAction"
+    (selected)="onBottomMenuChange($event)"
+  ></app-bottom-menu>
+</footer>

@@ -1,8 +1,16 @@
 <router-outlet></router-outlet>
 
+<!-- Root component -->
 <app-modal-host></app-modal-host>
 
+<!-- Root component -->
 <app-notifications-host
   [notification]="notification$ | async"
-  (dismissed)="dismissNotification()"
+  (dismissed)="onDismissNotification()"
 ></app-notifications-host>
+
+<!-- Root component -->
+<app-linear-spinner
+  *ngIf="loading"
+  [fixed]="true"
+></app-linear-spinner>
