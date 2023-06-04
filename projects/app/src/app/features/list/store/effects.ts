@@ -18,32 +18,32 @@ export class ListEffects {
   private ui = createUiController(this.actions);
 
   fetchItems$ = createEffect(() => this.actions.pipe(
-    ofType(fromActions.fetchListItemsActions.fetchItems),
+    ofType(fromActions.listFetchItemsActions.fetchItems),
     withLatestFrom(this.store.select(selectListShouldFetch)),
     switchMap(([_, shouldFetch]) => shouldFetch
       ? fetchItemsHelper(this.listService)
-      : of(fromActions.fetchListItemsActions.fetchItemsCached())
+      : of(fromActions.listFetchItemsActions.fetchItemsCached())
     ),
   ));
 
   forceFetchItems$ = createEffect(() => this.actions.pipe(
-    ofType(fromActions.fetchListItemsActions.forceFetchItems),
+    ofType(fromActions.listFetchItemsActions.forceFetchItems),
     switchMap(() => fetchItemsHelper(this.listService)),
   ));
 
   startLoader$ = this.ui.startLoaderOn(
-    fromActions.fetchListItemsActions.fetchItems,
-    fromActions.fetchListItemsActions.forceFetchItems,
+    fromActions.listFetchItemsActions.fetchItems,
+    fromActions.listFetchItemsActions.forceFetchItems,
   );
 
   stopLoader$ = this.ui.stopLoaderOn(
-    fromActions.fetchListItemsActions.fetchItemsSuccess,
-    fromActions.fetchListItemsActions.fetchItemsError,
-    fromActions.fetchListItemsActions.fetchItemsCached,
+    fromActions.listFetchItemsActions.fetchItemsSuccess,
+    fromActions.listFetchItemsActions.fetchItemsError,
+    fromActions.listFetchItemsActions.fetchItemsCached,
   );
 
   showError$ = this.ui.showErrorOn(
-    fromActions.fetchListItemsActions.fetchItemsError,
+    fromActions.listFetchItemsActions.fetchItemsError,
   );
 }
 

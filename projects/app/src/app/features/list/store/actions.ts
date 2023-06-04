@@ -1,9 +1,9 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { ListItem } from '@app/core';
-import { ListFilter, ListFilterToken } from '../types';
+import { ListFilter } from '../types';
 
-export const fetchListItemsActions = createActionGroup({
+export const listFetchItemsActions = createActionGroup({
   source: 'List',
   events: {
     'Fetch items': emptyProps(),
@@ -26,13 +26,34 @@ export const listFilterActions = createActionGroup({
   },
 });
 
-export const listItemActions = createActionGroup({
+export const listAllItemsActions = createActionGroup({
   source: 'List/Items',
   events: {
-    'Undo item': props<{ itemId: string }>(),
-    'Complete item': props<{ itemId: string }>(),
-    'Toggle item': props<{ itemId: string }>(),
-    'Increment item amount': props<{ itemId: string }>(),
-    'Decrement item amount': props<{ itemId: string }>(),
+    'Complete': emptyProps(),
+    'Undo': emptyProps(),
+    'Remove completed': emptyProps(),
+    'Remove': emptyProps(),
+  },
+});
+
+export const listCategoryActions = createActionGroup({
+  source: 'List/Category',
+  events: {
+    'Complete': props<{ category: string }>(),
+    'Undo': props<{ category: string }>(),
+    'Remove completed': props<{ category: string }>(),
+    'Remove': props<{ category: string }>(),
+  },
+});
+
+export const listItemActions = createActionGroup({
+  source: 'List/Item',
+  events: {
+    'Complete': props<{ itemId: string }>(),
+    'Undo': props<{ itemId: string }>(),
+    'Toggle': props<{ itemId: string }>(),
+    'Increment': props<{ itemId: string }>(),
+    'Decrement': props<{ itemId: string }>(),
+    'Remove': props<{ itemId: string }>(),
   },
 });

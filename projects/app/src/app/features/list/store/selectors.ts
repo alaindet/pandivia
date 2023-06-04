@@ -64,6 +64,11 @@ export const selectListFilters = createSelector(
   },
 );
 
+export const selectListCategoryFilter = createSelector(
+  selectListFeature,
+  state => state.filters[LIST_FILTER.CATEGORY],
+);
+
 // export const selectListItemsByCategory = (category?: string) => createSelector(
 //   selectListFeature,
 //   state => {

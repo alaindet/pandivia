@@ -2,15 +2,17 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { CategorizedListItems, ListItem } from '@app/core';
-import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
-import { StackedLayoutService } from '@app/common/layouts';
-import { ActionsMenuItem, ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput } from '@app/common/components';
-import { LIST_CONTEXTUAL_MENU, LIST_ACTION_REFRESH } from './list-contextual-menu';
-import { fetchListItemsActions, listItemActions, listFilterActions, selectListCategorizedFilteredItems, selectListFilters } from './store';
-import * as itemMenuAction from './item-contextual-menu';
 import { MatIconModule } from '@angular/material/icon';
+import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput } from '@app/common/components';
+import { StackedLayoutService } from '@app/common/layouts';
+import { CategorizedListItems } from '@app/core';
+import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
+import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
+import { combineLatest } from 'rxjs';
+import * as itemMenuAction from './item.contextual-menu';
+import * as listMenuAction from './list.contextual-menu';
+import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
+import * as categoryMenuAction from './category.contextual-menu';
 import { ListFilterToken } from './types';
 
 const IMPORTS = [
@@ -34,78 +36,102 @@ export class ListPageComponent implements OnInit {
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
 
-  items$ = this.store.select(selectListCategorizedFilteredItems);
-  filters$ = this.store.select(selectListFilters);
-  listContextualMenu = LIST_CONTEXTUAL_MENU;
-  categoryContextualMenus = new Map<string, ActionsMenuItem[]>();
+  CATEGORY_CONTEXTUAL_MENU = categoryMenuAction.CATEGORY_CONTEXTUAL_MENU;
+  getItemContextualMenu = itemMenuAction.getItemContextualMenu;
+
+  vm$ = combineLatest({
+    itemGroups: this.store.select(selectListCategorizedFilteredItems),
+    filters: this.store.select(selectListFilters),
+    pinnedCategory: this.store.select(selectListCategoryFilter),
+  });
 
   ngOnInit() {
     this.initPageMetadata();
-    this.layout.setHeaderActions(LIST_CONTEXTUAL_MENU);
-    this.store.dispatch(fetchListItemsActions.fetchItems());
-    this.layout.headerActionEvent.subscribe(this.onListContextualAction.bind(this));
+    this.layout.setHeaderActions(listMenuAction.LIST_CONTEXTUAL_MENU);
+    this.store.dispatch(listFetchItemsActions.fetchItems());
+    this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
   }
 
-  onListContextualAction(action: string) {
+  onListAction(action: string) {
     switch (action) {
-      case LIST_ACTION_REFRESH.id:
-        this.store.dispatch(fetchListItemsActions.forceFetchItems());
+      case listMenuAction.LIST_ACTION_REFRESH.id:
+        this.store.dispatch(listFetchItemsActions.forceFetchItems());
+        break;
+      case listMenuAction.LIST_ACTION_COMPLETE.id:
+        this.store.dispatch(listAllItemsActions.complete());
+        break;
+      case listMenuAction.LIST_ACTION_UNDO.id:
+        this.store.dispatch(listAllItemsActions.undo());
+        break;
+      case listMenuAction.LIST_ACTION_REMOVE_COMPLETED.id:
+        // TODO: Ask first
+        // this.store.dispatch(listAllItemsActions.removeCompleted());
+        break;
+      case listMenuAction.LIST_ACTION_REMOVE.id:
+        // TODO: Ask first
+        // this.store.dispatch(listAllItemsActions.remove());
         break;
     }
   }
 
-  onListAction(action: string) {
-    console.log('onListAction', action);
+  onCategoryAction(category: string, action: string) {
+    switch (action) {
+      case categoryMenuAction.CATEGORY_ACTION_COMPLETE.id:
+        this.store.dispatch(listCategoryActions.complete({ category }));
+        break;
+      case categoryMenuAction.CATEGORY_ACTION_UNDO.id:
+        this.store.dispatch(listCategoryActions.undo({ category }));
+        break;
+      case categoryMenuAction.CATEGORY_ACTION_REMOVE_COMPLETED.id:
+        // TODO: Ask first
+        // this.store.dispatch(listCategoryActions.removeCompleted({ category }));
+        break;
+      case categoryMenuAction.CATEGORY_ACTION_REMOVE.id:
+        // TODO: Ask first
+        // this.store.dispatch(listCategoryActions.remove({ category }));
+        break;
+    }
   }
 
   onItemAction({ itemId, action }: ItemActionOutput) {
     switch(action) {
       case itemMenuAction.ITEM_ACTION_UNDO.id:
-        this.store.dispatch(listItemActions.undoItem({ itemId }));
+        this.store.dispatch(listItemActions.undo({ itemId }));
         break;
       case itemMenuAction.ITEM_ACTION_COMPLETE.id:
-        this.store.dispatch(listItemActions.completeItem({ itemId }));
+        this.store.dispatch(listItemActions.complete({ itemId }));
         break;
       case itemMenuAction.ITEM_ACTION_EDIT.id:
         // TODO: Show edit modal
         break;
       case itemMenuAction.ITEM_ACTION_INCREMENT.id:
-        this.store.dispatch(listItemActions.incrementItemAmount({ itemId }));
+        this.store.dispatch(listItemActions.increment({ itemId }));
         break;
       case itemMenuAction.ITEM_ACTION_DECREMENT.id:
-        this.store.dispatch(listItemActions.decrementItemAmount({ itemId }));
+        this.store.dispatch(listItemActions.decrement({ itemId }));
         break;
-      case itemMenuAction.ITEM_ACTION_DELETE.id:
-        // TODO: Show delete modal prompt
+      case itemMenuAction.ITEM_ACTION_REMOVE.id:
+        // TODO: Ask first
+        // this.store.dispatch(listItemActions.remove({ itemId }));
         break;
     }
   }
 
   onItemToggle({ itemId, isDone }: ItemToggledOutput) {
-    this.store.dispatch(listItemActions.toggleItem({ itemId }));
+    this.store.dispatch(listItemActions.toggle({ itemId }));
   }
 
   onPinCategory(category: string, isPinned: boolean) {
     if (isPinned) {
       this.store.dispatch(listFilterActions.setCategoryFilter({ category }));
     } else {
-      this.store.dispatch(listFilterActions.clearCategoryFilter());  
+      this.store.dispatch(listFilterActions.clearCategoryFilter());
     }
   }
 
   onRemoveFilter(filter: ListFilterToken) {
     const name = filter.key;
     this.store.dispatch(listFilterActions.clearFilterByName({ name }));
-  }
-
-  getItemActions(item: ListItem): ActionsMenuItem[] {
-    return [
-      item.isDone ? itemMenuAction.ITEM_ACTION_UNDO : itemMenuAction.ITEM_ACTION_COMPLETE,
-      itemMenuAction.ITEM_ACTION_EDIT,
-      itemMenuAction.ITEM_ACTION_INCREMENT,
-      itemMenuAction.ITEM_ACTION_DECREMENT,
-      itemMenuAction.ITEM_ACTION_DELETE,
-    ];
   }
 
   trackByCategory(index: number, group: CategorizedListItems): string {
