@@ -5,7 +5,7 @@ import { didInputChange } from '@app/common/utils';
 import { DataSource } from '@app/common/sources';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteService } from './autocomplete.service';
-import { AutocompleteOption, AutocompleteSource, AutocompleteAsyncOptionsFn, AutocompleteOptionValuePicker } from './types';
+import { AutocompleteOption, AutocompleteSource, AutocompleteAsyncOptionsFn, AutocompleteOptionValuePicker, AUTOCOMPLETE_SOURCE } from './types';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 
@@ -154,13 +154,13 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private setupAsyncSource(): void {
-    if (this.source !== 'async') return;
+    if (this.source !== AUTOCOMPLETE_SOURCE.ASYNC) return;
     if (!this.asyncOptions) throw new Error('Missing async options function');
     this.svc.setAsyncOptions(this.asyncOptions);
   }
 
   private setupStaticSource(): void {
-    if (this.source !== 'static') return;
+    if (this.source !== AUTOCOMPLETE_SOURCE.STATIC) return;
     if (!this.staticOptions?.length) throw new Error('Missing static options');
     const fields = this.staticSearchableFields?.length
       ? this.staticSearchableFields

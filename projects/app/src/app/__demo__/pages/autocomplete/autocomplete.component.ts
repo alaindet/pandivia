@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { JsonPipe, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TextInputComponent, AutocompleteComponent, AutocompleteOptionComponent, AutocompleteAsyncOptionsFn, AutocompleteOption } from '@app/common/components';
+import { TextInputComponent, AutocompleteComponent, AutocompleteOptionComponent, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionDirective } from '@app/common/components';
 import { OPTIONS } from './options';
 import { Observable, delay, of } from 'rxjs';
 
@@ -12,7 +12,7 @@ const IMPORTS = [
   JsonPipe,
   TextInputComponent,
   AutocompleteComponent,
-  AutocompleteOptionComponent,
+  AutocompleteOptionDirective,
 ];
 
 @Component({

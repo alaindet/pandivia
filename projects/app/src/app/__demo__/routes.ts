@@ -19,9 +19,11 @@ import { PageHeaderDemoPageComponent } from './pages/page-header/page-header.com
 import { QuickNumberDemoPageComponent } from './pages/quick-number/quick-number.component';
 import { SelectDemoPageComponent } from './pages/select/select.component';
 import { TextInputDemoPageComponent } from './pages/text-input/text-input.component';
+import { AutocompleteDemoPageComponent } from './pages/autocomplete/autocomplete.component';
 // ...
 
 export const DEMO_PAGES: DemoRoute[] = [
+  demoRoute('autocomplete', 'Autocomplete', AutocompleteDemoPageComponent),
   demoRoute('bottom-menu', 'Bottom Menu', BottomMenuDemoPageComponent),
   demoRoute('button', 'Button', ButtonDemoPageComponent),
   demoRoute('card-list', 'Card List', CardListDemoPageComponent),
