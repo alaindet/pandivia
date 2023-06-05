@@ -5,6 +5,7 @@
   --app-autocomplete-dropdown-x: 0;
   --app-autocomplete-dropdown-y: 0;
 
+  display: block;
   position: relative;
   width: var(--app-autocomplete-width);
 
@@ -23,7 +24,7 @@
     transform-origin: top center;
     max-height: $app-height-autocomplete-options;
     overflow-y: auto;
-    width: var(--width);
+    width: var(--app-autocomplete-width);
     top: var(--app-autocomplete-dropdown-y);
     left: var(--app-autocomplete-dropdown-x);
     display: flex;

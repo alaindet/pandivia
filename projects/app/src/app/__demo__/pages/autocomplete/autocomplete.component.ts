@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { JsonPipe, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { TextInputComponent, AutocompleteComponent, AutocompleteOptionComponent, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionDirective } from '@app/common/components';
+import { TextInputComponent, AutocompleteComponent, FormFieldComponent, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionDirective, FormFieldLabelComponent } from '@app/common/components';
 import { OPTIONS } from './options';
 import { Observable, delay, of } from 'rxjs';
 
@@ -13,6 +13,8 @@ const IMPORTS = [
   TextInputComponent,
   AutocompleteComponent,
   AutocompleteOptionDirective,
+  FormFieldComponent,
+  FormFieldLabelComponent,
 ];
 
 @Component({
@@ -30,7 +32,7 @@ export class AutocompleteDemoPageComponent {
     query: string,
   ): Observable<AutocompleteOption[]> => {
     const filteredOptions = this.options.filter(opt => opt.id.includes(query));
-    return of(filteredOptions).pipe(delay(2000));
+    return of(filteredOptions).pipe(delay(800));
   };
 
   theForm = new FormGroup({

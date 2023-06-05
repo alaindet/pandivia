@@ -3,50 +3,70 @@
 <form [formGroup]="theForm">
 
   <!-- Static options -->
-  <app-text-input
-    #staticInput="app-text-input"
-    type="text"
-    formControlName="staticField"
-    placeholder="Enter some text here..."
-  ></app-text-input>
+  <app-form-field id="autocomplete-static">
 
-  <app-autocomplete
-    [inputComponent]="staticInput"
-    source="static"
-    [filteringDelay]="100"
-    pickValue="id"
-    [staticOptions]="options"
-    [staticSearchableFields]="['word']"
-    (confirmed)="consoleLog('confirmed', $event)"
-  >
-    <ng-container *appAutocompleteOption="let option">
-      <strong>{{ option.word }}</strong>
-      <br>
-      (id: "{{ option.id }}")
-    </ng-container>
-  </app-autocomplete>
+    <app-form-field-label>
+      Static options
+    </app-form-field-label>
+
+    <app-text-input
+      [id]="'autocomplete-static'"
+      #staticInput="app-text-input"
+      type="search"
+      formControlName="staticField"
+      placeholder="Enter some text here..."
+    ></app-text-input>
+
+    <app-autocomplete
+      [inputComponent]="staticInput"
+      source="static"
+      [filteringDelay]="100"
+      pickValue="id"
+      [staticOptions]="options"
+      [staticSearchableFields]="['word']"
+      width="19.25rem"
+      (confirmed)="consoleLog('confirmed', $event)"
+    >
+      <ng-container *appAutocompleteOption="let option">
+        <strong>{{ option.word }}</strong>
+        <br>
+        (id: "{{ option.id }}")
+      </ng-container>
+    </app-autocomplete>
+
+  </app-form-field>
+
+  <br><br>
 
   <!-- Async options -->
-  <!-- <app-text-input
-    #asyncInput="app-text-input"
-    type="search"
-    formControlName="asyncField"
-    placeholder="Enter some text here..."
-  ></app-text-input>
+  <app-form-field id="autocomplete-async">
 
-  <app-autocomplete
-    [inputComponent]="asyncInput"
-    source="async"
-    [filteringDelay]="400"
-    pickValue="id"
-    [asyncOptions]="asyncOptions"
-    [minChar]="3"
-    (confirmed)="consoleLog('confirmed', $event)"
-  >
-    <ng-container *appAutocompleteOption="let option">
-      <strong>{{ option.word }}</strong>
-      <br>
-      (id: "{{ option.id }}")
-    </ng-container>
-  </app-autocomplete> -->
+    <app-form-field-label>
+      Async options
+    </app-form-field-label>
+
+    <app-text-input
+      [id]="'autocomplete-async'"
+      #asyncInput="app-text-input"
+      type="search"
+      formControlName="asyncField"
+      placeholder="Enter some text here..."
+    ></app-text-input>
+
+    <app-autocomplete
+      [inputComponent]="asyncInput"
+      source="async"
+      [filteringDelay]="400"
+      pickValue="id"
+      [asyncOptions]="asyncOptions"
+      [minChar]="3"
+      (confirmed)="consoleLog('confirmed', $event)"
+    >
+      <ng-container *appAutocompleteOption="let option">
+        <strong>{{ option.word }}</strong>
+        <br>
+        (id: "{{ option.id }}")
+      </ng-container>
+    </app-autocomplete>
+  </app-form-field>
 </form>

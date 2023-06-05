@@ -3,8 +3,8 @@ import { filter, fromEvent, Observable, of, switchMap, take, takeUntil } from 'r
 
 import { DataSource, EventSource, OnceSource } from '@app/common/sources';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
-import { onKeydown, createDebouncedInputEvent } from '@app/common/utils';
-import { AutocompleteOption, AutocompleteSource, AutocompleteAsyncOptionsFn, AutocompleteOptionValuePicker } from './types';
+import { createDebouncedInputEvent } from '@app/common/utils';
+import { AutocompleteOption, AutocompleteSource, AutocompleteAsyncOptionsFn, AutocompleteOptionValuePicker, AUTOCOMPLETE_SOURCE } from './types';
 
 @Injectable()
 export class AutocompleteService implements OnDestroy {
@@ -156,11 +156,11 @@ export class AutocompleteService implements OnDestroy {
     let shouldOpenEarly = false;
 
     switch (this.source) {
-      case 'static':
+      case AUTOCOMPLETE_SOURCE.STATIC:
         options$ = of(this.staticFilterBy(query));
         shouldOpenEarly = false;
         break;
-      case 'async':
+      case AUTOCOMPLETE_SOURCE.ASYNC:
         options$ = this.asyncOptionsFn!(query);
         shouldOpenEarly = true;
         break;
@@ -180,12 +180,33 @@ export class AutocompleteService implements OnDestroy {
   }
 
   private listenToKeyboardControls(element: HTMLInputElement): void {
-    onKeydown(element, this.once.event$, [
-      [[KB.ARROW_UP], () => this.focusPrevious()],
-      [[KB.ARROW_DOWN], () => this.focusNext()],
-      [[KB.ENTER], () => this.confirmFocused()],
-      [[KB.ESCAPE], () => this.closeDropdown()],
-    ]);
+    fromEvent<KeyboardEvent>(element, 'keydown')
+      .pipe(takeUntil(this.once.event$))
+      .subscribe(event => {
+
+        switch (event.key) {
+          case KB.ARROW_UP:
+            this.focusPrevious();
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            break;
+          case KB.ARROW_DOWN:
+            this.focusNext();
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            break;
+          case KB.ENTER:
+            this.confirmFocused();
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            break;
+          case KB.ESCAPE:
+            this.closeDropdown();
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            break;
+        }
+      });
   }
 
   // Turns an array of any[] in an array of searchable strings based

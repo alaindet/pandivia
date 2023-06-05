@@ -1,17 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnInit, OnDestroy, Output, SimpleChange, SimpleChanges, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { filter, tap } from 'rxjs';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { auditTime, combineLatest, map, startWith } from 'rxjs';
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { SIXTY_FRAMES_PER_SECOND } from '@app/common/constants';
+import { filterNull } from '@app/common/rxjs';
 import { didInputChange } from '@app/common/utils';
-import { DataSource } from '@app/common/sources';
 import { TextInputComponent } from '../text-input';
-import { AutocompleteService } from './autocomplete.service';
-import { AutocompleteOption, AutocompleteSource, AutocompleteAsyncOptionsFn, AutocompleteOptionValuePicker, AUTOCOMPLETE_SOURCE } from './types';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
+import { AutocompleteService } from './autocomplete.service';
+import { AUTOCOMPLETE_SOURCE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSource } from './types';
 
 const IMPORTS = [
   NgIf,
   NgFor,
+  AsyncPipe,
   NgTemplateOutlet,
   AutocompleteOptionComponent,
 ];
@@ -41,15 +43,22 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   @Input() @HostBinding('style.--app-autocomplete-width') width = '19.25rem';
 
   @Output() confirmed = new EventEmitter<AutocompleteOption>();
+  
+  @HostBinding('class.-open') cssOpen = false;
 
-  t__options: AutocompleteOption[] = [];
-  t__optionTemplate!: TemplateRef<AutocompleteOption>;
-  @HostBinding('class.-open') t__open = false;
-  t__loading = false;
-  t__focusedIndex: number | null = null;
-  t__inputId!: string;
-  t__focusedId!: string | null;
-  // t__valuesMap!: OptionValuesMap;
+  inputId!: string;
+  
+  vm$ = combineLatest({
+    isLoading: this.svc.loading.data$,
+    options: this.svc.options.data$,
+    optionTemplate: this.svc.optionTemplate.data$.pipe(filterNull()),
+    isOpen: this.svc.open.data$,
+    focusedIndex: this.svc.focusedIndex.data$,
+    focusedId: this.svc.focusedId.data$,
+  }).pipe(
+    startWith(null),
+    auditTime(SIXTY_FRAMES_PER_SECOND),
+  );
 
   private onClickOutRef!: (e: MouseEvent) => void;
   private nativeInput!: HTMLInputElement;
@@ -57,18 +66,20 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private svc: AutocompleteService,
     private host: ElementRef,
-    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
     this.svc.source = this.source;
     this.svc.setValuePicker(this.pickValue);
     this.initInputElement();
+    this.initSource();
     this.setupAsyncSource();
     this.setupStaticSource();
-    this.watchState();
-    this.watchEvents();
+    this.listenToConfirmOptionEvent();
     this.initClickOut();
+
+    // TODO: Move?
+    this.vm$.pipe(map(vm => !!vm?.isOpen)).subscribe(isOpen => this.cssOpen = isOpen);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -92,13 +103,29 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
 
   private initInputElement(): void {
     this.nativeInput = this.inputComponent.getNativeElement();
-    this.t__inputId = this.inputComponent.id!;
+    this.inputId = this.inputComponent.id!;
     this.svc.setInputElement(
       this.nativeInput,
       this.filteringDelay,
       this.searchOnEmpty,
       this.minChar,
     );
+  }
+
+  private initSource(): void {
+    switch (this.source) {
+
+      case AUTOCOMPLETE_SOURCE.STATIC:
+        if (!this.staticOptions?.length) throw new Error('Missing static options');
+        let fields = this.staticSearchableFields;
+        this.svc.setStaticSearchableFields(fields?.length ? fields : ['id']);
+        break;
+        
+        case AUTOCOMPLETE_SOURCE.ASYNC:
+        if (!this.asyncOptions) throw new Error('Missing async options function');
+        this.svc.setAsyncOptions(this.asyncOptions);
+        break;
+    }
   }
 
   private initClickOut(): void {
@@ -111,37 +138,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private onClickOut(event: any): void {
-    if (!this.t__open) return;
+    if (!this.svc.open.getCurrent()) return;
     if (this.host.nativeElement.contains(event.target)) return;
     this.nativeInput.focus();
     this.svc.closeDropdown();
-  }
-
-  private watchState(): void {
-    this.svc.optionTemplate.data$
-      .pipe(filter(x => x !== null))
-      .subscribe(x => {
-        this.t__optionTemplate = x as TemplateRef<AutocompleteOption>;
-        this.cdr.detectChanges();
-      });
-
-    // TODO: Optimize? Too many detectChanges
-    const syncData = <T>(source: DataSource<T>, fn: (data: T) => void): void => {
-      source.data$.pipe(tap(data => {
-        fn(data);
-        this.cdr.detectChanges();
-      })).subscribe();
-    };
-
-    syncData(this.svc.options, x => this.t__options = x);
-    syncData(this.svc.open, x => this.t__open = x);
-    syncData(this.svc.loading, x => this.t__loading = x);
-    syncData(this.svc.focusedIndex, x => this.t__focusedIndex = x);
-    syncData(this.svc.focusedId, x => this.t__focusedId = x);
-  }
-
-  private watchEvents(): void {
-    this.listenToConfirmOptionEvent();
   }
 
   private listenToConfirmOptionEvent(): void {
