@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
+import { ACTIONS_MENU_EXPORTS, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 import { ITEM_CONTEXTUAL_MENU, LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './contextual-menu';
 import { fetchInventoryItemsActions, selectInventoryCategorizedItems } from './store';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
@@ -13,9 +13,7 @@ import { StackedLayoutService } from '@app/common/layouts';
 const IMPORTS = [
   CommonModule,
   PageHeaderComponent,
-  ActionsMenuComponent,
-  ActionsMenuButtonDirective,
-  ActionsMenuItemDirective,
+  ...ACTIONS_MENU_EXPORTS,
   MatIconModule,
   ButtonComponent,
 ];

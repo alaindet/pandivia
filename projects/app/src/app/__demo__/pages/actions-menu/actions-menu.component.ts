@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem, ActionsMenuItemDirective } from '@app/common/components/menu/actions-menu';
+import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '@app/common/components/menu/actions-menu';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '@app/common/components/button';
 
 const IMPORTS = [
-  ActionsMenuComponent,
-  ActionsMenuButtonDirective,
-  ActionsMenuItemDirective,
+  ...ACTIONS_MENU_EXPORTS,
   ButtonComponent,
   MatIconModule,
 ];

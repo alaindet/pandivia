@@ -3,14 +3,11 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TextInputComponent } from '@app/common/components';
-import { FormFieldComponent, FormFieldErrorComponent, FormFieldHintComponent, FormFieldLabelComponent } from '@app/common/components/form-field';
+import { FORM_FIELD_EXPORTS } from '@app/common/components/form-field';
 
 const IMPORTS = [
   NgIf,
-  FormFieldComponent,
-  FormFieldErrorComponent,
-  FormFieldHintComponent,
-  FormFieldLabelComponent,
+  ...FORM_FIELD_EXPORTS,
   ReactiveFormsModule,
   TextInputComponent,
 ];

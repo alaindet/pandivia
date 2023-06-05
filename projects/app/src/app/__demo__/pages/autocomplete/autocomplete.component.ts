@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { JsonPipe, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
-import { TextInputComponent, AutocompleteComponent, FormFieldComponent, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionDirective, FormFieldLabelComponent } from '@app/common/components';
-import { OPTIONS } from './options';
 import { Observable, delay, of } from 'rxjs';
+
+import { TextInputComponent, FormFieldComponent, AutocompleteAsyncOptionsFn, AutocompleteOption, FormFieldLabelComponent } from '@app/common/components';
+import { AUTOCOMPLETE_EXPORTS } from '@app/common/components/autocomplete';
+import { OPTIONS } from './options';
 
 const IMPORTS = [
   NgIf,
   ReactiveFormsModule,
   JsonPipe,
   TextInputComponent,
-  AutocompleteComponent,
-  AutocompleteOptionDirective,
+  ...AUTOCOMPLETE_EXPORTS,
   FormFieldComponent,
   FormFieldLabelComponent,
 ];

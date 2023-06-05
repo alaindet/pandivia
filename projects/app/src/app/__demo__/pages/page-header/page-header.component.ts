@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem, ActionsMenuItemDirective, ButtonComponent, PageHeaderComponent } from '@app/common/components';
+import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 
 const IMPORTS = [
   PageHeaderComponent,
-  ActionsMenuComponent,
-  ActionsMenuComponent,
-  ActionsMenuButtonDirective,
-  ActionsMenuItemDirective,
+  ...ACTIONS_MENU_EXPORTS,
   MatIconModule,
   ButtonComponent,
 ];

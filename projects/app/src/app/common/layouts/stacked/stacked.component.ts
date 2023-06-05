@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from '@angular/core';
 
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem, BottomMenuComponent, BottomMenuItem, ButtonComponent, PageHeaderComponent } from '@app/common/components';
+import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, BottomMenuComponent, BottomMenuItem, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from './stacked.service';
 import { MatIconModule } from '@angular/material/icon';
 import { NgIf } from '@angular/common';
 
 const IMPORTS = [
   NgIf,
-  ActionsMenuComponent,
-  ActionsMenuButtonDirective,
+  ...ACTIONS_MENU_EXPORTS,
   PageHeaderComponent,
   ButtonComponent,
   BottomMenuComponent,

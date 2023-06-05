@@ -2,14 +2,9 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulati
 
 type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 
-// const IMPORTS = [
-
-// ];
-
 @Component({
   selector: 'app-linear-spinner',
   standalone: true,
-  // imports: IMPORTS,
   template: `<div class="_bar"><div>`,
   styleUrls: ['./linear-spinner.component.scss'],
   encapsulation: ViewEncapsulation.None,

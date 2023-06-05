@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf } from '@angular/common';
 
 import { ListItem } from '@app/core';
-import { ActionsMenuButtonDirective, ActionsMenuComponent, ActionsMenuItem } from '../menu/actions-menu';
+import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
 import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
@@ -15,8 +15,7 @@ const IMPORTS = [
   MatIconModule,
   CheckboxComponent,
   ButtonComponent,
-  ActionsMenuComponent,
-  ActionsMenuButtonDirective,
+  ...ACTIONS_MENU_EXPORTS,
 ];
 
 /*
