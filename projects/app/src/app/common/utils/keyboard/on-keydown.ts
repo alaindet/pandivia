@@ -1,4 +1,4 @@
-import { fromEvent, tap, Observable } from 'rxjs';
+import { fromEvent, tap, Observable, takeUntil } from 'rxjs';
 
 import { KeyboardKey } from '@app/common/types';
 
@@ -13,13 +13,32 @@ type KeydownBinding = {
 
 type KeydownBindings = KeydownBinding[];
 
+type KeydownShortcutBinding = [KeydownBinding['on'], KeydownHandler];
+
+type KeydownShortcutBindings = KeydownShortcutBinding[];
+
 export function onKeydown(
   el: HTMLElement,
-  bindings: KeydownBindings,
+  destroy$: Observable<void>,
+  rawBindings: KeydownBindings | KeydownShortcutBindings,
 ): Observable<KeyboardEvent> {
+
+  if (!rawBindings.length) {
+    throw new Error('No keydown bindings provided');
+  }
 
   const staticHandlers: { [key: string]: KeydownHandler } = {};
   const dynamicHandlers: [KeydownBinder, KeydownHandler][] = [];
+
+  let bindings!: KeydownBindings;
+
+  // Shortcut bindings?
+  if (!(rawBindings[0] as KeydownBinding)?.on) {
+    const shortcuts = (rawBindings as KeydownShortcutBindings);
+    bindings = shortcuts.map(([on, handler]) => ({ on, handler }));
+  } else {
+    bindings = rawBindings as KeydownBindings;
+  }
 
   for (const { on, handler } of bindings) {
 
@@ -33,33 +52,35 @@ export function onKeydown(
     }
   }
 
-  return fromEvent<KeyboardEvent>(el, 'keydown').pipe(tap(event => {
+  return fromEvent<KeyboardEvent>(el, 'keydown').pipe(
+    takeUntil(destroy$),
+    tap(event => {
 
-    const onStopped = () => {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    };
+      const onStopped = () => {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+      };
 
-    const staticHandler = staticHandlers[event.key];
+      const staticHandler = staticHandlers[event.key];
 
-    if (!!staticHandler) {
-      if (!staticHandler(event)) {
-        return onStopped();
-      }
-    }
-
-    if (dynamicHandlers.length) {
-      for (const [on, dynamicHandler] of dynamicHandlers) {
-        const shouldHandle = on(event);
-
-        if (!shouldHandle) {
-          continue;
-        }
-
-        if (!dynamicHandler(event)) {
+      if (!!staticHandler) {
+        if (!staticHandler(event)) {
           return onStopped();
         }
       }
-    }
-  }));
+
+      if (dynamicHandlers.length) {
+        for (const [on, dynamicHandler] of dynamicHandlers) {
+          const shouldHandle = on(event);
+
+          if (!shouldHandle) {
+            continue;
+          }
+
+          if (!dynamicHandler(event)) {
+            return onStopped();
+          }
+        }
+      }
+    }));
 }

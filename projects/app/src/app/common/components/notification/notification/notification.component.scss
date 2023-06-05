@@ -17,7 +17,7 @@
   max-width: max(#{$app-notification-max-width}, 95vw);
   font-size: 1rem;
   padding: 0.25rem 1rem;
-  padding-bottom: calc(0.25rem + #{$app-notification-progress-height});
+  padding-bottom: calc(0.25rem + #{$app-height-notification-progress});
   background-color: var(--app-notification-background);
   color: $app-color-white;
   font-size: 0.85rem;
@@ -98,7 +98,7 @@
     right: 0;
     left: 0;
     bottom: 0;
-    height: $app-notification-progress-height;
+    height: $app-height-notification-progress;
     background-color: rgba(255,255,255,0.5);
     transform-origin: left;
     transition: transform var(--app-notification-transition-duration) linear;

@@ -68,7 +68,7 @@ export function createButtonElementController(parent: ActionsMenuService) {
   }
 
   function listenToKeyboard(el: HTMLButtonElement) {
-    onKeydown(el, [
+    onKeydown(el, parent.core.destroy$, [
       {
         on: [KB.SPACE, KB.ENTER, KB.ARROW_DOWN, KB.DOWN],
         handler: () => {

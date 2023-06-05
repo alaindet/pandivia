@@ -25,9 +25,9 @@ const IMPORTS = [
 
 @Component({
   selector: 'app-text-input',
+  exportAs: 'app-text-input',
   standalone: true,
   imports: IMPORTS,
-  exportAs: 'app-text-input',
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss'],
   encapsulation: ViewEncapsulation.None,

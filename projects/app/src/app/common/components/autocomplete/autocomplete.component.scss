@@ -1,0 +1,46 @@
+@import 'scoped';
+
+.app-autocomplete {
+  --app-autocomplete-width: 19.25rem;
+  --app-autocomplete-dropdown-x: 0;
+  --app-autocomplete-dropdown-y: 0;
+
+  position: relative;
+  width: var(--app-autocomplete-width);
+
+  &.-open {
+    ._options {
+      transform: scaleY(1);
+    }
+  }
+
+  ._options {
+    border: 1px solid $app-color-black;
+    border-radius: 4px;
+    position: absolute;
+    background-color: $app-color-white;
+    transform: scaleY(0);
+    transform-origin: top center;
+    max-height: $app-height-autocomplete-options;
+    overflow-y: auto;
+    width: var(--width);
+    top: var(--app-autocomplete-dropdown-y);
+    left: var(--app-autocomplete-dropdown-x);
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    list-style: none;
+    padding: 0;
+  }
+
+  ._option {
+    display: block;
+  }
+
+  ._missing-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+}

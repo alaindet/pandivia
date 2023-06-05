@@ -1,0 +1,43 @@
+<!-- Static options -->
+<app-input
+  #theStaticInput="app-input"
+  type="search"
+></app-input>
+
+<app-autocomplete
+  [inputComponent]="theStaticInput"
+  source="static"
+  [filteringDelay]="100"
+  pickValue="id"
+  [staticOptions]="options"
+  [staticSearchableFields]="['word']"
+  (confirmed)="consoleLog('confirmed', $event)"
+>
+  <ng-container *appAutocompleteOption="let option">
+    <strong>{{ option.word }}</strong>
+    <br>
+    (id: "{{ option.id }}")
+  </ng-container>
+</app-autocomplete>
+
+<!-- Async options -->
+<app-input
+  #theAsyncInput="app-input"
+  type="search"
+></app-input>
+
+<app-autocomplete
+  [inputComponent]="theAsyncInput"
+  source="async"
+  [filteringDelay]="400"
+  pickValue="id"
+  [asyncOptions]="asyncOptions"
+  [minChar]="3"
+  (confirmed)="consoleLog('confirmed', $event)"
+>
+  <ng-container *appAutocompleteOption="let option">
+    <strong>{{ option.word }}</strong>
+    <br>
+    (id: "{{ option.id }}")
+  </ng-container>
+</app-autocomplete>

@@ -1,6 +1,6 @@
 @import 'scoped';
 
-$app-demo-content-height: $app-demo-header-height + $app-demo-header-margin;
+$app-demo-content-height: $app-height-demo-header + $app-height-demo-header-margin;
 $app-demo-border: #aaa;
 
 :host {
@@ -50,8 +50,8 @@ $app-demo-border: #aaa;
 header {
   border-bottom: 2px solid $app-demo-border;
   padding: 1rem 0;
-  height: $app-demo-header-height;
-  margin: $app-demo-header-margin;
+  height: $app-height-demo-header;
+  margin: $app-height-demo-header-margin;
   margin-top: 0;
 }
 

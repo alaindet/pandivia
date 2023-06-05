@@ -14,7 +14,7 @@ export function createItemsElementController(parent: ActionsMenuService) {
   }
 
   function listenToKeyboard(el: HTMLElement) {
-    onKeydown(el, [
+    onKeydown(el, parent.core.destroy$, [
       {
         on: [KB.SPACE, KB.ENTER],
         handler: () => {

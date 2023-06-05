@@ -1,0 +1,13 @@
+@import 'scoped';
+
+.app-autocomplete-option {
+  padding: 0.5rem;
+  display: block;
+
+  &:hover,
+  &:focus,
+  &.-focused {
+    outline: 0;
+    background-color: $app-color-beige-600 !important;
+  }
+}
