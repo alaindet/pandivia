@@ -1,3 +1,4 @@
+export * from './autocomplete';
 export * from './bottom-menu';
 export * from './button';
 export * from './card-list';

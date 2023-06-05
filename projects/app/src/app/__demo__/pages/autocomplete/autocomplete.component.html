@@ -1,43 +1,50 @@
-<!-- Static options -->
-<app-input
-  #theStaticInput="app-input"
-  type="search"
-></app-input>
+<pre>{{ theForm.value | json }}</pre>
 
-<app-autocomplete
-  [inputComponent]="theStaticInput"
-  source="static"
-  [filteringDelay]="100"
-  pickValue="id"
-  [staticOptions]="options"
-  [staticSearchableFields]="['word']"
-  (confirmed)="consoleLog('confirmed', $event)"
->
-  <ng-container *appAutocompleteOption="let option">
-    <strong>{{ option.word }}</strong>
-    <br>
-    (id: "{{ option.id }}")
-  </ng-container>
-</app-autocomplete>
+<form [formGroup]="theForm">
 
-<!-- Async options -->
-<app-input
-  #theAsyncInput="app-input"
-  type="search"
-></app-input>
+  <!-- Static options -->
+  <app-text-input
+    #staticInput="app-text-input"
+    type="text"
+    formControlName="staticField"
+    placeholder="Enter some text here..."
+  ></app-text-input>
 
-<app-autocomplete
-  [inputComponent]="theAsyncInput"
-  source="async"
-  [filteringDelay]="400"
-  pickValue="id"
-  [asyncOptions]="asyncOptions"
-  [minChar]="3"
-  (confirmed)="consoleLog('confirmed', $event)"
->
-  <ng-container *appAutocompleteOption="let option">
-    <strong>{{ option.word }}</strong>
-    <br>
-    (id: "{{ option.id }}")
-  </ng-container>
-</app-autocomplete>
+  <app-autocomplete
+    [inputComponent]="staticInput"
+    source="static"
+    [filteringDelay]="100"
+    pickValue="id"
+    [staticOptions]="options"
+    [staticSearchableFields]="['word']"
+    (confirmed)="consoleLog('confirmed', $event)"
+  >
+    <ng-container *appAutocompleteOption="let option">
+      <strong>{{ option.word }}</strong>
+      <br>
+      (id: "{{ option.id }}")
+    </ng-container>
+  </app-autocomplete>
+
+  <!-- Async options -->
+  <app-text-input
+    #asyncInput="app-text-input"
+    type="search"
+  ></app-text-input>
+
+  <app-autocomplete
+    [inputComponent]="asyncInput"
+    source="async"
+    [filteringDelay]="400"
+    pickValue="id"
+    [asyncOptions]="asyncOptions"
+    [minChar]="3"
+    (confirmed)="consoleLog('confirmed', $event)"
+  >
+    <ng-container *appAutocompleteOption="let option">
+      <strong>{{ option.word }}</strong>
+      <br>
+      (id: "{{ option.id }}")
+    </ng-container>
+  </app-autocomplete>
+</form>

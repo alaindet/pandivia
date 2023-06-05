@@ -2,7 +2,7 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { ButtonComponent, TextInputComponent } from '@app/common/components';
+import { TextInputComponent } from '@app/common/components';
 
 const IMPORTS = [
   NgIf,
