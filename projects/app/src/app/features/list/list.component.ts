@@ -8,13 +8,14 @@ import { StackedLayoutService } from '@app/common/layouts';
 import { CategorizedListItems } from '@app/core';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { combineLatest, startWith } from 'rxjs';
+import { Observable, combineLatest, startWith, take } from 'rxjs';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
-import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
+import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
 import * as categoryMenuAction from './category.contextual-menu';
 import { ListFilterToken } from './types';
 import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
+import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 
 const IMPORTS = [
   NgIf,
@@ -66,18 +67,13 @@ export class ListPageComponent implements OnInit {
         this.store.dispatch(listAllItemsActions.undo());
         break;
       case listMenuAction.LIST_ACTION_REMOVE_COMPLETED.id:
-        // TODO: Ask first
-        // this.store.dispatch(listAllItemsActions.removeCompleted());
+        this.confirmPrompt(LIST_REMOVE_COMPLETED_PROMPT).subscribe(() => {
+          this.store.dispatch(listAllItemsActions.removeCompleted());
+        });
         break;
 
       case listMenuAction.LIST_ACTION_REMOVE.id:
-        this.modal.open(ConfirmPromptModalComponent, {
-          action: listMenuAction.LIST_ACTION_REMOVE.id,
-          type: 'list',
-          value: null,
-          title: 'Remove list',
-          message: 'Do you want to remove all items from the list?', // TODO: Translate
-        }).confirmed().subscribe(() => {
+        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe(() => {
           this.store.dispatch(listAllItemsActions.remove());
         });
         break;
@@ -93,12 +89,14 @@ export class ListPageComponent implements OnInit {
         this.store.dispatch(listCategoryActions.undo({ category }));
         break;
       case categoryMenuAction.CATEGORY_ACTION_REMOVE_COMPLETED.id:
-        // TODO: Ask first
-        // this.store.dispatch(listCategoryActions.removeCompleted({ category }));
+        this.confirmPrompt(CATEGORY_REMOVE_COMPLETED_PROMPT).subscribe(() => {
+          this.store.dispatch(listCategoryActions.removeCompleted({ category }));
+        });
         break;
       case categoryMenuAction.CATEGORY_ACTION_REMOVE.id:
-        // TODO: Ask first
-        // this.store.dispatch(listCategoryActions.remove({ category }));
+        this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe(() => {
+          this.store.dispatch(listCategoryActions.remove({ category }));
+        });
         break;
     }
   }
@@ -118,11 +116,21 @@ export class ListPageComponent implements OnInit {
         this.store.dispatch(listItemActions.increment({ itemId }));
         break;
       case itemMenuAction.ITEM_ACTION_DECREMENT.id:
-        this.store.dispatch(listItemActions.decrement({ itemId }));
+        const amount$ = this.store.select(selectItemAmount(itemId)).pipe(take(1));
+        amount$.subscribe(amount => {
+          if (amount <= 1) {
+            this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
+              this.store.dispatch(listItemActions.remove({ itemId }));
+            });
+          } else {
+            this.store.dispatch(listItemActions.decrement({ itemId }));
+          }
+        });
         break;
       case itemMenuAction.ITEM_ACTION_REMOVE.id:
-        // TODO: Ask first
-        // this.store.dispatch(listItemActions.remove({ itemId }));
+        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
+          this.store.dispatch(listItemActions.remove({ itemId }));
+        });
         break;
     }
   }
@@ -152,5 +160,11 @@ export class ListPageComponent implements OnInit {
     this.layout.setTitle('List');
     this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' }));
     this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_LIST.id }));
+  }
+
+  private confirmPrompt(
+    input: ConfirmPromptModalInput,
+  ): Observable<ConfirmPromptModalOutput> {
+    return this.modal.open(ConfirmPromptModalComponent, input).closed();
   }
 }

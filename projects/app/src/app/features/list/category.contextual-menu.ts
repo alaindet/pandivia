@@ -13,7 +13,7 @@ export const CATEGORY_ACTION_UNDO: ActionsMenuItem = {
 };
 
 export const CATEGORY_ACTION_REMOVE_COMPLETED: ActionsMenuItem = {
-  id: 'category:complete',
+  id: 'category:remove-completed',
   label: 'Remove all completed items', // TODO: Translate
   icon: 'remove_done',
 };

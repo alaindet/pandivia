@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { DataSource, EventSource, OnceSource } from '@app/common/sources';
-import { filter, map, take } from 'rxjs';
-import { MODAL_OUTPUT_STATUS, BaseModalComponent, ModalOutput, ModalRef } from './types';
+import { filter, map, of, switchMap, take, throwError } from 'rxjs';
+import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOutput, ModalRef } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +42,12 @@ export class ModalService implements OnDestroy {
   }
 
   closed() {
-    return this._closed$.event$.pipe(take(1));
+    return this._closed$.event$.pipe(take(1), switchMap(output => {
+      if (output.status === MODAL_OUTPUT_STATUS.CANCELED) {
+        return throwError(() => new Error('Modal canceled'));
+      }
+      return of(output.data);
+    }));
   }
 
   cancel() {

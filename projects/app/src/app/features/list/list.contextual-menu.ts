@@ -19,7 +19,7 @@ export const LIST_ACTION_UNDO: ActionsMenuItem = {
 };
 
 export const LIST_ACTION_REMOVE_COMPLETED: ActionsMenuItem = {
-  id: 'list:complete',
+  id: 'list:remove-completed',
   label: 'Remove all completed items', // TODO: Translate
   icon: 'remove_done',
 };

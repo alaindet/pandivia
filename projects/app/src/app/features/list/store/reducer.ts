@@ -100,28 +100,33 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   // Item actions -------------------------------------------------------------
 
   immerOn(fromActions.listItemActions.complete, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId)
-    if (index) state.items[index].isDone = true;
+    const index = getItemIndex(state, itemId);
+    if (index !== null) state.items[index].isDone = true;
   }),
 
   immerOn(fromActions.listItemActions.undo, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId)
-    if (index) state.items[index].isDone = false;
+    const index = getItemIndex(state, itemId);
+    if (index !== null) state.items[index].isDone = false;
   }),
 
   immerOn(fromActions.listItemActions.toggle, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId)
-    if (index) state.items[index].isDone = !state.items[index].isDone;
+    const index = getItemIndex(state, itemId);
+    if (index !== null) state.items[index].isDone = !state.items[index].isDone;
   }),
 
   immerOn(fromActions.listItemActions.increment, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId)
-    if (index) state.items[index].amount += 1;
+    const index = getItemIndex(state, itemId);
+    if (index !== null) state.items[index].amount += 1;
   }),
 
   immerOn(fromActions.listItemActions.decrement, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId)
-    if (index) state.items[index].amount -= 1;
+    const index = getItemIndex(state, itemId);
+    if (index !== null) state.items[index].amount -= 1;
+  }),
+
+  immerOn(fromActions.listItemActions.remove, (state, { itemId }) => {
+    const index = getItemIndex(state, itemId);
+    if (index !== null) state.items = state.items.filter(it => it.id !== itemId);
   }),
 );
 

@@ -21,7 +21,7 @@ export type ModalRef<TInput extends any, TOutput extends any> = {
   confirm: (data: TOutput) => void;
   confirmed: () => Observable<TOutput>;
   confirmClicked$: Observable<void>;
-  closed: () => Observable<ModalOutput<TOutput>>;
+  closed: () => Observable<TOutput>;
 };
 
 export class BaseModalComponent<TInput extends any, TOutput extends any> {
