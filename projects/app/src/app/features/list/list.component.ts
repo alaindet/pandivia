@@ -8,14 +8,15 @@ import { StackedLayoutService } from '@app/common/layouts';
 import { CategorizedListItems } from '@app/core';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { Observable, combineLatest, startWith, take } from 'rxjs';
+import { Observable, combineLatest, map, of, startWith, switchMap, take, throwError } from 'rxjs';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
-import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
+import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
 import * as categoryMenuAction from './category.contextual-menu';
 import { ListFilterToken } from './types';
 import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
+import { ItemFormModalComponent, ItemFormModalInput } from './components/item-form-modal';
 
 const IMPORTS = [
   NgIf,
@@ -110,22 +111,13 @@ export class ListPageComponent implements OnInit {
         this.store.dispatch(listItemActions.complete({ itemId }));
         break;
       case itemMenuAction.ITEM_ACTION_EDIT.id:
-        // TODO: Show edit modal
+        this.showEditModal(itemId);
         break;
       case itemMenuAction.ITEM_ACTION_INCREMENT.id:
         this.store.dispatch(listItemActions.increment({ itemId }));
         break;
       case itemMenuAction.ITEM_ACTION_DECREMENT.id:
-        const amount$ = this.store.select(selectItemAmount(itemId)).pipe(take(1));
-        amount$.subscribe(amount => {
-          if (amount <= 1) {
-            this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
-              this.store.dispatch(listItemActions.remove({ itemId }));
-            });
-          } else {
-            this.store.dispatch(listItemActions.decrement({ itemId }));
-          }
-        });
+        this.decrementOrRemove(itemId);
         break;
       case itemMenuAction.ITEM_ACTION_REMOVE.id:
         this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
@@ -166,5 +158,42 @@ export class ListPageComponent implements OnInit {
     input: ConfirmPromptModalInput,
   ): Observable<ConfirmPromptModalOutput> {
     return this.modal.open(ConfirmPromptModalComponent, input).closed();
+  }
+
+  private showEditModal(itemId: string): void {
+    // TODO: Show edit modal
+    this.store.select(selectItemById(itemId))
+      .pipe(
+        switchMap(item => !item
+          ? throwError(() => Error(`Item with id ${itemId} not found`))
+          : of(item)
+        ),
+        map(item => {
+          const title = 'Edit item'; // TODO: Translate
+          return { title, item } as ItemFormModalInput;
+        }),
+        switchMap(input => {
+          return this.modal.open(ItemFormModalComponent, input).closed();
+        }),
+      )
+      .subscribe({
+        error: () => console.log(`Item with id ${itemId} not edited`),
+        next: editedItem => {
+          console.log(`Item with id ${itemId} not edited`, editedItem);
+        },
+      });
+  }
+
+  private decrementOrRemove(itemId: string): void {
+    const amount$ = this.store.select(selectItemAmount(itemId)).pipe(take(1));
+    amount$.subscribe(amount => {
+      if (amount <= 1) {
+        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
+          this.store.dispatch(listItemActions.remove({ itemId }));
+        });
+      } else {
+        this.store.dispatch(listItemActions.decrement({ itemId }));
+      }
+    });
   }
 }

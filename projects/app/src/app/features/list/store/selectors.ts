@@ -69,6 +69,12 @@ export const selectListCategoryFilter = createSelector(
   state => state.filters[LIST_FILTER.CATEGORY],
 );
 
+export const selectItemById = (itemId: string) => (state: any) => {
+  const featureState = state[LIST_FEATURE_NAME] as ListFeatureState;
+  const item = featureState.items.find(item => item.id === itemId);
+  return item ?? null;
+};
+
 export const selectItemAmount = (itemId: string) => (state: any) => {
   const featureState = state[LIST_FEATURE_NAME] as ListFeatureState;
   const item = featureState.items.find(item => item.id === itemId);
