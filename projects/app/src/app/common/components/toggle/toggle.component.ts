@@ -1,8 +1,8 @@
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output, Provider, ViewEncapsulation, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { Component, EventEmitter, HostBinding, HostListener, Input, OnInit, Output, Provider, ViewEncapsulation, forwardRef, signal } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { getRandomHash } from '@app/common/utils';
+import { cssClassesList, getRandomHash } from '@app/common/utils';
 import { TOGGLE_LABEL_POSITION, ToggleLabelPosition } from './types';
 
 const IMPORTS = [
@@ -30,6 +30,7 @@ export class ToggleComponent implements OnInit, ControlValueAccessor {
 
   @Input() id!: string;
   @Input() title?: string;
+  @Input() color: 'primary' | 'secondary' | 'tertiary' = 'primary';
   @Input() @HostBinding('class.-checked') checked = false;
   @Input() @HostBinding('class.-disabled') isDisabled = false;
   @Input() @HostBinding('style.--app-toggle-bullet-size') size = '24px';
@@ -40,21 +41,26 @@ export class ToggleComponent implements OnInit, ControlValueAccessor {
   @HostBinding('class') cssClasses!: string;
 
   LABEL = TOGGLE_LABEL_POSITION;
+  idLabel!: string;
+  toggleValue = signal(false);
 
   private onChange!: (val: any) => {};
   private onTouched!: () => {};
 
   ngOnInit() {
-    if (!this.id) {
-      this.id = `app-toggle-${getRandomHash(3)}`;
-    }
+    this.initIds();
+    this.initCssClasses();
+  }
 
-    this.cssClasses = `-with-label-${this.withLabel}`;
+  onToggle() {
+    if (this.isDisabled) return;
+    this.outputValue(!this.checked);
   }
 
   // From ControlValueAccessor
   writeValue(value: any): void {
-    // ...
+    const checked = !!value;
+    this.checked = checked;
   }
 
   // From ControlValueAccessor
@@ -70,5 +76,26 @@ export class ToggleComponent implements OnInit, ControlValueAccessor {
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
+  }
+
+  private initIds(): void {
+    if (!this.id) {
+      this.id = `app-toggle-${getRandomHash(3)}`;
+    }
+    this.idLabel = `${this.id}-label`;
+  }
+
+  private initCssClasses(): void {
+    this.cssClasses = cssClassesList([
+      `-with-label-${this.withLabel}`,
+      `-color-${this.color}`,
+    ]);
+  }
+
+  private outputValue(checked: boolean): void {
+    this.checked = checked;
+    this.changed.emit(checked);
+    if (this.onChange) this.onChange(checked);
+    if (this.onTouched) this.onTouched();
   }
 }

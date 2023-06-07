@@ -1,41 +1,120 @@
 @import 'scoped';
 
 .app-toggle {
-  --app-toggle-bullet-size: 1.5rem;
+  --app-toggle-bullet-size: 0.5rem;
   --app-toggle-rail-width: calc(var(--app-toggle-bullet-size) * 1.667);
   --app-toggle-rail-height: calc(var(--app-toggle-bullet-size) * 0.667);
+  --app-toggle-offset: 0;
+  --app-toggle-color-rail: #{$app-color-grey-600};
+  --app-toggle-color-bullet: #{$app-color-grey-700};
+
+  position: relative;
 
   &.-checked {
-    // ...
+    --app-toggle-offset: calc(var(--app-toggle-rail-width) - var(--app-toggle-bullet-size));
+  }
+
+  &.-checked.-color {
+    &-primary {
+      --app-toggle-color-rail: #{$app-color-primary-400};
+      --app-toggle-color-bullet: #{$app-color-primary-600};
+    }
+
+    &-secondary {
+      --app-toggle-color-rail: #{$app-color-secondary-400};
+      --app-toggle-color-bullet: #{$app-color-secondary-600};
+    }
+
+    &-tertiary {
+      --app-toggle-color-rail: #{$app-color-tertiary-400};
+      --app-toggle-color-bullet: #{$app-color-tertiary-600};
+    }
   }
 
   &.-disabled {
-    // ...
+    pointer-events: none;
+    opacity: 0.5;
   }
 
   &.-with-label {
     &-left {
-      // ...
+      ._toggle {
+        order: 1;
+      }
     }
 
     &-left-fullwidth {
-      // ...
+      ._toggle {
+        order: 1;
+      }
+
+      button[aria-pressed] {
+        width: 100%;
+        justify-content: space-between;
+      }
     }
 
     &-right {
-      // ...
+      // Default
     }
 
     &-right-fullwidth {
-      // ...
+      button[aria-pressed] {
+        width: 100%;
+        justify-content: space-between;
+      }
     }
   }
 
-  ._toggle {
 
+
+  button[aria-pressed] {
+    &:hover, &:focus {
+      outline-offset: 0.5rem;
+      filter: brightness(0.85);
+      color: $app-color-grey-700;
+    }
   }
 
-  ._label {
+  button[aria-pressed] {
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.66rem;
+    padding: 0;
+  }
 
+  ._toggle {
+    display: block;
+    position: relative;
+    width: var(--app-toggle-rail-width);
+    height: var(--app-toggle-rail-height);
+  }
+
+  // Rail
+  ._toggle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--app-toggle-color-rail);
+    border-radius: var(--app-toggle-rail-height);
+    z-index: 1;
+  }
+
+  // Bullet
+  ._toggle::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transition: 0.15s transform ease-in-out;
+    transform: translate(var(--app-toggle-offset), -50%);
+    width: var(--app-toggle-bullet-size);
+    height: var(--app-toggle-bullet-size);
+    background-color: var(--app-toggle-color-bullet);
+    border-radius: var(--app-toggle-bullet-size);
+    z-index: 2;
   }
 }
