@@ -1,0 +1,41 @@
+@import 'scoped';
+
+.app-toggle {
+  --app-toggle-bullet-size: 1.5rem;
+  --app-toggle-rail-width: calc(var(--app-toggle-bullet-size) * 1.667);
+  --app-toggle-rail-height: calc(var(--app-toggle-bullet-size) * 0.667);
+
+  &.-checked {
+    // ...
+  }
+
+  &.-disabled {
+    // ...
+  }
+
+  &.-with-label {
+    &-left {
+      // ...
+    }
+
+    &-left-fullwidth {
+      // ...
+    }
+
+    &-right {
+      // ...
+    }
+
+    &-right-fullwidth {
+      // ...
+    }
+  }
+
+  ._toggle {
+
+  }
+
+  ._label {
+
+  }
+}

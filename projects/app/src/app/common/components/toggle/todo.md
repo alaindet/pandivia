@@ -1,0 +1,3 @@
+- https://www.w3.org/WAI/ARIA/apg/patterns/switch/examples/switch-button/
+- https://kittygiraudel.com/2021/04/05/an-accessible-toggle/#button-variant
+- https://adrianroselli.com/2019/08/under-engineered-toggles-too.html

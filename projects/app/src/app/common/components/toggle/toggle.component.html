@@ -1,0 +1,29 @@
+<!-- Left label -->
+<ng-container
+  *ngIf="withLabel === LABEL.LEFT || withLabel === LABEL.LEFT_FULLWIDTH"
+  [ngTemplateOutlet]="labelRef"
+></ng-container>
+
+<!-- Toggle -->
+<button
+  type="button"
+  class="_toggle"
+  [attr.title]="title"
+  [attr.aria-pressed]="checked ? 'true' : 'false'"
+  [attr.aria-labelledby]="'app-toggle-' + id + '-label'"
+>
+  {{ checked ? 'YES' : 'NO' }}
+</button>
+
+<!-- Right label -->
+<ng-container
+  *ngIf="withLabel === LABEL.RIGHT || withLabel === LABEL.RIGHT_FULLWIDTH"
+  [ngTemplateOutlet]="labelRef"
+></ng-container>
+
+<!-- Template: label -->
+<ng-template #labelRef>
+  <span class="_label" [id]="'app-toggle-' + id + '-label'">
+    <ng-content></ng-content>
+  </span>
+</ng-template>
