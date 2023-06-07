@@ -5,6 +5,7 @@ import { DemoPageComponent } from './demo.component';
 import { IndexDemoPageComponent } from './pages/_index/index.component';
 
 // Pages
+import { AutocompleteDemoPageComponent } from './pages/autocomplete/autocomplete.component';
 import { BottomMenuDemoPageComponent } from './pages/bottom-menu/bottom-menu.component';
 import { ButtonDemoPageComponent } from './pages/button/button.component';
 import { CardListDemoPageComponent } from './pages/card-list/card-list.component';
@@ -19,7 +20,7 @@ import { PageHeaderDemoPageComponent } from './pages/page-header/page-header.com
 import { QuickNumberDemoPageComponent } from './pages/quick-number/quick-number.component';
 import { SelectDemoPageComponent } from './pages/select/select.component';
 import { TextInputDemoPageComponent } from './pages/text-input/text-input.component';
-import { AutocompleteDemoPageComponent } from './pages/autocomplete/autocomplete.component';
+import { ToggleDemoPageComponent } from './pages/toggle/toggle.component';
 // ...
 
 export const DEMO_PAGES: DemoRoute[] = [
@@ -38,6 +39,7 @@ export const DEMO_PAGES: DemoRoute[] = [
   demoRoute('quick-number', 'Quick Number', QuickNumberDemoPageComponent),
   demoRoute('select', 'Select', SelectDemoPageComponent),
   demoRoute('text-input', 'Text Input', TextInputDemoPageComponent),
+  demoRoute('toggle', 'Toggle', ToggleDemoPageComponent),
   // ...
 ];
 
