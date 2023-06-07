@@ -1,3 +1,8 @@
 - While item menu is open on card list, set item as "active" and style it as hovering
 - Clear list filters on page change?
-- Show delete warning when decrementing amount to zero
+- Add pipefy pipe
+- Add circular spinner
+- Add circular spinner and loading state to select component
+- Add autocomplete from inventory to name field on item form
+- Add autocomplete from list to category field on item form
+- Add status to select component
