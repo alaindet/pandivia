@@ -1,0 +1,13 @@
+<button
+  type="button"
+  [attr.title]="title"
+  [attr.aria-pressed]="checked ? 'true' : 'false'"
+  [attr.aria-labelledby]="idLabel"
+  [attr.tabindex]="isDisabled ? '-1' : '0'"
+  (click)="onToggle()"
+>
+  <span class="_toggle"></span>
+  <span class="_label">
+    <ng-content></ng-content>
+  </span>
+</button>
