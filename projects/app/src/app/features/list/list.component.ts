@@ -1,5 +1,5 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MatIconModule } from '@angular/material/icon';
