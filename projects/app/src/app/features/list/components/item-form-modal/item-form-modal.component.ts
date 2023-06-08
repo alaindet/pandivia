@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormControl } 
 import { JsonPipe, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
-import { BaseModalComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent } from '@app/common/components';
+import { BaseModalComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, ToggleComponent } from '@app/common/components';
 import { ItemFormModalInput, ItemFormModalOutput, ITEM_FORM_FIELD as FIELD } from './types';
 import { FormOption } from '@app/common/types';
 
@@ -18,6 +18,7 @@ const IMPORTS = [
   TextInputComponent,
   QuickNumberComponent,
   SelectComponent,
+  ToggleComponent,
 ];
 
 @Component({
