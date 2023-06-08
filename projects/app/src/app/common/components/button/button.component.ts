@@ -40,12 +40,24 @@ export class ButtonComponent implements OnInit {
   @HostBinding('style.--app-button-bottom') cssBottom = '1rem';
   @HostBinding('style.--app-button-left') cssLeft = 'auto';
 
+  private skipInit = false;
+
   // Public API
   getNativeElement(): HTMLButtonElement {
     return this.host.nativeElement;
   }
 
   ngOnInit() {
+    if (!this.skipInit) this.updateStyle();
+    this.updateFloatingPosition();
+  }
+
+  ngOnChanges() {
+    this.skipInit = true;
+    this.updateStyle();
+  }
+
+  private updateStyle(): void {
     this.cssClasses = cssClassesList([
       this.getColorCss(this.mainInput, this.color),
       `-size-${this.size}`,
@@ -54,8 +66,6 @@ export class ButtonComponent implements OnInit {
       asBoolean(this.isCircle) ? '-circle' : null,
       !!this.floating ? `-floating-${this.floating}` : null,
     ]);
-
-    this.updateFloatingPosition();
   }
 
   private getColorCss(main: ButtonColor | null | '', color: ButtonColor): string | null {

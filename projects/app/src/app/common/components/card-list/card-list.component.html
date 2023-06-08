@@ -87,18 +87,18 @@
           [id]="item.id + '-menu'"
           [actions]="itemActionsMap.get(item.id) ?? []"
           position="left"
-          offsetY="-4rem"
           (actionConfirmed)="onItemAction(item.id, $event)"
         >
-          <ng-container *appActionsMenuButton>
+          <ng-container *appActionsMenuButton="let open">
             <button
               type="button"
-              appButton="ghost"
+              appButton
+              [color]="open ? 'primary' : 'ghost'"
               withIconOnly
               isCircle
               size="small"
             >
-              <mat-icon>more_horiz</mat-icon>
+              <mat-icon>{{ open ? 'close' : 'more_horiz' }}</mat-icon>
             </button>
           </ng-container>
         </app-actions-menu>

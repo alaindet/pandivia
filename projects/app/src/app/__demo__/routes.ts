@@ -5,6 +5,7 @@ import { DemoPageComponent } from './demo.component';
 import { IndexDemoPageComponent } from './pages/_index/index.component';
 
 // Pages
+import { ActionsMenuDemoPageComponent } from './pages/actions-menu/actions-menu.component';
 import { AutocompleteDemoPageComponent } from './pages/autocomplete/autocomplete.component';
 import { BottomMenuDemoPageComponent } from './pages/bottom-menu/bottom-menu.component';
 import { ButtonDemoPageComponent } from './pages/button/button.component';
@@ -13,7 +14,6 @@ import { CheckboxDemoPageComponent } from './pages/checkbox/checkbox.component';
 import { ColorSwatchesDemoPageComponent } from './pages/color-swatches/color-swatches.component';
 import { FormFieldDemoPageComponent } from './pages/form-field/form-field.component';
 import { LinearSpinnerDemoPageComponent } from './pages/linear-spinner/linear-spinner.component';
-import { MenuDemoPageComponent } from './pages/actions-menu/actions-menu.component';
 import { ModalDemoPageComponent } from './pages/modal/modal.component';
 import { NotificationDemoPageComponent } from './pages/notification/notification.component';
 import { PageHeaderDemoPageComponent } from './pages/page-header/page-header.component';
@@ -25,6 +25,7 @@ import { ToggleDemoPageComponent } from './pages/toggle/toggle.component';
 // ...
 
 export const DEMO_PAGES: DemoRoute[] = [
+  demoRoute('actions-menu', 'Actions Menu', ActionsMenuDemoPageComponent),
   demoRoute('autocomplete', 'Autocomplete', AutocompleteDemoPageComponent),
   demoRoute('bottom-menu', 'Bottom Menu', BottomMenuDemoPageComponent),
   demoRoute('button', 'Button', ButtonDemoPageComponent),
@@ -33,7 +34,6 @@ export const DEMO_PAGES: DemoRoute[] = [
   demoRoute('color-swatches', 'Color Swatches', ColorSwatchesDemoPageComponent),
   demoRoute('form-field', 'Form Field', FormFieldDemoPageComponent),
   demoRoute('linear-spinner', 'Linear Spinner', LinearSpinnerDemoPageComponent),
-  demoRoute('menu', 'Menu', MenuDemoPageComponent),
   demoRoute('modal', 'Modal', ModalDemoPageComponent),
   demoRoute('notification', 'Notification', NotificationDemoPageComponent),
   demoRoute('page-header', 'Page Header', PageHeaderDemoPageComponent),

@@ -61,3 +61,21 @@
     -16px
   </button>
 </app-actions-menu>
+
+<h2>Using open state on button</h2>
+<app-actions-menu
+  id="my-demo-menu-open-state"
+  [actions]="actions"
+  position="right"
+  (actionConfirmed)="consoleLog($event)"
+>
+  <button
+    *appActionsMenuButton="let open"
+    type="button"
+    appButton
+    [color]="open ? 'primary' : 'secondary'"
+    size="small"
+  >
+    {{ open ? 'OPEN!' : 'This is closed.' }}
+  </button>
+</app-actions-menu>
