@@ -1,14 +1,13 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { JsonPipe, NgIf } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { BaseModalComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, ToggleComponent } from '@app/common/components';
-import { ItemFormModalInput, ItemFormModalOutput, ITEM_FORM_FIELD as FIELD } from './types';
+import { BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
+import { ITEM_FORM_FIELD as FIELD, ItemFormModalInput, ItemFormModalOutput } from './types';
 
 const IMPORTS = [
-  JsonPipe, // TODO: Remove
   MatIconModule,
   NgIf,
   ReactiveFormsModule,
@@ -19,6 +18,8 @@ const IMPORTS = [
   QuickNumberComponent,
   SelectComponent,
   ToggleComponent,
+  TextareaComponent,
+  ButtonComponent,
 ];
 
 @Component({
@@ -26,6 +27,7 @@ const IMPORTS = [
   standalone: true,
   imports: IMPORTS,
   templateUrl: './item-form-modal.component.html',
+  styleUrls: ['./item-form-modal.component.scss'],
 })
 export class ItemFormModalComponent extends BaseModalComponent<
   ItemFormModalInput,

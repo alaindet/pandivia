@@ -6,3 +6,7 @@
 - Add autocomplete from inventory to name field on item form
 - Add autocomplete from list to category field on item form
 - Add status to select component
+- Add custom scrollbar to desktop view
+- Check existing items on name field for item modal (use custom validator)
+- Restyle quick number input
+- Change Category field on item form modal to an autocomplete from list items

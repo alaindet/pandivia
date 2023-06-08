@@ -2,9 +2,6 @@
   <h2>{{ modal.data.title }}</h2>
 </ng-container>
 
-<!-- TODO: Remove -->
-<pre>{{ theForm.value | json }}</pre>
-
 <form [formGroup]="theForm">
 
   <!-- Name -->
@@ -81,8 +78,7 @@
       Description
     </app-form-field-label>
 
-    <app-text-input
-      type="text"
+    <app-textarea
       [formControlName]="FIELD.DESCRIPTION"
       [status]="!fDesc.touched ? undefined : (fDesc.valid ? 'success' : 'error')"
       [placeholder]="'Description...'"
@@ -90,7 +86,7 @@
       [withErrorId]="fDesc.valid ? null
         : fDesc.hasError('required') ? 'item-desc-required'
         : (fDesc.hasError('minlength') || fDesc.hasError('maxlength')) ? 'item-desc-length' : null"
-    ></app-text-input>
+    ></app-textarea>
 
     <app-form-field-error
       *ngIf="fDesc.hasError('minlength') || fDesc.hasError('maxlength')"
@@ -138,26 +134,39 @@
     </app-toggle>
 
   </app-form-field>
-
 </form>
 
 <ng-container *appModalFooter>
-  <button type="button" appButton="ghost" withIcon="left" (click)="onCancel()">
-    Cancel
-  </button>
-
-  <!-- Editing -->
-  <ng-container *ngIf="modal.data.item !== null; else createRef">
-    <button type="button" appButton="primary" withIcon="left" (click)="onEdit()">
-      <mat-icon>edit</mat-icon>
-      Edit
+  <div class="_footer">
+    <button type="button" appButton="ghost" withIcon="left" (click)="onCancel()">
+      Cancel
     </button>
-  </ng-container>
 
-  <ng-template #createRef>
-    <button type="button" appButton="primary" withIcon="left" (click)="onCreate()">
-      <mat-icon>add_circle</mat-icon>
-      Create
-    </button>
-  </ng-template>
+    <!-- Editing -->
+    <ng-container *ngIf="modal.data.item !== null; else createRef">
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        (click)="onEdit()"
+      >
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    </ng-container>
+
+    <ng-template #createRef>
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        (click)="onCreate()"
+      >
+        <mat-icon>add_circle</mat-icon>
+        Create
+      </button>
+    </ng-template>
+  </div>
 </ng-container>
