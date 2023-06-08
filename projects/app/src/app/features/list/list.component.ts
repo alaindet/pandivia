@@ -11,12 +11,13 @@ import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { Observable, combineLatest, map, of, startWith, switchMap, take, throwError } from 'rxjs';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
-import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
+import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListIsLoaded } from './store';
 import * as categoryMenuAction from './category.contextual-menu';
 import { ListFilterToken } from './types';
 import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import { ItemFormModalComponent, ItemFormModalInput } from './components/item-form-modal';
+import { firstNonNull } from '@app/common/rxjs';
 
 const IMPORTS = [
   NgIf,
@@ -54,6 +55,14 @@ export class ListPageComponent implements OnInit {
     this.layout.setHeaderActions(listMenuAction.LIST_CONTEXTUAL_MENU);
     this.store.dispatch(listFetchItemsActions.fetchItems());
     this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
+
+    // TODO: Remove this shim!
+    this.store.select(selectListIsLoaded).pipe(
+      switchMap(() => this.store.select(selectListCategorizedFilteredItems)),
+    ).subscribe(itemGroups => {
+      const itemId = itemGroups[0].items[0].id
+      this.showEditModal(itemId);
+    });
   }
 
   onListAction(action: string) {

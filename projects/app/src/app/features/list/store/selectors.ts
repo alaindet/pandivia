@@ -2,8 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { groupItemsByCategory } from '@app/core/functions';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
-import { ListItem, RootState } from '@app/core';
+import { ListItem } from '@app/core';
 import { LIST_FILTER, ListFilterToken, ListFilters } from '../types';
+import { LOADING_STATUS } from '@app/common/types';
 
 const selectListFeature = createFeatureSelector<ListFeatureState>(
   LIST_FEATURE_NAME,
@@ -12,6 +13,11 @@ const selectListFeature = createFeatureSelector<ListFeatureState>(
 export const selectListStatus = createSelector(
   selectListFeature,
   state => state.status,
+);
+
+export const selectListIsLoaded = createSelector(
+  selectListFeature,
+  state => state.status === LOADING_STATUS.IDLE,
 );
 
 export const selectListShouldFetch = createSelector(
