@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ListItem } from '@app/core';
-import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_ITEMS, fakeRequest } from '@app/mocks';
+import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_LIST_ITEMS, fakeRequest } from '@app/mocks';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,6 @@ export class ListService {
   };
 
   getItems(): Observable<ListItem[]> {
-    return fakeRequest(MOCK_ITEMS, this.config);
+    return fakeRequest(MOCK_LIST_ITEMS, this.config);
   }
 }

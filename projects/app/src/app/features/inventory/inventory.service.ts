@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ListItem } from '@app/core';
-import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_ITEMS, fakeRequest } from '@app/mocks';
+import { InventoryItem } from '@app/core';
+import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_INVENTORY_ITEMS, fakeRequest } from '@app/mocks';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class InventoryService {
     delay: MOCK_DELAY,
   };
 
-  getItems(): Observable<ListItem[]> {
-    return fakeRequest(MOCK_ITEMS, this.config);
+  getItems(): Observable<InventoryItem[]> {
+    return fakeRequest(MOCK_INVENTORY_ITEMS, this.config);
   }
 }

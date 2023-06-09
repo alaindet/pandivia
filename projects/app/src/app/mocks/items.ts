@@ -1,8 +1,32 @@
-import { ListItem } from '@app/core';
+import { InventoryItem, ListItem } from '@app/core';
 import { getRandomHash } from '@app/common/utils';
 import { MOCK_CATEGORY_BAR, MOCK_CATEGORY_FOO } from './categories';
 
-export const MOCK_ITEMS: ListItem[] = [
+export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
+  {
+    id: getRandomHash(5),
+    name: 'Ice-cream',
+    amount: 1,
+    description: 'Delicious ice-cream',
+    category: MOCK_CATEGORY_BAR,
+  },
+  {
+    id: getRandomHash(5),
+    name: 'Eggs',
+    amount: 6,
+    description: 'Pick any eggs you like',
+    category: MOCK_CATEGORY_BAR,
+  },
+  {
+    id: getRandomHash(5),
+    name: 'Bread',
+    amount: 100,
+    description: '100g of bread',
+    category: MOCK_CATEGORY_FOO,
+  },
+];
+
+export const MOCK_LIST_ITEMS: ListItem[] = [
   {
     id: getRandomHash(5),
     name: 'Strawberries',

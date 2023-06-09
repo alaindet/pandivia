@@ -25,6 +25,23 @@ export const selectListShouldFetch = createSelector(
   state => !state.items.length,
 );
 
+export const selectListCategoriesByName = (categoryQuery: string) => createSelector(
+  selectListFeature,
+  (state): string[] => {
+    const query = categoryQuery.toLowerCase();
+    const searchByCategory = (item: ListItem) => {
+      return item.category?.toLowerCase()?.includes(query);
+    };
+    const categories: { [category: string]: boolean } = {};
+    state.items.forEach(item => {
+      if (searchByCategory(item)) {
+        categories[item.category!] = true;
+      }
+    });
+    return Object.keys(categories);
+  },
+);
+
 export const selectListCategorizedItems = createSelector(
   selectListFeature,
   state => groupItemsByCategory(state.items),

@@ -8,7 +8,7 @@ import { didInputChange } from '@app/common/utils';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
-import { AUTOCOMPLETE_SOURCE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSource } from './types';
+import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
 
 const IMPORTS = [
   NgIf,
@@ -32,15 +32,16 @@ const IMPORTS = [
 export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() inputComponent!: TextInputComponent;
-  @Input() minChar?: number;
-  @Input() source!: AutocompleteSource;
+  @Input() minChars?: number;
+  @Input() sourceType!: AutocompleteSourceType;
   @Input() filteringDelay = 400;
   @Input() searchOnEmpty = false;
-  @Input() pickValue?: AutocompleteOptionValuePicker | string;
+  @Input() pickKey?: AutocompleteOptionValuePicker | string;
   @Input() asyncOptions?: AutocompleteAsyncOptionsFn;
   @Input() staticOptions?: AutocompleteOption[] = [];
   @Input() staticSearchableFields?: string[] = ['id'];
   @Input() @HostBinding('style.--app-autocomplete-width') width = '19.25rem';
+  @Input() @HostBinding('style.--app-autocomplete-offset-y') offsetY = '0';
 
   @Output() confirmed = new EventEmitter<AutocompleteOption>();
   
@@ -69,8 +70,8 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.svc.source = this.source;
-    this.svc.setValuePicker(this.pickValue);
+    this.svc.sourceType = this.sourceType;
+    this.svc.setValuePicker(this.pickKey);
     this.initInputElement();
     this.initSource();
     this.setupAsyncSource();
@@ -108,20 +109,20 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.nativeInput,
       this.filteringDelay,
       this.searchOnEmpty,
-      this.minChar,
+      this.minChars,
     );
   }
 
   private initSource(): void {
-    switch (this.source) {
+    switch (this.sourceType) {
 
-      case AUTOCOMPLETE_SOURCE.STATIC:
+      case AUTOCOMPLETE_SOURCE_TYPE.STATIC:
         if (!this.staticOptions?.length) throw new Error('Missing static options');
         let fields = this.staticSearchableFields;
         this.svc.setStaticSearchableFields(fields?.length ? fields : ['id']);
         break;
         
-        case AUTOCOMPLETE_SOURCE.ASYNC:
+      case AUTOCOMPLETE_SOURCE_TYPE.ASYNC:
         if (!this.asyncOptions) throw new Error('Missing async options function');
         this.svc.setAsyncOptions(this.asyncOptions);
         break;
@@ -154,13 +155,13 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private setupAsyncSource(): void {
-    if (this.source !== AUTOCOMPLETE_SOURCE.ASYNC) return;
+    if (this.sourceType !== AUTOCOMPLETE_SOURCE_TYPE.ASYNC) return;
     if (!this.asyncOptions) throw new Error('Missing async options function');
     this.svc.setAsyncOptions(this.asyncOptions);
   }
 
   private setupStaticSource(): void {
-    if (this.source !== AUTOCOMPLETE_SOURCE.STATIC) return;
+    if (this.sourceType !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) return;
     if (!this.staticOptions?.length) throw new Error('Missing static options');
     const fields = this.staticSearchableFields?.length
       ? this.staticSearchableFields
@@ -169,7 +170,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private updateStaticOptions(staticOptionsChange?: SimpleChange): void {
-    if (this.source !== 'static') return;
+    if (this.sourceType !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) return;
     if (!didInputChange(staticOptionsChange)) return;
     if (!this.staticOptions?.length) return;
     this.svc.updateStaticOptions(this.staticOptions);

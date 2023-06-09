@@ -19,9 +19,9 @@
 
     <app-autocomplete
       [inputComponent]="staticInput"
-      source="static"
+      sourceType="static"
       [filteringDelay]="100"
-      pickValue="id"
+      pickKey="word"
       [staticOptions]="options"
       [staticSearchableFields]="['word']"
       width="19.25rem"
@@ -55,11 +55,11 @@
 
     <app-autocomplete
       [inputComponent]="asyncInput"
-      source="async"
+      sourceType="async"
       [filteringDelay]="400"
-      pickValue="id"
+      pickKey="word"
       [asyncOptions]="asyncOptions"
-      [minChar]="3"
+      [minChars]="3"
       (confirmed)="consoleLog('confirmed', $event)"
     >
       <ng-container *appAutocompleteOption="let option">

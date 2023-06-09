@@ -42,12 +42,12 @@ export class ModalService implements OnDestroy {
   }
 
   closed() {
-    return this._closed$.event$.pipe(take(1), switchMap(output => {
+    return this._closed$.event$.pipe(switchMap(output => {
       if (output.status === MODAL_OUTPUT_STATUS.CANCELED) {
         return throwError(() => new Error('Modal canceled'));
       }
       return of(output.data);
-    }));
+    }), take(1));
   }
 
   cancel() {

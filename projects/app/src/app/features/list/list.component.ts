@@ -1,14 +1,14 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
-import { CategorizedListItems } from '@app/core';
+import { CategorizedListItems, CreateListItemDto, ListItem } from '@app/core';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { Observable, combineLatest, map, of, startWith, switchMap, take, throwError } from 'rxjs';
+import { Observable, combineLatest, delay, map, of, startWith, switchMap, take, throwError } from 'rxjs';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
 import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListIsLoaded } from './store';
@@ -17,7 +17,6 @@ import { ListFilterToken } from './types';
 import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import { ItemFormModalComponent, ItemFormModalInput } from './components/item-form-modal';
-import { firstNonNull } from '@app/common/rxjs';
 
 const IMPORTS = [
   NgIf,
@@ -55,14 +54,6 @@ export class ListPageComponent implements OnInit {
     this.layout.setHeaderActions(listMenuAction.LIST_CONTEXTUAL_MENU);
     this.store.dispatch(listFetchItemsActions.fetchItems());
     this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
-
-    // TODO: Remove this shim!
-    this.store.select(selectListIsLoaded).pipe(
-      switchMap(() => this.store.select(selectListCategorizedFilteredItems)),
-    ).subscribe(itemGroups => {
-      const itemId = itemGroups[0].items[0].id
-      this.showEditModal(itemId);
-    });
   }
 
   onListAction(action: string) {
@@ -170,9 +161,9 @@ export class ListPageComponent implements OnInit {
   }
 
   private showEditModal(itemId: string): void {
-    // TODO: Show edit modal
     this.store.select(selectItemById(itemId))
       .pipe(
+        take(1),
         switchMap(item => !item
           ? throwError(() => Error(`Item with id ${itemId} not found`))
           : of(item)
@@ -185,10 +176,19 @@ export class ListPageComponent implements OnInit {
           return this.modal.open(ItemFormModalComponent, input).closed();
         }),
       )
+      // TODO
       .subscribe({
         error: () => console.log(`Item with id ${itemId} not edited`),
-        next: editedItem => {
-          console.log(`Item with id ${itemId} not edited`, editedItem);
+        next: payload => {
+          const item = payload.item as ListItem;
+          if (item?.id) {
+            this.store.dispatch(listItemActions.edit({ item }));
+            // TODO: Store effect
+          } else {
+            const dto = payload.item as CreateListItemDto;
+            this.store.dispatch(listItemActions.create({ dto }));
+            // TODO: Store effect
+          }
         },
       });
   }

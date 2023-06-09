@@ -1,7 +1,4 @@
-- While item menu is open on card list, set item as "active" and style it as hovering
-- Add autocomplete from inventory to name field on item form
-- Add autocomplete from list to category field on item form
 - Add custom scrollbar to desktop view
 - Check existing items on name field for item modal (use custom validator)
-- Restyle quick number input
-- Change Category field on item form modal to an autocomplete from list items
+- Add FAB button
+- Add action groups for async writes

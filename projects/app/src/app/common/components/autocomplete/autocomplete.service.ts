@@ -4,7 +4,7 @@ import { filter, fromEvent, Observable, of, switchMap, take, takeUntil } from 'r
 import { DataSource, EventSource, OnceSource } from '@app/common/sources';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
 import { createDebouncedInputEvent } from '@app/common/utils';
-import { AutocompleteOption, AutocompleteSource, AutocompleteAsyncOptionsFn, AutocompleteOptionValuePicker, AUTOCOMPLETE_SOURCE } from './types';
+import { AutocompleteOption, AutocompleteSourceType, AutocompleteAsyncOptionsFn, AutocompleteOptionValuePicker, AUTOCOMPLETE_SOURCE_TYPE } from './types';
 
 @Injectable()
 export class AutocompleteService implements OnDestroy {
@@ -22,7 +22,7 @@ export class AutocompleteService implements OnDestroy {
   private valuePicker!: AutocompleteOptionValuePicker;
   private _options: AutocompleteOption[] = [];
 
-  source!: AutocompleteSource;
+  sourceType!: AutocompleteSourceType;
 
   // Data sources
   optionTemplate = new DataSource<TemplateRef<AutocompleteOption> | null>(null, this.once.event$);
@@ -31,7 +31,6 @@ export class AutocompleteService implements OnDestroy {
   loading = new DataSource<boolean>(false, this.once.event$);
   focusedIndex = new DataSource<number | null>(null, this.once.event$);
   focusedId = new DataSource<string | null>(null, this.once.event$);
-  // valuesMap = new DataSource<OptionValuesMap>({}, this.once.event$);
 
   // Event sources
   confirmedEvent = new EventSource<AutocompleteOption>(this.once.event$);
@@ -53,11 +52,11 @@ export class AutocompleteService implements OnDestroy {
     element: HTMLInputElement,
     delay: number,
     searchOnEmpty: boolean,
-    minChar = 0,
+    minChars = 0,
   ): void {
     element.autocomplete = 'off';
     this.listenToFocusAndBlur(element);
-    this.listenToQuery(element, delay, searchOnEmpty, minChar);
+    this.listenToQuery(element, delay, searchOnEmpty, minChars);
     this.listenToKeyboardControls(element);
   }
 
@@ -131,7 +130,7 @@ export class AutocompleteService implements OnDestroy {
     element: HTMLInputElement,
     delay: number,
     searchOnEmpty: boolean,
-    minChar = 0,
+    minChars = 0,
   ): void {
     let source$ = createDebouncedInputEvent(element, delay).pipe(
       takeUntil(this.once.event$),
@@ -141,8 +140,8 @@ export class AutocompleteService implements OnDestroy {
       source$ = source$.pipe(filter(val => val !== ''));
     }
 
-    if(minChar){
-      source$ = source$.pipe(filter(val => val.length >= minChar));
+    if (minChars) {
+      source$ = source$.pipe(filter(val => val.length >= minChars));
     }
 
     source$
@@ -155,12 +154,12 @@ export class AutocompleteService implements OnDestroy {
     let options$: Observable<AutocompleteOption[]>;
     let shouldOpenEarly = false;
 
-    switch (this.source) {
-      case AUTOCOMPLETE_SOURCE.STATIC:
+    switch (this.sourceType) {
+      case AUTOCOMPLETE_SOURCE_TYPE.STATIC:
         options$ = of(this.staticFilterBy(query));
         shouldOpenEarly = false;
         break;
-      case AUTOCOMPLETE_SOURCE.ASYNC:
+      case AUTOCOMPLETE_SOURCE_TYPE.ASYNC:
         options$ = this.asyncOptionsFn!(query);
         shouldOpenEarly = true;
         break;
@@ -205,6 +204,8 @@ export class AutocompleteService implements OnDestroy {
             event.preventDefault();
             event.stopImmediatePropagation();
             break;
+          case KB.TAB:
+            this.closeDropdown();
         }
       });
   }

@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { ListItem } from '@app/core';
+import { CreateListItemDto, ListItem } from '@app/core';
 import { ListFilter } from '../types';
 
 export const listFetchItemsActions = createActionGroup({
@@ -49,6 +49,8 @@ export const listCategoryActions = createActionGroup({
 export const listItemActions = createActionGroup({
   source: 'List/Item',
   events: {
+    'Create': props<{ dto: CreateListItemDto }>(),
+    'Edit': props<{ item: ListItem }>(),
     'Complete': props<{ itemId: string }>(),
     'Undo': props<{ itemId: string }>(),
     'Toggle': props<{ itemId: string }>(),

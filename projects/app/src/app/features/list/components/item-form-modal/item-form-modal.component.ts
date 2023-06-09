@@ -1,11 +1,16 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
+import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
 import { ITEM_FORM_FIELD as FIELD, ItemFormModalInput, ItemFormModalOutput } from './types';
+import { Observable, map, of } from 'rxjs';
+import { selectListCategoriesByName } from '../../store';
+import { Store } from '@ngrx/store';
+import { CreateListItemDto, InventoryItem, ListItem } from '@app/core';
+import { fetchInventoryItemsActions, selectInventoryItemsByName } from '@app/features/inventory/store';
 
 const IMPORTS = [
   MatIconModule,
@@ -14,6 +19,7 @@ const IMPORTS = [
   ModalHeaderDirective,
   ModalFooterDirective,
   ...FORM_FIELD_EXPORTS,
+  ...AUTOCOMPLETE_EXPORTS,
   TextInputComponent,
   QuickNumberComponent,
   SelectComponent,
@@ -34,13 +40,12 @@ export class ItemFormModalComponent extends BaseModalComponent<
   ItemFormModalOutput
 > implements OnInit {
 
+  private store = inject(Store);
   private formBuilder = inject(FormBuilder);
 
   FIELD = FIELD;
   theForm!: FormGroup;
-
-  // TODO
-  categoryOptions: FormOption[] = [];
+  isEditing = signal(false);
 
   get fName(): FormControl {
     return this.theForm.get(FIELD.NAME) as FormControl;
@@ -63,25 +68,99 @@ export class ItemFormModalComponent extends BaseModalComponent<
   }
 
   ngOnInit() {
-    // TODO: Use modal API
+    this.store.dispatch(fetchInventoryItemsActions.fetchItems());
+    this.isEditing.set(this.modal.data.item !== null);
     this.initForm();
   }
 
+  onConfirmName(option: AutocompleteOption) {
+    this.fName.setValue(option.label);
+  }
+
+  onConfirmCategory(option: AutocompleteOption) {
+    this.fCategory.setValue(option.label);
+  }
+
   onCancel() {
-    // TODO
-    console.log('onCancel');
+    this.modal.cancel();
   }
 
   onEdit() {
-    // TODO
-    console.log('onEdit');
+
+    if (this.theForm.invalid) {
+      return;
+    }
+    
+    let item: ListItem = {
+      id: this.modal.data.item!.id,
+      ...this.theForm.value,
+    };
+
+    if (!item.description) {
+      const { description, ...theItem } = item;
+      item = theItem;
+    }
+
+    if (!item.category) {
+      const { category, ...theItem } = item;
+      item = theItem;
+    }
+
+    const data: ItemFormModalOutput = { item };
+    this.modal.confirm(data);
   }
 
   onCreate() {
-    // TODO
-    console.log('onCreate');
+
+    if (this.theForm.invalid) {
+      return;
+    }
+
+    let item: CreateListItemDto = {
+      ...this.theForm.value,
+    };
+
+    if (!item.description) {
+      const { description, ...theItem } = item;
+      item = theItem;
+    }
+
+    if (!item.category) {
+      const { category, ...theItem } = item;
+      item = theItem;
+    }
+
+    const data: ItemFormModalOutput = { item };
+    this.modal.confirm(data);
   }
 
+  onSubmit() {
+    if (this.isEditing()) {
+      this.onEdit();
+    } else {
+      this.onCreate();
+    }
+  }
+
+  nameFieldOptions: AutocompleteAsyncOptionsFn = (
+    query: string,
+  ): Observable<FormOption[]> => {
+    return this.store.select(selectInventoryItemsByName(query)).pipe(
+      map((items: InventoryItem[]) => {
+        return items.map(item => ({ value: item.id, label: item.name }));
+      }),
+    );
+  };
+
+  categoryFieldOptions: AutocompleteAsyncOptionsFn = (
+    query: string,
+  ): Observable<FormOption[]> => {
+    return this.store.select(selectListCategoriesByName(query)).pipe(
+      map(categories => categories.map(category => {
+        return { value: category, label: category };
+      })),
+    );
+  };
 
   private initForm(): void {
     const { item } = this.modal.data;
@@ -90,7 +169,7 @@ export class ItemFormModalComponent extends BaseModalComponent<
     this.theForm = this.formBuilder.group({
       [FIELD.NAME]: [item?.name ?? '', [required, minLength(2), maxLength(100)]],
       [FIELD.AMOUNT]: [item?.amount ?? 1, [required, min(1), max(100)]],
-      [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(200)]],
+      [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(100)]],
       [FIELD.CATEGORY]: [item?.category ?? null, [minLength(2), maxLength(100)]],
       [FIELD.IS_DONE]: [!!item?.isDone],
     });

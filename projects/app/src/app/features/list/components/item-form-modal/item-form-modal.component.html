@@ -2,7 +2,7 @@
   <h2>{{ modal.data.title }}</h2>
 </ng-container>
 
-<form [formGroup]="theForm">
+<form [formGroup]="theForm" (ngSubmit)="onSubmit()">
 
   <!-- Name -->
   <!-- TODO: Translate -->
@@ -13,6 +13,8 @@
     </app-form-field-label>
 
     <app-text-input
+      #nameRef="app-text-input"
+      id="item-name"
       type="text"
       [formControlName]="FIELD.NAME"
       [status]="!fName.touched ? undefined : (fName.valid ? 'success' : 'error')"
@@ -22,6 +24,22 @@
         : fName.hasError('required') ? 'item-name-required'
         : (fName.hasError('minlength') || fName.hasError('maxlength')) ? 'item-name-length' : null"
     ></app-text-input>
+
+    <app-autocomplete
+      [inputComponent]="nameRef"
+      sourceType="async"
+      [filteringDelay]="100"
+      pickKey="label"
+      [asyncOptions]="nameFieldOptions"
+      [minChars]="1"
+      width="16rem"
+      offsetY="0.5rem"
+      (confirmed)="onConfirmName($event)"
+    >
+      <ng-container *appAutocompleteOption="let option">
+        {{ option.label }}
+      </ng-container>
+    </app-autocomplete>
 
     <app-form-field-error
       *ngIf="fName.hasError('required')"
@@ -48,6 +66,7 @@
     </app-form-field-label>
 
     <app-quick-number
+      id="item-amount"
       [formControlName]="FIELD.AMOUNT"
       [min]="1"
       [max]="100"
@@ -71,7 +90,6 @@
 
   <!-- Description -->
   <!-- TODO: Translate -->
-  <!-- TODO: Use textarea instead -->
   <app-form-field id="item-desc">
 
     <app-form-field-label>
@@ -79,9 +97,13 @@
     </app-form-field-label>
 
     <app-textarea
+      id="item-desc"
+      [rows]="4"
       [formControlName]="FIELD.DESCRIPTION"
       [status]="!fDesc.touched ? undefined : (fDesc.valid ? 'success' : 'error')"
       [placeholder]="'Description...'"
+      [withCharsCounter]="true"
+      [maxChars]="100"
       [withStatusIcon]="true"
       [withErrorId]="fDesc.valid ? null
         : fDesc.hasError('required') ? 'item-desc-required'
@@ -92,7 +114,7 @@
       *ngIf="fDesc.hasError('minlength') || fDesc.hasError('maxlength')"
       errorId="item-desc-length"
     >
-      Enter between 2 and 200 characters
+      Enter between 2 and 100 characters
     </app-form-field-error>
 
   </app-form-field>
@@ -105,18 +127,40 @@
       Category
     </app-form-field-label>
 
-    <!-- <app-select
+    <app-text-input
+      #categoryRef="app-text-input"
       id="item-category"
+      type="text"
       [formControlName]="FIELD.CATEGORY"
-      [options]="categoryOptions"
       [status]="!fCategory.touched ? undefined : (fCategory.valid ? 'success' : 'error')"
-    ></app-select> -->
+      [placeholder]="'Category...'"
+      [withStatusIcon]="true"
+      [withErrorId]="fCategory.valid ? null
+        : (fCategory.hasError('minlength') || fCategory.hasError('maxlength')) ? 'item-category-length' : null"
+    ></app-text-input>
 
-    <app-select
-      id="item-category"
-      [formControlName]="FIELD.CATEGORY"
-      [options]="categoryOptions"
-    ></app-select>
+    <app-autocomplete
+      [inputComponent]="categoryRef"
+      sourceType="async"
+      [filteringDelay]="100"
+      pickKey="label"
+      [asyncOptions]="categoryFieldOptions"
+      [minChars]="1"
+      width="16rem"
+      offsetY="0.5rem"
+      (confirmed)="onConfirmCategory($event)"
+    >
+      <ng-container *appAutocompleteOption="let option">
+        {{ option.label }}
+      </ng-container>
+    </app-autocomplete>
+
+    <app-form-field-error
+      *ngIf="fCategory.hasError('minlength') || fCategory.hasError('maxlength')"
+      errorId="item-category-length"
+    >
+      Enter between 2 and 100 characters
+    </app-form-field-error>
 
   </app-form-field>
 
@@ -143,7 +187,7 @@
     </button>
 
     <!-- Editing -->
-    <ng-container *ngIf="modal.data.item !== null; else createRef">
+    <ng-container *ngIf="isEditing(); else createRef">
       <button
         type="button"
         appButton="primary"
