@@ -11,6 +11,7 @@ import { selectListCategoriesByName } from '../../store';
 import { Store } from '@ngrx/store';
 import { CreateListItemDto, InventoryItem, ListItem } from '@app/core';
 import { fetchInventoryItemsActions, selectInventoryItemsByName } from '@app/features/inventory/store';
+import { uniqueItemNameValidator } from '../../validators';
 
 const IMPORTS = [
   MatIconModule,
@@ -90,7 +91,7 @@ export class ItemFormModalComponent extends BaseModalComponent<
     if (this.theForm.invalid) {
       return;
     }
-    
+
     let item: ListItem = {
       id: this.modal.data.item!.id,
       ...this.theForm.value,
@@ -167,7 +168,14 @@ export class ItemFormModalComponent extends BaseModalComponent<
     const { required, minLength, maxLength, min, max } = Validators;
 
     this.theForm = this.formBuilder.group({
-      [FIELD.NAME]: [item?.name ?? '', [required, minLength(2), maxLength(100)]],
+      [FIELD.NAME]: [
+        // Value
+        item?.name ?? '',
+        // Sync validators
+        [required, minLength(2), maxLength(100)],
+        // Async validators,
+        [uniqueItemNameValidator(this.store, this.modal.data?.item?.id ?? null)],
+      ],
       [FIELD.AMOUNT]: [item?.amount ?? 1, [required, min(1), max(100)]],
       [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(100)]],
       [FIELD.CATEGORY]: [item?.category ?? null, [minLength(2), maxLength(100)]],

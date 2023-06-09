@@ -25,20 +25,24 @@ export const selectListShouldFetch = createSelector(
   state => !state.items.length,
 );
 
-export const selectListItemExistsWithName = (nameQuery: string) => createSelector(
+export const selectListItemExistsWithName = (
+  itemId: string | null,
+  name: string,
+) => createSelector(
   selectListFeature,
   (state): boolean => {
-    const query = nameQuery.toLowerCase();
-    return !!state.items.filter(item => {
-      return item.name.toLowerCase().includes(query);
-    }).length;
+    const query = name.toLowerCase();
+    return !!state.items.filter(item => (
+      item.id !== itemId &&
+      item.name.toLowerCase() === query
+    )).length;
   },
 );
 
-export const selectListCategoriesByName = (categoryQuery: string) => createSelector(
+export const selectListCategoriesByName = (category: string) => createSelector(
   selectListFeature,
   (state): string[] => {
-    const query = categoryQuery.toLowerCase();
+    const query = category.toLowerCase();
     const searchByCategory = (item: ListItem) => {
       return item.category?.toLowerCase()?.includes(query);
     };
@@ -114,12 +118,3 @@ export const selectItemAmount = (itemId: string) => (state: any) => {
   if (!item) return 0;
   return item.amount;
 };
-
-// export const selectListItemsByCategory = (category?: string) => createSelector(
-//   selectListFeature,
-//   state => {
-//     const cat = category ?? 'no-category';
-//     const items = state.items.filter(it => it.category === cat);
-//     return groupItemsByCategory(items);
-//   },
-// );

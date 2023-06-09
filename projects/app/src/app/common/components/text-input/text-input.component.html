@@ -6,6 +6,7 @@
   [attr.placeholder]="placeholder"
   [attr.aria-invalid]="withErrorId !== null ? 'true' : 'false'"
   [attr.aria-errormessage]="withErrorId"
+  [attr.autocomplete]="autocomplete"
   [disabled]="isDisabled"
   class="_input"
   (change)="onInputChange($event)"

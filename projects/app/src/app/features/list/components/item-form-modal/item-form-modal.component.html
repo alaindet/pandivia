@@ -2,7 +2,7 @@
   <h2>{{ modal.data.title }}</h2>
 </ng-container>
 
-<form [formGroup]="theForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="theForm" (ngSubmit)="onSubmit()" autocomplete="off">
 
   <!-- Name -->
   <!-- TODO: Translate -->
@@ -22,7 +22,9 @@
       [withStatusIcon]="true"
       [withErrorId]="fName.valid ? null
         : fName.hasError('required') ? 'item-name-required'
-        : (fName.hasError('minlength') || fName.hasError('maxlength')) ? 'item-name-length' : null"
+        : (fName.hasError('minlength') || fName.hasError('maxlength')) ? 'item-name-length'
+        : fName.hasError('uniqueItemName') ? 'item-item-unique-name'
+        : null"
     ></app-text-input>
 
     <app-autocomplete
@@ -53,6 +55,13 @@
       errorId="item-name-length"
     >
       Enter between 2 and 100 characters
+    </app-form-field-error>
+
+    <app-form-field-error
+      *ngIf="fName.hasError('uniqueItemName')"
+      errorId="item-unique-name"
+    >
+      This name already exists
     </app-form-field-error>
 
   </app-form-field>
