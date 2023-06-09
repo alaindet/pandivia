@@ -59,3 +59,41 @@ export const listItemActions = createActionGroup({
     'Remove': props<{ itemId: string }>(),
   },
 });
+
+// Async single entity operation
+// TODO: Capture via effect and perform HTTP request
+// TODO: https://firebase.google.com/docs/firestore/manage-data/transactions
+export const listItemAsyncWriteActions = createActionGroup({
+  source: 'List/Item/AsyncWrite',
+  events: {
+    'Create': props<{ item: ListItem }>(),
+    'Create success': props<{ item: ListItem }>(),
+    'Create error': props<{ item: ListItem }>(),
+
+    'Edit': props<{ item: ListItem }>(),
+    'Edit success': props<{ item: ListItem }>(),
+    'Edit error': props<{ item: ListItem }>(),
+
+    'Delete': props<{ item: ListItem }>(),
+    'Delete success': props<{ item: ListItem }>(),
+    'Delete error': props<{ item: ListItem }>(),
+  },
+});
+
+// Async multiple entities operation
+// TODO: Capture via effect and perform HTTP request
+// TODO: https://firebase.google.com/docs/firestore/manage-data/transactions
+export const listItemsAsyncWriteActions = createActionGroup({
+  source: 'List/Item/AsyncWrite',
+  events: {
+    'Complete all': emptyProps(),
+    'Undo all': emptyProps(),
+    'Remove all completed': emptyProps(),
+    'Remove all': emptyProps(),
+
+    'Complete by category': props<{ category: string }>(),
+    'Undo by category': props<{ category: string }>(),
+    'Remove completed by category': props<{ category: string }>(),
+    'Remove by category': props<{ category: string }>(),
+  },
+});

@@ -25,6 +25,16 @@ export const selectListShouldFetch = createSelector(
   state => !state.items.length,
 );
 
+export const selectListItemExistsWithName = (nameQuery: string) => createSelector(
+  selectListFeature,
+  (state): boolean => {
+    const query = nameQuery.toLowerCase();
+    return !!state.items.filter(item => {
+      return item.name.toLowerCase().includes(query);
+    }).length;
+  },
+);
+
 export const selectListCategoriesByName = (categoryQuery: string) => createSelector(
   selectListFeature,
   (state): string[] => {

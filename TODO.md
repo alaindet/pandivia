@@ -1,4 +1,5 @@
 - Add custom scrollbar to desktop view
 - Check existing items on name field for item modal (use custom validator)
+  - Use a custom async validator for this
 - Add FAB button
 - Add action groups for async writes
