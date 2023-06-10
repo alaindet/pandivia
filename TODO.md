@@ -3,3 +3,4 @@
 - Add input for showing/hiding "Nothing found" on autocomplete
 - ??? Add show/hide toggle for List completed items (not just remove them)
 - Propose "Add to inventory" flag while creating items in List
+- Rename "Inventory" to "Habits"/"Habit"

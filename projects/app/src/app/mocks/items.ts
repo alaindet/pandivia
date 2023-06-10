@@ -6,21 +6,18 @@ export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
   {
     id: getRandomHash(5),
     name: 'Ice-cream',
-    amount: 1,
     description: 'Delicious ice-cream',
     category: MOCK_CATEGORY_BAR,
   },
   {
     id: getRandomHash(5),
     name: 'Eggs',
-    amount: 6,
     description: 'Pick any eggs you like',
     category: MOCK_CATEGORY_BAR,
   },
   {
     id: getRandomHash(5),
     name: 'Bread',
-    amount: 100,
     description: '100g of bread',
     category: MOCK_CATEGORY_FOO,
   },

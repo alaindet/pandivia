@@ -5,8 +5,8 @@ import * as fromActions from './actions';
 
 export function fetchItemsHelper(inventoryService: InventoryService) {
 
-  const onSuccess = fromActions.fetchInventoryItemsActions.fetchItemsSuccess;
-  const onError = fromActions.fetchInventoryItemsActions.fetchItemsError;
+  const onSuccess = fromActions.inventoryFetchItemsActions.fetchItemsSuccess;
+  const onError = fromActions.inventoryFetchItemsActions.fetchItemsError;
 
   return inventoryService.getItems().pipe(
     map(items => onSuccess({ items })),
