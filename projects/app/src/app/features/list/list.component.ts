@@ -8,15 +8,15 @@ import { StackedLayoutService } from '@app/common/layouts';
 import { CategorizedListItems, CreateListItemDto, ListItem } from '@app/core';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { Observable, combineLatest, delay, map, of, startWith, switchMap, take, throwError } from 'rxjs';
+import { Observable, combineLatest, map, of, startWith, switchMap, take, throwError } from 'rxjs';
+import * as categoryMenuAction from './category.contextual-menu';
+import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
+import { ItemFormModalComponent, ItemFormModalInput, ItemFormModalOutput } from './components/item-form-modal';
+import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
-import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListIsLoaded } from './store';
-import * as categoryMenuAction from './category.contextual-menu';
+import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
 import { ListFilterToken } from './types';
-import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
-import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import { ItemFormModalComponent, ItemFormModalInput } from './components/item-form-modal';
 
 const IMPORTS = [
   NgIf,
@@ -111,7 +111,7 @@ export class ListPageComponent implements OnInit {
         this.store.dispatch(listItemActions.complete({ itemId }));
         break;
       case itemMenuAction.ITEM_ACTION_EDIT.id:
-        this.showEditModal(itemId);
+        this.showEditItemModal(itemId);
         break;
       case itemMenuAction.ITEM_ACTION_INCREMENT.id:
         this.store.dispatch(listItemActions.increment({ itemId }));
@@ -125,6 +125,28 @@ export class ListPageComponent implements OnInit {
         });
         break;
     }
+  }
+
+  onShowCreateItemModal(): void {
+
+    const openCreateModal = () => {
+      const title = 'Create item'; // TODO: Translate
+      const modalInput: ItemFormModalInput = { title, item: null };
+      const modal$ = this.modal.open(ItemFormModalComponent, modalInput);
+      return modal$.closed();
+    };
+
+    const onError = () => {
+      console.log('Item not created');
+    };
+
+    const onCreated = (output: ItemFormModalOutput) => {
+      const dto = output.item as CreateListItemDto;
+      this.store.dispatch(listItemActions.create({ dto }));
+    };
+
+    openCreateModal()
+      .subscribe({ next: onCreated, error: onError });
   }
 
   onItemToggle({ itemId, isDone }: ItemToggledOutput) {
@@ -160,37 +182,38 @@ export class ListPageComponent implements OnInit {
     return this.modal.open(ConfirmPromptModalComponent, input).closed();
   }
 
-  private showEditModal(itemId: string): void {
-    this.store.select(selectItemById(itemId))
-      .pipe(
-        take(1),
-        switchMap(item => !item
-          ? throwError(() => Error(`Item with id ${itemId} not found`))
-          : of(item)
-        ),
-        map(item => {
-          const title = 'Edit item'; // TODO: Translate
-          return { title, item } as ItemFormModalInput;
-        }),
-        switchMap(input => {
-          return this.modal.open(ItemFormModalComponent, input).closed();
-        }),
-      )
-      // TODO
-      .subscribe({
-        error: () => console.log(`Item with id ${itemId} not edited`),
-        next: payload => {
-          const item = payload.item as ListItem;
-          if (item?.id) {
-            this.store.dispatch(listItemActions.edit({ item }));
-            // TODO: Store effect
-          } else {
-            const dto = payload.item as CreateListItemDto;
-            this.store.dispatch(listItemActions.create({ dto }));
-            // TODO: Store effect
-          }
-        },
-      });
+  private showEditItemModal(itemId: string): void {
+
+    const openEditModal = (item: ListItem) => {
+      const title = 'Edit item'; // TODO: Translate
+      const modalInput: ItemFormModalInput = { item, title };
+      const modal$ = this.modal.open(ItemFormModalComponent, modalInput);
+      return modal$.closed();
+    };
+
+    const onError = () => {
+      console.log(`Item with id ${itemId} not edited`);
+    };
+
+    const onEdited = (output: ItemFormModalOutput) => {
+      const item = output.item as ListItem;
+      this.store.dispatch(listItemActions.edit({ item }));
+      // TODO: Store effect
+    };
+
+    this.findItemById(itemId)
+      .pipe(switchMap(openEditModal))
+      .subscribe({ next: onEdited, error: onError });
+  }
+
+  private findItemById(itemId: string): Observable<ListItem> {
+
+    const item$ = this.store.select(selectItemById(itemId)).pipe(take(1));
+
+    return item$.pipe(switchMap(item => item
+      ? of(item)
+      : throwError(() => Error(`Item with id ${itemId} not found`))
+    ));
   }
 
   private decrementOrRemove(itemId: string): void {

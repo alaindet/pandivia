@@ -104,7 +104,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   // Item actions -------------------------------------------------------------
 
   immerOn(fromActions.listItemActions.create, (state, { dto }) => {
-    const id = getRandomHash(5); // TODO
+    const id = getRandomHash(5); // TODO: Mock
     const item = { ...dto, id } as ListItem;
     state.items.unshift(item);
   }),
