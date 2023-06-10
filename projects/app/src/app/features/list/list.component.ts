@@ -11,7 +11,7 @@ import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { Observable, combineLatest, map, of, startWith, switchMap, take, throwError } from 'rxjs';
 import * as categoryMenuAction from './category.contextual-menu';
 import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
-import { ItemFormModalComponent, ItemFormModalInput, ItemFormModalOutput } from './components/item-form-modal';
+import { CreateItemFormModalOutput, EditItemFormModalOutput, ItemFormModalComponent, ItemFormModalInput, ItemFormModalOutput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
@@ -141,8 +141,9 @@ export class ListPageComponent implements OnInit {
     };
 
     const onCreated = (output: ItemFormModalOutput) => {
-      const dto = output.item as CreateListItemDto;
-      this.store.dispatch(listItemActions.create({ dto }));
+      const { item, addToInventory } = output as CreateItemFormModalOutput;
+      this.store.dispatch(listItemActions.create({ dto: item }));
+      // TODO: Dispatch add to inventory new action
     };
 
     openCreateModal()
@@ -150,7 +151,9 @@ export class ListPageComponent implements OnInit {
   }
 
   onItemToggle({ itemId, isDone }: ItemToggledOutput) {
-    this.store.dispatch(listItemActions.toggle({ itemId }));
+    isDone
+      ? this.store.dispatch(listItemActions.undo({ itemId }))
+      : this.store.dispatch(listItemActions.complete({ itemId }));
   }
 
   onPinCategory(category: string, isPinned: boolean) {

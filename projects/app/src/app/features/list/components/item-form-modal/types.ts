@@ -5,9 +5,19 @@ export type ItemFormModalInput = {
   item: ListItem | null;
 };
 
-export type ItemFormModalOutput = {
-  item: ListItem | CreateListItemDto;
+export type CreateItemFormModalOutput = {
+  item: CreateListItemDto;
+  addToInventory: boolean;
 };
+
+export type EditItemFormModalOutput = {
+  item: ListItem;
+};
+
+export type ItemFormModalOutput = (
+  | CreateItemFormModalOutput
+  | EditItemFormModalOutput
+);
 
 export const ITEM_FORM_FIELD = {
   NAME: 'name',
@@ -15,4 +25,5 @@ export const ITEM_FORM_FIELD = {
   DESCRIPTION: 'description',
   CATEGORY: 'category',
   IS_DONE: 'isDone',
+  ADD_TO_INVENTORY: 'addToInventory',
 } as const;

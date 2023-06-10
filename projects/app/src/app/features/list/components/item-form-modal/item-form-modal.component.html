@@ -173,18 +173,43 @@
 
   </app-form-field>
 
-  <!-- Toggle -->
+  <!-- Is done -->
   <!-- TODO: Translate -->
-  <!-- TODO: Use toggle instead -->
   <app-form-field id="item-done">
 
     <app-form-field-label>
-      Completed?
+      Completed
     </app-form-field-label>
 
-    <app-toggle [formControlName]="FIELD.IS_DONE" color="primary" id="item-done">
-      Completed?
+    <app-toggle
+      [formControlName]="FIELD.IS_DONE"
+      color="primary"
+      id="item-done"
+    >
+      Completed
     </app-toggle>
+
+  </app-form-field>
+
+  <!-- Add to inventory -->
+  <!-- TODO: Translate -->
+  <app-form-field *ngIf="!isEditing()" id="item-add-to-inventory">
+
+    <app-form-field-label>
+      Add to inventory
+    </app-form-field-label>
+
+    <app-toggle
+      [formControlName]="FIELD.ADD_TO_INVENTORY"
+      color="primary"
+      id="item-add-to-inventory"
+    >
+      Add to inventory?
+    </app-toggle>
+
+    <app-form-field-hint>
+      Adds this item to the inventory if not already present
+    </app-form-field-hint>
 
   </app-form-field>
 </form>

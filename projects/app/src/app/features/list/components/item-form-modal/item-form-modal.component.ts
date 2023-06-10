@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
-import { ITEM_FORM_FIELD as FIELD, ItemFormModalInput, ItemFormModalOutput } from './types';
+import { CreateItemFormModalOutput, EditItemFormModalOutput, ITEM_FORM_FIELD as FIELD, ItemFormModalInput, ItemFormModalOutput } from './types';
 import { Observable, map, of } from 'rxjs';
 import { selectListCategoriesByName } from '../../store';
 import { Store } from '@ngrx/store';
@@ -107,7 +107,7 @@ export class ItemFormModalComponent extends BaseModalComponent<
       item = theItem;
     }
 
-    const data: ItemFormModalOutput = { item };
+    const data: EditItemFormModalOutput = { item };
     this.modal.confirm(data);
   }
 
@@ -117,9 +117,7 @@ export class ItemFormModalComponent extends BaseModalComponent<
       return;
     }
 
-    let item: CreateListItemDto = {
-      ...this.theForm.value,
-    };
+    let { [FIELD.ADD_TO_INVENTORY]: addToInventory, ...item } = this.theForm.value;
 
     if (!item.description) {
       const { description, ...theItem } = item;
@@ -131,7 +129,7 @@ export class ItemFormModalComponent extends BaseModalComponent<
       item = theItem;
     }
 
-    const data: ItemFormModalOutput = { item };
+    const data: CreateItemFormModalOutput = { item, addToInventory };
     this.modal.confirm(data);
   }
 
@@ -167,7 +165,7 @@ export class ItemFormModalComponent extends BaseModalComponent<
     const { item } = this.modal.data;
     const { required, minLength, maxLength, min, max } = Validators;
 
-    this.theForm = this.formBuilder.group({
+    const controls: any = {
       [FIELD.NAME]: [
         // Value
         item?.name ?? '',
@@ -180,6 +178,12 @@ export class ItemFormModalComponent extends BaseModalComponent<
       [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(100)]],
       [FIELD.CATEGORY]: [item?.category ?? null, [minLength(2), maxLength(100)]],
       [FIELD.IS_DONE]: [!!item?.isDone],
-    });
+    };
+
+    if (!this.isEditing()) {
+      controls[FIELD.ADD_TO_INVENTORY] = [false];
+    }
+
+    this.theForm = this.formBuilder.group(controls);
   }
 }
