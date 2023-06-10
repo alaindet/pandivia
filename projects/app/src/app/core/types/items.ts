@@ -1,17 +1,27 @@
+// Inventory ------------------------------------------------------------------
 export type InventoryItem = {
   id: string;
   name: string;
-  amount: number;
   description?: string;
   category?: string;
 };
-
-export type ListItem = InventoryItem & {
-  isDone: boolean;
+export type CreateInventoryItemDto = Omit<InventoryItem, 'id'>;
+export type CategorizedInventoryItems = {
+  category: string | 'no-category';
+  items: InventoryItem[];
 };
 
-export type CreateListItemDto = Omit<ListItem, 'id'>;
+// List -----------------------------------------------------------------------
+export type ListItem = {
+  id: string;
+  name: string;
+  description?: string;
+  category?: string;
+  isDone: boolean;
+  amount: number;
+};
 
+export type CreateListItemDto = Omit<ListItem, 'id' | 'isDone'>;
 export type CategorizedListItems = {
   category: string | 'no-category';
   items: ListItem[];

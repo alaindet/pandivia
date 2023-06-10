@@ -173,9 +173,9 @@
 
   </app-form-field>
 
-  <!-- Is done -->
+  <!-- Is done (edit-only) -->
   <!-- TODO: Translate -->
-  <app-form-field id="item-done">
+  <app-form-field *ngIf="isEditing()" id="item-done">
 
     <app-form-field-label>
       Completed
@@ -191,7 +191,7 @@
 
   </app-form-field>
 
-  <!-- Add to inventory -->
+  <!-- Add to inventory (create-only)-->
   <!-- TODO: Translate -->
   <app-form-field *ngIf="!isEditing()" id="item-add-to-inventory">
 

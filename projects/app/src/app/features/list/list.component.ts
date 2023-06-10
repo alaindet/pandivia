@@ -17,6 +17,7 @@ import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
 import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
 import { ListFilterToken } from './types';
+import { inventoryItemActions } from '../inventory/store';
 
 const IMPORTS = [
   NgIf,
@@ -143,7 +144,11 @@ export class ListPageComponent implements OnInit {
     const onCreated = (output: ItemFormModalOutput) => {
       const { item, addToInventory } = output as CreateItemFormModalOutput;
       this.store.dispatch(listItemActions.create({ dto: item }));
-      // TODO: Dispatch add to inventory new action
+
+      if (addToInventory) {
+        const { amount, ...dto } = item;
+        this.store.dispatch(inventoryItemActions.create({ dto }));
+      }
     };
 
     openCreateModal()

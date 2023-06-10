@@ -9,8 +9,8 @@ import { CreateItemFormModalOutput, EditItemFormModalOutput, ITEM_FORM_FIELD as 
 import { Observable, map, of } from 'rxjs';
 import { selectListCategoriesByName } from '../../store';
 import { Store } from '@ngrx/store';
-import { CreateListItemDto, InventoryItem, ListItem } from '@app/core';
-import { fetchInventoryItemsActions, selectInventoryItemsByName } from '@app/features/inventory/store';
+import { InventoryItem, ListItem } from '@app/core';
+import { inventoryFetchItemsActions, selectInventoryItemsByName } from '@app/features/inventory/store';
 import { uniqueItemNameValidator } from '../../validators';
 
 const IMPORTS = [
@@ -69,7 +69,7 @@ export class ItemFormModalComponent extends BaseModalComponent<
   }
 
   ngOnInit() {
-    this.store.dispatch(fetchInventoryItemsActions.fetchItems());
+    this.store.dispatch(inventoryFetchItemsActions.fetchItems());
     this.isEditing.set(this.modal.data.item !== null);
     this.initForm();
   }
@@ -134,11 +134,9 @@ export class ItemFormModalComponent extends BaseModalComponent<
   }
 
   onSubmit() {
-    if (this.isEditing()) {
-      this.onEdit();
-    } else {
-      this.onCreate();
-    }
+    this.isEditing()
+      ? this.onEdit()
+      : this.onCreate();
   }
 
   nameFieldOptions: AutocompleteAsyncOptionsFn = (
@@ -177,11 +175,16 @@ export class ItemFormModalComponent extends BaseModalComponent<
       [FIELD.AMOUNT]: [item?.amount ?? 1, [required, min(1), max(100)]],
       [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(100)]],
       [FIELD.CATEGORY]: [item?.category ?? null, [minLength(2), maxLength(100)]],
-      [FIELD.IS_DONE]: [!!item?.isDone],
     };
 
+    // Add create-only fields
     if (!this.isEditing()) {
       controls[FIELD.ADD_TO_INVENTORY] = [false];
+    }
+
+    // Add edit-only fields
+    else {
+      controls[FIELD.IS_DONE] = [!!item?.isDone];
     }
 
     this.theForm = this.formBuilder.group(controls);

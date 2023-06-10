@@ -18,32 +18,32 @@ export class InventoryEffects {
   private ui = createUiController(this.actions);
 
   fetchItems$ = createEffect(() => this.actions.pipe(
-    ofType(fromActions.fetchInventoryItemsActions.fetchItems),
+    ofType(fromActions.inventoryFetchItemsActions.fetchItems),
     withLatestFrom(this.store.select(selectInventoryShouldFetch)),
     switchMap(([_, shouldFetch]) => shouldFetch
       ? fetchItemsHelper(this.inventoryService)
-      : of(fromActions.fetchInventoryItemsActions.fetchItemsCached())
+      : of(fromActions.inventoryFetchItemsActions.fetchItemsCached())
     ),
   ));
 
   forceFetchItems$ = createEffect(() => this.actions.pipe(
-    ofType(fromActions.fetchInventoryItemsActions.forceFetchItems),
+    ofType(fromActions.inventoryFetchItemsActions.forceFetchItems),
     switchMap(() => fetchItemsHelper(this.inventoryService)),
   ));
 
   startLoader$ = this.ui.startLoaderOn(
-    fromActions.fetchInventoryItemsActions.fetchItems,
-    fromActions.fetchInventoryItemsActions.forceFetchItems,
+    fromActions.inventoryFetchItemsActions.fetchItems,
+    fromActions.inventoryFetchItemsActions.forceFetchItems,
   );
 
   stopLoader$ = this.ui.stopLoaderOn(
-    fromActions.fetchInventoryItemsActions.fetchItemsSuccess,
-    fromActions.fetchInventoryItemsActions.fetchItemsError,
-    fromActions.fetchInventoryItemsActions.fetchItemsCached,
+    fromActions.inventoryFetchItemsActions.fetchItemsSuccess,
+    fromActions.inventoryFetchItemsActions.fetchItemsError,
+    fromActions.inventoryFetchItemsActions.fetchItemsCached,
   );
 
   showError$ = this.ui.showErrorOn(
-    fromActions.fetchInventoryItemsActions.fetchItemsError,
+    fromActions.inventoryFetchItemsActions.fetchItemsError,
   );
 }
 
