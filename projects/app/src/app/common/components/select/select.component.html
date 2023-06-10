@@ -5,13 +5,20 @@
   [disabled]="isDisabled"
   (change)="onSelectChange()"
 >
-  <option #defaultOptionRef *ngIf="withDefaultOption" value="" [selected]="selectedValue === null">
+  <option
+    #defaultOptionRef
+    *ngIf="withDefaultOption"
+    value=""
+    [selected]="selectedValue() === null"
+  >
     Select...
   </option>
 
-  <ng-container *ngFor="let option of options">
-    <option [value]="option.value" [selected]="selectedValue === option.value">
-      {{ option.label }}
-    </option>
-  </ng-container>
+  <option
+    *ngFor="let option of options"
+    [value]="option.value"
+    [selected]="selectedValue() === option.value"
+  >
+    {{ option.label }}
+  </option>
 </select>

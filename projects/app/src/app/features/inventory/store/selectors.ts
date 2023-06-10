@@ -2,6 +2,8 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { groupItemsByCategory } from '@app/core/functions';
 import { INVENTORY_FEATURE_NAME, InventoryFeatureState } from './state';
+import { LOADING_STATUS } from '@app/common/types';
+import { InventoryItem } from '@app/core';
 
 const selectInventoryFeature = createFeatureSelector<InventoryFeatureState>(
   INVENTORY_FEATURE_NAME,
@@ -10,6 +12,11 @@ const selectInventoryFeature = createFeatureSelector<InventoryFeatureState>(
 export const selectInventoryStatus = createSelector(
   selectInventoryFeature,
   state => state.status,
+);
+
+export const selectInventoryIsLoaded = createSelector(
+  selectInventoryFeature,
+  state => state.status === LOADING_STATUS.IDLE,
 );
 
 export const selectInventoryShouldFetch = createSelector(
@@ -22,11 +29,14 @@ export const selectInventoryCategorizedItems = createSelector(
   state => groupItemsByCategory(state.items),
 );
 
-export const selectInventoryItemsByCategory = (category?: string) => createSelector(
-  selectInventoryFeature,
-  state => {
-    const cat = category ?? 'no-category';
-    const items = state.items.filter(it => it.category === cat);
-    return groupItemsByCategory(items);
-  },
-);
+export const selectInventoryItemsByName = (nameQuery: string) => {
+  const query = nameQuery.toLowerCase();
+  const searchName = (item: InventoryItem) => {
+    return item.name?.toLowerCase()?.includes(query);
+  };
+
+  return createSelector(
+    selectInventoryFeature,
+    state => state.items.filter(searchName),
+  );
+};

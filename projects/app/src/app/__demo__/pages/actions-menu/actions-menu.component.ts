@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '@app/common/components/menu/actions-menu';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ButtonComponent } from '@app/common/components/button';
+import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent } from '@app/common/components';
 
 const IMPORTS = [
   ...ACTIONS_MENU_EXPORTS,
@@ -16,7 +15,7 @@ const IMPORTS = [
   imports: IMPORTS,
   templateUrl: './actions-menu.component.html',
 })
-export class MenuDemoPageComponent {
+export class ActionsMenuDemoPageComponent {
 
   consoleLog = console.log;
 

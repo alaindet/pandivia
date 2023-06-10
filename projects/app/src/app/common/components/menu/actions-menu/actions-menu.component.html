@@ -3,6 +3,7 @@
   <div class="app-actions-menu-button">
     <ng-container
       [ngTemplateOutlet]="vm.templates.button ?? defaultButtonTemplate"
+      [ngTemplateOutletContext]="{ $implicit: vm.isOpen }"
     ></ng-container>
   </div>
 

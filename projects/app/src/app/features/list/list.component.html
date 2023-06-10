@@ -1,4 +1,4 @@
-<ng-container *ngIf="vm$ | async as vm">
+<div *ngIf="vm$ | async as vm" class="fab-large-container">
 
   <!-- Filters -->
   <ul *ngIf="vm.filters" class="_filters">
@@ -33,4 +33,18 @@
     </li>
   </ul>
 
-</ng-container>
+  <!-- Add new item -->
+  <button
+    appButton
+    isCircle
+    withIconOnly
+    size="large" 
+    floating="fixed"
+    floatingBottom="4.7rem"
+    floatingRight="1.1rem"
+    (click)="onShowCreateItemModal()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>

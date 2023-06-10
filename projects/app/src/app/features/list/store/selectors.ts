@@ -2,8 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { groupItemsByCategory } from '@app/core/functions';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
-import { ListItem, RootState } from '@app/core';
+import { ListItem } from '@app/core';
 import { LIST_FILTER, ListFilterToken, ListFilters } from '../types';
+import { LOADING_STATUS } from '@app/common/types';
 
 const selectListFeature = createFeatureSelector<ListFeatureState>(
   LIST_FEATURE_NAME,
@@ -14,9 +15,45 @@ export const selectListStatus = createSelector(
   state => state.status,
 );
 
+export const selectListIsLoaded = createSelector(
+  selectListFeature,
+  state => state.status === LOADING_STATUS.IDLE,
+);
+
 export const selectListShouldFetch = createSelector(
   selectListFeature,
   state => !state.items.length,
+);
+
+export const selectListItemExistsWithName = (
+  itemId: string | null,
+  name: string,
+) => createSelector(
+  selectListFeature,
+  (state): boolean => {
+    const query = name.toLowerCase();
+    return !!state.items.filter(item => (
+      item.id !== itemId &&
+      item.name.toLowerCase() === query
+    )).length;
+  },
+);
+
+export const selectListCategoriesByName = (category: string) => createSelector(
+  selectListFeature,
+  (state): string[] => {
+    const query = category.toLowerCase();
+    const searchByCategory = (item: ListItem) => {
+      return item.category?.toLowerCase()?.includes(query);
+    };
+    const categories: { [category: string]: boolean } = {};
+    state.items.forEach(item => {
+      if (searchByCategory(item)) {
+        categories[item.category!] = true;
+      }
+    });
+    return Object.keys(categories);
+  },
 );
 
 export const selectListCategorizedItems = createSelector(
@@ -69,18 +106,15 @@ export const selectListCategoryFilter = createSelector(
   state => state.filters[LIST_FILTER.CATEGORY],
 );
 
+export const selectItemById = (itemId: string) => (state: any) => {
+  const featureState = state[LIST_FEATURE_NAME] as ListFeatureState;
+  const item = featureState.items.find(item => item.id === itemId);
+  return item ?? null;
+};
+
 export const selectItemAmount = (itemId: string) => (state: any) => {
   const featureState = state[LIST_FEATURE_NAME] as ListFeatureState;
   const item = featureState.items.find(item => item.id === itemId);
   if (!item) return 0;
   return item.amount;
 };
-
-// export const selectListItemsByCategory = (category?: string) => createSelector(
-//   selectListFeature,
-//   state => {
-//     const cat = category ?? 'no-category';
-//     const items = state.items.filter(it => it.category === cat);
-//     return groupItemsByCategory(items);
-//   },
-// );

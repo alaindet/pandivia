@@ -7,12 +7,12 @@ export interface AutocompleteOptionValuesMap {
   [index: number]: string;
 }
 
-export const AUTOCOMPLETE_SOURCE = {
+export const AUTOCOMPLETE_SOURCE_TYPE = {
   STATIC: 'static',
   ASYNC: 'async',
 } as const;
 
-export type AutocompleteSource = ObjectValues<typeof AUTOCOMPLETE_SOURCE>;
+export type AutocompleteSourceType = ObjectValues<typeof AUTOCOMPLETE_SOURCE_TYPE>;
 
 export type AutocompleteAsyncOptionsFn = (query: string) => Observable<AutocompleteOption[]>;
 

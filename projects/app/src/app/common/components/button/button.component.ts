@@ -5,12 +5,6 @@ import { asBoolean, cssClassesList } from '@app/common/utils';
 type ButtonColor = 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ghost';
 type ButtonSize = 'extra-small' | 'small' | 'medium' | 'large';
 type ButtonFloatingType = 'container' | 'fixed';
-type ButtonFloatingPosition = {
-  top?: string;
-  right?: string;
-  bottom?: string;
-  left?: string;
-};
 
 @Component({
   selector: 'button[appButton]',
@@ -32,13 +26,14 @@ export class ButtonComponent implements OnInit {
   @Input() withIcon: '' | 'left' | 'right' | boolean = false;
   @Input() withIconOnly: '' | boolean = false;
   @Input() floating: ButtonFloatingType | null = null;
-  @Input() floatingPos: ButtonFloatingPosition | null = null;
+  @Input() @HostBinding('style.--app-button-top') floatingTop = 'auto';
+  @Input() @HostBinding('style.--app-button-right') floatingRight = '1rem';
+  @Input() @HostBinding('style.--app-button-bottom') floatingBottom = '1rem';
+  @Input() @HostBinding('style.--app-button-left') floatingLeft = 'auto';
 
   @HostBinding('class') cssClasses!: string;
-  @HostBinding('style.--app-button-top') cssTop = 'auto';
-  @HostBinding('style.--app-button-right') cssRight = '1rem';
-  @HostBinding('style.--app-button-bottom') cssBottom = '1rem';
-  @HostBinding('style.--app-button-left') cssLeft = 'auto';
+
+  private skipInit = false;
 
   // Public API
   getNativeElement(): HTMLButtonElement {
@@ -46,6 +41,15 @@ export class ButtonComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.skipInit) this.updateStyle();
+  }
+
+  ngOnChanges() {
+    this.skipInit = true;
+    this.updateStyle();
+  }
+
+  private updateStyle(): void {
     this.cssClasses = cssClassesList([
       this.getColorCss(this.mainInput, this.color),
       `-size-${this.size}`,
@@ -54,8 +58,6 @@ export class ButtonComponent implements OnInit {
       asBoolean(this.isCircle) ? '-circle' : null,
       !!this.floating ? `-floating-${this.floating}` : null,
     ]);
-
-    this.updateFloatingPosition();
   }
 
   private getColorCss(main: ButtonColor | null | '', color: ButtonColor): string | null {
@@ -74,30 +76,6 @@ export class ButtonComponent implements OnInit {
       case false:
       default:
         return null;
-    }
-  }
-
-  private updateFloatingPosition(): void {
-
-    if (this.floatingPos === null) {
-      return;
-    }
-
-    for (const [pos, value] of Object.entries(this.floatingPos)) {
-      switch (pos) {
-        case 'top':
-          this.cssTop = value;
-          break;
-        case 'right':
-          this.cssRight = value;
-          break;
-        case 'bottom':
-          this.cssBottom = value;
-          break;
-        case 'left':
-          this.cssLeft = value;
-          break;
-      }
     }
   }
 }

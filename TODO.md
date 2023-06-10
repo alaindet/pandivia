@@ -1,3 +1,5 @@
-- While item menu is open on card list, set item as "active" and style it as hovering
-- Clear list filters on page change?
-- Show delete warning when decrementing amount to zero
+- Add custom scrollbar to desktop view
+- Add action groups for async writes
+- Add input for showing/hiding "Nothing found" on autocomplete
+- ??? Add show/hide toggle for List completed items (not just remove them)
+- Propose "Add to inventory" flag while creating items in List

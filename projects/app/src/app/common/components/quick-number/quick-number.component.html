@@ -1,29 +1,29 @@
-<ng-container *ngIf="vm$ | async as vm">
-  <button
-    type="button"
-    appButton="primary"
-    size="small"
-    withIconOnly
-    [disabled]="vm.isDecrementDisabled"
-    class="-decrement"
-    title="Decrement value"
-    (click)="onDecrement()"
-  >
-    <mat-icon>remove</mat-icon>
-  </button>
+<button
+  type="button"
+  appButton="primary"
+  size="small"
+  withIconOnly
+  isCircle
+  [disabled]="isDecrementDisabled()"
+  class="-decrement"
+  title="Decrement value"
+  (click)="onDecrement()"
+>
+  <mat-icon>remove</mat-icon>
+</button>
 
-  <span class="_value">{{ vm.value }}</span>
+<span class="_value">{{ value() }}</span>
 
-  <button
-    type="button"
-    appButton="primary"
-    size="small"
-    withIconOnly
-    [disabled]="vm.isIncrementDisabled"
-    class="-increment"
-    title="Increment value"
-    (click)="onIncrement()"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
-</ng-container>
+<button
+  type="button"
+  appButton="primary"
+  size="small"
+  withIconOnly
+  isCircle
+  [disabled]="isIncrementDisabled()"
+  class="-increment"
+  title="Increment value"
+  (click)="onIncrement()"
+>
+  <mat-icon>add</mat-icon>
+</button>

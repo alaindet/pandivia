@@ -78,17 +78,31 @@
 
 <h2>Floating buttons</h2>
 
-<button appButton isCircle withIconOnly size="large" floating="fixed" [floatingPos]="{
-  bottom: '2rem',
-  right: '2rem'
-}">
+<button
+  appButton
+  isCircle
+  withIconOnly 
+  size="large" 
+  floating="fixed"
+  floatingRight="2rem"
+  floatingBottom="2rem"
+>
   <mat-icon>add</mat-icon>
 </button>
 
 <br><br>
 
 <div class="fab-container">
-  <button appButton isCircle withIconOnly size="medium" floating="container">
+
+  <button
+    appButton
+    isCircle
+    withIconOnly 
+    size="medium" 
+    floating="container"
+    floatingRight="2rem"
+    floatingBottom="2rem"
+  >
     <mat-icon>clear</mat-icon>
   </button>
 

@@ -16,9 +16,9 @@ const IMPORTS = [
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-form-field-label' },
   template: `
-    <label [attr.for]="context.id()"
-      ><ng-content></ng-content
-      ><ng-container *ngIf="isRequired">*</ng-container>
+    <label [attr.for]="context.id()">
+      <ng-content></ng-content>
+      <ng-container *ngIf="isRequired">*</ng-container>
     </label>
   `,
   styles: [`
@@ -39,7 +39,7 @@ export class FormFieldLabelComponent {
   context = inject(FormFieldContextService);
 
   @Input('isRequired')
-  set isRequiredInput(val: any) {
+  set isRequiredInput(val: boolean | string) {
     this.isRequired = asBoolean(val);
   }
 

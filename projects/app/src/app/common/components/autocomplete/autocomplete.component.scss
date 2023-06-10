@@ -2,8 +2,7 @@
 
 .app-autocomplete {
   --app-autocomplete-width: 19.25rem;
-  --app-autocomplete-dropdown-x: 0;
-  --app-autocomplete-dropdown-y: 0;
+  --app-autocomplete-offset-y: 0;
 
   display: block;
   position: relative;
@@ -16,7 +15,7 @@
   }
 
   ._options {
-    border: 1px solid $app-color-black;
+    border: 2px solid $app-color-grey-700;
     border-radius: 4px;
     position: absolute;
     background-color: $app-color-white;
@@ -25,13 +24,14 @@
     max-height: $app-height-autocomplete-options;
     overflow-y: auto;
     width: var(--app-autocomplete-width);
-    top: var(--app-autocomplete-dropdown-y);
-    left: var(--app-autocomplete-dropdown-x);
+    top: var(--app-autocomplete-offset-y);
+    left: 0;
     display: flex;
     flex-direction: column;
     z-index: 3;
     list-style: none;
     padding: 0;
+    margin: 0;
   }
 
   ._option {

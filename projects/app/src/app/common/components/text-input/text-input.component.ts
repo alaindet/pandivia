@@ -44,6 +44,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
   @Input() status?: TextInputStatus;
   @Input() @HostBinding('class.-clearable') clearable = false;
   @Input() placeholder = '';
+  @Input() autocomplete?: string;
   @Input() withStatusIcon = true;
   @Input() withErrorId: string | null = null;
   @Input() @HostBinding('class.-full-width') withFullWidth = false;

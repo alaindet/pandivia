@@ -10,6 +10,8 @@ export type ListItem = InventoryItem & {
   isDone: boolean;
 };
 
+export type CreateListItemDto = Omit<ListItem, 'id'>;
+
 export type CategorizedListItems = {
   category: string | 'no-category';
   items: ListItem[];

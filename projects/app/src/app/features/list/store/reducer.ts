@@ -6,6 +6,8 @@ import * as fromActions from './actions';
 import { LIST_FEATURE_INITIAL_STATE } from './state';
 import { LIST_FILTER } from '../types';
 import { getItemIndex, updateItemsByCategory } from './helpers';
+import { ListItem } from '@app/core';
+import { getRandomHash } from '@app/common/utils';
 
 export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
@@ -60,6 +62,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   }),
 
   // List actions -------------------------------------------------------------
+
   immerOn(fromActions.listAllItemsActions.complete, state => {
     state.items.forEach(item => item.isDone = true);
   }),
@@ -77,6 +80,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   }),
 
   // List category actions ----------------------------------------------------
+
   immerOn(fromActions.listCategoryActions.complete, (state, { category }) => {
     updateItemsByCategory(state, category, item => item.isDone = true);
   }),
@@ -98,6 +102,17 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   }),
 
   // Item actions -------------------------------------------------------------
+
+  immerOn(fromActions.listItemActions.create, (state, { dto }) => {
+    const id = getRandomHash(5); // TODO: Mock
+    const item = { ...dto, id } as ListItem;
+    state.items.unshift(item);
+  }),
+
+  immerOn(fromActions.listItemActions.edit, (state, { item }) => {
+    const index = getItemIndex(state, item.id);
+    if (index !== null) state.items[index] = item;
+  }),
 
   immerOn(fromActions.listItemActions.complete, (state, { itemId }) => {
     const index = getItemIndex(state, itemId);
