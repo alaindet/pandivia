@@ -27,6 +27,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
   immerOn(fromActions.listFetchItemsActions.fetchItemsSuccess, (state, { items }) => {
     state.status = LOADING_STATUS.IDLE;
+    state.lastUpdated = Date.now();
     state.items = items;
   }),
 
@@ -144,5 +145,3 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     if (index !== null) state.items = state.items.filter(it => it.id !== itemId);
   }),
 );
-
-

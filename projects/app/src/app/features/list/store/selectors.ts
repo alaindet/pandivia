@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { groupItemsByCategory } from '@app/core/functions';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
-import { ListItem } from '@app/core';
+import { CACHE_MAX_AGE, ListItem } from '@app/core';
 import { LIST_FILTER, ListFilterToken, ListFilters } from '../types';
 import { LOADING_STATUS } from '@app/common/types';
 
@@ -22,7 +22,25 @@ export const selectListIsLoaded = createSelector(
 
 export const selectListShouldFetch = createSelector(
   selectListFeature,
-  state => !state.items.length,
+  state => {
+    if (state.status === LOADING_STATUS.PRISTINE) {
+      return true;
+    }
+
+    if (state.lastUpdated === null) {
+      return true;
+    }
+
+    if (Date.now() - state.lastUpdated > CACHE_MAX_AGE) {
+      return true;
+    }
+
+    if (!state.items.length) {
+      return true;
+    }
+
+    return false;
+  },
 );
 
 export const selectListItemExistsWithName = (
@@ -56,10 +74,10 @@ export const selectListCategoriesByName = (category: string) => createSelector(
   },
 );
 
-export const selectListCategorizedItems = createSelector(
-  selectListFeature,
-  state => groupItemsByCategory(state.items),
-);
+// export const selectListCategorizedItems = createSelector(
+//   selectListFeature,
+//   state => groupItemsByCategory(state.items),
+// );
 
 export const selectListCategorizedFilteredItems = createSelector(
   selectListFeature,

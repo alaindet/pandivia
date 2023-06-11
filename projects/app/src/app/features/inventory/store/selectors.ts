@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { groupItemsByCategory } from '@app/core/functions';
 import { INVENTORY_FEATURE_NAME, InventoryFeatureState } from './state';
 import { LOADING_STATUS } from '@app/common/types';
-import { InventoryItem } from '@app/core';
+import { CACHE_MAX_AGE, InventoryItem } from '@app/core';
 
 const selectInventoryFeature = createFeatureSelector<InventoryFeatureState>(
   INVENTORY_FEATURE_NAME,
@@ -21,7 +21,25 @@ export const selectInventoryIsLoaded = createSelector(
 
 export const selectInventoryShouldFetch = createSelector(
   selectInventoryFeature,
-  state => !state.items.length,
+  state => {
+    if (state.status === LOADING_STATUS.PRISTINE) {
+      return true;
+    }
+
+    if (state.lastUpdated === null) {
+      return true;
+    }
+
+    if (Date.now() - state.lastUpdated > CACHE_MAX_AGE) {
+      return true;
+    }
+
+    if (!state.items.length) {
+      return true;
+    }
+
+    return false;
+  },
 );
 
 export const selectInventoryCategorizedItems = createSelector(
