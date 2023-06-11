@@ -2,37 +2,53 @@ import { createReducer } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
 
 import { LOADING_STATUS } from '@app/common/types';
+import { LIST_FILTER } from '../types';
 import * as fromActions from './actions';
 import { LIST_FEATURE_INITIAL_STATE } from './state';
-import { LIST_FILTER } from '../types';
-import { getItemIndex, updateItemsByCategory } from './helpers';
-import { ListItem } from '@app/core';
-import { getRandomHash } from '@app/common/utils';
 
 export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
-  // Fetching -----------------------------------------------------------------
+  // Generic async ------------------------------------------------------------
 
   immerOn(
-    fromActions.listFetchItemsActions.fetchItems,
-    fromActions.listFetchItemsActions.forceFetchItems,
+    fromActions.listItemsAsyncReadActions.fetchItems,
+    fromActions.listItemsAsyncReadActions.forceFetchItems,
+    fromActions.listAllItemsActions.complete,
+    fromActions.listAllItemsActions.undo,
+    fromActions.listCategoryActions.complete,
+    fromActions.listCategoryActions.undo,
+    fromActions.listAllItemsActions.removeCompleted,
+    fromActions.listAllItemsActions.remove,
+    fromActions.listCategoryActions.removeCompleted,
+    fromActions.listCategoryActions.remove,
     state => {
       state.status = LOADING_STATUS.LOADING;
     },
   ),
 
-  immerOn(fromActions.listFetchItemsActions.fetchItemsCached, state => {
+  immerOn(
+    fromActions.listItemsAsyncReadActions.fetchItemsError,
+    fromActions.listItemsAsyncWriteActions.editError,
+    fromActions.listItemsAsyncWriteActions.removeError,
+    fromActions.listItemAsyncWriteActions.createError,
+    fromActions.listItemAsyncWriteActions.editError,
+    fromActions.listItemAsyncWriteActions.removeError,
+    (state, { message }) => {
+      console.log(message); // TODO: Remove?
+      state.status = LOADING_STATUS.ERROR;
+    },
+  ),
+
+  // Fetching -----------------------------------------------------------------
+
+  immerOn(fromActions.listItemsAsyncReadActions.fetchItemsCached, state => {
     state.status = LOADING_STATUS.IDLE;
   }),
 
-  immerOn(fromActions.listFetchItemsActions.fetchItemsSuccess, (state, { items }) => {
+  immerOn(fromActions.listItemsAsyncReadActions.fetchItemsSuccess, (state, { items }) => {
     state.status = LOADING_STATUS.IDLE;
     state.lastUpdated = Date.now();
     state.items = items;
-  }),
-
-  immerOn(fromActions.listFetchItemsActions.fetchItemsError, state => {
-    state.status = LOADING_STATUS.ERROR;
   }),
 
   // Filters ------------------------------------------------------------------
@@ -62,86 +78,44 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     state.filters[name] = null;
   }),
 
-  // List actions -------------------------------------------------------------
+  // List items async write ---------------------------------------------------
 
-  immerOn(fromActions.listAllItemsActions.complete, state => {
-    state.items.forEach(item => item.isDone = true);
+  immerOn(fromActions.listItemsAsyncWriteActions.editSuccess, (state, action) => {
+    const { message, items } = action;
+    console.log(message); // TODO: Remove?
+    state.status = LOADING_STATUS.IDLE;
+    state.lastUpdated = Date.now();
+    state.items = items;
   }),
 
-  immerOn(fromActions.listAllItemsActions.undo, state => {
-    state.items.forEach(item => item.isDone = false);
+  immerOn(fromActions.listItemsAsyncWriteActions.removeSuccess, (state, action) => {
+    const { message, items } = action;
+    console.log(message); // TODO: Remove?
+    state.status = LOADING_STATUS.IDLE;
+    state.lastUpdated = Date.now();
+    state.items = items;
   }),
 
-  immerOn(fromActions.listAllItemsActions.removeCompleted, state => {
-    state.items = state.items.filter(item => !item.isDone);
+  // List item async write ----------------------------------------------------
+
+  immerOn(fromActions.listItemAsyncWriteActions.createSuccess, (state, action) => {
+    const { message, item } = action;
+    console.log(message); // TODO: Remove?
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.map(anItem => anItem.id === item.id ? item : anItem);
   }),
 
-  immerOn(fromActions.listAllItemsActions.remove, state => {
-    state.items = [];
+  immerOn(fromActions.listItemAsyncWriteActions.editSuccess, (state, action) => {
+    const { message, item } = action;
+    console.log(message); // TODO: Remove?
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.map(anItem => anItem.id === item.id ? item : anItem);
   }),
 
-  // List category actions ----------------------------------------------------
-
-  immerOn(fromActions.listCategoryActions.complete, (state, { category }) => {
-    updateItemsByCategory(state, category, item => item.isDone = true);
-  }),
-  
-  immerOn(fromActions.listCategoryActions.undo, (state, { category }) => {
-    updateItemsByCategory(state, category, item => item.isDone = false);
-  }),
-
-  immerOn(fromActions.listCategoryActions.removeCompleted, (state, { category }) => {
-    state.items = state.items.filter(item => {
-      return (!(item.category === category && item.isDone));
-    });
-  }),
-
-  immerOn(fromActions.listCategoryActions.remove, (state, { category }) => {
-    state.items = state.items.filter(item => {
-      return item.category !== category;
-    });
-  }),
-
-  // List item actions --------------------------------------------------------
-
-  immerOn(fromActions.listItemActions.create, (state, { dto }) => {
-    const id = getRandomHash(5); // TODO: Mock
-    const item = { ...dto, id } as ListItem;
-    state.items.unshift(item);
-  }),
-
-  immerOn(fromActions.listItemActions.edit, (state, { item }) => {
-    const index = getItemIndex(state, item.id);
-    if (index !== null) state.items[index] = item;
-  }),
-
-  immerOn(fromActions.listItemActions.complete, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId);
-    if (index !== null) state.items[index].isDone = true;
-  }),
-
-  immerOn(fromActions.listItemActions.undo, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId);
-    if (index !== null) state.items[index].isDone = false;
-  }),
-
-  immerOn(fromActions.listItemActions.toggle, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId);
-    if (index !== null) state.items[index].isDone = !state.items[index].isDone;
-  }),
-
-  immerOn(fromActions.listItemActions.increment, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId);
-    if (index !== null) state.items[index].amount += 1;
-  }),
-
-  immerOn(fromActions.listItemActions.decrement, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId);
-    if (index !== null) state.items[index].amount -= 1;
-  }),
-
-  immerOn(fromActions.listItemActions.remove, (state, { itemId }) => {
-    const index = getItemIndex(state, itemId);
-    if (index !== null) state.items = state.items.filter(it => it.id !== itemId);
+  immerOn(fromActions.listItemAsyncWriteActions.removeSuccess, (state, action) => {
+    const { message, item } = action;
+    console.log(message); // TODO: Remove?
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.filter(anItem => anItem.id !== item.id);
   }),
 );

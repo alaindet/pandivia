@@ -16,7 +16,7 @@ import { CreateItemFormModalOutput, ItemFormModalComponent, ItemFormModalInput, 
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
-import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListIsDoneFilter } from './store';
+import { listAllItemsActions, listCategoryActions, listItemsAsyncReadActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListIsDoneFilter } from './store';
 import { ListFilterToken } from './types';
 
 const IMPORTS = [
@@ -54,13 +54,13 @@ export class ListPageComponent implements OnInit {
   ngOnInit() {
     this.initPageMetadata();
     this.initHeaderActions();
-    this.store.dispatch(listFetchItemsActions.fetchItems());
+    this.store.dispatch(listItemsAsyncReadActions.fetchItems());
   }
 
   onListAction(action: string) {
     switch (action) {
       case listMenuAction.LIST_ACTION_REFRESH.id:
-        this.store.dispatch(listFetchItemsActions.forceFetchItems());
+        this.store.dispatch(listItemsAsyncReadActions.forceFetchItems());
         break;
       case listMenuAction.LIST_ACTION_COMPLETE.id:
         this.store.dispatch(listAllItemsActions.complete());

@@ -67,13 +67,15 @@ export class CardListComponent implements OnChanges {
     this.pinned.emit(this.isPinned);
   }
 
-  onToggleItem(itemId: string, isDone: boolean | null = null) {
-    if (isDone !== null) {
-      this.itemToggled.emit({ itemId, isDone });
-    } else {
-      const isDone = !this.items.find(it => it.id === itemId)?.isDone;
-      this.itemToggled.emit({ itemId, isDone });
-    }
+  onToggleItem(itemId: string) {
+    const isDone = !this.items.find(it => it.id === itemId)?.isDone;
+    this.itemToggled.emit({ itemId, isDone });
+    // if (isDone !== null) {
+    //   this.itemToggled.emit({ itemId, isDone });
+    // } else {
+    //   const isDone = !this.items.find(it => it.id === itemId)?.isDone;
+    //   this.itemToggled.emit({ itemId, isDone });
+    // }
   }
 
   onItemAction(itemId: string, action: string) {

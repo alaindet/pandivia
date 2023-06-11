@@ -3,17 +3,6 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { CreateListItemDto, ListItem } from '@app/core';
 import { ListFilter } from '../types';
 
-export const listFetchItemsActions = createActionGroup({
-  source: 'List',
-  events: {
-    'Fetch items': emptyProps(),
-    'Fetch items cached': emptyProps(),
-    'Force fetch items': emptyProps(),
-    'Fetch items success': props<{ items: ListItem[] }>(),
-    'Fetch items error': props<{ error: string }>(),
-  },
-});
-
 export const listFilterActions = createActionGroup({
   source: 'List/Filters',
   events: {
@@ -60,40 +49,44 @@ export const listItemActions = createActionGroup({
   },
 });
 
-// Async single entity operation
-// TODO: Capture via effect and perform HTTP request
-// TODO: https://firebase.google.com/docs/firestore/manage-data/transactions
-export const listItemAsyncWriteActions = createActionGroup({
-  source: 'List/Item/AsyncWrite',
+export const listItemsAsyncReadActions = createActionGroup({
+  source: 'List/Items/AsyncRead',
   events: {
-    'Create': props<{ item: ListItem }>(),
-    'Create success': props<{ item: ListItem }>(),
-    'Create error': props<{ item: ListItem }>(),
-
-    'Edit': props<{ item: ListItem }>(),
-    'Edit success': props<{ item: ListItem }>(),
-    'Edit error': props<{ item: ListItem }>(),
-
-    'Delete': props<{ item: ListItem }>(),
-    'Delete success': props<{ item: ListItem }>(),
-    'Delete error': props<{ item: ListItem }>(),
+    'Fetch items': emptyProps(),
+    'Fetch items cached': emptyProps(),
+    'Force fetch items': emptyProps(),
+    'Fetch items success': props<{ items: ListItem[] }>(),
+    'Fetch items error': props<{ message: string }>(),
   },
 });
 
-// Async multiple entities operation
-// TODO: Capture via effect and perform HTTP request
 // TODO: https://firebase.google.com/docs/firestore/manage-data/transactions
 export const listItemsAsyncWriteActions = createActionGroup({
+  source: 'List/Items/AsyncWrite',
+  events: {
+    // 'Edit': props<{ items: ListItem[] }>(),
+    'Edit success': props<{ message: string, items: ListItem[] }>(),
+    'Edit error': props<{ message: string }>(),
+
+    // 'Remove': props<{ items: ListItem[] }>(),
+    'Remove success': props<{ message: string, items: ListItem[] }>(),
+    'Remove error': props<{ message: string }>(),
+  },
+});
+
+export const listItemAsyncWriteActions = createActionGroup({
   source: 'List/Item/AsyncWrite',
   events: {
-    'Complete all': emptyProps(),
-    'Undo all': emptyProps(),
-    'Remove all completed': emptyProps(),
-    'Remove all': emptyProps(),
+    // 'Create': props<{ dto: CreateListItemDto }>(),
+    'Create success': props<{ message: string, item: ListItem }>(),
+    'Create error': props<{ message: string }>(),
 
-    'Complete by category': props<{ category: string }>(),
-    'Undo by category': props<{ category: string }>(),
-    'Remove completed by category': props<{ category: string }>(),
-    'Remove by category': props<{ category: string }>(),
+    // 'Edit': props<{ item: ListItem }>(),
+    'Edit success': props<{ message: string, item: ListItem }>(),
+    'Edit error': props<{ message: string }>(),
+
+    // 'Remove': props<{ item: ListItem }>(),
+    'Remove success': props<{ message: string, item: ListItem }>(),
+    'Remove error': props<{ message: string }>(),
   },
 });

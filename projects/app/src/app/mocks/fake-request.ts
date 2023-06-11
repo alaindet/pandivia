@@ -27,7 +27,7 @@ export function fakeRequest<T = any>(
 
   return source$.pipe(
     tap(() => console.log('[fakeRequest] Success', data)),
-    map(() => data),
+    map(() => structuredClone(data)),
   );
 }
 

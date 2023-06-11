@@ -15,7 +15,7 @@
   &-items {
     transform: translateY(var(--app-actions-menu-offset-y));
     position: absolute;
-    z-index: 2;
+    z-index: 4;
     isolation: isolate;
     background-color: $app-color-white;
     border: 2px solid $app-color-grey-600;
