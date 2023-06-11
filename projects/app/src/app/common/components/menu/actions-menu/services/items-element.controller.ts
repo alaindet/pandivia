@@ -25,11 +25,10 @@ export function createItemsElementController(parent: ActionsMenuService) {
         },
       },
       {
-        on: [KB.ESC, KB.ESCAPE],
+        on: [KB.ESC, KB.ESCAPE, KB.TAB],
         handler: () => {
           parent.menu.close();
-          parent.focus.clear();
-          parent.buttonElement.getElement()?.focus();
+          parent.focus.button();
         },
       },
       {
@@ -47,14 +46,6 @@ export function createItemsElementController(parent: ActionsMenuService) {
       {
         on: [KB.END, KB.PAGE_DOWN],
         handler: () => parent.focus.last(),
-      },
-      {
-        on: [KB.TAB],
-        handler: () => {
-          parent.menu.close();
-          parent.focus.clear();
-          return false;
-        },
       },
       {
         on: isPrintableChar,
