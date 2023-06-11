@@ -18,54 +18,60 @@ export class ListItemsAsyncWriteEffects {
       listCategoryActions.complete,
       listCategoryActions.undo,
     ),
-    switchMap(action => {
+    map(action => {
       switch(action.type) {
         case listAllItemsActions.complete.type:
-          return this.listService.completeAllItems();
+          return () => this.listService.completeAllItems();
         case listAllItemsActions.undo.type:
-          return this.listService.undoAllItems();
+          return () => this.listService.undoAllItems();
         case listCategoryActions.complete.type:
-          return this.listService.completeItemsByCategory(action.category);
+          return () => this.listService.completeItemsByCategory(action.category);
         case listCategoryActions.undo.type:
-          return this.listService.undoItemsByCategory(action.category);
+          return () => this.listService.undoItemsByCategory(action.category);
       }
     }),
-    map(items => {
-      const message = 'Items edited'; // TODO: Translate
-      return listItemsAsyncWriteActions.editSuccess({ message, items })
-    }),
-    catchError(() => {
-      const message = `Error while editing items`; // TODO: Translate
-      return of(listItemsAsyncWriteActions.editError({ message }));
-    }),
+    // This allows to react to the error without breaking the effect chain!
+    // https://medium.com/city-pantry/handling-errors-in-ngrx-effects-a95d918490d9
+    switchMap(request => request().pipe(
+      map(items => {
+        const message = 'Items edited'; // TODO: Translate
+        return listItemsAsyncWriteActions.editSuccess({ message, items })
+      }),
+      catchError(() => {
+        const message = `Error while editing items`; // TODO: Translate
+        return of(listItemsAsyncWriteActions.editError({ message }));
+      }),
+    )),
   ));
 
   removeItems$ = createEffect(() => this.actions.pipe(
     ofType(
-      listAllItemsActions.removeCompleted,
       listAllItemsActions.remove,
-      listCategoryActions.removeCompleted,
+      listAllItemsActions.removeCompleted,
       listCategoryActions.remove,
+      listCategoryActions.removeCompleted,
     ),
-    switchMap(action => {
+    map(action => {
       switch(action.type) {
-        case listAllItemsActions.removeCompleted.type:
-          return of([]); // TODO: Call service method
         case listAllItemsActions.remove.type:
-          return of([]); // TODO: Call service method
+          return () => this.listService.removeAll();
+        case listAllItemsActions.removeCompleted.type:
+          return () => this.listService.removeAllCompleted();
         case listCategoryActions.removeCompleted.type:
-          return of([]); // TODO: Call service method
+          return () => this.listService.removeCompletedByCategory(action.category);
         case listCategoryActions.remove.type:
-          return of([]); // TODO: Call service method
+          return () => this.listService.removeByCategory(action.category);
       }
     }),
-    map(items => {
-      const message = 'Items deleted'; // TODO: Translate
-      return listItemsAsyncWriteActions.editSuccess({ message, items })
-    }),
-    catchError(() => {
-      const message = `Error while deleting items`; // TODO: Translate
-      return of(listItemsAsyncWriteActions.editError({ message }));
-    }),
+    switchMap(request => request().pipe(
+      map(items => {
+        const message = 'Items deleted'; // TODO: Translate
+        return listItemsAsyncWriteActions.editSuccess({ message, items })
+      }),
+      catchError(() => {
+        const message = `Error while deleting items`; // TODO: Translate
+        return of(listItemsAsyncWriteActions.editError({ message }));
+      }),
+    )),
   ));
 }

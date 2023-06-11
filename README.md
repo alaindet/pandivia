@@ -14,3 +14,5 @@ Pandivia is a simple shopping list web application powered by Angular and a Fire
 - https://whiteduck.de/how-to-approach-angular-internationalization-i18n-in-2022/
 - https://www.npmjs.com/package/@angular/fire
 - https://www.npmjs.com/package/@angular/pwa
+- Illuminating on NgRx Effects error handling
+  - https://medium.com/city-pantry/handling-errors-in-ngrx-effects-a95d918490d9

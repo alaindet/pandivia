@@ -13,24 +13,37 @@ export class ListUiEffects {
   startLoader$ = this.ui.startLoaderOn(
     fromActions.listItemsAsyncReadActions.fetchItems,
     fromActions.listItemsAsyncReadActions.forceFetchItems,
+
     fromActions.listAllItemsActions.complete,
     fromActions.listAllItemsActions.undo,
-    fromActions.listCategoryActions.complete,
-    fromActions.listCategoryActions.undo,
     fromActions.listAllItemsActions.removeCompleted,
     fromActions.listAllItemsActions.remove,
+
+    fromActions.listCategoryActions.complete,
+    fromActions.listCategoryActions.undo,
     fromActions.listCategoryActions.removeCompleted,
     fromActions.listCategoryActions.remove,
+
+    fromActions.listItemActions.complete,
+    fromActions.listItemActions.create,
+    fromActions.listItemActions.decrement,
+    fromActions.listItemActions.edit,
+    fromActions.listItemActions.increment,
+    fromActions.listItemActions.remove,
+    fromActions.listItemActions.toggle,
+    fromActions.listItemActions.undo,
   );
 
   stopLoader$ = this.ui.stopLoaderOn(
     fromActions.listItemsAsyncReadActions.fetchItemsSuccess,
     fromActions.listItemsAsyncReadActions.fetchItemsError,
     fromActions.listItemsAsyncReadActions.fetchItemsCached,
+
     fromActions.listItemsAsyncWriteActions.editSuccess,
     fromActions.listItemsAsyncWriteActions.editError,
     fromActions.listItemsAsyncWriteActions.removeSuccess,
     fromActions.listItemsAsyncWriteActions.removeError,
+
     fromActions.listItemAsyncWriteActions.createSuccess,
     fromActions.listItemAsyncWriteActions.createError,
     fromActions.listItemAsyncWriteActions.editSuccess,
@@ -41,8 +54,10 @@ export class ListUiEffects {
 
   showError$ = this.ui.showErrorOn(
     fromActions.listItemsAsyncReadActions.fetchItemsError,
+
     fromActions.listItemsAsyncWriteActions.editError,
     fromActions.listItemsAsyncWriteActions.removeError,
+
     fromActions.listItemAsyncWriteActions.createError,
     fromActions.listItemAsyncWriteActions.editError,
     fromActions.listItemAsyncWriteActions.removeError,
