@@ -6,6 +6,18 @@ export const LIST_ACTION_REFRESH: ActionsMenuItem = {
   icon: 'refresh',
 };
 
+export const LIST_ACTION_SHOW_COMPLETED: ActionsMenuItem = {
+  id: 'list:show-completed',
+  label: 'Show completed items', // TODO: Translate
+  icon: 'filter_alt',
+};
+
+export const LIST_ACTION_HIDE_COMPLETED: ActionsMenuItem = {
+  id: 'list:hide-completed',
+  label: 'Hide completed items', // TODO: Translate
+  icon: 'filter_alt',
+};
+
 export const LIST_ACTION_COMPLETE: ActionsMenuItem = {
   id: 'list:complete',
   label: 'Complete all items', // TODO: Translate
@@ -30,10 +42,13 @@ export const LIST_ACTION_REMOVE: ActionsMenuItem = {
   icon: 'delete',
 };
 
-export const LIST_CONTEXTUAL_MENU: ActionsMenuItem[] = [
-  LIST_ACTION_REFRESH,
-  LIST_ACTION_COMPLETE,
-  LIST_ACTION_UNDO,
-  LIST_ACTION_REMOVE_COMPLETED,
-  LIST_ACTION_REMOVE,
-];
+export function getListContextualMenu(showCompleted: boolean): ActionsMenuItem[] {
+  return [
+    LIST_ACTION_REFRESH,
+    showCompleted ? LIST_ACTION_SHOW_COMPLETED : LIST_ACTION_HIDE_COMPLETED,
+    LIST_ACTION_COMPLETE,
+    LIST_ACTION_UNDO,
+    LIST_ACTION_REMOVE_COMPLETED,
+    LIST_ACTION_REMOVE,
+  ];
+}

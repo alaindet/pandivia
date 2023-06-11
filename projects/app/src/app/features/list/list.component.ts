@@ -1,5 +1,5 @@
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,7 @@ import { CreateItemFormModalOutput, ItemFormModalComponent, ItemFormModalInput, 
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
-import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
+import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListIsDoneFilter } from './store';
 import { ListFilterToken } from './types';
 
 const IMPORTS = [
@@ -43,6 +43,7 @@ export class ListPageComponent implements OnInit {
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenuAction.CATEGORY_CONTEXTUAL_MENU;
   getItemContextualMenu = itemMenuAction.getItemContextualMenu;
+  // getListContextualMenu = listMenuAction.getListContextualMenu;
 
   vm$ = combineLatest({
     itemGroups: this.store.select(selectListCategorizedFilteredItems),
@@ -52,9 +53,8 @@ export class ListPageComponent implements OnInit {
 
   ngOnInit() {
     this.initPageMetadata();
-    this.layout.setHeaderActions(listMenuAction.LIST_CONTEXTUAL_MENU);
+    this.initHeaderActions();
     this.store.dispatch(listFetchItemsActions.fetchItems());
-    this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
   }
 
   onListAction(action: string) {
@@ -65,6 +65,12 @@ export class ListPageComponent implements OnInit {
       case listMenuAction.LIST_ACTION_COMPLETE.id:
         this.store.dispatch(listAllItemsActions.complete());
         break;
+      case listMenuAction.LIST_ACTION_HIDE_COMPLETED.id:
+        this.store.dispatch(listFilterActions.setDoneFilter({ isDone: true }));
+        break;
+      case listMenuAction.LIST_ACTION_SHOW_COMPLETED.id:
+        this.store.dispatch(listFilterActions.clearDoneFilter());
+        break;
       case listMenuAction.LIST_ACTION_UNDO.id:
         this.store.dispatch(listAllItemsActions.undo());
         break;
@@ -73,7 +79,6 @@ export class ListPageComponent implements OnInit {
           this.store.dispatch(listAllItemsActions.removeCompleted());
         });
         break;
-
       case listMenuAction.LIST_ACTION_REMOVE.id:
         this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe(() => {
           this.store.dispatch(listAllItemsActions.remove());
@@ -156,9 +161,7 @@ export class ListPageComponent implements OnInit {
   }
 
   onItemToggle({ itemId, isDone }: ItemToggledOutput) {
-    isDone
-      ? this.store.dispatch(listItemActions.undo({ itemId }))
-      : this.store.dispatch(listItemActions.complete({ itemId }));
+    this.store.dispatch(listItemActions.toggle({ itemId }));
   }
 
   onPinCategory(category: string, isPinned: boolean) {
@@ -235,5 +238,14 @@ export class ListPageComponent implements OnInit {
         this.store.dispatch(listItemActions.decrement({ itemId }));
       }
     });
+  }
+
+  private initHeaderActions(): void {
+    this.store.select(selectListIsDoneFilter).subscribe((isDoneFilter: boolean) => {
+      const actions = listMenuAction.getListContextualMenu(isDoneFilter);
+      this.layout.setHeaderActions(actions);
+    });
+
+    this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
   }
 }

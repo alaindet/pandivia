@@ -218,7 +218,12 @@
 
 <ng-container *appModalFooter>
   <div class="_footer">
-    <button type="button" appButton="ghost" withIcon="left" (click)="onCancel()">
+    <button
+      type="button"
+      appButton="ghost"
+      size="small"
+      (click)="onCancel()"
+    >
       Cancel
     </button>
 
@@ -244,7 +249,7 @@
         size="small"
         (click)="onCreate()"
       >
-        <mat-icon>add_circle</mat-icon>
+        <mat-icon>add</mat-icon>
         Create
       </button>
     </ng-template>

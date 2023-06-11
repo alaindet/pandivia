@@ -91,7 +91,7 @@ export const selectListCategorizedFilteredItems = createSelector(
         return false;
       }
 
-      if (isDoneFilter != null && item.isDone !== isDoneFilter) {
+      if (isDoneFilter === true && item.isDone) {
         return false;
       }
 
@@ -105,14 +105,18 @@ export const selectListCategorizedFilteredItems = createSelector(
 export const selectListFilters = createSelector(
   selectListFeature,
   (state): ListFilterToken[] | null => {
-    const keys = Object.keys(state.filters) as (keyof ListFilters)[];
     const filters: ListFilterToken[] = [];
 
-    for (const key of keys) {
-      const value = state.filters[key];
-      if (value !== null) {
-        filters.push({ key, value });
-      }
+    if (state.filters[LIST_FILTER.CATEGORY]) {
+      const value = state.filters[LIST_FILTER.CATEGORY];
+      filters.push({ key: LIST_FILTER.CATEGORY, value });
+    }
+
+    if (state.filters[LIST_FILTER.IS_DONE]) {
+      const value = state.filters[LIST_FILTER.IS_DONE]
+        ? 'Items to do' // TODO: Translate
+        : 'Completed items'; // TODO: Translate
+      filters.push({ key: LIST_FILTER.IS_DONE, value });
     }
 
     return filters.length ? filters : null;
@@ -121,7 +125,12 @@ export const selectListFilters = createSelector(
 
 export const selectListCategoryFilter = createSelector(
   selectListFeature,
-  state => state.filters[LIST_FILTER.CATEGORY],
+  (state): string | null => state.filters[LIST_FILTER.CATEGORY],
+);
+
+export const selectListIsDoneFilter = createSelector(
+  selectListFeature,
+  (state): boolean => !!state.filters[LIST_FILTER.IS_DONE],
 );
 
 export const selectItemById = (itemId: string) => (state: any) => {
