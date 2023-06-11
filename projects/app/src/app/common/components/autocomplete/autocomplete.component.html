@@ -1,47 +1,59 @@
-<ng-container *ngIf="vm$ | async as vm">
+<ng-container
+  *ngIf="vm$ | async as vm"
+  [ngTemplateOutlet]="vm.optionsTemplate"
+  [ngTemplateOutletContext]="{ $implicit: vm }"
+/>
+
+<!-- Template: Available options -->
+<ng-template #availableOptionsRef let-vm>
   <ul
     *ngIf="!!vm.optionTemplate"
     class="_options"
     id="{{ inputId }}-menu"
     [attr.aria-labelledby]="inputId"
   >
-    <ng-container
-      [ngTemplateOutlet]="vm.optionsTemplate"
-      [ngTemplateOutletContext]="{ $implicit: vm }"
-    />
-  </ul>
-</ng-container>
-
-<!-- Template: Available options -->
-<ng-template #availableOptionsRef let-vm>
-  <li
-    *ngFor="let option of vm.options; let index = index"
-    class="_option"
-    role="menuitem"
-  >
-    <app-autocomplete-option
-      [isFocused]="vm.focusedIndex === index"
-      [isDropdownOpen]="vm.isOpen"
-      (click)="onConfirmOption($event, option)"
+    <li
+      *ngFor="let option of vm.options; let index = index"
+      class="_option"
+      role="menuitem"
     >
-      <ng-container
-        [ngTemplateOutlet]="vm.optionTemplate"
-        [ngTemplateOutletContext]="{ $implicit: option }"
-      ></ng-container>
-    </app-autocomplete-option>
-  </li>
+      <app-autocomplete-option
+        [isFocused]="vm.focusedIndex === index"
+        [isDropdownOpen]="vm.isOpen"
+        (click)="onConfirmOption($event, option)"
+      >
+        <ng-container
+          [ngTemplateOutlet]="vm.optionTemplate"
+          [ngTemplateOutletContext]="{ $implicit: option }"
+        ></ng-container>
+      </app-autocomplete-option>
+    </li>
+  </ul>
 </ng-template>
 
 <!-- Template: Loading options -->
 <ng-template #loadingOptionsRef>
-  <li class="_missing-options">
-    Loading... <!-- TODO: Translate -->
-  </li>
+  <ul
+    class="_options"
+    id="{{ inputId }}-menu"
+    [attr.aria-labelledby]="inputId"
+  >
+    <li role="status" class="_missing-option">
+      Loading... <!-- TODO: Translate -->
+    </li>
+  </ul>
 </ng-template>
 
 <!-- Template: no options -->
 <ng-template #noOptionsRef>
-  <li role="status" class="_missing-options">
-    Nothing found <!-- TODO: Translate -->
-  </li>
+  <ul
+    *ngIf="showEmptyOptions"
+    class="_options"
+    id="{{ inputId }}-menu"
+    [attr.aria-labelledby]="inputId"
+  >
+    <li role="status" class="_missing-option">
+      Nothing found <!-- TODO: Translate -->
+    </li>
+  </ul>
 </ng-template>
