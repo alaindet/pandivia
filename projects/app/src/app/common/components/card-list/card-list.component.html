@@ -50,14 +50,14 @@
   >
     <div class="_item-header">
 
-      <div class="_left" (click)="theCheckbox.toggle()">
+      <div class="_left" (click)="onToggleItem(item.id)">
         <div class="_item-info">
           <app-checkbox
             #theCheckbox="app-checkbox"
             [id]="item.id"
+            [isInteractable]="false"
             [checked]="item.isDone"
             color="black"
-            (changed)="onToggleItem(item.id, $event)"
           >
             <span [class.-crossed]="item.isDone">
               {{ item.amount }}x {{ item.name }}
