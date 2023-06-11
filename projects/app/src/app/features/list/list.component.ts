@@ -5,19 +5,19 @@ import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
-import { CategorizedListItems, CreateListItemDto, ListItem } from '@app/core';
+import { CategorizedListItems, ListItem } from '@app/core';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { Observable, combineLatest, map, of, startWith, switchMap, take, throwError } from 'rxjs';
+import { Observable, combineLatest, of, startWith, switchMap, take, throwError } from 'rxjs';
+import { inventoryItemActions } from '../inventory/store';
 import * as categoryMenuAction from './category.contextual-menu';
 import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
-import { CreateItemFormModalOutput, EditItemFormModalOutput, ItemFormModalComponent, ItemFormModalInput, ItemFormModalOutput } from './components/item-form-modal';
+import { CreateItemFormModalOutput, ItemFormModalComponent, ItemFormModalInput, ItemFormModalOutput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as itemMenuAction from './item.contextual-menu';
 import * as listMenuAction from './list.contextual-menu';
 import { listAllItemsActions, listCategoryActions, listFetchItemsActions, listFilterActions, listItemActions, selectItemAmount, selectItemById, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters } from './store';
 import { ListFilterToken } from './types';
-import { inventoryItemActions } from '../inventory/store';
 
 const IMPORTS = [
   NgIf,

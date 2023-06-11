@@ -1,16 +1,17 @@
-<!-- Root component -->
-<app-modal-host></app-modal-host>
+<!-- Stack level: 0 -->
+<router-outlet></router-outlet>
 
-<!-- Root component -->
-<app-notifications-host
-  [notification]="notification$ | async"
-  (dismissed)="onDismissNotification()"
-></app-notifications-host>
-
-<!-- Root component -->
+<!-- Stack level: 1 -->
 <app-linear-spinner
   *ngIf="loading"
   [fixed]="true"
 ></app-linear-spinner>
 
-<router-outlet></router-outlet>
+<!-- Stack level: 2 -->
+<app-notifications-host
+  [notification]="notification$ | async"
+  (dismissed)="onDismissNotification()"
+></app-notifications-host>
+
+<!-- Stack level: 3 -->
+<app-modal-host></app-modal-host>
