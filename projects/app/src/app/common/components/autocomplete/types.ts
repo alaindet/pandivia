@@ -17,3 +17,12 @@ export type AutocompleteSourceType = ObjectValues<typeof AUTOCOMPLETE_SOURCE_TYP
 export type AutocompleteAsyncOptionsFn = (query: string) => Observable<AutocompleteOption[]>;
 
 export type AutocompleteOptionValuePicker = (option: AutocompleteOption) => string;
+
+
+export const AUTOCOMPLETE_ITEMS_TEMPLATE = {
+  LOADING: 'loading',
+  NO_OPTIONS: 'noOptions',
+  OPTIONS: 'options',
+} as const;
+
+export type AutocompleteItemsTemplate = ObjectValues<typeof AUTOCOMPLETE_ITEMS_TEMPLATE>;

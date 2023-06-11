@@ -1,21 +1,25 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { auditTime, combineLatest, map, startWith } from 'rxjs';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Observable, auditTime, combineLatest, map, startWith } from 'rxjs';
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
 import { SIXTY_FRAMES_PER_SECOND } from '@app/common/constants';
+import { PipefyPipe } from '@app/common/pipes';
 import { filterNull } from '@app/common/rxjs';
 import { didInputChange } from '@app/common/utils';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
-import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
+import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType, AUTOCOMPLETE_ITEMS_TEMPLATE, AutocompleteItemsTemplate } from './types';
 
 const IMPORTS = [
   NgIf,
   NgFor,
+  NgSwitch,
+  NgSwitchCase,
   AsyncPipe,
   NgTemplateOutlet,
   AutocompleteOptionComponent,
+  PipefyPipe,
 ];
 
 @Component({
@@ -40,6 +44,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   @Input() asyncOptions?: AutocompleteAsyncOptionsFn;
   @Input() staticOptions?: AutocompleteOption[] = [];
   @Input() staticSearchableFields?: string[] = ['id'];
+  @Input() showEmptyOptions = true;
   @Input() @HostBinding('style.--app-autocomplete-width') width = '19.25rem';
   @Input() @HostBinding('style.--app-autocomplete-offset-y') offsetY = '0';
 
@@ -48,11 +53,13 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   @HostBinding('class.-open') cssOpen = false;
 
   inputId!: string;
+  ITEMS_TEMPLATE = AUTOCOMPLETE_ITEMS_TEMPLATE;
   
   vm$ = combineLatest({
     isLoading: this.svc.loading.data$,
     options: this.svc.options.data$,
     optionTemplate: this.svc.optionTemplate.data$.pipe(filterNull()),
+    optionsTemplate: this.getOptionsTemplate(),
     isOpen: this.svc.open.data$,
     focusedIndex: this.svc.focusedIndex.data$,
     focusedId: this.svc.focusedId.data$,
@@ -60,6 +67,15 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     startWith(null),
     auditTime(SIXTY_FRAMES_PER_SECOND),
   );
+
+  @ViewChild('availableOptionsRef', { static: true })
+  availableOptionsRef!: TemplateRef<any>;
+
+  @ViewChild('loadingOptionsRef', { static: true })
+  loadingOptionsRef!: TemplateRef<any>;
+
+  @ViewChild('noOptionsRef', { static: true })
+  noOptionsRef!: TemplateRef<any>;
 
   private onClickOutRef!: (e: MouseEvent) => void;
   private nativeInput!: HTMLInputElement;
@@ -100,6 +116,28 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     event.preventDefault();
     event.stopImmediatePropagation();
     this.svc.confirm(option);
+  }
+
+  getOptionsTemplate(): Observable<TemplateRef<any> | null> {
+    return combineLatest({
+      isLoading: this.svc.loading.data$,
+      options: this.svc.options.data$,
+    }).pipe(map(({ isLoading, options }) => {
+
+      if (isLoading) {
+        return this.loadingOptionsRef;
+      }
+
+      if (!!options.length) {
+        return this.availableOptionsRef;
+      }
+
+      if (this.showEmptyOptions) {
+        return this.noOptionsRef;
+      }
+
+      return null;
+    }));
   }
 
   private initInputElement(): void {

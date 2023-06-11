@@ -1,5 +1,4 @@
 <ng-container *ngIf="vm$ | async as vm">
-
   <ul
     *ngIf="!!vm.optionTemplate"
     class="_options"
@@ -7,43 +6,42 @@
     [attr.aria-labelledby]="inputId"
   >
     <ng-container
-      [ngTemplateOutlet]="vm.isLoading
-        ? loadingRef
-        : (!vm.options.length ? noOptionsRef : optionsRef)"
-    ></ng-container>
+      [ngTemplateOutlet]="vm.optionsTemplate"
+      [ngTemplateOutletContext]="{ $implicit: vm }"
+    />
   </ul>
-
-  <!-- Template: options -->
-  <ng-template #optionsRef>
-    <li
-      *ngFor="let option of vm.options; let index = index"
-      class="_option"
-      role="menuitem"
-    >
-      <app-autocomplete-option
-        [isFocused]="vm.focusedIndex === index"
-        [isDropdownOpen]="vm.isOpen"
-        (click)="onConfirmOption($event, option)"
-      >
-        <ng-container
-          [ngTemplateOutlet]="vm.optionTemplate"
-          [ngTemplateOutletContext]="{ $implicit: option }"
-        ></ng-container>
-      </app-autocomplete-option>
-    </li>
-  </ng-template>
-
-  <!-- Template: loading -->
-  <ng-template #loadingRef>
-    <li class="_missing-options">
-      Loading... <!-- TODO: Translate -->
-    </li>
-  </ng-template>
-
-  <!-- Template: no options -->
-  <ng-template #noOptionsRef>
-    <li role="status" class="_missing-options">
-      Nothing found <!-- TODO: Translate -->
-    </li>
-  </ng-template>
 </ng-container>
+
+<!-- Template: Available options -->
+<ng-template #availableOptionsRef let-vm>
+  <li
+    *ngFor="let option of vm.options; let index = index"
+    class="_option"
+    role="menuitem"
+  >
+    <app-autocomplete-option
+      [isFocused]="vm.focusedIndex === index"
+      [isDropdownOpen]="vm.isOpen"
+      (click)="onConfirmOption($event, option)"
+    >
+      <ng-container
+        [ngTemplateOutlet]="vm.optionTemplate"
+        [ngTemplateOutletContext]="{ $implicit: option }"
+      ></ng-container>
+    </app-autocomplete-option>
+  </li>
+</ng-template>
+
+<!-- Template: Loading options -->
+<ng-template #loadingOptionsRef>
+  <li class="_missing-options">
+    Loading... <!-- TODO: Translate -->
+  </li>
+</ng-template>
+
+<!-- Template: no options -->
+<ng-template #noOptionsRef>
+  <li role="status" class="_missing-options">
+    Nothing found <!-- TODO: Translate -->
+  </li>
+</ng-template>
