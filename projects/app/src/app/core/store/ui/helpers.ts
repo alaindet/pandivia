@@ -28,7 +28,7 @@ export function createUiController(actions$: Observable<any>) {
   function showErrorOn(...targetActions: any[]) {
     return createEffect(() => actions$.pipe(
       onActions(targetActions),
-      switchMap(({ error }) => of(notificationsActions.addError({ message: error })))
+      switchMap(({ message }) => of(notificationsActions.addError({ message })))
     ));
   }
 

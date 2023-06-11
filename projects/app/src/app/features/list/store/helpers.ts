@@ -7,10 +7,10 @@ import { ListItem } from '@app/core';
 
 export function fetchItemsHelper(listService: ListService) {
   return listService.getItems().pipe(
-    map(items => fromActions.listFetchItemsActions.fetchItemsSuccess({ items })),
+    map(items => fromActions.listItemsAsyncReadActions.fetchItemsSuccess({ items })),
     catchError(() => {
-      const error = 'Could not fetch list items'; // TODO: Translate
-      return of(fromActions.listFetchItemsActions.fetchItemsError({ error }));
+      const message = 'Could not fetch list items'; // TODO: Translate
+      return of(fromActions.listItemsAsyncReadActions.fetchItemsError({ message }));
     })
   )
 }
