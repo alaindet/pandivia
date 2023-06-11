@@ -1,17 +1,19 @@
-<!-- Stack level: 0 -->
-<router-outlet></router-outlet>
+<div class="app-container">
+  <!-- Stack level: 0 -->
+  <router-outlet></router-outlet>
 
-<!-- Stack level: 1 -->
-<app-linear-spinner
-  *ngIf="loading"
-  [fixed]="true"
-></app-linear-spinner>
+  <!-- Stack level: 1 -->
+  <app-linear-spinner
+    *ngIf="loading"
+    [fixed]="true"
+  ></app-linear-spinner>
 
-<!-- Stack level: 2 -->
-<app-notifications-host
-  [notification]="notification$ | async"
-  (dismissed)="onDismissNotification()"
-></app-notifications-host>
+  <!-- Stack level: 2 -->
+  <app-notifications-host
+    [notification]="notification$ | async"
+    (dismissed)="onDismissNotification()"
+  ></app-notifications-host>
+</div>
 
 <!-- Stack level: 3 -->
 <app-modal-host></app-modal-host>

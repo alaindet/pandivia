@@ -24,7 +24,6 @@ const IMPORTS = [
   imports: IMPORTS,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  host: { class: 'container' },
 })
 export class AppComponent implements OnInit {
 

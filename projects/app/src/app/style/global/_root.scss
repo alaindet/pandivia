@@ -5,7 +5,13 @@
 
   body {
     margin: 0;
+    padding: 0;
     // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: $app-color-grey-400;
+
+    // Desktop
+    @media (min-width: 1024px) {
+      background-color: #ffffff;
+    }
   }
 }

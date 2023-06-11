@@ -9,7 +9,7 @@ export function fetchItemsHelper(listService: ListService) {
   return listService.getItems().pipe(
     map(items => fromActions.listFetchItemsActions.fetchItemsSuccess({ items })),
     catchError(() => {
-      const error = 'Could not fetch items'; // TODO: Translate
+      const error = 'Could not fetch list items'; // TODO: Translate
       return of(fromActions.listFetchItemsActions.fetchItemsError({ error }));
     })
   )

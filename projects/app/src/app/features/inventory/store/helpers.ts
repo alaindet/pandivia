@@ -11,7 +11,7 @@ export function fetchItemsHelper(inventoryService: InventoryService) {
   return inventoryService.getItems().pipe(
     map(items => onSuccess({ items })),
     catchError(() => {
-      const error = 'Could not fetch items'; // TODO: Translate
+      const error = 'Could not fetch inventory items'; // TODO: Translate
       return of(onError({ error }));
     })
   )
