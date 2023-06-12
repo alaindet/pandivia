@@ -1,4 +1,4 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { CreateListItemDto, ListItem } from '@app/core';
 import { ListFilter } from '../types';

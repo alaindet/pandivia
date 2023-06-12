@@ -5,13 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
-import { CreateItemFormModalOutput, EditItemFormModalOutput, ITEM_FORM_FIELD as FIELD, ItemFormModalInput, ItemFormModalOutput } from './types';
-import { Observable, map, of } from 'rxjs';
-import { selectListCategoriesByName } from '../../store';
-import { Store } from '@ngrx/store';
 import { InventoryItem, ListItem } from '@app/core';
-import { inventoryFetchItemsActions, selectInventoryItemsByName } from '@app/features/inventory/store';
+import { inventoryFetchItemsActions, inventoryItemActions, selectInventoryItemsByName } from '@app/features/inventory/store';
+import { Store } from '@ngrx/store';
+import { Observable, filter, finalize, map, tap } from 'rxjs';
+import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter } from '../../store';
 import { uniqueItemNameValidator } from '../../validators';
+import { CreateItemFormModalOutput, EditItemFormModalOutput, ITEM_FORM_FIELD as FIELD, ItemFormModalInput, ItemFormModalOutput } from './types';
 
 const IMPORTS = [
   MatIconModule,
@@ -47,6 +47,7 @@ export class ItemFormModalComponent extends BaseModalComponent<
   FIELD = FIELD;
   theForm!: FormGroup;
   isEditing = signal(false);
+  isSaving = signal(false);
 
   get fName(): FormControl {
     return this.theForm.get(FIELD.NAME) as FormControl;
@@ -72,6 +73,9 @@ export class ItemFormModalComponent extends BaseModalComponent<
     this.store.dispatch(inventoryFetchItemsActions.fetchItems());
     this.isEditing.set(this.modal.data.item !== null);
     this.initForm();
+    this.store.select(selectListIsLoading).subscribe(isLoading => {
+      this.isSaving.set(isLoading);
+    });
   }
 
   onConfirmName(option: AutocompleteOption) {
@@ -107,8 +111,14 @@ export class ItemFormModalComponent extends BaseModalComponent<
       item = theItem;
     }
 
-    const data: EditItemFormModalOutput = { item };
-    this.modal.confirm(data);
+    // Listen to response, then close the modal
+    this.afterCreateOrEditSuccess(() => {
+      const data: EditItemFormModalOutput = { item };
+      this.modal.confirm(data);
+    });
+
+    // Try to edit
+    this.store.dispatch(listItemActions.edit({ item }));
   }
 
   onCreate() {
@@ -129,8 +139,20 @@ export class ItemFormModalComponent extends BaseModalComponent<
       item = theItem;
     }
 
-    const data: CreateItemFormModalOutput = { item, addToInventory };
-    this.modal.confirm(data);
+    // Listen to response, then close the modal
+    this.afterCreateOrEditSuccess(() => {
+      const data: CreateItemFormModalOutput = { item, addToInventory };
+      this.modal.confirm(data);
+    });
+
+    // Try to create
+    this.store.dispatch(listItemActions.create({ dto: item }));
+
+    // Try to add to inventory
+    if (addToInventory) {
+      const { amount, ...dto } = item;
+      this.store.dispatch(inventoryItemActions.create({ dto }));
+    }
   }
 
   onSubmit() {
@@ -188,5 +210,18 @@ export class ItemFormModalComponent extends BaseModalComponent<
     }
 
     this.theForm = this.formBuilder.group(controls);
+  }
+
+  private afterCreateOrEditSuccess(fn: () => void): void {
+
+    let first = true;
+
+    this.store.select(selectListItemModalSuccessCounter).subscribe(() => {
+      if (first) {
+        first = false;
+        return;
+      }
+      fn();
+    });
   }
 }

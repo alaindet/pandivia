@@ -234,9 +234,10 @@
         appButton="primary"
         withIcon="left"
         size="small"
+        [disabled]="isSaving()"
         (click)="onEdit()"
       >
-        <mat-icon>edit</mat-icon>
+      <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'edit' }}</mat-icon>
         Edit
       </button>
     </ng-container>
@@ -247,9 +248,10 @@
         appButton="primary"
         withIcon="left"
         size="small"
+        [disabled]="isSaving()"
         (click)="onCreate()"
       >
-        <mat-icon>add</mat-icon>
+        <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'add' }}</mat-icon>
         Create
       </button>
     </ng-template>

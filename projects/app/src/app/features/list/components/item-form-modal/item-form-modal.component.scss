@@ -17,3 +17,12 @@ h2 {
   gap: 1rem;
   align-items: center;
 }
+
+.-rotating {
+  animation: app-rotation 1s infinite linear;
+}
+
+@keyframes app-rotation {
+  from { transform: rotate(0deg) }
+  to { transform: rotate(359deg) }
+}

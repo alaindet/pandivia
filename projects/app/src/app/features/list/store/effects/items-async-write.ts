@@ -35,7 +35,7 @@ export class ListItemsAsyncWriteEffects {
     switchMap(request => request().pipe(
       map(items => {
         const message = 'Items edited'; // TODO: Translate
-        return listItemsAsyncWriteActions.editSuccess({ message, items })
+        return listItemsAsyncWriteActions.editSuccess({ message, items });
       }),
       catchError(() => {
         const message = `Error while editing items`; // TODO: Translate

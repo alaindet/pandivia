@@ -13,14 +13,25 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   immerOn(
     fromActions.listItemsAsyncReadActions.fetchItems,
     fromActions.listItemsAsyncReadActions.forceFetchItems,
+
     fromActions.listAllItemsActions.complete,
     fromActions.listAllItemsActions.undo,
-    fromActions.listCategoryActions.complete,
-    fromActions.listCategoryActions.undo,
     fromActions.listAllItemsActions.removeCompleted,
     fromActions.listAllItemsActions.remove,
+
+    fromActions.listCategoryActions.complete,
+    fromActions.listCategoryActions.undo,
     fromActions.listCategoryActions.removeCompleted,
     fromActions.listCategoryActions.remove,
+
+    fromActions.listItemActions.complete,
+    fromActions.listItemActions.create,
+    fromActions.listItemActions.decrement,
+    fromActions.listItemActions.edit,
+    fromActions.listItemActions.increment,
+    fromActions.listItemActions.remove,
+    fromActions.listItemActions.toggle,
+    fromActions.listItemActions.undo,
     state => {
       state.status = LOADING_STATUS.LOADING;
     },
@@ -102,13 +113,15 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     const { message, item } = action;
     console.log(message); // TODO: Remove?
     state.status = LOADING_STATUS.IDLE;
-    state.items = state.items.map(anItem => anItem.id === item.id ? item : anItem);
+    state.itemModalSuccessCounter += 1;
+    state.items.unshift(item);
   }),
 
   immerOn(fromActions.listItemAsyncWriteActions.editSuccess, (state, action) => {
     const { message, item } = action;
     console.log(message); // TODO: Remove?
     state.status = LOADING_STATUS.IDLE;
+    state.itemModalSuccessCounter += 1;
     state.items = state.items.map(anItem => anItem.id === item.id ? item : anItem);
   }),
 

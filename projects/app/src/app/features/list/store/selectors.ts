@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { groupItemsByCategory } from '@app/core/functions';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
 import { CACHE_MAX_AGE, ListItem } from '@app/core';
-import { LIST_FILTER, ListFilterToken, ListFilters } from '../types';
+import { LIST_FILTER, ListFilterToken } from '../types';
 import { LOADING_STATUS } from '@app/common/types';
 
 const selectListFeature = createFeatureSelector<ListFeatureState>(
@@ -18,6 +18,11 @@ export const selectListStatus = createSelector(
 export const selectListIsLoaded = createSelector(
   selectListFeature,
   state => state.status === LOADING_STATUS.IDLE,
+);
+
+export const selectListIsLoading = createSelector(
+  selectListFeature,
+  state => state.status === LOADING_STATUS.LOADING,
 );
 
 export const selectListShouldFetch = createSelector(
@@ -133,15 +138,24 @@ export const selectListIsDoneFilter = createSelector(
   (state): boolean => !!state.filters[LIST_FILTER.IS_DONE],
 );
 
-export const selectItemById = (itemId: string) => (state: any) => {
-  const featureState = state[LIST_FEATURE_NAME] as ListFeatureState;
-  const item = featureState.items.find(item => item.id === itemId);
-  return item ?? null;
-};
+export const selectListItemById = (itemId: string) => createSelector(
+  selectListFeature,
+  (state): ListItem | null => {
+    const item = state.items.find(item => item.id === itemId);
+    return item ?? null;
+  },
+);
 
-export const selectItemAmount = (itemId: string) => (state: any) => {
-  const featureState = state[LIST_FEATURE_NAME] as ListFeatureState;
-  const item = featureState.items.find(item => item.id === itemId);
-  if (!item) return 0;
-  return item.amount;
-};
+export const selectListItemAmount = (itemId: string) => createSelector(
+  selectListFeature,
+  (state): number => {
+    const item = state.items.find(item => item.id === itemId);
+    if (!item) return 0;
+    return item.amount;
+  },
+);
+
+export const selectListItemModalSuccessCounter = createSelector(
+  selectListFeature,
+  state => state.itemModalSuccessCounter,
+);
