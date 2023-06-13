@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BaseModalComponent, ModalFooterDirective, ModalHeaderDirective } from '@app/common/components';
+import { BaseModalComponent, ModalFooterDirective, ModalHeaderDirective } from '../modal';
 import { ConfirmPromptModalInput, ConfirmPromptModalOutput } from './types';
 
 const IMPORTS = [

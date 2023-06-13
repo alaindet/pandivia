@@ -1,3 +1,4 @@
+import { InventoryItem } from '@app/core';
 import { ActionsMenuItem } from '@app/common/components';
 
 export const ITEM_ACTION_EDIT: ActionsMenuItem = {
@@ -12,7 +13,9 @@ export const ITEM_ACTION_REMOVE: ActionsMenuItem = {
   icon: 'delete',
 };
 
-export const ITEM_CONTEXTUAL_MENU: ActionsMenuItem[] = [
-  ITEM_ACTION_EDIT,
-  ITEM_ACTION_REMOVE,
-];
+export function getItemContextualMenu(item: InventoryItem): ActionsMenuItem[] {
+  return [
+    ITEM_ACTION_EDIT,
+    ITEM_ACTION_REMOVE,
+  ];
+}

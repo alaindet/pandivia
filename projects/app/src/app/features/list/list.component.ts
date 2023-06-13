@@ -72,13 +72,15 @@ export class ListPageComponent implements OnInit {
         this.store.dispatch(listAllItemsActions.undo());
         break;
       case listMenu.LIST_ACTION_REMOVE_COMPLETED.id:
-        this.confirmPrompt(LIST_REMOVE_COMPLETED_PROMPT).subscribe(() => {
-          this.store.dispatch(listAllItemsActions.removeCompleted());
+        this.confirmPrompt(LIST_REMOVE_COMPLETED_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(listAllItemsActions.removeCompleted()),
         });
         break;
       case listMenu.LIST_ACTION_REMOVE.id:
-        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe(() => {
-          this.store.dispatch(listAllItemsActions.remove());
+        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(listAllItemsActions.remove()),
         });
         break;
     }
@@ -93,14 +95,16 @@ export class ListPageComponent implements OnInit {
         this.store.dispatch(listCategoryActions.undo({ category }));
         break;
       case categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id:
-        this.confirmPrompt(CATEGORY_REMOVE_COMPLETED_PROMPT).subscribe(() => {
-          this.store.dispatch(listCategoryActions.removeCompleted({ category }));
+        this.confirmPrompt(CATEGORY_REMOVE_COMPLETED_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(listCategoryActions.removeCompleted({ category })),
         });
         break;
       case categoryMenu.CATEGORY_ACTION_REMOVE.id:
-        this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe(() => {
-          this.store.dispatch(listCategoryActions.remove({ category }));
-        });
+        this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(listCategoryActions.remove({ category })),
+          });
         break;
     }
   }
@@ -123,8 +127,9 @@ export class ListPageComponent implements OnInit {
         this.decrementOrRemove(itemId);
         break;
       case itemMenu.ITEM_ACTION_REMOVE.id:
-        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
-          this.store.dispatch(listItemActions.remove({ itemId }));
+        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(listItemActions.remove({ itemId })),
         });
         break;
     }
@@ -191,8 +196,9 @@ export class ListPageComponent implements OnInit {
     const amount$ = this.store.select(selectListItemAmount(itemId)).pipe(take(1));
     amount$.subscribe(amount => {
       if (amount <= 1) {
-        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
-          this.store.dispatch(listItemActions.remove({ itemId }));
+        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(listItemActions.remove({ itemId })),
         });
       } else {
         this.store.dispatch(listItemActions.decrement({ itemId }));

@@ -46,7 +46,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
   FIELD = FIELD;
   theForm!: FormGroup;
-  isEditing = signal(this.modal.data.item !== null);
+  isEditing = signal(false);
   isSaving = this.store.selectSignal(selectListIsLoading);
 
   get fName(): FormControl { return this.getField(FIELD.NAME) }
@@ -57,6 +57,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
   ngOnInit() {
     this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
+    this.isEditing.set(this.modal.data.item !== null);
     this.initForm();
   }
 

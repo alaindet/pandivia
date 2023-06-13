@@ -44,7 +44,8 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   FIELD = FIELD;
   theForm!: FormGroup;
-  isEditing = signal(this.modal.data.item !== null);
+  // isEditing = signal(this.modal.data.item !== null);
+  isEditing = signal(false);
   isSaving = this.store.selectSignal(selectInventoryIsLoading);
 
   get fName(): FormControl { return this.getField(FIELD.NAME) }
@@ -53,6 +54,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   ngOnInit() {
     this.initForm();
+    this.isEditing.set(this.modal.data.item !== null);
   }
 
   onConfirmName(option: AutocompleteOption) {

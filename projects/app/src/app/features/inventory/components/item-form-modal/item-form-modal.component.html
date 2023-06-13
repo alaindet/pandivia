@@ -27,26 +27,28 @@
         : null"
     ></app-text-input>
 
-    <app-form-field-error
-      *ngIf="fName.hasError('required')"
-      errorId="item-name-required"
-    >
-      Required
-    </app-form-field-error>
+    <ng-container *ngIf="fName.touched">
+      <app-form-field-error
+        *ngIf="fName.hasError('required')"
+        errorId="item-name-required"
+      >
+        Required
+      </app-form-field-error>
 
-    <app-form-field-error
-      *ngIf="fName.hasError('minlength') || fName.hasError('maxlength')"
-      errorId="item-name-length"
-    >
-      Enter between 2 and 100 characters
-    </app-form-field-error>
+      <app-form-field-error
+        *ngIf="fName.hasError('minlength') || fName.hasError('maxlength')"
+        errorId="item-name-length"
+      >
+        Enter between 2 and 100 characters
+      </app-form-field-error>
 
-    <app-form-field-error
-      *ngIf="fName.hasError('uniqueItemName')"
-      errorId="item-unique-name"
-    >
-      This name already exists
-    </app-form-field-error>
+      <app-form-field-error
+        *ngIf="fName.hasError('uniqueItemName')"
+        errorId="item-unique-name"
+      >
+        This name already exists
+      </app-form-field-error>
+    </ng-container>
 
   </app-form-field>
 

@@ -1,1 +1,49 @@
-<p>inventory</p>
+<div class="fab-large-container">
+
+  <!-- Filters -->
+  <ul *ngIf="filters()" class="_filters">
+    <li *ngFor="let filter of filters()">
+      <button
+        type="button"
+        appButton="secondary"
+        withIcon="left"
+        size="extra-small"
+        (click)="onRemoveFilter(filter)"
+      >
+        <mat-icon>clear</mat-icon>
+        {{ filter.value }}
+      </button>
+    </li>
+  </ul>
+
+  <!-- Items -->
+  <ul *ngIf="itemGroups().length" class="_cards">
+    <li *ngFor="let group of itemGroups(); trackBy: trackByCategory">
+      <app-card-list
+        [title]="group.category"
+        [items]="group.items"
+        [listActions]="CATEGORY_CONTEXTUAL_MENU"
+        [itemActionsFn]="getItemContextualMenu"
+        [isPinned]="pinnedCategory() === group.category"
+        (listActionClicked)="onCategoryAction(group.category, $event)"
+        (itemActionClicked)="onItemAction($event)"
+        (pinned)="onPinCategory(group.category, $event)"
+      />
+    </li>
+  </ul>
+
+  <!-- Add new item -->
+  <button
+    appButton
+    isCircle
+    withIconOnly
+    size="large" 
+    floating="fixed"
+    floatingBottom="4.7rem"
+    floatingRight="1.1rem"
+    (click)="onShowCreateItemModal()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>

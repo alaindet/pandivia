@@ -3,14 +3,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 
-import { ACTIONS_MENU_EXPORTS, ButtonComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ItemToggledOutput, ModalService, PageHeaderComponent } from '@app/common/components';
+import { ACTIONS_MENU_EXPORTS, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_INVENTORY } from '@app/core/constants/navigation';
 import { StackedLayoutService } from '@app/common/layouts';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
-import { Observable, combineLatest, of, startWith, switchMap, take, throwError } from 'rxjs';
+import { Observable, of, switchMap, take, throwError } from 'rxjs';
 import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryItemById } from './store';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
@@ -23,6 +23,7 @@ const IMPORTS = [
   ...ACTIONS_MENU_EXPORTS,
   MatIconModule,
   ButtonComponent,
+  CardListComponent,
 ];
 
 @Component({
@@ -39,17 +40,15 @@ export class InventoryPageComponent implements OnInit {
   private modal = inject(ModalService);
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
-  ITEM_CONTEXTUAL_MENU = itemMenu.ITEM_CONTEXTUAL_MENU;
+  getItemContextualMenu = itemMenu.getItemContextualMenu;
 
-  vm$ = combineLatest({
-    itemGroups: this.store.select(selectInventoryCategorizedFilteredItems),
-    filters: this.store.select(selectInventoryFilters),
-    pinnedCategory: this.store.select(selectInventoryCategoryFilter),
-  }).pipe(startWith(null));
+  itemGroups = this.store.selectSignal(selectInventoryCategorizedFilteredItems);
+  filters = this.store.selectSignal(selectInventoryFilters);
+  pinnedCategory = this.store.selectSignal(selectInventoryCategoryFilter);
 
   ngOnInit() {
     this.initPageMetadata();
-    this.layout.setHeaderActions(listMenu.LIST_CONTEXTUAL_MENU);
+    this.initHeaderActions();
     this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
   }
 
@@ -59,8 +58,9 @@ export class InventoryPageComponent implements OnInit {
         this.store.dispatch(inventoryItemsAsyncReadActions.forceFetchItems());
         break;
       case listMenu.LIST_ACTION_REMOVE.id:
-        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe(() => {
-          this.store.dispatch(inventoryAllItemsActions.remove());
+        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(inventoryAllItemsActions.remove()),
         });
         break;
     }
@@ -69,8 +69,9 @@ export class InventoryPageComponent implements OnInit {
   onCategoryAction(category: string, action: string) {
     switch (action) {
       case categoryMenu.CATEGORY_ACTION_REMOVE.id:
-        this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe(() => {
-          this.store.dispatch(inventoryCategoryActions.remove({ category }));
+        this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(inventoryCategoryActions.remove({ category })),
         });
         break;
     }
@@ -83,8 +84,9 @@ export class InventoryPageComponent implements OnInit {
         this.showEditItemModal(itemId);
         break;
       case itemMenu.ITEM_ACTION_REMOVE.id:
-        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
-          this.store.dispatch(inventoryItemActions.remove({ itemId }));
+        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.store.dispatch(inventoryItemActions.remove({ itemId })),
         });
         break;
     }
@@ -117,6 +119,11 @@ export class InventoryPageComponent implements OnInit {
     this.layout.setTitle('Inventory'); // TODO: Translate
     this.store.dispatch(setCurrentTitle({ title: 'Inventory - Pandivia' })); // TODO: Translate
     this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_INVENTORY.id }));
+  }
+
+  private initHeaderActions(): void {
+    this.layout.setHeaderActions(listMenu.LIST_CONTEXTUAL_MENU);
+    this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
   }
 
   private confirmPrompt(
