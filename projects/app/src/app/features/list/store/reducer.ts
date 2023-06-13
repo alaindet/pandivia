@@ -3,7 +3,15 @@ import { immerOn } from 'ngrx-immer/store';
 
 import { LOADING_STATUS } from '@app/common/types';
 import { LIST_FILTER } from '../types';
-import * as fromActions from './actions';
+import {
+  listItemsAsyncReadActions,
+  listAllItemsActions,
+  listCategoryActions,
+  listItemActions,
+  listItemsAsyncWriteActions,
+  listItemAsyncWriteActions,
+  listFilterActions,
+} from './actions';
 import { LIST_FEATURE_INITIAL_STATE } from './state';
 
 export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
@@ -11,39 +19,41 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   // Generic async ------------------------------------------------------------
 
   immerOn(
-    fromActions.listItemsAsyncReadActions.fetchItems,
-    fromActions.listItemsAsyncReadActions.forceFetchItems,
+    listItemsAsyncReadActions.fetchItems,
+    listItemsAsyncReadActions.forceFetchItems,
 
-    fromActions.listAllItemsActions.complete,
-    fromActions.listAllItemsActions.undo,
-    fromActions.listAllItemsActions.removeCompleted,
-    fromActions.listAllItemsActions.remove,
+    listAllItemsActions.complete,
+    listAllItemsActions.undo,
+    listAllItemsActions.removeCompleted,
+    listAllItemsActions.remove,
 
-    fromActions.listCategoryActions.complete,
-    fromActions.listCategoryActions.undo,
-    fromActions.listCategoryActions.removeCompleted,
-    fromActions.listCategoryActions.remove,
+    listCategoryActions.complete,
+    listCategoryActions.undo,
+    listCategoryActions.removeCompleted,
+    listCategoryActions.remove,
 
-    fromActions.listItemActions.complete,
-    fromActions.listItemActions.create,
-    fromActions.listItemActions.decrement,
-    fromActions.listItemActions.edit,
-    fromActions.listItemActions.increment,
-    fromActions.listItemActions.remove,
-    fromActions.listItemActions.toggle,
-    fromActions.listItemActions.undo,
+    listItemActions.complete,
+    listItemActions.create,
+    listItemActions.decrement,
+    listItemActions.edit,
+    listItemActions.increment,
+    listItemActions.remove,
+    listItemActions.toggle,
+    listItemActions.undo,
     state => {
       state.status = LOADING_STATUS.LOADING;
     },
   ),
 
   immerOn(
-    fromActions.listItemsAsyncReadActions.fetchItemsError,
-    fromActions.listItemsAsyncWriteActions.editError,
-    fromActions.listItemsAsyncWriteActions.removeError,
-    fromActions.listItemAsyncWriteActions.createError,
-    fromActions.listItemAsyncWriteActions.editError,
-    fromActions.listItemAsyncWriteActions.removeError,
+    listItemsAsyncReadActions.fetchItemsError,
+
+    listItemsAsyncWriteActions.editError,
+    listItemsAsyncWriteActions.removeError,
+
+    listItemAsyncWriteActions.createError,
+    listItemAsyncWriteActions.editError,
+    listItemAsyncWriteActions.removeError,
     (state, { message }) => {
       console.log(message); // TODO: Remove?
       state.status = LOADING_STATUS.ERROR;
@@ -52,11 +62,11 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
   // Fetching -----------------------------------------------------------------
 
-  immerOn(fromActions.listItemsAsyncReadActions.fetchItemsCached, state => {
+  immerOn(listItemsAsyncReadActions.fetchItemsCached, state => {
     state.status = LOADING_STATUS.IDLE;
   }),
 
-  immerOn(fromActions.listItemsAsyncReadActions.fetchItemsSuccess, (state, { items }) => {
+  immerOn(listItemsAsyncReadActions.fetchItemsSuccess, (state, { items }) => {
     state.status = LOADING_STATUS.IDLE;
     state.lastUpdated = Date.now();
     state.items = items;
@@ -64,34 +74,34 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
   // Filters ------------------------------------------------------------------
 
-  immerOn(fromActions.listFilterActions.setCategoryFilter, (state, { category }) => {
+  immerOn(listFilterActions.setCategoryFilter, (state, { category }) => {
     state.filters[LIST_FILTER.CATEGORY] = category;
   }),
 
-  immerOn(fromActions.listFilterActions.clearCategoryFilter, state => {
+  immerOn(listFilterActions.clearCategoryFilter, state => {
     state.filters[LIST_FILTER.CATEGORY] = null;
   }),
 
-  immerOn(fromActions.listFilterActions.setDoneFilter, (state, { isDone }) => {
+  immerOn(listFilterActions.setDoneFilter, (state, { isDone }) => {
     state.filters[LIST_FILTER.IS_DONE] = isDone;
   }),
 
-  immerOn(fromActions.listFilterActions.clearDoneFilter, state => {
+  immerOn(listFilterActions.clearDoneFilter, state => {
     state.filters[LIST_FILTER.CATEGORY] = null;
   }),
 
-  immerOn(fromActions.listFilterActions.clearAllFilters, state => {
+  immerOn(listFilterActions.clearAllFilters, state => {
     state.filters[LIST_FILTER.CATEGORY] = null;
     state.filters[LIST_FILTER.IS_DONE] = null;
   }),
 
-  immerOn(fromActions.listFilterActions.clearFilterByName, (state, { name }) => {
+  immerOn(listFilterActions.clearFilterByName, (state, { name }) => {
     state.filters[name] = null;
   }),
 
   // List items async write ---------------------------------------------------
 
-  immerOn(fromActions.listItemsAsyncWriteActions.editSuccess, (state, action) => {
+  immerOn(listItemsAsyncWriteActions.editSuccess, (state, action) => {
     const { message, items } = action;
     console.log(message); // TODO: Remove?
     state.status = LOADING_STATUS.IDLE;
@@ -99,7 +109,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     state.items = items;
   }),
 
-  immerOn(fromActions.listItemsAsyncWriteActions.removeSuccess, (state, action) => {
+  immerOn(listItemsAsyncWriteActions.removeSuccess, (state, action) => {
     const { message, items } = action;
     console.log(message); // TODO: Remove?
     state.status = LOADING_STATUS.IDLE;
@@ -109,7 +119,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
   // List item async write ----------------------------------------------------
 
-  immerOn(fromActions.listItemAsyncWriteActions.createSuccess, (state, action) => {
+  immerOn(listItemAsyncWriteActions.createSuccess, (state, action) => {
     const { message, item } = action;
     console.log(message); // TODO: Remove?
     state.status = LOADING_STATUS.IDLE;
@@ -117,7 +127,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     state.items.unshift(item);
   }),
 
-  immerOn(fromActions.listItemAsyncWriteActions.editSuccess, (state, action) => {
+  immerOn(listItemAsyncWriteActions.editSuccess, (state, action) => {
     const { message, item } = action;
     console.log(message); // TODO: Remove?
     state.status = LOADING_STATUS.IDLE;
@@ -125,7 +135,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     state.items = state.items.map(anItem => anItem.id === item.id ? item : anItem);
   }),
 
-  immerOn(fromActions.listItemAsyncWriteActions.removeSuccess, (state, action) => {
+  immerOn(listItemAsyncWriteActions.removeSuccess, (state, action) => {
     const { message, item } = action;
     console.log(message); // TODO: Remove?
     state.status = LOADING_STATUS.IDLE;

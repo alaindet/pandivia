@@ -6,8 +6,8 @@ export type ListFeatureState = {
   items: ListItem[];
   status: LoadingStatus;
   lastUpdated: UnixTimestamp | null;
-  filters: ListFilters;
   itemModalSuccessCounter: number;
+  filters: ListFilters;
 };
 
 export const LIST_FEATURE_NAME = 'list';

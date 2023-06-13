@@ -18,11 +18,6 @@ const IMPORTS = [
   ...ACTIONS_MENU_EXPORTS,
 ];
 
-/*
-TODO:
-- Generalize items input
-- Accept custom template for items
-*/
 @Component({
   selector: 'app-card-list',
   standalone: true,
@@ -70,12 +65,6 @@ export class CardListComponent implements OnChanges {
   onToggleItem(itemId: string) {
     const isDone = !this.items.find(it => it.id === itemId)?.isDone;
     this.itemToggled.emit({ itemId, isDone });
-    // if (isDone !== null) {
-    //   this.itemToggled.emit({ itemId, isDone });
-    // } else {
-    //   const isDone = !this.items.find(it => it.id === itemId)?.isDone;
-    //   this.itemToggled.emit({ itemId, isDone });
-    // }
   }
 
   onItemAction(itemId: string, action: string) {

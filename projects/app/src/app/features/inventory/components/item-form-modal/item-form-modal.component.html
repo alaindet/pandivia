@@ -27,23 +27,6 @@
         : null"
     ></app-text-input>
 
-    <app-autocomplete
-      [inputComponent]="nameRef"
-      sourceType="async"
-      [filteringDelay]="100"
-      pickKey="label"
-      [showEmptyOptions]="false"
-      [asyncOptions]="nameFieldOptions"
-      [minChars]="1"
-      width="16rem"
-      offsetY="0.5rem"
-      (confirmed)="onConfirmName($event)"
-    >
-      <ng-container *appAutocompleteOption="let option">
-        {{ option.label }}
-      </ng-container>
-    </app-autocomplete>
-
     <ng-container *ngIf="fName.touched">
       <app-form-field-error
         *ngIf="fName.hasError('required')"
@@ -66,37 +49,6 @@
         This name already exists
       </app-form-field-error>
     </ng-container>
-
-  </app-form-field>
-
-  <!-- Amount -->
-  <!-- TODO: Translate -->
-  <app-form-field id="item-amount">
-
-    <app-form-field-label isRequired>
-      Amount
-    </app-form-field-label>
-
-    <app-quick-number
-      id="item-amount"
-      [formControlName]="FIELD.AMOUNT"
-      [min]="1"
-      [max]="100"
-    ></app-quick-number>
-
-    <app-form-field-error
-      *ngIf="fAmount.hasError('required')"
-      errorId="item-name-required"
-    >
-      Required
-    </app-form-field-error>
-
-    <app-form-field-error
-      *ngIf="fAmount.hasError('min') || fAmount.hasError('max')"
-      errorId="item-name-length"
-    >
-      Enter number between 1 and 100
-    </app-form-field-error>
 
   </app-form-field>
 
@@ -177,45 +129,6 @@
 
   </app-form-field>
 
-  <!-- Is done (edit-only) -->
-  <!-- TODO: Translate -->
-  <app-form-field *ngIf="isEditing()" id="item-done">
-
-    <app-form-field-label>
-      Completed
-    </app-form-field-label>
-
-    <app-toggle
-      [formControlName]="FIELD.IS_DONE"
-      color="primary"
-      id="item-done"
-    >
-      Completed
-    </app-toggle>
-
-  </app-form-field>
-
-  <!-- Add to inventory (create-only)-->
-  <!-- TODO: Translate -->
-  <app-form-field *ngIf="!isEditing()" id="item-add-to-inventory">
-
-    <app-form-field-label>
-      Add to inventory
-    </app-form-field-label>
-
-    <app-toggle
-      [formControlName]="FIELD.ADD_TO_INVENTORY"
-      color="primary"
-      id="item-add-to-inventory"
-    >
-      Add to inventory?
-    </app-toggle>
-
-    <app-form-field-hint>
-      Adds this item to the inventory if not already present
-    </app-form-field-hint>
-
-  </app-form-field>
 </form>
 
 <ng-container *appModalFooter>
