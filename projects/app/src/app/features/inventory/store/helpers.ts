@@ -1,6 +1,6 @@
 import { catchError, map, of } from 'rxjs';
 
-import { InventoryService } from '../inventory.service';
+import { InventoryService } from '../services/inventory.service';
 import * as fromActions from './actions';
 
 export function fetchItemsHelper(inventoryService: InventoryService) {

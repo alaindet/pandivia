@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { ACTIONS_MENU_EXPORTS, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 import { ITEM_CONTEXTUAL_MENU, LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './contextual-menu';
-import { inventoryFetchItemsActions, selectInventoryCategorizedItems } from './store';
+import { selectInventoryCategorizedItems } from './store';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_INVENTORY } from '@app/core/constants/navigation';
 import { StackedLayoutService } from '@app/common/layouts';
@@ -31,7 +31,6 @@ export class InventoryPageComponent implements OnInit {
   private layout = inject(StackedLayoutService);
 
   items$ = this.store.select(selectInventoryCategorizedItems);
-  listContextualMenu = LIST_CONTEXTUAL_MENU;
   itemContextualMenu = ITEM_CONTEXTUAL_MENU;
 
   ngOnInit() {
@@ -39,13 +38,13 @@ export class InventoryPageComponent implements OnInit {
     this.store.dispatch(setCurrentTitle({ title: 'Inventory - Pandivia' }));
     this.layout.setHeaderActions(LIST_CONTEXTUAL_MENU);
     this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_INVENTORY.id }));
-    this.store.dispatch(inventoryFetchItemsActions.fetchItems());
+    // Fetch items
   }
 
   onListContextualAction(action: string) {
     switch (action) {
       case LIST_REFRESH_ACTION.id:
-        this.store.dispatch(inventoryFetchItemsActions.forceFetchItems());
+        // Fetch items
         break;
     }
   }

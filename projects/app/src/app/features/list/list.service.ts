@@ -13,16 +13,12 @@ import { getRandomHash } from '@app/common/utils';
 })
 export class ListService {
 
-  private items: ListItem[] = [];
+  private items: ListItem[] = MOCK_LIST_ITEMS;
 
   private config: FakeRequestConfig = {
     failRate: MOCK_FAIL_RATE,
     delay: MOCK_DELAY,
   };
-
-  constructor() {
-    this.items = MOCK_LIST_ITEMS;
-  }
 
   getItems(): Observable<ListItem[]> {
     return fakeRequest(this.items, this.config);

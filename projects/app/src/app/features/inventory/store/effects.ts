@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { of, switchMap, withLatestFrom } from 'rxjs';
 
 import { createUiController } from '@app/core/store/ui';
-import { InventoryService } from '../inventory.service';
+import { InventoryService } from '../services';
 import * as fromActions from './actions';
 import { fetchItemsHelper } from './helpers';
 import { selectInventoryShouldFetch } from './selectors';
