@@ -6,6 +6,16 @@
   background-color: $app-color-white;
   border: 1px solid $app-color-grey-600;
 
+  &.-selectable {
+    ._item-header ._left {
+      cursor: pointer;
+    }
+
+    ._item:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+  }
+
   > ._header {
     display: flex;
     align-items: center;
@@ -43,10 +53,6 @@
 
   ._item {
     border-bottom: 2px solid $app-color-grey-600;
-
-    &:hover {
-      background-color: rgba(0,0,0,0.1);
-    }
   }
 
   ._item.-last {
@@ -75,7 +81,6 @@
     flex-grow: 1;
     display: flex;
     align-items: center;
-    cursor: pointer;
   }
 
   ._item-header ._right {
