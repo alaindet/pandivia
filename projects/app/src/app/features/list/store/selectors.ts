@@ -49,16 +49,13 @@ export const selectListShouldFetch = createSelector(
 );
 
 export const selectListItemExistsWithName = (
-  itemId: string | null,
   name: string,
 ) => createSelector(
   selectListFeature,
-  (state): boolean => {
+  (state): ListItem | null => {
     const query = name.toLowerCase();
-    return !!state.items.filter(item => (
-      item.id !== itemId &&
-      item.name.toLowerCase() === query
-    )).length;
+    const item = state.items.find(item => item.name.toLowerCase() === query);
+    return item ?? null;
   },
 );
 

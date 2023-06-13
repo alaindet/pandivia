@@ -16,6 +16,7 @@ import { ListFilterToken } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
+import { findListItemById } from './functions';
 
 const IMPORTS = [
   NgIf,
@@ -175,7 +176,7 @@ export class ListPageComponent implements OnInit {
   }
 
   private showEditItemModal(itemId: string): void {
-    this.findListItemById(itemId).subscribe({
+    findListItemById(this.store, itemId).subscribe({
       error: err => {
         const message = err;
         this.store.dispatch(notificationsActions.addError({ message }));
@@ -186,16 +187,6 @@ export class ListPageComponent implements OnInit {
         this.modal.open(ListItemFormModalComponent, modalInput);
       },
     });
-  }
-
-  private findListItemById(itemId: string): Observable<ListItem> {
-
-    const item$ = this.store.select(selectListItemById(itemId)).pipe(take(1));
-
-    return item$.pipe(switchMap(item => item
-      ? of(item)
-      : throwError(() => Error(`Item with id ${itemId} not found`))
-    ));
   }
 
   private decrementOrRemove(itemId: string): void {

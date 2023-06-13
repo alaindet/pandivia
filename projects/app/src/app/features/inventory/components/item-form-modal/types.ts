@@ -2,7 +2,8 @@ import { CreateInventoryItemDto, InventoryItem } from '@app/core';
 
 export type InventoryItemFormModalInput = {
   title: string; // TODO: Translate
-  item: InventoryItem | null;
+  item?: InventoryItem;
+  category?: string;
 };
 
 export type CreateInventoryItemFormModalOutput = {

@@ -54,7 +54,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   ngOnInit() {
     this.initForm();
-    this.isEditing.set(this.modal.data.item !== null);
+    this.isEditing.set(!!this.modal.data?.item);
   }
 
   onConfirmName(option: AutocompleteOption) {
@@ -145,8 +145,12 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   };
 
   private initForm(): void {
-    const { item } = this.modal.data;
-    const { required, minLength, maxLength, min, max } = Validators;
+    const { item, category } = this.modal.data;
+    const { required, minLength, maxLength } = Validators;
+
+    const defaultCategory = this.isEditing()
+      ? item?.category ?? ''
+      : category ?? '';
 
     const controls: any = {
       [FIELD.NAME]: [
@@ -158,7 +162,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
         // TODO ...
       ],
       [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(100)]],
-      [FIELD.CATEGORY]: [item?.category ?? null, [minLength(2), maxLength(100)]],
+      [FIELD.CATEGORY]: [defaultCategory, [minLength(2), maxLength(100)]],
     };
 
     this.theForm = this.formBuilder.group(controls);

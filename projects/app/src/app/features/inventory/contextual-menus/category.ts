@@ -1,5 +1,11 @@
 import { ActionsMenuItem } from '@app/common/components';
 
+export const CATEGORY_ACTION_CREATE_ITEM: ActionsMenuItem = {
+  id: 'category:create-item',
+  label: 'Create new item', // TODO: Translate
+  icon: 'add_circle',
+};
+
 export const CATEGORY_ACTION_REMOVE: ActionsMenuItem = {
   id: 'category:remove',
   label: 'Remove all items', // TODO: Translate
@@ -7,5 +13,6 @@ export const CATEGORY_ACTION_REMOVE: ActionsMenuItem = {
 };
 
 export const CATEGORY_CONTEXTUAL_MENU: ActionsMenuItem[] = [
+  CATEGORY_ACTION_CREATE_ITEM,
   CATEGORY_ACTION_REMOVE,
 ];
