@@ -26,7 +26,7 @@ const IMPORTS = [
     :host {
       display: block;
       white-space: nowrap;
-      width: $app-demo-navigation-width;
+      width: $app-width-demo-navigation;
     }
 
     ul {

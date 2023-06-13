@@ -53,8 +53,8 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   get fCategory(): FormControl { return this.getField(FIELD.CATEGORY) }
 
   ngOnInit() {
-    this.initForm();
     this.isEditing.set(!!this.modal.data?.item);
+    this.initForm();
   }
 
   onConfirmName(option: AutocompleteOption) {
@@ -148,7 +148,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     const { item, category } = this.modal.data;
     const { required, minLength, maxLength } = Validators;
 
-    const defaultCategory = this.isEditing()
+    const defaultCategory = !!this.modal.data?.item
       ? item?.category ?? ''
       : category ?? '';
 

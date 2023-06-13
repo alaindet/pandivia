@@ -13,8 +13,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: min(#{$app-notification-min-width}, 95vw);
-  max-width: max(#{$app-notification-max-width}, 95vw);
+  min-width: min(#{$app-width-notification-min}, 95vw);
+  max-width: max(#{$app-width-notification-max}, 95vw);
   font-size: 1rem;
   padding: 0.25rem 1rem;
   padding-bottom: calc(0.25rem + #{$app-height-notification-progress});

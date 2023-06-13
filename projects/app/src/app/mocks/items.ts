@@ -1,6 +1,6 @@
 import { InventoryItem, ListItem } from '@app/core';
 import { getRandomHash } from '@app/common/utils';
-import { MOCK_CATEGORY_BAR, MOCK_CATEGORY_FOO } from './categories';
+import { MOCK_CATEGORY_FOO, MOCK_CATEGORY_BAR, MOCK_CATEGORY_BAZ } from './categories';
 
 export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
   {
@@ -20,6 +20,18 @@ export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
     name: 'Bread',
     description: '100g of bread',
     category: MOCK_CATEGORY_FOO,
+  },
+  {
+    id: getRandomHash(5),
+    name: 'Butter',
+    description: '200g',
+    category: MOCK_CATEGORY_BAZ,
+  },
+  {
+    id: getRandomHash(5),
+    name: 'Tomatos',
+    description: '100g',
+    category: MOCK_CATEGORY_BAZ,
   },
 ];
 

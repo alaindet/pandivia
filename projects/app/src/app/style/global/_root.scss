@@ -1,4 +1,8 @@
 @mixin app-root() {
+  :root {
+    --app-width-container: #{$app-width-container};
+  }
+
   *, *::before, *::after {
     box-sizing: border-box;
   }
