@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
-import { ActionsMenuItem, CardListComponent, ItemActionsFn, ItemActionOutput, ItemToggledOutput } from '@app/common/components';
-import { ListItem } from '@app/core';
+import { CardListComponent, ItemActionOutput, ItemToggledOutput } from '@app/common/components';
+import { MOCK_INVENTORY_ITEMS, MOCK_LIST_ITEMS } from '@app/mocks';
+import { ITEM_ACTION_DELETE, ITEM_ACTION_TICK, ITEM_ACTION_UNDO, LIST_ACTIONS, LIST_ACTION_DELETE, LIST_ACTION_TICK, getItemContextualMenu } from './actions';
 
 const IMPORTS = [
   CardListComponent,
@@ -14,61 +15,21 @@ const IMPORTS = [
   templateUrl: './card-list.component.html',
 })
 export class CardListDemoPageComponent {
+
   consoleLog = console.log;
 
-  items: ListItem[] = [
-    {
-      id: 'aaa',
-      name: 'Pizza',
-      amount: 1,
-      isDone: false,
-      description: 'A pizza, any pizza is fine',
-      category: 'shop-foo',
-    },
-    {
-      id: 'bbb',
-      name: 'Pineapple',
-      amount: 1,
-      isDone: false,
-      description: 'A pineapple, any pineapple is fine. But not on pizza.',
-      category: 'shop-foo',
-    },
-    {
-      id: 'ccc',
-      name: 'Pepperoni',
-      amount: 1,
-      isDone: false,
-      // description: 'Pepperoni, just some pepperoni, whatever that is',
-      category: 'shop-foo',
-    },
-  ];
+  items = MOCK_LIST_ITEMS;
+  listActions = LIST_ACTIONS;
+  itemActionsFn = getItemContextualMenu;
 
-  listActions: ActionsMenuItem[] = [
-    { id: 'category:tick', icon: 'done', label: 'Tick all' },
-    { id: 'category:delete', icon: 'delete', label: 'Delete all' },
-  ];
-
-  itemActionsFn: ItemActionsFn = (item: any) => {
-
-    if (item.isDone) {
-      return [
-        { id: 'item:undo', icon: 'undo', label: 'Undo' },
-        { id: 'item:delete', icon: 'delete', label: 'Delete' },
-      ];
-    }
-
-    return [
-      { id: 'item:tick', icon: 'done', label: 'Tick' },
-      { id: 'item:delete', icon: 'delete', label: 'Delete' },
-    ];
-  };
+  nonSelectableItems = MOCK_INVENTORY_ITEMS;
 
   onListAction(action: string) {
     switch(action) {
-      case 'category:tick':
+      case LIST_ACTION_TICK.id:
         this.items = this.items.map(item => ({ ...item, isDone: true }));
         break;
-      case 'category:delete':
+      case LIST_ACTION_DELETE.id:
         this.items = [];
         break;
     }
@@ -82,17 +43,17 @@ export class CardListDemoPageComponent {
 
   onItemAction({ itemId, action }: ItemActionOutput) {
     switch (action) {
-      case 'item:tick':
+      case ITEM_ACTION_TICK.id:
         this.items = this.items.map(item => {
           return item.id !== itemId ? item : { ...item, isDone: true };
         });
         break;
-      case 'item:undo':
+      case ITEM_ACTION_UNDO.id:
         this.items = this.items.map(item => {
           return item.id !== itemId ? item : { ...item, isDone: false };
         });
         break;
-      case 'item:delete':
+      case ITEM_ACTION_DELETE.id:
         this.items = this.items.filter(item => {
           return item.id !== itemId;
         });

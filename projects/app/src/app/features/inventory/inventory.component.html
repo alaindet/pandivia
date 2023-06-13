@@ -21,6 +21,7 @@
     <li *ngFor="let group of itemGroups(); trackBy: trackByCategory">
       <app-card-list
         [title]="group.category"
+        [isSelectable]="false"
         [items]="group.items"
         [listActions]="CATEGORY_CONTEXTUAL_MENU"
         [itemActionsFn]="getItemContextualMenu"

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 import { ListItem } from '@app/core';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
@@ -12,6 +12,7 @@ import { didInputChange } from '@app/common/utils';
 const IMPORTS = [
   NgIf,
   NgFor,
+  NgTemplateOutlet,
   MatIconModule,
   CheckboxComponent,
   ButtonComponent,
@@ -33,6 +34,7 @@ export class CardListComponent implements OnChanges {
   @Input({ required: true }) listActions!: ActionsMenuItem[];
   @Input({ required: true }) items!: ListItem[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
+  @Input() @HostBinding('class.-selectable') isSelectable = true;
   @Input() isPinned = false;
 
   @Output() listActionClicked = new EventEmitter<string>();
@@ -63,6 +65,7 @@ export class CardListComponent implements OnChanges {
   }
 
   onToggleItem(itemId: string) {
+    if (!this.isSelectable) return;
     const isDone = !this.items.find(it => it.id === itemId)?.isDone;
     this.itemToggled.emit({ itemId, isDone });
   }
