@@ -1,3 +1,5 @@
 - Rename "Inventory" to "Habits"/"Habit"
-- Implement filters on Inventory
-- Add UI to Inventory
+- Move inventory and list types into their feature, out of core
+- Implement @angular/localize
+- Persist user preferences into localStorage
+- Add global UserPreferencesService, NotificationService, AuthService, LanguageService

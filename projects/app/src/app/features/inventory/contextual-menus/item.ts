@@ -1,6 +1,12 @@
 import { InventoryItem } from '@app/core';
 import { ActionsMenuItem } from '@app/common/components';
 
+export const ITEM_ACTION_ADD_TO_LIST: ActionsMenuItem = {
+  id: 'item:add-to-list',
+  label: 'Add to List page', // TODO: Translate
+  icon: 'format_list_bulleted',
+};
+
 export const ITEM_ACTION_EDIT: ActionsMenuItem = {
   id: 'item:edit',
   label: 'Edit', // TODO: Translate
@@ -15,6 +21,7 @@ export const ITEM_ACTION_REMOVE: ActionsMenuItem = {
 
 export function getItemContextualMenu(item: InventoryItem): ActionsMenuItem[] {
   return [
+    ITEM_ACTION_ADD_TO_LIST,
     ITEM_ACTION_EDIT,
     ITEM_ACTION_REMOVE,
   ];

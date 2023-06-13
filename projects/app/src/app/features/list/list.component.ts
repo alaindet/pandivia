@@ -4,7 +4,7 @@ import { Observable, combineLatest, of, startWith, switchMap, take, throwError }
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 
-import { CategorizedListItems, ListItem } from '@app/core';
+import { CategorizedListItems, ListItem, notificationsActions } from '@app/core';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from '@app/common/components';
@@ -16,6 +16,7 @@ import { ListFilterToken } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
+import { findListItemById } from './functions';
 
 const IMPORTS = [
   NgIf,
@@ -175,21 +176,17 @@ export class ListPageComponent implements OnInit {
   }
 
   private showEditItemModal(itemId: string): void {
-    this.findItemById(itemId).subscribe(item => {
-      const title = 'Edit item'; // TODO: Translate
-      const modalInput: ListItemFormModalInput = { item, title };
-      this.modal.open(ListItemFormModalComponent, modalInput);
+    findListItemById(this.store, itemId).subscribe({
+      error: err => {
+        const message = err;
+        this.store.dispatch(notificationsActions.addError({ message }));
+      },
+      next: item => {
+        const title = 'Edit item'; // TODO: Translate
+        const modalInput: ListItemFormModalInput = { item, title };
+        this.modal.open(ListItemFormModalComponent, modalInput);
+      },
     });
-  }
-
-  private findItemById(itemId: string): Observable<ListItem> {
-
-    const item$ = this.store.select(selectListItemById(itemId)).pipe(take(1));
-
-    return item$.pipe(switchMap(item => item
-      ? of(item)
-      : throwError(() => Error(`Item with id ${itemId} not found`))
-    ));
   }
 
   private decrementOrRemove(itemId: string): void {

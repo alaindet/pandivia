@@ -11,8 +11,9 @@ export function uniqueListItemNameValidator(
 
   return (control: AbstractControl): Observable<ValidationErrors | null> => {
     const name = control.value;
-    return store.select(selectListItemExistsWithName(itemId, name)).pipe(
-      map(exists => exists ? err(name) : null),
+    return store.select(selectListItemExistsWithName(name)).pipe(
+      map(item => item !== null && item.id !== itemId),
+      map(alreadyExists => alreadyExists ? err(name) : null),
       first(),
     );
   }

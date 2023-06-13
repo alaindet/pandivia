@@ -10,12 +10,14 @@ import { StackedLayoutService } from '@app/common/layouts';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
-import { Observable, of, switchMap, take, throwError } from 'rxjs';
+import { Observable, combineLatest, map, of, switchMap, take, throwError, withLatestFrom } from 'rxjs';
 import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryItemById } from './store';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
 import { InventoryFilterToken } from './types';
-import { CategorizedInventoryItems, InventoryItem } from '@app/core';
+import { CategorizedInventoryItems, CreateListItemDto, InventoryItem, ListItem, notificationsActions } from '@app/core';
+import { listItemActions, selectListItemExistsWithName } from '../list/store';
+import { findInventoryItemById } from './functions';
 
 const IMPORTS = [
   CommonModule,
@@ -68,6 +70,9 @@ export class InventoryPageComponent implements OnInit {
 
   onCategoryAction(category: string, action: string) {
     switch (action) {
+      case categoryMenu.CATEGORY_ACTION_CREATE_ITEM.id:
+        this.showCreateItemByCategoryModal(category);
+        break;
       case categoryMenu.CATEGORY_ACTION_REMOVE.id:
         this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe({
           error: () => console.log('Canceled'),
@@ -79,8 +84,10 @@ export class InventoryPageComponent implements OnInit {
 
   onItemAction({ itemId, action }: ItemActionOutput) {
     switch(action) {
+      case itemMenu.ITEM_ACTION_ADD_TO_LIST.id:
+        this.cloneItemToList(itemId);
+        break;
       case itemMenu.ITEM_ACTION_EDIT.id:
-        // TODO
         this.showEditItemModal(itemId);
         break;
       case itemMenu.ITEM_ACTION_REMOVE.id:
@@ -94,7 +101,7 @@ export class InventoryPageComponent implements OnInit {
 
   onShowCreateItemModal(): void {
     const title = 'Create item'; // TODO: Translate
-    const modalInput: InventoryItemFormModalInput = { title, item: null };
+    const modalInput: InventoryItemFormModalInput = { title };
     this.modal.open(InventoryItemFormModalComponent, modalInput);
   }
 
@@ -133,20 +140,65 @@ export class InventoryPageComponent implements OnInit {
   }
 
   private showEditItemModal(itemId: string): void {
-    this.findItemById(itemId).subscribe(item => {
-      const title = 'Edit item'; // TODO: Translate
-      const modalInput: InventoryItemFormModalInput = { item, title };
-      this.modal.open(InventoryItemFormModalComponent, modalInput);
+    findInventoryItemById(this.store, itemId).subscribe({
+      error: err => {
+        const message = err;
+        this.store.dispatch(notificationsActions.addError({ message }));
+      },
+      next: item => {
+        const title = 'Edit item'; // TODO: Translate
+        const modalInput: InventoryItemFormModalInput = { title, item };
+        this.modal.open(InventoryItemFormModalComponent, modalInput);
+      },
     });
   }
 
-  private findItemById(itemId: string): Observable<InventoryItem> {
+  private showCreateItemByCategoryModal(category: string): void {
+    const title = 'Create item'; // TODO: Translate
+    const modalInput: InventoryItemFormModalInput = { title, category };
+    this.modal.open(InventoryItemFormModalComponent, modalInput);
+  }
 
-    const item$ = this.store.select(selectInventoryItemById(itemId)).pipe(take(1));
+  private cloneItemToList(itemId: string): void {
 
-    return item$.pipe(switchMap(item => item
-      ? of(item)
-      : throwError(() => Error(`Item with id ${itemId} not found`))
-    ));
+    const inventoryItem = findInventoryItemById(this.store, itemId);
+
+    const listItem = inventoryItem.pipe(
+      switchMap(({ name }) => this.store.select(selectListItemExistsWithName(name))),
+      take(1),
+    );
+
+    const checkUniqueNameContraint = (payload: {
+      inventoryItem: InventoryItem;
+      listItem: ListItem | null;
+    }) => {
+      const { inventoryItem, listItem } = payload;
+      const inventoryItemName = inventoryItem?.name?.toLowerCase();
+      const listItemName = listItem?.name?.toLowerCase();
+      return (inventoryItemName === listItemName)
+        // TODO: Translate
+        ? throwError(() => new Error(`List item with name "${listItem?.name}" already exists`))
+        : of(inventoryItem);
+    };
+
+    combineLatest({ inventoryItem, listItem })
+      .pipe(take(1), switchMap(checkUniqueNameContraint))
+      .subscribe({
+        error: message => this.store.dispatch(notificationsActions.addError({ message })),
+        next: inventoryItem => {
+    
+          const dto: CreateListItemDto = {
+            category: inventoryItem?.category ?? '',
+            name: inventoryItem.name,
+            amount: 1,
+          };
+    
+          if (inventoryItem.description) {
+            dto.description = inventoryItem.description;
+          }
+    
+          this.store.dispatch(listItemActions.create({ dto }));
+        },
+      });
   }
 }
