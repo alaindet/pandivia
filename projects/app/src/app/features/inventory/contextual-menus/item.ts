@@ -13,8 +13,15 @@ export const ITEM_ACTION_REMOVE: ActionsMenuItem = {
   icon: 'delete',
 };
 
+export const ITEM_ACTION_ADD_TO_LIST: ActionsMenuItem = {
+  id: 'item:add-to-list',
+  label: 'Add to List page', // TODO: Translate
+  icon: 'format_list_bulleted',
+};
+
 export function getItemContextualMenu(item: InventoryItem): ActionsMenuItem[] {
   return [
+    ITEM_ACTION_ADD_TO_LIST,
     ITEM_ACTION_EDIT,
     ITEM_ACTION_REMOVE,
   ];

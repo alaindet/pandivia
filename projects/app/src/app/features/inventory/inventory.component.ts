@@ -15,7 +15,8 @@ import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActi
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
 import { InventoryFilterToken } from './types';
-import { CategorizedInventoryItems, InventoryItem } from '@app/core';
+import { CategorizedInventoryItems, CreateListItemDto, InventoryItem, notificationsActions } from '@app/core';
+import { listItemActions } from '../list/store';
 
 const IMPORTS = [
   CommonModule,
@@ -79,8 +80,10 @@ export class InventoryPageComponent implements OnInit {
 
   onItemAction({ itemId, action }: ItemActionOutput) {
     switch(action) {
+      case itemMenu.ITEM_ACTION_ADD_TO_LIST.id:
+        this.cloneItemToList(itemId);
+        break;
       case itemMenu.ITEM_ACTION_EDIT.id:
-        // TODO
         this.showEditItemModal(itemId);
         break;
       case itemMenu.ITEM_ACTION_REMOVE.id:
@@ -133,20 +136,43 @@ export class InventoryPageComponent implements OnInit {
   }
 
   private showEditItemModal(itemId: string): void {
-    this.findItemById(itemId).subscribe(item => {
-      const title = 'Edit item'; // TODO: Translate
-      const modalInput: InventoryItemFormModalInput = { item, title };
-      this.modal.open(InventoryItemFormModalComponent, modalInput);
+    this.findInventoryItemById(itemId).subscribe({
+      error: err => {
+        const message = err;
+        this.store.dispatch(notificationsActions.addError({ message }));
+      },
+      next: item => {
+        const title = 'Edit item'; // TODO: Translate
+        const modalInput: InventoryItemFormModalInput = { item, title };
+        this.modal.open(InventoryItemFormModalComponent, modalInput);
+      },
     });
   }
 
-  private findItemById(itemId: string): Observable<InventoryItem> {
+  private cloneItemToList(itemId: string): void {
+    this.findInventoryItemById(itemId).subscribe(item => {
+
+      const dto: CreateListItemDto = {
+        category: item?.category ?? '',
+        name: item.name,
+        amount: 1,
+      };
+
+      if (item.description) {
+        dto.description = item.description;
+      }
+
+      this.store.dispatch(listItemActions.create({ dto}));
+    });
+  }
+
+  private findInventoryItemById(itemId: string): Observable<InventoryItem> {
 
     const item$ = this.store.select(selectInventoryItemById(itemId)).pipe(take(1));
 
     return item$.pipe(switchMap(item => item
       ? of(item)
-      : throwError(() => Error(`Item with id ${itemId} not found`))
+      : throwError(() => Error(`Inventory item with id ${itemId} not found`))
     ));
   }
 }
