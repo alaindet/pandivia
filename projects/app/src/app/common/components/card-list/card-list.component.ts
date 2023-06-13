@@ -2,12 +2,13 @@ import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleC
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
-import { ListItem } from '@app/core';
+import { ListItem } from '@app/features/list';
+import { InventoryItem } from '@app/features/inventory';
+import { didInputChange } from '@app/common/utils';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
 import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
-import { didInputChange } from '@app/common/utils';
 
 const IMPORTS = [
   NgIf,
@@ -32,7 +33,7 @@ export class CardListComponent implements OnChanges {
 
   @Input({ required: true }) title!: string;
   @Input({ required: true }) listActions!: ActionsMenuItem[];
-  @Input({ required: true }) items!: ListItem[];
+  @Input({ required: true }) items!: ListItem[] | InventoryItem[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
   @Input() @HostBinding('class.-selectable') isSelectable = true;
   @Input() isPinned = false;
@@ -66,7 +67,7 @@ export class CardListComponent implements OnChanges {
 
   onToggleItem(itemId: string) {
     if (!this.isSelectable) return;
-    const isDone = !this.items.find(it => it.id === itemId)?.isDone;
+    const isDone = !(this.items as ListItem[]).find(it => it.id === itemId)?.isDone;
     this.itemToggled.emit({ itemId, isDone });
   }
 
@@ -79,7 +80,7 @@ export class CardListComponent implements OnChanges {
     this.itemsDescriptionMap.set(itemId, !existing);
   }
 
-  trackByItemId(index: number, item: ListItem): string {
+  trackByItemId(index: number, item: ListItem | InventoryItem): string {
     return item.id;
   }
 }

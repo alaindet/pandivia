@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { Observable, of, switchMap, take, throwError } from 'rxjs';
 
-import { ListItem } from '@app/core';
+import { ListItem } from '../types';
 import { selectListItemById } from '../store';
 
 export function findListItemById(

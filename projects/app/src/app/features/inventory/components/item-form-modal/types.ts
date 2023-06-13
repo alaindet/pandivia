@@ -1,4 +1,4 @@
-import { CreateInventoryItemDto, InventoryItem } from '@app/core';
+import { CreateInventoryItemDto, InventoryItem } from '../../types';
 
 export type InventoryItemFormModalInput = {
   title: string; // TODO: Translate

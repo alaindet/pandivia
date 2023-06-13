@@ -3,7 +3,7 @@ import { catchError, map, of } from 'rxjs';
 import { ListService } from '../services/list.service';
 import * as fromActions from './actions';
 import { ListFeatureState } from './state';
-import { ListItem } from '@app/core';
+import { ListItem } from '../types';
 
 export function fetchItemsHelper(listService: ListService) {
   return listService.getItems().pipe(

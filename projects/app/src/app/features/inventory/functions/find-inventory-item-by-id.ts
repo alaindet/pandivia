@@ -1,8 +1,8 @@
 import { Observable, of, switchMap, take, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { InventoryItem } from '@app/core';
 import { selectInventoryItemById } from '../store';
+import { InventoryItem } from '../types';
 
 export function findInventoryItemById(
   store: Store,

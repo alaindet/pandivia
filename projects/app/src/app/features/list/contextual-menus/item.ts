@@ -1,5 +1,5 @@
 import { ActionsMenuItem } from '@app/common/components';
-import { ListItem } from '@app/core';
+import { ListItem } from '../types';
 
 export const ITEM_ACTION_COMPLETE: ActionsMenuItem = {
   id: 'item:complete',

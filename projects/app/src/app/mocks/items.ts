@@ -1,5 +1,6 @@
-import { InventoryItem, ListItem } from '@app/core';
 import { getRandomHash } from '@app/common/utils';
+import { ListItem } from '@app/features/list';
+import { InventoryItem } from '@app/features/inventory';
 import { MOCK_CATEGORY_FOO, MOCK_CATEGORY_BAR, MOCK_CATEGORY_BAZ } from './categories';
 
 export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [

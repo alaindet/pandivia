@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, tap, throwError } from 'rxjs';
 
-import { CreateListItemDto, ListItem } from '@app/core';
 import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_LIST_ITEMS, fakeRequest } from '@app/mocks';
 import { getRandomHash } from '@app/common/utils';
+import { CreateListItemDto, ListItem } from '../types';
 
 // This service is mocked for now
 // This service holds data and reverts it in case of failed requests

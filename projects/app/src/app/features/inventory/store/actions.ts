@@ -1,7 +1,6 @@
-import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { CreateInventoryItemDto, InventoryItem } from '@app/core';
-import { InventoryFilter } from '../types';
+import { InventoryFilter, CreateInventoryItemDto, InventoryItem } from '../types';
 
 export const inventoryFilterActions = createActionGroup({
   source: 'Inventory/Filters',

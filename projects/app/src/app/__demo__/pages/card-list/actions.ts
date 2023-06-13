@@ -1,4 +1,4 @@
-import { ListItem } from '@app/core';
+import { ListItem } from '@app/features/list';
 import { ActionsMenuItem } from '@app/common/components';
 
 // List actions ---------------------------------------------------------------

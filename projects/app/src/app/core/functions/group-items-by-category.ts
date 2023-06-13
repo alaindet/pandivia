@@ -1,4 +1,5 @@
-import { CategorizedListItems, InventoryItem, ListItem } from '../types';
+import { InventoryItem } from '@app/features/inventory';
+import { CategorizedListItems, ListItem } from '@app/features/list';
 
 export function groupItemsByCategory(items: (InventoryItem | ListItem)[]): CategorizedListItems[] {
   const grouped: { [category: string]: any[] } = {};
