@@ -1,25 +1,25 @@
 import { CreateListItemDto, ListItem } from '@app/core';
 
-export type ItemFormModalInput = {
+export type ListItemFormModalInput = {
   title: string; // TODO: Translate
   item: ListItem | null;
 };
 
-export type CreateItemFormModalOutput = {
+export type CreateListItemFormModalOutput = {
   item: CreateListItemDto;
   addToInventory: boolean;
 };
 
-export type EditItemFormModalOutput = {
+export type EditListItemFormModalOutput = {
   item: ListItem;
 };
 
-export type ItemFormModalOutput = (
-  | CreateItemFormModalOutput
-  | EditItemFormModalOutput
+export type ListItemFormModalOutput = (
+  | CreateListItemFormModalOutput
+  | EditListItemFormModalOutput
 );
 
-export const ITEM_FORM_FIELD = {
+export const LIST_ITEM_FORM_FIELD = {
   NAME: 'name',
   AMOUNT: 'amount',
   DESCRIPTION: 'description',

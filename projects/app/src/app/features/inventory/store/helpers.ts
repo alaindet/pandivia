@@ -1,18 +1,26 @@
+import { InventoryFeatureState } from '@app/features/inventory/store';
 import { catchError, map, of } from 'rxjs';
 
+import { LOADING_STATUS } from '@app/common/types';
 import { InventoryService } from '../services/inventory.service';
 import * as fromActions from './actions';
 
 export function fetchItemsHelper(inventoryService: InventoryService) {
 
-  const onSuccess = fromActions.inventoryFetchItemsActions.fetchItemsSuccess;
-  const onError = fromActions.inventoryFetchItemsActions.fetchItemsError;
+  const onSuccess = fromActions.inventoryItemsAsyncReadActions.fetchItemsSuccess;
+  const onError = fromActions.inventoryItemsAsyncReadActions.fetchItemsError;
 
   return inventoryService.getItems().pipe(
     map(items => onSuccess({ items })),
     catchError(() => {
-      const error = 'Could not fetch inventory items'; // TODO: Translate
-      return of(onError({ error }));
+      const message = 'Could not fetch inventory items'; // TODO: Translate
+      return of(onError({ message }));
     })
   )
+}
+
+export function setSuccessState(state: InventoryFeatureState, message: string): void {
+  console.log(message); // TODO: Remove?
+  state.status = LOADING_STATUS.IDLE;
+  state.lastUpdated = Date.now();
 }

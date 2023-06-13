@@ -1,4 +1,4 @@
-import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { CreateListItemDto, ListItem } from '@app/core';
 import { ListFilter } from '../types';
@@ -6,57 +6,59 @@ import { ListFilter } from '../types';
 export const listFilterActions = createActionGroup({
   source: 'List/Filters',
   events: {
-    'Set category filter': props<{ category: string }>(),
-    'Clear category filter': emptyProps(),
-    'Set done filter': props<{ isDone: boolean }>(),
-    'Clear done filter': emptyProps(),
-    'Clear filter by name': props<{ name: ListFilter }>(),
-    'Clear all filters': emptyProps(),
+    setCategoryFilter: props<{ category: string }>(),
+    clearCategoryFilter: emptyProps(),
+
+    setDoneFilter: props<{ isDone: boolean }>(),
+    clearDoneFilter: emptyProps(),
+
+    clearFilterByName: props<{ name: ListFilter }>(),
+    clearAllFilters: emptyProps(),
   },
 });
 
 export const listAllItemsActions = createActionGroup({
   source: 'List/Items',
   events: {
-    'Complete': emptyProps(),
-    'Undo': emptyProps(),
-    'Remove completed': emptyProps(),
-    'Remove': emptyProps(),
+    complete: emptyProps(),
+    undo: emptyProps(),
+    removeCompleted: emptyProps(),
+    remove: emptyProps(),
   },
 });
 
 export const listCategoryActions = createActionGroup({
   source: 'List/Category',
   events: {
-    'Complete': props<{ category: string }>(),
-    'Undo': props<{ category: string }>(),
-    'Remove completed': props<{ category: string }>(),
-    'Remove': props<{ category: string }>(),
+    complete: props<{ category: string }>(),
+    undo: props<{ category: string }>(),
+    removeCompleted: props<{ category: string }>(),
+    remove: props<{ category: string }>(),
   },
 });
 
 export const listItemActions = createActionGroup({
   source: 'List/Item',
   events: {
-    'Create': props<{ dto: CreateListItemDto }>(),
-    'Edit': props<{ item: ListItem }>(),
-    'Complete': props<{ itemId: string }>(),
-    'Undo': props<{ itemId: string }>(),
-    'Toggle': props<{ itemId: string }>(),
-    'Increment': props<{ itemId: string }>(),
-    'Decrement': props<{ itemId: string }>(),
-    'Remove': props<{ itemId: string }>(),
+    create: props<{ dto: CreateListItemDto }>(),
+    edit: props<{ item: ListItem }>(),
+    complete: props<{ itemId: string }>(),
+    undo: props<{ itemId: string }>(),
+    toggle: props<{ itemId: string }>(),
+    increment: props<{ itemId: string }>(),
+    decrement: props<{ itemId: string }>(),
+    remove: props<{ itemId: string }>(),
   },
 });
 
 export const listItemsAsyncReadActions = createActionGroup({
   source: 'List/Items/AsyncRead',
   events: {
-    'Fetch items': emptyProps(),
-    'Fetch items cached': emptyProps(),
-    'Force fetch items': emptyProps(),
-    'Fetch items success': props<{ items: ListItem[] }>(),
-    'Fetch items error': props<{ message: string }>(),
+    fetchItems: emptyProps(),
+    fetchItemsCached: emptyProps(),
+    forceFetchItems: emptyProps(),
+    fetchItemsSuccess: props<{ items: ListItem[] }>(),
+    fetchItemsError: props<{ message: string }>(),
   },
 });
 
@@ -64,29 +66,23 @@ export const listItemsAsyncReadActions = createActionGroup({
 export const listItemsAsyncWriteActions = createActionGroup({
   source: 'List/Items/AsyncWrite',
   events: {
-    // 'Edit': props<{ items: ListItem[] }>(),
-    'Edit success': props<{ message: string, items: ListItem[] }>(),
-    'Edit error': props<{ message: string }>(),
-
-    // 'Remove': props<{ items: ListItem[] }>(),
-    'Remove success': props<{ message: string, items: ListItem[] }>(),
-    'Remove error': props<{ message: string }>(),
+    editSuccess: props<{ message: string, items: ListItem[] }>(),
+    editError: props<{ message: string }>(),
+    removeSuccess: props<{ message: string, items: ListItem[] }>(),
+    removeError: props<{ message: string }>(),
   },
 });
 
 export const listItemAsyncWriteActions = createActionGroup({
   source: 'List/Item/AsyncWrite',
   events: {
-    // 'Create': props<{ dto: CreateListItemDto }>(),
-    'Create success': props<{ message: string, item: ListItem }>(),
-    'Create error': props<{ message: string }>(),
+    createSuccess: props<{ message: string, item: ListItem }>(),
+    createError: props<{ message: string }>(),
 
-    // 'Edit': props<{ item: ListItem }>(),
-    'Edit success': props<{ message: string, item: ListItem }>(),
-    'Edit error': props<{ message: string }>(),
+    editSuccess: props<{ message: string, item: ListItem }>(),
+    editError: props<{ message: string }>(),
 
-    // 'Remove': props<{ item: ListItem }>(),
-    'Remove success': props<{ message: string, item: ListItem }>(),
-    'Remove error': props<{ message: string }>(),
+    removeSuccess: props<{ message: string, item: ListItem }>(),
+    removeError: props<{ message: string }>(),
   },
 });

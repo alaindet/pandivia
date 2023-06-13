@@ -1,17 +1,15 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
-import { MatIconModule } from '@angular/material/icon';
 
-import { InventoryItem, ListItem } from '@app/core';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
-import { inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryItemsByName } from '@app/features/inventory/store';
-import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter } from '../../store';
-import { uniqueListItemNameValidator } from '../../validators';
-import { CreateListItemFormModalOutput, EditListItemFormModalOutput, LIST_ITEM_FORM_FIELD as FIELD, ListItemFormModalInput, ListItemFormModalOutput } from './types';
+import { CreateInventoryItemDto, InventoryItem } from '@app/core';
+import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
+import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, INVENTORY_ITEM_FORM_FIELD as FIELD, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
 
 const IMPORTS = [
   MatIconModule,
@@ -30,15 +28,15 @@ const IMPORTS = [
 ];
 
 @Component({
-  selector: 'app-list-item-form-modal',
+  selector: 'app-inventory-item-form-modal',
   standalone: true,
   imports: IMPORTS,
   templateUrl: './item-form-modal.component.html',
   styleUrls: ['./item-form-modal.component.scss'],
 })
-export class ListItemFormModalComponent extends BaseModalComponent<
-  ListItemFormModalInput,
-  ListItemFormModalOutput
+export class InventoryItemFormModalComponent extends BaseModalComponent<
+  InventoryItemFormModalInput,
+  InventoryItemFormModalOutput
 > implements OnInit {
 
   private store = inject(Store);
@@ -47,16 +45,13 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   FIELD = FIELD;
   theForm!: FormGroup;
   isEditing = signal(this.modal.data.item !== null);
-  isSaving = this.store.selectSignal(selectListIsLoading);
+  isSaving = this.store.selectSignal(selectInventoryIsLoading);
 
   get fName(): FormControl { return this.getField(FIELD.NAME) }
-  get fAmount(): FormControl { return this.getField(FIELD.AMOUNT) }
   get fDesc(): FormControl { return this.getField(FIELD.DESCRIPTION) }
   get fCategory(): FormControl { return this.getField(FIELD.CATEGORY) }
-  get fDone(): FormControl { return this.getField(FIELD.IS_DONE) }
 
   ngOnInit() {
-    this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
     this.initForm();
   }
 
@@ -84,7 +79,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       return;
     }
 
-    let item: ListItem = {
+    let item: InventoryItem = {
       id: this.modal.data.item!.id,
       ...this.theForm.value,
     };
@@ -101,12 +96,12 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
-      const data: EditListItemFormModalOutput = { item };
+      const data: EditInventoryItemFormModalOutput = { item };
       this.modal.confirm(data);
     });
 
     // Try to edit
-    this.store.dispatch(listItemActions.edit({ item }));
+    this.store.dispatch(inventoryItemActions.edit({ item }));
   }
 
   onCreate() {
@@ -115,7 +110,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       return;
     }
 
-    let { [FIELD.ADD_TO_INVENTORY]: addToInventory, ...item } = this.theForm.value;
+    let item: CreateInventoryItemDto = this.theForm.value;
 
     if (!item.description) {
       const { description, ...theItem } = item;
@@ -129,34 +124,18 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
-      const data: CreateListItemFormModalOutput = { item, addToInventory };
+      const data: CreateInventoryItemFormModalOutput = { item };
       this.modal.confirm(data);
     });
 
     // Try to create
-    this.store.dispatch(listItemActions.create({ dto: item }));
-
-    // Try to add to inventory
-    if (addToInventory) {
-      const { amount, ...dto } = item;
-      this.store.dispatch(inventoryItemActions.create({ dto }));
-    }
+    this.store.dispatch(inventoryItemActions.create({ dto: item }));
   }
-
-  nameFieldOptions: AutocompleteAsyncOptionsFn = (
-    query: string,
-  ): Observable<FormOption[]> => {
-    return this.store.select(selectInventoryItemsByName(query)).pipe(
-      map((items: InventoryItem[]) => {
-        return items.map(item => ({ value: item.id, label: item.name }));
-      }),
-    );
-  };
 
   categoryFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return this.store.select(selectListCategoriesByName(query)).pipe(
+    return this.store.select(selectInventoryCategoriesByName(query)).pipe(
       map(categories => categories.map(category => {
         return { value: category, label: category };
       })),
@@ -174,22 +153,11 @@ export class ListItemFormModalComponent extends BaseModalComponent<
         // Sync validators
         [required, minLength(2), maxLength(100)],
         // Async validators,
-        [uniqueListItemNameValidator(this.store, this.modal.data?.item?.id ?? null)],
+        // TODO ...
       ],
-      [FIELD.AMOUNT]: [item?.amount ?? 1, [required, min(1), max(100)]],
       [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(100)]],
       [FIELD.CATEGORY]: [item?.category ?? null, [minLength(2), maxLength(100)]],
     };
-
-    // Add create-only fields
-    if (!this.isEditing()) {
-      controls[FIELD.ADD_TO_INVENTORY] = [false];
-    }
-
-    // Add edit-only fields
-    else {
-      controls[FIELD.IS_DONE] = [!!item?.isDone];
-    }
 
     this.theForm = this.formBuilder.group(controls);
   }
@@ -198,7 +166,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
     let first = true;
 
-    this.store.select(selectListItemModalSuccessCounter).subscribe(() => {
+    this.store.select(selectInventoryItemModalSuccessCounter).subscribe(() => {
       if (first) {
         first = false;
         return;

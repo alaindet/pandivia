@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { selectListItemExistsWithName } from '../store';
 
-export function uniqueItemNameValidator(
+export function uniqueListItemNameValidator(
   store: Store,
   itemId: string | null,
 ): AsyncValidatorFn {

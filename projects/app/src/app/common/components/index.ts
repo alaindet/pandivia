@@ -3,6 +3,7 @@ export * from './bottom-menu';
 export * from './button';
 export * from './card-list';
 export * from './checkbox';
+export * from './confirm-prompt-modal';
 export * from './form-field';
 export * from './linear-spinner';
 export * from './menu/actions-menu';

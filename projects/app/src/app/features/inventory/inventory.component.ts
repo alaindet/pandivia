@@ -3,12 +3,19 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 
-import { ACTIONS_MENU_EXPORTS, ButtonComponent, PageHeaderComponent } from '@app/common/components';
-import { ITEM_CONTEXTUAL_MENU, LIST_CONTEXTUAL_MENU, LIST_REFRESH_ACTION } from './contextual-menu';
-import { selectInventoryCategorizedItems } from './store';
+import { ACTIONS_MENU_EXPORTS, ButtonComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ItemToggledOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_INVENTORY } from '@app/core/constants/navigation';
 import { StackedLayoutService } from '@app/common/layouts';
+import * as listMenu from './contextual-menus/list';
+import * as categoryMenu from './contextual-menus/category';
+import * as itemMenu from './contextual-menus/item';
+import { Observable, combineLatest, of, startWith, switchMap, take, throwError } from 'rxjs';
+import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryItemById } from './store';
+import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
+import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
+import { InventoryFilterToken } from './types';
+import { CategorizedInventoryItems, InventoryItem } from '@app/core';
 
 const IMPORTS = [
   CommonModule,
@@ -29,27 +36,110 @@ export class InventoryPageComponent implements OnInit {
 
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
+  private modal = inject(ModalService);
 
-  items$ = this.store.select(selectInventoryCategorizedItems);
-  itemContextualMenu = ITEM_CONTEXTUAL_MENU;
+  CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
+  ITEM_CONTEXTUAL_MENU = itemMenu.ITEM_CONTEXTUAL_MENU;
+
+  vm$ = combineLatest({
+    itemGroups: this.store.select(selectInventoryCategorizedFilteredItems),
+    filters: this.store.select(selectInventoryFilters),
+    pinnedCategory: this.store.select(selectInventoryCategoryFilter),
+  }).pipe(startWith(null));
 
   ngOnInit() {
-    this.layout.setTitle('Inventory');
-    this.store.dispatch(setCurrentTitle({ title: 'Inventory - Pandivia' }));
-    this.layout.setHeaderActions(LIST_CONTEXTUAL_MENU);
-    this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_INVENTORY.id }));
-    // Fetch items
+    this.initPageMetadata();
+    this.layout.setHeaderActions(listMenu.LIST_CONTEXTUAL_MENU);
+    this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
   }
 
-  onListContextualAction(action: string) {
+  onListAction(action: string) {
     switch (action) {
-      case LIST_REFRESH_ACTION.id:
-        // Fetch items
+      case listMenu.LIST_ACTION_REFRESH.id:
+        this.store.dispatch(inventoryItemsAsyncReadActions.forceFetchItems());
+        break;
+      case listMenu.LIST_ACTION_REMOVE.id:
+        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe(() => {
+          this.store.dispatch(inventoryAllItemsActions.remove());
+        });
         break;
     }
   }
 
-  onItemClick(itemId: string) {
-    console.log('onItemClick', itemId);
+  onCategoryAction(category: string, action: string) {
+    switch (action) {
+      case categoryMenu.CATEGORY_ACTION_REMOVE.id:
+        this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe(() => {
+          this.store.dispatch(inventoryCategoryActions.remove({ category }));
+        });
+        break;
+    }
+  }
+
+  onItemAction({ itemId, action }: ItemActionOutput) {
+    switch(action) {
+      case itemMenu.ITEM_ACTION_EDIT.id:
+        // TODO
+        this.showEditItemModal(itemId);
+        break;
+      case itemMenu.ITEM_ACTION_REMOVE.id:
+        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
+          this.store.dispatch(inventoryItemActions.remove({ itemId }));
+        });
+        break;
+    }
+  }
+
+  onShowCreateItemModal(): void {
+    const title = 'Create item'; // TODO: Translate
+    const modalInput: InventoryItemFormModalInput = { title, item: null };
+    this.modal.open(InventoryItemFormModalComponent, modalInput);
+  }
+
+  onPinCategory(category: string, isPinned: boolean) {
+    if (isPinned) {
+      this.store.dispatch(inventoryFilterActions.setCategoryFilter({ category }));
+    } else {
+      this.store.dispatch(inventoryFilterActions.clearCategoryFilter());
+    }
+  }
+
+  onRemoveFilter(filter: InventoryFilterToken) {
+    const name = filter.key;
+    this.store.dispatch(inventoryFilterActions.clearFilterByName({ name }));
+  }
+
+  trackByCategory(index: number, group: CategorizedInventoryItems): string {
+    return group.category;
+  }
+
+  private initPageMetadata(): void {
+    this.layout.setTitle('Inventory'); // TODO: Translate
+    this.store.dispatch(setCurrentTitle({ title: 'Inventory - Pandivia' })); // TODO: Translate
+    this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_INVENTORY.id }));
+  }
+
+  private confirmPrompt(
+    input: ConfirmPromptModalInput,
+  ): Observable<ConfirmPromptModalOutput> {
+    return this.modal.open(ConfirmPromptModalComponent, input).closed();
+  }
+
+  private showEditItemModal(itemId: string): void {
+    this.findItemById(itemId).subscribe(item => {
+      const title = 'Edit item'; // TODO: Translate
+      const modalInput: InventoryItemFormModalInput = { item, title };
+      this.modal.open(InventoryItemFormModalComponent, modalInput);
+    });
+  }
+
+  private findItemById(itemId: string): Observable<InventoryItem> {
+
+    const item$ = this.store.select(selectInventoryItemById(itemId)).pipe(take(1));
+
+    return item$.pipe(switchMap(item => item
+      ? of(item)
+      : throwError(() => Error(`Item with id ${itemId} not found`))
+    ));
   }
 }

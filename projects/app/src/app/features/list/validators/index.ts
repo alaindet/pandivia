@@ -1,1 +1,1 @@
-export * from './unique-item-name-validator';
+export * from './unique-list-item-name-validator';

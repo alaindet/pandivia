@@ -1,0 +1,172 @@
+<ng-container *appModalHeader>
+  <h2>{{ modal.data.title }}</h2>
+</ng-container>
+
+<form [formGroup]="theForm" (ngSubmit)="onSubmit()" autocomplete="off">
+
+  <!-- Name -->
+  <!-- TODO: Translate -->
+  <app-form-field id="item-name">
+
+    <app-form-field-label isRequired>
+      Name
+    </app-form-field-label>
+
+    <app-text-input
+      #nameRef="app-text-input"
+      id="item-name"
+      type="text"
+      [formControlName]="FIELD.NAME"
+      [status]="!fName.touched ? undefined : (fName.valid ? 'success' : 'error')"
+      [placeholder]="'Name...'"
+      [withStatusIcon]="true"
+      [withErrorId]="fName.valid ? null
+        : fName.hasError('required') ? 'item-name-required'
+        : (fName.hasError('minlength') || fName.hasError('maxlength')) ? 'item-name-length'
+        : fName.hasError('uniqueItemName') ? 'item-item-unique-name'
+        : null"
+    ></app-text-input>
+
+    <app-form-field-error
+      *ngIf="fName.hasError('required')"
+      errorId="item-name-required"
+    >
+      Required
+    </app-form-field-error>
+
+    <app-form-field-error
+      *ngIf="fName.hasError('minlength') || fName.hasError('maxlength')"
+      errorId="item-name-length"
+    >
+      Enter between 2 and 100 characters
+    </app-form-field-error>
+
+    <app-form-field-error
+      *ngIf="fName.hasError('uniqueItemName')"
+      errorId="item-unique-name"
+    >
+      This name already exists
+    </app-form-field-error>
+
+  </app-form-field>
+
+  <!-- Description -->
+  <!-- TODO: Translate -->
+  <app-form-field id="item-desc">
+
+    <app-form-field-label>
+      Description
+    </app-form-field-label>
+
+    <app-textarea
+      id="item-desc"
+      [rows]="4"
+      [formControlName]="FIELD.DESCRIPTION"
+      [status]="!fDesc.touched ? undefined : (fDesc.valid ? 'success' : 'error')"
+      [placeholder]="'Description...'"
+      [withCharsCounter]="true"
+      [maxChars]="100"
+      [withStatusIcon]="true"
+      [withErrorId]="fDesc.valid ? null
+        : fDesc.hasError('required') ? 'item-desc-required'
+        : (fDesc.hasError('minlength') || fDesc.hasError('maxlength')) ? 'item-desc-length' : null"
+    ></app-textarea>
+
+    <app-form-field-error
+      *ngIf="fDesc.hasError('minlength') || fDesc.hasError('maxlength')"
+      errorId="item-desc-length"
+    >
+      Enter between 2 and 100 characters
+    </app-form-field-error>
+
+  </app-form-field>
+
+  <!-- Category -->
+  <!-- TODO: Translate -->
+  <app-form-field id="item-category">
+
+    <app-form-field-label>
+      Category
+    </app-form-field-label>
+
+    <app-text-input
+      #categoryRef="app-text-input"
+      id="item-category"
+      type="text"
+      [formControlName]="FIELD.CATEGORY"
+      [status]="!fCategory.touched ? undefined : (fCategory.valid ? 'success' : 'error')"
+      [placeholder]="'Category...'"
+      [withStatusIcon]="true"
+      [withErrorId]="fCategory.valid ? null
+        : (fCategory.hasError('minlength') || fCategory.hasError('maxlength')) ? 'item-category-length' : null"
+    ></app-text-input>
+
+    <app-autocomplete
+      [inputComponent]="categoryRef"
+      sourceType="async"
+      [filteringDelay]="100"
+      pickKey="label"
+      [showEmptyOptions]="false"
+      [asyncOptions]="categoryFieldOptions"
+      [minChars]="1"
+      width="16rem"
+      offsetY="0.5rem"
+      (confirmed)="onConfirmCategory($event)"
+    >
+      <ng-container *appAutocompleteOption="let option">
+        {{ option.label }}
+      </ng-container>
+    </app-autocomplete>
+
+    <app-form-field-error
+      *ngIf="fCategory.hasError('minlength') || fCategory.hasError('maxlength')"
+      errorId="item-category-length"
+    >
+      Enter between 2 and 100 characters
+    </app-form-field-error>
+
+  </app-form-field>
+
+</form>
+
+<ng-container *appModalFooter>
+  <div class="_footer">
+    <button
+      type="button"
+      appButton="ghost"
+      size="small"
+      (click)="onCancel()"
+    >
+      Cancel
+    </button>
+
+    <!-- Editing -->
+    <ng-container *ngIf="isEditing(); else createRef">
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        [disabled]="isSaving()"
+        (click)="onEdit()"
+      >
+      <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'edit' }}</mat-icon>
+        Edit
+      </button>
+    </ng-container>
+
+    <ng-template #createRef>
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        [disabled]="isSaving()"
+        (click)="onCreate()"
+      >
+        <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'add' }}</mat-icon>
+        Create
+      </button>
+    </ng-template>
+  </div>
+</ng-container>

@@ -79,11 +79,6 @@ export const selectListCategoriesByName = (category: string) => createSelector(
   },
 );
 
-// export const selectListCategorizedItems = createSelector(
-//   selectListFeature,
-//   state => groupItemsByCategory(state.items),
-// );
-
 export const selectListCategorizedFilteredItems = createSelector(
   selectListFeature,
   state => {

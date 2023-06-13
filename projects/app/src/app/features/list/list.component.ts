@@ -1,22 +1,21 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-
-import { MatIconModule } from '@angular/material/icon';
-import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
-import { StackedLayoutService } from '@app/common/layouts';
-import { CategorizedListItems, ListItem } from '@app/core';
-import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
-import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { Observable, combineLatest, of, startWith, switchMap, take, throwError } from 'rxjs';
-import * as categoryMenuAction from './category.contextual-menu';
-import { ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from './components/confirm-prompt-modal';
-import { ItemFormModalComponent, ItemFormModalInput, ItemFormModalOutput } from './components/item-form-modal';
+import { Store } from '@ngrx/store';
+import { MatIconModule } from '@angular/material/icon';
+
+import { CategorizedListItems, ListItem } from '@app/core';
+import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
+import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
+import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from '@app/common/components';
+import { StackedLayoutService } from '@app/common/layouts';
+import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import * as itemMenuAction from './item.contextual-menu';
-import * as listMenuAction from './list.contextual-menu';
 import { listAllItemsActions, listCategoryActions, listFilterActions, listItemActions, listItemsAsyncReadActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListIsDoneFilter, selectListItemAmount, selectListItemById } from './store';
 import { ListFilterToken } from './types';
+import * as listMenu from './contextual-menus/list';
+import * as categoryMenu from './contextual-menus/category';
+import * as itemMenu from './contextual-menus/item';
 
 const IMPORTS = [
   NgIf,
@@ -40,9 +39,8 @@ export class ListPageComponent implements OnInit {
   private layout = inject(StackedLayoutService);
   private modal = inject(ModalService);
 
-  CATEGORY_CONTEXTUAL_MENU = categoryMenuAction.CATEGORY_CONTEXTUAL_MENU;
-  getItemContextualMenu = itemMenuAction.getItemContextualMenu;
-  // getListContextualMenu = listMenuAction.getListContextualMenu;
+  CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
+  getItemContextualMenu = itemMenu.getItemContextualMenu;
 
   vm$ = combineLatest({
     itemGroups: this.store.select(selectListCategorizedFilteredItems),
@@ -58,27 +56,27 @@ export class ListPageComponent implements OnInit {
 
   onListAction(action: string) {
     switch (action) {
-      case listMenuAction.LIST_ACTION_REFRESH.id:
+      case listMenu.LIST_ACTION_REFRESH.id:
         this.store.dispatch(listItemsAsyncReadActions.forceFetchItems());
         break;
-      case listMenuAction.LIST_ACTION_COMPLETE.id:
+      case listMenu.LIST_ACTION_COMPLETE.id:
         this.store.dispatch(listAllItemsActions.complete());
         break;
-      case listMenuAction.LIST_ACTION_HIDE_COMPLETED.id:
+      case listMenu.LIST_ACTION_HIDE_COMPLETED.id:
         this.store.dispatch(listFilterActions.setDoneFilter({ isDone: true }));
         break;
-      case listMenuAction.LIST_ACTION_SHOW_COMPLETED.id:
+      case listMenu.LIST_ACTION_SHOW_COMPLETED.id:
         this.store.dispatch(listFilterActions.clearDoneFilter());
         break;
-      case listMenuAction.LIST_ACTION_UNDO.id:
+      case listMenu.LIST_ACTION_UNDO.id:
         this.store.dispatch(listAllItemsActions.undo());
         break;
-      case listMenuAction.LIST_ACTION_REMOVE_COMPLETED.id:
+      case listMenu.LIST_ACTION_REMOVE_COMPLETED.id:
         this.confirmPrompt(LIST_REMOVE_COMPLETED_PROMPT).subscribe(() => {
           this.store.dispatch(listAllItemsActions.removeCompleted());
         });
         break;
-      case listMenuAction.LIST_ACTION_REMOVE.id:
+      case listMenu.LIST_ACTION_REMOVE.id:
         this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe(() => {
           this.store.dispatch(listAllItemsActions.remove());
         });
@@ -88,18 +86,18 @@ export class ListPageComponent implements OnInit {
 
   onCategoryAction(category: string, action: string) {
     switch (action) {
-      case categoryMenuAction.CATEGORY_ACTION_COMPLETE.id:
+      case categoryMenu.CATEGORY_ACTION_COMPLETE.id:
         this.store.dispatch(listCategoryActions.complete({ category }));
         break;
-      case categoryMenuAction.CATEGORY_ACTION_UNDO.id:
+      case categoryMenu.CATEGORY_ACTION_UNDO.id:
         this.store.dispatch(listCategoryActions.undo({ category }));
         break;
-      case categoryMenuAction.CATEGORY_ACTION_REMOVE_COMPLETED.id:
+      case categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id:
         this.confirmPrompt(CATEGORY_REMOVE_COMPLETED_PROMPT).subscribe(() => {
           this.store.dispatch(listCategoryActions.removeCompleted({ category }));
         });
         break;
-      case categoryMenuAction.CATEGORY_ACTION_REMOVE.id:
+      case categoryMenu.CATEGORY_ACTION_REMOVE.id:
         this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe(() => {
           this.store.dispatch(listCategoryActions.remove({ category }));
         });
@@ -109,22 +107,22 @@ export class ListPageComponent implements OnInit {
 
   onItemAction({ itemId, action }: ItemActionOutput) {
     switch(action) {
-      case itemMenuAction.ITEM_ACTION_UNDO.id:
+      case itemMenu.ITEM_ACTION_UNDO.id:
         this.store.dispatch(listItemActions.undo({ itemId }));
         break;
-      case itemMenuAction.ITEM_ACTION_COMPLETE.id:
+      case itemMenu.ITEM_ACTION_COMPLETE.id:
         this.store.dispatch(listItemActions.complete({ itemId }));
         break;
-      case itemMenuAction.ITEM_ACTION_EDIT.id:
+      case itemMenu.ITEM_ACTION_EDIT.id:
         this.showEditItemModal(itemId);
         break;
-      case itemMenuAction.ITEM_ACTION_INCREMENT.id:
+      case itemMenu.ITEM_ACTION_INCREMENT.id:
         this.store.dispatch(listItemActions.increment({ itemId }));
         break;
-      case itemMenuAction.ITEM_ACTION_DECREMENT.id:
+      case itemMenu.ITEM_ACTION_DECREMENT.id:
         this.decrementOrRemove(itemId);
         break;
-      case itemMenuAction.ITEM_ACTION_REMOVE.id:
+      case itemMenu.ITEM_ACTION_REMOVE.id:
         this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe(() => {
           this.store.dispatch(listItemActions.remove({ itemId }));
         });
@@ -134,8 +132,8 @@ export class ListPageComponent implements OnInit {
 
   onShowCreateItemModal(): void {
     const title = 'Create item'; // TODO: Translate
-    const modalInput: ItemFormModalInput = { title, item: null };
-    this.modal.open(ItemFormModalComponent, modalInput);
+    const modalInput: ListItemFormModalInput = { title, item: null };
+    this.modal.open(ListItemFormModalComponent, modalInput);
   }
 
   onItemToggle({ itemId, isDone }: ItemToggledOutput) {
@@ -160,8 +158,8 @@ export class ListPageComponent implements OnInit {
   }
 
   private initPageMetadata(): void {
-    this.layout.setTitle('List');
-    this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' }));
+    this.layout.setTitle('List'); // TODO: Translate
+    this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' })); // TODO: Translate
     this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_LIST.id }));
   }
 
@@ -174,8 +172,8 @@ export class ListPageComponent implements OnInit {
   private showEditItemModal(itemId: string): void {
     this.findItemById(itemId).subscribe(item => {
       const title = 'Edit item'; // TODO: Translate
-      const modalInput: ItemFormModalInput = { item, title };
-      this.modal.open(ItemFormModalComponent, modalInput);
+      const modalInput: ListItemFormModalInput = { item, title };
+      this.modal.open(ListItemFormModalComponent, modalInput);
     });
   }
 
@@ -204,7 +202,7 @@ export class ListPageComponent implements OnInit {
 
   private initHeaderActions(): void {
     this.store.select(selectListIsDoneFilter).subscribe((isDoneFilter: boolean) => {
-      const actions = listMenuAction.getListContextualMenu(isDoneFilter);
+      const actions = listMenu.getListContextualMenu(isDoneFilter);
       this.layout.setHeaderActions(actions);
     });
 
