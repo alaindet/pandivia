@@ -5,11 +5,12 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
-import { InventoryItem, ListItem } from '@app/core';
-import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
+import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryItemsByName } from '@app/features/inventory/store';
+import { InventoryItem } from '@app/features/inventory';
 import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter } from '../../store';
+import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, LIST_ITEM_FORM_FIELD as FIELD, ListItemFormModalInput, ListItemFormModalOutput } from './types';
 

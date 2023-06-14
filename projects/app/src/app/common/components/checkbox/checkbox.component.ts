@@ -5,6 +5,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EventSource, OnceSource } from '@app/common/sources';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
 import { didInputChange, getRandomHash } from '@app/common/utils';
+import { CheckboxColor } from './types';
 
 const CHECKBOX_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -42,7 +43,7 @@ export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlV
   @Input() @HostBinding('class.-checked') @HostBinding('attr.aria-checked') checked = false;
   @Input() @HostBinding('style.--app-checkbox-size') size = '20px';
   @Input() @HostBinding('class.-disabled') isDisabled = false;
-  @Input() color: 'primary' | 'secondary' | 'tertiary' | 'black' = 'primary';
+  @Input() color: CheckboxColor = 'primary';
   @Input() isInteractable = true;
   @Input() @HostBinding('attr.aria-labelledby') ariaLabelledBy?: string;
 

@@ -1,8 +1,8 @@
-<div *ngIf="vm$ | async as vm" class="fab-large-container">
+<div class="fab-large-container">
 
   <!-- Filters -->
-  <ul *ngIf="vm.filters" class="_filters">
-    <li *ngFor="let filter of vm.filters">
+  <ul *ngIf="filters()" class="_filters">
+    <li *ngFor="let filter of filters()">
       <button
         type="button"
         appButton="secondary"
@@ -17,14 +17,15 @@
   </ul>
 
   <!-- Items -->
-  <ul *ngIf="vm.itemGroups.length" class="_cards">
-    <li *ngFor="let group of vm.itemGroups; trackBy: trackByCategory">
+  <ul *ngIf="itemGroups().length" class="_cards">
+    <li *ngFor="let group of itemGroups(); trackBy: trackByCategory">
       <app-card-list
         [title]="group.category"
         [items]="group.items"
         [listActions]="CATEGORY_CONTEXTUAL_MENU"
         [itemActionsFn]="getItemContextualMenu"
-        [isPinned]="vm.pinnedCategory === group.category"
+        [isPinned]="pinnedCategory() === group.category"
+        [checkboxColor]="uiCheckboxColor()"
         (listActionClicked)="onCategoryAction(group.category, $event)"
         (itemActionClicked)="onItemAction($event)"
         (itemToggled)="onItemToggle($event)"

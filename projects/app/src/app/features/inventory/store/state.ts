@@ -1,6 +1,5 @@
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
-import { InventoryItem } from '@app/core';
-import { INVENTORY_FILTER, InventoryFilters } from '../types';
+import { INVENTORY_FILTER, InventoryFilters, InventoryItem } from '../types';
 
 export type InventoryFeatureState = {
   items: InventoryItem[];

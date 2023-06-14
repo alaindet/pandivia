@@ -1,6 +1,5 @@
-import { ListItem } from '@app/core';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
-import { LIST_FILTER, ListFilters } from '../types';
+import { LIST_FILTER, ListFilters, ListItem } from '../types';
 
 export type ListFeatureState = {
   items: ListItem[];

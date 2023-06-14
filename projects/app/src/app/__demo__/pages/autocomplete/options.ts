@@ -1,3 +1,5 @@
+import { capitalize } from "@app/common/utils";
+
 export const OPTIONS: { id: string; word: string; }[] = [
   'accessories',
   'accessory',
@@ -1670,7 +1672,4 @@ export const OPTIONS: { id: string; word: string; }[] = [
   'zus',
 ]
 .filter(word => word.length > 2)
-.map(word => ({
-  id: word,
-  word: word[0].toUpperCase() + word.slice(1),
-}));
+.map(word => ({ id: word, word: capitalize(word) }));

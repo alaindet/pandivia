@@ -3,8 +3,8 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { groupItemsByCategory } from '@app/core/functions';
 import { INVENTORY_FEATURE_NAME, InventoryFeatureState } from './state';
 import { LOADING_STATUS } from '@app/common/types';
-import { CACHE_MAX_AGE, InventoryItem } from '@app/core';
-import { INVENTORY_FILTER, InventoryFilterToken } from '../types';
+import { CACHE_MAX_AGE } from '@app/core';
+import { INVENTORY_FILTER, InventoryFilterToken, InventoryItem } from '../types';
 
 const selectInventoryFeature = createFeatureSelector<InventoryFeatureState>(
   INVENTORY_FEATURE_NAME,

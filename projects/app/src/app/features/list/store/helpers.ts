@@ -1,16 +1,16 @@
 import { catchError, map, of } from 'rxjs';
 
 import { ListService } from '../services/list.service';
-import * as fromActions from './actions';
+import { listItemsAsyncReadActions } from './actions';
 import { ListFeatureState } from './state';
-import { ListItem } from '@app/core';
+import { ListItem } from '../types';
 
 export function fetchItemsHelper(listService: ListService) {
   return listService.getItems().pipe(
-    map(items => fromActions.listItemsAsyncReadActions.fetchItemsSuccess({ items })),
+    map(items => listItemsAsyncReadActions.fetchItemsSuccess({ items })),
     catchError(() => {
       const message = 'Could not fetch list items'; // TODO: Translate
-      return of(fromActions.listItemsAsyncReadActions.fetchItemsError({ message }));
+      return of(listItemsAsyncReadActions.fetchItemsError({ message }));
     })
   )
 }

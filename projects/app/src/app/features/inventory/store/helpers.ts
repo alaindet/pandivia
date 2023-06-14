@@ -3,12 +3,12 @@ import { catchError, map, of } from 'rxjs';
 
 import { LOADING_STATUS } from '@app/common/types';
 import { InventoryService } from '../services/inventory.service';
-import * as fromActions from './actions';
+import { inventoryItemsAsyncReadActions } from './actions';
 
 export function fetchItemsHelper(inventoryService: InventoryService) {
 
-  const onSuccess = fromActions.inventoryItemsAsyncReadActions.fetchItemsSuccess;
-  const onError = fromActions.inventoryItemsAsyncReadActions.fetchItemsError;
+  const onSuccess = inventoryItemsAsyncReadActions.fetchItemsSuccess;
+  const onError = inventoryItemsAsyncReadActions.fetchItemsError;
 
   return inventoryService.getItems().pipe(
     map(items => onSuccess({ items })),

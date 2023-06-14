@@ -1,4 +1,4 @@
-import { CreateListItemDto, ListItem } from '@app/core';
+import { CreateListItemDto, ListItem } from '../../types';
 
 export type ListItemFormModalInput = {
   title: string; // TODO: Translate

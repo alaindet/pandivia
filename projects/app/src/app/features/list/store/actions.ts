@@ -1,7 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { CreateListItemDto, ListItem } from '@app/core';
-import { ListFilter } from '../types';
+import { ListFilter, CreateListItemDto, ListItem } from '../types';
 
 export const listFilterActions = createActionGroup({
   source: 'List/Filters',

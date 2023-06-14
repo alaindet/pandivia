@@ -2,22 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
+import { Observable, combineLatest, of, switchMap, take, throwError } from 'rxjs';
 
 import { ACTIONS_MENU_EXPORTS, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
-import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { NAVIGATION_ITEM_INVENTORY } from '@app/core/constants/navigation';
 import { StackedLayoutService } from '@app/common/layouts';
-import * as listMenu from './contextual-menus/list';
+import { notificationsActions } from '@app/core';
+import { NAVIGATION_ITEM_INVENTORY } from '@app/core/constants/navigation';
+import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
+import { CreateListItemDto, ListItem } from '@app/features/list';
+import { listItemActions, selectListItemExistsWithName } from '../list/store';
+import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
+import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
-import { Observable, combineLatest, map, of, switchMap, take, throwError, withLatestFrom } from 'rxjs';
-import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryItemById } from './store';
-import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
-import { InventoryFilterToken } from './types';
-import { CategorizedInventoryItems, CreateListItemDto, InventoryItem, ListItem, notificationsActions } from '@app/core';
-import { listItemActions, selectListItemExistsWithName } from '../list/store';
+import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
+import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters } from './store';
+import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 
 const IMPORTS = [
   CommonModule,

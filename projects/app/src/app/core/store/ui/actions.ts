@@ -1,5 +1,6 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
 
+import { Theme } from '@app/core/theme';
 import { Notification } from '@app/common/types';
 import { BottomMenuItem } from '@app/common/components';
 
@@ -29,3 +30,11 @@ export const setCurrentTitle = createAction(
   '[UI/Title] Set current title',
   props<{ title: string }>(),
 );
+
+export const uiThemeActions = createActionGroup({
+  source: 'UI/Theme',
+  events: {
+    'Set Theme': props<{ theme: Theme }>(),
+    'Set Default Theme': emptyProps(),
+  },
+});

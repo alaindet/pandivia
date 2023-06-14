@@ -7,8 +7,8 @@ import { Observable, map } from 'rxjs';
 
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
-import { CreateInventoryItemDto, InventoryItem } from '@app/core';
 import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
+import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, INVENTORY_ITEM_FORM_FIELD as FIELD, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
 
 const IMPORTS = [

@@ -1,5 +1,5 @@
-import { InventoryItem } from '@app/core';
 import { ActionsMenuItem } from '@app/common/components';
+import { InventoryItem } from '../types';
 
 export const ITEM_ACTION_ADD_TO_LIST: ActionsMenuItem = {
   id: 'item:add-to-list',
