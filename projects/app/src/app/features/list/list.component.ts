@@ -1,13 +1,13 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { Observable, combineLatest, startWith, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 
-import { notificationsActions } from '@app/core';
+import { getThemeCheckboxColor, notificationsActions, selectUiTheme } from '@app/core';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
-import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput } from '@app/common/components';
+import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
@@ -17,6 +17,7 @@ import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import { findListItemById } from './functions';
+import { THEME } from '@app/core/types';
 
 const IMPORTS = [
   NgIf,
@@ -42,12 +43,11 @@ export class ListPageComponent implements OnInit {
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
   getItemContextualMenu = itemMenu.getItemContextualMenu;
-
-  vm$ = combineLatest({
-    itemGroups: this.store.select(selectListCategorizedFilteredItems),
-    filters: this.store.select(selectListFilters),
-    pinnedCategory: this.store.select(selectListCategoryFilter),
-  }).pipe(startWith(null));
+  itemGroups = this.store.selectSignal(selectListCategorizedFilteredItems);
+  filters = this.store.selectSignal(selectListFilters);
+  pinnedCategory = this.store.selectSignal(selectListCategoryFilter);
+  uiTheme = this.store.selectSignal(selectUiTheme);
+  uiCheckboxColor = computed<CheckboxColor>(() => getThemeCheckboxColor(this.uiTheme()));
 
   ngOnInit() {
     this.initPageMetadata();

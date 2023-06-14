@@ -6,7 +6,7 @@ import { ListItem } from '@app/features/list';
 import { InventoryItem } from '@app/features/inventory';
 import { didInputChange } from '@app/common/utils';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
-import { CheckboxComponent } from '../checkbox';
+import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
 import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
 
@@ -36,6 +36,7 @@ export class CardListComponent implements OnChanges {
   @Input({ required: true }) items!: ListItem[] | InventoryItem[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
   @Input() @HostBinding('class.-selectable') isSelectable = true;
+  @Input() checkboxColor: CheckboxColor = 'black';
   @Input() isPinned = false;
 
   @Output() listActionClicked = new EventEmitter<string>();

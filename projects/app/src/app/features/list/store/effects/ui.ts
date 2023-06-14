@@ -2,7 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 
 import { createUiController } from '@app/core/store/ui';
-import * as fromActions from '../actions';
+import {
+  listItemsAsyncReadActions,
+  listAllItemsActions,
+  listCategoryActions,
+  listItemActions,
+  listItemsAsyncWriteActions,
+  listItemAsyncWriteActions,
+} from '../actions';
 
 @Injectable()
 export class ListUiEffects {
@@ -11,55 +18,55 @@ export class ListUiEffects {
   private ui = createUiController(this.actions);
 
   startLoader$ = this.ui.startLoaderOn(
-    fromActions.listItemsAsyncReadActions.fetchItems,
-    fromActions.listItemsAsyncReadActions.forceFetchItems,
+    listItemsAsyncReadActions.fetchItems,
+    listItemsAsyncReadActions.forceFetchItems,
 
-    fromActions.listAllItemsActions.complete,
-    fromActions.listAllItemsActions.undo,
-    fromActions.listAllItemsActions.removeCompleted,
-    fromActions.listAllItemsActions.remove,
+    listAllItemsActions.complete,
+    listAllItemsActions.undo,
+    listAllItemsActions.removeCompleted,
+    listAllItemsActions.remove,
 
-    fromActions.listCategoryActions.complete,
-    fromActions.listCategoryActions.undo,
-    fromActions.listCategoryActions.removeCompleted,
-    fromActions.listCategoryActions.remove,
+    listCategoryActions.complete,
+    listCategoryActions.undo,
+    listCategoryActions.removeCompleted,
+    listCategoryActions.remove,
 
-    fromActions.listItemActions.complete,
-    fromActions.listItemActions.create,
-    fromActions.listItemActions.decrement,
-    fromActions.listItemActions.edit,
-    fromActions.listItemActions.increment,
-    fromActions.listItemActions.remove,
-    fromActions.listItemActions.toggle,
-    fromActions.listItemActions.undo,
+    listItemActions.complete,
+    listItemActions.create,
+    listItemActions.decrement,
+    listItemActions.edit,
+    listItemActions.increment,
+    listItemActions.remove,
+    listItemActions.toggle,
+    listItemActions.undo,
   );
 
   stopLoader$ = this.ui.stopLoaderOn(
-    fromActions.listItemsAsyncReadActions.fetchItemsSuccess,
-    fromActions.listItemsAsyncReadActions.fetchItemsError,
-    fromActions.listItemsAsyncReadActions.fetchItemsCached,
+    listItemsAsyncReadActions.fetchItemsSuccess,
+    listItemsAsyncReadActions.fetchItemsError,
+    listItemsAsyncReadActions.fetchItemsCached,
 
-    fromActions.listItemsAsyncWriteActions.editSuccess,
-    fromActions.listItemsAsyncWriteActions.editError,
-    fromActions.listItemsAsyncWriteActions.removeSuccess,
-    fromActions.listItemsAsyncWriteActions.removeError,
+    listItemsAsyncWriteActions.editSuccess,
+    listItemsAsyncWriteActions.editError,
+    listItemsAsyncWriteActions.removeSuccess,
+    listItemsAsyncWriteActions.removeError,
 
-    fromActions.listItemAsyncWriteActions.createSuccess,
-    fromActions.listItemAsyncWriteActions.createError,
-    fromActions.listItemAsyncWriteActions.editSuccess,
-    fromActions.listItemAsyncWriteActions.editError,
-    fromActions.listItemAsyncWriteActions.removeSuccess,
-    fromActions.listItemAsyncWriteActions.removeError,
+    listItemAsyncWriteActions.createSuccess,
+    listItemAsyncWriteActions.createError,
+    listItemAsyncWriteActions.editSuccess,
+    listItemAsyncWriteActions.editError,
+    listItemAsyncWriteActions.removeSuccess,
+    listItemAsyncWriteActions.removeError,
   );
 
   showError$ = this.ui.showErrorOn(
-    fromActions.listItemsAsyncReadActions.fetchItemsError,
+    listItemsAsyncReadActions.fetchItemsError,
 
-    fromActions.listItemsAsyncWriteActions.editError,
-    fromActions.listItemsAsyncWriteActions.removeError,
+    listItemsAsyncWriteActions.editError,
+    listItemsAsyncWriteActions.removeError,
 
-    fromActions.listItemAsyncWriteActions.createError,
-    fromActions.listItemAsyncWriteActions.editError,
-    fromActions.listItemAsyncWriteActions.removeError,
+    listItemAsyncWriteActions.createError,
+    listItemAsyncWriteActions.editError,
+    listItemAsyncWriteActions.removeError,
   );
 }

@@ -1,14 +1,15 @@
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { MatIconModule } from '@angular/material/icon';
 import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
-import { notificationsActions, selectNotification, selectUiIsLoading } from './core/store';
+import { notificationsActions, selectNotification, selectUiIsLoading, selectUiTheme } from './core/store';
 
 const IMPORTS = [
   NgIf,
+  NgClass,
   AsyncPipe,
   RouterOutlet,
   NotificationsHostComponent,
@@ -28,9 +29,11 @@ const IMPORTS = [
 export class AppComponent implements OnInit {
 
   private store = inject(Store);
+  private uiTheme = this.store.selectSignal(selectUiTheme);
 
   loading = false;
   notification$ = this.store.select(selectNotification);
+  cssTheme = computed(() => `-theme-${this.uiTheme()}`);
 
   ngOnInit() {
     // This guarantees no NG0100 error happens

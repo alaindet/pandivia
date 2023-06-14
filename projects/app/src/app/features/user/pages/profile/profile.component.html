@@ -1,1 +1,13 @@
-<p>User profile page</p>
+<h2>You</h2>
+<p>{{ email() }}</p>
+
+<h2>Theme</h2>
+<app-select
+  id="theme-switcher"
+  [options]="themeOptions()"
+  [value]="theme()"
+  (selected)="onThemeSelected($event)"
+></app-select>
+
+<h2>Language</h2>
+<p>TODO...</p>

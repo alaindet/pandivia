@@ -2,3 +2,4 @@
 - [ ] Implement @angular/localize
 - [ ] Persist user preferences into localStorage
 - [ ] Add global UserPreferencesService, NotificationService, AuthService, LanguageService
+- [ ] Add ThemeService to persist theme

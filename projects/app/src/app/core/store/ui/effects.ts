@@ -5,8 +5,8 @@ import { filter, map, switchMap, tap, timer, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { NOTIFICATION_TIMEOUT } from '@app/core/constants';
-import * as fromActions from './actions';
 import { selectNotificationsExist } from './selectors';
+import { notificationsActions, setCurrentTitle } from './actions';
 
 @Injectable()
 export class UiNotificationsEffects {
@@ -17,20 +17,20 @@ export class UiNotificationsEffects {
 
   autoDismiss$ = createEffect(() => this.actions.pipe(
     ofType(
-      fromActions.notificationsActions.addSuccess,
-      fromActions.notificationsActions.addError,
-      fromActions.notificationsActions.dismiss,
+      notificationsActions.addSuccess,
+      notificationsActions.addError,
+      notificationsActions.dismiss,
     ),
     withLatestFrom(this.store.select(selectNotificationsExist)),
     filter(([_, exist]) => exist),
     switchMap(() => timer(NOTIFICATION_TIMEOUT)), // <-- Wait here
     withLatestFrom(this.store.select(selectNotificationsExist)),
     filter(([_, exist]) => exist),
-    map(() => fromActions.notificationsActions.dismiss()),
+    map(() => notificationsActions.dismiss()),
   ));
 
   pageTitle$ = createEffect(() => this.actions.pipe(
-    ofType(fromActions.setCurrentTitle),
+    ofType(setCurrentTitle),
     tap(action => this.title.setTitle(action.title)),
   ), { dispatch: false });
 }
