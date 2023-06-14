@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { BottomMenuItem } from '@app/common/components';
 import { BACK_BUTTON_STATUS } from '@app/common/types';
 import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layouts';
-import { NAVIGATION_ROUTES } from '../../constants';
+import { NAVIGATION_ROUTES } from '../../navigation';
 import { selectNavigation } from '../../store';
 
 const IMPORTS = [
@@ -25,7 +25,7 @@ const IMPORTS = [
   providers: [StackedLayoutService],
 })
 export class LoggedPageCollectionComponent {
-  
+
   layout = inject(StackedLayoutService);
   private router = inject(Router);
   private store = inject(Store);

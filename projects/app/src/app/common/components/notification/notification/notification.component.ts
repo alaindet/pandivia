@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { NOTIFICATION_TYPE, NotificationType } from '@app/common/types';
 import { didInputChange } from '@app/common/utils';
-import { NOTIFICATION_TIMEOUT } from '@app/core/constants';
+import { NOTIFICATION_TIMEOUT } from '@app/core/notification';
 
 const NOTIFICATION_ICON: { [key in NotificationType]: string } = {
   [NOTIFICATION_TYPE.SUCCESS]: 'check_circle',

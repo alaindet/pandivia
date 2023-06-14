@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { getThemeCheckboxColor, notificationsActions, selectUiTheme } from '@app/core';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
-import { NAVIGATION_ITEM_LIST } from '@app/core/constants/navigation';
+import { NAVIGATION_ITEM_LIST } from '@app/core/navigation';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';

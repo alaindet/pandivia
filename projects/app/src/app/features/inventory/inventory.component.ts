@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 import { Observable, combineLatest, of, switchMap, take, throwError } from 'rxjs';
 
 import { ACTIONS_MENU_EXPORTS, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
+import { notificationsActions } from '@app/core/store';
+import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
 import { StackedLayoutService } from '@app/common/layouts';
-import { notificationsActions } from '@app/core';
-import { NAVIGATION_ITEM_INVENTORY } from '@app/core/constants/navigation';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
 import { CreateListItemDto, ListItem } from '@app/features/list';
 import { listItemActions, selectListItemExistsWithName } from '../list/store';
@@ -187,17 +187,17 @@ export class InventoryPageComponent implements OnInit {
       .subscribe({
         error: message => this.store.dispatch(notificationsActions.addError({ message })),
         next: inventoryItem => {
-    
+
           const dto: CreateListItemDto = {
             category: inventoryItem?.category ?? '',
             name: inventoryItem.name,
             amount: 1,
           };
-    
+
           if (inventoryItem.description) {
             dto.description = inventoryItem.description;
           }
-    
+
           this.store.dispatch(listItemActions.create({ dto }));
         },
       });

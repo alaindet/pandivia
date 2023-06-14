@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { filter, map, switchMap, tap, timer, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { NOTIFICATION_TIMEOUT } from '@app/core/constants';
+import { NOTIFICATION_TIMEOUT } from '@app/core/notification';
 import { selectNotificationsExist } from './selectors';
 import { notificationsActions, setCurrentTitle } from './actions';
 

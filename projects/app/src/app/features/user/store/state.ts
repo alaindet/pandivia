@@ -1,5 +1,5 @@
 import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
-import { DEFAULT_LANGUAGE, AVAILABLE_LANGUAGES } from '@app/core';
+import { DEFAULT_LANGUAGE, AVAILABLE_LANGUAGES } from '@app/core/language';
 
 export type UserFeatureState = {
   email: string | null;
