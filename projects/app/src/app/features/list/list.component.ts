@@ -1,6 +1,6 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
-import { Observable, combineLatest, startWith, take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -17,7 +17,6 @@ import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import { findListItemById } from './functions';
-import { THEME } from '@app/core/types';
 
 const IMPORTS = [
   NgIf,

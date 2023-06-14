@@ -1,8 +1,8 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
 
+import { Theme } from '@app/core/theme';
 import { Notification } from '@app/common/types';
 import { BottomMenuItem } from '@app/common/components';
-import { Theme } from '@app/core/types';
 
 export const notificationsActions = createActionGroup({
   source: 'UI/Notifications',

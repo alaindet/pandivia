@@ -2,6 +2,7 @@ import { createReducer } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
 
 import { NOTIFICATION_TYPE } from '@app/common/types';
+import { DEFAULT_THEME } from '@app/core/theme';
 import { UI_FEATURE_INITIAL_STATE } from './state';
 import {
   notificationsActions,
@@ -10,7 +11,6 @@ import {
   setCurrentTitle,
   uiThemeActions,
 } from './actions';
-import { DEFAULT_THEME } from '@app/core/constants';
 
 export const uiReducer = createReducer(
   UI_FEATURE_INITIAL_STATE,

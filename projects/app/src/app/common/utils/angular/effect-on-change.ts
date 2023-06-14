@@ -1,7 +1,7 @@
 import { Signal, effect } from '@angular/core';
 
 export function effectOnChange<T = any>(
-  signal: Signal<T>,
+  watchedSignal: Signal<T>,
   callback: (data: T) => void,
 ): void {
   let firstChange = true;
@@ -9,14 +9,14 @@ export function effectOnChange<T = any>(
   effect(() => {
 
     // Create dependency on signal
-    signal();
+    watchedSignal();
 
-    // Skip first automatic trigger with default value
+    // Skip first automatic trigger
     if (firstChange) {
       firstChange = false;
       return;
     }
 
-    callback(signal());
+    callback(watchedSignal());
   });
 }

@@ -1,5 +1,4 @@
-import { Theme } from '@app/core/types';
-import { AVAILABLE_THEMES, DEFAULT_THEME } from '@app/core/constants';
+import { AVAILABLE_THEMES, DEFAULT_THEME, Theme } from '@app/core/theme';
 import { NAVIGATION_ITEMS } from '@app/core/constants/navigation';
 import { BottomMenuItem } from '@app/common/components';
 import { Notification } from '@app/common/types';
