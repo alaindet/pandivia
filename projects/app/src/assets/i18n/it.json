@@ -1,0 +1,4 @@
+{
+  "hello": "Ciao!",
+  "helloPerson": "Ciao, {{ person }}!"
+}

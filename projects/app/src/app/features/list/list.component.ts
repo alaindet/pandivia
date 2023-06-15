@@ -3,6 +3,7 @@ import { Component, OnInit, computed, inject } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { getThemeCheckboxColor, notificationsActions, selectUiTheme } from '@app/core';
 import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
@@ -25,6 +26,7 @@ const IMPORTS = [
   CardListComponent,
   ButtonComponent,
   MatIconModule,
+  TranslocoModule,
 ];
 
 @Component({

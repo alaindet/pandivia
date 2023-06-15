@@ -1,4 +1,5 @@
 export * from './cache';
+export * from './config';
 export * from './functions';
 export * from './language';
 export * from './navigation';

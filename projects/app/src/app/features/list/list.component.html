@@ -1,5 +1,19 @@
 <div class="fab-large-container">
 
+  <!-- TODO: Remove -->
+  <section>
+    <section>
+      <h2>With pipe</h2>
+      <p>A static translation: {{ 'hello' | transloco }}</p>
+      <p>A static translation: {{ 'helloPerson' | transloco:{person:'Alain'} }}</p>
+    </section>
+    <section *transloco="let t">
+      <h2>With directive</h2>
+      <p>A static translation: {{ t('hello') }}</p>
+      <p>A static translation: {{ t('helloPerson', {person:'Alain'}) }}</p>
+    </section>
+  </section>
+
   <!-- Filters -->
   <ul *ngIf="filters()" class="_filters">
     <li *ngFor="let filter of filters()">
@@ -39,7 +53,7 @@
     appButton
     isCircle
     withIconOnly
-    size="large" 
+    size="large"
     floating="fixed"
     floatingBottom="4.7rem"
     floatingRight="1.1rem"
