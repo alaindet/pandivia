@@ -5,7 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SelectComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
 
-const IMPORTS = [
+const imports = [
   JsonPipe,
   ReactiveFormsModule,
   SelectComponent,
@@ -14,7 +14,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-select',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './select.component.html',
 })
 export class SelectDemoPageComponent {

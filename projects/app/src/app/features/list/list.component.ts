@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { getThemeCheckboxColor, notificationsActions, selectUiTheme } from '@app/core';
-import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
+import { getThemeCheckboxColor, uiNotificationsActions, selectUiTheme } from '@app/core';
+import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/navigation';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
@@ -19,7 +19,7 @@ import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import { findListItemById } from './functions';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgFor,
   AsyncPipe,
@@ -32,7 +32,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-list-page',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
@@ -166,8 +166,9 @@ export class ListPageComponent implements OnInit {
 
   private initPageMetadata(): void {
     this.layout.setTitle('List'); // TODO: Translate
-    this.store.dispatch(setCurrentTitle({ title: 'List - Pandivia' })); // TODO: Translate
-    this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_LIST.id }));
+    this.store.dispatch(uiSetPageTitle({ title: 'List - Pandivia' })); // TODO: Translate
+    const current = NAVIGATION_ITEM_LIST.id;
+    this.store.dispatch(uiNavigationActions.setCurrent({ current }));
   }
 
   private confirmPrompt(
@@ -180,7 +181,7 @@ export class ListPageComponent implements OnInit {
     findListItemById(this.store, itemId).subscribe({
       error: err => {
         const message = err;
-        this.store.dispatch(notificationsActions.addError({ message }));
+        this.store.dispatch(uiNotificationsActions.addError({ message }));
       },
       next: item => {
         const title = 'Edit item'; // TODO: Translate

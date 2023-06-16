@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 import { FORM_FIELD_EXPORTS, TextareaComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   ReactiveFormsModule,
   JsonPipe,
@@ -15,7 +15,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-textarea',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './textarea.component.html',
 })
 export class TextareaDemoPageComponent {

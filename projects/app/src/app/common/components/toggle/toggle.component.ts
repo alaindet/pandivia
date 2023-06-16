@@ -5,7 +5,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cssClassesList, getRandomHash } from '@app/common/utils';
 import { TOGGLE_LABEL_POSITION, ToggleLabelPosition } from './types';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgTemplateOutlet,
 ];
@@ -19,7 +19,7 @@ const TOGGLE_FORM_PROVIDER: Provider = {
 @Component({
   selector: 'app-toggle',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './toggle.component.html',
   styleUrls: ['./toggle.component.scss'],
   providers: [TOGGLE_FORM_PROVIDER],

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
 ];
 
@@ -18,7 +18,7 @@ type SwatchesCollection = {
 @Component({
   selector: 'app-demo-color-swatches',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './color-swatches.component.html',
   styleUrls: ['./color-swatches.component.scss'],
 })

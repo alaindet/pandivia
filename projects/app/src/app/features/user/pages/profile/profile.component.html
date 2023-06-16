@@ -6,7 +6,7 @@
   id="theme-switcher"
   [options]="theme.options()"
   [value]="theme.current()"
-  (selected)="theme.change($event)"
+  (selected)="theme.set($event)"
 ></app-select>
 
 <h2>Language</h2>

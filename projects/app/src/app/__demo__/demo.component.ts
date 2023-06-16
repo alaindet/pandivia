@@ -10,7 +10,7 @@ import { DemoNavigationMenuComponent } from './components/navigation-menu/naviga
 import { DEMO_PAGES } from './routes';
 import { DEMO_VERSION } from './version';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   RouterModule,
   DemoLayoutComponent,
@@ -21,7 +21,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   template: `
     <app-demo-layout>
 

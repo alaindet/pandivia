@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-const IMPORTS = [
+const imports = [
   MatIconModule,
 ];
 
 @Component({
   selector: 'app-bottom-menu-item',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './bottom-menu-item.component.html',
   styleUrls: ['./bottom-menu-item.component.scss'],
   host: {

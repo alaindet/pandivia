@@ -21,7 +21,7 @@ export class ThemeService {
     this.listenToThemeChange();
   }
 
-  change(_theme: string | null) {
+  set(_theme: string | null) {
 
     if (_theme === null) {
       this.store.dispatch(uiThemeActions.setDefaultTheme());
@@ -34,13 +34,11 @@ export class ThemeService {
 
   private initThemeFromStorage(): void {
     const theme = this.fetchFromStorage() ?? DEFAULT_THEME;
-    console.log('Initializing theme from storage'); // TODO: Translate
     this.store.dispatch(uiThemeActions.setTheme({ theme }));
   }
 
   private listenToThemeChange(): void {
     effectOnChange(this.current, theme => {
-      console.log('Theme changed, saving to storage'); // TODO: Translate
       this.saveToStorage(theme);
     });
   }

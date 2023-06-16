@@ -6,9 +6,9 @@ import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
 import { ThemeService } from './core';
-import { notificationsActions, selectNotification, selectUiIsLoading } from './core/store';
+import { uiNotificationsActions, selectNotification, selectUiIsLoading } from './core/store';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgClass,
   AsyncPipe,
@@ -23,7 +23,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -44,6 +44,6 @@ export class AppComponent implements OnInit {
   }
 
   onDismissNotification() {
-    this.store.dispatch(notificationsActions.dismiss());
+    this.store.dispatch(uiNotificationsActions.dismiss());
   }
 }

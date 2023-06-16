@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 import { TextInputComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   ReactiveFormsModule,
   JsonPipe,
@@ -14,7 +14,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-text-input',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './text-input.component.html',
 })
 export class TextInputDemoPageComponent {

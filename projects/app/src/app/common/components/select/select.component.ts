@@ -11,7 +11,7 @@ const SELECT_FORM_PROVIDER: Provider = {
 	multi: true,
 };
 
-const IMPORTS = [
+const imports = [
   NgFor,
   NgIf,
   AsyncPipe,
@@ -20,7 +20,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-select',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
   host: { class: 'app-select' },

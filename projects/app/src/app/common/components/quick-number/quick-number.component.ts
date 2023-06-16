@@ -12,7 +12,7 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   multi: true,
 };
 
-const IMPORTS = [
+const imports = [
   NgIf,
   AsyncPipe,
   MatIconModule,
@@ -23,7 +23,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-quick-number',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './quick-number.component.html',
   styleUrls: ['./quick-number.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -68,7 +68,7 @@ export class QuickNumberComponent implements OnChanges, OnInit, ControlValueAcce
     if (this.isDisabled) return;
     this.value.update(value => value - 1);
   }
-  
+
   // @publicApi
   increment() {
     if (this.isDisabled) return;

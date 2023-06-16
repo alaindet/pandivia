@@ -4,7 +4,7 @@ import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { FormFieldContextService } from '../../context.service';
 import { asBoolean } from '@app/common/utils';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   AsyncPipe,
 ];
@@ -12,7 +12,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-form-field-label',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-form-field-label' },
   template: `

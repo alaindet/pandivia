@@ -4,7 +4,7 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 
 import { QuantityInputComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   JsonPipe,
   ReactiveFormsModule,
   QuantityInputComponent,
@@ -13,7 +13,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-quantity-input',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './quantity-input.component.html',
 })
 export class QuantityInputDemoPageComponent {

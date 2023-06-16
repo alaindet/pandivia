@@ -7,7 +7,7 @@ import { TextInputComponent, FormFieldComponent, AutocompleteAsyncOptionsFn, Aut
 import { AUTOCOMPLETE_EXPORTS } from '@app/common/components/autocomplete';
 import { OPTIONS } from './options';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   ReactiveFormsModule,
   JsonPipe,
@@ -20,7 +20,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-autocomplete',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './autocomplete.component.html',
 })
 export class AutocompleteDemoPageComponent {

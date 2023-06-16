@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 
 import { BottomMenuComponent, BottomMenuItem, BottomMenuItemComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   BottomMenuComponent,
   BottomMenuItemComponent,
@@ -12,7 +12,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-bottom-navigation',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './bottom-menu.component.html',
   styleUrls: ['./bottom-menu.component.scss'],
 })

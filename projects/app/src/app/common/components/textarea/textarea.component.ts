@@ -13,7 +13,7 @@ const TEXTAREA_FORM_PROVIDER: Provider = {
 	multi: true,
 };
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgSwitch,
   NgSwitchCase,
@@ -25,7 +25,7 @@ const IMPORTS = [
   selector: 'app-textarea',
   exportAs: 'app-textarea',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
   encapsulation: ViewEncapsulation.None,

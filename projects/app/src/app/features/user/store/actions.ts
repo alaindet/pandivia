@@ -1,18 +1,22 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { UserCredentials } from '../types';
+import { Language } from '@app/core';
 
 export const loginActions = createActionGroup({
-  source: 'User',
+  source: 'User/Login',
   events: {
-    'Login' : props<{ credentials: UserCredentials }>(),
-    'Login success': props<{ payload: any }>(), // TODO
-    'Login error': props<{ error: string }>(),
-    'Logout': emptyProps(),
+    login : props<{ credentials: UserCredentials }>(),
+    loginSuccess: props<{ payload: any }>(), // TODO
+    loginError: props<{ error: string }>(),
+    logout: emptyProps(),
   },
 });
 
-export const setLanguage = createAction(
-  '[User] Set language',
-  props<{ language: string }>(),
-);
+export const userLanguageActions = createActionGroup({
+  source: 'User/Language',
+  events: {
+    setLanguage: props<{ language: Language }>(),
+    setDefaultLanguage: emptyProps(),
+  },
+});

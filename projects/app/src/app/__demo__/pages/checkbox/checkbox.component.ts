@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 import { ButtonComponent, CheckboxComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   ReactiveFormsModule,
   CheckboxComponent,
@@ -15,7 +15,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-checkbox',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './checkbox.component.html',
   styles: [`
     .demo-cases {

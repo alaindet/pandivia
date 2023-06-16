@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseModalComponent, ModalFooterDirective, ModalHeaderDirective } from '../modal';
 import { ConfirmPromptModalInput, ConfirmPromptModalOutput } from './types';
 
-const IMPORTS = [
+const imports = [
   ModalHeaderDirective,
   ModalFooterDirective,
 ];
@@ -11,7 +11,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-confirm-prompt-modal',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './confirm-prompt-modal.component.html',
 })
 export class ConfirmPromptModalComponent extends BaseModalComponent<

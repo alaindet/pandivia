@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 import { QuickNumberComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   JsonPipe,
   ReactiveFormsModule,
   QuickNumberComponent,
@@ -13,7 +13,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-quick-number',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './quick-number.component.html',
 })
 export class QuickNumberDemoPageComponent {

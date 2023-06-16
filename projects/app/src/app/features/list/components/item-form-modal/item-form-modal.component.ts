@@ -14,7 +14,7 @@ import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, LIST_ITEM_FORM_FIELD as FIELD, ListItemFormModalInput, ListItemFormModalOutput } from './types';
 
-const IMPORTS = [
+const imports = [
   MatIconModule,
   NgIf,
   ReactiveFormsModule,
@@ -33,7 +33,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-list-item-form-modal',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './item-form-modal.component.html',
   styleUrls: ['./item-form-modal.component.scss'],
 })

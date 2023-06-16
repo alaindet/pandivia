@@ -7,7 +7,7 @@ import { ModalService } from '../modal.service';
 import { OnceSource } from '@app/common/sources';
 import { createModalKeyboardController } from './keyboard.controller';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   ButtonComponent,
   MatIconModule,
@@ -16,7 +16,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-modal-host',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './modal-host.component.html',
   styleUrls: ['./modal-host.component.scss'],
   encapsulation: ViewEncapsulation.None,

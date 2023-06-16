@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 
 import { ButtonComponent, LinearSpinnerComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   LinearSpinnerComponent,
   ButtonComponent,
@@ -12,7 +12,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-linear-spinner',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './linear-spinner.component.html',
 })
 export class LinearSpinnerDemoPageComponent {

@@ -4,14 +4,14 @@ import { CardListComponent, ItemActionOutput, ItemToggledOutput } from '@app/com
 import { MOCK_INVENTORY_ITEMS, MOCK_LIST_ITEMS } from '@app/mocks';
 import { ITEM_ACTION_DELETE, ITEM_ACTION_TICK, ITEM_ACTION_UNDO, LIST_ACTIONS, LIST_ACTION_DELETE, LIST_ACTION_TICK, getItemContextualMenu } from './actions';
 
-const IMPORTS = [
+const imports = [
   CardListComponent,
 ];
 
 @Component({
   selector: 'app-demo-card-list',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './card-list.component.html',
 })
 export class CardListDemoPageComponent {

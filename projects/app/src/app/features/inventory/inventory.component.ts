@@ -5,10 +5,10 @@ import { Store } from '@ngrx/store';
 import { Observable, combineLatest, of, switchMap, take, throwError } from 'rxjs';
 
 import { ACTIONS_MENU_EXPORTS, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
-import { notificationsActions } from '@app/core/store';
+import { uiNotificationsActions } from '@app/core/store';
 import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
 import { StackedLayoutService } from '@app/common/layouts';
-import { setCurrentNavigation, setCurrentTitle } from '@app/core/store';
+import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { CreateListItemDto, ListItem } from '@app/features/list';
 import { listItemActions, selectListItemExistsWithName } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
@@ -20,7 +20,7 @@ import { findInventoryItemById } from './functions';
 import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   PageHeaderComponent,
   ...ACTIONS_MENU_EXPORTS,
@@ -32,7 +32,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-inventory-page',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss'],
 })
@@ -77,7 +77,9 @@ export class InventoryPageComponent implements OnInit {
       case categoryMenu.CATEGORY_ACTION_REMOVE.id:
         this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(inventoryCategoryActions.remove({ category })),
+          next: () => {
+            this.store.dispatch(inventoryCategoryActions.remove({ category }));
+          },
         });
         break;
     }
@@ -125,8 +127,9 @@ export class InventoryPageComponent implements OnInit {
 
   private initPageMetadata(): void {
     this.layout.setTitle('Inventory'); // TODO: Translate
-    this.store.dispatch(setCurrentTitle({ title: 'Inventory - Pandivia' })); // TODO: Translate
-    this.store.dispatch(setCurrentNavigation({ current: NAVIGATION_ITEM_INVENTORY.id }));
+    this.store.dispatch(uiSetPageTitle({ title: 'Inventory - Pandivia' })); // TODO: Translate
+    const current = NAVIGATION_ITEM_INVENTORY.id;
+    this.store.dispatch(uiNavigationActions.setCurrent({ current }));
   }
 
   private initHeaderActions(): void {
@@ -144,7 +147,7 @@ export class InventoryPageComponent implements OnInit {
     findInventoryItemById(this.store, itemId).subscribe({
       error: err => {
         const message = err;
-        this.store.dispatch(notificationsActions.addError({ message }));
+        this.store.dispatch(uiNotificationsActions.addError({ message }));
       },
       next: item => {
         const title = 'Edit item'; // TODO: Translate
@@ -185,7 +188,9 @@ export class InventoryPageComponent implements OnInit {
     combineLatest({ inventoryItem, listItem })
       .pipe(take(1), switchMap(checkUniqueNameContraint))
       .subscribe({
-        error: message => this.store.dispatch(notificationsActions.addError({ message })),
+        error: message => {
+          this.store.dispatch(uiNotificationsActions.addError({ message }));
+        },
         next: inventoryItem => {
 
           const dto: CreateListItemDto = {

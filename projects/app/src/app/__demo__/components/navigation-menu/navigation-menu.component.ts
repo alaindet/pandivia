@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { DemoRoute } from '@app/__demo__/types';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   RouterModule,
 ];
@@ -12,7 +12,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-navigation-menu',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   template: `
     <ul>
       <li *ngFor="let route of routes">

@@ -6,7 +6,7 @@ import { cssClassesList } from '@app/common/utils';
 import { NotificationComponent } from '../notification/notification.component';
 import { NOTIFICATION_TIMEOUT } from '@app/core/notification';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   NotificationComponent,
 ];
@@ -14,7 +14,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-notifications-host',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './notifications-host.component.html',
   styleUrls: ['./notifications-host.component.scss'],
   encapsulation: ViewEncapsulation.None,

@@ -10,7 +10,7 @@ import { filterNull } from '@app/common/rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { didInputChange, doOnce } from '@app/common/utils';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgFor,
   NgTemplateOutlet,
@@ -21,7 +21,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-actions-menu',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './actions-menu.component.html',
   styleUrls: ['./actions-menu.component.scss'],
   host: { class: 'app-actions-menu' },

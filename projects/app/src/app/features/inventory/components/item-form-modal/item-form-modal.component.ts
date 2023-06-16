@@ -11,7 +11,7 @@ import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryI
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, INVENTORY_ITEM_FORM_FIELD as FIELD, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
 
-const IMPORTS = [
+const imports = [
   MatIconModule,
   NgIf,
   ReactiveFormsModule,
@@ -30,7 +30,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-inventory-item-form-modal',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './item-form-modal.component.html',
   styleUrls: ['./item-form-modal.component.scss'],
 })

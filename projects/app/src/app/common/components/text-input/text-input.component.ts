@@ -15,7 +15,7 @@ const TEXT_INPUT_FORM_PROVIDER: Provider = {
 	multi: true,
 };
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgSwitch,
   NgSwitchCase,
@@ -27,7 +27,7 @@ const IMPORTS = [
   selector: 'app-text-input',
   exportAs: 'app-text-input',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './text-input.component.html',
   styleUrls: ['./text-input.component.scss'],
   encapsulation: ViewEncapsulation.None,

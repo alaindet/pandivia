@@ -10,7 +10,7 @@ import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layout
 import { NAVIGATION_ROUTES } from '../../navigation';
 import { selectNavigation } from '../../store';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   AsyncPipe,
   RouterOutlet,
@@ -20,7 +20,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-logged-page-collection',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './logged.component.html',
   providers: [StackedLayoutService],
 })

@@ -10,7 +10,7 @@ import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
 import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgFor,
   NgTemplateOutlet,
@@ -23,7 +23,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-card-list',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './card-list.component.html',
   styleUrls: ['./card-list.component.scss'],
   encapsulation: ViewEncapsulation.None,

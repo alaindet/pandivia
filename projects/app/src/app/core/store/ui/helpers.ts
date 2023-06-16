@@ -1,7 +1,7 @@
 import { createEffect, ofType } from '@ngrx/effects';
 import { Observable, of, switchMap } from 'rxjs';
 
-import { loaderActions, notificationsActions } from './actions';
+import { uiLoaderActions, uiNotificationsActions } from './actions';
 
 export function createUiController(actions$: Observable<any>) {
 
@@ -14,21 +14,21 @@ export function createUiController(actions$: Observable<any>) {
   function startLoaderOn(...targetActions: any[]) {
     return createEffect(() => actions$.pipe(
       onActions(targetActions),
-      switchMap(() => of(loaderActions.start()))
+      switchMap(() => of(uiLoaderActions.start()))
     ));
   }
-  
+
   function stopLoaderOn(...targetActions: any[]) {
     return createEffect(() => actions$.pipe(
       onActions(targetActions),
-      switchMap(() => of(loaderActions.stop()))
+      switchMap(() => of(uiLoaderActions.stop()))
     ));
   }
-  
+
   function showErrorOn(...targetActions: any[]) {
     return createEffect(() => actions$.pipe(
       onActions(targetActions),
-      switchMap(({ message }) => of(notificationsActions.addError({ message })))
+      switchMap(({ message }) => of(uiNotificationsActions.addError({ message })))
     ));
   }
 
