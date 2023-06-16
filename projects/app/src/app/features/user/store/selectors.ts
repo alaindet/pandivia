@@ -22,8 +22,3 @@ export const selectUserLanguage = createSelector(
   selectUserFeature,
   state => state?.language,
 );
-
-export const selectUserAvailableLanguages = createSelector(
-  selectUserFeature,
-  state => state?.availableLanguages ?? [],
-);

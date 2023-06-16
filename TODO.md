@@ -3,3 +3,4 @@
 - [ ] Persist user preferences into localStorage
 - [ ] Add global UserPreferencesService, NotificationService, AuthService, LanguageService
 - [ ] Add ThemeService to persist theme (Add convenience methods for dispatching actions)
+- [ ] Remove action groups?!

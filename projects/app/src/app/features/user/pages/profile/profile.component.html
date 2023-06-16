@@ -4,10 +4,15 @@
 <h2>Theme</h2>
 <app-select
   id="theme-switcher"
-  [options]="theme.options()"
+  [options]="theme.options"
   [value]="theme.current()"
   (selected)="theme.set($event)"
 ></app-select>
 
 <h2>Language</h2>
-<p>TODO...</p>
+<app-select
+  id="language-switcher"
+  [options]="language.options"
+  [value]="language.current()"
+  (selected)="language.set($event)"
+></app-select>

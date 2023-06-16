@@ -1,11 +1,12 @@
-import { userLanguageActions } from './../../features/user/store/actions';
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslocoService } from '@ngneat/transloco';
 
-import { selectUserAvailableLanguages, selectUserLanguage } from '@app/features/user/store';
-import { LANGUAGE, Language } from './types';
-import { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY } from './constants';
 import { effectOnChange } from '@app/common/utils';
+import { userLanguageActions } from '@app/features/user/store/actions';
+import {  selectUserLanguage } from '@app/features/user/store';
+import { LANGUAGE, Language } from './types';
+import { DEFAULT_LANGUAGE, LANGUAGE_OPTIONS, LANGUAGE_STORAGE_KEY } from './constants';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,9 @@ import { effectOnChange } from '@app/common/utils';
 export class LanguageService {
 
   private store = inject(Store);
+  private transloco = inject(TranslocoService);
   current = this.store.selectSignal(selectUserLanguage);
-  options = this.store.selectSignal(selectUserAvailableLanguages);
+  options = LANGUAGE_OPTIONS;
 
   constructor() {
     this.initLanguageFromStorage();
@@ -25,8 +27,17 @@ export class LanguageService {
     return LANGUAGE.ENGLISH;
   }
 
-  set(lang: Language) {
-    // ...
+  set(_language: string | null) {
+
+    if (_language === null) {
+      this.store.dispatch(userLanguageActions.setDefaultLanguage());
+      this.transloco.setDefaultLang(DEFAULT_LANGUAGE);
+      return;
+    }
+
+    const language = _language as Language;
+    this.store.dispatch(userLanguageActions.setLanguage({ language }));
+    this.transloco.setActiveLang(language);
   }
 
   private initLanguageFromStorage(): void {

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { NAVIGATION_ITEM_USER, uiNavigationActions, uiSetPageTitle } from '@app/core';
+import { LanguageService, NAVIGATION_ITEM_USER, uiNavigationActions, uiSetPageTitle } from '@app/core';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
 import { SelectComponent } from '@app/common/components';
@@ -24,6 +24,7 @@ export class ProfilePageComponent implements OnInit {
   private layout = inject(StackedLayoutService);
 
   theme = inject(ThemeService);
+  language = inject(LanguageService);
   email = this.store.selectSignal(selectUserEmail);
 
   ngOnInit() {

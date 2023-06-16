@@ -2,8 +2,8 @@ import { Injectable, computed, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { effectOnChange } from '@app/common/utils';
-import { selectUiTheme, selectUiThemeOptions, uiThemeActions } from '../store/ui';
-import { THEME_STORAGE_KEY, DEFAULT_THEME } from './constants';
+import { selectUiTheme, uiThemeActions } from '../store/ui';
+import { THEME_STORAGE_KEY, DEFAULT_THEME, THEME_OPTIONS } from './constants';
 import { Theme } from './types';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ThemeService {
 
   private store = inject(Store);
   current = this.store.selectSignal(selectUiTheme);
-  options = this.store.selectSignal(selectUiThemeOptions);
+  options = THEME_OPTIONS;
   cssClass = computed(() => `-theme-${this.current()}`);
 
   constructor() {
@@ -22,6 +22,8 @@ export class ThemeService {
   }
 
   set(_theme: string | null) {
+
+    console.log('Theme set', _theme); // TODO: Remove
 
     if (_theme === null) {
       this.store.dispatch(uiThemeActions.setDefaultTheme());

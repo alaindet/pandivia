@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, isDevMode } from '@angular/core';
 import { provideTransloco, translocoConfig, Translation } from '@ngneat/transloco';
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE } from '../language';
+import { DEFAULT_LANGUAGE, LANGUAGE_OPTIONS } from '../language';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export const TRANSLOCO_PROVIDERS = [
   provideTransloco({
     loader: TranslocoHttpLoader,
     config: translocoConfig({
-      availableLangs: AVAILABLE_LANGUAGES,
+      availableLangs: LANGUAGE_OPTIONS.map(lang => lang.value),
       defaultLang: DEFAULT_LANGUAGE,
       reRenderOnLangChange: true,
       prodMode: !isDevMode(),
