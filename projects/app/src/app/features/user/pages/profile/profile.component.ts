@@ -1,13 +1,16 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { LanguageService, NAVIGATION_ITEM_USER, uiNavigationActions, uiSetPageTitle } from '@app/core';
+import { environment } from '@app/environment';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
 import { SelectComponent } from '@app/common/components';
 import { selectUserEmail } from '../../store';
 
 const imports = [
+  TranslocoModule,
   SelectComponent,
 ];
 
@@ -16,12 +19,12 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
 
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
+  private transloco = inject(TranslocoService);
 
   theme = inject(ThemeService);
   language = inject(LanguageService);
@@ -32,9 +35,10 @@ export class ProfilePageComponent implements OnInit {
   }
 
   private initPageMetadata(): void {
-    this.layout.setTitle('User Profile'); // TODO: Translate
-    this.layout.clearHeaderActions();
-    this.store.dispatch(uiSetPageTitle({ title: 'User Profile - Pandivia' })); // TODO: Translate
+    const headerTitle = this.transloco.translate('userProfile.title');
+    this.layout.setTitle(headerTitle);
+    const title = `${headerTitle} - ${environment.appName}`;
+    this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_USER.id;
     this.store.dispatch(uiNavigationActions.setCurrent({ current }));
   }

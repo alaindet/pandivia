@@ -1,7 +1,7 @@
-<h2>You</h2>
+<h2>{{ 'userProfile.info' | transloco }}</h2>
 <p>{{ email() }}</p>
 
-<h2>Theme</h2>
+<h2>{{ 'userProfile.theme' | transloco }}</h2>
 <app-select
   id="theme-switcher"
   [options]="theme.options"
@@ -9,7 +9,7 @@
   (selected)="theme.set($event)"
 ></app-select>
 
-<h2>Language</h2>
+<h2>{{ 'userProfile.language' | transloco }}</h2>
 <app-select
   id="language-switcher"
   [options]="language.options"

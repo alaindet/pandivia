@@ -1,5 +1,20 @@
 {
+  "list.title": "List",
   "list.itemUniqueError": "List item with name \"{{ name }}\" already exists",
   "list.itemNotFoundError": "List item with ID \"{{ id }}\" not found",
-  "inventory.itemNotFoundError": "Inventory item with ID \"{{ id }}\" not found"
+
+  "inventory.title": "Inventory",
+  "inventory.itemNotFoundError": "Inventory item with ID \"{{ id }}\" not found",
+
+  "userProfile.title": "User",
+  "userProfile.info": "Info",
+  "userProfile.theme": "Thene",
+  "userProfile.language": "Language",
+
+  "components.autocomplete.loading": "Loading...",
+  "components.autocomplete.nothingFound": "Nothing found...",
+  "components.modal.cancel": "Cancel",
+  "components.modal.confirm": "Confirm",
+  "components.modal.canceled": "Modal was canceled",
+  "components.select.defaultLabel": "Select..."
 }

@@ -1,0 +1,8 @@
+@import 'scoped';
+
+.app-form-field-error {
+  display: block;
+  color: $app-color-error;
+  font-size: 0.75rem;
+  letter-spacing: 0.08px;
+}

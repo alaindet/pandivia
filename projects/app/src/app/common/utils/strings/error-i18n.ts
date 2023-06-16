@@ -5,7 +5,7 @@ export type ErrorI18n = {
 
 export function errorI18n<T = Record<string, any>>(
   message: string,
-  params: T,
+  params?: T,
 ): Error {
   return new Error(JSON.stringify({ message, params }));
 }

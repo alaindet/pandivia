@@ -1,0 +1,12 @@
+.app-form-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  ._messages:not(:empty) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.33rem;
+    margin-top: 0.5rem;
+  }
+}

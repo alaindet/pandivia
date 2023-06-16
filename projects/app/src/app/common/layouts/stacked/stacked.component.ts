@@ -20,7 +20,6 @@ const imports = [
   imports,
   templateUrl: './stacked.component.html',
   styleUrls: ['./stacked.component.scss'],
-  // providers: [StackedLayoutService],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-layout-stacked' },
 })

@@ -3,6 +3,7 @@ import { Injectable, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/c
 import { DataSource, EventSource, OnceSource } from '@app/common/sources';
 import { filter, map, of, switchMap, take, throwError } from 'rxjs';
 import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOutput, ModalRef } from './types';
+import { errorI18n } from '@app/common/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +45,7 @@ export class ModalService implements OnDestroy {
   closed() {
     return this._closed$.event$.pipe(switchMap(output => {
       if (output.status === MODAL_OUTPUT_STATUS.CANCELED) {
-        return throwError(() => new Error('Modal canceled'));
+        return throwError(() => errorI18n('components.modal.canceled'));
       }
       return of(output.data);
     }), take(1));
@@ -91,7 +92,7 @@ export class ModalService implements OnDestroy {
     componentClass: typeof BaseModalComponent<TInput, TOutput>,
     data: TInput,
   ): ModalRef<TInput, TOutput> {
-    
+
     this.focusedBeforeModal = document.activeElement as HTMLElement | null;
 
     if (!this.target) {

@@ -5,7 +5,7 @@ export function groupItemsByCategory(items: (InventoryItem | ListItem)[]): Categ
   const grouped: { [category: string]: any[] } = {};
 
   for (const item of items) {
-    const category = item.category ?? 'no-category';
+    const category = item.category ?? 'no-category'; // TODO
 
     if (!grouped[category]) {
       grouped[category] = [];

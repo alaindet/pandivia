@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, HostBinding, OnDestroy, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { ButtonComponent } from '../../button';
 import { ModalService } from '../modal.service';
@@ -11,6 +12,7 @@ const imports = [
   CommonModule,
   ButtonComponent,
   MatIconModule,
+  TranslocoModule,
 ];
 
 @Component({

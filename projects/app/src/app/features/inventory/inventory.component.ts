@@ -3,7 +3,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest, of, switchMap, take, throwError } from 'rxjs';
+import { TranslocoService } from '@ngneat/transloco';
 
+import { environment } from '@app/environment';
 import { ACTIONS_MENU_EXPORTS, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { errorI18n, readErrorI18n } from '@app/common/utils';
@@ -43,6 +45,7 @@ export class InventoryPageComponent implements OnInit {
   private layout = inject(StackedLayoutService);
   private notification = inject(NotificationService);
   private modal = inject(ModalService);
+  private transloco = inject(TranslocoService);
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
   getItemContextualMenu = itemMenu.getItemContextualMenu;
@@ -128,8 +131,10 @@ export class InventoryPageComponent implements OnInit {
   }
 
   private initPageMetadata(): void {
-    this.layout.setTitle('Inventory'); // TODO: Translate
-    this.store.dispatch(uiSetPageTitle({ title: 'Inventory - Pandivia' })); // TODO: Translate
+    const headerTitle = this.transloco.translate('inventory.title');
+    this.layout.setTitle(headerTitle);
+    const title = `${headerTitle} - ${environment.appName}`;
+    this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_INVENTORY.id;
     this.store.dispatch(uiNavigationActions.setCurrent({ current }));
   }

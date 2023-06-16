@@ -2,3 +2,11 @@
 - [?] Remove action groups?!
 - Further filter name on List item form autocomplete: they must come from Inventory AND not already be present in List
 - Manage the "no-category" category
+- Accept input strings instead of importing TranslocoModule inside components
+- Current translated keys in components are:
+  - components.autocomplete.loading
+  - components.autocomplete.nothingFound
+  - components.modal.cancel
+  - components.modal.confirm
+  - components.modal.canceled
+  - components.select.defaultLabel

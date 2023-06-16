@@ -2,15 +2,9 @@
 
 .app-actions-menu {
   --app-actions-menu-offset-y: 0;
-  // $caret-side: 0.25rem;
-  // $caret-height: $caret-side * 1.73205080757;
 
   position: relative;
   display: inline-block;
-
-  // &-button {
-  //   // ...
-  // }
 
   &-items {
     transform: translateY(var(--app-actions-menu-offset-y));
@@ -27,18 +21,6 @@
     display: none;
     width: max-content;
 
-    // Caret
-    // &::after {
-    //   content: '';
-    //   border-left: $caret-side solid transparent;
-    //   border-right: 0;
-    //   border-bottom: $caret-height solid black;
-    //   position: absolute;
-    //   z-index: -1;
-    //   top: -1 * $caret-height;
-    //   right: 0!important;
-    // }
-
     &.-open {
       display: block;
     }
@@ -46,21 +28,11 @@
     &.-position-left {
       left: auto;
       right: 0;
-
-      // &::after {
-      //   right: $caret-height;
-      //   left: auto;
-      // }
     }
 
     &.-position-right {
       left: 0;
       right: auto;
-
-      // &::after {
-      //   right: auto;
-      //   left: $caret-height;
-      // }
     }
   }
 

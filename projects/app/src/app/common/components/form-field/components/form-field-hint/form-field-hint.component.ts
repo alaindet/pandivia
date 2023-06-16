@@ -6,16 +6,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-form-field-hint' },
   template: `<ng-content></ng-content>`,
-  styles: [`  
-    @import 'scoped';
-
-    .app-form-field-hint {
-      display: block;
-      color: $app-color-beige-800;
-      font-size: 0.75rem;
-      letter-spacing: 0.08px;
-      font-style: italic;
-    }
-  `],
+  styleUrls: ['./form-field-hint.scss'],
 })
 export class FormFieldHintComponent {}

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable, auditTime, combineLatest, map, startWith } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { AsyncPipe, NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
 import { SIXTY_FRAMES_PER_SECOND } from '@app/common/constants';
@@ -9,7 +10,7 @@ import { didInputChange } from '@app/common/utils';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
-import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType, AUTOCOMPLETE_ITEMS_TEMPLATE, AutocompleteItemsTemplate } from './types';
+import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType, AUTOCOMPLETE_ITEMS_TEMPLATE } from './types';
 
 const imports = [
   NgIf,
@@ -20,6 +21,7 @@ const imports = [
   NgTemplateOutlet,
   AutocompleteOptionComponent,
   PipefyPipe,
+  TranslocoModule,
 ];
 
 @Component({

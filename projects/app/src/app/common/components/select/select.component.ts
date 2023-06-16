@@ -1,9 +1,10 @@
 import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef, signal } from '@angular/core';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { FormOption } from '@app/common/types';
-import { didInputChange, getRandomHash } from '@app/common/utils';
+import { didInputChange, uniqueId } from '@app/common/utils';
 
 const SELECT_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -15,6 +16,7 @@ const imports = [
   NgFor,
   NgIf,
   AsyncPipe,
+  TranslocoModule,
 ];
 
 @Component({
@@ -51,10 +53,7 @@ export class SelectComponent implements OnInit, OnChanges, ControlValueAccessor 
   selectedValue = signal<string | null>(null);
 
   ngOnInit() {
-    // Use uniqueId()
-    if (!this.id) {
-      this.id = `app-select-${getRandomHash(3)}`;
-    }
+    this.id = uniqueId(this.id, 'app-select');
   }
 
   ngOnChanges(changes: SimpleChanges) {

@@ -3,12 +3,14 @@ import { Component, OnInit, computed, inject } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
+import { environment } from '@app/environment';
 import { NotificationService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
 import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/navigation';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor } from '@app/common/components';
+import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
@@ -18,7 +20,6 @@ import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import { findListItemById } from './functions';
-import { readErrorI18n } from '@app/common/utils';
 
 const imports = [
   NgIf,
@@ -43,6 +44,7 @@ export class ListPageComponent implements OnInit {
   private layout = inject(StackedLayoutService);
   private notification = inject(NotificationService);
   private modal = inject(ModalService);
+  private transloco = inject(TranslocoService);
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
   getItemContextualMenu = itemMenu.getItemContextualMenu;
@@ -167,8 +169,10 @@ export class ListPageComponent implements OnInit {
   }
 
   private initPageMetadata(): void {
-    this.layout.setTitle('List'); // TODO: Translate
-    this.store.dispatch(uiSetPageTitle({ title: 'List - Pandivia' })); // TODO: Translate
+    const headerTitle = this.transloco.translate('list.title');
+    this.layout.setTitle(headerTitle);
+    const title = `${headerTitle} - ${environment.appName}`;
+    this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_LIST.id;
     this.store.dispatch(uiNavigationActions.setCurrent({ current }));
   }
