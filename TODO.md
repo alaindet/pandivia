@@ -1,6 +1,4 @@
 - [?] Rename "Inventory" to "Habits"/"Habit"
-- [ ] Implement @angular/localize
-- [ ] Persist user preferences into localStorage
-- [ ] Add global UserPreferencesService, NotificationService, AuthService, LanguageService
-- [ ] Add ThemeService to persist theme (Add convenience methods for dispatching actions)
-- [ ] Remove action groups?!
+- [?] Remove action groups?!
+- Further filter name on List item form autocomplete: they must come from Inventory AND not already be present in List
+- Manage the "no-category" category

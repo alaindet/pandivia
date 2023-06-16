@@ -1,4 +1,5 @@
 {
-  "hello": "Hello!",
-  "helloPerson": "Hello, {{ person }}!"
+  "list.itemUniqueError": "List item with name \"{{ name }}\" already exists",
+  "list.itemNotFoundError": "List item with ID \"{{ id }}\" not found",
+  "inventory.itemNotFoundError": "Inventory item with ID \"{{ id }}\" not found"
 }

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { getThemeCheckboxColor, uiNotificationsActions, selectUiTheme } from '@app/core';
+import { NotificationService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
 import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/navigation';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor } from '@app/common/components';
@@ -18,6 +18,7 @@ import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import { findListItemById } from './functions';
+import { readErrorI18n } from '@app/common/utils';
 
 const imports = [
   NgIf,
@@ -40,6 +41,7 @@ export class ListPageComponent implements OnInit {
 
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
+  private notification = inject(NotificationService);
   private modal = inject(ModalService);
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
@@ -179,10 +181,7 @@ export class ListPageComponent implements OnInit {
 
   private showEditItemModal(itemId: string): void {
     findListItemById(this.store, itemId).subscribe({
-      error: err => {
-        const message = err;
-        this.store.dispatch(uiNotificationsActions.addError({ message }));
-      },
+      error: err => this.notification.error(...readErrorI18n(err)),
       next: item => {
         const title = 'Edit item'; // TODO: Translate
         const modalInput: ListItemFormModalInput = { item, title };

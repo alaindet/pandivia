@@ -11,8 +11,8 @@
 
   <!-- Stack level: 2 -->
   <app-notifications-host
-    [notification]="notification$ | async"
-    (dismissed)="onDismissNotification()"
+    [notification]="notification.current()"
+    (dismissed)="notification.dismiss()"
   ></app-notifications-host>
 </div>
 

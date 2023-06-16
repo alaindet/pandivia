@@ -5,9 +5,10 @@ import { Store } from '@ngrx/store';
 import { Observable, combineLatest, of, switchMap, take, throwError } from 'rxjs';
 
 import { ACTIONS_MENU_EXPORTS, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
-import { uiNotificationsActions } from '@app/core/store';
-import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
 import { StackedLayoutService } from '@app/common/layouts';
+import { errorI18n, readErrorI18n } from '@app/common/utils';
+import { NotificationService } from '@app/core';
+import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
 import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { CreateListItemDto, ListItem } from '@app/features/list';
 import { listItemActions, selectListItemExistsWithName } from '../list/store';
@@ -40,6 +41,7 @@ export class InventoryPageComponent implements OnInit {
 
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
+  private notification = inject(NotificationService);
   private modal = inject(ModalService);
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
@@ -145,10 +147,7 @@ export class InventoryPageComponent implements OnInit {
 
   private showEditItemModal(itemId: string): void {
     findInventoryItemById(this.store, itemId).subscribe({
-      error: err => {
-        const message = err;
-        this.store.dispatch(uiNotificationsActions.addError({ message }));
-      },
+      error: err => this.notification.error(...readErrorI18n(err)),
       next: item => {
         const title = 'Edit item'; // TODO: Translate
         const modalInput: InventoryItemFormModalInput = { title, item };
@@ -179,18 +178,16 @@ export class InventoryPageComponent implements OnInit {
       const { inventoryItem, listItem } = payload;
       const inventoryItemName = inventoryItem?.name?.toLowerCase();
       const listItemName = listItem?.name?.toLowerCase();
+      const name = inventoryItemName;
       return (inventoryItemName === listItemName)
-        // TODO: Translate
-        ? throwError(() => new Error(`List item with name "${listItem?.name}" already exists`))
+        ? throwError(() => errorI18n('list.itemUniqueError', { name }))
         : of(inventoryItem);
     };
 
     combineLatest({ inventoryItem, listItem })
       .pipe(take(1), switchMap(checkUniqueNameContraint))
       .subscribe({
-        error: message => {
-          this.store.dispatch(uiNotificationsActions.addError({ message }));
-        },
+        error: err => this.notification.error(...readErrorI18n(err)),
         next: inventoryItem => {
 
           const dto: CreateListItemDto = {
