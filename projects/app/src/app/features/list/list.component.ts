@@ -46,7 +46,7 @@ export class ListPageComponent implements OnInit {
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
-  CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
+  CATEGORY_CONTEXTUAL_MENU = categoryMenu.getCategoryContextualMenu();
   getItemContextualMenu = itemMenu.getItemContextualMenu;
   itemGroups = this.store.selectSignal(selectListCategorizedFilteredItems);
   filters = this.store.selectSignal(selectListFilters);
@@ -180,7 +180,14 @@ export class ListPageComponent implements OnInit {
   private confirmPrompt(
     input: ConfirmPromptModalInput,
   ): Observable<ConfirmPromptModalOutput> {
-    return this.modal.open(ConfirmPromptModalComponent, input).closed();
+
+    const translatedInput = {
+      ...input,
+      title: this.transloco.translate(input.title),
+      message: this.transloco.translate(input.message),
+    };
+
+    return this.modal.open(ConfirmPromptModalComponent, translatedInput).closed();
   }
 
   private showEditItemModal(itemId: string): void {
