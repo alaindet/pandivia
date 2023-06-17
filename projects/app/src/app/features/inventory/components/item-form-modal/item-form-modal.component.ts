@@ -7,6 +7,7 @@ import { Observable, map } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
+import { FieldStatusPipe } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
@@ -27,6 +28,7 @@ const imports = [
   TextareaComponent,
   ButtonComponent,
   TranslocoModule,
+  FieldStatusPipe,
 ];
 
 @Component({

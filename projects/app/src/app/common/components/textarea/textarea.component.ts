@@ -1,11 +1,12 @@
 import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, computed, effect, forwardRef, signal } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, computed, forwardRef, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { HTMLAttributes, createAttributesController } from '@app/common/controllers';
 import { cssClassesList, didInputChange, uniqueId } from '@app/common/utils';
 import { ButtonComponent } from '../button';
+import { FieldStatus } from '@app/common/types';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -36,7 +37,7 @@ export class TextareaComponent implements OnInit, OnChanges, ControlValueAccesso
 
   @Input() id?: string;
   @Input() value?: string;
-  @Input() status?: 'success' | 'error';
+  @Input() status?: FieldStatus;
   @Input() rows = 7;
   @Input() @HostBinding('class.-clearable') clearable = false;
   @Input() placeholder = '';

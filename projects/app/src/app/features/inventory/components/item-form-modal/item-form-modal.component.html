@@ -8,12 +8,11 @@
   (ngSubmit)="onSubmit()"
   autocomplete="off"
 >
-
   <!-- Name -->
   <app-form-field id="item-name">
 
     <app-form-field-label isRequired>
-      {{ t('inventory.form.field.name') }}
+      {{ t('common.form.field.name') }}
     </app-form-field-label>
 
     <app-text-input
@@ -22,14 +21,14 @@
       type="text"
       [formControlName]="FIELD.NAME"
       [status]="!fName.touched ? undefined : (fName.valid ? 'success' : 'error')"
-      [placeholder]="t('inventory.form.field.name') + '...'"
+      [placeholder]="t('common.form.field.name') + '...'"
       [withStatusIcon]="true"
       [withErrorId]="fName.valid ? null
         : fName.hasError('required') ? 'item-name-required'
         : (fName.hasError('minlength') || fName.hasError('maxlength')) ? 'item-name-length'
         : fName.hasError('uniqueItemName') ? 'item-unique-name'
         : null"
-    ></app-text-input>
+    />
 
     <ng-container *ngIf="fName.touched">
       <app-form-field-error
@@ -134,7 +133,7 @@
 </form>
 
 <ng-container *appModalFooter>
-  <div class="_footer">
+  <div *transloco="let t" class="_footer">
     <button
       type="button"
       appButton="ghost"

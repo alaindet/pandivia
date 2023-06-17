@@ -3,12 +3,14 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TextInputComponent } from '@app/common/components';
+import { FieldStatusPipe } from "@app/common/pipes";
 
 const imports = [
   NgIf,
   ReactiveFormsModule,
   JsonPipe,
   TextInputComponent,
+  FieldStatusPipe,
 ];
 
 @Component({

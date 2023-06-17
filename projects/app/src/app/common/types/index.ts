@@ -1,4 +1,5 @@
 export * from './back-button-status';
+export * from './field-status';
 export * from './form-option';
 export * from './keyboard';
 export * from './loading-status';

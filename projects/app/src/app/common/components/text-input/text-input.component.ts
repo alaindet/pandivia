@@ -3,11 +3,11 @@ import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnI
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { didInputChange, getRandomHash } from '@app/common/utils';
+import { ElementAttributes, applyAttributes, didInputChange, getRandomHash, uniqueId } from '@app/common/utils';
 import { ButtonComponent } from '../button';
+import { FieldStatus } from '@app/common/types';
 
 type TextInputType = 'text' | 'email' | 'number' | 'password' | 'search';
-type TextInputStatus = 'success' | 'error';
 
 const TEXT_INPUT_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -41,7 +41,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
   @Input() id?: string;
   @Input() type: TextInputType = 'text';
   @Input() value?: string;
-  @Input() status?: TextInputStatus;
+  @Input() status?: FieldStatus;
   @Input() @HostBinding('class.-clearable') clearable = false;
   @Input() placeholder = '';
   @Input() autocomplete?: string;
@@ -50,7 +50,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
   @Input() @HostBinding('class.-full-width') withFullWidth = false;
   @Input() @HostBinding('class.-disabled') isDisabled = false;
   @Input() width?: string;
-  @Input() attrs: { [attrName: string]: string | number | boolean} | null = null;
+  @Input() attrs: ElementAttributes | null = null;
 
   @Output() changed = new EventEmitter<string>();
   @Output() inputChanged = new EventEmitter<string>();
@@ -65,28 +65,8 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 	private onTouched!: () => {};
 
   ngOnInit() {
-
-    if (!this.id) {
-      this.id = `app-text-input-${getRandomHash(3)}`;
-    }
-
-    if (this.attrs) {
-      const el = this.inputRef.nativeElement;
-      for (const [key, value] of Object.entries(this.attrs)) {
-
-        switch (value) {
-          case true:
-            this.renderer.setAttribute(el, key, '');
-            break;
-          case false:
-            // Do nothing
-            break;
-          default:
-            this.renderer.setAttribute(el, key, String(value));
-            break;
-        }
-      }
-    }
+    this.id = uniqueId(this.id, 'app-text-input');
+    applyAttributes(this.inputRef.nativeElement, this.attrs);
   }
 
   ngOnChanges(changes: SimpleChanges) {

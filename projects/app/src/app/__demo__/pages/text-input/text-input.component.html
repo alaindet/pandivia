@@ -6,11 +6,7 @@
   <app-text-input
     type="text"
     formControlName="myTextInput"
-    [status]="
-      fMyTextInput.touched
-        ? (fMyTextInput.hasError('required') ? 'error' : 'success')
-        : undefined
-    "
+    [status]="fMyTextInput.touched ? (fMyTextInput.valid ? 'success' : 'error') : undefined"
     placeholder="Enter some text here..."
   ></app-text-input>
   <p *ngIf="fMyTextInput.touched && fMyTextInput.hasError('required')">

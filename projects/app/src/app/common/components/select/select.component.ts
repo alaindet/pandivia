@@ -3,7 +3,7 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { FormOption } from '@app/common/types';
+import { FieldStatus, FormOption } from '@app/common/types';
 import { didInputChange, uniqueId } from '@app/common/utils';
 
 const SELECT_FORM_PROVIDER: Provider = {
@@ -33,7 +33,7 @@ export class SelectComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   @Input() id?: string;
   @Input() value?: string;
-  @Input() status?: 'success' | 'error';
+  @Input() status?: FieldStatus;
   @Input() @HostBinding('class.-disabled') isDisabled = false;
   @Input() options: FormOption[] = [];
   @Input() width?: string;

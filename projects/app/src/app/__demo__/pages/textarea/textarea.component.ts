@@ -2,6 +2,7 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
+import { FieldStatusPipe } from '@app/common/pipes';
 import { FORM_FIELD_EXPORTS, TextareaComponent } from '@app/common/components';
 
 const imports = [
@@ -10,6 +11,7 @@ const imports = [
   JsonPipe,
   TextareaComponent,
   ...FORM_FIELD_EXPORTS,
+  FieldStatusPipe,
 ];
 
 @Component({

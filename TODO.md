@@ -12,3 +12,6 @@
   - components.select.defaultLabel
 - Add status and error pipes
 - Centralize error IDs
+- Implement FieldStatus instead of TextInputStatus or similar in all components
+- Remove TextInputStatus
+- Use ".ng-touched", ".ng-valid" classes for styling
