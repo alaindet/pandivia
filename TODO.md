@@ -10,3 +10,5 @@
   - components.modal.confirm
   - components.modal.canceled
   - components.select.defaultLabel
+- Add status and error pipes
+- Centralize error IDs

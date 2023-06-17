@@ -14,7 +14,7 @@ export function findInventoryItemById(
 
       if (!item) {
         return throwError(() => Error(JSON.stringify({
-          path: 'inventory.itemNotFoundError',
+          path: 'inventory.error.itemNoFound',
           id: itemId,
         })));
       }

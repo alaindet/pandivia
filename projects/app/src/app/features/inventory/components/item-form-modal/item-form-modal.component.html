@@ -2,14 +2,19 @@
   <h2>{{ modal.data.title }}</h2>
 </ng-container>
 
-<form [formGroup]="theForm" (ngSubmit)="onSubmit()" autocomplete="off">
+<form
+  *transloco="let t"
+  [formGroup]="theForm"
+  (ngSubmit)="onSubmit()"
+  autocomplete="off"
+>
 
   <!-- Name -->
   <!-- TODO: Translate -->
   <app-form-field id="item-name">
 
     <app-form-field-label isRequired>
-      Name
+      {{ t('list.form.field.name') }}
     </app-form-field-label>
 
     <app-text-input
@@ -18,12 +23,12 @@
       type="text"
       [formControlName]="FIELD.NAME"
       [status]="!fName.touched ? undefined : (fName.valid ? 'success' : 'error')"
-      [placeholder]="'Name...'"
+      [placeholder]="t('list.form.field.name') + '...'"
       [withStatusIcon]="true"
       [withErrorId]="fName.valid ? null
         : fName.hasError('required') ? 'item-name-required'
         : (fName.hasError('minlength') || fName.hasError('maxlength')) ? 'item-name-length'
-        : fName.hasError('uniqueItemName') ? 'item-item-unique-name'
+        : fName.hasError('uniqueItemName') ? 'item-unique-name'
         : null"
     ></app-text-input>
 
@@ -32,21 +37,21 @@
         *ngIf="fName.hasError('required')"
         errorId="item-name-required"
       >
-        Required
+        {{ t('common.error.required') }}
       </app-form-field-error>
 
       <app-form-field-error
         *ngIf="fName.hasError('minlength') || fName.hasError('maxlength')"
         errorId="item-name-length"
       >
-        Enter between 2 and 100 characters
+        {{ t('common.error.minMaxChars', { min: 2, max: 100 }) }}
       </app-form-field-error>
 
       <app-form-field-error
         *ngIf="fName.hasError('uniqueItemName')"
         errorId="item-unique-name"
       >
-        This name already exists
+        {{ t('common.error.uniqueName') }}
       </app-form-field-error>
     </ng-container>
 

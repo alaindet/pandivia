@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
@@ -25,6 +26,7 @@ const imports = [
   ToggleComponent,
   TextareaComponent,
   ButtonComponent,
+  TranslocoModule,
 ];
 
 @Component({

@@ -185,7 +185,7 @@ export class InventoryPageComponent implements OnInit {
       const listItemName = listItem?.name?.toLowerCase();
       const name = inventoryItemName;
       return (inventoryItemName === listItemName)
-        ? throwError(() => errorI18n('list.itemUniqueError', { name }))
+        ? throwError(() => errorI18n('list.error.itemUnique', { name }))
         : of(inventoryItem);
     };
 

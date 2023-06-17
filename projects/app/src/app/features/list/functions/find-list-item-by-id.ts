@@ -14,7 +14,7 @@ export function findListItemById(
     switchMap(item => {
 
       if (!item) {
-        return throwError(() => errorI18n('list.itemNotFoundError', { id: itemId }));
+        return throwError(() => errorI18n('list.error.itemNotFound', { id: itemId }));
       }
 
       return of(item);

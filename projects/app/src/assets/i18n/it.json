@@ -1,7 +1,7 @@
 {
   "list.title": "Lista",
-  "list.itemUniqueError": "Un elemento di Lista con nome \"{{ name }}\" già esiste",
-  "list.itemNotFoundError": "Elemento di Lista con ID \"{{ id }}\" non trovato",
+  "list.error.itemUnique": "Un elemento di Lista con nome \"{{ name }}\" già esiste",
+  "list.error.itemNotFound": "Elemento di Lista con ID \"{{ id }}\" non trovato",
   "list.prompt.removeCompleted.title": "Rimuovi elementi completati",
   "list.prompt.removeCompleted.message": "Vuoi rimuovere tutti gli elementi completati dalla lista?",
   "list.prompt.removeAll.title": "Rimuovi elementi",
@@ -16,9 +16,10 @@
   "list.menu.categoryUndo": "Segna tutti come da fare",
   "list.menu.categoryRemoveCompleted": "Rimuovi completati",
   "list.menu.categoryRemoveAll": "Rimuovi tutti",
+  "list.form.field.name": "Nome",
 
   "inventory.title": "Inventario",
-  "inventory.itemNotFoundError": "Elemento di Inventario con ID \"{{ id }}\" non trovato",
+  "inventory.error.itemNoFound": "Elemento di Inventario con ID \"{{ id }}\" non trovato",
 
   "userProfile.title": "Utente",
   "userProfile.info": "Informazioni",
@@ -30,5 +31,9 @@
   "components.modal.cancel": "Cancella",
   "components.modal.confirm": "Conferma",
   "components.modal.canceled": "La modale è stata cancellata",
-  "components.select.defaultLabel": "Seleziona..."
+  "components.select.defaultLabel": "Seleziona...",
+
+  "common.error.required": "Obbligatorio",
+  "common.error.minMaxChars": "Must be between {{ min }} and {{ max }} characters long",
+  "common.error.uniqueName": "Questo nome già esiste"
 }
