@@ -16,8 +16,7 @@
   "list.menu.categoryUndo": "Undo all items",
   "list.menu.categoryRemoveCompleted": "Remove all completed items",
   "list.menu.categoryRemoveAll": "Remove all items",
-  "list.form.field.name": "Name",
-
+  
   "inventory.title": "Inventory",
   "inventory.error.itemNoFound": "Inventory item with ID \"{{ id }}\" not found",
 
@@ -35,5 +34,14 @@
 
   "common.error.required": "Required",
   "common.error.minMaxChars": "Deve contenere da {{ min }} a {{ max }} caratteri",
-  "common.error.uniqueName": "This name already exists"
+  "common.error.uniqueName": "This name already exists",
+  "common.form.field.name": "Name",
+  "common.form.field.description": "Description",
+  "common.form.field.category": "Category",
+  "common.form.field.amount": "Amount",
+  "common.form.field.completed": "Completed",
+  "common.form.field.addToInventory": "Add to Inventory",
+  "common.cancel": "Cancel",
+  "common.edit": "Edit",
+  "common.create": "Create"
 }

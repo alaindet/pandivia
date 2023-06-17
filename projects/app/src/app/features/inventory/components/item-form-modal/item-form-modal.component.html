@@ -10,11 +10,10 @@
 >
 
   <!-- Name -->
-  <!-- TODO: Translate -->
   <app-form-field id="item-name">
 
     <app-form-field-label isRequired>
-      {{ t('list.form.field.name') }}
+      {{ t('inventory.form.field.name') }}
     </app-form-field-label>
 
     <app-text-input
@@ -23,7 +22,7 @@
       type="text"
       [formControlName]="FIELD.NAME"
       [status]="!fName.touched ? undefined : (fName.valid ? 'success' : 'error')"
-      [placeholder]="t('list.form.field.name') + '...'"
+      [placeholder]="t('inventory.form.field.name') + '...'"
       [withStatusIcon]="true"
       [withErrorId]="fName.valid ? null
         : fName.hasError('required') ? 'item-name-required'
@@ -58,11 +57,10 @@
   </app-form-field>
 
   <!-- Description -->
-  <!-- TODO: Translate -->
   <app-form-field id="item-desc">
 
     <app-form-field-label>
-      Description
+      {{ t('common.form.field.description') }}
     </app-form-field-label>
 
     <app-textarea
@@ -70,7 +68,7 @@
       [rows]="4"
       [formControlName]="FIELD.DESCRIPTION"
       [status]="!fDesc.touched ? undefined : (fDesc.valid ? 'success' : 'error')"
-      [placeholder]="'Description...'"
+      [placeholder]="t('common.form.field.description') + '...'"
       [withCharsCounter]="true"
       [maxChars]="100"
       [withStatusIcon]="true"
@@ -83,17 +81,16 @@
       *ngIf="fDesc.hasError('minlength') || fDesc.hasError('maxlength')"
       errorId="item-desc-length"
     >
-      Enter between 2 and 100 characters
+      {{ t('common.error.minMaxChars', { min: 2, max: 100 }) }}
     </app-form-field-error>
 
   </app-form-field>
 
   <!-- Category -->
-  <!-- TODO: Translate -->
   <app-form-field id="item-category">
 
     <app-form-field-label>
-      Category
+      {{ t('common.form.field.category') }}
     </app-form-field-label>
 
     <app-text-input
@@ -102,7 +99,7 @@
       type="text"
       [formControlName]="FIELD.CATEGORY"
       [status]="!fCategory.touched ? undefined : (fCategory.valid ? 'success' : 'error')"
-      [placeholder]="'Category...'"
+      [placeholder]="t('common.form.field.category') + '...'"
       [withStatusIcon]="true"
       [withErrorId]="fCategory.valid ? null
         : (fCategory.hasError('minlength') || fCategory.hasError('maxlength')) ? 'item-category-length' : null"
@@ -129,7 +126,7 @@
       *ngIf="fCategory.hasError('minlength') || fCategory.hasError('maxlength')"
       errorId="item-category-length"
     >
-      Enter between 2 and 100 characters
+      {{ t('common.error.minMaxChars', { min: 2, max: 100 }) }}
     </app-form-field-error>
 
   </app-form-field>
@@ -144,7 +141,7 @@
       size="small"
       (click)="onCancel()"
     >
-      Cancel
+      {{ t('common.cancel') }}
     </button>
 
     <!-- Editing -->
@@ -158,7 +155,7 @@
         (click)="onEdit()"
       >
       <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'edit' }}</mat-icon>
-        Edit
+        {{ t('common.edit') }}
       </button>
     </ng-container>
 
@@ -172,7 +169,7 @@
         (click)="onCreate()"
       >
         <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'add' }}</mat-icon>
-        Create
+        {{ t('common.create') }}
       </button>
     </ng-template>
   </div>
