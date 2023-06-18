@@ -1,6 +1,6 @@
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit, computed, inject } from '@angular/core';
-import { Observable, take } from 'rxjs';
+import { Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
+import { Observable, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -20,6 +20,7 @@ import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import { findListItemById } from './functions';
+import { OnceSource } from '@app/common/sources';
 
 const imports = [
   NgIf,
@@ -39,8 +40,9 @@ const imports = [
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListPageComponent implements OnInit {
+export class ListPageComponent implements OnInit, OnDestroy {
 
+  private once = new OnceSource();
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
   private notification = inject(NotificationService);
@@ -68,6 +70,10 @@ export class ListPageComponent implements OnInit {
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
     this.store.dispatch(listItemsAsyncReadActions.fetchItems());
+  }
+
+  ngOnDestroy() {
+    this.once.trigger();
   }
 
   onListAction(action: string) {
@@ -193,15 +199,7 @@ export class ListPageComponent implements OnInit {
   private confirmPrompt(
     input: ConfirmPromptModalInput,
   ): Observable<ConfirmPromptModalOutput> {
-
-    const translatedInput = {
-      ...input,
-      title: this.transloco.translate(input.title),
-      message: this.transloco.translate(input.message),
-    };
-
-    const modal$ = this.modal.open(ConfirmPromptModalComponent, translatedInput);
-
+    const modal$ = this.modal.open(ConfirmPromptModalComponent, input);
     return modal$.closed().pipe(take(1));
   }
 
@@ -246,7 +244,9 @@ export class ListPageComponent implements OnInit {
       this.layout.setHeaderActions(actions);
     });
 
-    this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
+    this.layout.headerActionEvent
+      .pipe(takeUntil(this.once.event$))
+      .subscribe(this.onListAction.bind(this));
   }
 
   private initCategoryContextualMenu(): void {

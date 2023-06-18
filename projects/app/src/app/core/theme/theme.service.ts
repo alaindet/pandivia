@@ -23,8 +23,6 @@ export class ThemeService {
 
   set(_theme: string | null) {
 
-    console.log('Theme set', _theme); // TODO: Remove
-
     if (_theme === null) {
       this.store.dispatch(uiThemeActions.setDefaultTheme());
       return;

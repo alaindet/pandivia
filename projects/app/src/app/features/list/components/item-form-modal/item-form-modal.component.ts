@@ -68,9 +68,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
     this.isEditing.set(!!this.modal.data?.item);
     this.initForm();
-
-    // TODO: Remove
-    console.log('modal input', this.modal.data);
   }
 
   onConfirmName(option: AutocompleteOption) {
@@ -125,9 +122,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   private onCreate() {
-
-    // TODO: Remove
-    console.log('onCreate', this.theForm.value);
 
     let {
       [FIELD.ADD_TO_INVENTORY.id]: addToInventory,

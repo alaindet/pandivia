@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest, of, switchMap, take, throwError } from 'rxjs';
+import { Observable, combineLatest, of, switchMap, take, takeUntil, throwError } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
@@ -22,6 +22,7 @@ import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
 import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
+import { OnceSource } from '@app/common/sources';
 
 const imports = [
   CommonModule,
@@ -40,8 +41,9 @@ const imports = [
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss'],
 })
-export class InventoryPageComponent implements OnInit {
+export class InventoryPageComponent implements OnInit, OnDestroy {
 
+  private once = new OnceSource();
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
   private notification = inject(NotificationService);
@@ -67,6 +69,10 @@ export class InventoryPageComponent implements OnInit {
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
     this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
+  }
+
+  ngOnDestroy() {
+    this.once.trigger();
   }
 
   onListAction(action: string) {
@@ -178,7 +184,9 @@ export class InventoryPageComponent implements OnInit {
       return { ...action, label };
     });
     this.layout.setHeaderActions(actions);
-    this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
+    this.layout.headerActionEvent
+      .pipe(takeUntil(this.once.event$))
+      .subscribe(this.onListAction.bind(this));
   }
 
   private initCategoryContextualMenu(): void {
@@ -192,15 +200,7 @@ export class InventoryPageComponent implements OnInit {
   private confirmPrompt(
     input: ConfirmPromptModalInput,
   ): Observable<ConfirmPromptModalOutput> {
-
-    const translatedInput = {
-      ...input,
-      title: this.transloco.translate(input.title),
-      message: this.transloco.translate(input.message),
-    };
-
-    const modal$ = this.modal.open(ConfirmPromptModalComponent, translatedInput);
-
+    const modal$ = this.modal.open(ConfirmPromptModalComponent, input);
     return modal$.closed().pipe(take(1));
   }
 
