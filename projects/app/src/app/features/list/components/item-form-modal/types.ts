@@ -18,12 +18,3 @@ export type ListItemFormModalOutput = (
   | CreateListItemFormModalOutput
   | EditListItemFormModalOutput
 );
-
-export const LIST_ITEM_FORM_FIELD = {
-  NAME: 'name',
-  AMOUNT: 'amount',
-  DESCRIPTION: 'description',
-  CATEGORY: 'category',
-  IS_DONE: 'isDone',
-  ADD_TO_INVENTORY: 'addToInventory',
-} as const;

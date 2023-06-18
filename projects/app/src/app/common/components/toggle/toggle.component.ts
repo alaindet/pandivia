@@ -1,5 +1,5 @@
 import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, HostBinding, HostListener, Input, OnInit, Output, Provider, ViewEncapsulation, forwardRef, signal } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output, Provider, ViewEncapsulation, forwardRef, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { cssClassesList, getRandomHash } from '@app/common/utils';
@@ -35,6 +35,7 @@ export class ToggleComponent implements OnInit, ControlValueAccessor {
   @Input() @HostBinding('class.-disabled') isDisabled = false;
   @Input() @HostBinding('style.--app-toggle-bullet-size') size = '24px';
   @Input() withLabel: ToggleLabelPosition = TOGGLE_LABEL_POSITION.RIGHT;
+  @Input() @HostBinding('attr.aria-errormessage') withErrorId: string | null = null;
 
   @Output() changed = new EventEmitter<boolean>();
 

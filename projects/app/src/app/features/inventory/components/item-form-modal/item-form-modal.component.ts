@@ -12,7 +12,8 @@ import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
-import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, INVENTORY_ITEM_FORM_FIELD as FIELD, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
+import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
+import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './field';
 
 const imports = [
   MatIconModule,

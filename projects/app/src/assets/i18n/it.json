@@ -16,7 +16,8 @@
   "list.menu.categoryUndo": "Segna tutti come da fare",
   "list.menu.categoryRemoveCompleted": "Rimuovi completati",
   "list.menu.categoryRemoveAll": "Rimuovi tutti",
-  
+  "list.hint.addToInventory": "Aggiunge questo elemento all'Inventario se non è già presente",
+
   "inventory.title": "Inventario",
   "inventory.error.itemNoFound": "Elemento di Inventario con ID \"{{ id }}\" non trovato",
 
@@ -33,7 +34,8 @@
   "components.select.defaultLabel": "Seleziona...",
 
   "common.error.required": "Obbligatorio",
-  "common.error.minMaxChars": "Must be between {{ min }} and {{ max }} characters long",
+  "common.error.minMaxLength": "Deve contenere da {{ min }} a {{ max }} caratteri",
+  "common.error.minMax": "Deve essere compreso tra {{ min }} e {{ max }}",
   "common.error.uniqueName": "Questo nome già esiste",
   "common.form.field.name": "Nome",
   "common.form.field.description": "Descrizione",

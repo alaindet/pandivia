@@ -43,6 +43,7 @@ export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlV
   @Input() color: CheckboxColor = 'primary';
   @Input() isInteractable = true;
   @Input() @HostBinding('attr.aria-labelledby') ariaLabelledBy?: string;
+  @Input() @HostBinding('attr.aria-errormessage') withErrorId: string | null = null;
 
   @Output() changed = new EventEmitter<boolean>();
 

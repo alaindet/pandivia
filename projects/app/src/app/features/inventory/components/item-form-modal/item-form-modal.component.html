@@ -9,15 +9,14 @@
   autocomplete="off"
 >
   <!-- Name -->
-  <app-form-field id="item-name">
+  <app-form-field [id]="FIELD.NAME.htmlId">
 
     <app-form-field-label isRequired>
       {{ t('common.form.field.name') }}
     </app-form-field-label>
 
     <app-text-input
-      #nameRef="app-text-input"
-      id="item-name"
+      [id]="FIELD.NAME.htmlId"
       type="text"
       [formControlName]="FIELD.NAME.id"
       [status]="fName | appFieldStatus"
@@ -30,6 +29,7 @@
       }"
     />
 
+    <!-- Error: required -->
     <app-form-field-error
       *ngIf="fName | appFieldError:'required'"
       [errorId]="FIELD.NAME.errors.REQUIRED"
@@ -37,13 +37,15 @@
       {{ t('common.error.required') }}
     </app-form-field-error>
 
+    <!-- Error: min/max length -->
     <app-form-field-error
       *ngIf="fName | appFieldError:'minlength,maxlength'"
       [errorId]="FIELD.NAME.errors.LENGTH"
     >
-      {{ t('common.error.minMaxChars', { min: 2, max: 100 }) }}
+      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
     </app-form-field-error>
 
+    <!-- Error: unique name -->
     <app-form-field-error
       *ngIf="fName | appFieldError:'uniqueItemName'"
       [errorId]="FIELD.NAME.errors.UNIQUE"
@@ -54,14 +56,14 @@
   </app-form-field>
 
   <!-- Description -->
-  <app-form-field id="item-desc">
+  <app-form-field [id]="FIELD.DESCRIPTION.htmlId">
 
     <app-form-field-label isOptional>
       {{ t('common.form.field.description') }}
     </app-form-field-label>
 
     <app-textarea
-      id="item-desc"
+      [id]="FIELD.DESCRIPTION.htmlId"
       [rows]="4"
       [formControlName]="FIELD.DESCRIPTION.id"
       [status]="fDesc | appFieldStatus"
@@ -72,19 +74,19 @@
       [withErrorId]="fDesc | appFieldErrorId:{
         'minlength,maxlength': FIELD.DESCRIPTION.errors.LENGTH
       }"
-    ></app-textarea>
+    />
 
     <app-form-field-error
-      *ngIf="fDesc | appFieldError:'minlength,maxlength'"  
+      *ngIf="fDesc | appFieldError:'minlength,maxlength'"
       [errorId]="FIELD.DESCRIPTION.errors.LENGTH"
     >
-      {{ t('common.error.minMaxChars', { min: 2, max: 100 }) }}
+      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
     </app-form-field-error>
 
   </app-form-field>
 
   <!-- Category -->
-  <app-form-field id="item-category">
+  <app-form-field [id]="FIELD.CATEGORY.htmlId">
 
     <app-form-field-label isOptional>
       {{ t('common.form.field.category') }}
@@ -92,7 +94,7 @@
 
     <app-text-input
       #categoryRef="app-text-input"
-      id="item-category"
+      [id]="FIELD.CATEGORY.htmlId"
       type="text"
       [formControlName]="FIELD.CATEGORY.id"
       [status]="fCategory | appFieldStatus"
@@ -101,7 +103,7 @@
       [withErrorId]="fCategory | appFieldErrorId:{
         'minlength,maxlength': FIELD.CATEGORY.errors.LENGTH,
       }"
-    ></app-text-input>
+    />
 
     <app-autocomplete
       [inputComponent]="categoryRef"
@@ -124,9 +126,8 @@
       *ngIf="fCategory | appFieldError:'minlength,minlength'"
       [errorId]="FIELD.CATEGORY.errors.LENGTH"
     >
-      {{ t('common.error.minMaxChars', { min: 2, max: 100 }) }}
+      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
     </app-form-field-error>
-
   </app-form-field>
 
 </form>
@@ -142,21 +143,23 @@
       {{ t('common.cancel') }}
     </button>
 
-    <!-- Editing -->
-    <ng-container *ngIf="isEditing(); else createRef">
-      <button
-        type="button"
-        appButton="primary"
-        withIcon="left"
-        size="small"
-        [disabled]="isSaving()"
-        (click)="onSubmit()"
-      >
-      <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'edit' }}</mat-icon>
-        {{ t('common.edit') }}
-      </button>
-    </ng-container>
+    <!-- Edit -->
+    <button
+      *ngIf="isEditing(); else createRef"
+      type="button"
+      appButton="primary"
+      withIcon="left"
+      size="small"
+      [disabled]="isSaving()"
+      (click)="onSubmit()"
+    >
+    <mat-icon [class.-rotating]="isSaving()">
+      {{ isSaving() ? 'sync' : 'edit' }}
+    </mat-icon>
+      {{ t('common.edit') }}
+    </button>
 
+    <!-- Create -->
     <ng-template #createRef>
       <button
         type="button"
@@ -166,7 +169,9 @@
         [disabled]="isSaving()"
         (click)="onSubmit()"
       >
-        <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'add' }}</mat-icon>
+        <mat-icon [class.-rotating]="isSaving()">
+          {{ isSaving() ? 'sync' : 'add' }}
+        </mat-icon>
         {{ t('common.create') }}
       </button>
     </ng-template>
