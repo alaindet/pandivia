@@ -108,7 +108,7 @@ export class InventoryPageComponent implements OnInit {
   }
 
   onShowCreateItemModal(): void {
-    const title = 'Create item'; // TODO: Translate
+    const title = this.transloco.translate('inventory.itemModal.createTitle');
     const modalInput: InventoryItemFormModalInput = { title };
     this.modal.open(InventoryItemFormModalComponent, modalInput);
   }
@@ -154,7 +154,7 @@ export class InventoryPageComponent implements OnInit {
     findInventoryItemById(this.store, itemId).subscribe({
       error: err => this.notification.error(...readErrorI18n(err)),
       next: item => {
-        const title = 'Edit item'; // TODO: Translate
+        const title = 'inventory.itemModal.editTitle';
         const modalInput: InventoryItemFormModalInput = { title, item };
         this.modal.open(InventoryItemFormModalComponent, modalInput);
       },

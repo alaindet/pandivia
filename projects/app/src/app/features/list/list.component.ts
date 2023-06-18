@@ -142,7 +142,7 @@ export class ListPageComponent implements OnInit {
   }
 
   onShowCreateItemModal(): void {
-    const title = 'Create item'; // TODO: Translate
+    const title = this.transloco.translate('list.itemModal.createTitle');
     const modalInput: ListItemFormModalInput = { title, item: null };
     this.modal.open(ListItemFormModalComponent, modalInput);
   }
@@ -194,7 +194,7 @@ export class ListPageComponent implements OnInit {
     findListItemById(this.store, itemId).subscribe({
       error: err => this.notification.error(...readErrorI18n(err)),
       next: item => {
-        const title = 'Edit item'; // TODO: Translate
+        const title = this.transloco.translate('list.itemModal.editTitle');
         const modalInput: ListItemFormModalInput = { item, title };
         this.modal.open(ListItemFormModalComponent, modalInput);
       },

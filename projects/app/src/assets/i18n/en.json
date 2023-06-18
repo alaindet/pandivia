@@ -17,9 +17,13 @@
   "list.menu.categoryRemoveCompleted": "Remove all completed items",
   "list.menu.categoryRemoveAll": "Remove all items",
   "list.hint.addToInventory": "Adds this item to the Inventory if not already present",
+  "list.itemModal.createTitle": "Create List item",
+  "list.itemModal.editTitle": "Edit List item",
 
   "inventory.title": "Inventory",
   "inventory.error.itemNoFound": "Inventory item with ID \"{{ id }}\" not found",
+  "inventory.itemModal.createTitle": "Create Inventory item",
+  "inventory.itemModal.editTitle": "Edit Inventory item",
 
   "userProfile.title": "User",
   "userProfile.info": "Info",
