@@ -3,10 +3,10 @@ import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnI
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
+import { FormFieldStatus } from '@app/common/types';
 import { HTMLAttributes, createAttributesController } from '@app/common/controllers';
 import { cssClassesList, didInputChange, uniqueId } from '@app/common/utils';
 import { ButtonComponent } from '../button';
-import { FieldStatus } from '@app/common/types';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -37,7 +37,7 @@ export class TextareaComponent implements OnInit, OnChanges, ControlValueAccesso
 
   @Input() id?: string;
   @Input() value?: string;
-  @Input() status?: FieldStatus;
+  @Input() status?: FormFieldStatus;
   @Input() rows = 7;
   @Input() @HostBinding('class.-clearable') clearable = false;
   @Input() placeholder = '';

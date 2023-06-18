@@ -3,9 +3,9 @@ import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnI
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ElementAttributes, applyAttributes, didInputChange, getRandomHash, uniqueId } from '@app/common/utils';
+import { FormFieldStatus } from '@app/common/types';
+import { ElementAttributes, applyAttributes, didInputChange, uniqueId } from '@app/common/utils';
 import { ButtonComponent } from '../button';
-import { FieldStatus } from '@app/common/types';
 
 type TextInputType = 'text' | 'email' | 'number' | 'password' | 'search';
 
@@ -41,7 +41,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
   @Input() id?: string;
   @Input() type: TextInputType = 'text';
   @Input() value?: string;
-  @Input() status?: FieldStatus;
+  @Input() status?: FormFieldStatus;
   @Input() @HostBinding('class.-clearable') clearable = false;
   @Input() placeholder = '';
   @Input() autocomplete?: string;

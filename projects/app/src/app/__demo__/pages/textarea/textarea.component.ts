@@ -2,8 +2,13 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { FieldStatusPipe } from '@app/common/pipes';
+import { FieldErrorPipe, FieldStatusPipe } from '@app/common/pipes';
+import { getFieldDescriptor as fDescriptor } from '@app/common/utils';
 import { FORM_FIELD_EXPORTS, TextareaComponent } from '@app/common/components';
+
+const FIELD = {
+  MY_TEXTAREA: 'myTextarea',
+};
 
 const imports = [
   NgIf,
@@ -12,6 +17,7 @@ const imports = [
   TextareaComponent,
   ...FORM_FIELD_EXPORTS,
   FieldStatusPipe,
+  FieldErrorPipe,
 ];
 
 @Component({
@@ -25,10 +31,8 @@ export class TextareaDemoPageComponent {
   consoleLog = console.log;
 
   myForm = new FormGroup({
-    myTextarea: new FormControl('', [Validators.required]),
+    [FIELD.MY_TEXTAREA]: new FormControl('', [Validators.required]),
   });
 
-  get fMyTextarea(): FormControl {
-    return this.myForm.get('myTextarea')! as FormControl;
-  }
+  get fMyTextarea() { return fDescriptor(this.myForm, FIELD.MY_TEXTAREA) }
 }

@@ -1,9 +1,9 @@
 import { ObjectValues } from './object-values';
 
-export const FIELD_STATUS = {
+export const FORM_FIELD_STATUS = {
   ERROR: 'error',
   SUCCESS: 'success',
   NONE: 'none',
 } as const;
 
-export type FieldStatus = ObjectValues<typeof FIELD_STATUS>;
+export type FormFieldStatus = ObjectValues<typeof FORM_FIELD_STATUS>;

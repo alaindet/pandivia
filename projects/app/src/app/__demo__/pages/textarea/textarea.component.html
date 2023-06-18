@@ -12,7 +12,7 @@
       [status]="fMyTextarea | appFieldStatus"
       placeholder="Enter some text here..."
     ></app-textarea>
-    <app-form-field-error *ngIf="fMyTextarea.touched && fMyTextarea.hasError('required')">
+    <app-form-field-error *ngIf="fMyTextarea | appFieldError:'required'">
       Required field
     </app-form-field-error>
   </app-form-field>

@@ -27,5 +27,11 @@ export class FormFieldLabelComponent {
     this.isRequired = asBoolean(val);
   }
 
+  @Input('isOptional')
+  set isOptionalInput(val: boolean | string) {
+    this.isOptional = asBoolean(val);
+  }
+
   isRequired = false;
+  isOptional = false;
 }

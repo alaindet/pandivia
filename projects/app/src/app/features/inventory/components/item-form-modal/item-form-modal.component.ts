@@ -1,14 +1,15 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
-import { FieldStatusPipe } from '@app/common/pipes';
+import { FieldErrorPipe, FieldErrorIdPipe, FieldStatusPipe } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
+import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, INVENTORY_ITEM_FORM_FIELD as FIELD, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
@@ -29,6 +30,8 @@ const imports = [
   ButtonComponent,
   TranslocoModule,
   FieldStatusPipe,
+  FieldErrorPipe,
+  FieldErrorIdPipe,
 ];
 
 @Component({
@@ -48,13 +51,12 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   FIELD = FIELD;
   theForm!: FormGroup;
-  // isEditing = signal(this.modal.data.item !== null);
   isEditing = signal(false);
   isSaving = this.store.selectSignal(selectInventoryIsLoading);
 
-  get fName(): FormControl { return this.getField(FIELD.NAME) }
-  get fDesc(): FormControl { return this.getField(FIELD.DESCRIPTION) }
-  get fCategory(): FormControl { return this.getField(FIELD.CATEGORY) }
+  get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
+  get fDesc() { return fDescribe(this.theForm, FIELD.DESCRIPTION.id) }
+  get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
 
   ngOnInit() {
     this.isEditing.set(!!this.modal.data?.item);
@@ -62,28 +64,40 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   }
 
   onConfirmName(option: AutocompleteOption) {
-    this.fName.setValue(option.label);
+    this.theForm.get(FIELD.NAME.id)!.setValue(option.label);
   }
 
   onConfirmCategory(option: AutocompleteOption) {
-    this.fCategory.setValue(option.label);
+    this.theForm.get(FIELD.CATEGORY.id)!.setValue(option.label);
   }
+
+  categoryFieldOptions: AutocompleteAsyncOptionsFn = (
+    query: string,
+  ): Observable<FormOption[]> => {
+    return this.store.select(selectInventoryCategoriesByName(query)).pipe(
+      map(categories => categories.map(category => {
+        return { value: category, label: category };
+      })),
+    );
+  };
 
   onCancel() {
     this.modal.cancel();
   }
 
   onSubmit() {
+
+    if (this.theForm.invalid) {
+      this.theForm.markAllAsTouched();
+      return;
+    }
+
     this.isEditing()
       ? this.onEdit()
       : this.onCreate();
   }
 
-  onEdit() {
-
-    if (this.theForm.invalid) {
-      return;
-    }
+  private onEdit() {
 
     let item: InventoryItem = {
       id: this.modal.data.item!.id,
@@ -110,11 +124,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     this.store.dispatch(inventoryItemActions.edit({ item }));
   }
 
-  onCreate() {
-
-    if (this.theForm.invalid) {
-      return;
-    }
+  private onCreate() {
 
     let item: CreateInventoryItemDto = this.theForm.value;
 
@@ -138,16 +148,6 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     this.store.dispatch(inventoryItemActions.create({ dto: item }));
   }
 
-  categoryFieldOptions: AutocompleteAsyncOptionsFn = (
-    query: string,
-  ): Observable<FormOption[]> => {
-    return this.store.select(selectInventoryCategoriesByName(query)).pipe(
-      map(categories => categories.map(category => {
-        return { value: category, label: category };
-      })),
-    );
-  };
-
   private initForm(): void {
     const { item, category } = this.modal.data;
     const { required, minLength, maxLength } = Validators;
@@ -157,16 +157,18 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
       : category ?? '';
 
     const controls: any = {
-      [FIELD.NAME]: [
-        // Value
+      [FIELD.NAME.id]: [
         item?.name ?? '',
-        // Sync validators
         [required, minLength(2), maxLength(100)],
-        // Async validators,
-        // TODO ...
       ],
-      [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(100)]],
-      [FIELD.CATEGORY]: [defaultCategory, [minLength(2), maxLength(100)]],
+      [FIELD.DESCRIPTION.id]: [
+        item?.description ?? '',
+        [minLength(2), maxLength(100)],
+      ],
+      [FIELD.CATEGORY.id]: [
+        defaultCategory,
+        [minLength(2), maxLength(100)],
+      ],
     };
 
     this.theForm = this.formBuilder.group(controls);
@@ -183,9 +185,5 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
       }
       fn();
     });
-  }
-
-  private getField(field: string): FormControl {
-    return this.theForm.get(field)! as FormControl;
   }
 }

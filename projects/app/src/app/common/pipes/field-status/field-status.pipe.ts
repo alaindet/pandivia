@@ -1,15 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { FIELD_STATUS, FieldStatus } from '@app/common/types';
+
+import { FORM_FIELD_STATUS, FormFieldStatus, FormControlDescriptor } from '@app/common/types';
 
 // myFormControl | appFieldStatus
 @Pipe({
   name: 'appFieldStatus',
   standalone: true,
-  // pure: true,
+  pure: true,
 })
 export class FieldStatusPipe implements PipeTransform {
-  transform(field: FormControl): FieldStatus | undefined {
+  transform(field: FormControlDescriptor): FormFieldStatus | undefined {
 
     if (!field.touched) {
       return undefined;
@@ -17,9 +17,9 @@ export class FieldStatusPipe implements PipeTransform {
     }
 
     if (field.valid) {
-      return FIELD_STATUS.SUCCESS;
+      return FORM_FIELD_STATUS.SUCCESS;
     }
 
-    return FIELD_STATUS.ERROR;
+    return FORM_FIELD_STATUS.ERROR;
   }
 }
