@@ -20,6 +20,11 @@ export const selectListIsLoaded = createSelector(
   state => state.status === LOADING_STATUS.IDLE,
 );
 
+export const selectListInErrorStatus = createSelector(
+  selectListFeature,
+  state => state.status === LOADING_STATUS.ERROR,
+);
+
 export const selectListIsLoading = createSelector(
   selectListFeature,
   state => state.status === LOADING_STATUS.LOADING,

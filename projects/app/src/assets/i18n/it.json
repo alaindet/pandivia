@@ -12,6 +12,7 @@
   "list.prompt.removeCategoryAll.message": "Vuoi rimuovere tutti gli elementi dalla categoria?",
   "list.prompt.removeItem.title": "Rimuovi elemento",
   "list.prompt.removeItem.message": "Vuoi rimuovere questo elemento?",
+  "list.menu.categoryCreateItem": "Crea nuovo elemento",
   "list.menu.categoryComplete": "Completa tutti",
   "list.menu.categoryUndo": "Segna tutti come da fare",
   "list.menu.categoryRemoveCompleted": "Rimuovi completati",
@@ -55,5 +56,7 @@
   "common.form.field.addToInventory": "Aggiungi all'Inventario",
   "common.cancel": "Annulla",
   "common.edit": "Modifica",
-  "common.create": "Crea"
+  "common.create": "Crea",
+  "common.noItems": "Nessun elemento attualmente presente. Aggiungine uno con il bottone (+) in fondo alla pagina",
+  "common.errorStatus": "Impossibile scaricare gli elementi. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto"
 }

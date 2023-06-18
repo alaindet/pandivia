@@ -20,6 +20,11 @@ export const selectInventoryIsLoaded = createSelector(
   state => state.status === LOADING_STATUS.IDLE,
 );
 
+export const selectInventoryInErrorStatus = createSelector(
+  selectInventoryFeature,
+  state => state.status === LOADING_STATUS.ERROR,
+);
+
 export const selectInventoryIsLoading = createSelector(
   selectInventoryFeature,
   state => state.status === LOADING_STATUS.LOADING,

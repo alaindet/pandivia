@@ -17,22 +17,12 @@
   </ul>
 
   <!-- Items -->
-  <ul *ngIf="itemGroups().length" class="_cards">
-    <li *ngFor="let group of itemGroups(); trackBy: trackByCategory">
-      <app-card-list
-        [title]="group.category"
-        [items]="group.items"
-        [listActions]="CATEGORY_CONTEXTUAL_MENU"
-        [itemActionsFn]="getItemContextualMenu"
-        [isPinned]="pinnedCategory() === group.category"
-        [checkboxColor]="uiCheckboxColor()"
-        (listActionClicked)="onCategoryAction(group.category, $event)"
-        (itemActionClicked)="onItemAction($event)"
-        (itemToggled)="onItemToggle($event)"
-        (pinned)="onPinCategory(group.category, $event)"
-      />
-    </li>
-  </ul>
+  <ng-container [ngTemplateOutlet]="
+    itemGroups().length ? itemsRef
+    : loaded() ? noItemsRef
+    : inErrorStatus() ? errorStateRef
+    : null
+  " />
 
   <!-- Add new item -->
   <button
@@ -49,3 +39,33 @@
   </button>
 
 </div>
+
+<!-- Template: Show items -->
+<ng-template #itemsRef>
+  <ul class="_cards">
+    <li *ngFor="let group of itemGroups(); trackBy: trackByCategory">
+      <app-card-list
+        [title]="group.category"
+        [items]="group.items"
+        [listActions]="CATEGORY_CONTEXTUAL_MENU"
+        [itemActionsFn]="getItemContextualMenu"
+        [isPinned]="pinnedCategory() === group.category"
+        [checkboxColor]="uiCheckboxColor()"
+        (listActionClicked)="onCategoryAction(group.category, $event)"
+        (itemActionClicked)="onItemAction($event)"
+        (itemToggled)="onItemToggle($event)"
+        (pinned)="onPinCategory(group.category, $event)"
+      />
+    </li>
+  </ul>
+</ng-template>
+
+<!-- Template: No items -->
+<ng-template #noItemsRef>
+  <p>{{ 'common.noItems' | transloco }}</p>
+</ng-template>
+
+<!-- Template: Error status -->
+<ng-template #errorStateRef>
+  <p>{{ 'common.errorStatus' | transloco }}</p>
+</ng-template>

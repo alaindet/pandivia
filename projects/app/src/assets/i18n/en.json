@@ -12,6 +12,7 @@
   "list.prompt.removeCategoryAll.message": "Do you want to remove all items from the category?",
   "list.prompt.removeItem.title": "Remove item",
   "list.prompt.removeItem.message": "Do you want to remove this item?",
+  "list.menu.categoryCreateItem": "Create new item",
   "list.menu.categoryComplete": "Complete all items",
   "list.menu.categoryUndo": "Undo all items",
   "list.menu.categoryRemoveCompleted": "Remove all completed items",
@@ -55,5 +56,7 @@
   "common.form.field.addToInventory": "Add to Inventory",
   "common.cancel": "Cancel",
   "common.edit": "Edit",
-  "common.create": "Create"
+  "common.create": "Create",
+  "common.noItems": "No items are currently present in List. Add one with the (+) button on the bottom of the page",
+  "common.errorStatus": "An error occurred while downloading items. Try again by selecting the \"Refresh\" action from the top menu"
 }

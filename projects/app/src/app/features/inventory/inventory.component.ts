@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest, of, switchMap, take, throwError } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
 import { ACTIONS_MENU_EXPORTS, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
@@ -20,7 +20,7 @@ import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
-import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters } from './store';
+import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 
 const imports = [
@@ -30,6 +30,7 @@ const imports = [
   MatIconModule,
   ButtonComponent,
   CardListComponent,
+  TranslocoModule,
 ];
 
 @Component({
@@ -46,12 +47,13 @@ export class InventoryPageComponent implements OnInit {
   private notification = inject(NotificationService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
-  private tr = this.transloco.translate;
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
   getItemContextualMenu = itemMenu.getItemContextualMenu;
 
   itemGroups = this.store.selectSignal(selectInventoryCategorizedFilteredItems);
+  loaded = this.store.selectSignal(selectInventoryIsLoaded);
+  inErrorStatus = this.store.selectSignal(selectInventoryInErrorStatus);
   filters = this.store.selectSignal(selectInventoryFilters);
   pinnedCategory = this.store.selectSignal(selectInventoryCategoryFilter);
 
@@ -68,8 +70,8 @@ export class InventoryPageComponent implements OnInit {
         break;
       }
       case listMenu.LIST_ACTION_REMOVE.id: {
-        const title = this.tr(LIST_REMOVE_PROMPT.title);
-        const message = this.tr(LIST_REMOVE_PROMPT.message);
+        const title = this.transloco.translate(LIST_REMOVE_PROMPT.title);
+        const message = this.transloco.translate(LIST_REMOVE_PROMPT.message);
         const prompt = { ...LIST_REMOVE_PROMPT, title, message };
 
         this.confirmPrompt(prompt).subscribe({
@@ -88,9 +90,10 @@ export class InventoryPageComponent implements OnInit {
         break;
       }
       case categoryMenu.CATEGORY_ACTION_REMOVE.id: {
-        const categoryName = category;
-        const title = this.tr(CATEGORY_REMOVE_PROMPT.title, { categoryName });
-        const message = this.tr(CATEGORY_REMOVE_PROMPT.message, { categoryName });
+        const config = CATEGORY_REMOVE_PROMPT;
+        const params = { categoryName: category };
+        const title = this.transloco.translate(config.title, params);
+        const message = this.transloco.translate(config.message, params);
         const prompt = { ...CATEGORY_REMOVE_PROMPT, title, message };
 
         this.confirmPrompt(prompt).subscribe({
@@ -114,11 +117,14 @@ export class InventoryPageComponent implements OnInit {
       }
       case itemMenu.ITEM_ACTION_REMOVE.id: {
         findInventoryItemById(this.store, itemId)
-          .pipe(switchMap(item => this.confirmPrompt({
-            ...ITEM_REMOVE_PROMPT,
-            title: this.tr(ITEM_REMOVE_PROMPT.title, { itemName: item.name }),
-            message: this.tr(ITEM_REMOVE_PROMPT.message, { itemName: item.name }),
-          })))
+          .pipe(switchMap(item => {
+            const config = ITEM_REMOVE_PROMPT;
+            const params = { itemName: item.name };
+            const title = this.transloco.translate(config.title, params);
+            const message = this.transloco.translate(config.message, params);
+            const prompt = { ...ITEM_REMOVE_PROMPT, title, message };
+            return this.confirmPrompt(prompt);
+          }))
           .subscribe({
             error: () => console.log('Canceled'),
             next: () => this.store.dispatch(inventoryItemActions.remove({ itemId })),

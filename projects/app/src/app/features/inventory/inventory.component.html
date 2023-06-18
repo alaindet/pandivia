@@ -17,7 +17,32 @@
   </ul>
 
   <!-- Items -->
-  <ul *ngIf="itemGroups().length" class="_cards">
+  <ng-container [ngTemplateOutlet]="
+    itemGroups().length ? itemsRef
+    : loaded() ? noItemsRef
+    : inErrorStatus() ? errorStateRef
+    : null
+  " />
+
+  <!-- Add new item -->
+  <button
+    appButton
+    isCircle
+    withIconOnly
+    size="large"
+    floating="fixed"
+    floatingBottom="4.7rem"
+    floatingRight="1.1rem"
+    (click)="onShowCreateItemModal()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+
+</div>
+
+<!-- Template: Show items -->
+<ng-template #itemsRef>
+  <ul class="_cards">
     <li *ngFor="let group of itemGroups(); trackBy: trackByCategory">
       <app-card-list
         [title]="group.category"
@@ -32,19 +57,14 @@
       />
     </li>
   </ul>
+</ng-template>
 
-  <!-- Add new item -->
-  <button
-    appButton
-    isCircle
-    withIconOnly
-    size="large" 
-    floating="fixed"
-    floatingBottom="4.7rem"
-    floatingRight="1.1rem"
-    (click)="onShowCreateItemModal()"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
+<!-- Template: No items -->
+<ng-template #noItemsRef>
+  <p>{{ 'common.noItems' | transloco }}</p>
+</ng-template>
 
-</div>
+<!-- Template: Error status -->
+<ng-template #errorStateRef>
+  <p>{{ 'common.errorStatus' | transloco }}</p>
+</ng-template>

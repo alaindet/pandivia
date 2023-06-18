@@ -66,8 +66,11 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
   ngOnInit() {
     this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
-    this.isEditing.set(this.modal.data.item !== null);
+    this.isEditing.set(!!this.modal.data?.item);
     this.initForm();
+
+    // TODO: Remove
+    console.log('modal input', this.modal.data);
   }
 
   onConfirmName(option: AutocompleteOption) {
@@ -123,6 +126,9 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
   private onCreate() {
 
+    // TODO: Remove
+    console.log('onCreate', this.theForm.value);
+
     let {
       [FIELD.ADD_TO_INVENTORY.id]: addToInventory,
       ...item
@@ -175,8 +181,12 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   };
 
   private initForm(): void {
-    const { item } = this.modal.data;
+    const { item, category } = this.modal.data;
     const { required, minLength, maxLength, min, max } = Validators;
+
+    const defaultCategory = !!this.modal.data?.item
+      ? item?.category ?? ''
+      : category ?? '';
 
     const controls: any = {
       [FIELD.NAME.id]: [
@@ -196,7 +206,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
         [minLength(2), maxLength(100)],
       ],
       [FIELD.CATEGORY.id]: [
-        item?.category ?? null,
+        defaultCategory,
         [minLength(2), maxLength(100)],
       ],
     };

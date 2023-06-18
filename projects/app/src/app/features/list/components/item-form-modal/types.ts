@@ -1,8 +1,9 @@
 import { CreateListItemDto, ListItem } from '../../types';
 
 export type ListItemFormModalInput = {
-  title: string; // TODO: Translate
-  item: ListItem | null;
+  title: string;
+  item?: ListItem;
+  category?: string;
 };
 
 export type CreateListItemFormModalOutput = {

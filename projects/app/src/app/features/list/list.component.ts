@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import { listAllItemsActions, listCategoryActions, listFilterActions, listItemActions, listItemsAsyncReadActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListIsDoneFilter, selectListItemAmount } from './store';
+import { listAllItemsActions, listCategoryActions, listFilterActions, listItemActions, listItemsAsyncReadActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded, selectListItemAmount } from './store';
 import { ListFilterToken, CategorizedListItems } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
@@ -24,6 +24,7 @@ import { findListItemById } from './functions';
 const imports = [
   NgIf,
   NgFor,
+  NgTemplateOutlet,
   AsyncPipe,
   CardListComponent,
   ButtonComponent,
@@ -48,7 +49,10 @@ export class ListPageComponent implements OnInit {
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.getCategoryContextualMenu();
   getItemContextualMenu = itemMenu.getItemContextualMenu;
+
   itemGroups = this.store.selectSignal(selectListCategorizedFilteredItems);
+  loaded = this.store.selectSignal(selectListIsLoaded);
+  inErrorStatus = this.store.selectSignal(selectListInErrorStatus);
   filters = this.store.selectSignal(selectListFilters);
   pinnedCategory = this.store.selectSignal(selectListCategoryFilter);
   uiTheme = this.store.selectSignal(selectUiTheme);
@@ -94,6 +98,9 @@ export class ListPageComponent implements OnInit {
 
   onCategoryAction(category: string, action: string) {
     switch (action) {
+      case categoryMenu.CATEGORY_ACTION_CREATE_ITEM.id:
+        this.showCreateItemByCategoryModal(category);
+        break;
       case categoryMenu.CATEGORY_ACTION_COMPLETE.id:
         this.store.dispatch(listCategoryActions.complete({ category }));
         break;
@@ -143,7 +150,7 @@ export class ListPageComponent implements OnInit {
 
   onShowCreateItemModal(): void {
     const title = this.transloco.translate('list.itemModal.createTitle');
-    const modalInput: ListItemFormModalInput = { title, item: null };
+    const modalInput: ListItemFormModalInput = { title };
     this.modal.open(ListItemFormModalComponent, modalInput);
   }
 
@@ -188,6 +195,12 @@ export class ListPageComponent implements OnInit {
     };
 
     return this.modal.open(ConfirmPromptModalComponent, translatedInput).closed();
+  }
+
+  private showCreateItemByCategoryModal(category: string): void {
+    const title = this.transloco.translate('inventory.itemModal.createTitle');
+    const modalInput: ListItemFormModalInput = { title, category };
+    this.modal.open(ListItemFormModalComponent, modalInput);
   }
 
   private showEditItemModal(itemId: string): void {
