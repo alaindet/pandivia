@@ -200,7 +200,9 @@ export class ListPageComponent implements OnInit {
       message: this.transloco.translate(input.message),
     };
 
-    return this.modal.open(ConfirmPromptModalComponent, translatedInput).closed();
+    const modal$ = this.modal.open(ConfirmPromptModalComponent, translatedInput);
+
+    return modal$.closed().pipe(take(1));
   }
 
   private showCreateItemByCategoryModal(category: string): void {

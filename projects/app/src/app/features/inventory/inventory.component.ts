@@ -192,7 +192,16 @@ export class InventoryPageComponent implements OnInit {
   private confirmPrompt(
     input: ConfirmPromptModalInput,
   ): Observable<ConfirmPromptModalOutput> {
-    return this.modal.open(ConfirmPromptModalComponent, input).closed();
+
+    const translatedInput = {
+      ...input,
+      title: this.transloco.translate(input.title),
+      message: this.transloco.translate(input.message),
+    };
+
+    const modal$ = this.modal.open(ConfirmPromptModalComponent, translatedInput);
+
+    return modal$.closed().pipe(take(1));
   }
 
   private showEditItemModal(itemId: string): void {
