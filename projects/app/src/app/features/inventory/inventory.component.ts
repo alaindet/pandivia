@@ -46,6 +46,7 @@ export class InventoryPageComponent implements OnInit {
   private notification = inject(NotificationService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
+  private tr = this.transloco.translate;
 
   CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
   getItemContextualMenu = itemMenu.getItemContextualMenu;
@@ -62,48 +63,68 @@ export class InventoryPageComponent implements OnInit {
 
   onListAction(action: string) {
     switch (action) {
-      case listMenu.LIST_ACTION_REFRESH.id:
+      case listMenu.LIST_ACTION_REFRESH.id: {
         this.store.dispatch(inventoryItemsAsyncReadActions.forceFetchItems());
         break;
-      case listMenu.LIST_ACTION_REMOVE.id:
-        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe({
+      }
+      case listMenu.LIST_ACTION_REMOVE.id: {
+        const title = this.tr(LIST_REMOVE_PROMPT.title);
+        const message = this.tr(LIST_REMOVE_PROMPT.message);
+        const prompt = { ...LIST_REMOVE_PROMPT, title, message };
+
+        this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.store.dispatch(inventoryAllItemsActions.remove()),
         });
         break;
+      }
     }
   }
 
   onCategoryAction(category: string, action: string) {
     switch (action) {
-      case categoryMenu.CATEGORY_ACTION_CREATE_ITEM.id:
+      case categoryMenu.CATEGORY_ACTION_CREATE_ITEM.id: {
         this.showCreateItemByCategoryModal(category);
         break;
-      case categoryMenu.CATEGORY_ACTION_REMOVE.id:
-        this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe({
+      }
+      case categoryMenu.CATEGORY_ACTION_REMOVE.id: {
+        const categoryName = category;
+        const title = this.tr(CATEGORY_REMOVE_PROMPT.title, { categoryName });
+        const message = this.tr(CATEGORY_REMOVE_PROMPT.message, { categoryName });
+        const prompt = { ...CATEGORY_REMOVE_PROMPT, title, message };
+
+        this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => {
-            this.store.dispatch(inventoryCategoryActions.remove({ category }));
-          },
+          next: () => this.store.dispatch(inventoryCategoryActions.remove({ category })),
         });
         break;
+      }
     }
   }
 
   onItemAction({ itemId, action }: ItemActionOutput) {
     switch(action) {
-      case itemMenu.ITEM_ACTION_ADD_TO_LIST.id:
+      case itemMenu.ITEM_ACTION_ADD_TO_LIST.id: {
         this.cloneItemToList(itemId);
         break;
-      case itemMenu.ITEM_ACTION_EDIT.id:
+      }
+      case itemMenu.ITEM_ACTION_EDIT.id: {
         this.showEditItemModal(itemId);
         break;
-      case itemMenu.ITEM_ACTION_REMOVE.id:
-        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe({
-          error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(inventoryItemActions.remove({ itemId })),
-        });
+      }
+      case itemMenu.ITEM_ACTION_REMOVE.id: {
+        findInventoryItemById(this.store, itemId)
+          .pipe(switchMap(item => this.confirmPrompt({
+            ...ITEM_REMOVE_PROMPT,
+            title: this.tr(ITEM_REMOVE_PROMPT.title, { itemName: item.name }),
+            message: this.tr(ITEM_REMOVE_PROMPT.message, { itemName: item.name }),
+          })))
+          .subscribe({
+            error: () => console.log('Canceled'),
+            next: () => this.store.dispatch(inventoryItemActions.remove({ itemId })),
+          });
         break;
+      }
     }
   }
 

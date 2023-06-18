@@ -24,6 +24,12 @@
   "inventory.error.itemNoFound": "Elemento di Inventario con ID \"{{ id }}\" non trovato",
   "inventory.itemModal.createTitle": "Crea elemento in Inventario",
   "inventory.itemModal.editTitle": "Modifica elemento in Inventario",
+  "inventory.prompt.allRemoveTitle": "Rimuovi Inventario",
+  "inventory.prompt.allRemoveMessage": "Vuoi rimuovere tutti gli elementi dall'Inventario?",
+  "inventory.prompt.categoryRemoveTitle": "Rimuovi categoria \"{{ categoryName }}\"",
+  "inventory.prompt.categoryRemoveMessage": "Vuoi rimuovere tutti gli elementi dalla categoria \"{{ categoryName }}\"?",
+  "inventory.prompt.itemRemoveTitle": "Rimuovi elemento \"{{ itemName }}\"",
+  "inventory.prompt.itemRemoveMessage": "Vuoi rimuovere l'elemento \"{{ itemName }}\"?",
 
   "userProfile.title": "Utente",
   "userProfile.info": "Informazioni",

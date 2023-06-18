@@ -24,6 +24,12 @@
   "inventory.error.itemNoFound": "Inventory item with ID \"{{ id }}\" not found",
   "inventory.itemModal.createTitle": "Create Inventory item",
   "inventory.itemModal.editTitle": "Edit Inventory item",
+  "inventory.prompt.allRemoveTitle": "Remove Inventory",
+  "inventory.prompt.allRemoveMessage": "Do you want to remove all items from the Inventory?",
+  "inventory.prompt.categoryRemoveTitle": "Remove category \"{{ categoryName }}\"",
+  "inventory.prompt.categoryRemoveMessage": "Do you want to remove all items from the category \"{{ categoryName }}\"?",
+  "inventory.prompt.itemRemoveTitle": "Remove item \"{{ itemName }}\"",
+  "inventory.prompt.itemRemoveMessage": "Do you want to remove item \"{{ itemName }}\"?",
 
   "userProfile.title": "User",
   "userProfile.info": "Info",
