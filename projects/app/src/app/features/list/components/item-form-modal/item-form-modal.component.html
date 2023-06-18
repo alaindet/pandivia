@@ -229,12 +229,16 @@
 
 <ng-container *appModalFooter>
   <div *transloco="let t" class="_footer">
+
+    <!-- Cancel -->
     <button
       type="button"
-      appButton="ghost"
+      appButton="outline"
       size="small"
+      withIcon="left"
       (click)="onCancel()"
     >
+      <mat-icon>clear</mat-icon>
       {{ t('common.cancel') }}
     </button>
 
