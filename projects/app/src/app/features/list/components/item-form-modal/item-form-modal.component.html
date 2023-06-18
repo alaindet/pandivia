@@ -20,6 +20,7 @@
       [id]="FIELD.NAME.htmlId"
       type="text"
       [formControlName]="FIELD.NAME.id"
+      [withFullWidth]="true"
       [status]="fName | appFieldStatus"
       [placeholder]="t('common.form.field.name') + '...'"
       [withStatusIcon]="true"
@@ -149,8 +150,9 @@
 
     <app-text-input
       #categoryRef="app-text-input"
-      id="item-category"
+      [id]="FIELD.CATEGORY.htmlId"
       type="text"
+      [withFullWidth]="true"
       [id]="FIELD.CATEGORY.htmlId"
       [status]="fCategory | appFieldStatus"
       [placeholder]="t('common.form.field.category') + '...'"

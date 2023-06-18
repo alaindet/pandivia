@@ -21,6 +21,7 @@
       [formControlName]="FIELD.NAME.id"
       [status]="fName | appFieldStatus"
       [placeholder]="t('common.form.field.name') + '...'"
+      [withFullWidth]="true"
       [withStatusIcon]="true"
       [withErrorId]="fName | appFieldErrorId:{
         'required': FIELD.NAME.errors.REQUIRED,
@@ -97,6 +98,7 @@
       [id]="FIELD.CATEGORY.htmlId"
       type="text"
       [formControlName]="FIELD.CATEGORY.id"
+      [withFullWidth]="true"
       [status]="fCategory | appFieldStatus"
       [placeholder]="t('common.form.field.category') + '...'"
       [withStatusIcon]="true"
