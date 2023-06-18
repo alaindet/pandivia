@@ -1,8 +1,9 @@
 import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, computed, effect, forwardRef, signal } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, computed, forwardRef, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
+import { FormFieldStatus } from '@app/common/types';
 import { HTMLAttributes, createAttributesController } from '@app/common/controllers';
 import { cssClassesList, didInputChange, uniqueId } from '@app/common/utils';
 import { ButtonComponent } from '../button';
@@ -13,7 +14,7 @@ const TEXTAREA_FORM_PROVIDER: Provider = {
 	multi: true,
 };
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgSwitch,
   NgSwitchCase,
@@ -25,7 +26,7 @@ const IMPORTS = [
   selector: 'app-textarea',
   exportAs: 'app-textarea',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -36,7 +37,7 @@ export class TextareaComponent implements OnInit, OnChanges, ControlValueAccesso
 
   @Input() id?: string;
   @Input() value?: string;
-  @Input() status?: 'success' | 'error';
+  @Input() status?: FormFieldStatus;
   @Input() rows = 7;
   @Input() @HostBinding('class.-clearable') clearable = false;
   @Input() placeholder = '';

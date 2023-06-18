@@ -1,22 +1,24 @@
 import { ChangeDetectorRef, Component, ElementRef, HostBinding, OnDestroy, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { ButtonComponent } from '../../button';
 import { ModalService } from '../modal.service';
 import { OnceSource } from '@app/common/sources';
 import { createModalKeyboardController } from './keyboard.controller';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   ButtonComponent,
   MatIconModule,
+  TranslocoModule,
 ];
 
 @Component({
   selector: 'app-modal-host',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './modal-host.component.html',
   styleUrls: ['./modal-host.component.scss'],
   encapsulation: ViewEncapsulation.None,

@@ -15,14 +15,6 @@
     width: var(--app-select-width);
   }
 
-  &.-status-success {
-    // ...
-  }
-
-  &.-status-error {
-    // ...
-  }
-
   &:focus-within {
     &::after {
       // transform: rotate(-225deg);

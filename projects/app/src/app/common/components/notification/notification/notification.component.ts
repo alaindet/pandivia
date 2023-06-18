@@ -11,7 +11,7 @@ const NOTIFICATION_ICON: { [key in NotificationType]: string } = {
   [NOTIFICATION_TYPE.ERROR]: 'report_problem',
 };
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   MatIconModule,
 ];
@@ -19,7 +19,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-notification',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
   host: { class: 'app-notification' },

@@ -2,13 +2,13 @@ import { ActionsMenuItem } from '@app/common/components';
 
 export const CATEGORY_ACTION_CREATE_ITEM: ActionsMenuItem = {
   id: 'category:create-item',
-  label: 'Create new item', // TODO: Translate
+  label: 'common.menu.createNewItem',
   icon: 'add_circle',
 };
 
 export const CATEGORY_ACTION_REMOVE: ActionsMenuItem = {
   id: 'category:remove',
-  label: 'Remove all items', // TODO: Translate
+  label: 'common.menu.removeAllItems',
   icon: 'delete',
 };
 

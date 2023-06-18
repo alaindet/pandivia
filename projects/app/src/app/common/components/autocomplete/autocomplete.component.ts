@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable, auditTime, combineLatest, map, startWith } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { AsyncPipe, NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
 import { SIXTY_FRAMES_PER_SECOND } from '@app/common/constants';
@@ -9,9 +10,9 @@ import { didInputChange } from '@app/common/utils';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
-import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType, AUTOCOMPLETE_ITEMS_TEMPLATE, AutocompleteItemsTemplate } from './types';
+import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType, AUTOCOMPLETE_ITEMS_TEMPLATE } from './types';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   NgFor,
   NgSwitch,
@@ -20,12 +21,13 @@ const IMPORTS = [
   NgTemplateOutlet,
   AutocompleteOptionComponent,
   PipefyPipe,
+  TranslocoModule,
 ];
 
 @Component({
   selector: 'app-autocomplete',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,12 +51,12 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   @Input() @HostBinding('style.--app-autocomplete-offset-y') offsetY = '0';
 
   @Output() confirmed = new EventEmitter<AutocompleteOption>();
-  
+
   @HostBinding('class.-open') cssOpen = false;
 
   inputId!: string;
   ITEMS_TEMPLATE = AUTOCOMPLETE_ITEMS_TEMPLATE;
-  
+
   vm$ = combineLatest({
     isLoading: this.svc.loading.data$,
     options: this.svc.options.data$,
@@ -159,7 +161,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
         let fields = this.staticSearchableFields;
         this.svc.setStaticSearchableFields(fields?.length ? fields : ['id']);
         break;
-        
+
       case AUTOCOMPLETE_SOURCE_TYPE.ASYNC:
         if (!this.asyncOptions) throw new Error('Missing async options function');
         this.svc.setAsyncOptions(this.asyncOptions);

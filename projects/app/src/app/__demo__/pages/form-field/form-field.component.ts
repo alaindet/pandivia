@@ -5,7 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TextInputComponent } from '@app/common/components';
 import { FORM_FIELD_EXPORTS } from '@app/common/components/form-field';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   ...FORM_FIELD_EXPORTS,
   ReactiveFormsModule,
@@ -15,7 +15,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-form-field',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './form-field.component.html',
   styles: [`
     :host > h2 {

@@ -3,18 +3,20 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TextInputComponent } from '@app/common/components';
+import { FieldStatusPipe } from "@app/common/pipes";
 
-const IMPORTS = [
+const imports = [
   NgIf,
   ReactiveFormsModule,
   JsonPipe,
   TextInputComponent,
+  FieldStatusPipe,
 ];
 
 @Component({
   selector: 'app-demo-text-input',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './text-input.component.html',
 })
 export class TextInputDemoPageComponent {

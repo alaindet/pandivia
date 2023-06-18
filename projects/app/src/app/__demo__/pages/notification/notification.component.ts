@@ -1,30 +1,27 @@
 import { Component, inject } from '@angular/core';
+
 import { ButtonComponent } from '@app/common/components';
+import { NotificationService } from '@app/core';
 
-import { notificationsActions } from '@app/core';
-import { Store } from '@ngrx/store';
-
-const IMPORTS = [
+const imports = [
   ButtonComponent,
 ];
 
 @Component({
   selector: 'app-demo-notification',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './notification.component.html',
 })
 export class NotificationDemoPageComponent {
 
-  private store = inject(Store);
+  private notification = inject(NotificationService);
 
   onAddSuccess() {
-    const message = 'A success message';
-    this.store.dispatch(notificationsActions.addSuccess({ message }));
+    this.notification.set('success', 'A success message');
   }
 
   onAddError() {
-    const message = 'An error message';
-    this.store.dispatch(notificationsActions.addError({ message }));
+    this.notification.set('error', 'An error message');
   }
 }

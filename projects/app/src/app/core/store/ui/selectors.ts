@@ -1,8 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { RuntimeNotification, FormOption } from '@app/common/types';
+import { RuntimeNotification } from '@app/common/types';
 import { UI_FEATURE_NAME, UiFeatureState } from './state';
-import { capitalize } from '@app/common/utils';
 
 const selectUiFeature = createFeatureSelector<UiFeatureState>(UI_FEATURE_NAME);
 
@@ -39,13 +38,4 @@ export const selectNavigation = createSelector(
 export const selectUiTheme = createSelector(
   selectUiFeature,
   state => state.theme,
-);
-
-export const selectUiThemeOptions = createSelector(
-  selectUiFeature,
-  (state): FormOption[] => {
-    return state.availableThemes.map(theme => {
-      return { value: theme, label: capitalize(theme) };
-    });
-  },
 );

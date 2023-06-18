@@ -1,8 +1,9 @@
 import { CreateListItemDto, ListItem } from '../../types';
 
 export type ListItemFormModalInput = {
-  title: string; // TODO: Translate
-  item: ListItem | null;
+  title: string;
+  item?: ListItem;
+  category?: string;
 };
 
 export type CreateListItemFormModalOutput = {
@@ -18,12 +19,3 @@ export type ListItemFormModalOutput = (
   | CreateListItemFormModalOutput
   | EditListItemFormModalOutput
 );
-
-export const LIST_ITEM_FORM_FIELD = {
-  NAME: 'name',
-  AMOUNT: 'amount',
-  DESCRIPTION: 'description',
-  CATEGORY: 'category',
-  IS_DONE: 'isDone',
-  ADD_TO_INVENTORY: 'addToInventory',
-} as const;

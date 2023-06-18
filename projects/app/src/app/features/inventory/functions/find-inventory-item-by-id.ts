@@ -13,9 +13,10 @@ export function findInventoryItemById(
     switchMap(item => {
 
       if (!item) {
-        // TODO: Translate
-        const message = `Inventory item with id ${itemId} not found`;
-        return throwError(() => Error(message));
+        return throwError(() => Error(JSON.stringify({
+          path: 'inventory.error.itemNoFound',
+          id: itemId,
+        })));
       }
 
       return of(item);

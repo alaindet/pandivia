@@ -20,6 +20,11 @@ export const selectListIsLoaded = createSelector(
   state => state.status === LOADING_STATUS.IDLE,
 );
 
+export const selectListInErrorStatus = createSelector(
+  selectListFeature,
+  state => state.status === LOADING_STATUS.ERROR,
+);
+
 export const selectListIsLoading = createSelector(
   selectListFeature,
   state => state.status === LOADING_STATUS.LOADING,
@@ -110,10 +115,10 @@ export const selectListFilters = createSelector(
     }
 
     if (state.filters[LIST_FILTER.IS_DONE]) {
-      const value = state.filters[LIST_FILTER.IS_DONE]
-        ? 'Items to do' // TODO: Translate
-        : 'Completed items'; // TODO: Translate
-      filters.push({ key: LIST_FILTER.IS_DONE, value });
+      const key = LIST_FILTER.IS_DONE;
+      const value = state.filters[LIST_FILTER.IS_DONE];
+      const label = value ? 'list.filter.onlyToDo' : 'list.filter.onlyCompleted';
+      filters.push({ key, value, label });
     }
 
     return filters.length ? filters : null;

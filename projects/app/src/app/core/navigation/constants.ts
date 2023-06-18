@@ -3,19 +3,19 @@ import { BottomMenuItem } from '@app/common/components';
 export const NAVIGATION_ITEM_INVENTORY: BottomMenuItem = {
   id: 'inventory',
   icon: 'inventory_2',
-  label: 'Inventory', // TODO: Translate
+  label: 'inventory.title',
 };
 
 export const NAVIGATION_ITEM_LIST: BottomMenuItem = {
   id: 'list',
   icon: 'format_list_bulleted',
-  label: 'List', // TODO: Translate
+  label: 'list.title',
 };
 
 export const NAVIGATION_ITEM_USER: BottomMenuItem = {
   id: 'user',
   icon: 'person',
-  label: 'User', // TODO: Translate
+  label: 'userProfile.title',
 };
 
 export const NAVIGATION_ITEMS: BottomMenuItem[] = [

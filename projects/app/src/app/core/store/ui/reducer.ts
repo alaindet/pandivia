@@ -5,43 +5,43 @@ import { NOTIFICATION_TYPE } from '@app/common/types';
 import { DEFAULT_THEME } from '@app/core/theme';
 import { UI_FEATURE_INITIAL_STATE } from './state';
 import {
-  notificationsActions,
-  loaderActions,
-  setCurrentNavigation,
-  setCurrentTitle,
+  uiNotificationsActions,
+  uiLoaderActions,
+  uiNavigationActions,
+  uiSetPageTitle,
   uiThemeActions,
 } from './actions';
 
 export const uiReducer = createReducer(
   UI_FEATURE_INITIAL_STATE,
 
-  immerOn(notificationsActions.addSuccess, (state, { message }) => {
+  immerOn(uiNotificationsActions.addSuccess, (state, { message }) => {
     const id = Date.now() + Math.random();
     state.notifications.push({ id, type: NOTIFICATION_TYPE.SUCCESS, message });
   }),
 
-  immerOn(notificationsActions.addError, (state, { message }) => {
+  immerOn(uiNotificationsActions.addError, (state, { message }) => {
     const id = Date.now() + Math.random();
     state.notifications.push({ id, type: NOTIFICATION_TYPE.ERROR, message });
   }),
 
-  immerOn(notificationsActions.dismiss, state => {
+  immerOn(uiNotificationsActions.dismiss, state => {
     state.notifications.pop();
   }),
 
-  immerOn(loaderActions.start, state => {
+  immerOn(uiLoaderActions.start, state => {
     state.loading = true;
   }),
 
-  immerOn(loaderActions.stop, state => {
+  immerOn(uiLoaderActions.stop, state => {
     state.loading = false;
   }),
 
-  immerOn(setCurrentNavigation, (state, { current }) => {
+  immerOn(uiNavigationActions.setCurrent, (state, { current }) => {
     state.navigation.current = current;
   }),
 
-  immerOn(setCurrentTitle, (state, { title }) => {
+  immerOn(uiSetPageTitle, (state, { title }) => {
     state.title = title;
   }),
 

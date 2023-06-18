@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '../button';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   ButtonComponent,
   MatIconModule,
@@ -13,7 +13,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-page-header',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -38,7 +38,7 @@ export class PageHeaderComponent {
 
     if (this.withBackButton) {
       this.location.back();
-      return;  
+      return;
     }
 
     // Do nothing by default

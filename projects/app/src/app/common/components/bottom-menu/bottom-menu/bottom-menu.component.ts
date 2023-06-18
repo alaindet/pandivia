@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEn
 import { BottomMenuItemComponent } from '../bottom-menu-item/bottom-menu-item.component';
 import { BottomMenuItem } from '../types';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   BottomMenuItemComponent,
 ];
@@ -12,7 +12,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-bottom-menu',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './bottom-menu.component.html',
   styleUrls: ['./bottom-menu.component.scss'],
   host: { class: 'app-bottom-menu' },

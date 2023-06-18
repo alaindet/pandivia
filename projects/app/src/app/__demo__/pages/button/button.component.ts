@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   ButtonComponent,
   MatIconModule,
@@ -13,12 +13,12 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-button',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
 })
 export class ButtonDemoPageComponent {
-  
+
   fabContainer = false;
   fabFixed = false;
 

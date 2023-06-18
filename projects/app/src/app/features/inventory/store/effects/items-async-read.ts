@@ -5,7 +5,7 @@ import { of, switchMap, withLatestFrom } from 'rxjs';
 
 import { InventoryService } from '../../services';
 import { inventoryItemsAsyncReadActions } from '../actions';
-import { fetchItemsHelper } from '../helpers';
+import { fetchInventoryItemsHelper } from '../helpers';
 import { selectInventoryShouldFetch } from '../selectors';
 
 @Injectable()
@@ -19,13 +19,13 @@ export class InventoryItemsAsyncReadEffects {
     ofType(inventoryItemsAsyncReadActions.fetchItems),
     withLatestFrom(this.store.select(selectInventoryShouldFetch)),
     switchMap(([_, shouldFetch]) => shouldFetch
-      ? fetchItemsHelper(this.inventoryService)
+      ? fetchInventoryItemsHelper(this.inventoryService)
       : of(inventoryItemsAsyncReadActions.fetchItemsCached())
     ),
   ));
 
   forceFetchItems$ = createEffect(() => this.actions.pipe(
     ofType(inventoryItemsAsyncReadActions.forceFetchItems),
-    switchMap(() => fetchItemsHelper(this.inventoryService)),
+    switchMap(() => fetchInventoryItemsHelper(this.inventoryService)),
   ));
 }

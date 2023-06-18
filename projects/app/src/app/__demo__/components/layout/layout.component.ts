@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '@app/common/components';
 import { MediaQueryService } from '@app/common/services';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   MatIconModule,
   ButtonComponent,
@@ -16,7 +16,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-layout',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })

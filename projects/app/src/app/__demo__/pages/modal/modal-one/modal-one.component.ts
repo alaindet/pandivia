@@ -5,7 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { BaseModalComponent, ButtonComponent, ModalFooterDirective, ModalHeaderDirective } from '@app/common/components';
 import { ModalOneInput, ModalOneOutput } from './types';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   ReactiveFormsModule,
   ModalHeaderDirective,
@@ -16,7 +16,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-modal-one',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './modal-one.component.html',
 })
 export class ModalOneComponent extends BaseModalComponent<

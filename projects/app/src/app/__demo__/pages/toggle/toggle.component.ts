@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 import { FORM_FIELD_EXPORTS, ToggleComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   JsonPipe,
   ReactiveFormsModule,
   ToggleComponent,
@@ -14,7 +14,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-toggle',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './toggle.component.html',
   styles: [`
     .demo-cases {

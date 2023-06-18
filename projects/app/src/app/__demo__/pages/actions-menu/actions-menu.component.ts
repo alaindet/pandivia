@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   ...ACTIONS_MENU_EXPORTS,
   ButtonComponent,
   MatIconModule,
@@ -12,7 +12,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-actions-menu',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './actions-menu.component.html',
 })
 export class ActionsMenuDemoPageComponent {

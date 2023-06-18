@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, PageHeaderComponent } from '@app/common/components';
 
-const IMPORTS = [
+const imports = [
   PageHeaderComponent,
   ...ACTIONS_MENU_EXPORTS,
   MatIconModule,
@@ -13,7 +13,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-page-header',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './page-header.component.html',
 })
 export class PageHeaderDemoPageComponent {

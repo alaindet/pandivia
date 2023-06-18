@@ -57,8 +57,7 @@ export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
   }),
 
   immerOn(itemsAsyncReadActions.fetchItemsSuccess, (state, { items }) => {
-    state.status = LOADING_STATUS.IDLE;
-    state.lastUpdated = Date.now();
+    setSuccessState(state);
     state.items = items;
   }),
 

@@ -2,30 +2,34 @@
   <h2>{{ modal.data.title }}</h2>
 </ng-container>
 
-<form [formGroup]="theForm" (ngSubmit)="onSubmit()" autocomplete="off">
-
+<form
+  *transloco="let t"
+  [formGroup]="theForm"
+  (ngSubmit)="onSubmit()"
+  autocomplete="off"
+>
   <!-- Name -->
-  <!-- TODO: Translate -->
-  <app-form-field id="item-name">
+  <app-form-field [id]="FIELD.NAME.htmlId">
 
     <app-form-field-label isRequired>
-      Name
+      {{ t('common.form.field.name') }}
     </app-form-field-label>
 
     <app-text-input
       #nameRef="app-text-input"
-      id="item-name"
+      [id]="FIELD.NAME.htmlId"
       type="text"
-      [formControlName]="FIELD.NAME"
-      [status]="!fName.touched ? undefined : (fName.valid ? 'success' : 'error')"
-      [placeholder]="'Name...'"
+      [formControlName]="FIELD.NAME.id"
+      [withFullWidth]="true"
+      [status]="fName | appFieldStatus"
+      [placeholder]="t('common.form.field.name') + '...'"
       [withStatusIcon]="true"
-      [withErrorId]="fName.valid ? null
-        : fName.hasError('required') ? 'item-name-required'
-        : (fName.hasError('minlength') || fName.hasError('maxlength')) ? 'item-name-length'
-        : fName.hasError('uniqueItemName') ? 'item-item-unique-name'
-        : null"
-    ></app-text-input>
+      [withErrorId]="fName | appFieldErrorId:{
+        'required': FIELD.NAME.errors.REQUIRED,
+        'minlength,maxlength': FIELD.NAME.errors.LENGTH,
+        'uniqueItemName': FIELD.NAME.errors.UNIQUE
+      }"
+    />
 
     <app-autocomplete
       [inputComponent]="nameRef"
@@ -44,112 +48,120 @@
       </ng-container>
     </app-autocomplete>
 
-    <ng-container *ngIf="fName.touched">
-      <app-form-field-error
-        *ngIf="fName.hasError('required')"
-        errorId="item-name-required"
-      >
-        Required
-      </app-form-field-error>
+    <!-- Error: required -->
+    <app-form-field-error
+      *ngIf="fName | appFieldError:'required'"
+      [errorId]="FIELD.NAME.errors.REQUIRED"
+    >
+      {{ t('common.error.required') }}
+    </app-form-field-error>
 
-      <app-form-field-error
-        *ngIf="fName.hasError('minlength') || fName.hasError('maxlength')"
-        errorId="item-name-length"
-      >
-        Enter between 2 and 100 characters
-      </app-form-field-error>
+    <!-- Error: min/max length -->
+    <app-form-field-error
+      *ngIf="fName | appFieldError:'minlength,maxlength'"
+      [errorId]="FIELD.NAME.errors.LENGTH"
+    >
+      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
+    </app-form-field-error>
 
-      <app-form-field-error
-        *ngIf="fName.hasError('uniqueItemName')"
-        errorId="item-unique-name"
-      >
-        This name already exists
-      </app-form-field-error>
-    </ng-container>
+    <!-- Error: unique name -->
+    <app-form-field-error
+      *ngIf="fName | appFieldError:'uniqueItemName'"
+      [errorId]="FIELD.NAME.errors.UNIQUE"
+    >
+      {{ t('common.error.uniqueName') }}
+    </app-form-field-error>
 
   </app-form-field>
 
   <!-- Amount -->
-  <!-- TODO: Translate -->
-  <app-form-field id="item-amount">
+  <app-form-field [id]="FIELD.AMOUNT.htmlId">
 
     <app-form-field-label isRequired>
-      Amount
+      {{ t('common.form.field.amount') }}
     </app-form-field-label>
 
     <app-quick-number
-      id="item-amount"
-      [formControlName]="FIELD.AMOUNT"
+      [id]="FIELD.AMOUNT.htmlId"
+      [formControlName]="FIELD.AMOUNT.id"
       [min]="1"
       [max]="100"
-    ></app-quick-number>
+      [withErrorId]="fAmount | appFieldErrorId:{
+        'required': FIELD.AMOUNT.errors.REQUIRED,
+        'min,max': FIELD.AMOUNT.errors.MIN_MAX,
+      }"
+    />
 
+    <!-- Error: required -->
     <app-form-field-error
-      *ngIf="fAmount.hasError('required')"
-      errorId="item-name-required"
+      *ngIf="fAmount | appFieldError:'required'"
+      [errorId]="FIELD.AMOUNT.errors.REQUIRED"
     >
-      Required
+      {{ t('common.error.required') }}
     </app-form-field-error>
 
+    <!-- Error: min/max -->
     <app-form-field-error
-      *ngIf="fAmount.hasError('min') || fAmount.hasError('max')"
-      errorId="item-name-length"
+      *ngIf="fAmount | appFieldError:'min,max'"
+      [errorId]="FIELD.AMOUNT.errors.MIN_MAX"
     >
-      Enter number between 1 and 100
+      {{ t('common.error.minMax', { min:1, max: 100 }) }}
     </app-form-field-error>
 
   </app-form-field>
 
   <!-- Description -->
-  <!-- TODO: Translate -->
-  <app-form-field id="item-desc">
+  <app-form-field [id]="FIELD.DESCRIPTION.htmlId">
 
-    <app-form-field-label>
-      Description
+    <app-form-field-label isOptional>
+      {{ t('common.form.field.description') }}
     </app-form-field-label>
 
     <app-textarea
-      id="item-desc"
+      [id]="FIELD.DESCRIPTION.htmlId"
       [rows]="4"
-      [formControlName]="FIELD.DESCRIPTION"
-      [status]="!fDesc.touched ? undefined : (fDesc.valid ? 'success' : 'error')"
-      [placeholder]="'Description...'"
+      [formControlName]="FIELD.DESCRIPTION.id"
+      [status]="fDesc | appFieldStatus"
+      [placeholder]="t('common.form.field.description') + '...'"
       [withCharsCounter]="true"
       [maxChars]="100"
       [withStatusIcon]="true"
-      [withErrorId]="fDesc.valid ? null
-        : fDesc.hasError('required') ? 'item-desc-required'
-        : (fDesc.hasError('minlength') || fDesc.hasError('maxlength')) ? 'item-desc-length' : null"
-    ></app-textarea>
+      [withErrorId]="fDesc | appFieldErrorId:{
+        'minlength,maxlength': FIELD.DESCRIPTION.errors.LENGTH
+      }"
+    />
 
+    <!-- Error: min/max length -->
     <app-form-field-error
-      *ngIf="fDesc.hasError('minlength') || fDesc.hasError('maxlength')"
-      errorId="item-desc-length"
+      *ngIf="fDesc | appFieldError:'minlength,maxlength'"
+      [errorId]="FIELD.DESCRIPTION.errors.LENGTH"
     >
-      Enter between 2 and 100 characters
+      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
     </app-form-field-error>
 
   </app-form-field>
 
   <!-- Category -->
-  <!-- TODO: Translate -->
-  <app-form-field id="item-category">
+  <app-form-field [id]="FIELD.CATEGORY.htmlId">
 
-    <app-form-field-label>
-      Category
+    <app-form-field-label isOptional>
+      {{ t('common.form.field.category') }}
     </app-form-field-label>
 
     <app-text-input
       #categoryRef="app-text-input"
-      id="item-category"
+      [id]="FIELD.CATEGORY.htmlId"
+      [formControlName]="FIELD.CATEGORY.id"
       type="text"
-      [formControlName]="FIELD.CATEGORY"
-      [status]="!fCategory.touched ? undefined : (fCategory.valid ? 'success' : 'error')"
-      [placeholder]="'Category...'"
+      [withFullWidth]="true"
+      [id]="FIELD.CATEGORY.htmlId"
+      [status]="fCategory | appFieldStatus"
+      [placeholder]="t('common.form.field.category') + '...'"
       [withStatusIcon]="true"
-      [withErrorId]="fCategory.valid ? null
-        : (fCategory.hasError('minlength') || fCategory.hasError('maxlength')) ? 'item-category-length' : null"
-    ></app-text-input>
+      [withErrorId]="fCategory | appFieldErrorId:{
+        'minlength,maxlength': FIELD.CATEGORY.errors.LENGTH
+      }"
+    />
 
     <app-autocomplete
       [inputComponent]="categoryRef"
@@ -168,82 +180,88 @@
       </ng-container>
     </app-autocomplete>
 
+    <!-- Error: min/max length -->
     <app-form-field-error
-      *ngIf="fCategory.hasError('minlength') || fCategory.hasError('maxlength')"
-      errorId="item-category-length"
+      *ngIf="fCategory | appFieldError:'minlength,maxlength'"
+      [errorId]="FIELD.CATEGORY.errors.LENGTH"
     >
-      Enter between 2 and 100 characters
+      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
     </app-form-field-error>
 
   </app-form-field>
 
   <!-- Is done (edit-only) -->
-  <!-- TODO: Translate -->
-  <app-form-field *ngIf="isEditing()" id="item-done">
+  <app-form-field *ngIf="isEditing()" [id]="FIELD.IS_DONE.htmlId">
 
-    <app-form-field-label>
-      Completed
+    <app-form-field-label isOptional>
+      {{ t('common.form.field.completed') }}
     </app-form-field-label>
 
     <app-toggle
-      [formControlName]="FIELD.IS_DONE"
+      [formControlName]="FIELD.IS_DONE.id"
+      [id]="FIELD.IS_DONE.htmlId"
       color="primary"
-      id="item-done"
     >
-      Completed
+      {{ t('common.form.field.completed') }}?
     </app-toggle>
 
   </app-form-field>
 
   <!-- Add to inventory (create-only)-->
-  <!-- TODO: Translate -->
-  <app-form-field *ngIf="!isEditing()" id="item-add-to-inventory">
+  <app-form-field *ngIf="!isEditing()" [id]="FIELD.ADD_TO_INVENTORY.htmlId">
 
-    <app-form-field-label>
-      Add to inventory
+    <app-form-field-label isOptional>
+      {{ t('common.form.field.addToInventory') }}
     </app-form-field-label>
 
     <app-toggle
-      [formControlName]="FIELD.ADD_TO_INVENTORY"
+      [formControlName]="FIELD.ADD_TO_INVENTORY.id"
+      [id]="FIELD.ADD_TO_INVENTORY.htmlId"
       color="primary"
-      id="item-add-to-inventory"
+      class="_add-to-inventory-toggle"
     >
-      Add to inventory?
+      {{ t('common.form.field.addToInventory') }}?
     </app-toggle>
 
     <app-form-field-hint>
-      Adds this item to the inventory if not already present
+      {{ t('list.hint.addToInventory') }}
     </app-form-field-hint>
 
   </app-form-field>
 </form>
 
 <ng-container *appModalFooter>
-  <div class="_footer">
+  <div *transloco="let t" class="_footer">
+
+    <!-- Cancel -->
     <button
       type="button"
-      appButton="ghost"
+      appButton="outline"
       size="small"
+      withIcon="left"
       (click)="onCancel()"
     >
-      Cancel
+      <mat-icon>clear</mat-icon>
+      {{ t('common.cancel') }}
     </button>
 
-    <!-- Editing -->
-    <ng-container *ngIf="isEditing(); else createRef">
-      <button
-        type="button"
-        appButton="primary"
-        withIcon="left"
-        size="small"
-        [disabled]="isSaving()"
-        (click)="onEdit()"
-      >
-      <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'edit' }}</mat-icon>
-        Edit
-      </button>
-    </ng-container>
+    <!-- Edit -->
+    <button
+      *ngIf="isEditing(); else createRef"
+      type="button"
+      appButton="primary"
+      withIcon="left"
+      size="small"
+      [disabled]="isSaving()"
+      (click)="onSubmit()"
+    >
+    <mat-icon [class.-rotating]="isSaving()">
+      {{ isSaving() ? 'sync' : 'edit' }}
+    </mat-icon>
+      {{ t('common.edit') }}
+    </button>
 
+    <!-- Create -->
     <ng-template #createRef>
       <button
         type="button"
@@ -251,10 +269,12 @@
         withIcon="left"
         size="small"
         [disabled]="isSaving()"
-        (click)="onCreate()"
+        (click)="onSubmit()"
       >
-        <mat-icon [class.-rotating]="isSaving()">{{ isSaving() ? 'sync' : 'add' }}</mat-icon>
-        Create
+        <mat-icon [class.-rotating]="isSaving()">
+          {{ isSaving() ? 'sync' : 'add' }}
+        </mat-icon>
+        {{ t('common.create') }}
       </button>
     </ng-template>
   </div>

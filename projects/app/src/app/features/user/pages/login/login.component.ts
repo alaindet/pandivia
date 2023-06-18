@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 
-// const IMPORTS = [
+// const imports = [
 //   // ...
 // ];
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  // imports: IMPORTS,
+  // imports,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginPageComponent {
-  // ...  
+  // ...
 }

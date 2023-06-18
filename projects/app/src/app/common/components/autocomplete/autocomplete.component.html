@@ -39,7 +39,7 @@
     [attr.aria-labelledby]="inputId"
   >
     <li role="status" class="_missing-option">
-      Loading... <!-- TODO: Translate -->
+      {{ 'components.autocomplete.loading' | transloco }}
     </li>
   </ul>
 </ng-template>
@@ -53,7 +53,7 @@
     [attr.aria-labelledby]="inputId"
   >
     <li role="status" class="_missing-option">
-      Nothing found <!-- TODO: Translate -->
+      {{ 'components.autocomplete.nothingFound' | transloco }}
     </li>
   </ul>
 </ng-template>

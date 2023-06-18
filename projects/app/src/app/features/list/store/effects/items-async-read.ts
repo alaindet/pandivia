@@ -5,7 +5,7 @@ import { of, switchMap, withLatestFrom } from 'rxjs';
 
 import { ListService } from '../../services/list.service';
 import { listItemsAsyncReadActions } from '../actions';
-import { fetchItemsHelper } from '../helpers';
+import { fetchListItemsHelper } from '../helpers';
 import { selectListShouldFetch } from '../selectors';
 
 @Injectable()
@@ -19,13 +19,13 @@ export class ListItemsAsyncReadEffects {
     ofType(listItemsAsyncReadActions.fetchItems),
     withLatestFrom(this.store.select(selectListShouldFetch)),
     switchMap(([_, shouldFetch]) => shouldFetch
-      ? fetchItemsHelper(this.listService)
+      ? fetchListItemsHelper(this.listService)
       : of(listItemsAsyncReadActions.fetchItemsCached())
     ),
   ));
 
   forceFetchItems$ = createEffect(() => this.actions.pipe(
     ofType(listItemsAsyncReadActions.forceFetchItems),
-    switchMap(() => fetchItemsHelper(this.listService)),
+    switchMap(() => fetchListItemsHelper(this.listService)),
   ));
 }

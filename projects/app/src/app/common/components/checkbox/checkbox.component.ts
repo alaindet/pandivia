@@ -17,10 +17,7 @@ const CHECKBOX_FORM_PROVIDER: Provider = {
   selector: 'app-checkbox',
   exportAs: 'app-checkbox',
   standalone: true,
-  template: `
-    <span class="_checkmark"></span>
-    <span class="_content"><ng-content></ng-content></span>
-  `,
+  templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +43,7 @@ export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlV
   @Input() color: CheckboxColor = 'primary';
   @Input() isInteractable = true;
   @Input() @HostBinding('attr.aria-labelledby') ariaLabelledBy?: string;
+  @Input() @HostBinding('attr.aria-errormessage') withErrorId: string | null = null;
 
   @Output() changed = new EventEmitter<boolean>();
 

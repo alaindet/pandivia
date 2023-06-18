@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewEncapsulation, computed, forwardRef, signal } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewEncapsulation, computed, forwardRef, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -12,7 +12,7 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   multi: true,
 };
 
-const IMPORTS = [
+const imports = [
   NgIf,
   AsyncPipe,
   MatIconModule,
@@ -23,7 +23,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-quick-number',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './quick-number.component.html',
   styleUrls: ['./quick-number.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -37,6 +37,7 @@ export class QuickNumberComponent implements OnChanges, OnInit, ControlValueAcce
   @Input() min?: number;
   @Input() max?: number;
   @Input() isDisabled = false;
+  @Input() @HostBinding('attr.aria-errormessage') withErrorId: string | null = null;
 
   @Output() changed = new EventEmitter<number>();
 
@@ -68,7 +69,7 @@ export class QuickNumberComponent implements OnChanges, OnInit, ControlValueAcce
     if (this.isDisabled) return;
     this.value.update(value => value - 1);
   }
-  
+
   // @publicApi
   increment() {
     if (this.isDisabled) return;

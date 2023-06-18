@@ -5,30 +5,30 @@ import * as itemMenu from '../contextual-menus/item';
 
 export const LIST_REMOVE_COMPLETED_PROMPT: ConfirmPromptModalInput = {
   action: listMenu.LIST_ACTION_REMOVE_COMPLETED.id,
-  title: 'Remove completed items', // TODO: Translate
-  message: 'Do you want to remove all completed items from the list?', // TODO: Translate
+  title: 'common.prompt.removeCompleted.title',
+  message: 'common.prompt.removeCompleted.message',
 };
 
 export const LIST_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: listMenu.LIST_ACTION_REMOVE.id,
-  title: 'Remove list', // TODO: Translate
-  message: 'Do you want to remove all items from the list?', // TODO: Translate
+  title: 'common.prompt.removeAll.title',
+  message: 'common.prompt.removeAll.message',
 };
 
 export const CATEGORY_REMOVE_COMPLETED_PROMPT: ConfirmPromptModalInput = {
   action: categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id,
-  title: 'Remove completed items', // TODO: Translate
-  message: 'Do you want to remove all completed items from the category?', // TODO: Translate
+  title: 'common.prompt.removeCategoryCompleted.title',
+  message: 'common.prompt.removeCategoryCompleted.message', // params: categoryName
 };
 
 export const CATEGORY_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: categoryMenu.CATEGORY_ACTION_REMOVE.id,
-  title: 'Remove list', // TODO: Translate
-  message: 'Do you want to remove all items from the category?', // TODO: Translate
+  title: 'common.prompt.removeCategory.title',
+  message: 'common.prompt.removeCategory.message', // params: categoryName
 };
 
 export const ITEM_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: itemMenu.ITEM_ACTION_REMOVE.id,
-  title: 'Remove item', // TODO: Translate
-  message: 'Do you want to remove this item?', // TODO: Translate
+  title: 'common.prompt.removeItem.title',
+  message: 'common.prompt.removeItem.message', // params: itemName
 };

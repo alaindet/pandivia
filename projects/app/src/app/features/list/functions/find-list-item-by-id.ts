@@ -3,6 +3,7 @@ import { Observable, of, switchMap, take, throwError } from 'rxjs';
 
 import { ListItem } from '../types';
 import { selectListItemById } from '../store';
+import { errorI18n } from '@app/common/utils';
 
 export function findListItemById(
   store: Store,
@@ -13,9 +14,7 @@ export function findListItemById(
     switchMap(item => {
 
       if (!item) {
-        // TODO: Translate
-        const message = `List item with id ${itemId} not found`;
-        return throwError(() => Error(message));
+        return throwError(() => errorI18n('list.error.itemNotFound', { id: itemId }));
       }
 
       return of(item);

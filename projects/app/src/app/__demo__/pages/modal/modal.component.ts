@@ -5,7 +5,7 @@ import { ButtonComponent } from '@app/common/components';
 import { ModalService } from '@app/common/components/modal';
 import { ModalOneInput, ModalOneOutput, ModalOneComponent } from './modal-one';
 
-const IMPORTS = [
+const imports = [
   CommonModule,
   ButtonComponent,
 ];
@@ -13,7 +13,7 @@ const IMPORTS = [
 @Component({
   selector: 'app-demo-modal',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './modal.component.html',
 })
 export class ModalDemoPageComponent {
@@ -30,7 +30,7 @@ export class ModalDemoPageComponent {
       ModalOneComponent,
       data,
     );
-    
+
     ref.canceled().subscribe(() => console.log('canceled'));
     ref.confirmed().subscribe(data => console.log('confirmed', data));
     ref.closed().subscribe(output => console.log('closed', output));

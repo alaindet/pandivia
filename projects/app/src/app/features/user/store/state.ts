@@ -1,12 +1,11 @@
 import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
-import { DEFAULT_LANGUAGE, AVAILABLE_LANGUAGES } from '@app/core/language';
+import { DEFAULT_LANGUAGE, Language } from '@app/core/language';
 
 export type UserFeatureState = {
   email: string | null;
   logged: boolean;
   status: LoadingStatus;
-  language: string;
-  availableLanguages: string[];
+  language: Language;
 };
 
 export const USER_FEATURE_NAME = 'user';
@@ -16,5 +15,4 @@ export const USER_FEATURE_INITIAL_STATE: UserFeatureState = {
   logged: false,
   status: LOADING_STATUS.PRISTINE,
   language: DEFAULT_LANGUAGE,
-  availableLanguages: AVAILABLE_LANGUAGES,
 };

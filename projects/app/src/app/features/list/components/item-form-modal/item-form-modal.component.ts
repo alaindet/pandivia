@@ -1,20 +1,24 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FormOption } from '@app/common/types';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
+import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryItemsByName } from '@app/features/inventory/store';
 import { InventoryItem } from '@app/features/inventory';
 import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
-import { CreateListItemFormModalOutput, EditListItemFormModalOutput, LIST_ITEM_FORM_FIELD as FIELD, ListItemFormModalInput, ListItemFormModalOutput } from './types';
+import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
+import { LIST_ITEM_FORM_FIELD as FIELD } from './field';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@app/common/pipes';
+import { TranslocoModule } from '@ngneat/transloco';
 
-const IMPORTS = [
+const imports = [
   MatIconModule,
   NgIf,
   ReactiveFormsModule,
@@ -22,18 +26,22 @@ const IMPORTS = [
   ModalFooterDirective,
   ...FORM_FIELD_EXPORTS,
   ...AUTOCOMPLETE_EXPORTS,
+  TranslocoModule,
   TextInputComponent,
   QuickNumberComponent,
   SelectComponent,
   ToggleComponent,
   TextareaComponent,
   ButtonComponent,
+  FieldStatusPipe,
+  FieldErrorPipe,
+  FieldErrorIdPipe,
 ];
 
 @Component({
   selector: 'app-list-item-form-modal',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './item-form-modal.component.html',
   styleUrls: ['./item-form-modal.component.scss'],
 })
@@ -50,24 +58,24 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   isEditing = signal(false);
   isSaving = this.store.selectSignal(selectListIsLoading);
 
-  get fName(): FormControl { return this.getField(FIELD.NAME) }
-  get fAmount(): FormControl { return this.getField(FIELD.AMOUNT) }
-  get fDesc(): FormControl { return this.getField(FIELD.DESCRIPTION) }
-  get fCategory(): FormControl { return this.getField(FIELD.CATEGORY) }
-  get fDone(): FormControl { return this.getField(FIELD.IS_DONE) }
+  get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
+  get fAmount() { return fDescribe(this.theForm, FIELD.AMOUNT.id) }
+  get fDesc() { return fDescribe(this.theForm, FIELD.DESCRIPTION.id) }
+  get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
+  get fDone() { return fDescribe(this.theForm, FIELD.IS_DONE.id) }
 
   ngOnInit() {
     this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
-    this.isEditing.set(this.modal.data.item !== null);
+    this.isEditing.set(!!this.modal.data?.item);
     this.initForm();
   }
 
   onConfirmName(option: AutocompleteOption) {
-    this.fName.setValue(option.label);
+    this.theForm.get(FIELD.NAME.id)!.setValue(option.label);
   }
 
   onConfirmCategory(option: AutocompleteOption) {
-    this.fCategory.setValue(option.label);
+    this.theForm.get(FIELD.CATEGORY.id)!.setValue(option.label);
   }
 
   onCancel() {
@@ -75,16 +83,18 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   onSubmit() {
+
+    if (this.theForm.invalid) {
+      this.theForm.markAllAsTouched();
+      return;
+    }
+
     this.isEditing()
       ? this.onEdit()
       : this.onCreate();
   }
 
-  onEdit() {
-
-    if (this.theForm.invalid) {
-      return;
-    }
+  private onEdit() {
 
     let item: ListItem = {
       id: this.modal.data.item!.id,
@@ -111,13 +121,12 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     this.store.dispatch(listItemActions.edit({ item }));
   }
 
-  onCreate() {
+  private onCreate() {
 
-    if (this.theForm.invalid) {
-      return;
-    }
-
-    let { [FIELD.ADD_TO_INVENTORY]: addToInventory, ...item } = this.theForm.value;
+    let {
+      [FIELD.ADD_TO_INVENTORY.id]: addToInventory,
+      ...item
+    } = this.theForm.value;
 
     if (!item.description) {
       const { description, ...theItem } = item;
@@ -166,11 +175,15 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   };
 
   private initForm(): void {
-    const { item } = this.modal.data;
+    const { item, category } = this.modal.data;
     const { required, minLength, maxLength, min, max } = Validators;
 
+    const defaultCategory = !!this.modal.data?.item
+      ? item?.category ?? ''
+      : category ?? '';
+
     const controls: any = {
-      [FIELD.NAME]: [
+      [FIELD.NAME.id]: [
         // Value
         item?.name ?? '',
         // Sync validators
@@ -178,19 +191,28 @@ export class ListItemFormModalComponent extends BaseModalComponent<
         // Async validators,
         [uniqueListItemNameValidator(this.store, this.modal.data?.item?.id ?? null)],
       ],
-      [FIELD.AMOUNT]: [item?.amount ?? 1, [required, min(1), max(100)]],
-      [FIELD.DESCRIPTION]: [item?.description ?? '', [minLength(2), maxLength(100)]],
-      [FIELD.CATEGORY]: [item?.category ?? null, [minLength(2), maxLength(100)]],
+      [FIELD.AMOUNT.id]: [
+        item?.amount ?? 1,
+        [required, min(1), max(100)],
+      ],
+      [FIELD.DESCRIPTION.id]: [
+        item?.description ?? '',
+        [minLength(2), maxLength(100)],
+      ],
+      [FIELD.CATEGORY.id]: [
+        defaultCategory,
+        [minLength(2), maxLength(100)],
+      ],
     };
 
     // Add create-only fields
     if (!this.isEditing()) {
-      controls[FIELD.ADD_TO_INVENTORY] = [false];
+      controls[FIELD.ADD_TO_INVENTORY.id] = [false];
     }
 
     // Add edit-only fields
     else {
-      controls[FIELD.IS_DONE] = [!!item?.isDone];
+      controls[FIELD.IS_DONE.id] = [!!item?.isDone];
     }
 
     this.theForm = this.formBuilder.group(controls);
@@ -207,9 +229,5 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       }
       fn();
     });
-  }
-
-  private getField(field: string): FormControl {
-    return this.theForm.get(field)! as FormControl;
   }
 }

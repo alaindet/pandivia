@@ -4,37 +4,39 @@ import { Theme } from '@app/core/theme';
 import { Notification } from '@app/common/types';
 import { BottomMenuItem } from '@app/common/components';
 
-export const notificationsActions = createActionGroup({
+export const uiNotificationsActions = createActionGroup({
   source: 'UI/Notifications',
   events: {
-    'Add Success': props<{ message: Notification['message'] }>(),
-    'Add Error': props<{ message: Notification['message'] }>(),
-    'Dismiss': emptyProps(),
+    addSuccess: props<{ message: Notification['message'] }>(),
+    addError: props<{ message: Notification['message'] }>(),
+    dismiss: emptyProps(),
   },
 });
 
-export const loaderActions = createActionGroup({
+export const uiLoaderActions = createActionGroup({
   source: 'UI/Loader',
   events: {
-    'Start': emptyProps(),
-    'Stop': emptyProps(),
+    start: emptyProps(),
+    stop: emptyProps(),
   },
 });
 
-export const setCurrentNavigation = createAction(
-  '[UI/Navigation] Set current item',
-  props<{ current: BottomMenuItem['id'] }>()
-);
+export const uiNavigationActions = createActionGroup({
+  source: 'UI/Navigation',
+  events: {
+    setCurrent: props<{ current: BottomMenuItem['id'] }>(),
+  },
+});
 
-export const setCurrentTitle = createAction(
-  '[UI/Title] Set current title',
+export const uiSetPageTitle = createAction(
+  '[UI] Set page title',
   props<{ title: string }>(),
 );
 
 export const uiThemeActions = createActionGroup({
   source: 'UI/Theme',
   events: {
-    'Set Theme': props<{ theme: Theme }>(),
-    'Set Default Theme': emptyProps(),
+    setTheme: props<{ theme: Theme }>(),
+    setDefaultTheme: emptyProps(),
   },
 });

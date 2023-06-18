@@ -1,7 +1,7 @@
 export type ConfirmPromptModalInput = {
   action: string;
-  title: string; // TODO: Translate
-  message: string; // TODO: Translate
+  title: string;
+  message: string;
 };
 
 export type ConfirmPromptModalOutput = {

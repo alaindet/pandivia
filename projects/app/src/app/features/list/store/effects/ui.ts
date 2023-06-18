@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions } from '@ngrx/effects';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { createUiController } from '@app/core/store/ui';
 import {
@@ -15,7 +16,8 @@ import {
 export class ListUiEffects {
 
   private actions = inject(Actions);
-  private ui = createUiController(this.actions);
+  private transloco = inject(TranslocoService);
+  private ui = createUiController(this.actions, this.transloco);
 
   startLoader$ = this.ui.startLoaderOn(
     listItemsAsyncReadActions.fetchItems,

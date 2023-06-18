@@ -5,7 +5,7 @@ import { StackedLayoutService } from './stacked.service';
 import { MatIconModule } from '@angular/material/icon';
 import { NgIf } from '@angular/common';
 
-const IMPORTS = [
+const imports = [
   NgIf,
   ...ACTIONS_MENU_EXPORTS,
   PageHeaderComponent,
@@ -17,10 +17,9 @@ const IMPORTS = [
 @Component({
   selector: 'app-layout-stacked',
   standalone: true,
-  imports: IMPORTS,
+  imports,
   templateUrl: './stacked.component.html',
   styleUrls: ['./stacked.component.scss'],
-  // providers: [StackedLayoutService],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-layout-stacked' },
 })

@@ -1,6 +1,6 @@
 - [?] Rename "Inventory" to "Habits"/"Habit"
-- [ ] Implement @angular/localize
-- [ ] Persist user preferences into localStorage
-- [ ] Add global UserPreferencesService, NotificationService, AuthService, LanguageService
-- [ ] Add ThemeService to persist theme (Add convenience methods for dispatching actions)
-- [ ] Add /navigation, /language and /notification folders to /core
+- [?] Remove action groups?!
+- [ ] Further filter name on List item form autocomplete: they must come from Inventory AND not already be present in List
+- [ ] Manage the "no-category" category
+- [ ] Accept input strings instead of importing TranslocoModule inside components
+- [ ] Change all "private" to "#"

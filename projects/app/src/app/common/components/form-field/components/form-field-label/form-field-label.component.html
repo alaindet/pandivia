@@ -1,0 +1,5 @@
+<label [attr.for]="context.id()">
+  <ng-content></ng-content>
+  <ng-container *ngIf="isRequired">(*)</ng-container>
+  <ng-container *ngIf="isOptional">(?)</ng-container>
+</label>

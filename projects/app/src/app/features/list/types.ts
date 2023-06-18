@@ -30,5 +30,6 @@ export type ListFilters = {
 
 export type ListFilterToken = {
   key: ListFilter;
+  label?: string; // This is translated
   value: any; // TODO: Add type
 };
