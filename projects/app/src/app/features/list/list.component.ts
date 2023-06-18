@@ -1,6 +1,7 @@
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
-import { Observable, take, takeUntil } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Observable, map, switchMap, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -93,18 +94,34 @@ export class ListPageComponent implements OnInit, OnDestroy {
       case listMenu.LIST_ACTION_UNDO.id:
         this.store.dispatch(listAllItemsActions.undo());
         break;
-      case listMenu.LIST_ACTION_REMOVE_COMPLETED.id:
-        this.confirmPrompt(LIST_REMOVE_COMPLETED_PROMPT).subscribe({
+      case listMenu.LIST_ACTION_REMOVE_COMPLETED.id: {
+
+        // TODO: Refactor in a function?
+        const config = LIST_REMOVE_COMPLETED_PROMPT;
+        const title = this.transloco.translate(config.title);
+        const message = this.transloco.translate(config.message);
+        const prompt = { ...config, title, message };
+
+        this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.store.dispatch(listAllItemsActions.removeCompleted()),
         });
         break;
-      case listMenu.LIST_ACTION_REMOVE.id:
-        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe({
+      }
+      case listMenu.LIST_ACTION_REMOVE.id: {
+
+        // TODO: Refactor in a function?
+        const config = LIST_REMOVE_PROMPT;
+        const title = this.transloco.translate(config.title);
+        const message = this.transloco.translate(config.message);
+        const prompt = { ...config, title, message };
+
+        this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.store.dispatch(listAllItemsActions.remove()),
         });
         break;
+      }
     }
   }
 
@@ -119,18 +136,36 @@ export class ListPageComponent implements OnInit, OnDestroy {
       case categoryMenu.CATEGORY_ACTION_UNDO.id:
         this.store.dispatch(listCategoryActions.undo({ category }));
         break;
-      case categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id:
-        this.confirmPrompt(CATEGORY_REMOVE_COMPLETED_PROMPT).subscribe({
+      case categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id: {
+
+        // TODO: Refactor in a function?
+        const config = CATEGORY_REMOVE_COMPLETED_PROMPT;
+        const params = { categoryName: category };
+        const title = this.transloco.translate(config.title);
+        const message = this.transloco.translate(config.message, params);
+        const prompt = { ...config, title, message };
+
+        this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.store.dispatch(listCategoryActions.removeCompleted({ category })),
         });
         break;
-      case categoryMenu.CATEGORY_ACTION_REMOVE.id:
-        this.confirmPrompt(CATEGORY_REMOVE_PROMPT).subscribe({
+      }
+      case categoryMenu.CATEGORY_ACTION_REMOVE.id: {
+
+        // TODO: Refactor in a function?
+        const config = CATEGORY_REMOVE_PROMPT;
+        const params = { categoryName: category };
+        const title = this.transloco.translate(config.title);
+        const message = this.transloco.translate(config.message, params);
+        const prompt = { ...config, title, message };
+
+        this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.store.dispatch(listCategoryActions.remove({ category })),
           });
         break;
+      }
     }
   }
 
@@ -151,12 +186,23 @@ export class ListPageComponent implements OnInit, OnDestroy {
       case itemMenu.ITEM_ACTION_DECREMENT.id:
         this.decrementOrRemove(itemId);
         break;
-      case itemMenu.ITEM_ACTION_REMOVE.id:
-        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe({
-          error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(listItemActions.remove({ itemId })),
-        });
+      case itemMenu.ITEM_ACTION_REMOVE.id: {
+        findListItemById(this.store, itemId)
+          .pipe(switchMap(item => {
+            // TODO: Refactor in a function?
+            const config = ITEM_REMOVE_PROMPT;
+            const params = { itemName: item.name };
+            const title = this.transloco.translate(config.title);
+            const message = this.transloco.translate(config.message, params);
+            const prompt = { ...config, title, message };
+
+            return this.confirmPrompt(prompt);
+          })).subscribe({
+            error: () => console.log('Canceled'),
+            next: () => this.store.dispatch(listItemActions.remove({ itemId })),
+          });
         break;
+      }
     }
   }
 
@@ -221,11 +267,17 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   private decrementOrRemove(itemId: string): void {
-    const amount$ = this.store.select(selectListItemAmount(itemId)).pipe(take(1));
+    findListItemById(this.store, itemId).subscribe(item => {
+      if (item.amount <= 1) {
 
-    amount$.subscribe(amount => {
-      if (amount <= 1) {
-        this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe({
+        // TODO: Refactor in a function?
+        const config = ITEM_REMOVE_PROMPT;
+        const params = { itemName: item.name };
+        const title = this.transloco.translate(config.title);
+        const message = this.transloco.translate(config.message, params);
+        const prompt = { ...config, title, message };
+
+        this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.store.dispatch(listItemActions.remove({ itemId })),
         });

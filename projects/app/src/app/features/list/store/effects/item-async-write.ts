@@ -15,11 +15,11 @@ export class ListItemAsyncWriteEffects {
     ofType(listItemActions.create),
     switchMap(({ dto }) => this.listService.createItem(dto).pipe(
       map(item => {
-        const message = `Item "${dto.name}" created`; // TODO: Translate
-        return listItemAsyncWriteActions.createSuccess({ message, item })
+        const message = 'common.async.createItemSuccess';
+        return listItemAsyncWriteActions.createSuccess({ message, item });
       }),
       catchError(() => {
-        const message = `Error while creating item "${dto.name}"`; // TODO: Translate
+        const message = 'common.async.createItemError';
         return of(listItemAsyncWriteActions.createError({ message }));
       }),
     )),
@@ -52,11 +52,11 @@ export class ListItemAsyncWriteEffects {
     }),
     switchMap(request => request().pipe(
       map(item => {
-        const message = `Item "${item.name}" edited`; // TODO: Translate
-        return listItemAsyncWriteActions.editSuccess({ message, item })
+        const message = 'common.async.editItemSuccess';
+        return listItemAsyncWriteActions.editSuccess({ message, item });
       }),
       catchError(() => {
-        const message = `Error while editing item`; // TODO: Translate
+        const message = 'common.async.editItemError';
         return of(listItemAsyncWriteActions.editError({ message }));
       }),
     )),
@@ -66,11 +66,11 @@ export class ListItemAsyncWriteEffects {
     ofType(listItemActions.remove),
     switchMap(({ itemId }) => this.listService.removeItem(itemId).pipe(
       map(item => {
-        const message = `Item "${item.name}" removed`; // TODO: Translate
-        return listItemAsyncWriteActions.removeSuccess({ message, item })
+        const message = 'common.async.removeItemSuccess';
+        return listItemAsyncWriteActions.removeSuccess({ message, item });
       }),
       catchError(() => {
-        const message = `Error while editing item with ID "${itemId}"`; // TODO: Translate
+        const message = 'common.async.removeItemError';
         return of(listItemAsyncWriteActions.removeError({ message }));
       }),
     )),

@@ -30,11 +30,11 @@ export class InventoryItemsAsyncWriteEffects {
     }),
     switchMap(request => request().pipe(
       map(items => {
-        const message = 'Items deleted'; // TODO: Translate
+        const message = 'common.async.removeItemsSuccess';
         return inventoryItemsAsyncWriteActions.editSuccess({ message, items })
       }),
       catchError(() => {
-        const message = `Error while deleting items`; // TODO: Translate
+        const message = 'common.async.removeItemsError';
         return of(inventoryItemsAsyncWriteActions.editError({ message }));
       }),
     )),

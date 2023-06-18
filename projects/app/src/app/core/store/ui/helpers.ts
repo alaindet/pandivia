@@ -1,9 +1,13 @@
 import { createEffect, ofType } from '@ngrx/effects';
 import { Observable, of, switchMap } from 'rxjs';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { uiLoaderActions, uiNotificationsActions } from './actions';
 
-export function createUiController(actions$: Observable<any>) {
+export function createUiController(
+  actions$: Observable<any>,
+  transloco: TranslocoService,
+) {
 
   function onActions(targetActions: any[]) {
     return (source: Observable<any>) => {
@@ -21,14 +25,17 @@ export function createUiController(actions$: Observable<any>) {
   function stopLoaderOn(...targetActions: any[]) {
     return createEffect(() => actions$.pipe(
       onActions(targetActions),
-      switchMap(() => of(uiLoaderActions.stop()))
+      switchMap(() => of(uiLoaderActions.stop())),
     ));
   }
 
   function showErrorOn(...targetActions: any[]) {
     return createEffect(() => actions$.pipe(
       onActions(targetActions),
-      switchMap(({ message }) => of(uiNotificationsActions.addError({ message })))
+      switchMap(action => {
+        const message = transloco.translate(action.message);
+        return of(uiNotificationsActions.addError({ message }));
+      }),
     ));
   }
 

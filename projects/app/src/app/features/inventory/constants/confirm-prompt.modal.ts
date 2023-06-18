@@ -5,18 +5,18 @@ import * as itemMenu from '../contextual-menus/item';
 
 export const LIST_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: listMenu.LIST_ACTION_REMOVE.id,
-  title: 'inventory.prompt.allRemoveTitle',
-  message: 'inventory.prompt.allRemoveMessage',
+  title: 'common.prompt.removeAll.title',
+  message: 'common.prompt.removeAll.message',
 };
 
 export const CATEGORY_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: categoryMenu.CATEGORY_ACTION_REMOVE.id,
-  title: 'inventory.prompt.categoryRemoveTitle', // params: categoryName
-  message: 'inventory.prompt.categoryRemoveMessage', // params: categoryName
+  title: 'common.prompt.removeCategory.title',
+  message: 'common.prompt.removeCategory.message', // params: categoryName
 };
 
 export const ITEM_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: itemMenu.ITEM_ACTION_REMOVE.id,
-  title: 'inventory.prompt.itemRemoveTitle', // params: itemName
-  message: 'inventory.prompt.itemRemoveMessage', // params: itemName
+  title: 'common.prompt.removeItem.title',
+  message: 'common.prompt.removeItem.message', // params: itemName
 };

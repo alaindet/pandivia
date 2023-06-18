@@ -10,12 +10,14 @@ import {
   inventoryItemsAsyncWriteActions,
   inventoryItemAsyncWriteActions,
 } from '../actions';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Injectable()
 export class InventoryUiEffects {
 
   private actions = inject(Actions);
-  private ui = createUiController(this.actions);
+  private transloco = inject(TranslocoService);
+  private ui = createUiController(this.actions, this.transloco);
 
   startLoader$ = this.ui.startLoaderOn(
     inventoryItemsAsyncReadActions.fetchItems,

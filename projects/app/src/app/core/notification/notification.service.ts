@@ -1,7 +1,8 @@
-import { NotificationType } from '@app/common/types';
+import { NOTIFICATION_TYPE, NotificationType } from '@app/common/types';
 import { Injectable, inject } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
+
 import { selectNotification, selectNotificationsExist, uiNotificationsActions } from '../store';
 
 @Injectable({
@@ -17,10 +18,10 @@ export class NotificationService {
 
   set(type: NotificationType, message: string) {
     switch (type) {
-      case 'success':
+      case NOTIFICATION_TYPE.SUCCESS:
         this.store.dispatch(uiNotificationsActions.addSuccess({ message }));
         break;
-      case 'error':
+      case NOTIFICATION_TYPE.ERROR:
         this.store.dispatch(uiNotificationsActions.addError({ message }));
         break;
     }

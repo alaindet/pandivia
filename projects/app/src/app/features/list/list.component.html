@@ -11,7 +11,7 @@
         (click)="onRemoveFilter(filter)"
       >
         <mat-icon>clear</mat-icon>
-        {{ filter.value }}
+        {{ filter.label ? (filter.label | transloco) : filter.value }}
       </button>
     </li>
   </ul>

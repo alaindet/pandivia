@@ -34,11 +34,11 @@ export class ListItemsAsyncWriteEffects {
     // https://medium.com/city-pantry/handling-errors-in-ngrx-effects-a95d918490d9
     switchMap(request => request().pipe(
       map(items => {
-        const message = 'Items edited'; // TODO: Translate
+        const message = 'common.async.editItemsSuccess';
         return listItemsAsyncWriteActions.editSuccess({ message, items });
       }),
       catchError(() => {
-        const message = `Error while editing items`; // TODO: Translate
+        const message = 'common.async.editItemsError';
         return of(listItemsAsyncWriteActions.editError({ message }));
       }),
     )),
@@ -65,11 +65,11 @@ export class ListItemsAsyncWriteEffects {
     }),
     switchMap(request => request().pipe(
       map(items => {
-        const message = 'Items deleted'; // TODO: Translate
+        const message = 'common.async.removeItemsSuccess';
         return listItemsAsyncWriteActions.editSuccess({ message, items })
       }),
       catchError(() => {
-        const message = `Error while deleting items`; // TODO: Translate
+        const message = 'common.async.removeItemsError';
         return of(listItemsAsyncWriteActions.editError({ message }));
       }),
     )),

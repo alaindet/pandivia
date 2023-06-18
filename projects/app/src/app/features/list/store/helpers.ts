@@ -3,31 +3,20 @@ import { catchError, map, of } from 'rxjs';
 import { ListService } from '../services/list.service';
 import { listItemsAsyncReadActions } from './actions';
 import { ListFeatureState } from './state';
-import { ListItem } from '../types';
+import { LOADING_STATUS } from '@app/common/types';
 
-export function fetchItemsHelper(listService: ListService) {
+export function fetchListItemsHelper(listService: ListService) {
   return listService.getItems().pipe(
     map(items => listItemsAsyncReadActions.fetchItemsSuccess({ items })),
     catchError(() => {
-      const message = 'Could not fetch list items'; // TODO: Translate
+      const message = 'common.async.fetchItemsError';
       return of(listItemsAsyncReadActions.fetchItemsError({ message }));
     })
   )
 }
 
-export function getItemIndex(state: ListFeatureState, itemId: string): number | null {
-  const index = state.items.findIndex(item => item.id === itemId);
-  return (index === -1) ? null : index;
-}
-
-export function updateItemsByCategory(
-  state: ListFeatureState,
-  category: string,
-  fn: (item: ListItem) => void,
-) {
-  state.items.forEach(item => {
-    if (item.category === category) {
-      fn(item);
-    }
-  });
+export function setSuccessState(state: ListFeatureState, message?: string): void {
+  console.log(message); // TODO: Remove?
+  state.status = LOADING_STATUS.IDLE;
+  state.lastUpdated = Date.now();
 }

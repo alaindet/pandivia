@@ -15,11 +15,11 @@ export class InventoryItemAsyncWriteEffects {
     ofType(inventoryItemActions.create),
     switchMap(({ dto }) => this.inventoryService.createItem(dto).pipe(
       map(item => {
-        const message = `Item "${dto.name}" created`; // TODO: Translate
+        const message = 'common.async.createItemSuccess';
         return inventoryItemAsyncWriteActions.createSuccess({ message, item })
       }),
       catchError(() => {
-        const message = `Error while creating item "${dto.name}"`; // TODO: Translate
+        const message = 'common.async.createItemError';
         return of(inventoryItemAsyncWriteActions.createError({ message }));
       }),
     )),
@@ -29,11 +29,11 @@ export class InventoryItemAsyncWriteEffects {
     ofType(inventoryItemActions.edit),
     switchMap(({ item }) => this.inventoryService.editItem(item).pipe(
       map(item => {
-        const message = `Item "${item.name}" edited`; // TODO: Translate
+        const message = 'common.async.editItemSuccess';
         return inventoryItemAsyncWriteActions.editSuccess({ message, item })
       }),
       catchError(() => {
-        const message = `Error while editing item`; // TODO: Translate
+        const message = 'common.async.editItemError';
         return of(inventoryItemAsyncWriteActions.editError({ message }));
       }),
     )),
@@ -43,11 +43,11 @@ export class InventoryItemAsyncWriteEffects {
     ofType(inventoryItemActions.remove),
     switchMap(({ itemId }) => this.inventoryService.removeItem(itemId).pipe(
       map(item => {
-        const message = `Item "${item.name}" removed`; // TODO: Translate
+        const message = 'common.async.removeItemSuccess';
         return inventoryItemAsyncWriteActions.removeSuccess({ message, item })
       }),
       catchError(() => {
-        const message = `Error while editing item with ID "${itemId}"`; // TODO: Translate
+        const message = 'common.async.removeItemError';
         return of(inventoryItemAsyncWriteActions.removeError({ message }));
       }),
     )),

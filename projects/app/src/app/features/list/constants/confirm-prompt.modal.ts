@@ -5,30 +5,30 @@ import * as itemMenu from '../contextual-menus/item';
 
 export const LIST_REMOVE_COMPLETED_PROMPT: ConfirmPromptModalInput = {
   action: listMenu.LIST_ACTION_REMOVE_COMPLETED.id,
-  title: 'list.prompt.removeCompleted.title',
-  message: 'list.prompt.removeCompleted.message',
+  title: 'common.prompt.removeCompleted.title',
+  message: 'common.prompt.removeCompleted.message',
 };
 
 export const LIST_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: listMenu.LIST_ACTION_REMOVE.id,
-  title: 'list.prompt.removeAll.title',
-  message: 'list.prompt.removeAll.message',
+  title: 'common.prompt.removeAll.title',
+  message: 'common.prompt.removeAll.message',
 };
 
 export const CATEGORY_REMOVE_COMPLETED_PROMPT: ConfirmPromptModalInput = {
   action: categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id,
-  title: 'list.prompt.removeCategoryCompleted.title',
-  message: 'list.prompt.removeCategoryCompleted.message',
+  title: 'common.prompt.removeCategoryCompleted.title',
+  message: 'common.prompt.removeCategoryCompleted.message', // params: categoryName
 };
 
 export const CATEGORY_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: categoryMenu.CATEGORY_ACTION_REMOVE.id,
-  title: 'list.prompt.removeCategoryAll.title',
-  message: 'list.prompt.removeCategoryAll.message',
+  title: 'common.prompt.removeCategory.title',
+  message: 'common.prompt.removeCategory.message', // params: categoryName
 };
 
 export const ITEM_REMOVE_PROMPT: ConfirmPromptModalInput = {
   action: itemMenu.ITEM_ACTION_REMOVE.id,
-  title: 'list.prompt.removeItem.title',
-  message: 'list.prompt.removeItem.message',
+  title: 'common.prompt.removeItem.title',
+  message: 'common.prompt.removeItem.message', // params: itemName
 };
