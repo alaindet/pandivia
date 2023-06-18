@@ -2,13 +2,13 @@ import { ActionsMenuItem } from '@app/common/components';
 
 export const LIST_ACTION_REFRESH: ActionsMenuItem = {
   id: 'list:refresh',
-  label: 'Refresh', // TODO: Translate
+  label: 'common.menu.refresh',
   icon: 'refresh',
 };
 
 export const LIST_ACTION_REMOVE: ActionsMenuItem = {
   id: 'list:remove',
-  label: 'Remove all items', // TODO: Translate
+  label: 'common.menu.removeAllItems',
   icon: 'delete',
 };
 

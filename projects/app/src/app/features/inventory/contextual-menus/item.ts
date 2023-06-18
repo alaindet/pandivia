@@ -3,19 +3,19 @@ import { InventoryItem } from '../types';
 
 export const ITEM_ACTION_ADD_TO_LIST: ActionsMenuItem = {
   id: 'item:add-to-list',
-  label: 'Add to List page', // TODO: Translate
+  label: 'inventory.menu.addToList',
   icon: 'format_list_bulleted',
 };
 
 export const ITEM_ACTION_EDIT: ActionsMenuItem = {
   id: 'item:edit',
-  label: 'Edit', // TODO: Translate
+  label: 'common.menu.edit',
   icon: 'edit',
 };
 
 export const ITEM_ACTION_REMOVE: ActionsMenuItem = {
   id: 'item:remove',
-  label: 'Remove', // TODO: Translate
+  label: 'common.menu.remove',
   icon: 'delete',
 };
 

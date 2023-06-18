@@ -9,13 +9,13 @@ import { environment } from '@app/environment';
 import { NotificationService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
 import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/navigation';
-import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor } from '@app/common/components';
+import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor, ActionsMenuItem } from '@app/common/components';
 import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import { listAllItemsActions, listCategoryActions, listFilterActions, listItemActions, listItemsAsyncReadActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded, selectListItemAmount } from './store';
-import { ListFilterToken, CategorizedListItems } from './types';
+import { ListFilterToken, CategorizedListItems, ListItem } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
@@ -47,9 +47,14 @@ export class ListPageComponent implements OnInit {
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
-  CATEGORY_CONTEXTUAL_MENU = categoryMenu.getCategoryContextualMenu();
-  getItemContextualMenu = itemMenu.getItemContextualMenu;
+  getItemContextualMenu = (item: ListItem) => {
+    return itemMenu.getItemContextualMenu(item).map(action => {
+      const label = this.transloco.translate(action.label);
+      return { ...action, label };
+    });
+  };
 
+  categoryContextualMenu!: ActionsMenuItem[];
   itemGroups = this.store.selectSignal(selectListCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectListIsLoaded);
   inErrorStatus = this.store.selectSignal(selectListInErrorStatus);
@@ -60,7 +65,8 @@ export class ListPageComponent implements OnInit {
 
   ngOnInit() {
     this.initPageMetadata();
-    this.initHeaderActions();
+    this.initListContextualMenu();
+    this.initCategoryContextualMenu();
     this.store.dispatch(listItemsAsyncReadActions.fetchItems());
   }
 
@@ -149,7 +155,7 @@ export class ListPageComponent implements OnInit {
   }
 
   onShowCreateItemModal(): void {
-    const title = this.transloco.translate('list.itemModal.createTitle');
+    const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: ListItemFormModalInput = { title };
     this.modal.open(ListItemFormModalComponent, modalInput);
   }
@@ -198,7 +204,7 @@ export class ListPageComponent implements OnInit {
   }
 
   private showCreateItemByCategoryModal(category: string): void {
-    const title = this.transloco.translate('inventory.itemModal.createTitle');
+    const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: ListItemFormModalInput = { title, category };
     this.modal.open(ListItemFormModalComponent, modalInput);
   }
@@ -207,7 +213,7 @@ export class ListPageComponent implements OnInit {
     findListItemById(this.store, itemId).subscribe({
       error: err => this.notification.error(...readErrorI18n(err)),
       next: item => {
-        const title = this.transloco.translate('list.itemModal.editTitle');
+        const title = this.transloco.translate('common.itemModal.editTitle');
         const modalInput: ListItemFormModalInput = { item, title };
         this.modal.open(ListItemFormModalComponent, modalInput);
       },
@@ -216,6 +222,7 @@ export class ListPageComponent implements OnInit {
 
   private decrementOrRemove(itemId: string): void {
     const amount$ = this.store.select(selectListItemAmount(itemId)).pipe(take(1));
+
     amount$.subscribe(amount => {
       if (amount <= 1) {
         this.confirmPrompt(ITEM_REMOVE_PROMPT).subscribe({
@@ -228,12 +235,22 @@ export class ListPageComponent implements OnInit {
     });
   }
 
-  private initHeaderActions(): void {
+  private initListContextualMenu(): void {
     this.store.select(selectListIsDoneFilter).subscribe((isDoneFilter: boolean) => {
-      const actions = listMenu.getListContextualMenu(isDoneFilter);
+      const actions = listMenu.getListContextualMenu(isDoneFilter).map(action => {
+        const label = this.transloco.translate(action.label);
+        return { ...action, label };
+      });
       this.layout.setHeaderActions(actions);
     });
 
     this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
+  }
+
+  private initCategoryContextualMenu(): void {
+    this.categoryContextualMenu = categoryMenu.CATEGORY_CONTEXTUAL_MENU.map(item => {
+      const label = this.transloco.translate(item.label);
+      return { ...item, label };
+    })
   }
 }

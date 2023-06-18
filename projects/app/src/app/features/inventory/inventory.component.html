@@ -48,7 +48,7 @@
         [title]="group.category"
         [isSelectable]="false"
         [items]="group.items"
-        [listActions]="CATEGORY_CONTEXTUAL_MENU"
+        [listActions]="categoryContextualMenu"
         [itemActionsFn]="getItemContextualMenu"
         [isPinned]="pinnedCategory() === group.category"
         (listActionClicked)="onCategoryAction(group.category, $event)"

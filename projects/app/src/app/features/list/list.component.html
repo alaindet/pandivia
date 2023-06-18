@@ -47,7 +47,7 @@
       <app-card-list
         [title]="group.category"
         [items]="group.items"
-        [listActions]="CATEGORY_CONTEXTUAL_MENU"
+        [listActions]="categoryContextualMenu"
         [itemActionsFn]="getItemContextualMenu"
         [isPinned]="pinnedCategory() === group.category"
         [checkboxColor]="uiCheckboxColor()"

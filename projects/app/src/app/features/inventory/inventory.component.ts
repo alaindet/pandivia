@@ -6,7 +6,7 @@ import { Observable, combineLatest, of, switchMap, take, throwError } from 'rxjs
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
-import { ACTIONS_MENU_EXPORTS, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
+import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { errorI18n, readErrorI18n } from '@app/common/utils';
 import { NotificationService } from '@app/core';
@@ -48,9 +48,14 @@ export class InventoryPageComponent implements OnInit {
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
-  CATEGORY_CONTEXTUAL_MENU = categoryMenu.CATEGORY_CONTEXTUAL_MENU;
-  getItemContextualMenu = itemMenu.getItemContextualMenu;
+  getItemContextualMenu = (item: InventoryItem) => {
+    return itemMenu.getItemContextualMenu(item).map(action => {
+      const label = this.transloco.translate(action.label);
+      return { ...action, label };
+    });
+  };
 
+  categoryContextualMenu!: ActionsMenuItem[];
   itemGroups = this.store.selectSignal(selectInventoryCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectInventoryIsLoaded);
   inErrorStatus = this.store.selectSignal(selectInventoryInErrorStatus);
@@ -59,7 +64,8 @@ export class InventoryPageComponent implements OnInit {
 
   ngOnInit() {
     this.initPageMetadata();
-    this.initHeaderActions();
+    this.initListContextualMenu();
+    this.initCategoryContextualMenu();
     this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
   }
 
@@ -135,7 +141,7 @@ export class InventoryPageComponent implements OnInit {
   }
 
   onShowCreateItemModal(): void {
-    const title = this.transloco.translate('inventory.itemModal.createTitle');
+    const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: InventoryItemFormModalInput = { title };
     this.modal.open(InventoryItemFormModalComponent, modalInput);
   }
@@ -166,9 +172,21 @@ export class InventoryPageComponent implements OnInit {
     this.store.dispatch(uiNavigationActions.setCurrent({ current }));
   }
 
-  private initHeaderActions(): void {
-    this.layout.setHeaderActions(listMenu.LIST_CONTEXTUAL_MENU);
+  private initListContextualMenu(): void {
+    const actions = listMenu.LIST_CONTEXTUAL_MENU.map(action => {
+      const label = this.transloco.translate(action.label);
+      return { ...action, label };
+    });
+    this.layout.setHeaderActions(actions);
     this.layout.headerActionEvent.subscribe(this.onListAction.bind(this));
+  }
+
+  private initCategoryContextualMenu(): void {
+    const actions = categoryMenu.CATEGORY_CONTEXTUAL_MENU.map(action => {
+      const label = this.transloco.translate(action.label);
+      return { ...action, label };
+    });
+    this.categoryContextualMenu = actions;
   }
 
   private confirmPrompt(
@@ -181,7 +199,7 @@ export class InventoryPageComponent implements OnInit {
     findInventoryItemById(this.store, itemId).subscribe({
       error: err => this.notification.error(...readErrorI18n(err)),
       next: item => {
-        const title = this.transloco.translate('inventory.itemModal.editTitle');
+        const title = this.transloco.translate('common.itemModal.editTitle');
         const modalInput: InventoryItemFormModalInput = { title, item };
         this.modal.open(InventoryItemFormModalComponent, modalInput);
       },
@@ -189,7 +207,7 @@ export class InventoryPageComponent implements OnInit {
   }
 
   private showCreateItemByCategoryModal(category: string): void {
-    const title = this.transloco.translate('inventory.itemModal.createTitle');
+    const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: InventoryItemFormModalInput = { title, category };
     this.modal.open(InventoryItemFormModalComponent, modalInput);
   }
