@@ -1,9 +1,11 @@
 - [?] Rename "Inventory" to "Habits"/"Habit"
 - [?] Remove action groups?!
-- [ ] Further filter name on List item form autocomplete: they must come from Inventory AND not already be present in List
+- [?] Split selectors in multiple files
+- [?] Add ESLint and Prettier
+- [x] Further filter name on List item form autocomplete: they must come from Inventory AND not already be present in List
 - [ ] Manage the "no-category" category
 - [ ] Accept input strings instead of importing TranslocoModule inside components
-- [ ] Change all "private" to "#"
 - [ ] Configure firebase.indexes.json
 - [ ] Split app in libraries and applications inside Angular Workspace
 - [ ] Transform app to PWA
+- [ ] Language is not working from localStorage?
