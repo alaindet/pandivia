@@ -4,3 +4,4 @@
 - [ ] Manage the "no-category" category
 - [ ] Accept input strings instead of importing TranslocoModule inside components
 - [ ] Change all "private" to "#"
+- [ ] Configure firebase.indexes.json
