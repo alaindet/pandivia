@@ -32,6 +32,7 @@ export class ProfilePageComponent implements OnInit {
 
   ngOnInit() {
     this.initPageMetadata();
+    this.resetHeaderActions();
   }
 
   private initPageMetadata(): void {
@@ -41,5 +42,9 @@ export class ProfilePageComponent implements OnInit {
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_USER.id;
     this.store.dispatch(uiNavigationActions.setCurrent({ current }));
+  }
+
+  private resetHeaderActions(): void {
+    this.layout.setHeaderActions([]);
   }
 }
