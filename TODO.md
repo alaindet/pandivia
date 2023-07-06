@@ -5,3 +5,5 @@
 - [ ] Accept input strings instead of importing TranslocoModule inside components
 - [ ] Change all "private" to "#"
 - [ ] Configure firebase.indexes.json
+- [ ] Split app in libraries and applications inside Angular Workspace
+- [ ] Transform app to PWA

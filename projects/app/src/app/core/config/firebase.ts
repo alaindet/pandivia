@@ -11,14 +11,14 @@ export const FIREBASE_PROVIDERS = [
       provideFirestore(() => {
         const firestore = getFirestore();
         if (environment.firebase.useEmulators) {
-          connectFirestoreEmulator(firestore, 'localhost', 8080);
+          connectFirestoreEmulator(firestore, 'localhost', 9902);
         }
         return firestore;
       }),
       provideAuth(() => {
         const auth = getAuth();
         if (environment.firebase.useEmulators) {
-          connectAuthEmulator(auth, 'http://localhost:9099');
+          connectAuthEmulator(auth, 'http://localhost:9901');
         }
         return auth;
       }),
