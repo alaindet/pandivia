@@ -1,7 +1,6 @@
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Observable, map, switchMap, take, takeUntil } from 'rxjs';
+import { Observable, switchMap, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -15,7 +14,7 @@ import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import { listAllItemsActions, listCategoryActions, listFilterActions, listItemActions, listItemsAsyncReadActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded, selectListItemAmount } from './store';
+import { listAllItemsActions, listCategoryActions, listFilterActions, listItemActions, listItemsAsyncReadActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
 import { ListFilterToken, CategorizedListItems, ListItem } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
@@ -288,7 +287,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   private initListContextualMenu(): void {
-    this.store.select(selectListIsDoneFilter).subscribe((isDoneFilter: boolean) => {
+    this.store.select(selectListIsDoneFilter).subscribe(isDoneFilter => {
       const actions = listMenu.getListContextualMenu(isDoneFilter).map(action => {
         const label = this.transloco.translate(action.label);
         return { ...action, label };

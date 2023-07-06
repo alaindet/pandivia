@@ -5,6 +5,7 @@ import { CACHE_MAX_AGE } from '@app/core/cache';
 import { LOADING_STATUS } from '@app/common/types';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
 import { LIST_FILTER, ListFilterToken, ListItem } from '../types';
+import { selectInventoryItemsByName } from '@app/features/inventory/store';
 
 const selectListFeature = createFeatureSelector<ListFeatureState>(
   LIST_FEATURE_NAME,
@@ -156,3 +157,28 @@ export const selectListItemModalSuccessCounter = createSelector(
   selectListFeature,
   state => state.itemModalSuccessCounter,
 );
+
+export const selectListItemsMapByName = createSelector(
+  selectListFeature,
+  state => {
+    const itemsMap: { [itemName: string]: boolean } = {};
+    state.items.forEach(item => {
+      const key = item.name.toLowerCase();
+      itemsMap[key] = true;
+    });
+    return itemsMap;
+  },
+);
+
+export const selectListItemNameAutocompleteItems = (nameQuery: string) => {
+  return createSelector(
+    selectInventoryItemsByName(nameQuery),
+    selectListItemsMapByName,
+    (inventoryItems, listItemsMap) => {
+      return inventoryItems.filter(inventoryItem => {
+        const key = inventoryItem.name.toLowerCase();
+        return !listItemsMap[key];
+      });
+    },
+  );
+};
