@@ -1,22 +1,22 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
-import { MatIconModule } from '@angular/material/icon';
 
-import { FormOption } from '@app/common/types';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@app/common/pipes';
+import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
-import { inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryItemsByName } from '@app/features/inventory/store';
 import { InventoryItem } from '@app/features/inventory';
-import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter } from '../../store';
+import { inventoryItemActions, inventoryItemsAsyncReadActions } from '@app/features/inventory/store';
+import { TranslocoModule } from '@ngneat/transloco';
+import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
-import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './field';
-import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@app/common/pipes';
-import { TranslocoModule } from '@ngneat/transloco';
+import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
 
 const imports = [
   MatIconModule,
@@ -157,7 +157,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   nameFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return this.store.select(selectInventoryItemsByName(query)).pipe(
+    return this.store.select(selectListItemNameAutocompleteItems(query)).pipe(
       map((items: InventoryItem[]) => {
         return items.map(item => ({ value: item.id, label: item.name }));
       }),

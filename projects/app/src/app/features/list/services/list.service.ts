@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, tap, throwError } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 
 import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_LIST_ITEMS, fakeRequest } from '@app/mocks';
 import { getRandomHash } from '@app/common/utils';

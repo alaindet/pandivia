@@ -1,5 +1,5 @@
 import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, Renderer2, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -35,8 +35,6 @@ const imports = [
   host: { class: 'app-text-input' },
 })
 export class TextInputComponent implements OnInit, OnChanges, ControlValueAccessor {
-
-  private renderer = inject(Renderer2);
 
   @Input() id?: string;
   @Input() type: TextInputType = 'text';

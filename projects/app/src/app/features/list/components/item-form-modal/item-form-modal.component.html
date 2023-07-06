@@ -34,10 +34,10 @@
     <app-autocomplete
       [inputComponent]="nameRef"
       sourceType="async"
+      [asyncOptions]="nameFieldOptions"
       [filteringDelay]="100"
       pickKey="label"
       [showEmptyOptions]="false"
-      [asyncOptions]="nameFieldOptions"
       [minChars]="1"
       width="16rem"
       offsetY="0.5rem"

@@ -43,6 +43,7 @@ export class LanguageService {
   private initLanguageFromStorage(): void {
     const language = this.fetchFromStorage() ?? DEFAULT_LANGUAGE;
     this.store.dispatch(userLanguageActions.setLanguage({ language }));
+    this.transloco.setActiveLang(language);
   }
 
   private listenToLanguageChange(): void {
