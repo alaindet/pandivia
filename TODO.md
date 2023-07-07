@@ -2,10 +2,10 @@
 - [?] Remove action groups?!
 - [?] Split selectors in multiple files
 - [?] Add ESLint and Prettier
-- [x] Further filter name on List item form autocomplete: they must come from Inventory AND not already be present in List
 - [ ] Manage the "no-category" category
 - [ ] Accept input strings instead of importing TranslocoModule inside components
 - [ ] Configure firebase.indexes.json
 - [ ] Split app in libraries and applications inside Angular Workspace
 - [ ] Transform app to PWA
-- [ ] Language is not working from localStorage?
+- [ ] Create show/hide password input
+- [ ] Add isAuthenticated guard

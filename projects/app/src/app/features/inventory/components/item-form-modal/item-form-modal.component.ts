@@ -13,7 +13,7 @@ import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
-import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './field';
+import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
 
 const imports = [
   MatIconModule,

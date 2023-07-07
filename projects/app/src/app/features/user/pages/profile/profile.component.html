@@ -1,18 +1,27 @@
-<h2>{{ 'userProfile.info' | transloco }}</h2>
-<p>{{ email() }}</p>
+<ng-container *transloco="let t">
 
-<h2>{{ 'userProfile.theme' | transloco }}</h2>
-<app-select
-  id="theme-switcher"
-  [options]="theme.options"
-  [value]="theme.current()"
-  (selected)="theme.set($event)"
-></app-select>
+  <h2>{{ t('userProfile.info') }}</h2>
+  <p>TODO: {{ email() }}</p>
 
-<h2>{{ 'userProfile.language' | transloco }}</h2>
-<app-select
-  id="language-switcher"
-  [options]="language.options"
-  [value]="language.current()"
-  (selected)="language.set($event)"
-></app-select>
+  <h2>{{ t('userProfile.theme') }}</h2>
+  <app-select
+    id="theme-switcher"
+    [options]="theme.options"
+    [value]="theme.current()"
+    (selected)="theme.set($event)"
+  ></app-select>
+
+  <h2>{{ t('userProfile.language') }}</h2>
+  <app-select
+    id="language-switcher"
+    [options]="language.options"
+    [value]="language.current()"
+    (selected)="language.set($event)"
+  ></app-select>
+
+  <h2>{{ t('auth.signout') }}</h2>
+  <button type="button" appButton="primary" (click)="onSignOut()">
+    {{ t('auth.signout') }}
+  </button>
+
+</ng-container>

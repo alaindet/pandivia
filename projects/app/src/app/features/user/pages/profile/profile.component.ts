@@ -1,17 +1,20 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { LanguageService, NAVIGATION_ITEM_USER, uiNavigationActions, uiSetPageTitle } from '@app/core';
+import { LanguageService, NAVIGATION_ITEM_USER, NotificationService, uiNavigationActions, uiSetPageTitle } from '@app/core';
 import { environment } from '@app/environment';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
-import { SelectComponent } from '@app/common/components';
+import { ButtonComponent, SelectComponent } from '@app/common/components';
 import { selectUserEmail } from '../../store';
+import { AuthenticationService } from '../../services';
 
 const imports = [
   TranslocoModule,
   SelectComponent,
+  ButtonComponent,
 ];
 
 @Component({
@@ -23,6 +26,9 @@ const imports = [
 export class ProfilePageComponent implements OnInit {
 
   private store = inject(Store);
+  private router = inject(Router);
+  private notification = inject(NotificationService);
+  private auth = inject(AuthenticationService);
   private layout = inject(StackedLayoutService);
   private transloco = inject(TranslocoService);
 
@@ -33,6 +39,19 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit() {
     this.initPageMetadata();
     this.resetHeaderActions();
+  }
+
+  onSignOut() {
+    this.auth.signOut().subscribe({
+      error: err => {
+        console.error(err);
+        this.notification.error('auth.signoutError');
+      },
+      next: () => {
+        this.router.navigate(['/signin']);
+        this.notification.success('auth.signoutSuccess');
+      },
+    });
   }
 
   private initPageMetadata(): void {

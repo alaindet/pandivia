@@ -15,7 +15,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
-import { LIST_ITEM_FORM_FIELD as FIELD } from './field';
+import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
 
 const imports = [

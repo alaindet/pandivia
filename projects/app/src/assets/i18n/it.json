@@ -15,6 +15,13 @@
   "userProfile.theme": "Tema",
   "userProfile.language": "Lingua",
 
+  "auth.signin": "Accedi",
+  "auth.signInSuccess": "Accesso effettuato",
+  "auth.signInError": "Impossibile accedere",
+  "auth.signout": "Disconnetti",
+  "auth.signoutSuccess": "Disconnessione effettuata",
+  "auth.signoutError": "Impossibile disconnettersi",
+
   "components.autocomplete.loading": "Caricamento...",
   "components.autocomplete.nothingFound": "Nessun risultato...",
   "components.modal.cancel": "Cancella",
@@ -22,6 +29,7 @@
   "components.modal.canceled": "La modale è stata cancellata",
   "components.select.defaultLabel": "Seleziona...",
 
+  "common.error.email": "Deve essere una email valida",
   "common.error.required": "Obbligatorio",
   "common.error.minMaxLength": "Deve contenere da {{ min }} a {{ max }} caratteri",
   "common.error.minMax": "Deve essere compreso tra {{ min }} e {{ max }}",
@@ -32,6 +40,7 @@
   "common.form.field.amount": "Quantità",
   "common.form.field.completed": "Completato",
   "common.form.field.addToInventory": "Aggiungi all'Inventario",
+  "common.signin": "Accedi",
   "common.cancel": "Annulla",
   "common.edit": "Modifica",
   "common.create": "Crea",

@@ -3,13 +3,17 @@ import { Routes } from '@angular/router';
 import { environment } from '@app/environment';
 import { LoggedPageCollectionComponent } from '@app/core';
 
-const DEFAULT_ROUTE = '/list';
+export const DEFAULT_ROUTE = '/list';
 
 let routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     redirectTo: DEFAULT_ROUTE,
+  },
+  {
+    path: 'signin',
+    loadComponent: () => import('@app/features/user/pages/signin'),
   },
   {
     path: '',
@@ -30,13 +34,6 @@ let routes: Routes = [
       },
     ],
   },
-
-  // TODO: Add login page
-  // {
-  //   path: 'login',
-  //   // ...
-  // },
-
   {
     path: '**',
     redirectTo: DEFAULT_ROUTE,

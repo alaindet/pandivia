@@ -15,6 +15,13 @@
   "userProfile.theme": "Thene",
   "userProfile.language": "Language",
 
+  "auth.signin": "Sign In",
+  "auth.signInSuccess": "Signed in successfully",
+  "auth.signInError": "Error while trying to sign in",
+  "auth.signout": "Sign Out",
+  "auth.signoutSuccess": "Signed out successfully",
+  "auth.signoutError": "Error while trying to sign out",
+
   "components.autocomplete.loading": "Loading...",
   "components.autocomplete.nothingFound": "Nothing found...",
   "components.modal.cancel": "Cancel",
@@ -22,6 +29,7 @@
   "components.modal.canceled": "Modal was canceled",
   "components.select.defaultLabel": "Select...",
 
+  "common.error.email": "Must be a valid email",
   "common.error.required": "Required",
   "common.error.minMaxLength": "Must be between {{ min }} and {{ max }} characters long",
   "common.error.minMax": "Must be between {{ min }} and {{ max }}",
@@ -32,6 +40,7 @@
   "common.form.field.amount": "Amount",
   "common.form.field.completed": "Completed",
   "common.form.field.addToInventory": "Add to Inventory",
+  "common.signin": "Sign in",
   "common.cancel": "Cancel",
   "common.edit": "Edit",
   "common.create": "Create",
