@@ -15,7 +15,7 @@
   "userProfile.theme": "Thene",
   "userProfile.language": "Language",
 
-  "auth.signin": "Sign In",
+  "auth.signIn": "Sign In",
   "auth.signInSuccess": "Signed in successfully",
   "auth.signInError": "Error while trying to sign in",
   "auth.signout": "Sign Out",

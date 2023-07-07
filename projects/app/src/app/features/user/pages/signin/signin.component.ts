@@ -1,18 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { DEFAULT_ROUTE } from '@app/app.routes';
 import { ButtonComponent, FORM_FIELD_EXPORTS, PageHeaderComponent, TextInputComponent } from '@app/common/components';
 import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@app/common/pipes';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
+import { Store } from '@ngrx/store';
+import { userSignInActions } from '../../store';
 import { UserCredentials } from '../../types';
 import { SIGN_IN_FIELD as FIELD } from './fields';
-import { AuthenticationService } from '../../services';
-import { NotificationService } from '@app/core';
 
 const imports = [
   NgIf,
@@ -38,9 +36,7 @@ const imports = [
 export default class SignInPageComponent implements OnInit {
 
   private formBuilder = inject(FormBuilder);
-  private router = inject(Router);
-  private notification = inject(NotificationService);
-  private auth = inject(AuthenticationService);
+  private store = inject(Store);
 
   theForm!: FormGroup;
   FIELD = FIELD;
@@ -68,16 +64,7 @@ export default class SignInPageComponent implements OnInit {
     }
 
     const credentials: UserCredentials = this.theForm.value;
-
-    this.auth.signIn(credentials).subscribe({
-      error: err => {
-        this.notification.error('auth.signInError');
-      },
-      next: () => {
-        this.router.navigate([DEFAULT_ROUTE]);
-        this.notification.success('auth.signInSuccess');
-      },
-    });
+    this.store.dispatch(userSignInActions.signIn({ credentials }));
   }
 
   private initForm(): void {

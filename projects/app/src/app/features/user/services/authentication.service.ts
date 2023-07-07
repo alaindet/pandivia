@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Auth, User, UserCredential, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Observable, from, map } from 'rxjs';
 
 import { UserCredentials } from '../types';
 
@@ -8,15 +9,24 @@ import { UserCredentials } from '../types';
 })
 export class AuthenticationService {
 
-  // TODO
-  signIn({ email, password }: UserCredentials): Observable<any> {
-    if (Math.random() > 0.7) return of(true);
-    return throwError(() => Error('Nope!'));
+  private auth = inject(Auth);
+
+  constructor() {
+    this.initAuthStateListener();
   }
 
-  // TODO
+  signIn({ email, password }: UserCredentials): Observable<User> {
+    return from(signInWithEmailAndPassword(this.auth, email, password))
+      .pipe(map(({ user }: UserCredential) => user));
+  }
+
   signOut(): Observable<any> {
-    if (Math.random() > 0.7) return of(true);
-    return throwError(() => Error('Nope!'));
+    return from(signOut(this.auth));
+  }
+
+  private initAuthStateListener(): void {
+    onAuthStateChanged(this.auth, user => {
+      console.log('onAuthStateChanged', user); // TODO: Remove
+    });
   }
 }

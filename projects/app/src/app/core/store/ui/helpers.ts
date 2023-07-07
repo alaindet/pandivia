@@ -39,9 +39,20 @@ export function createUiController(
     ));
   }
 
+  function showSuccessOn(...targetActions: any[]) {
+    return createEffect(() => actions$.pipe(
+      onActions(targetActions),
+      switchMap(action => {
+        const message = transloco.translate(action.message);
+        return of(uiNotificationsActions.addSuccess({ message }));
+      }),
+    ));
+  }
+
   return {
     startLoaderOn,
     stopLoaderOn,
     showErrorOn,
+    showSuccessOn,
   };
 }

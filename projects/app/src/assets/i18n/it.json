@@ -15,7 +15,7 @@
   "userProfile.theme": "Tema",
   "userProfile.language": "Lingua",
 
-  "auth.signin": "Accedi",
+  "auth.signIn": "Accedi",
   "auth.signInSuccess": "Accesso effettuato",
   "auth.signInError": "Impossibile accedere",
   "auth.signout": "Disconnetti",
