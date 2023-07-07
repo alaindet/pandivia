@@ -9,7 +9,7 @@ export const environment = {
   appName: 'Pandivia',
   firebase: {
     config: firebaseConfig,
-    useEmulators: false,
+    useEmulators: true,
   },
 };
 
