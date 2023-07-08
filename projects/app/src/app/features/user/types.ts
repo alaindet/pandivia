@@ -26,6 +26,9 @@ export type UserData = {
   lastLoginAt: string; // '1688802559431'
   apiKey: string; // hash
   appName: string;
+
+  // This is an extra key
+  isAdmin: boolean;
 };
 
 export type UserDisplayData = Pick<UserData, (
@@ -33,4 +36,5 @@ export type UserDisplayData = Pick<UserData, (
   | 'displayName'
   | 'createdAt'
   | 'lastLoginAt'
+  | 'isAdmin'
 )>;

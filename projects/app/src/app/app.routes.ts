@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { environment } from '@app/environment';
 import { LoggedPageCollectionComponent } from '@app/core';
+import { isAuthenticatedGuard } from './features/user/guards';
 
 export const DEFAULT_ROUTE = '/list';
 
@@ -18,7 +19,7 @@ let routes: Routes = [
   {
     path: '',
     component: LoggedPageCollectionComponent,
-    canActivate: [], // TODO: Add logged user check
+    canActivate: [isAuthenticatedGuard],
     children: [
       {
         path: 'list',
@@ -41,10 +42,13 @@ let routes: Routes = [
 ];
 
 if (!environment.production) {
-  routes = [
-    { path: 'demo', loadChildren: () => import('@app/__demo__') },
-    ...routes,
-  ];
+
+  const demoRoute = {
+    path: 'demo',
+    loadChildren: () => import('@app/__demo__'),
+  };
+
+  routes = [demoRoute, ...routes];
 }
 
 export const APP_ROUTES = routes;

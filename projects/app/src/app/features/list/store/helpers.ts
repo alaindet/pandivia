@@ -15,8 +15,7 @@ export function fetchListItemsHelper(listService: ListService) {
   )
 }
 
-export function setSuccessState(state: ListFeatureState, message?: string): void {
-  console.log(message); // TODO: Remove?
+export function setSuccessState(state: ListFeatureState): void {
   state.status = LOADING_STATUS.IDLE;
   state.lastUpdated = Date.now();
 }
