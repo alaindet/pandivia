@@ -18,9 +18,9 @@
   "auth.signIn": "Accedi",
   "auth.signInSuccess": "Accesso effettuato",
   "auth.signInError": "Impossibile accedere",
-  "auth.signout": "Disconnetti",
-  "auth.signoutSuccess": "Disconnessione effettuata",
-  "auth.signoutError": "Impossibile disconnettersi",
+  "auth.signOut": "Disconnetti",
+  "auth.signOutSuccess": "Disconnessione effettuata",
+  "auth.signOutError": "Impossibile disconnettersi",
 
   "components.autocomplete.loading": "Caricamento...",
   "components.autocomplete.nothingFound": "Nessun risultato...",

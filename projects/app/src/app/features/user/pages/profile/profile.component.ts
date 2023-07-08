@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { DatePipe, NgIf } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
@@ -7,9 +8,11 @@ import { environment } from '@app/environment';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ButtonComponent, SelectComponent } from '@app/common/components';
-import { selectUserEmail, userSignOutActions } from '../../store';
+import { selectUserDisplayData, userSignOutActions } from '../../store';
 
 const imports = [
+  NgIf,
+  DatePipe,
   TranslocoModule,
   SelectComponent,
   ButtonComponent,
@@ -20,6 +23,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
 
@@ -29,7 +33,7 @@ export class ProfilePageComponent implements OnInit {
 
   theme = inject(ThemeService);
   language = inject(LanguageService);
-  email = this.store.selectSignal(selectUserEmail);
+  userData = this.store.selectSignal(selectUserDisplayData);
 
   ngOnInit() {
     this.initPageMetadata();

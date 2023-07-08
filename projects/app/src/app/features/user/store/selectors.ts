@@ -1,24 +1,34 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { USER_FEATURE_NAME, UserFeatureState } from './state';
+import { UserDisplayData } from '../types';
 
 const selectUserFeature = createFeatureSelector<UserFeatureState>(
   USER_FEATURE_NAME,
 );
 
-export const selectUser = createSelector(
+export const selectUserData = createSelector(
   selectUserFeature,
-  state => state.user,
+  state => state.data,
+);
+
+export const selectUserDisplayData = createSelector(
+  selectUserData,
+  data => {
+    if (!data) return null;
+    const { email, displayName, createdAt, lastLoginAt } = data;
+    return { email, displayName, createdAt, lastLoginAt } as UserDisplayData;
+  },
 );
 
 export const selectUserIsAuthenticated = createSelector(
   selectUserFeature,
-  state => state.user !== null,
+  state => state.data !== null,
 );
 
 export const selectUserEmail = createSelector(
   selectUserFeature,
-  state => state?.user?.email ?? null,
+  state => state?.data?.email ?? null,
 );
 
 export const selectUserLanguage = createSelector(

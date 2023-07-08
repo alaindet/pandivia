@@ -12,15 +12,15 @@
 
   "userProfile.title": "User",
   "userProfile.info": "Info",
-  "userProfile.theme": "Thene",
+  "userProfile.theme": "Theme",
   "userProfile.language": "Language",
 
   "auth.signIn": "Sign In",
   "auth.signInSuccess": "Signed in successfully",
   "auth.signInError": "Error while trying to sign in",
-  "auth.signout": "Sign Out",
-  "auth.signoutSuccess": "Signed out successfully",
-  "auth.signoutError": "Error while trying to sign out",
+  "auth.signOut": "Sign Out",
+  "auth.signOutSuccess": "Signed out successfully",
+  "auth.signOutError": "Error while trying to sign out",
 
   "components.autocomplete.loading": "Loading...",
   "components.autocomplete.nothingFound": "Nothing found...",

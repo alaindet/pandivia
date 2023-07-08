@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, User, UserCredential, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, UserCredential, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Observable, from, map } from 'rxjs';
 
-import { UserCredentials } from '../types';
+import { UserCredentials, UserData } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,9 @@ export class AuthenticationService {
     this.initAuthStateListener();
   }
 
-  signIn({ email, password }: UserCredentials): Observable<User> {
+  signIn({ email, password }: UserCredentials): Observable<UserData> {
     return from(signInWithEmailAndPassword(this.auth, email, password))
-      .pipe(map(({ user }: UserCredential) => user));
+      .pipe(map(({ user }: UserCredential) => user.toJSON() as UserData));
   }
 
   signOut(): Observable<any> {

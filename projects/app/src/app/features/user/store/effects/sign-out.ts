@@ -17,11 +17,11 @@ export class UserSignOutEffects {
     ofType(userSignOutActions.signOut),
     switchMap(() => this.authService.signOut().pipe(
       map(() => {
-        const message = 'auth.signoutSuccess';
+        const message = 'auth.signOutSuccess';
         return userSignOutActions.signOutSuccess({ message });
       }),
       catchError(() => {
-        const message = 'auth.signoutError';
+        const message = 'auth.signOutError';
         return of(userSignOutActions.signOutError({ message }));
       }),
     )),

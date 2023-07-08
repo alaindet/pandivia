@@ -1,16 +1,15 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { User } from '@angular/fire/auth';
 
-import { UserCredentials } from '../types';
+import { UserCredentials, UserData } from '../types';
 import { Language } from '@app/core';
 
 export const userSignInActions = createActionGroup({
   source: 'User/SignIn',
   events: {
     signIn: props<{ credentials: UserCredentials }>(),
-    signInSuccess: props<{ user: User, message: string }>(),
+    signInSuccess: props<{ user: UserData, message: string }>(),
     signInError: props<{ message: string }>(),
-    autoSignIn: props<{ user: User }>(),
+    autoSignIn: props<{ user: UserData }>(),
   },
 });
 
