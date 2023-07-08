@@ -8,4 +8,4 @@
 - [ ] Split app in libraries and applications inside Angular Workspace
 - [ ] Transform app to PWA
 - [ ] Create show/hide password input
-- [ ] Add isAuthenticated guard
+- [ ] Use &lt;dialog&gt;

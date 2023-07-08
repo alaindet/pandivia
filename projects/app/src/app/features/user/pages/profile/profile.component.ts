@@ -9,10 +9,12 @@ import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ButtonComponent, SelectComponent } from '@app/common/components';
 import { selectUserDisplayData, userSignOutActions } from '../../store';
+import { RouterLink } from '@angular/router';
 
 const imports = [
   NgIf,
   DatePipe,
+  RouterLink,
   TranslocoModule,
   SelectComponent,
   ButtonComponent,
@@ -34,6 +36,7 @@ export class ProfilePageComponent implements OnInit {
   theme = inject(ThemeService);
   language = inject(LanguageService);
   userData = this.store.selectSignal(selectUserDisplayData);
+  isProduction = environment.production;
 
   ngOnInit() {
     this.initPageMetadata();

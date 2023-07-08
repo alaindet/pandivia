@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { NotificationService } from '@app/core';
 import { switchMap, tap } from 'rxjs';
 
 import { selectUserIsAuthenticated, selectUserIsLoaded } from '../store';
@@ -11,7 +10,6 @@ export const isAuthenticatedGuard = () => {
 
   const router = inject(Router);
   const store = inject(Store);
-  const notification = inject(NotificationService);
 
   return store.select(selectUserIsLoaded).pipe(
     firstTruthy(),
@@ -19,7 +17,6 @@ export const isAuthenticatedGuard = () => {
     tap(isAuthenticated => {
       if (!isAuthenticated) {
         router.navigate(['/signin']);
-        notification.error('auth.unauthenticatedError');
       }
     }),
   );

@@ -55,8 +55,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     itemAsyncWriteActions.createError,
     itemAsyncWriteActions.editError,
     itemAsyncWriteActions.removeError,
-    (state, { message }) => {
-      console.log(message); // TODO: Remove?
+    state => {
       state.status = LOADING_STATUS.ERROR;
     },
   ),

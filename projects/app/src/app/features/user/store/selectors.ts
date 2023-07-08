@@ -10,7 +10,10 @@ const selectUserFeature = createFeatureSelector<UserFeatureState>(
 
 export const selectUserIsLoaded = createSelector(
   selectUserFeature,
-  state => state.status === LOADING_STATUS.IDLE || LOADING_STATUS.ERROR,
+  state => (
+    state.status === LOADING_STATUS.IDLE ||
+    state.status === LOADING_STATUS.ERROR
+  ),
 );
 
 export const selectUserData = createSelector(
@@ -22,8 +25,13 @@ export const selectUserDisplayData = createSelector(
   selectUserData,
   data => {
     if (!data) return null;
-    const { email, displayName, createdAt, lastLoginAt } = data;
-    return { email, displayName, createdAt, lastLoginAt } as UserDisplayData;
+    return {
+      email: data.email,
+      displayName: data.displayName,
+      isAdmin: data.isAdmin,
+      createdAt: data.createdAt,
+      lastLoginAt: data.lastLoginAt,
+    } as UserDisplayData;
   },
 );
 

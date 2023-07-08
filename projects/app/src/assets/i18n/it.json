@@ -15,11 +15,10 @@
   "userProfile.theme": "Tema",
   "userProfile.language": "Lingua",
   "userProfile.name": "Nome",
-  "userProfile.isAdmin": "È amministratore/trice",
   "userProfile.registeredOn": "Registrato/a il",
   "userProfile.lastSignedInOn": "Ultimo accesso",
+  "userProfile.preferences": "Preferenze",
 
-  "auth.unauthenticatedError": "Non sei autenticato",
   "auth.signIn": "Accedi",
   "auth.signInSuccess": "Accesso effettuato",
   "auth.signInError": "Impossibile accedere",

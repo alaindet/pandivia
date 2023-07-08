@@ -15,11 +15,10 @@
   "userProfile.theme": "Theme",
   "userProfile.language": "Language",
   "userProfile.name": "Name",
-  "userProfile.isAdmin": "Is admin",
   "userProfile.registeredOn": "Registered on",
   "userProfile.lastSignedInOn": "Last signed in on",
+  "userProfile.preferences": "Preferences",
 
-  "auth.unauthenticatedError": "You are not signed in",
   "auth.signIn": "Sign In",
   "auth.signInSuccess": "Signed in successfully",
   "auth.signInError": "Error while trying to sign in",

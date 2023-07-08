@@ -10,6 +10,7 @@ export const userSignInActions = createActionGroup({
     signInSuccess: props<{ user: UserData, message: string }>(),
     signInError: props<{ message: string }>(),
     autoSignIn: props<{ user: UserData }>(),
+    autoSignInFailed: emptyProps(),
   },
 });
 

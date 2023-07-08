@@ -24,14 +24,17 @@ export const userReducer = createReducer(USER_FEATURE_INITIAL_STATE,
     },
   ),
 
-  immerOn(userSignInActions.signInSuccess, (state, { user }) => {
-    state.status = LOADING_STATUS.IDLE;
-    state.data = user;
-  }),
+  immerOn(
+    userSignInActions.signInSuccess,
+    userSignInActions.autoSignIn,
+    (state, { user }) => {
+      state.status = LOADING_STATUS.IDLE;
+      state.data = user;
+    },
+  ),
 
-  immerOn(userSignInActions.autoSignIn, (state, { user }) => {
+  immerOn(userSignInActions.autoSignInFailed, state => {
     state.status = LOADING_STATUS.IDLE;
-    state.data = user;
   }),
 
   immerOn(userSignOutActions.signOutSuccess, state => {
