@@ -26,19 +26,19 @@
     </ul>
   </section>
 
-  <!-- Theme -->
+  <!-- Preferences -->
   <section>
     <h2>{{ t('userProfile.theme') }}</h2>
+
+    <!-- Theme -->
     <app-select
       id="theme-switcher"
       [options]="theme.options"
       [value]="theme.current()"
       (selected)="theme.set($event)"
     />
-  </section>
 
-  <!-- Language -->
-  <section>
+    <!-- Language -->
     <h2>{{ t('userProfile.language') }}</h2>
     <app-select
       id="language-switcher"
@@ -48,14 +48,19 @@
     />
   </section>
 
-  <!-- Sign out -->
-  <h2>{{ t('auth.signOut') }}</h2>
-  <button type="button" appButton="primary" (click)="onSignOut()">
-    {{ t('auth.signOut') }}
-  </button>
-
   <!-- Invite people -->
-  <!-- TODO... -->
+  <section *ngIf="isAdmin()">
+    <h2>{{ t('inviteUser.title') }}</h2>
+    <app-invite-user />
+  </section>
+
+  <!-- Sign out -->
+  <section>
+    <h2>{{ t('auth.signOut') }}</h2>
+    <button type="button" appButton="primary" (click)="onSignOut()">
+      {{ t('auth.signOut') }}
+    </button>
+  </section>
 
   <!-- Demo -->
   <section *ngIf="!isProduction">

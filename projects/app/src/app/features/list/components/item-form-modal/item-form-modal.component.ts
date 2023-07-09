@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
-import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@app/common/pipes';
+import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { InventoryItem } from '@app/features/inventory';
@@ -19,23 +19,21 @@ import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
 
 const imports = [
-  MatIconModule,
   NgIf,
   ReactiveFormsModule,
+  MatIconModule,
+  TranslocoModule,
   ModalHeaderDirective,
   ModalFooterDirective,
-  ...FORM_FIELD_EXPORTS,
-  ...AUTOCOMPLETE_EXPORTS,
-  TranslocoModule,
   TextInputComponent,
   QuickNumberComponent,
   SelectComponent,
   ToggleComponent,
   TextareaComponent,
   ButtonComponent,
-  FieldStatusPipe,
-  FieldErrorPipe,
-  FieldErrorIdPipe,
+  ...FORM_FIELD_EXPORTS,
+  ...AUTOCOMPLETE_EXPORTS,
+  ...FIELD_PIPES_EXPORTS,
 ];
 
 @Component({

@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { ButtonComponent, FORM_FIELD_EXPORTS, PageHeaderComponent, TextInputComponent } from '@app/common/components';
-import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@app/common/pipes';
+import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { Store } from '@ngrx/store';
 import { userSignInActions } from '../../store';
@@ -18,12 +18,10 @@ const imports = [
   MatIconModule,
   TranslocoModule,
   PageHeaderComponent,
-  ...FORM_FIELD_EXPORTS,
   TextInputComponent,
-  FieldStatusPipe,
-  FieldErrorPipe,
-  FieldErrorIdPipe,
   ButtonComponent,
+  ...FORM_FIELD_EXPORTS,
+  ...FIELD_PIPES_EXPORTS,
 ];
 
 @Component({

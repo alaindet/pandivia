@@ -40,6 +40,11 @@ export const selectUserIsAuthenticated = createSelector(
   state => state.data !== null,
 );
 
+export const selectUserIsAdmin = createSelector(
+  selectUserFeature,
+  state => !!state?.data?.isAdmin,
+);
+
 export const selectUserEmail = createSelector(
   selectUserFeature,
   state => state?.data?.email ?? null,

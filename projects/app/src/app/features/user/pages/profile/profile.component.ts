@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { DatePipe, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
@@ -8,8 +9,8 @@ import { environment } from '@app/environment';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ButtonComponent, SelectComponent } from '@app/common/components';
-import { selectUserDisplayData, userSignOutActions } from '../../store';
-import { RouterLink } from '@angular/router';
+import { selectUserDisplayData, selectUserIsAdmin, userSignOutActions } from '../../store';
+import { InviteUserComponent } from '../../components';
 
 const imports = [
   NgIf,
@@ -18,6 +19,7 @@ const imports = [
   TranslocoModule,
   SelectComponent,
   ButtonComponent,
+  InviteUserComponent,
 ];
 
 @Component({
@@ -36,6 +38,7 @@ export class ProfilePageComponent implements OnInit {
   theme = inject(ThemeService);
   language = inject(LanguageService);
   userData = this.store.selectSignal(selectUserDisplayData);
+  isAdmin = this.store.selectSignal(selectUserIsAdmin);
   isProduction = environment.production;
 
   ngOnInit() {

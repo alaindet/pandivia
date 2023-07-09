@@ -1,0 +1,44 @@
+<ng-container *transloco="let t">
+
+  <form
+    class="invite-user-form"
+    [formGroup]="theForm"
+    (ngSubmit)="onGenerateLink()"
+  >
+    <!-- Email -->
+    <app-form-field id="field-email">
+      <app-text-input
+        id="field-email"
+        type="email"
+        formControlName="email"
+        [withFullWidth]="true"
+        [status]="fEmail | appFieldStatus"
+        [placeholder]="t('common.form.field.name') + '...'"
+        [withStatusIcon]="true"
+        [withErrorId]="fEmail | appFieldErrorId:{
+          'email': 'field-email-err-email',
+        }"
+      />
+
+      <!-- Error: email -->
+      <app-form-field-error
+        *ngIf="fEmail | appFieldError:'email'"
+        errorId="field-email-err-email"
+      >
+        {{ t('common.error.email') }}
+      </app-form-field-error>
+
+    </app-form-field>
+
+    <!-- Send -->
+    <button type="submit" appButton [disabled]="theForm.invalid">
+      {{ t('inviteUser.generateLink') }}
+    </button>
+
+    <!-- Generated link -->
+    <div *ngIf="inviteUrl" class="generated-link">
+      {{ inviteUrl }}
+    </div>
+
+  </form>
+</ng-container>

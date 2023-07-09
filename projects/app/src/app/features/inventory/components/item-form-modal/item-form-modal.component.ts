@@ -7,7 +7,7 @@ import { Observable, map } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
-import { FieldErrorPipe, FieldErrorIdPipe, FieldStatusPipe } from '@app/common/pipes';
+import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
@@ -16,23 +16,21 @@ import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, I
 import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
 
 const imports = [
-  MatIconModule,
   NgIf,
+  MatIconModule,
   ReactiveFormsModule,
+  TranslocoModule,
   ModalHeaderDirective,
   ModalFooterDirective,
-  ...FORM_FIELD_EXPORTS,
-  ...AUTOCOMPLETE_EXPORTS,
   TextInputComponent,
   QuickNumberComponent,
   SelectComponent,
   ToggleComponent,
   TextareaComponent,
   ButtonComponent,
-  TranslocoModule,
-  FieldStatusPipe,
-  FieldErrorPipe,
-  FieldErrorIdPipe,
+  ...FORM_FIELD_EXPORTS,
+  ...AUTOCOMPLETE_EXPORTS,
+  ...FIELD_PIPES_EXPORTS,
 ];
 
 @Component({

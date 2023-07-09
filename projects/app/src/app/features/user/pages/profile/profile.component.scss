@@ -12,3 +12,9 @@
 .-admin {
   color: $app-color-error;
 }
+
+section {
+  padding-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid $app-color-grey-600;
+}

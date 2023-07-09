@@ -26,6 +26,10 @@
   "auth.signOutSuccess": "Disconnessione effettuata",
   "auth.signOutError": "Impossibile disconnettersi",
 
+  "inviteUser.title": "Invita utente",
+  "inviteUser.emailPlaceholder": "Inserisci una email valida da invitare",
+  "inviteUser.generateLink": "Crea link",
+
   "components.autocomplete.loading": "Caricamento...",
   "components.autocomplete.nothingFound": "Nessun risultato...",
   "components.modal.cancel": "Cancella",
@@ -88,5 +92,6 @@
   "common.prompt.removeCategoryCompleted.title": "Rimuovi elementi completati",
   "common.prompt.removeCategoryCompleted.message": "Vuoi rimuovere tutti gli elementi completati dalla categoria \"{{ categoryName }}\"?",
   "common.yes": "Si",
-  "common.no": "No"
+  "common.no": "No",
+  "common.copy": "Copia"
 }
