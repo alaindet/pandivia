@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, throwError } from 'rxjs';
+import { Observable, catchError, of, tap, throwError } from 'rxjs';
 
 import { FakeRequestConfig, MOCK_DELAY, MOCK_FAIL_RATE, MOCK_LIST_ITEMS, fakeRequest } from '@app/mocks';
 import { getRandomHash } from '@app/common/utils';
@@ -34,8 +34,11 @@ export class ListService {
   }
 
   editItem(editedItem: ListItem): Observable<ListItem> {
-    const id = editedItem.id;
-    return this.revertableFakeRequest(() => editedItem);
+    return this.revertableFakeRequest(() => {
+      const id = editedItem.id;
+      this.items = this.items.map(item => item.id === id ? editedItem : item);
+      return editedItem;
+    });
   }
 
   completeItem(itemId: ListItem['id']): Observable<ListItem> {
