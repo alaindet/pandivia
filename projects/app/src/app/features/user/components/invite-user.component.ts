@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { finalize } from 'rxjs';
-import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatIconModule } from '@angular/material/icon';
 
 import { NotificationService, uiLoaderActions } from '@app/core';
 import { ButtonComponent, FORM_FIELD_EXPORTS, TextInputComponent } from '@app/common/components';
@@ -16,7 +16,7 @@ const imports = [
   NgIf,
   ReactiveFormsModule,
   TranslocoModule,
-  ClipboardModule,
+  MatIconModule,
   TextInputComponent,
   ButtonComponent,
   ...FORM_FIELD_EXPORTS,
@@ -60,11 +60,10 @@ export class InviteUserComponent {
           console.error(err);
           this.notification.error('inviteUser.generationError');
         },
-        next: inviteId => {
+        next: url => {
           this.notification.success('inviteUser.generationSuccess');
-          const { protocol, host } = window.location;
-          this.inviteUrl = `${protocol}//${host}/signup?invite=${inviteId}`;
-          copyToClipboard(this.inviteUrl);
+          this.inviteUrl = url;
+          copyToClipboard(url);
         },
       });
   }

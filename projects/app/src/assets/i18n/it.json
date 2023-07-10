@@ -26,6 +26,8 @@
   "auth.signOutSuccess": "Disconnessione effettuata",
   "auth.signOutError": "Impossibile disconnettersi",
   "auth.signUp": "Registrati",
+  "auth.signUpSuccess": "Registrazione avvenuta con successo",
+  "auth.signUpError": "Impossibile registrare l'utente",
 
   "inviteUser.title": "Invita utente",
   "inviteUser.emailPlaceholder": "Inserisci una email valida da invitare",
@@ -33,6 +35,8 @@
   "inviteUser.generationSuccess": "Invito generato copiato negli appunti",
   "inviteUser.generationError": "Impossibile generare invito",
   "inviteUser.linkDescription": "Invia questo link ad un amico/a per registrarsi. Il link scade entro in 24 ore da ora",
+  "inviteUser.invalidInvite": "Invito mancante o non valido",
+  "inviteUser.emailMustMatchInvite": "L'email deve essere uguale a '{{ email }}'",
 
   "components.autocomplete.loading": "Caricamento...",
   "components.autocomplete.nothingFound": "Nessun risultato...",
@@ -97,5 +101,6 @@
   "common.prompt.removeCategoryCompleted.message": "Vuoi rimuovere tutti gli elementi completati dalla categoria \"{{ categoryName }}\"?",
   "common.yes": "Si",
   "common.no": "No",
-  "common.copy": "Copia"
+  "common.copy": "Copia",
+  "common.error": "Errore"
 }

@@ -47,3 +47,9 @@ export type UserInvite = {
 };
 
 export type CreateUserInviteDto = Omit<UserInvite, 'id'>;
+
+export type SignUpUserDto = {
+  email: string;
+  password: string;
+  displayName: string;
+};

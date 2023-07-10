@@ -31,7 +31,14 @@
     </app-form-field>
 
     <!-- Send -->
-    <button type="submit" appButton [disabled]="theForm.invalid">
+    <button
+      type="submit"
+      appButton
+      [disabled]="theForm.invalid"
+      withIcon="left"
+      size="small"
+    >
+      <mat-icon>person_add</mat-icon>
       {{ t('inviteUser.generateLink') }}
     </button>
 

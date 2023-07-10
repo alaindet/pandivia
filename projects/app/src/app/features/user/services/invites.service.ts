@@ -1,25 +1,28 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, collection, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDoc } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
+import { Auth, User, createUserWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
 
 import { DAY_DURATION } from '@app/common/constants';
-import { CreateUserInviteDto, UserInvite } from '../types';
+import { CreateUserInviteDto, SignUpUserDto, UserData, UserInvite } from '../types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvitesService {
 
+  private auth = inject(Auth);
   private firestore = inject(Firestore);
 
-  createInvite(email: string): Observable<UserInvite['id']> {
+  createInvite(email: string): Observable<string> {
     return from((async () => {
       const createdAt = Date.now();
       const expiresAt = createdAt + DAY_DURATION;
       const inviteDto: CreateUserInviteDto = { email, createdAt, expiresAt };
       const invitesRef = collection(this.firestore, 'invites');
       const inviteDoc = await addDoc(invitesRef, inviteDto);
-      return inviteDoc.id;
+      const { protocol, host } = window.location;
+      return `${protocol}//${host}/signup?invite=${inviteDoc.id}`;
     })());
   }
 
@@ -29,6 +32,16 @@ export class InvitesService {
       const inviteDoc = await getDoc(inviteRef);
       if (!inviteDoc.exists()) return null;
       return { id: inviteDoc.id, ...inviteDoc.data() } as UserInvite;
+    })());
+  }
+
+  signUpUser(inviteId: string, dto: SignUpUserDto): Observable<UserData> {
+    return from((async () => {
+      const { email, password, displayName } = dto;
+      const userCred = await createUserWithEmailAndPassword(this.auth, email, password);
+      await deleteDoc(doc(this.firestore, 'invites', inviteId));
+      await updateProfile(userCred.user, { displayName });
+      return { ...userCred.user.toJSON(), displayName } as UserData;
     })());
   }
 }
