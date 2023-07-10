@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of, switchMap, withLatestFrom } from 'rxjs';
 
-import { InventoryService } from '../../services';
+import { OldInventoryService as InventoryService } from '../../services';
 import { inventoryItemsAsyncReadActions } from '../actions';
 import { fetchInventoryItemsHelper } from '../helpers';
 import { selectInventoryShouldFetch } from '../selectors';

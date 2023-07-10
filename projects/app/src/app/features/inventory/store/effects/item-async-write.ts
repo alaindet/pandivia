@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 
-import { InventoryService } from '../../services';
+import { OldInventoryService, InventoryService } from '../../services';
 import { inventoryItemActions, inventoryItemAsyncWriteActions } from '../actions';
 
 @Injectable()
 export class InventoryItemAsyncWriteEffects {
 
   private actions = inject(Actions);
+  private oldInventoryService = inject(OldInventoryService);
   private inventoryService = inject(InventoryService);
 
   createItem$ = createEffect(() => this.actions.pipe(
@@ -27,7 +28,7 @@ export class InventoryItemAsyncWriteEffects {
 
   editItem$ = createEffect(() => this.actions.pipe(
     ofType(inventoryItemActions.edit),
-    switchMap(({ item }) => this.inventoryService.editItem(item).pipe(
+    switchMap(({ item }) => this.oldInventoryService.editItem(item).pipe(
       map(item => {
         const message = 'common.async.editItemSuccess';
         return inventoryItemAsyncWriteActions.editSuccess({ message, item })
@@ -41,7 +42,7 @@ export class InventoryItemAsyncWriteEffects {
 
   deleteItem$ = createEffect(() => this.actions.pipe(
     ofType(inventoryItemActions.remove),
-    switchMap(({ itemId }) => this.inventoryService.removeItem(itemId).pipe(
+    switchMap(({ itemId }) => this.oldInventoryService.removeItem(itemId).pipe(
       map(item => {
         const message = 'common.async.removeItemSuccess';
         return inventoryItemAsyncWriteActions.removeSuccess({ message, item })

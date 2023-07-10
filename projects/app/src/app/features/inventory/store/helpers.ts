@@ -2,7 +2,7 @@ import { InventoryFeatureState } from '@app/features/inventory/store';
 import { catchError, map, of } from 'rxjs';
 
 import { LOADING_STATUS } from '@app/common/types';
-import { InventoryService } from '../services/inventory.service';
+import { OldInventoryService as InventoryService } from '../services/old.inventory.service';
 import { inventoryItemsAsyncReadActions } from './actions';
 
 export function fetchInventoryItemsHelper(inventoryService: InventoryService) {

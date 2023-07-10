@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 
-import { InventoryService } from '../../services';
+import { OldInventoryService as InventoryService } from '../../services';
 import {
   inventoryAllItemsActions,
   inventoryCategoryActions,
