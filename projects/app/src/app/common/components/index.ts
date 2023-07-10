@@ -15,3 +15,4 @@ export * from './select';
 export * from './text-input';
 export * from './textarea';
 export * from './toggle';
+export * from './user-credentials-form';

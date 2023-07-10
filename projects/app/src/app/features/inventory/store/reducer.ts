@@ -85,27 +85,27 @@ export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
     itemsAsyncWriteActions.editSuccess,
     itemsAsyncWriteActions.removeSuccess,
     (state, { items, message }) => {
-      setSuccessState(state, message);
+      setSuccessState(state);
       state.items = items;
     },
   ),
 
     // List item async write ----------------------------------------------------
 
-    immerOn(itemAsyncWriteActions.createSuccess, (state, { item, message }) => {
-      setSuccessState(state, message);
+    immerOn(itemAsyncWriteActions.createSuccess, (state, { item }) => {
+      setSuccessState(state);
       state.itemModalSuccessCounter += 1;
       state.items.unshift(item);
     }),
 
-    immerOn(itemAsyncWriteActions.editSuccess, (state, { item, message }) => {
-      setSuccessState(state, message);
+    immerOn(itemAsyncWriteActions.editSuccess, (state, { item }) => {
+      setSuccessState(state);
       state.itemModalSuccessCounter += 1;
       state.items = replaceOn(state.items, it => it.id === item.id, () => item);
     }),
 
-    immerOn(itemAsyncWriteActions.removeSuccess, (state, { item, message }) => {
-      setSuccessState(state, message);
+    immerOn(itemAsyncWriteActions.removeSuccess, (state, { item }) => {
+      setSuccessState(state);
       state.items = state.items.filter(anItem => anItem.id !== item.id);
     }),
 );

@@ -1,4 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { DatePipe, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
@@ -6,12 +8,18 @@ import { LanguageService, NAVIGATION_ITEM_USER, uiNavigationActions, uiSetPageTi
 import { environment } from '@app/environment';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
-import { SelectComponent } from '@app/common/components';
-import { selectUserEmail } from '../../store';
+import { ButtonComponent, SelectComponent } from '@app/common/components';
+import { selectUserDisplayData, selectUserIsAdmin, userSignOutActions } from '../../store';
+import { InviteUserComponent } from '../../components';
 
 const imports = [
+  NgIf,
+  DatePipe,
+  RouterLink,
   TranslocoModule,
   SelectComponent,
+  ButtonComponent,
+  InviteUserComponent,
 ];
 
 @Component({
@@ -19,6 +27,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
 
@@ -28,11 +37,17 @@ export class ProfilePageComponent implements OnInit {
 
   theme = inject(ThemeService);
   language = inject(LanguageService);
-  email = this.store.selectSignal(selectUserEmail);
+  userData = this.store.selectSignal(selectUserDisplayData);
+  isAdmin = this.store.selectSignal(selectUserIsAdmin);
+  isProduction = environment.production;
 
   ngOnInit() {
     this.initPageMetadata();
     this.resetHeaderActions();
+  }
+
+  onSignOut() {
+    this.store.dispatch(userSignOutActions.signOut());
   }
 
   private initPageMetadata(): void {

@@ -19,8 +19,7 @@ export function fetchInventoryItemsHelper(inventoryService: InventoryService) {
   );
 }
 
-export function setSuccessState(state: InventoryFeatureState, message?: string): void {
-  console.log(message); // TODO: Remove?
+export function setSuccessState(state: InventoryFeatureState): void {
   state.status = LOADING_STATUS.IDLE;
   state.lastUpdated = Date.now();
 }

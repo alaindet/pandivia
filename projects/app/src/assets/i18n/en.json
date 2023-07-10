@@ -12,8 +12,31 @@
 
   "userProfile.title": "User",
   "userProfile.info": "Info",
-  "userProfile.theme": "Thene",
+  "userProfile.theme": "Theme",
   "userProfile.language": "Language",
+  "userProfile.name": "Name",
+  "userProfile.registeredOn": "Registered on",
+  "userProfile.lastSignedInOn": "Last signed in on",
+  "userProfile.preferences": "Preferences",
+
+  "auth.signIn": "Sign In",
+  "auth.signInSuccess": "Signed in successfully",
+  "auth.signInError": "Error while trying to sign in",
+  "auth.signOut": "Sign Out",
+  "auth.signOutSuccess": "Signed out successfully",
+  "auth.signOutError": "Error while trying to sign out",
+  "auth.signUp": "Sign Up",
+  "auth.signUpSuccess": "You successfully signed up",
+  "auth.signUpError": "Error while trying to sign up. The email you provided could be already in use or password could be invalid",
+
+  "inviteUser.title": "Invite user",
+  "inviteUser.emailPlaceholder": "Enter a valid email to invite",
+  "inviteUser.generateLink": "Generate link",
+  "inviteUser.generationSuccess": "Generated invitation copied to clipboard",
+  "inviteUser.generationError": "Error while generating invite",
+  "inviteUser.linkDescription": "Please send this link to your friend to sign up. The link expires within 24 hours from now",
+  "inviteUser.invalidInvite": "Missing or invalid invite",
+  "inviteUser.emailMustMatchInvite": "Email must match '{{ email }}'",
 
   "components.autocomplete.loading": "Loading...",
   "components.autocomplete.nothingFound": "Nothing found...",
@@ -22,6 +45,7 @@
   "components.modal.canceled": "Modal was canceled",
   "components.select.defaultLabel": "Select...",
 
+  "common.error.email": "Must be a valid email",
   "common.error.required": "Required",
   "common.error.minMaxLength": "Must be between {{ min }} and {{ max }} characters long",
   "common.error.minMax": "Must be between {{ min }} and {{ max }}",
@@ -32,6 +56,7 @@
   "common.form.field.amount": "Amount",
   "common.form.field.completed": "Completed",
   "common.form.field.addToInventory": "Add to Inventory",
+  "common.signin": "Sign in",
   "common.cancel": "Cancel",
   "common.edit": "Edit",
   "common.create": "Create",
@@ -73,5 +98,9 @@
   "common.prompt.removeCategory.title": "Remove category",
   "common.prompt.removeCategory.message": "Do you want to remove all items from category \"{{ categoryName }}\"?",
   "common.prompt.removeCategoryCompleted.title": "Remove completed items",
-  "common.prompt.removeCategoryCompleted.message": "Do you want to remove all completed items from category \"{{ categoryName }}\"?"
+  "common.prompt.removeCategoryCompleted.message": "Do you want to remove all completed items from category \"{{ categoryName }}\"?",
+  "common.yes": "Yes",
+  "common.no": "No",
+  "common.copy": "Copy",
+  "common.error": "Error"
 }
