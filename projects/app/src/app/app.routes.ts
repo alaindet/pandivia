@@ -17,6 +17,10 @@ let routes: Routes = [
     loadComponent: () => import('@app/features/user/pages/signin'),
   },
   {
+    path: 'signup',
+    loadComponent: () => import('@app/features/user/pages/signup'),
+  },
+  {
     path: '',
     component: LoggedPageCollectionComponent,
     canActivate: [isAuthenticatedGuard],

@@ -9,3 +9,5 @@
 - [ ] Transform app to PWA
 - [ ] Create show/hide password input
 - [ ] Use &lt;dialog&gt;
+- [ ] Setup security rules
+- [ ] See `signup.component.ts`

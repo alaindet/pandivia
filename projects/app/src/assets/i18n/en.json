@@ -25,10 +25,14 @@
   "auth.signOut": "Sign Out",
   "auth.signOutSuccess": "Signed out successfully",
   "auth.signOutError": "Error while trying to sign out",
+  "auth.signUp": "Sign Up",
 
   "inviteUser.title": "Invite user",
   "inviteUser.emailPlaceholder": "Enter a valid email to invite",
   "inviteUser.generateLink": "Generate link",
+  "inviteUser.generationSuccess": "Generated invitation copied to clipboard",
+  "inviteUser.generationError": "Error while generating invite",
+  "inviteUser.linkDescription": "Please send this link to your friend to sign up. The link expires within 24 hours from now",
 
   "components.autocomplete.loading": "Loading...",
   "components.autocomplete.nothingFound": "Nothing found...",

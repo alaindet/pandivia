@@ -25,10 +25,14 @@
   "auth.signOut": "Disconnetti",
   "auth.signOutSuccess": "Disconnessione effettuata",
   "auth.signOutError": "Impossibile disconnettersi",
+  "auth.signUp": "Registrati",
 
   "inviteUser.title": "Invita utente",
   "inviteUser.emailPlaceholder": "Inserisci una email valida da invitare",
   "inviteUser.generateLink": "Crea link",
+  "inviteUser.generationSuccess": "Invito generato copiato negli appunti",
+  "inviteUser.generationError": "Impossibile generare invito",
+  "inviteUser.linkDescription": "Invia questo link ad un amico/a per registrarsi. Il link scade entro in 24 ore da ora",
 
   "components.autocomplete.loading": "Caricamento...",
   "components.autocomplete.nothingFound": "Nessun risultato...",

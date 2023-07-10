@@ -38,3 +38,12 @@ export type UserDisplayData = Pick<UserData, (
   | 'lastLoginAt'
   | 'isAdmin'
 )>;
+
+export type UserInvite = {
+  id: string;
+  email: string;
+  createdAt: number;
+  expiresAt: number;
+};
+
+export type CreateUserInviteDto = Omit<UserInvite, 'id'>;
