@@ -27,7 +27,7 @@
   "auth.signOutError": "Error while trying to sign out",
   "auth.signUp": "Sign Up",
   "auth.signUpSuccess": "You successfully signed up",
-  "auth.signUpError": "Error while trying to sign up",
+  "auth.signUpError": "Error while trying to sign up. The email you provided could be already in use or password could be invalid",
 
   "inviteUser.title": "Invite user",
   "inviteUser.emailPlaceholder": "Enter a valid email to invite",
@@ -36,7 +36,7 @@
   "inviteUser.generationError": "Error while generating invite",
   "inviteUser.linkDescription": "Please send this link to your friend to sign up. The link expires within 24 hours from now",
   "inviteUser.invalidInvite": "Missing or invalid invite",
-  "inviteUser.emailMustMatchInvite": "Email must match the '{{ email }}'",
+  "inviteUser.emailMustMatchInvite": "Email must match '{{ email }}'",
 
   "components.autocomplete.loading": "Loading...",
   "components.autocomplete.nothingFound": "Nothing found...",

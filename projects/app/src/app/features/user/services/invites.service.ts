@@ -5,14 +5,18 @@ import { Auth, User, createUserWithEmailAndPassword, updateProfile, user } from 
 
 import { DAY_DURATION } from '@app/common/constants';
 import { CreateUserInviteDto, SignUpUserDto, UserData, UserInvite } from '../types';
+import { AuthenticationService } from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvitesService {
 
+  private router=  inject(Router);
   private auth = inject(Auth);
   private firestore = inject(Firestore);
+  private authService = inject(AuthenticationService);
 
   createInvite(email: string): Observable<string> {
     return from((async () => {
@@ -38,10 +42,11 @@ export class InvitesService {
   signUpUser(inviteId: string, dto: SignUpUserDto): Observable<UserData> {
     return from((async () => {
       const { email, password, displayName } = dto;
-      const userCred = await createUserWithEmailAndPassword(this.auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(this.auth, email, password);
       await deleteDoc(doc(this.firestore, 'invites', inviteId));
-      await updateProfile(userCred.user, { displayName });
-      return { ...userCred.user.toJSON(), displayName } as UserData;
+      await updateProfile(user, { displayName });
+      await this.authService.tryAutoSignIn();
+      return { ...user.toJSON(), displayName } as UserData;
     })());
   }
 }

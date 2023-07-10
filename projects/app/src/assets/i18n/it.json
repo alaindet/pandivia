@@ -27,7 +27,7 @@
   "auth.signOutError": "Impossibile disconnettersi",
   "auth.signUp": "Registrati",
   "auth.signUpSuccess": "Registrazione avvenuta con successo",
-  "auth.signUpError": "Impossibile registrare l'utente",
+  "auth.signUpError": "Impossibile registrare l'utente. La email fornita potrebbe essere già in uso o la password potrebbe non accettabile",
 
   "inviteUser.title": "Invita utente",
   "inviteUser.emailPlaceholder": "Inserisci una email valida da invitare",

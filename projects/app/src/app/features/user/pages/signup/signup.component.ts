@@ -99,7 +99,15 @@ export default class SignUpPageComponent implements OnInit {
       return;
     }
 
-    const dto = this.theForm.value as SignUpUserDto;
+    const { email, password, name: displayName } = this.theForm.value;
+    const dto: SignUpUserDto = { displayName, email, password };
+
+    if (this.invite!.email !== dto.email) {
+      const email = this.invite!.email;
+      this.notification.error('inviteUser.emailMustMatchInvite', { email });
+      return;
+    }
+
     this.store.dispatch(uiLoaderActions.start());
     this.invitesService.signUpUser(this.inviteId, dto)
       .pipe(finalize(() => this.store.dispatch(uiLoaderActions.stop())))

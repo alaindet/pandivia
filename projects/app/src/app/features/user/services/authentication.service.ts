@@ -14,7 +14,6 @@ export class AuthenticationService {
 
   private auth = inject(Auth);
   private store = inject(Store);
-  private router = inject(Router);
 
   constructor() {
     this.tryAutoSignIn();
@@ -31,8 +30,8 @@ export class AuthenticationService {
     return from(signOut(this.auth));
   }
 
-  private tryAutoSignIn(): void {
-    this.onceOnStartup(async (authState: User | null) => {
+  tryAutoSignIn(): Promise<void> {
+    return this.authStateOnce(async (authState: User | null) => {
       if (!authState) {
         this.store.dispatch(userSignInActions.autoSignInFailed());
         return;
@@ -49,11 +48,14 @@ export class AuthenticationService {
     return userData;
   }
 
-  private onceOnStartup(fn: (authState: User | null) => void): void {
-    let unsub!: Unsubscribe;
-    unsub = onAuthStateChanged(this.auth, authState => {
-      fn(authState);
-      unsub();
+  private authStateOnce(fn: (authState: User | null) => void): Promise<void> {
+    return new Promise(done => {
+      let unsub!: Unsubscribe;
+      unsub = onAuthStateChanged(this.auth, authState => {
+        fn(authState);
+        unsub();
+        done();
+      });
     });
   }
 }
