@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { CollectionReference, DocumentData, DocumentSnapshot, Firestore, QuerySnapshot, addDoc, collection, doc, getDoc, getDocs, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { CollectionReference, DocumentData, DocumentSnapshot, Firestore, QuerySnapshot, addDoc, collection, doc, getDoc, getDocs, updateDoc, deleteDoc, writeBatch, query, where, orderBy } from '@angular/fire/firestore';
 
 import { selectUserId } from '@app/features/user/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
@@ -50,6 +50,29 @@ export class InventoryService {
       const itemDoc = await getDoc(itemRef);
       await deleteDoc(itemRef);
       return this.docToInventoryItem(itemDoc);
+    })());
+  }
+
+  removeByCategory(category: string): Observable<void> {
+    return from((async () => {
+      const itemsRef = this.getItemsRef();
+      const batch = writeBatch(this.db);
+      const theQuery = query(
+        itemsRef,
+        where('category', '==', category),
+        orderBy('title', 'asc'),
+      );
+      const docs = await getDocs(theQuery);
+      docs.forEach(doc => batch.delete(doc.ref));
+    })());
+  }
+
+  removeAll(): Observable<void> {
+    return from((async () => {
+      const itemsRef = this.getItemsRef();
+      const batch = writeBatch(this.db);
+      const docs = await getDocs(itemsRef);
+      docs.forEach(doc => batch.delete(doc.ref));
     })());
   }
 

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 
-import { OldInventoryService as InventoryService } from '../../services';
+import { InventoryService } from '../../services';
 import {
   inventoryAllItemsActions,
   inventoryCategoryActions,
@@ -14,6 +14,22 @@ export class InventoryItemsAsyncWriteEffects {
 
   private actions = inject(Actions);
   private inventoryService = inject(InventoryService);
+
+  removeItemsByCategory$ = createEffect(() => this.actions.pipe(
+    ofType(inventoryCategoryActions.remove),
+    switchMap(({ category }) => {
+      return this.inventoryService.removeByCategory(category).pipe(
+        map(() => {
+          const message = 'common.async.removeItemsSuccess';
+          return inventoryItemsAsyncWriteActions.editSuccess({ message });
+        }),
+        catchError(() => {
+          const message = 'common.async.removeItemsError';
+          return of(inventoryItemsAsyncWriteActions.editError({ message }));
+        }),
+      );
+    }),
+  ));
 
   removeItems$ = createEffect(() => this.actions.pipe(
     ofType(
