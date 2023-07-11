@@ -10,13 +10,13 @@ import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { InventoryItem } from '@app/features/inventory';
-import { inventoryItemActions, inventoryItemsAsyncReadActions } from '@app/features/inventory/store';
 import { TranslocoModule } from '@ngneat/transloco';
 import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
+import { inventoryCreateItem, inventoryFetchItems } from '@app/features/inventory/store';
 
 const imports = [
   NgIf,
@@ -63,7 +63,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   get fDone() { return fDescribe(this.theForm, FIELD.IS_DONE.id) }
 
   ngOnInit() {
-    this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
+    this.store.dispatch(inventoryFetchItems.do());
     this.isEditing.set(!!this.modal.data?.item);
     this.initForm();
   }
@@ -148,7 +148,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     // Try to add to inventory
     if (addToInventory) {
       const { amount, ...dto } = item;
-      this.store.dispatch(inventoryItemActions.create({ dto }));
+      this.store.dispatch(inventoryCreateItem.do({ dto }));
     }
   }
 

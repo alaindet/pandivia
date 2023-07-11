@@ -1,57 +1,114 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-import { InventoryFilter, CreateInventoryItemDto, InventoryItem } from '../types';
+import { CreateInventoryItemDto, InventoryFilter, InventoryItem } from '../types';
 
-export const inventoryReadItemsActions = createActionGroup({
-  source: 'Inventory/ReadItems',
-  events: {
-    fetch: emptyProps(),
-    fetchCached: emptyProps(),
-    forceFetch: emptyProps(),
-    fetchSuccess: props<{ items: InventoryItem[] }>(),
-    fetchError: props<{ message: string }>(),
-  },
-});
+export const inventoryFetchItems = {
+  do: createAction(
+    '[Inventory/Items] Fetch items',
+  ),
+  ok: createAction(
+    '[Inventory/Items] Fetch items success',
+    props<{ items: InventoryItem[], message: string }>(),
+  ),
+  ko: createAction(
+    '[Inventory/Items] Fetch items error',
+    props<{ message: string }>(),
+  ),
+  force: createAction(
+    '[Inventory/Items] Force fetch items',
+  ),
+  cached: createAction(
+    '[Inventory/Items] Fetch cached items',
+  ),
+};
 
-export const inventoryWriteItemsActions = createActionGroup({
-  source: 'Inventory/WriteItems',
-  events: {
-    remove: emptyProps(),
-    removeSuccess: emptyProps(),
-    removeError: emptyProps(),
-  },
-});
+export const inventoryRemoveItems = {
+  do: createAction(
+    '[Inventory/Items] Remove all items',
+  ),
+  ok: createAction(
+    '[Inventory/Items] Remove all items success',
+    props<{ message: string }>(),
+  ),
+  ko: createAction(
+    '[Inventory/Items] Remove all items error',
+    props<{ message: string }>(),
+  ),
+};
 
-export const inventoryFilterActions = createActionGroup({
-  source: 'Inventory/Filters',
-  events: {
-    setCategoryFilter: props<{ category: string }>(),
-    clearCategoryFilter: emptyProps(),
-    clearFilterByName: props<{ name: InventoryFilter }>(),
-    clearAllFilters: emptyProps(),
-  },
-});
+export const inventoryRemoveItemsByCategory = {
+  do: createAction(
+    '[Inventory/Category] Remove items by category',
+    props<{ category: string }>(),
+  ),
+  ok: createAction(
+    '[Inventory/Category] Remove items by category success',
+    props<{ category: string, message: string }>(),
+  ),
+  ko: createAction(
+    '[Inventory/Category] Remove items by category error',
+    props<{ message: string }>(),
+  ),
+};
 
-export const inventoryCategoryActions = createActionGroup({
-  source: 'Inventory/Category',
-  events: {
-    remove: props<{ category: string }>(),
-    removeSuccess: props<{ category: string }>(),
-    removeError: emptyProps(),
-  },
-});
+export const inventoryCreateItem = {
+  do: createAction(
+    '[Inventory/Item] Create item',
+    props<{ dto: CreateInventoryItemDto }>(),
+  ),
+  ok: createAction(
+    '[Inventory/Item] Create item success',
+    props<{ item: InventoryItem, message: string }>(),
+  ),
+  ko: createAction(
+    '[Inventory/Item] Create item error',
+    props<{ message: string }>(),
+  ),
+};
 
-export const inventoryItemActions = createActionGroup({
-  source: 'Inventory/Item',
-  events: {
-    create: props<{ dto: CreateInventoryItemDto }>(),
-    createSuccess: props<{ item: InventoryItem }>(),
-    createError: emptyProps(),
-    edit: props<{ item: InventoryItem }>(),
-    editSuccess: emptyProps(),
-    editError: emptyProps(),
-    remove: props<{ itemId: string }>(),
-    removeSuccess: props<{ itemId: string }>(),
-    removeError: emptyProps(),
-  },
-});
+export const inventoryEditItem = {
+  do: createAction(
+    '[Inventory/Item] Edit item',
+    props<{ item: InventoryItem }>(),
+  ),
+  ok: createAction(
+    '[Inventory/Item] Edit item success',
+    props<{ item: InventoryItem, message: string }>(),
+  ),
+  ko: createAction(
+    '[Inventory/Item] Edit item error',
+    props<{ message: string }>(),
+  ),
+};
+
+export const inventoryRemoveItem = {
+  do: createAction(
+    '[Inventory/Item] Remove item',
+    props<{ itemId: string }>(),
+  ),
+  ok: createAction(
+    '[Inventory/Item] Remove item success',
+    props<{ itemId: string, message: string }>(),
+  ),
+  ko: createAction(
+    '[Inventory/Item] Remove item error',
+    props<{ message: string }>(),
+  ),
+};
+
+export const inventoryFilters = {
+  setCategory: createAction(
+    '[Inventory/Filters] Set category filter',
+    props<{ category: string }>(),
+  ),
+  clearCategory: createAction(
+    '[Inventory/Filters] Clear category filter'
+  ),
+  clearByName: createAction(
+    '[Inventory/Filters] Clear filter by name',
+    props<{ name: InventoryFilter }>(),
+  ),
+  clearAll: createAction(
+    '[Inventory/Filters] Clear all filters',
+  ),
+};

@@ -10,4 +10,5 @@
 - [ ] Create show/hide password input
 - [ ] Use &lt;dialog&gt;
 - [ ] Setup security rules
-- [ ] See `signup.component.ts`
+- [ ] Clear all cached data from store on sign out
+- [ ] Force "no-category" category on category-less items

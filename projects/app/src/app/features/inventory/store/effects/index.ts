@@ -1,11 +1,11 @@
 import { InventoryUiEffects } from './ui';
-import { InventoryItemAsyncWriteEffects } from './item-async-write';
-import { InventoryItemsAsyncReadEffects } from './items-async-read';
-import { InventoryItemsAsyncWriteEffects } from './items-async-write';
+import { InventoryAllItemsEffects } from './all-items';
+import { InventoryCategoryEffects } from './category';
+import { InventoryItemEffects } from './item';
 
 export const INVENTORY_FEATURE_EFFECTS = [
   InventoryUiEffects,
-  InventoryItemAsyncWriteEffects,
-  InventoryItemsAsyncReadEffects,
-  InventoryItemsAsyncWriteEffects,
+  InventoryAllItemsEffects,
+  InventoryCategoryEffects,
+  InventoryItemEffects,
 ];

@@ -78,6 +78,7 @@
   "common.menu.removeCompletedItems": "Rimuovi i completati",
   "common.itemModal.createTitle": "Crea elemento",
   "common.itemModal.editTitle": "Modifica elemento",
+  "common.async.fetchItemsSuccess": "Elementi scaricati con successo",
   "common.async.fetchItemsError": "Impossibile scaricare gli elementi",
   "common.async.editItemsError": "Impossibile modificare gli elementi",
   "common.async.editItemsSuccess": "Elementi modificati con successo",

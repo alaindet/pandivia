@@ -36,7 +36,7 @@ export class InventoryService {
     return from((async () => {
       const userId = this.userId()!;
       const itemId = editedItem.id;
-      const itemRef = doc(this.db, 'invites', userId, 'items', itemId);
+      const itemRef = doc(this.db, 'inventories', userId, 'items', itemId);
       const { id: _, ...dto } = editedItem;
       await updateDoc(itemRef, dto);
       return editedItem;
@@ -46,7 +46,7 @@ export class InventoryService {
   removeItem(itemId: InventoryItem['id']): Observable<InventoryItem> {
     return from((async () => {
       const userId = this.userId()!;
-      const itemRef = doc(this.db, 'invites', userId, 'items', itemId);
+      const itemRef = doc(this.db, 'inventories', userId, 'items', itemId);
       const itemDoc = await getDoc(itemRef);
       await deleteDoc(itemRef);
       return this.docToInventoryItem(itemDoc);
@@ -60,10 +60,11 @@ export class InventoryService {
       const theQuery = query(
         itemsRef,
         where('category', '==', category),
-        orderBy('title', 'asc'),
+        orderBy('category', 'asc'),
       );
       const docs = await getDocs(theQuery);
       docs.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
     })());
   }
 
@@ -73,6 +74,7 @@ export class InventoryService {
       const batch = writeBatch(this.db);
       const docs = await getDocs(itemsRef);
       docs.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
     })());
   }
 
