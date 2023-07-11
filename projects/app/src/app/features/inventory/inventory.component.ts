@@ -20,7 +20,7 @@ import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
-import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
+import { inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 import { OnceSource } from '@app/common/sources';
 
@@ -68,7 +68,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     this.initPageMetadata();
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
-    this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
+    this.store.dispatch(inventoryFetchItems.do());
   }
 
   ngOnDestroy() {
@@ -78,7 +78,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   onListAction(action: string) {
     switch (action) {
       case listMenu.LIST_ACTION_REFRESH.id: {
-        this.store.dispatch(inventoryItemsAsyncReadActions.forceFetchItems());
+        this.store.dispatch(inventoryFetchItems.force());
         break;
       }
       case listMenu.LIST_ACTION_REMOVE.id: {
@@ -88,7 +88,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(inventoryAllItemsActions.remove()),
+          next: () => this.store.dispatch(inventoryRemoveItems.do()),
         });
         break;
       }
@@ -110,7 +110,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(inventoryCategoryActions.remove({ category })),
+          next: () => {
+            const action = inventoryRemoveItemsByCategory.do({ category });
+            this.store.dispatch(action);
+          },
         });
         break;
       }
@@ -139,7 +142,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
           }))
           .subscribe({
             error: () => console.log('Canceled'),
-            next: () => this.store.dispatch(inventoryItemActions.remove({ itemId })),
+            next: () => this.store.dispatch(inventoryRemoveItem.do({ itemId })),
           });
         break;
       }
@@ -154,15 +157,15 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   onPinCategory(category: string, isPinned: boolean) {
     if (isPinned) {
-      this.store.dispatch(inventoryFilterActions.setCategoryFilter({ category }));
+      this.store.dispatch(inventoryFilters.setCategory({ category }));
     } else {
-      this.store.dispatch(inventoryFilterActions.clearCategoryFilter());
+      this.store.dispatch(inventoryFilters.clearCategory());
     }
   }
 
   onRemoveFilter(filter: InventoryFilterToken) {
     const name = filter.key;
-    this.store.dispatch(inventoryFilterActions.clearFilterByName({ name }));
+    this.store.dispatch(inventoryFilters.clearByName({ name }));
   }
 
   trackByCategory(index: number, group: CategorizedInventoryItems): string {

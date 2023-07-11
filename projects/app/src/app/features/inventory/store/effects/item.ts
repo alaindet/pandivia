@@ -3,52 +3,55 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 
 import { InventoryService } from '../../services';
-import { inventoryItemActions, inventoryItemAsyncWriteActions } from '../actions';
+import { inventoryCreateItem, inventoryEditItem, inventoryRemoveItem } from '../actions';
 
 @Injectable()
-export class InventoryItemAsyncWriteEffects {
+export class InventoryItemEffects {
 
   private actions = inject(Actions);
   private inventoryService = inject(InventoryService);
 
   createItem$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryItemActions.create),
+    ofType(inventoryCreateItem.do),
     switchMap(({ dto }) => this.inventoryService.createItem(dto).pipe(
       map(item => {
         const message = 'common.async.createItemSuccess';
-        return inventoryItemAsyncWriteActions.createSuccess({ message, item })
+        return inventoryCreateItem.ok({ item, message })
       }),
-      catchError(() => {
+      catchError(err => {
+        console.error(err);
         const message = 'common.async.createItemError';
-        return of(inventoryItemAsyncWriteActions.createError({ message }));
+        return of(inventoryCreateItem.ko({ message }));
       }),
     )),
   ));
 
   editItem$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryItemActions.edit),
+    ofType(inventoryEditItem.do),
     switchMap(({ item }) => this.inventoryService.editItem(item).pipe(
       map(item => {
         const message = 'common.async.editItemSuccess';
-        return inventoryItemAsyncWriteActions.editSuccess({ message, item })
+        return inventoryEditItem.ok({ message, item })
       }),
-      catchError(() => {
+      catchError(err => {
+        console.error(err);
         const message = 'common.async.editItemError';
-        return of(inventoryItemAsyncWriteActions.editError({ message }));
+        return of(inventoryEditItem.ko({ message }));
       }),
     )),
   ));
 
   deleteItem$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryItemActions.remove),
+    ofType(inventoryRemoveItem.do),
     switchMap(({ itemId }) => this.inventoryService.removeItem(itemId).pipe(
-      map(item => {
+      map(() => {
         const message = 'common.async.removeItemSuccess';
-        return inventoryItemAsyncWriteActions.removeSuccess({ message, item })
+        return inventoryRemoveItem.ok({ itemId, message });
       }),
-      catchError(() => {
+      catchError(err => {
+        console.error(err);
         const message = 'common.async.removeItemError';
-        return of(inventoryItemAsyncWriteActions.removeError({ message }));
+        return of(inventoryRemoveItem.ko({ message }));
       }),
     )),
   ));

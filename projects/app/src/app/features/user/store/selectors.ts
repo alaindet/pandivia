@@ -21,6 +21,11 @@ export const selectUserData = createSelector(
   state => state.data,
 );
 
+export const selectUserId = createSelector(
+  selectUserData,
+  data => data?.uid ?? null,
+);
+
 export const selectUserDisplayData = createSelector(
   selectUserData,
   data => {

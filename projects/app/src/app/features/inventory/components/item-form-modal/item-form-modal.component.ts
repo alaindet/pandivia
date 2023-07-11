@@ -10,7 +10,7 @@ import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, B
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
-import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
+import { inventoryCreateItem, inventoryEditItem, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
 import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
@@ -120,7 +120,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to edit
-    this.store.dispatch(inventoryItemActions.edit({ item }));
+    this.store.dispatch(inventoryEditItem.do({ item }));
   }
 
   private onCreate() {
@@ -144,7 +144,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to create
-    this.store.dispatch(inventoryItemActions.create({ dto: item }));
+    this.store.dispatch(inventoryCreateItem.do({ dto: item }));
   }
 
   private initForm(): void {

@@ -78,6 +78,7 @@
   "common.menu.removeCompletedItems": "Remove completed items",
   "common.itemModal.createTitle": "Create item",
   "common.itemModal.editTitle": "Edit item",
+  "common.async.fetchItemsSuccess": "Items successfully fetched",
   "common.async.fetchItemsError": "Could not fetch items",
   "common.async.editItemsError": "Error while editing items",
   "common.async.editItemsSuccess": "Items successfully edited",
