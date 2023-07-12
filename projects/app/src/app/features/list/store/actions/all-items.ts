@@ -24,15 +24,30 @@ export const listFetchItems = {
 
 export const listCompleteItems = {
   try: createAction(
-    '[List/Items] Complete/undo all items',
-    props<{ isDone: boolean }>(),
+    '[List/Items] Complete all items',
+    props<{ message: string }>(),
   ),
   ok: createAction(
-    '[List/Items] Complete/undo all items success',
-    props<{ isDone: boolean, message: string }>(),
+    '[List/Items] Complete all items success',
+    props<{ message: string }>(),
   ),
   err: createAction(
-    '[List/Items] Complete/undo all items error',
+    '[List/Items] Complete all items error',
+    props<{ message: string }>(),
+  ),
+};
+
+export const listUndoItems = {
+  try: createAction(
+    '[List/Items] Undo all items',
+    props<{ message: string }>(),
+  ),
+  ok: createAction(
+    '[List/Items] Undo all items success',
+    props<{ message: string }>(),
+  ),
+  err: createAction(
+    '[List/Items] Undo all items error',
     props<{ message: string }>(),
   ),
 };
@@ -57,8 +72,10 @@ export const listRemoveCompletedItems = {
   ),
   ok: createAction(
     '[List/Items] Remove all completed items success',
+    props<{ message: string }>(),
   ),
   err: createAction(
     '[List/Items] Remove all completed items error',
+    props<{ message: string }>(),
   ),
 };

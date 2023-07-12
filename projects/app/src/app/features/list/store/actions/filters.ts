@@ -11,11 +11,11 @@ export const listFilters = {
   clearCategory: createAction(
     '[List/Filters] Clear category filter',
   ),
-  setCompletedFilter: createAction(
+  setCompleted: createAction(
     '[List/Filters] Set completed filter',
     props<{ isDone: boolean }>(),
   ),
-  clearCompletedFilter: createAction(
+  clearCompleted: createAction(
     '[List/Filters] Clear completed',
   ),
   clearByName: createAction(

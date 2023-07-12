@@ -1,21 +1,31 @@
 import { catchError, map, of } from 'rxjs';
 
-import { ListService } from '../services/list.service';
-import { listItemsAsyncReadActions } from './actions';
-import { ListFeatureState } from './state';
-import { LOADING_STATUS } from '@app/common/types';
+import { listFetchItems } from './actions';
+import { ListItem } from '../types';
+import { createListAllItemsController } from '../services/all-items.controller';
 
-export function fetchListItemsHelper(listService: ListService) {
-  return listService.getItems().pipe(
-    map(items => listItemsAsyncReadActions.fetchItemsSuccess({ items })),
+export function fetchListItemsHelper(
+  svc: ReturnType<typeof createListAllItemsController>,
+) {
+  return svc.fetch().pipe(
+    map(items => {
+      const message = 'common.async.fetchItemsSuccess';
+      return listFetchItems.ok({ items, message });
+    }),
     catchError(() => {
       const message = 'common.async.fetchItemsError';
-      return of(listItemsAsyncReadActions.fetchItemsError({ message }));
+      return of(listFetchItems.err({ message }));
     })
   )
 }
 
-export function setSuccessState(state: ListFeatureState): void {
-  state.status = LOADING_STATUS.IDLE;
-  state.lastUpdated = Date.now();
+export function updateItem(
+  items: ListItem[],
+  itemId: ListItem['id'],
+  updater: (oldItem: ListItem) => Partial<ListItem>,
+): ListItem[] {
+  return items.map(anItem => {
+    if (anItem.id !== itemId) return anItem;
+    return { ...anItem, ...updater(anItem) };
+  });
 }

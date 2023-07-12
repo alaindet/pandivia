@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of, switchMap, withLatestFrom } from 'rxjs';
 
-import { ListService } from '../../services/list.service';
+import { ListService } from '../../services/old-list.service';
 import { listItemsAsyncReadActions } from '../actions';
 import { fetchListItemsHelper } from '../helpers';
 import { selectListShouldFetch } from '../selectors';

@@ -2,15 +2,30 @@ import { createAction, props } from '@ngrx/store';
 
 export const listCompleteItemsByCategory = {
   try: createAction(
-    '[List/Category] Complete/undo items by category',
-    props<{ category: string, isDone: boolean }>(),
+    '[List/Category] Complete items by category',
+    props<{ category: string }>(),
   ),
   ok: createAction(
-    '[List/Category] Complete/undo items by category success',
-    props<{ category: string, isDone: boolean, message: string }>(),
+    '[List/Category] Complete items by category success',
+    props<{ category: string, message: string }>(),
   ),
   err: createAction(
-    '[List/Category] Complete/undo items by category error',
+    '[List/Category] Complete items by category error',
+    props<{ message: string }>(),
+  ),
+};
+
+export const listUndoItemsByCategory = {
+  try: createAction(
+    '[List/Category] Undo items by category',
+    props<{ category: string }>(),
+  ),
+  ok: createAction(
+    '[List/Category] Undo items by category success',
+    props<{ category: string, message: string }>(),
+  ),
+  err: createAction(
+    '[List/Category] Undo items by category error',
     props<{ message: string }>(),
   ),
 };

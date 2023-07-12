@@ -34,45 +34,75 @@ export const listEditItem = {
 
 export const listCompleteItem = {
   try: createAction(
-    '[List/Item] Complete/undo item',
-    props<{ itemId: string, isDone: boolean }>(),
+    '[List/Item] Complete item',
+    props<{ item: ListItem }>(),
   ),
   ok: createAction(
-    '[List/Item] Complete/undo item success',
-    props<{ message: string, isDone: boolean }>(),
+    '[List/Item] Complete item success',
+    props<{ item: ListItem, message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Complete/undo item error',
+    '[List/Item] Complete item error',
+    props<{ message: string }>(),
+  ),
+};
+
+export const listUndoItem = {
+  try: createAction(
+    '[List/Item] Undo item',
+    props<{ item: ListItem }>(),
+  ),
+  ok: createAction(
+    '[List/Item] Undo item success',
+    props<{ item: ListItem, message: string }>(),
+  ),
+  err: createAction(
+    '[List/Item] Undo item error',
     props<{ message: string }>(),
   ),
 };
 
 export const listToggleItem = {
   try: createAction(
-    '[List/Item] Toggle item complete state',
-    props<{ itemId: string, isDone: boolean }>(),
+    '[List/Item] Toggle item',
+    props<{ item: ListItem }>(),
   ),
   ok: createAction(
-    '[List/Item] Toggle item complete state success',
-    props<{ message: string, isDone: boolean }>(),
+    '[List/Item] Toggle item success',
+    props<{ item: ListItem, message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Toggle item complete state error',
+    '[List/Item] Toggle item error',
     props<{ message: string }>(),
   ),
 };
 
-export const listChangeItemAmount = {
+export const listIncrementItem = {
   try: createAction(
-    '[List/Item] Change item amount',
-    props<{ itemId: string, delta: number }>(),
+    '[List/Item] Increment item amount',
+    props<{ item: ListItem }>(),
   ),
   ok: createAction(
-    '[List/Item] Change item amount success',
-    props<{ itemId: string, delta: number }>(),
+    '[List/Item] Increment item amount success',
+    props<{ item: ListItem, message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Change item amount error',
+    '[List/Item] Increment item amount error',
+    props<{ message: string }>(),
+  ),
+};
+
+export const listDecrementItem = {
+  try: createAction(
+    '[List/Item] Decrement item amount',
+    props<{ item: ListItem }>(),
+  ),
+  ok: createAction(
+    '[List/Item] Decrement item amount success',
+    props<{ item: ListItem, message: string }>(),
+  ),
+  err: createAction(
+    '[List/Item] Decrement item amount error',
     props<{ message: string }>(),
   ),
 };

@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, from } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { CollectionReference, DocumentData, DocumentSnapshot, Firestore, QuerySnapshot, addDoc, collection, doc, getDoc, getDocs, updateDoc, deleteDoc, writeBatch, query, where, orderBy } from '@angular/fire/firestore';
+import { Observable, from } from 'rxjs';
+import { CollectionReference, DocumentData, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 
 import { selectUserId } from '@app/features/user/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
+import { docToInventoryItem, docsToInventoryItems } from './utils';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class InventoryService {
     return from((async () => {
       const itemsRef = this.getItemsRef();
       const docs = await getDocs(itemsRef);
-      return this.docsToInventoryItems(docs);
+      return docsToInventoryItems(docs);
     })());
   }
 
@@ -28,7 +29,7 @@ export class InventoryService {
       const itemsRef = this.getItemsRef();
       const itemRef = await addDoc(itemsRef, dto);
       const itemDoc = await getDoc(itemRef);
-      return this.docToInventoryItem(itemDoc);
+      return docToInventoryItem(itemDoc);
     })());
   }
 
@@ -49,7 +50,7 @@ export class InventoryService {
       const itemRef = doc(this.db, 'inventories', userId, 'items', itemId);
       const itemDoc = await getDoc(itemRef);
       await deleteDoc(itemRef);
-      return this.docToInventoryItem(itemDoc);
+      return docToInventoryItem(itemDoc);
     })());
   }
 
@@ -86,13 +87,5 @@ export class InventoryService {
 
     const userId = this.userId()!;
     return collection(this.db, 'inventories', userId, 'items');
-  }
-
-  private docToInventoryItem(doc: DocumentSnapshot<DocumentData>): InventoryItem {
-    return { ...doc.data(), id: doc.id } as InventoryItem;
-  }
-
-  private docsToInventoryItems(docs: QuerySnapshot<DocumentData>): InventoryItem[] {
-    return docs.docs.map(doc => this.docToInventoryItem(doc));
   }
 }

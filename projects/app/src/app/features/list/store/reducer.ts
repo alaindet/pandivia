@@ -2,168 +2,196 @@ import { createReducer } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
 
 import { LOADING_STATUS } from '@app/common/types';
-import { LIST_FILTER } from '../types';
+import { LIST_FILTER, ListItem } from '../types';
 import { LIST_FEATURE_INITIAL_STATE } from './state';
-import { setSuccessState } from './helpers';
-import { listChangeItemAmount, listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listCreateItem, listEditItem, listFetchItems, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem } from './actions';
+import { updateItem } from './helpers';
+import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listCreateItem, listDecrementItem, listEditItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory } from './actions';
 
-// export type ListFeatureState = {
-//   items: ListItem[];
-//   status: LoadingStatus;
-//   lastUpdated: UnixTimestamp | null;
-//   itemModalSuccessCounter: number;
-//   filters: ListFilters;
-// };
 export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
   immerOn(
     listFetchItems.try,
     listFetchItems.force,
     listCompleteItems.try,
+    listUndoItems.try,
     listRemoveItems.try,
     listRemoveCompletedItems.try,
     listCompleteItemsByCategory.try,
+    listUndoItemsByCategory.try,
     listRemoveCompletedItemsByCategory.try,
     listRemoveItemsByCategory.try,
     listCreateItem.try,
     listEditItem.try,
     listCompleteItem.try,
+    listUndoItem.try,
     listToggleItem.try,
-    listChangeItemAmount.try,
+    listIncrementItem.try,
+    listDecrementItem.try,
     listRemoveItem.try,
-    state => {
-      state.status = LOADING_STATUS.LOADING;
-    },
+    state => state.status = LOADING_STATUS.LOADING,
   ),
 
   immerOn(
     listFetchItems.err,
     listCompleteItems.err,
+    listUndoItems.err,
     listRemoveItems.err,
     listRemoveCompletedItems.err,
     listCompleteItemsByCategory.err,
+    listUndoItemsByCategory.err,
     listRemoveCompletedItemsByCategory.err,
     listRemoveItemsByCategory.err,
     listCreateItem.err,
     listEditItem.err,
     listCompleteItem.err,
+    listUndoItem.err,
     listToggleItem.err,
-    listChangeItemAmount.err,
+    listIncrementItem.err,
+    listDecrementItem.err,
     listRemoveItem.err,
-    state => {
-      state.status = LOADING_STATUS.ERROR;
-    },
+    state => state.status = LOADING_STATUS.ERROR,
   ),
 
+  // All items ----------------------------------------------------------------
 
-  // Generic async ------------------------------------------------------------
+  immerOn(listFetchItems.ok, (state, { items }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.lastUpdated = Date.now();
+    state.items = items;
+  }),
 
-  // immerOn(
-  //   itemsAsyncReadActions.fetchItems,
-  //   itemsAsyncReadActions.forceFetchItems,
+  immerOn(listFetchItems.cached, state => {
+    state.status = LOADING_STATUS.IDLE;
+  }),
 
-  //   allItemsActions.complete,
-  //   allItemsActions.undo,
-  //   allItemsActions.removeCompleted,
-  //   allItemsActions.remove,
+  immerOn(listCompleteItems.ok, state => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.map(item => ({ ...item, isDone: true }));
+  }),
 
-  //   categoryActions.complete,
-  //   categoryActions.undo,
-  //   categoryActions.removeCompleted,
-  //   categoryActions.remove,
+  immerOn(listUndoItems.ok, state => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.map(item => ({ ...item, isDone: false }));
+  }),
 
-  //   itemActions.complete,
-  //   itemActions.create,
-  //   itemActions.decrement,
-  //   itemActions.edit,
-  //   itemActions.increment,
-  //   itemActions.remove,
-  //   itemActions.toggle,
-  //   itemActions.undo,
-  //   state => {
-  //     state.status = LOADING_STATUS.LOADING;
-  //   },
-  // ),
+  immerOn(listRemoveItems.ok, state => {
+    state.status = LOADING_STATUS.IDLE;
+    state.lastUpdated = Date.now();
+    state.items = [];
+  }),
 
-  // immerOn(
-  //   itemsAsyncReadActions.fetchItemsError,
+  immerOn(listRemoveCompletedItems.ok, state => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.filter(item => !item.isDone);
+  }),
 
-  //   itemsAsyncWriteActions.editError,
-  //   itemsAsyncWriteActions.removeError,
+  // Category items -----------------------------------------------------------
 
-  //   itemAsyncWriteActions.createError,
-  //   itemAsyncWriteActions.editError,
-  //   itemAsyncWriteActions.removeError,
-  //   state => {
-  //     state.status = LOADING_STATUS.ERROR;
-  //   },
-  // ),
+  immerOn(listCompleteItemsByCategory.ok, (state, { category }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.map(item => {
+      if (item.category !== category) return item;
+      return { ...item, isDone: true };
+    });
+  }),
 
-  // // Fetching -----------------------------------------------------------------
+  immerOn(listUndoItemsByCategory.ok, (state, { category }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.map(item => {
+      if (item.category !== category) return item;
+      return { ...item, isDone: false };
+    });
+  }),
 
-  // immerOn(itemsAsyncReadActions.fetchItemsCached, state => {
-  //   state.status = LOADING_STATUS.IDLE;
-  // }),
+  immerOn(listRemoveCompletedItemsByCategory.ok, (state, { category }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.filter(item => {
+      if (item.category !== category) return true;
+      return !item.isDone;
+    });
+  }),
 
-  // immerOn(itemsAsyncReadActions.fetchItemsSuccess, (state, { items }) => {
-  //   setSuccessState(state);
-  //   state.items = items;
-  // }),
+  immerOn(listRemoveItemsByCategory.ok, (state, { category }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.filter(item => {
+      if (item.category !== category) return true;
+      return false;
+    });
+  }),
 
-  // // Filters ------------------------------------------------------------------
+  // Item ---------------------------------------------------------------------
 
-  // immerOn(filterActions.setCategoryFilter, (state, { category }) => {
-  //   state.filters[LIST_FILTER.CATEGORY] = category;
-  // }),
+  immerOn(listCreateItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items.push(item);
+  }),
 
-  // immerOn(filterActions.clearCategoryFilter, state => {
-  //   state.filters[LIST_FILTER.CATEGORY] = null;
-  // }),
+  immerOn(listEditItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.itemModalSuccessCounter += 1;
+    state.items = updateItem(state.items, item.id, () => item);
+  }),
 
-  // immerOn(filterActions.setDoneFilter, (state, { isDone }) => {
-  //   state.filters[LIST_FILTER.IS_DONE] = isDone;
-  // }),
+  immerOn(listCompleteItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    const updater = () => ({ isDone: true });
+    state.items = updateItem(state.items, item.id, updater);
+  }),
 
-  // immerOn(filterActions.clearDoneFilter, state => {
-  //   state.filters[LIST_FILTER.CATEGORY] = null;
-  // }),
+  immerOn(listUndoItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    const updater = () => ({ isDone: false });
+    state.items = updateItem(state.items, item.id, updater);
+  }),
 
-  // immerOn(filterActions.clearAllFilters, state => {
-  //   state.filters[LIST_FILTER.CATEGORY] = null;
-  //   state.filters[LIST_FILTER.IS_DONE] = null;
-  // }),
+  immerOn(listToggleItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    const updater = (old: ListItem) => ({ isDone: !old.isDone });
+    state.items = updateItem(state.items, item.id, updater);
+  }),
 
-  // immerOn(filterActions.clearFilterByName, (state, { name }) => {
-  //   state.filters[name] = null;
-  // }),
+  immerOn(listIncrementItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    const updater = (old: ListItem) => ({ amount: old.amount + 1 });
+    state.items = updateItem(state.items, item.id, updater);
+  }),
 
-  // // List items async write ---------------------------------------------------
+  immerOn(listDecrementItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    const updater = (old: ListItem) => ({ amount: old.amount - 1 });
+    state.items = updateItem(state.items, item.id, updater);
+  }),
 
-  // immerOn(
-  //   itemsAsyncWriteActions.editSuccess,
-  //   itemsAsyncWriteActions.removeSuccess,
-  //   (state, { items }) => {
-  //     setSuccessState(state);
-  //     state.items = items;
-  //   },
-  // ),
+  immerOn(listRemoveItem.ok, (state, { itemId }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.itemModalSuccessCounter += 1;
+    state.items = state.items.filter(item => item.id !== itemId);
+  }),
 
-  // // List item async write ----------------------------------------------------
+  // Filters ------------------------------------------------------------------
 
-  // immerOn(itemAsyncWriteActions.createSuccess, (state, { item }) => {
-  //   setSuccessState(state);
-  //   state.itemModalSuccessCounter += 1;
-  //   state.items.unshift(item);
-  // }),
+  immerOn(listFilters.setCategory, (state, { category }) => {
+    state.filters[LIST_FILTER.CATEGORY] = category;
+  }),
 
-  // immerOn(itemAsyncWriteActions.editSuccess, (state, { item }) => {
-  //   setSuccessState(state);
-  //   state.itemModalSuccessCounter += 1;
-  //   state.items = state.items.map(anItem => anItem.id === item.id ? item : anItem);
-  // }),
+  immerOn(listFilters.clearCategory, state => {
+    state.filters[LIST_FILTER.CATEGORY] = null;
+  }),
 
-  // immerOn(itemAsyncWriteActions.removeSuccess, (state, { item }) => {
-  //   setSuccessState(state);
-  //   state.items = state.items.filter(anItem => anItem.id !== item.id);
-  // }),
+  immerOn(listFilters.setCompleted, (state, { isDone }) => {
+    state.filters[LIST_FILTER.IS_DONE] = isDone;
+  }),
+
+  immerOn(listFilters.clearCompleted, state => {
+    state.filters[LIST_FILTER.CATEGORY] = null;
+  }),
+
+  immerOn(listFilters.clearAll, state => {
+    state.filters[LIST_FILTER.CATEGORY] = null;
+    state.filters[LIST_FILTER.IS_DONE] = null;
+  }),
+
+  immerOn(listFilters.clearByName, (state, { name }) => {
+    state.filters[name] = null;
+  }),
 );

@@ -7,7 +7,7 @@ import { InventoryService } from '../../services';
 import { inventoryRemoveItemsByCategory } from '../actions';
 
 @Injectable()
-export class InventoryCategoryEffects {
+export class InventoryCategoryItemsEffects {
 
   private store = inject(Store);
   private actions = inject(Actions);

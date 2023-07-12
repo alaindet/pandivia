@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 
-import { ListService } from '../../services/list.service';
+import { ListService } from '../../services/old-list.service';
 import { listAllItemsActions, listCategoryActions, listItemsAsyncWriteActions } from '../actions';
 
 @Injectable()
