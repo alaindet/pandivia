@@ -68,7 +68,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     this.initPageMetadata();
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
-    this.store.dispatch(inventoryFetchItems.do());
+    this.store.dispatch(inventoryFetchItems.try());
   }
 
   ngOnDestroy() {
@@ -88,7 +88,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(inventoryRemoveItems.do()),
+          next: () => this.store.dispatch(inventoryRemoveItems.try()),
         });
         break;
       }
@@ -111,7 +111,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
           next: () => {
-            const action = inventoryRemoveItemsByCategory.do({ category });
+            const action = inventoryRemoveItemsByCategory.try({ category });
             this.store.dispatch(action);
           },
         });
@@ -142,7 +142,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
           }))
           .subscribe({
             error: () => console.log('Canceled'),
-            next: () => this.store.dispatch(inventoryRemoveItem.do({ itemId })),
+            next: () => this.store.dispatch(inventoryRemoveItem.try({ itemId })),
           });
         break;
       }

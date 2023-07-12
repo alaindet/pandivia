@@ -10,25 +10,25 @@ import { inventoryFetchItems, inventoryRemoveItems, inventoryRemoveItemsByCatego
 export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
 
   immerOn(
-    inventoryFetchItems.do,
+    inventoryFetchItems.try,
     inventoryFetchItems.force,
-    inventoryRemoveItems.do,
-    inventoryRemoveItemsByCategory.do,
-    inventoryCreateItem.do,
-    inventoryEditItem.do,
-    inventoryRemoveItem.do,
+    inventoryRemoveItems.try,
+    inventoryRemoveItemsByCategory.try,
+    inventoryCreateItem.try,
+    inventoryEditItem.try,
+    inventoryRemoveItem.try,
     state => {
       state.status = LOADING_STATUS.LOADING;
     },
   ),
 
   immerOn(
-    inventoryFetchItems.ko,
-    inventoryRemoveItems.ko,
-    inventoryRemoveItemsByCategory.ko,
-    inventoryCreateItem.ko,
-    inventoryEditItem.ko,
-    inventoryRemoveItem.ko,
+    inventoryFetchItems.err,
+    inventoryRemoveItems.err,
+    inventoryRemoveItemsByCategory.err,
+    inventoryCreateItem.err,
+    inventoryEditItem.err,
+    inventoryRemoveItem.err,
     state => {
       state.status = LOADING_STATUS.ERROR;
     },

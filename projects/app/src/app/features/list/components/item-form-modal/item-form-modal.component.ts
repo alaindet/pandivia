@@ -63,7 +63,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   get fDone() { return fDescribe(this.theForm, FIELD.IS_DONE.id) }
 
   ngOnInit() {
-    this.store.dispatch(inventoryFetchItems.do());
+    this.store.dispatch(inventoryFetchItems.try());
     this.isEditing.set(!!this.modal.data?.item);
     this.initForm();
   }
@@ -148,7 +148,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     // Try to add to inventory
     if (addToInventory) {
       const { amount, ...dto } = item;
-      this.store.dispatch(inventoryCreateItem.do({ dto }));
+      this.store.dispatch(inventoryCreateItem.try({ dto }));
     }
   }
 

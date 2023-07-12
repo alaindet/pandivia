@@ -14,7 +14,7 @@ export class InventoryCategoryEffects {
   private inventoryService = inject(InventoryService);
 
   removeItemsByCategory$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryRemoveItemsByCategory.do),
+    ofType(inventoryRemoveItemsByCategory.try),
     switchMap(({ category }) => {
       return this.inventoryService.removeByCategory(category).pipe(
         map(() => {
@@ -24,7 +24,7 @@ export class InventoryCategoryEffects {
         catchError(err => {
           console.error(err);
           const message = 'common.async.removeItemsError';
-          return of(inventoryRemoveItemsByCategory.ko({ message }));
+          return of(inventoryRemoveItemsByCategory.err({ message }));
         }),
       );
     }),

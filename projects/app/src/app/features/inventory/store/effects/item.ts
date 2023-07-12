@@ -12,7 +12,7 @@ export class InventoryItemEffects {
   private inventoryService = inject(InventoryService);
 
   createItem$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryCreateItem.do),
+    ofType(inventoryCreateItem.try),
     switchMap(({ dto }) => this.inventoryService.createItem(dto).pipe(
       map(item => {
         const message = 'common.async.createItemSuccess';
@@ -21,13 +21,13 @@ export class InventoryItemEffects {
       catchError(err => {
         console.error(err);
         const message = 'common.async.createItemError';
-        return of(inventoryCreateItem.ko({ message }));
+        return of(inventoryCreateItem.err({ message }));
       }),
     )),
   ));
 
   editItem$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryEditItem.do),
+    ofType(inventoryEditItem.try),
     switchMap(({ item }) => this.inventoryService.editItem(item).pipe(
       map(item => {
         const message = 'common.async.editItemSuccess';
@@ -36,13 +36,13 @@ export class InventoryItemEffects {
       catchError(err => {
         console.error(err);
         const message = 'common.async.editItemError';
-        return of(inventoryEditItem.ko({ message }));
+        return of(inventoryEditItem.err({ message }));
       }),
     )),
   ));
 
   deleteItem$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryRemoveItem.do),
+    ofType(inventoryRemoveItem.try),
     switchMap(({ itemId }) => this.inventoryService.removeItem(itemId).pipe(
       map(() => {
         const message = 'common.async.removeItemSuccess';
@@ -51,7 +51,7 @@ export class InventoryItemEffects {
       catchError(err => {
         console.error(err);
         const message = 'common.async.removeItemError';
-        return of(inventoryRemoveItem.ko({ message }));
+        return of(inventoryRemoveItem.err({ message }));
       }),
     )),
   ));

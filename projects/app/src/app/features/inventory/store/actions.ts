@@ -3,14 +3,14 @@ import { createAction, props } from '@ngrx/store';
 import { CreateInventoryItemDto, InventoryFilter, InventoryItem } from '../types';
 
 export const inventoryFetchItems = {
-  do: createAction(
+  try: createAction(
     '[Inventory/Items] Fetch items',
   ),
   ok: createAction(
     '[Inventory/Items] Fetch items success',
     props<{ items: InventoryItem[], message: string }>(),
   ),
-  ko: createAction(
+  err: createAction(
     '[Inventory/Items] Fetch items error',
     props<{ message: string }>(),
   ),
@@ -23,21 +23,21 @@ export const inventoryFetchItems = {
 };
 
 export const inventoryRemoveItems = {
-  do: createAction(
+  try: createAction(
     '[Inventory/Items] Remove all items',
   ),
   ok: createAction(
     '[Inventory/Items] Remove all items success',
     props<{ message: string }>(),
   ),
-  ko: createAction(
+  err: createAction(
     '[Inventory/Items] Remove all items error',
     props<{ message: string }>(),
   ),
 };
 
 export const inventoryRemoveItemsByCategory = {
-  do: createAction(
+  try: createAction(
     '[Inventory/Category] Remove items by category',
     props<{ category: string }>(),
   ),
@@ -45,14 +45,14 @@ export const inventoryRemoveItemsByCategory = {
     '[Inventory/Category] Remove items by category success',
     props<{ category: string, message: string }>(),
   ),
-  ko: createAction(
+  err: createAction(
     '[Inventory/Category] Remove items by category error',
     props<{ message: string }>(),
   ),
 };
 
 export const inventoryCreateItem = {
-  do: createAction(
+  try: createAction(
     '[Inventory/Item] Create item',
     props<{ dto: CreateInventoryItemDto }>(),
   ),
@@ -60,14 +60,14 @@ export const inventoryCreateItem = {
     '[Inventory/Item] Create item success',
     props<{ item: InventoryItem, message: string }>(),
   ),
-  ko: createAction(
+  err: createAction(
     '[Inventory/Item] Create item error',
     props<{ message: string }>(),
   ),
 };
 
 export const inventoryEditItem = {
-  do: createAction(
+  try: createAction(
     '[Inventory/Item] Edit item',
     props<{ item: InventoryItem }>(),
   ),
@@ -75,14 +75,14 @@ export const inventoryEditItem = {
     '[Inventory/Item] Edit item success',
     props<{ item: InventoryItem, message: string }>(),
   ),
-  ko: createAction(
+  err: createAction(
     '[Inventory/Item] Edit item error',
     props<{ message: string }>(),
   ),
 };
 
 export const inventoryRemoveItem = {
-  do: createAction(
+  try: createAction(
     '[Inventory/Item] Remove item',
     props<{ itemId: string }>(),
   ),
@@ -90,12 +90,13 @@ export const inventoryRemoveItem = {
     '[Inventory/Item] Remove item success',
     props<{ itemId: string, message: string }>(),
   ),
-  ko: createAction(
+  err: createAction(
     '[Inventory/Item] Remove item error',
     props<{ message: string }>(),
   ),
 };
 
+// WARNING: Potentially too generic name
 export const inventoryFilters = {
   setCategory: createAction(
     '[Inventory/Filters] Set category filter',

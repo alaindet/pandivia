@@ -16,7 +16,7 @@ export class InventoryAllItemsEffects {
   private inventoryService = inject(InventoryService);
 
   fetchItems$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryFetchItems.do),
+    ofType(inventoryFetchItems.try),
     withLatestFrom(this.store.select(selectInventoryShouldFetch)),
     switchMap(([_, shouldFetch]) => shouldFetch
       ? fetchInventoryItemsHelper(this.inventoryService)
@@ -30,7 +30,7 @@ export class InventoryAllItemsEffects {
   ));
 
   removeItems$ = createEffect(() => this.actions.pipe(
-    ofType(inventoryRemoveItems.do),
+    ofType(inventoryRemoveItems.try),
     switchMap(() => this.inventoryService.removeAll().pipe(
       map(() => {
         const message = 'common.async.removeItemsSuccess';
@@ -39,7 +39,7 @@ export class InventoryAllItemsEffects {
       catchError(err => {
         console.error(err);
         const message = 'common.async.removeItemsError';
-        return of(inventoryRemoveItems.ko({ message }));
+        return of(inventoryRemoveItems.err({ message }));
       }),
     )),
   ));

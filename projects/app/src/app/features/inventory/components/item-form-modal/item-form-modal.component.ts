@@ -120,7 +120,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to edit
-    this.store.dispatch(inventoryEditItem.do({ item }));
+    this.store.dispatch(inventoryEditItem.try({ item }));
   }
 
   private onCreate() {
@@ -144,7 +144,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to create
-    this.store.dispatch(inventoryCreateItem.do({ dto: item }));
+    this.store.dispatch(inventoryCreateItem.try({ dto: item }));
   }
 
   private initForm(): void {

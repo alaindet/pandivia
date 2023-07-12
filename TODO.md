@@ -1,5 +1,5 @@
 - [?] Rename "Inventory" to "Habits"/"Habit"
-- [?] Remove action groups?!
+- [ ] Remove action groups?!
 - [?] Split selectors in multiple files
 - [?] Add ESLint and Prettier
 - [ ] Manage the "no-category" category
