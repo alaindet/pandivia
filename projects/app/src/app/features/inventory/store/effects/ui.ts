@@ -13,33 +13,32 @@ export class InventoryUiEffects {
   private ui = createUiController(this.actions, this.transloco);
 
   startLoader$ = this.ui.startLoaderOn(
-    inventoryFetchItems.do,
+    inventoryFetchItems.try,
     inventoryFetchItems.force,
-    inventoryRemoveItems.do,
-    inventoryRemoveItemsByCategory.do,
-    inventoryCreateItem.do,
-    inventoryEditItem.do,
-    inventoryRemoveItem.do,
+    inventoryRemoveItems.try,
+    inventoryRemoveItemsByCategory.try,
+    inventoryCreateItem.try,
+    inventoryEditItem.try,
+    inventoryRemoveItem.try,
   );
 
   stopLoader$ = this.ui.stopLoaderOn(
     inventoryFetchItems.ok,
-    inventoryFetchItems.ko,
+    inventoryFetchItems.err,
     inventoryFetchItems.cached,
-    inventoryRemoveItems.ko,
-    inventoryRemoveItems.ko,
+    inventoryRemoveItems.err,
+    inventoryRemoveItems.err,
     inventoryRemoveItemsByCategory.ok,
-    inventoryRemoveItemsByCategory.ko,
+    inventoryRemoveItemsByCategory.err,
     inventoryCreateItem.ok,
-    inventoryCreateItem.ko,
+    inventoryCreateItem.err,
     inventoryEditItem.ok,
-    inventoryEditItem.ko,
+    inventoryEditItem.err,
     inventoryRemoveItem.ok,
-    inventoryRemoveItem.ko,
+    inventoryRemoveItem.err,
   );
 
   showSuccess$ = this.ui.showSuccessOn(
-    // inventoryFetchItems.ok,
     inventoryRemoveItems.ok,
     inventoryRemoveItemsByCategory.ok,
     inventoryCreateItem.ok,
@@ -48,11 +47,11 @@ export class InventoryUiEffects {
   );
 
   showError$ = this.ui.showErrorOn(
-    inventoryFetchItems.ko,
-    inventoryRemoveItems.ko,
-    inventoryRemoveItemsByCategory.ko,
-    inventoryCreateItem.ko,
-    inventoryEditItem.ko,
-    inventoryRemoveItem.ko,
+    inventoryFetchItems.err,
+    inventoryRemoveItems.err,
+    inventoryRemoveItemsByCategory.err,
+    inventoryCreateItem.err,
+    inventoryEditItem.err,
+    inventoryRemoveItem.err,
   );
 }

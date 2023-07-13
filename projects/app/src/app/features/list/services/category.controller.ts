@@ -57,7 +57,7 @@ export function createListCategoryItemsController() {
 
   function _getItemsRef(): CollectionReference<DocumentData> {
     if (!userId()) throw new Error('No user ID');
-    return collection(db, 'list', userId()!, 'items');
+    return collection(db, 'lists', userId()!, 'items');
   }
 
   async function _completeOrUndo(category: string, isDone = true): Promise<void> {

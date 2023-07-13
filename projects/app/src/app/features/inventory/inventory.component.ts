@@ -13,7 +13,7 @@ import { NotificationService } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
 import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { CreateListItemDto, ListItem } from '@app/features/list';
-import { listItemActions, selectListItemExistsWithName } from '../list/store';
+import { listCreateItem, selectListItemExistsWithName } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as categoryMenu from './contextual-menus/category';
@@ -262,7 +262,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
             dto.description = inventoryItem.description;
           }
 
-          this.store.dispatch(listItemActions.create({ dto }));
+          this.store.dispatch(listCreateItem.try({ dto }));
         },
       });
   }

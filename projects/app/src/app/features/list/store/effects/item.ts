@@ -41,40 +41,40 @@ export class ListItemEffects {
 
   complete$ = createEffect(() => this.actions.pipe(
     ofType(listCompleteItem.try),
-    switchMap(({ item }) => this.svc.complete(item.id).pipe(
-      map(item => listCompleteItem.ok({ item, message: 'nope' })),
+    switchMap(({ itemId }) => this.svc.complete(itemId).pipe(
+      map(() => listCompleteItem.ok({ itemId, message: 'nope' })),
       catchError(() => of(listCompleteItem.err({ message: 'nope' }))),
     )),
   ));
 
   undo$ = createEffect(() => this.actions.pipe(
     ofType(listUndoItem.try),
-    switchMap(({ item }) => this.svc.undo(item.id).pipe(
-      map(item => listUndoItem.ok({ item, message: 'nope' })),
+    switchMap(({ itemId }) => this.svc.undo(itemId).pipe(
+      map(() => listUndoItem.ok({ itemId, message: 'nope' })),
       catchError(() => of(listUndoItem.err({ message: 'nope' }))),
     )),
   ));
 
   toggle$ = createEffect(() => this.actions.pipe(
     ofType(listToggleItem.try),
-    switchMap(({ item }) => this.svc.toggle(item.id).pipe(
-      map(item => listToggleItem.ok({ item, message: 'nope' })),
+    switchMap(({ itemId }) => this.svc.toggle(itemId).pipe(
+      map(() => listToggleItem.ok({ itemId, message: 'nope' })),
       catchError(() => of(listToggleItem.err({ message: 'nope' }))),
     )),
   ));
 
   increment$ = createEffect(() => this.actions.pipe(
     ofType(listIncrementItem.try),
-    switchMap(({ item }) => this.svc.increment(item.id).pipe(
-      map(item => listIncrementItem.ok({ item, message: 'nope' })),
+    switchMap(({ itemId }) => this.svc.increment(itemId).pipe(
+      map(() => listIncrementItem.ok({ itemId, message: 'nope' })),
       catchError(() => of(listIncrementItem.err({ message: 'nope' }))),
     )),
   ));
 
   decrement$ = createEffect(() => this.actions.pipe(
     ofType(listDecrementItem.try),
-    switchMap(({ item }) => this.svc.decrement(item.id).pipe(
-      map(item => listDecrementItem.ok({ item, message: 'nope' })),
+    switchMap(({ itemId }) => this.svc.decrement(itemId).pipe(
+      map(() => listDecrementItem.ok({ itemId, message: 'nope' })),
       catchError(() => of(listDecrementItem.err({ message: 'nope' }))),
     )),
   ));

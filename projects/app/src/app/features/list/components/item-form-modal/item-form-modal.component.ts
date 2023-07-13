@@ -11,7 +11,7 @@ import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { InventoryItem } from '@app/features/inventory';
 import { TranslocoModule } from '@ngneat/transloco';
-import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
+import { listCreateItem, listEditItem, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
@@ -116,7 +116,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to edit
-    this.store.dispatch(listItemActions.edit({ item }));
+    this.store.dispatch(listEditItem.try({ item }));
   }
 
   private onCreate() {
@@ -143,7 +143,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to create
-    this.store.dispatch(listItemActions.create({ dto: item }));
+    this.store.dispatch(listCreateItem.try({ dto: item }));
 
     // Try to add to inventory
     if (addToInventory) {

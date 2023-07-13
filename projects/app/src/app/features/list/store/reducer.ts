@@ -28,7 +28,9 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     listIncrementItem.try,
     listDecrementItem.try,
     listRemoveItem.try,
-    state => state.status = LOADING_STATUS.LOADING,
+    state => {
+      state.status = LOADING_STATUS.LOADING;
+    },
   ),
 
   immerOn(
@@ -49,7 +51,9 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     listIncrementItem.err,
     listDecrementItem.err,
     listRemoveItem.err,
-    state => state.status = LOADING_STATUS.ERROR,
+    state => {
+      state.status = LOADING_STATUS.ERROR;
+    },
   ),
 
   // All items ----------------------------------------------------------------
@@ -123,6 +127,7 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
 
   immerOn(listCreateItem.ok, (state, { item }) => {
     state.status = LOADING_STATUS.IDLE;
+    state.itemModalSuccessCounter += 1;
     state.items.push(item);
   }),
 
@@ -132,34 +137,34 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     state.items = updateItem(state.items, item.id, () => item);
   }),
 
-  immerOn(listCompleteItem.ok, (state, { item }) => {
+  immerOn(listCompleteItem.ok, (state, { itemId }) => {
     state.status = LOADING_STATUS.IDLE;
     const updater = () => ({ isDone: true });
-    state.items = updateItem(state.items, item.id, updater);
+    state.items = updateItem(state.items, itemId, updater);
   }),
 
-  immerOn(listUndoItem.ok, (state, { item }) => {
+  immerOn(listUndoItem.ok, (state, { itemId }) => {
     state.status = LOADING_STATUS.IDLE;
     const updater = () => ({ isDone: false });
-    state.items = updateItem(state.items, item.id, updater);
+    state.items = updateItem(state.items, itemId, updater);
   }),
 
-  immerOn(listToggleItem.ok, (state, { item }) => {
+  immerOn(listToggleItem.ok, (state, { itemId }) => {
     state.status = LOADING_STATUS.IDLE;
     const updater = (old: ListItem) => ({ isDone: !old.isDone });
-    state.items = updateItem(state.items, item.id, updater);
+    state.items = updateItem(state.items, itemId, updater);
   }),
 
-  immerOn(listIncrementItem.ok, (state, { item }) => {
+  immerOn(listIncrementItem.ok, (state, { itemId }) => {
     state.status = LOADING_STATUS.IDLE;
     const updater = (old: ListItem) => ({ amount: old.amount + 1 });
-    state.items = updateItem(state.items, item.id, updater);
+    state.items = updateItem(state.items, itemId, updater);
   }),
 
-  immerOn(listDecrementItem.ok, (state, { item }) => {
+  immerOn(listDecrementItem.ok, (state, { itemId }) => {
     state.status = LOADING_STATUS.IDLE;
     const updater = (old: ListItem) => ({ amount: old.amount - 1 });
-    state.items = updateItem(state.items, item.id, updater);
+    state.items = updateItem(state.items, itemId, updater);
   }),
 
   immerOn(listRemoveItem.ok, (state, { itemId }) => {

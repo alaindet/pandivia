@@ -25,7 +25,6 @@ export const listFetchItems = {
 export const listCompleteItems = {
   try: createAction(
     '[List/Items] Complete all items',
-    props<{ message: string }>(),
   ),
   ok: createAction(
     '[List/Items] Complete all items success',
@@ -40,7 +39,6 @@ export const listCompleteItems = {
 export const listUndoItems = {
   try: createAction(
     '[List/Items] Undo all items',
-    props<{ message: string }>(),
   ),
   ok: createAction(
     '[List/Items] Undo all items success',

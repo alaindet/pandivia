@@ -14,7 +14,7 @@ import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import { listAllItemsActions, listCategoryActions, listFilterActions, listItemActions, listItemsAsyncReadActions, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
+import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
 import { ListFilterToken, CategorizedListItems, ListItem } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
@@ -69,7 +69,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
     this.initPageMetadata();
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
-    this.store.dispatch(listItemsAsyncReadActions.fetchItems());
+    this.store.dispatch(listFetchItems.try());
   }
 
   ngOnDestroy() {
@@ -79,19 +79,19 @@ export class ListPageComponent implements OnInit, OnDestroy {
   onListAction(action: string) {
     switch (action) {
       case listMenu.LIST_ACTION_REFRESH.id:
-        this.store.dispatch(listItemsAsyncReadActions.forceFetchItems());
+        this.store.dispatch(listFetchItems.force());
         break;
       case listMenu.LIST_ACTION_COMPLETE.id:
-        this.store.dispatch(listAllItemsActions.complete());
+        this.store.dispatch(listCompleteItems.try());
         break;
       case listMenu.LIST_ACTION_HIDE_COMPLETED.id:
-        this.store.dispatch(listFilterActions.setDoneFilter({ isDone: true }));
+        this.store.dispatch(listFilters.setCompleted({ isDone: true }));
         break;
       case listMenu.LIST_ACTION_SHOW_COMPLETED.id:
-        this.store.dispatch(listFilterActions.clearDoneFilter());
+        this.store.dispatch(listFilters.clearCompleted());
         break;
       case listMenu.LIST_ACTION_UNDO.id:
-        this.store.dispatch(listAllItemsActions.undo());
+        this.store.dispatch(listUndoItems.try());
         break;
       case listMenu.LIST_ACTION_REMOVE_COMPLETED.id: {
 
@@ -103,7 +103,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(listAllItemsActions.removeCompleted()),
+          next: () => this.store.dispatch(listRemoveCompletedItems.try()),
         });
         break;
       }
@@ -117,7 +117,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(listAllItemsActions.remove()),
+          next: () => this.store.dispatch(listRemoveItems.try()),
         });
         break;
       }
@@ -130,10 +130,10 @@ export class ListPageComponent implements OnInit, OnDestroy {
         this.showCreateItemByCategoryModal(category);
         break;
       case categoryMenu.CATEGORY_ACTION_COMPLETE.id:
-        this.store.dispatch(listCategoryActions.complete({ category }));
+        this.store.dispatch(listCompleteItemsByCategory.try({ category }));
         break;
       case categoryMenu.CATEGORY_ACTION_UNDO.id:
-        this.store.dispatch(listCategoryActions.undo({ category }));
+        this.store.dispatch(listUndoItemsByCategory.try({ category }));
         break;
       case categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id: {
 
@@ -146,7 +146,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(listCategoryActions.removeCompleted({ category })),
+          next: () => this.store.dispatch(
+            listRemoveCompletedItemsByCategory.try({ category })
+          ),
         });
         break;
       }
@@ -161,7 +163,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(listCategoryActions.remove({ category })),
+          next: () => this.store.dispatch(listRemoveItemsByCategory.try({ category })),
           });
         break;
       }
@@ -170,17 +172,17 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   onItemAction({ itemId, action }: ItemActionOutput) {
     switch(action) {
-      case itemMenu.ITEM_ACTION_UNDO.id:
-        this.store.dispatch(listItemActions.undo({ itemId }));
-        break;
       case itemMenu.ITEM_ACTION_COMPLETE.id:
-        this.store.dispatch(listItemActions.complete({ itemId }));
+        this.store.dispatch(listCompleteItem.try({ itemId }));
+        break;
+      case itemMenu.ITEM_ACTION_UNDO.id:
+        this.store.dispatch(listUndoItem.try({ itemId }));
         break;
       case itemMenu.ITEM_ACTION_EDIT.id:
         this.showEditItemModal(itemId);
         break;
       case itemMenu.ITEM_ACTION_INCREMENT.id:
-        this.store.dispatch(listItemActions.increment({ itemId }));
+        this.store.dispatch(listIncrementItem.try({ itemId }));
         break;
       case itemMenu.ITEM_ACTION_DECREMENT.id:
         this.decrementOrRemove(itemId);
@@ -198,7 +200,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
             return this.confirmPrompt(prompt);
           })).subscribe({
             error: () => console.log('Canceled'),
-            next: () => this.store.dispatch(listItemActions.remove({ itemId })),
+            next: () => this.store.dispatch(listRemoveItem.try({ itemId })),
           });
         break;
       }
@@ -212,20 +214,20 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   onItemToggle({ itemId, isDone }: ItemToggledOutput) {
-    this.store.dispatch(listItemActions.toggle({ itemId }));
+    this.store.dispatch(listToggleItem.try({ itemId }));
   }
 
   onPinCategory(category: string, isPinned: boolean) {
     if (isPinned) {
-      this.store.dispatch(listFilterActions.setCategoryFilter({ category }));
+      this.store.dispatch(listFilters.setCategory({ category }));
     } else {
-      this.store.dispatch(listFilterActions.clearCategoryFilter());
+      this.store.dispatch(listFilters.clearCategory());
     }
   }
 
   onRemoveFilter(filter: ListFilterToken) {
     const name = filter.key;
-    this.store.dispatch(listFilterActions.clearFilterByName({ name }));
+    this.store.dispatch(listFilters.clearByName({ name }));
   }
 
   trackByCategory(index: number, group: CategorizedListItems): string {
@@ -278,10 +280,10 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(listItemActions.remove({ itemId })),
+          next: () => this.store.dispatch(listRemoveItem.try({ itemId })),
         });
       } else {
-        this.store.dispatch(listItemActions.decrement({ itemId }));
+        this.store.dispatch(listDecrementItem.try({ itemId }));
       }
     });
   }

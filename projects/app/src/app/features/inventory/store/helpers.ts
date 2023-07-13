@@ -11,7 +11,7 @@ export function fetchInventoryItemsHelper(inventoryService: InventoryService) {
     }),
     catchError(() => {
       const message = 'common.async.fetchItemsError';
-      return of(inventoryFetchItems.ko({ message }));
+      return of(inventoryFetchItems.err({ message }));
     })
   );
 }
