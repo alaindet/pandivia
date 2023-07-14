@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
@@ -74,9 +75,14 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     query: string,
   ): Observable<FormOption[]> => {
     return this.store.select(selectInventoryCategoriesByName(query)).pipe(
-      map(categories => categories.map(category => {
-        return { value: category, label: category };
-      })),
+      map(categories => {
+        const result: FormOption[] = [];
+        for (const category of categories) {
+          if (category === DEFAULT_CATEGORY) continue;
+          result.push({ value: category, label: category });
+        }
+        return result;
+      }),
     );
   };
 
@@ -102,16 +108,6 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
       id: this.modal.data.item!.id,
       ...this.theForm.value,
     };
-
-    // if (!item.description) {
-    //   const { description, ...theItem } = item;
-    //   item = theItem;
-    // }
-
-    // if (!item.category) {
-    //   const { category, ...theItem } = item;
-    //   item = theItem;
-    // }
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {

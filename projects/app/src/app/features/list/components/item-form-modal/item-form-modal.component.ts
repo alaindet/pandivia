@@ -5,18 +5,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { InventoryItem } from '@app/features/inventory';
+import { inventoryCreateItem, inventoryFetchItems } from '@app/features/inventory/store';
 import { TranslocoModule } from '@ngneat/transloco';
 import { listCreateItem, listEditItem, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
-import { inventoryCreateItem, inventoryFetchItems } from '@app/features/inventory/store';
 
 const imports = [
   NgIf,
@@ -99,16 +100,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       ...this.theForm.value,
     };
 
-    // if (!item.description) {
-    //   const { description, ...theItem } = item;
-    //   item = theItem;
-    // }
-
-    // if (!item.category) {
-    //   const { category, ...theItem } = item;
-    //   item = theItem;
-    // }
-
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
       const data: EditListItemFormModalOutput = { item };
@@ -156,9 +147,14 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     query: string,
   ): Observable<FormOption[]> => {
     return this.store.select(selectListCategoriesByName(query)).pipe(
-      map(categories => categories.map(category => {
-        return { value: category, label: category };
-      })),
+      map(categories => {
+        const result: FormOption[] = [];
+        for (const category of categories) {
+          if (category === DEFAULT_CATEGORY) continue;
+          result.push({ value: category, label: category });
+        }
+        return result;
+      }),
     );
   };
 

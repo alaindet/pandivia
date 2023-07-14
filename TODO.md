@@ -16,3 +16,5 @@
 - [ ] Remove mocks and fakeRequest
 - [ ] Fix broken language when English is stored in local storage
 - [ ] Add dark themes
+- [ ] Add "Create and continue" button on item modals
+- [ ] Remove "Cancel" button on item modals or make it smaller
