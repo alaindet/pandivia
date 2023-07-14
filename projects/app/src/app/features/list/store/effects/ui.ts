@@ -3,14 +3,7 @@ import { Actions } from '@ngrx/effects';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { createUiController } from '@app/core/store/ui';
-import {
-  listItemsAsyncReadActions,
-  listAllItemsActions,
-  listCategoryActions,
-  listItemActions,
-  listItemsAsyncWriteActions,
-  listItemAsyncWriteActions,
-} from '../actions';
+import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listCreateItem, listDecrementItem, listEditItem, listFetchItems, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory } from '../actions';
 
 @Injectable()
 export class ListUiEffects {
@@ -20,55 +13,96 @@ export class ListUiEffects {
   private ui = createUiController(this.actions, this.transloco);
 
   startLoader$ = this.ui.startLoaderOn(
-    listItemsAsyncReadActions.fetchItems,
-    listItemsAsyncReadActions.forceFetchItems,
 
-    listAllItemsActions.complete,
-    listAllItemsActions.undo,
-    listAllItemsActions.removeCompleted,
-    listAllItemsActions.remove,
+    // All items
+    ...[listFetchItems.try, listFetchItems.force],
+    listCompleteItems.try,
+    listUndoItems.try,
+    listRemoveItems.try,
+    listRemoveCompletedItems.try,
 
-    listCategoryActions.complete,
-    listCategoryActions.undo,
-    listCategoryActions.removeCompleted,
-    listCategoryActions.remove,
+    // Category
+    listCompleteItemsByCategory.try,
+    listUndoItemsByCategory.try,
+    listRemoveCompletedItemsByCategory.try,
+    listRemoveItemsByCategory.try,
 
-    listItemActions.complete,
-    listItemActions.create,
-    listItemActions.decrement,
-    listItemActions.edit,
-    listItemActions.increment,
-    listItemActions.remove,
-    listItemActions.toggle,
-    listItemActions.undo,
+    // Item
+    listCreateItem.try,
+    listEditItem.try,
+    listCompleteItem.try,
+    listUndoItem.try,
+    listToggleItem.try,
+    listIncrementItem.try,
+    listDecrementItem.try,
+    listRemoveItem.try,
   );
 
   stopLoader$ = this.ui.stopLoaderOn(
-    listItemsAsyncReadActions.fetchItemsSuccess,
-    listItemsAsyncReadActions.fetchItemsError,
-    listItemsAsyncReadActions.fetchItemsCached,
 
-    listItemsAsyncWriteActions.editSuccess,
-    listItemsAsyncWriteActions.editError,
-    listItemsAsyncWriteActions.removeSuccess,
-    listItemsAsyncWriteActions.removeError,
+    // All items
+    ...[listFetchItems.ok, listFetchItems.cached, listFetchItems.err],
+    ...[listCompleteItems.ok, listCompleteItems.err],
+    ...[listUndoItems.ok, listUndoItems.err],
+    ...[listRemoveItems.ok, listRemoveItems.err],
+    ...[listRemoveCompletedItems.ok, listRemoveCompletedItems.err],
 
-    listItemAsyncWriteActions.createSuccess,
-    listItemAsyncWriteActions.createError,
-    listItemAsyncWriteActions.editSuccess,
-    listItemAsyncWriteActions.editError,
-    listItemAsyncWriteActions.removeSuccess,
-    listItemAsyncWriteActions.removeError,
+    // Category
+    ...[listCompleteItemsByCategory.ok, listCompleteItemsByCategory.err],
+    ...[listUndoItemsByCategory.ok, listUndoItemsByCategory.err],
+    ...[listRemoveCompletedItemsByCategory.ok, listRemoveCompletedItemsByCategory.err],
+    ...[listRemoveItemsByCategory.ok, listRemoveItemsByCategory.err],
+
+    // Item
+    ...[listCreateItem.ok, listCreateItem.err],
+    ...[listEditItem.ok, listEditItem.err],
+    ...[listCompleteItem.ok, listCompleteItem.err],
+    ...[listUndoItem.ok, listUndoItem.err],
+    ...[listToggleItem.ok, listToggleItem.err],
+    ...[listIncrementItem.ok, listIncrementItem.err],
+    ...[listDecrementItem.ok, listDecrementItem.err],
+    ...[listRemoveItem.ok, listRemoveItem.err],
+  );
+
+  showSuccessOn$ = this.ui.showSuccessOn(
+
+    // All items
+    listRemoveItems.ok,
+    listRemoveCompletedItems.ok,
+
+    // Category
+    listRemoveCompletedItemsByCategory.ok,
+    listRemoveItemsByCategory.ok,
+
+    // Item
+    listCreateItem.ok,
+    listEditItem.ok,
+    listRemoveItem.ok,
   );
 
   showError$ = this.ui.showErrorOn(
-    listItemsAsyncReadActions.fetchItemsError,
 
-    listItemsAsyncWriteActions.editError,
-    listItemsAsyncWriteActions.removeError,
+    // All items
+    listFetchItems.err,
+    listCompleteItems.err,
+    listUndoItems.err,
+    listRemoveItems.err,
+    listRemoveCompletedItems.err,
 
-    listItemAsyncWriteActions.createError,
-    listItemAsyncWriteActions.editError,
-    listItemAsyncWriteActions.removeError,
+    // Category
+    listCompleteItemsByCategory.err,
+    listUndoItemsByCategory.err,
+    listRemoveCompletedItemsByCategory.err,
+    listRemoveItemsByCategory.err,
+
+    // Item
+    listCreateItem.err,
+    listEditItem.err,
+    listCompleteItem.err,
+    listUndoItem.err,
+    listToggleItem.err,
+    listIncrementItem.err,
+    listDecrementItem.err,
+    listRemoveItem.err,
   );
 }

@@ -1,38 +1,37 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
-import { FieldErrorPipe, FieldErrorIdPipe, FieldStatusPipe } from '@app/common/pipes';
+import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
-import { inventoryItemActions, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
+import { inventoryCreateItem, inventoryEditItem, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
-import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './field';
+import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
 
 const imports = [
-  MatIconModule,
   NgIf,
+  MatIconModule,
   ReactiveFormsModule,
+  TranslocoModule,
   ModalHeaderDirective,
   ModalFooterDirective,
-  ...FORM_FIELD_EXPORTS,
-  ...AUTOCOMPLETE_EXPORTS,
   TextInputComponent,
   QuickNumberComponent,
   SelectComponent,
   ToggleComponent,
   TextareaComponent,
   ButtonComponent,
-  TranslocoModule,
-  FieldStatusPipe,
-  FieldErrorPipe,
-  FieldErrorIdPipe,
+  ...FORM_FIELD_EXPORTS,
+  ...AUTOCOMPLETE_EXPORTS,
+  ...FIELD_PIPES_EXPORTS,
 ];
 
 @Component({
@@ -54,10 +53,14 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   theForm!: FormGroup;
   isEditing = signal(false);
   isSaving = this.store.selectSignal(selectInventoryIsLoading);
+  shouldContinue = false;
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
   get fDesc() { return fDescribe(this.theForm, FIELD.DESCRIPTION.id) }
   get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
+
+  @ViewChild('nameRef', { read: TextInputComponent })
+  nameRef!: TextInputComponent;
 
   ngOnInit() {
     this.isEditing.set(!!this.modal.data?.item);
@@ -76,9 +79,14 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     query: string,
   ): Observable<FormOption[]> => {
     return this.store.select(selectInventoryCategoriesByName(query)).pipe(
-      map(categories => categories.map(category => {
-        return { value: category, label: category };
-      })),
+      map(categories => {
+        const result: FormOption[] = [];
+        for (const category of categories) {
+          if (category === DEFAULT_CATEGORY) continue;
+          result.push({ value: category, label: category });
+        }
+        return result;
+      }),
     );
   };
 
@@ -98,22 +106,17 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
       : this.onCreate();
   }
 
+  onCreateAndContinue() {
+    this.shouldContinue = true;
+    this.onSubmit();
+  }
+
   private onEdit() {
 
     let item: InventoryItem = {
       id: this.modal.data.item!.id,
       ...this.theForm.value,
     };
-
-    if (!item.description) {
-      const { description, ...theItem } = item;
-      item = theItem;
-    }
-
-    if (!item.category) {
-      const { category, ...theItem } = item;
-      item = theItem;
-    }
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
@@ -122,31 +125,31 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to edit
-    this.store.dispatch(inventoryItemActions.edit({ item }));
+    this.store.dispatch(inventoryEditItem.try({ item }));
   }
 
   private onCreate() {
 
     let item: CreateInventoryItemDto = this.theForm.value;
 
-    if (!item.description) {
-      const { description, ...theItem } = item;
-      item = theItem;
-    }
-
-    if (!item.category) {
-      const { category, ...theItem } = item;
-      item = theItem;
-    }
-
-    // Listen to response, then close the modal
+    // Listen to response
     this.afterCreateOrEditSuccess(() => {
+
+      // If continuing, reset the form
+      if (this.shouldContinue) {
+        this.theForm.reset();
+        this.shouldContinue = false;
+        this.nameRef?.focus();
+        return;
+      }
+
+      // Otherwise close modal
       const data: CreateInventoryItemFormModalOutput = { item };
       this.modal.confirm(data);
     });
 
     // Try to create
-    this.store.dispatch(inventoryItemActions.create({ dto: item }));
+    this.store.dispatch(inventoryCreateItem.try({ dto: item }));
   }
 
   private initForm(): void {
@@ -177,14 +180,19 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   private afterCreateOrEditSuccess(fn: () => void): void {
 
+    const stop$ = new Subject<void>();
     let first = true;
 
-    this.store.select(selectInventoryItemModalSuccessCounter).subscribe(() => {
-      if (first) {
-        first = false;
-        return;
-      }
-      fn();
-    });
+    this.store.select(selectInventoryItemModalSuccessCounter)
+      .pipe(takeUntil(stop$))
+      .subscribe(() => {
+        if (first) {
+          first = false;
+          return;
+        }
+        fn();
+        stop$.next();
+        stop$.complete();
+      });
   }
 }

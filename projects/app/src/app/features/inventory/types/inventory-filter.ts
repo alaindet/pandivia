@@ -13,4 +13,5 @@ export type InventoryFilters = {
 export type InventoryFilterToken = {
   key: InventoryFilter;
   value: any; // TODO: Add type
+  label?: string;
 };

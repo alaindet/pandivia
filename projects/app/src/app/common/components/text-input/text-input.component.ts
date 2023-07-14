@@ -1,10 +1,10 @@
 import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, Renderer2, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef, inject } from '@angular/core';
+import { Component, ElementRef, EnvironmentInjector, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FormFieldStatus } from '@app/common/types';
-import { ElementAttributes, applyAttributes, didInputChange, uniqueId } from '@app/common/utils';
+import { ElementAttributes, useHtmlAttributes, didInputChange, uniqueId } from '@app/common/utils';
 import { ButtonComponent } from '../button';
 
 type TextInputType = 'text' | 'email' | 'number' | 'password' | 'search';
@@ -36,8 +36,6 @@ const imports = [
 })
 export class TextInputComponent implements OnInit, OnChanges, ControlValueAccessor {
 
-  private renderer = inject(Renderer2);
-
   @Input() id?: string;
   @Input() type: TextInputType = 'text';
   @Input() value?: string;
@@ -63,10 +61,11 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 
   private onChange!: (val: any) => {};
 	private onTouched!: () => {};
+  private htmlAttrs = useHtmlAttributes();
 
   ngOnInit() {
     this.id = uniqueId(this.id, 'app-text-input');
-    applyAttributes(this.inputRef.nativeElement, this.attrs);
+    this.htmlAttrs.apply(this.inputRef.nativeElement, this.attrs);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -78,6 +77,11 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
     if (didInputChange(changes['width']) || didInputChange(changes['status'])) {
       this.updateStyle();
     }
+  }
+
+  // @publicApi
+  focus(): void {
+    this.inputRef?.nativeElement?.focus();
   }
 
   // @publicApi

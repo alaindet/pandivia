@@ -2,7 +2,7 @@ import { createEffect, ofType } from '@ngrx/effects';
 import { Observable, of, switchMap } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { uiLoaderActions, uiNotificationsActions } from './actions';
+import { uiLoaderStart, uiLoaderStop, uiNotificationAddSuccess, uiNotificationAddError } from './actions';
 
 export function createUiController(
   actions$: Observable<any>,
@@ -18,14 +18,14 @@ export function createUiController(
   function startLoaderOn(...targetActions: any[]) {
     return createEffect(() => actions$.pipe(
       onActions(targetActions),
-      switchMap(() => of(uiLoaderActions.start()))
+      switchMap(() => of(uiLoaderStart()))
     ));
   }
 
   function stopLoaderOn(...targetActions: any[]) {
     return createEffect(() => actions$.pipe(
       onActions(targetActions),
-      switchMap(() => of(uiLoaderActions.stop())),
+      switchMap(() => of(uiLoaderStop())),
     ));
   }
 
@@ -34,7 +34,17 @@ export function createUiController(
       onActions(targetActions),
       switchMap(action => {
         const message = transloco.translate(action.message);
-        return of(uiNotificationsActions.addError({ message }));
+        return of(uiNotificationAddError({ message }));
+      }),
+    ));
+  }
+
+  function showSuccessOn(...targetActions: any[]) {
+    return createEffect(() => actions$.pipe(
+      onActions(targetActions),
+      switchMap(action => {
+        const message = transloco.translate(action.message);
+        return of(uiNotificationAddSuccess({ message }));
       }),
     ));
   }
@@ -43,5 +53,6 @@ export function createUiController(
     startLoaderOn,
     stopLoaderOn,
     showErrorOn,
+    showSuccessOn,
   };
 }

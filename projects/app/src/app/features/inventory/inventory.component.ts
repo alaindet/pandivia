@@ -2,27 +2,29 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest, of, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { Observable, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { errorI18n, readErrorI18n } from '@app/common/utils';
-import { NotificationService } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
-import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
+import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { CreateListItemDto, ListItem } from '@app/features/list';
-import { listItemActions, selectListItemExistsWithName } from '../list/store';
+import { listCreateItem, selectListItemExistsWithName } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
-import { inventoryAllItemsActions, inventoryCategoryActions, inventoryFilterActions, inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
+import { inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 import { OnceSource } from '@app/common/sources';
+import { UiService } from '@app/core/ui';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { DEFAULT_CATEGORY } from '@app/core';
 
 const imports = [
   CommonModule,
@@ -46,7 +48,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private once = new OnceSource();
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
-  private notification = inject(NotificationService);
+  private ui = inject(UiService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
@@ -57,18 +59,29 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     });
   };
 
+  DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
   itemGroups = this.store.selectSignal(selectInventoryCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectInventoryIsLoaded);
   inErrorStatus = this.store.selectSignal(selectInventoryInErrorStatus);
-  filters = this.store.selectSignal(selectInventoryFilters);
+
+  filters = toSignal(
+    this.store.select(selectInventoryFilters).pipe(map(theFilters => {
+      if (theFilters === null) return theFilters;
+      return theFilters.map(filter => {
+        if (filter.label !== DEFAULT_CATEGORY) return filter;
+        return { ...filter, label: 'common.uncategorized' };
+      });
+    }))
+  )
+
   pinnedCategory = this.store.selectSignal(selectInventoryCategoryFilter);
 
   ngOnInit() {
     this.initPageMetadata();
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
-    this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
+    this.store.dispatch(inventoryFetchItems.try());
   }
 
   ngOnDestroy() {
@@ -78,7 +91,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   onListAction(action: string) {
     switch (action) {
       case listMenu.LIST_ACTION_REFRESH.id: {
-        this.store.dispatch(inventoryItemsAsyncReadActions.forceFetchItems());
+        this.store.dispatch(inventoryFetchItems.force());
         break;
       }
       case listMenu.LIST_ACTION_REMOVE.id: {
@@ -88,7 +101,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(inventoryAllItemsActions.remove()),
+          next: () => this.store.dispatch(inventoryRemoveItems.try()),
         });
         break;
       }
@@ -110,7 +123,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.dispatch(inventoryCategoryActions.remove({ category })),
+          next: () => {
+            const action = inventoryRemoveItemsByCategory.try({ category });
+            this.store.dispatch(action);
+          },
         });
         break;
       }
@@ -139,7 +155,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
           }))
           .subscribe({
             error: () => console.log('Canceled'),
-            next: () => this.store.dispatch(inventoryItemActions.remove({ itemId })),
+            next: () => this.store.dispatch(inventoryRemoveItem.try({ itemId })),
           });
         break;
       }
@@ -154,15 +170,15 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   onPinCategory(category: string, isPinned: boolean) {
     if (isPinned) {
-      this.store.dispatch(inventoryFilterActions.setCategoryFilter({ category }));
+      this.store.dispatch(inventoryFilters.setCategory({ category }));
     } else {
-      this.store.dispatch(inventoryFilterActions.clearCategoryFilter());
+      this.store.dispatch(inventoryFilters.clearCategory());
     }
   }
 
   onRemoveFilter(filter: InventoryFilterToken) {
     const name = filter.key;
-    this.store.dispatch(inventoryFilterActions.clearFilterByName({ name }));
+    this.store.dispatch(inventoryFilters.clearByName({ name }));
   }
 
   trackByCategory(index: number, group: CategorizedInventoryItems): string {
@@ -175,7 +191,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     const title = `${headerTitle} - ${environment.appName}`;
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_INVENTORY.id;
-    this.store.dispatch(uiNavigationActions.setCurrent({ current }));
+    this.store.dispatch(uiSetCurrentNavigation({ current }));
   }
 
   private initListContextualMenu(): void {
@@ -206,7 +222,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   private showEditItemModal(itemId: string): void {
     findInventoryItemById(this.store, itemId).subscribe({
-      error: err => this.notification.error(...readErrorI18n(err)),
+      error: err => this.ui.notification.err(...readErrorI18n(err)),
       next: item => {
         const title = this.transloco.translate('common.itemModal.editTitle');
         const modalInput: InventoryItemFormModalInput = { title, item };
@@ -246,7 +262,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     combineLatest({ inventoryItem, listItem })
       .pipe(take(1), switchMap(checkUniqueNameContraint))
       .subscribe({
-        error: err => this.notification.error(...readErrorI18n(err)),
+        error: err => this.ui.notification.err(...readErrorI18n(err)),
         next: inventoryItem => {
 
           const dto: CreateListItemDto = {
@@ -259,7 +275,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
             dto.description = inventoryItem.description;
           }
 
-          this.store.dispatch(listItemActions.create({ dto }));
+          this.store.dispatch(listCreateItem.try({ dto }));
         },
       });
   }

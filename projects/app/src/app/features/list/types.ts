@@ -12,7 +12,7 @@ export type ListItem = {
 export type CreateListItemDto = Omit<ListItem, 'id' | 'isDone'>;
 
 export type CategorizedListItems = {
-  category: string | 'no-category';
+  category: string;
   items: ListItem[];
 };
 

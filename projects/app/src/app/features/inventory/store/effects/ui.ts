@@ -1,16 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions } from '@ngrx/effects';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { createUiController } from '@app/core/store/ui';
-import {
-  inventoryItemsAsyncReadActions,
-  inventoryAllItemsActions,
-  inventoryCategoryActions,
-  inventoryItemActions,
-  inventoryItemsAsyncWriteActions,
-  inventoryItemAsyncWriteActions,
-} from '../actions';
-import { TranslocoService } from '@ngneat/transloco';
+import { inventoryCreateItem, inventoryEditItem, inventoryFetchItems, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory } from '../actions';
 
 @Injectable()
 export class InventoryUiEffects {
@@ -20,44 +13,45 @@ export class InventoryUiEffects {
   private ui = createUiController(this.actions, this.transloco);
 
   startLoader$ = this.ui.startLoaderOn(
-    inventoryItemsAsyncReadActions.fetchItems,
-    inventoryItemsAsyncReadActions.forceFetchItems,
-
-    inventoryAllItemsActions.remove,
-
-    inventoryCategoryActions.remove,
-
-    inventoryItemActions.create,
-    inventoryItemActions.edit,
-    inventoryItemActions.remove,
+    inventoryFetchItems.try,
+    inventoryFetchItems.force,
+    inventoryRemoveItems.try,
+    inventoryRemoveItemsByCategory.try,
+    inventoryCreateItem.try,
+    inventoryEditItem.try,
+    inventoryRemoveItem.try,
   );
 
   stopLoader$ = this.ui.stopLoaderOn(
-    inventoryItemsAsyncReadActions.fetchItemsSuccess,
-    inventoryItemsAsyncReadActions.fetchItemsError,
-    inventoryItemsAsyncReadActions.fetchItemsCached,
+    inventoryFetchItems.ok,
+    inventoryFetchItems.err,
+    inventoryFetchItems.cached,
+    inventoryRemoveItems.err,
+    inventoryRemoveItems.err,
+    inventoryRemoveItemsByCategory.ok,
+    inventoryRemoveItemsByCategory.err,
+    inventoryCreateItem.ok,
+    inventoryCreateItem.err,
+    inventoryEditItem.ok,
+    inventoryEditItem.err,
+    inventoryRemoveItem.ok,
+    inventoryRemoveItem.err,
+  );
 
-    inventoryItemsAsyncWriteActions.editSuccess,
-    inventoryItemsAsyncWriteActions.editError,
-    inventoryItemsAsyncWriteActions.removeSuccess,
-    inventoryItemsAsyncWriteActions.removeError,
-
-    inventoryItemAsyncWriteActions.createSuccess,
-    inventoryItemAsyncWriteActions.createError,
-    inventoryItemAsyncWriteActions.editSuccess,
-    inventoryItemAsyncWriteActions.editError,
-    inventoryItemAsyncWriteActions.removeSuccess,
-    inventoryItemAsyncWriteActions.removeError,
+  showSuccess$ = this.ui.showSuccessOn(
+    inventoryRemoveItems.ok,
+    inventoryRemoveItemsByCategory.ok,
+    inventoryCreateItem.ok,
+    inventoryEditItem.ok,
+    inventoryRemoveItem.ok,
   );
 
   showError$ = this.ui.showErrorOn(
-    inventoryItemsAsyncReadActions.fetchItemsError,
-
-    inventoryItemsAsyncWriteActions.editError,
-    inventoryItemsAsyncWriteActions.removeError,
-
-    inventoryItemAsyncWriteActions.createError,
-    inventoryItemAsyncWriteActions.editError,
-    inventoryItemAsyncWriteActions.removeError,
+    inventoryFetchItems.err,
+    inventoryRemoveItems.err,
+    inventoryRemoveItemsByCategory.err,
+    inventoryCreateItem.err,
+    inventoryEditItem.err,
+    inventoryRemoveItem.err,
   );
 }

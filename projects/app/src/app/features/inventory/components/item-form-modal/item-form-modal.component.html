@@ -16,6 +16,7 @@
     </app-form-field-label>
 
     <app-text-input
+      #nameRef="app-text-input"
       [id]="FIELD.NAME.htmlId"
       type="text"
       [formControlName]="FIELD.NAME.id"
@@ -138,7 +139,7 @@
   <div *transloco="let t" class="_footer">
 
     <!-- Cancel -->
-    <button
+    <!-- <button
       type="button"
       appButton="outline"
       size="small"
@@ -147,7 +148,7 @@
     >
       <mat-icon>clear</mat-icon>
       {{ t('common.cancel') }}
-    </button>
+    </button> -->
 
     <!-- Edit -->
     <button
@@ -167,6 +168,20 @@
 
     <!-- Create -->
     <ng-template #createRef>
+
+      <!-- Confirm and continue -->
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        [disabled]="isSaving()"
+        (click)="onCreateAndContinue()"
+      >
+        {{ t('common.createAndContinue') }}
+      </button>
+
+      <!-- Create and close -->
       <button
         type="button"
         appButton="primary"
@@ -175,11 +190,9 @@
         [disabled]="isSaving()"
         (click)="onSubmit()"
       >
-        <mat-icon [class.-rotating]="isSaving()">
-          {{ isSaving() ? 'sync' : 'add' }}
-        </mat-icon>
-        {{ t('common.create') }}
+        {{ t('common.createAndClose') }}
       </button>
+
     </ng-template>
   </div>
 </ng-container>

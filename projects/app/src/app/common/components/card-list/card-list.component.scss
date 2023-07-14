@@ -16,6 +16,10 @@
     }
   }
 
+  &.-muted-title ._title {
+    color: $app-color-grey-700;
+  }
+
   > ._header {
     display: flex;
     align-items: center;
@@ -23,9 +27,11 @@
     padding: 1rem;
   }
 
-  ._title h2 {
-    display: inline-block;
-    margin: 0;
+  ._title {
+    h2 {
+      display: inline-block;
+      margin: 0;
+    }
   }
 
   ._pin {

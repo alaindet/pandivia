@@ -1,1 +1,6 @@
 @import './app/style/global';
+
+// Hide Firebase warning in emulator mode while developing
+.firebase-emulator-warning {
+  display: none;
+}

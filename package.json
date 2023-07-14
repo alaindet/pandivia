@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "firebase:dev": "firebase emulators:start --only firestore,auth --import firebase-testdata",
+    "firebase:dev:clear": "firebase emulators:start --only firestore,auth",
+    "firebase:dev:export": "firebase emulators:export firebase-testdata"
   },
   "private": true,
   "dependencies": {
@@ -15,6 +18,7 @@
     "@angular/common": "^16.0.0",
     "@angular/compiler": "^16.0.0",
     "@angular/core": "^16.0.0",
+    "@angular/fire": "^7.6.1",
     "@angular/forms": "^16.0.0",
     "@angular/material": "^16.0.1",
     "@angular/platform-browser": "^16.0.0",
@@ -35,6 +39,7 @@
     "@angular/cli": "~16.0.2",
     "@angular/compiler-cli": "^16.0.0",
     "@types/jasmine": "~4.3.0",
+    "firebase-tools": "^12.4.2",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

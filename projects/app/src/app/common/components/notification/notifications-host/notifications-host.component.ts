@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, O
 import { NOTIFICATION_POSITION, NotificationPosition, RuntimeNotification } from '@app/common/types';
 import { cssClassesList } from '@app/common/utils';
 import { NotificationComponent } from '../notification/notification.component';
-import { NOTIFICATION_TIMEOUT } from '@app/core/notification';
+import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
 
 const imports = [
   CommonModule,

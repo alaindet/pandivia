@@ -1,41 +1,40 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 
-import { FormOption } from '@app/common/types';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
+import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
-import { inventoryItemActions, inventoryItemsAsyncReadActions, selectInventoryItemsByName } from '@app/features/inventory/store';
 import { InventoryItem } from '@app/features/inventory';
-import { listItemActions, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter } from '../../store';
+import { inventoryCreateItem, inventoryFetchItems } from '@app/features/inventory/store';
+import { TranslocoModule } from '@ngneat/transloco';
+import { listCreateItem, listEditItem, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
+import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
-import { LIST_ITEM_FORM_FIELD as FIELD } from './field';
-import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@app/common/pipes';
-import { TranslocoModule } from '@ngneat/transloco';
 
 const imports = [
-  MatIconModule,
   NgIf,
   ReactiveFormsModule,
+  MatIconModule,
+  TranslocoModule,
   ModalHeaderDirective,
   ModalFooterDirective,
-  ...FORM_FIELD_EXPORTS,
-  ...AUTOCOMPLETE_EXPORTS,
-  TranslocoModule,
   TextInputComponent,
   QuickNumberComponent,
   SelectComponent,
   ToggleComponent,
   TextareaComponent,
   ButtonComponent,
-  FieldStatusPipe,
-  FieldErrorPipe,
-  FieldErrorIdPipe,
+  ...FORM_FIELD_EXPORTS,
+  ...AUTOCOMPLETE_EXPORTS,
+  ...FIELD_PIPES_EXPORTS,
 ];
 
 @Component({
@@ -57,6 +56,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   theForm!: FormGroup;
   isEditing = signal(false);
   isSaving = this.store.selectSignal(selectListIsLoading);
+  shouldContinue = false;
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
   get fAmount() { return fDescribe(this.theForm, FIELD.AMOUNT.id) }
@@ -64,8 +64,11 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
   get fDone() { return fDescribe(this.theForm, FIELD.IS_DONE.id) }
 
+  @ViewChild('nameRef', { read: TextInputComponent })
+  nameRef!: TextInputComponent;
+
   ngOnInit() {
-    this.store.dispatch(inventoryItemsAsyncReadActions.fetchItems());
+    this.store.dispatch(inventoryFetchItems.try());
     this.isEditing.set(!!this.modal.data?.item);
     this.initForm();
   }
@@ -83,7 +86,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   onSubmit() {
-
     if (this.theForm.invalid) {
       this.theForm.markAllAsTouched();
       return;
@@ -94,22 +96,17 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       : this.onCreate();
   }
 
+  onCreateAndContinue() {
+    this.shouldContinue = true;
+    this.onSubmit();
+  }
+
   private onEdit() {
 
     let item: ListItem = {
       id: this.modal.data.item!.id,
       ...this.theForm.value,
     };
-
-    if (!item.description) {
-      const { description, ...theItem } = item;
-      item = theItem;
-    }
-
-    if (!item.category) {
-      const { category, ...theItem } = item;
-      item = theItem;
-    }
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
@@ -118,7 +115,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to edit
-    this.store.dispatch(listItemActions.edit({ item }));
+    this.store.dispatch(listEditItem.try({ item }));
   }
 
   private onCreate() {
@@ -128,36 +125,36 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       ...item
     } = this.theForm.value;
 
-    if (!item.description) {
-      const { description, ...theItem } = item;
-      item = theItem;
-    }
-
-    if (!item.category) {
-      const { category, ...theItem } = item;
-      item = theItem;
-    }
-
-    // Listen to response, then close the modal
+    // Listen to response
     this.afterCreateOrEditSuccess(() => {
+
+      // If continuing, reset the form
+      if (this.shouldContinue) {
+        this.theForm.reset();
+        this.shouldContinue = false;
+        this.nameRef?.focus();
+        return;
+      }
+
+      // Otherwise close the modal
       const data: CreateListItemFormModalOutput = { item, addToInventory };
       this.modal.confirm(data);
     });
 
     // Try to create
-    this.store.dispatch(listItemActions.create({ dto: item }));
+    this.store.dispatch(listCreateItem.try({ dto: item }));
 
     // Try to add to inventory
     if (addToInventory) {
       const { amount, ...dto } = item;
-      this.store.dispatch(inventoryItemActions.create({ dto }));
+      this.store.dispatch(inventoryCreateItem.try({ dto }));
     }
   }
 
   nameFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return this.store.select(selectInventoryItemsByName(query)).pipe(
+    return this.store.select(selectListItemNameAutocompleteItems(query)).pipe(
       map((items: InventoryItem[]) => {
         return items.map(item => ({ value: item.id, label: item.name }));
       }),
@@ -168,9 +165,14 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     query: string,
   ): Observable<FormOption[]> => {
     return this.store.select(selectListCategoriesByName(query)).pipe(
-      map(categories => categories.map(category => {
-        return { value: category, label: category };
-      })),
+      map(categories => {
+        const result: FormOption[] = [];
+        for (const category of categories) {
+          if (category === DEFAULT_CATEGORY) continue;
+          result.push({ value: category, label: category });
+        }
+        return result;
+      }),
     );
   };
 
@@ -220,14 +222,19 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
   private afterCreateOrEditSuccess(fn: () => void): void {
 
+    const stop$ = new Subject<void>();
     let first = true;
 
-    this.store.select(selectListItemModalSuccessCounter).subscribe(() => {
-      if (first) {
-        first = false;
-        return;
-      }
-      fn();
-    });
+    this.store.select(selectListItemModalSuccessCounter)
+      .pipe(takeUntil(stop$))
+      .subscribe(() => {
+        if (first) {
+          first = false;
+          return;
+        }
+        fn();
+        stop$.next();
+        stop$.complete();
+      });
   }
 }

@@ -20,8 +20,8 @@
 
   // TODO: Make it mobile-first
   @media (max-width: 768px) {
-    top: auto !important;
-    bottom: 10vh !important;
+    top: 6vh !important;
+    bottom: auto !important; // This should be on top of FAB button
     left: 2.5vw !important;
     right: 2.5vw !important;
   }

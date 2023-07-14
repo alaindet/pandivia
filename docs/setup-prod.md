@@ -1,0 +1,3 @@
+- [ ] Setup authorization
+- [ ] Setup one single admin account with `{"role": "admin"}` claim
+- [ ] Setup Firestore

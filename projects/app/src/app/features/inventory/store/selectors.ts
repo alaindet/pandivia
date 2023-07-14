@@ -121,7 +121,11 @@ export const selectInventoryFilters = createSelector(
 
     if (state.filters[INVENTORY_FILTER.CATEGORY]) {
       const value = state.filters[INVENTORY_FILTER.CATEGORY];
-      filters.push({ key: INVENTORY_FILTER.CATEGORY, value });
+      filters.push({
+        key: INVENTORY_FILTER.CATEGORY,
+        value,
+        label: value ?? undefined,
+      });
     }
 
     return filters.length ? filters : null;

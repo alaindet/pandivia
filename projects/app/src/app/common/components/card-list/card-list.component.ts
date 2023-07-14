@@ -1,6 +1,7 @@
 import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { ListItem } from '@app/features/list';
 import { InventoryItem } from '@app/features/inventory';
@@ -9,12 +10,14 @@ import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
 import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 
 const imports = [
   NgIf,
   NgFor,
   NgTemplateOutlet,
   MatIconModule,
+  TranslocoModule,
   CheckboxComponent,
   ButtonComponent,
   ...ACTIONS_MENU_EXPORTS,
@@ -35,6 +38,7 @@ export class CardListComponent implements OnChanges {
   @Input({ required: true }) listActions!: ActionsMenuItem[];
   @Input({ required: true }) items!: ListItem[] | InventoryItem[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
+  @Input() @HostBinding('class.-muted-title') withMutedTitle = false;
   @Input() @HostBinding('class.-selectable') isSelectable = true;
   @Input() checkboxColor: CheckboxColor = 'black';
   @Input() isPinned = false;
@@ -44,6 +48,7 @@ export class CardListComponent implements OnChanges {
   @Output() itemToggled = new EventEmitter<ItemToggledOutput>();
   @Output() pinned = new EventEmitter<boolean>();
 
+  DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   itemActionsMap = new Map<string, ActionsMenuItem[]>();
   itemsDescriptionMap = new Map<string, boolean>();
 

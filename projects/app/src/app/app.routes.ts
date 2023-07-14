@@ -2,8 +2,9 @@ import { Routes } from '@angular/router';
 
 import { environment } from '@app/environment';
 import { LoggedPageCollectionComponent } from '@app/core';
+import { isAuthenticatedGuard } from './features/user/guards';
 
-const DEFAULT_ROUTE = '/list';
+export const DEFAULT_ROUTE = '/list';
 
 let routes: Routes = [
   {
@@ -12,9 +13,17 @@ let routes: Routes = [
     redirectTo: DEFAULT_ROUTE,
   },
   {
+    path: 'signin',
+    loadComponent: () => import('@app/features/user/pages/signin'),
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('@app/features/user/pages/signup'),
+  },
+  {
     path: '',
     component: LoggedPageCollectionComponent,
-    canActivate: [], // TODO: Add logged user check
+    canActivate: [isAuthenticatedGuard],
     children: [
       {
         path: 'list',
@@ -30,13 +39,6 @@ let routes: Routes = [
       },
     ],
   },
-
-  // TODO: Add login page
-  // {
-  //   path: 'login',
-  //   // ...
-  // },
-
   {
     path: '**',
     redirectTo: DEFAULT_ROUTE,
@@ -44,10 +46,13 @@ let routes: Routes = [
 ];
 
 if (!environment.production) {
-  routes = [
-    { path: 'demo', loadChildren: () => import('@app/__demo__') },
-    ...routes,
-  ];
+
+  const demoRoute = {
+    path: 'demo',
+    loadChildren: () => import('@app/__demo__'),
+  };
+
+  routes = [demoRoute, ...routes];
 }
 
 export const APP_ROUTES = routes;

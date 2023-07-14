@@ -1,0 +1,12 @@
+@import 'scoped';
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6180339887rem; // Golden ratio!
+}
+
+.form-footer {
+  display: flex;
+  justify-content: center;
+}

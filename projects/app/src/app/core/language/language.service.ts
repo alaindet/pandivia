@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { effectOnChange } from '@app/common/utils';
-import { userLanguageActions } from '@app/features/user/store/actions';
+import { userSetLanguage, userFallbackToDefaultLanguage } from '@app/features/user/store/actions';
 import {  selectUserLanguage } from '@app/features/user/store';
 import { LANGUAGE, Language } from './types';
 import { DEFAULT_LANGUAGE, LANGUAGE_OPTIONS, LANGUAGE_STORAGE_KEY } from './constants';
@@ -30,19 +30,20 @@ export class LanguageService {
   set(_language: string | null) {
 
     if (_language === null) {
-      this.store.dispatch(userLanguageActions.setDefaultLanguage());
+      this.store.dispatch(userFallbackToDefaultLanguage());
       this.transloco.setDefaultLang(DEFAULT_LANGUAGE);
       return;
     }
 
     const language = _language as Language;
-    this.store.dispatch(userLanguageActions.setLanguage({ language }));
+    this.store.dispatch(userSetLanguage({ language }));
     this.transloco.setActiveLang(language);
   }
 
   private initLanguageFromStorage(): void {
     const language = this.fetchFromStorage() ?? DEFAULT_LANGUAGE;
-    this.store.dispatch(userLanguageActions.setLanguage({ language }));
+    this.store.dispatch(userSetLanguage({ language }));
+    this.transloco.setActiveLang(language);
   }
 
   private listenToLanguageChange(): void {

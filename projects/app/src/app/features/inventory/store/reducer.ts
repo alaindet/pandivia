@@ -2,110 +2,98 @@ import { createReducer } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
 
 import { LOADING_STATUS } from '@app/common/types';
-import { INVENTORY_FILTER } from '../types';
-import {
-  inventoryAllItemsActions as allItemsActions,
-  inventoryCategoryActions as categoryActions,
-  inventoryFilterActions as filterActions,
-  inventoryItemActions as itemActions,
-  inventoryItemAsyncWriteActions as itemAsyncWriteActions,
-  inventoryItemsAsyncReadActions as itemsAsyncReadActions,
-  inventoryItemsAsyncWriteActions as itemsAsyncWriteActions,
-} from './actions';
-import { setSuccessState } from './helpers';
-import { INVENTORY_FEATURE_INITIAL_STATE } from './state';
 import { replaceOn } from '@app/common/utils';
+import { INVENTORY_FILTER } from '../types';
+import { INVENTORY_FEATURE_INITIAL_STATE } from './state';
+import { inventoryFetchItems, inventoryRemoveItems, inventoryRemoveItemsByCategory, inventoryCreateItem, inventoryEditItem, inventoryRemoveItem, inventoryFilters, inventoryFeatureReset } from './actions';
 
 export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
 
-  // Generic async ------------------------------------------------------------
+  immerOn(inventoryFeatureReset, state => {
+    state.items = INVENTORY_FEATURE_INITIAL_STATE.items;
+    state.status = INVENTORY_FEATURE_INITIAL_STATE.status;
+    state.lastUpdated = INVENTORY_FEATURE_INITIAL_STATE.lastUpdated;
+    state.itemModalSuccessCounter = INVENTORY_FEATURE_INITIAL_STATE.itemModalSuccessCounter;
+    state.filters = { ...INVENTORY_FEATURE_INITIAL_STATE.filters };
+  }),
+
   immerOn(
-    itemsAsyncReadActions.fetchItems,
-    itemsAsyncReadActions.forceFetchItems,
-
-    allItemsActions.remove,
-
-    categoryActions.remove,
-
-    itemActions.create,
-    itemActions.edit,
-    itemActions.remove,
+    inventoryFetchItems.try,
+    inventoryFetchItems.force,
+    inventoryRemoveItems.try,
+    inventoryRemoveItemsByCategory.try,
+    inventoryCreateItem.try,
+    inventoryEditItem.try,
+    inventoryRemoveItem.try,
     state => {
       state.status = LOADING_STATUS.LOADING;
     },
   ),
 
   immerOn(
-    itemsAsyncReadActions.fetchItemsError,
-
-    itemsAsyncWriteActions.editError,
-    itemsAsyncWriteActions.removeError,
-
-    itemAsyncWriteActions.createError,
-    itemAsyncWriteActions.editError,
-    itemAsyncWriteActions.removeError,
-    (state, { message }) => {
-      console.log(message); // TODO: Remove?
+    inventoryFetchItems.err,
+    inventoryRemoveItems.err,
+    inventoryRemoveItemsByCategory.err,
+    inventoryCreateItem.err,
+    inventoryEditItem.err,
+    inventoryRemoveItem.err,
+    state => {
       state.status = LOADING_STATUS.ERROR;
     },
   ),
 
-  // Fetching -----------------------------------------------------------------
-
-  immerOn(itemsAsyncReadActions.fetchItemsCached, state => {
+  immerOn(inventoryFetchItems.cached, state => {
     state.status = LOADING_STATUS.IDLE;
   }),
 
-  immerOn(itemsAsyncReadActions.fetchItemsSuccess, (state, { items }) => {
-    setSuccessState(state);
+  immerOn(inventoryFetchItems.ok, (state, { items }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.lastUpdated = Date.now();
     state.items = items;
   }),
 
-  // Filters ------------------------------------------------------------------
-
-  immerOn(filterActions.setCategoryFilter, (state, { category }) => {
+  immerOn(inventoryFilters.setCategory, (state, { category }) => {
     state.filters[INVENTORY_FILTER.CATEGORY] = category;
   }),
 
-  immerOn(filterActions.clearCategoryFilter, state => {
+  immerOn(inventoryFilters.clearCategory, state => {
     state.filters[INVENTORY_FILTER.CATEGORY] = null;
   }),
 
-  immerOn(filterActions.clearAllFilters, state => {
+  immerOn(inventoryFilters.clearAll, state => {
     state.filters[INVENTORY_FILTER.CATEGORY] = null;
   }),
 
-  immerOn(filterActions.clearFilterByName, (state, { name }) => {
+  immerOn(inventoryFilters.clearByName, (state, { name }) => {
     state.filters[name] = null;
   }),
 
-  // List items async write ---------------------------------------------------
+  immerOn(inventoryRemoveItems.ok, state => {
+    state.status = LOADING_STATUS.IDLE;
+    state.lastUpdated = Date.now();
+    state.items = [];
+  }),
 
-  immerOn(
-    itemsAsyncWriteActions.editSuccess,
-    itemsAsyncWriteActions.removeSuccess,
-    (state, { items, message }) => {
-      setSuccessState(state, message);
-      state.items = items;
-    },
-  ),
+  immerOn(inventoryRemoveItemsByCategory.ok, (state, { category }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.lastUpdated = Date.now();
+    state.items = state.items.filter(item => item.category !== category);
+  }),
 
-    // List item async write ----------------------------------------------------
+  immerOn(inventoryCreateItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.itemModalSuccessCounter += 1;
+    state.items.push(item);
+  }),
 
-    immerOn(itemAsyncWriteActions.createSuccess, (state, { item, message }) => {
-      setSuccessState(state, message);
-      state.itemModalSuccessCounter += 1;
-      state.items.unshift(item);
-    }),
+  immerOn(inventoryEditItem.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.itemModalSuccessCounter += 1;
+    state.items = replaceOn(state.items, anItem => anItem.id === item.id, item);
+  }),
 
-    immerOn(itemAsyncWriteActions.editSuccess, (state, { item, message }) => {
-      setSuccessState(state, message);
-      state.itemModalSuccessCounter += 1;
-      state.items = replaceOn(state.items, it => it.id === item.id, () => item);
-    }),
-
-    immerOn(itemAsyncWriteActions.removeSuccess, (state, { item, message }) => {
-      setSuccessState(state, message);
-      state.items = state.items.filter(anItem => anItem.id !== item.id);
-    }),
+  immerOn(inventoryRemoveItem.ok, (state, { itemId }) => {
+    state.status = LOADING_STATUS.IDLE;
+    state.items = state.items.filter(item => item.id !== itemId);
+  }),
 );
