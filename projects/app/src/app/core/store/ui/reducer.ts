@@ -10,9 +10,10 @@ import {
   uiNotificationDismiss,
   uiLoaderStart,
   uiLoaderStop,
-  uiNavigationActions,
+  uiSetCurrentNavigation,
   uiSetPageTitle,
-  uiThemeActions,
+  uiSetTheme,
+  uiFallbackToDefaultTheme,
 } from './actions';
 
 export const uiReducer = createReducer(
@@ -40,7 +41,7 @@ export const uiReducer = createReducer(
     state.loading = false;
   }),
 
-  immerOn(uiNavigationActions.setCurrent, (state, { current }) => {
+  immerOn(uiSetCurrentNavigation, (state, { current }) => {
     state.navigation.current = current;
   }),
 
@@ -48,11 +49,11 @@ export const uiReducer = createReducer(
     state.title = title;
   }),
 
-  immerOn(uiThemeActions.setTheme, (state, { theme }) => {
+  immerOn(uiSetTheme, (state, { theme }) => {
     state.theme = theme;
   }),
 
-  immerOn(uiThemeActions.setDefaultTheme, state => {
+  immerOn(uiFallbackToDefaultTheme, state => {
     state.theme = DEFAULT_THEME;
   }),
 );

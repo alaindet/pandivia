@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { LanguageService, NAVIGATION_ITEM_USER, uiNavigationActions, uiSetPageTitle } from '@app/core';
+import { LanguageService, NAVIGATION_ITEM_USER, uiSetCurrentNavigation, uiSetPageTitle } from '@app/core';
 import { environment } from '@app/environment';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
@@ -56,7 +56,7 @@ export class ProfilePageComponent implements OnInit {
     const title = `${headerTitle} - ${environment.appName}`;
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_USER.id;
-    this.store.dispatch(uiNavigationActions.setCurrent({ current }));
+    this.store.dispatch(uiSetCurrentNavigation({ current }));
   }
 
   private resetHeaderActions(): void {

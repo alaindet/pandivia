@@ -10,7 +10,7 @@ import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListCompone
 import { StackedLayoutService } from '@app/common/layouts';
 import { errorI18n, readErrorI18n } from '@app/common/utils';
 import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
-import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
+import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { CreateListItemDto, ListItem } from '@app/features/list';
 import { listCreateItem, selectListItemExistsWithName } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
@@ -191,7 +191,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     const title = `${headerTitle} - ${environment.appName}`;
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_INVENTORY.id;
-    this.store.dispatch(uiNavigationActions.setCurrent({ current }));
+    this.store.dispatch(uiSetCurrentNavigation({ current }));
   }
 
   private initListContextualMenu(): void {

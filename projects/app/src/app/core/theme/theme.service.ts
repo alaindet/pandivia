@@ -2,7 +2,7 @@ import { Injectable, computed, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { effectOnChange } from '@app/common/utils';
-import { selectUiTheme, uiThemeActions } from '../store/ui';
+import { selectUiTheme, uiSetTheme, uiFallbackToDefaultTheme } from '../store/ui';
 import { THEME_STORAGE_KEY, DEFAULT_THEME, THEME_OPTIONS } from './constants';
 import { Theme } from './types';
 
@@ -24,17 +24,17 @@ export class ThemeService {
   set(_theme: string | null) {
 
     if (_theme === null) {
-      this.store.dispatch(uiThemeActions.setDefaultTheme());
+      this.store.dispatch(uiFallbackToDefaultTheme());
       return;
     }
 
     const theme = _theme as Theme;
-    this.store.dispatch(uiThemeActions.setTheme({ theme }));
+    this.store.dispatch(uiSetTheme({ theme }));
   }
 
   private initThemeFromStorage(): void {
     const theme = this.fetchFromStorage() ?? DEFAULT_THEME;
-    this.store.dispatch(uiThemeActions.setTheme({ theme }));
+    this.store.dispatch(uiSetTheme({ theme }));
   }
 
   private listenToThemeChange(): void {

@@ -8,7 +8,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
 import { DEFAULT_CATEGORY, UiService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
-import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
+import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/navigation';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor, ActionsMenuItem } from '@app/common/components';
 import { readErrorI18n } from '@app/common/utils';
@@ -252,7 +252,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
     const title = `${headerTitle} - ${environment.appName}`;
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_LIST.id;
-    this.store.dispatch(uiNavigationActions.setCurrent({ current }));
+    this.store.dispatch(uiSetCurrentNavigation({ current }));
   }
 
   private confirmPrompt(
