@@ -3,6 +3,7 @@ export * from './arrays';
 export * from './browser';
 export * from './functions';
 export * from './keyboard';
+export * from './mocks';
 export * from './numbers';
 export * from './strings';
 export * from './style';
