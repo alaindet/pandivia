@@ -57,19 +57,22 @@ export class ListPageComponent implements OnInit, OnDestroy {
     });
   };
 
+  DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
   itemGroups = this.store.selectSignal(selectListCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectListIsLoaded);
   inErrorStatus = this.store.selectSignal(selectListInErrorStatus);
+
   filters = toSignal(
-    this.store.select(selectListFilters).pipe(map(filters => {
-      if (filters === null) return filters;
-      return filters.map(filter => {
+    this.store.select(selectListFilters).pipe(map(theFilters => {
+      if (theFilters === null) return theFilters;
+      return theFilters.map(filter => {
         if (filter.label !== DEFAULT_CATEGORY) return filter;
         return { ...filter, label: 'common.uncategorized' };
       });
     })),
   );
+
   pinnedCategory = this.store.selectSignal(selectListCategoryFilter);
   uiTheme = this.store.selectSignal(selectUiTheme);
   uiCheckboxColor = computed<CheckboxColor>(() => getThemeCheckboxColor(this.uiTheme()));

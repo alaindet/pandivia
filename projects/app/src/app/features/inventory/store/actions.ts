@@ -2,36 +2,40 @@ import { createAction, props } from '@ngrx/store';
 
 import { CreateInventoryItemDto, InventoryFilter, InventoryItem } from '../types';
 
+export const inventoryFeatureReset = createAction(
+  '[Inventory] Reset Inventory feature',
+);
+
 export const inventoryFetchItems = {
   try: createAction(
-    '[Inventory/Items] Fetch items',
+    '[Inventory] Fetch items',
   ),
   ok: createAction(
-    '[Inventory/Items] Fetch items success',
+    '[Inventory] Fetch items success',
     props<{ items: InventoryItem[], message: string }>(),
   ),
   err: createAction(
-    '[Inventory/Items] Fetch items error',
+    '[Inventory] Fetch items error',
     props<{ message: string }>(),
   ),
   force: createAction(
-    '[Inventory/Items] Force fetch items',
+    '[Inventory] Force fetch items',
   ),
   cached: createAction(
-    '[Inventory/Items] Fetch cached items',
+    '[Inventory] Fetch cached items',
   ),
 };
 
 export const inventoryRemoveItems = {
   try: createAction(
-    '[Inventory/Items] Remove all items',
+    '[Inventory] Remove all items',
   ),
   ok: createAction(
-    '[Inventory/Items] Remove all items success',
+    '[Inventory] Remove all items success',
     props<{ message: string }>(),
   ),
   err: createAction(
-    '[Inventory/Items] Remove all items error',
+    '[Inventory] Remove all items error',
     props<{ message: string }>(),
   ),
 };

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest, of, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { Observable, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
@@ -23,6 +23,8 @@ import { inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRe
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 import { OnceSource } from '@app/common/sources';
 import { UiService } from '@app/core/ui';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { DEFAULT_CATEGORY } from '@app/core';
 
 const imports = [
   CommonModule,
@@ -57,11 +59,22 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     });
   };
 
+  DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
   itemGroups = this.store.selectSignal(selectInventoryCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectInventoryIsLoaded);
   inErrorStatus = this.store.selectSignal(selectInventoryInErrorStatus);
-  filters = this.store.selectSignal(selectInventoryFilters);
+
+  filters = toSignal(
+    this.store.select(selectInventoryFilters).pipe(map(theFilters => {
+      if (theFilters === null) return theFilters;
+      return theFilters.map(filter => {
+        if (filter.label !== DEFAULT_CATEGORY) return filter;
+        return { ...filter, label: 'common.uncategorized' };
+      });
+    }))
+  )
+
   pinnedCategory = this.store.selectSignal(selectInventoryCategoryFilter);
 
   ngOnInit() {

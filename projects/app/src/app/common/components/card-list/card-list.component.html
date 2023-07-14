@@ -2,19 +2,11 @@
 
   <div class="_left">
 
-    <div *ngIf="title !== DEFAULT_CATEGORY; else noCategoryTitleTemplate" class="_title">
+    <div class="_title">
       <h2>
         {{ title }}
       </h2>
     </div>
-
-    <ng-template #noCategoryTitleTemplate>
-      <div class="_title -no-category">
-        <h2>
-          {{ 'common.uncategorized' | transloco }}
-        </h2>
-      </div>
-    </ng-template>
 
     <div class="_pin">
       <button

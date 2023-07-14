@@ -4,120 +4,120 @@ import { CreateListItemDto, ListItem } from '@app/features/list';
 
 export const listCreateItem = {
   try: createAction(
-    '[List/Item] Create item',
+    '[List] Create item',
     props<{ dto: CreateListItemDto }>(),
   ),
   ok: createAction(
-    '[List/Item] Create item success',
+    '[List] Create item success',
     props<{ item: ListItem, message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Create item error',
+    '[List] Create item error',
     props<{ message: string }>(),
   ),
 };
 
 export const listEditItem = {
   try: createAction(
-    '[List/Item] Edit item',
+    '[List] Edit item',
     props<{ item: ListItem }>(),
   ),
   ok: createAction(
-    '[List/Item] Edit item success',
+    '[List] Edit item success',
     props<{ item: ListItem, message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Edit item error',
+    '[List] Edit item error',
     props<{ message: string }>(),
   ),
 };
 
 export const listCompleteItem = {
   try: createAction(
-    '[List/Item] Complete item',
+    '[List] Complete item',
     props<{ itemId: ListItem['id'] }>(),
   ),
   ok: createAction(
-    '[List/Item] Complete item success',
+    '[List] Complete item success',
     props<{ itemId: ListItem['id'], message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Complete item error',
+    '[List] Complete item error',
     props<{ message: string }>(),
   ),
 };
 
 export const listUndoItem = {
   try: createAction(
-    '[List/Item] Undo item',
+    '[List] Undo item',
     props<{ itemId: ListItem['id'] }>(),
   ),
   ok: createAction(
-    '[List/Item] Undo item success',
+    '[List] Undo item success',
     props<{ itemId: ListItem['id'], message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Undo item error',
+    '[List] Undo item error',
     props<{ message: string }>(),
   ),
 };
 
 export const listToggleItem = {
   try: createAction(
-    '[List/Item] Toggle item',
+    '[List] Toggle item',
     props<{ itemId: ListItem['id'] }>(),
   ),
   ok: createAction(
-    '[List/Item] Toggle item success',
+    '[List] Toggle item success',
     props<{ itemId: ListItem['id'], message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Toggle item error',
+    '[List] Toggle item error',
     props<{ message: string }>(),
   ),
 };
 
 export const listIncrementItem = {
   try: createAction(
-    '[List/Item] Increment item amount',
+    '[List] Increment item amount',
     props<{ itemId: ListItem['id'] }>(),
   ),
   ok: createAction(
-    '[List/Item] Increment item amount success',
+    '[List] Increment item amount success',
     props<{ itemId: ListItem['id'], message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Increment item amount error',
+    '[List] Increment item amount error',
     props<{ message: string }>(),
   ),
 };
 
 export const listDecrementItem = {
   try: createAction(
-    '[List/Item] Decrement item amount',
+    '[List] Decrement item amount',
     props<{ itemId: ListItem['id'] }>(),
   ),
   ok: createAction(
-    '[List/Item] Decrement item amount success',
+    '[List] Decrement item amount success',
     props<{ itemId: ListItem['id'], message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Decrement item amount error',
+    '[List] Decrement item amount error',
     props<{ message: string }>(),
   ),
 };
 
 export const listRemoveItem = {
   try: createAction(
-    '[List/Item] Remove item',
+    '[List] Remove item',
     props<{ itemId: string }>(),
   ),
   ok: createAction(
-    '[List/Item] Remove item success',
+    '[List] Remove item success',
     props<{ itemId: string, message: string }>(),
   ),
   err: createAction(
-    '[List/Item] Remove item error',
+    '[List] Remove item error',
     props<{ message: string }>(),
   ),
 };

@@ -1,15 +1,17 @@
+# To Do
+- [ ] Configure firebase.indexes.json
+- [ ] Setup security rules
+- [ ] Fix broken language when English is stored in local storage
+- [ ] Add "Create and continue" button on item modals
+- [ ] Remove "Cancel" button on item modals or make it smaller
+
+# Backlog
+- [ ] Transform app to PWA
+- [ ] Create show/hide password input
+- [ ] Add dark themes
+- [ ] Split app in libraries and applications inside Angular Workspace
 - [?] Rename "Inventory" to "Habits"/"Habit"
 - [?] Split selectors in multiple files
 - [?] Add ESLint and Prettier
 - [ ] Accept input strings instead of importing TranslocoModule inside components
-- [ ] Configure firebase.indexes.json
-- [ ] Split app in libraries and applications inside Angular Workspace
-- [ ] Transform app to PWA
-- [ ] Create show/hide password input
 - [ ] Use &lt;dialog&gt;
-- [ ] Setup security rules
-- [ ] Clear all cached data from store on sign out
-- [ ] Fix broken language when English is stored in local storage
-- [ ] Add dark themes
-- [ ] Add "Create and continue" button on item modals
-- [ ] Remove "Cancel" button on item modals or make it smaller

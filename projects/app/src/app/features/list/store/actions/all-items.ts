@@ -2,78 +2,82 @@ import { createAction, props } from '@ngrx/store';
 
 import { ListItem } from '@app/features/list';
 
+export const listFeatureReset = createAction(
+  '[List] Reset List feature',
+);
+
 export const listFetchItems = {
   try: createAction(
-    '[List/Items] Fetch items',
+    '[List] Fetch items',
   ),
   ok: createAction(
-    '[List/Items] Fetch items success',
+    '[List] Fetch items success',
     props<{ items: ListItem[], message: string }>(),
   ),
   err: createAction(
-    '[List/Items] Fetch items error',
+    '[List] Fetch items error',
     props<{ message: string }>(),
   ),
   force: createAction(
-    '[List/Items] Force fetch items',
+    '[List] Force fetch items',
   ),
   cached: createAction(
-    '[List/Items] Fetch cached items',
+    '[List] Fetch cached items',
   ),
 };
 
 export const listCompleteItems = {
   try: createAction(
-    '[List/Items] Complete all items',
+    '[List] Complete all items',
   ),
   ok: createAction(
-    '[List/Items] Complete all items success',
+    '[List] Complete all items success',
     props<{ message: string }>(),
   ),
   err: createAction(
-    '[List/Items] Complete all items error',
+    '[List] Complete all items error',
     props<{ message: string }>(),
   ),
 };
 
 export const listUndoItems = {
   try: createAction(
-    '[List/Items] Undo all items',
+    '[List] Undo all items',
   ),
   ok: createAction(
-    '[List/Items] Undo all items success',
+    '[List] Undo all items success',
     props<{ message: string }>(),
   ),
   err: createAction(
-    '[List/Items] Undo all items error',
+    '[List] Undo all items error',
     props<{ message: string }>(),
   ),
 };
 
 export const listRemoveItems = {
   try: createAction(
-    '[List/Items] Remove all items',
+    '[List] Remove all items',
   ),
   ok: createAction(
-    '[List/Items] Remove all items success',
+    '[List] Remove all items success',
     props<{ message: string }>(),
   ),
   err: createAction(
-    '[List/Items] Remove all items error',
+    '[List] Remove all items error',
     props<{ message: string }>(),
   ),
 };
 
 export const listRemoveCompletedItems = {
   try: createAction(
-    '[List/Items] Remove all completed items',
+    '[List] Remove all completed items',
   ),
   ok: createAction(
-    '[List/Items] Remove all completed items success',
+    '[List] Remove all completed items success',
     props<{ message: string }>(),
   ),
   err: createAction(
-    '[List/Items] Remove all completed items error',
+    '[List] Remove all completed items error',
     props<{ message: string }>(),
   ),
 };

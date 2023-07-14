@@ -5,9 +5,17 @@ import { LOADING_STATUS } from '@app/common/types';
 import { LIST_FILTER, ListItem } from '../types';
 import { LIST_FEATURE_INITIAL_STATE } from './state';
 import { updateItem } from './helpers';
-import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listCreateItem, listDecrementItem, listEditItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory } from './actions';
+import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listCreateItem, listDecrementItem, listEditItem, listFeatureReset, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory } from './actions';
 
 export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
+
+  immerOn(listFeatureReset, state => {
+    state.items = LIST_FEATURE_INITIAL_STATE.items;
+    state.status = LIST_FEATURE_INITIAL_STATE.status;
+    state.lastUpdated = LIST_FEATURE_INITIAL_STATE.lastUpdated;
+    state.itemModalSuccessCounter = LIST_FEATURE_INITIAL_STATE.itemModalSuccessCounter;
+    state.filters = { ...LIST_FEATURE_INITIAL_STATE.filters };
+  }),
 
   immerOn(
     listFetchItems.try,
@@ -61,12 +69,6 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   immerOn(listFetchItems.ok, (state, { items }) => {
     state.status = LOADING_STATUS.IDLE;
     state.lastUpdated = Date.now();
-
-    // if (!state.items.length) {
-    //   state.items = items;
-    //   return;
-    // }
-
     state.items = items;
   }),
 

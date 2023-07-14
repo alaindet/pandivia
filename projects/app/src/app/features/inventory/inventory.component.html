@@ -11,7 +11,7 @@
         (click)="onRemoveFilter(filter)"
       >
         <mat-icon>clear</mat-icon>
-        {{ filter.value }}
+        {{ filter.label ? (filter.label | transloco) : filter.value }}
       </button>
     </li>
   </ul>
@@ -45,7 +45,10 @@
   <ul class="_cards">
     <li *ngFor="let group of itemGroups(); trackBy: trackByCategory">
       <app-card-list
-        [title]="group.category"
+        [title]="group.category === DEFAULT_CATEGORY
+          ? ('common.uncategorized' | transloco)
+          : group.category"
+        [withMutedTitle]="group.category === DEFAULT_CATEGORY"
         [isSelectable]="false"
         [items]="group.items"
         [listActions]="categoryContextualMenu"

@@ -16,6 +16,10 @@
     }
   }
 
+  &.-muted-title ._title {
+    color: $app-color-grey-700;
+  }
+
   > ._header {
     display: flex;
     align-items: center;
@@ -24,11 +28,6 @@
   }
 
   ._title {
-
-    &.-no-category {
-      color: $app-color-grey-700;
-    }
-
     h2 {
       display: inline-block;
       margin: 0;

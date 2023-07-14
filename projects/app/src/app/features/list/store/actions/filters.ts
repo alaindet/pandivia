@@ -5,24 +5,24 @@ import { ListFilter } from '@app/features/list';
 // WARNING: Potentially too generic name
 export const listFilters = {
   setCategory: createAction(
-    '[List/Filters] Set category filter',
+    '[List] Set category filter',
     props<{ category: string }>(),
   ),
   clearCategory: createAction(
-    '[List/Filters] Clear category filter',
+    '[List] Clear category filter',
   ),
   setCompleted: createAction(
-    '[List/Filters] Set completed filter',
+    '[List] Set completed filter',
     props<{ isDone: boolean }>(),
   ),
   clearCompleted: createAction(
-    '[List/Filters] Clear completed',
+    '[List] Clear completed',
   ),
   clearByName: createAction(
-    '[List/Filters] Clear filter by name',
+    '[List] Clear filter by name',
     props<{ name: ListFilter }>(),
   ),
   clearAll: createAction(
-    '[List/Filters] Clear all filters',
+    '[List] Clear all filters',
   ),
 };

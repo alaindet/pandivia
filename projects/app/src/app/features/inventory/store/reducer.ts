@@ -5,9 +5,17 @@ import { LOADING_STATUS } from '@app/common/types';
 import { replaceOn } from '@app/common/utils';
 import { INVENTORY_FILTER } from '../types';
 import { INVENTORY_FEATURE_INITIAL_STATE } from './state';
-import { inventoryFetchItems, inventoryRemoveItems, inventoryRemoveItemsByCategory, inventoryCreateItem, inventoryEditItem, inventoryRemoveItem, inventoryFilters } from './actions';
+import { inventoryFetchItems, inventoryRemoveItems, inventoryRemoveItemsByCategory, inventoryCreateItem, inventoryEditItem, inventoryRemoveItem, inventoryFilters, inventoryFeatureReset } from './actions';
 
 export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
+
+  immerOn(inventoryFeatureReset, state => {
+    state.items = INVENTORY_FEATURE_INITIAL_STATE.items;
+    state.status = INVENTORY_FEATURE_INITIAL_STATE.status;
+    state.lastUpdated = INVENTORY_FEATURE_INITIAL_STATE.lastUpdated;
+    state.itemModalSuccessCounter = INVENTORY_FEATURE_INITIAL_STATE.itemModalSuccessCounter;
+    state.filters = { ...INVENTORY_FEATURE_INITIAL_STATE.filters };
+  }),
 
   immerOn(
     inventoryFetchItems.try,
