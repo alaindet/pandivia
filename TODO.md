@@ -1,9 +1,6 @@
 - [?] Rename "Inventory" to "Habits"/"Habit"
-- [ ] Remove action groups?!
 - [?] Split selectors in multiple files
 - [?] Add ESLint and Prettier
-- [ ] Manage the "no-category" category
-- [ ] Force "no-category" category on category-less items
 - [ ] Accept input strings instead of importing TranslocoModule inside components
 - [ ] Configure firebase.indexes.json
 - [ ] Split app in libraries and applications inside Angular Workspace
@@ -12,8 +9,6 @@
 - [ ] Use &lt;dialog&gt;
 - [ ] Setup security rules
 - [ ] Clear all cached data from store on sign out
-- [ ] Fix List integration with Firebase
-- [ ] Remove mocks and fakeRequest
 - [ ] Fix broken language when English is stored in local storage
 - [ ] Add dark themes
 - [ ] Add "Create and continue" button on item modals

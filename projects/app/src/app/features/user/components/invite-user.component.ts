@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { finalize } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
-import { NotificationService, uiLoaderActions } from '@app/core';
+import { UiService } from '@app/core/ui';
 import { ButtonComponent, FORM_FIELD_EXPORTS, TextInputComponent } from '@app/common/components';
 import { copyToClipboard, getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
@@ -35,7 +35,7 @@ export class InviteUserComponent {
   private formBuilder = inject(FormBuilder);
   private store = inject(Store);
   private invitesService = inject(InvitesService);
-  private notification = inject(NotificationService);
+  private ui = inject(UiService);
 
   inviteUrl: string | null = null;
   theForm = this.formBuilder.group({
@@ -52,16 +52,16 @@ export class InviteUserComponent {
 
     const { email } = this.theForm.value;
 
-    this.store.dispatch(uiLoaderActions.start());
+    this.ui.loader.start();
     this.invitesService.createInvite(email!)
-      .pipe(finalize(() => this.store.dispatch(uiLoaderActions.stop())))
+      .pipe(finalize(() => this.ui.loader.stop()))
       .subscribe({
         error: err => {
           console.error(err);
-          this.notification.error('inviteUser.generationError');
+          this.ui.notification.err('inviteUser.generationError');
         },
         next: url => {
-          this.notification.success('inviteUser.generationSuccess');
+          this.ui.notification.ok('inviteUser.generationSuccess');
           this.inviteUrl = url;
           copyToClipboard(url);
         },

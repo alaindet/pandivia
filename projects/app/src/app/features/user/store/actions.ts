@@ -1,32 +1,52 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 import { UserCredentials, UserData } from '../types';
 import { Language } from '@app/core';
 
-export const userSignInActions = createActionGroup({
-  source: 'User/SignIn',
-  events: {
-    signIn: props<{ credentials: UserCredentials }>(),
-    signInSuccess: props<{ user: UserData, message: string }>(),
-    signInError: props<{ message: string }>(),
-    autoSignIn: props<{ user: UserData }>(),
-    autoSignInFailed: emptyProps(),
-  },
-});
+export const userSignIn = {
+  try: createAction(
+    '[User] Sign in',
+    props<{ credentials: UserCredentials }>(),
+  ),
+  ok: createAction(
+    '[User] Sign in success',
+    props<{ user: UserData, message: string }>(),
+  ),
+  err: createAction(
+    '[User] Sign in error',
+    props<{ message: string }>(),
+  ),
+};
 
-export const userSignOutActions = createActionGroup({
-  source: 'User/SignOut',
-  events: {
-    signOut: emptyProps(),
-    signOutSuccess: props<{ message: string }>(),
-    signOutError: props<{ message: string }>(),
-  },
-});
+export const userAutoSignIn = {
+  ok: createAction(
+    '[User] Auto sign in',
+    props<{ user: UserData }>(),
+  ),
+  err: createAction(
+    '[User] Auto sign in failed',
+  ),
+};
 
-export const userLanguageActions = createActionGroup({
-  source: 'User/Language',
-  events: {
-    setLanguage: props<{ language: Language }>(),
-    setDefaultLanguage: emptyProps(),
-  },
-});
+export const userSignOut = {
+  try: createAction(
+    '[User] Sign out',
+  ),
+  ok: createAction(
+    '[User] Sign out success',
+    props<{ message: string }>(),
+  ),
+  err: createAction(
+    '[User] Sign out error',
+    props<{ message: string }>(),
+  ),
+};
+
+export const userSetLanguage = createAction(
+  '[User] Set language',
+  props<{ language: Language }>(),
+);
+
+export const userFallbackToDefaultLanguage = createAction(
+  '[User] Fallback to default language',
+);

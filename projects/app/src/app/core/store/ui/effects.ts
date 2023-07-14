@@ -4,9 +4,9 @@ import { Title } from '@angular/platform-browser';
 import { filter, map, switchMap, tap, timer, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { NOTIFICATION_TIMEOUT } from '@app/core/notification';
+import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
 import { selectNotificationsExist } from './selectors';
-import { uiNotificationsActions, uiSetPageTitle } from './actions';
+import { uiNotificationAddSuccess, uiNotificationAddError, uiNotificationDismiss, uiSetPageTitle } from './actions';
 
 @Injectable()
 export class UiNotificationsEffects {
@@ -17,16 +17,16 @@ export class UiNotificationsEffects {
 
   autoDismiss$ = createEffect(() => this.actions.pipe(
     ofType(
-      uiNotificationsActions.addSuccess,
-      uiNotificationsActions.addError,
-      uiNotificationsActions.dismiss,
+      uiNotificationAddSuccess,
+      uiNotificationAddError,
+      uiNotificationDismiss,
     ),
     withLatestFrom(this.store.select(selectNotificationsExist)),
     filter(([_, exist]) => exist),
     switchMap(() => timer(NOTIFICATION_TIMEOUT)), // <-- Wait here
     withLatestFrom(this.store.select(selectNotificationsExist)),
     filter(([_, exist]) => exist),
-    map(() => uiNotificationsActions.dismiss()),
+    map(() => uiNotificationDismiss()),
   ));
 
   pageTitle$ = createEffect(() => this.actions.pipe(

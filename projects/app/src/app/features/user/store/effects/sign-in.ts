@@ -5,7 +5,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
 import { AuthenticationService } from '../../services';
-import { userSignInActions } from '../actions';
+import { userSignIn } from '../actions';
 
 @Injectable()
 export class UserSignInEffects {
@@ -15,21 +15,21 @@ export class UserSignInEffects {
   private authService = inject(AuthenticationService);
 
   signIn$ = createEffect(() => this.actions.pipe(
-    ofType(userSignInActions.signIn),
+    ofType(userSignIn.try),
     switchMap(({ credentials }) => this.authService.signIn(credentials).pipe(
       map(user => {
         const message = 'auth.signInSuccess';
-        return userSignInActions.signInSuccess({ user, message });
+        return userSignIn.ok({ user, message });
       }),
       catchError(() => {
         const message = 'auth.signInError';
-        return of(userSignInActions.signInError({ message }));
+        return of(userSignIn.err({ message }));
       }),
     )),
   ));
 
   onSignedIn$ = createEffect(() => this.actions.pipe(
-    ofType(userSignInActions.signInSuccess),
+    ofType(userSignIn.ok),
     tap(() => this.router.navigate([DEFAULT_ROUTE])),
   ), { dispatch: false });
 }

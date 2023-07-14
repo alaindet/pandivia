@@ -3,7 +3,7 @@ import { Actions } from '@ngrx/effects';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { createUiController } from '@app/core/store/ui';
-import { userSignInActions, userSignOutActions } from '../actions';
+import { userSignIn, userSignOut } from '../actions';
 
 @Injectable()
 export class UserUiEffects {
@@ -13,24 +13,22 @@ export class UserUiEffects {
   private ui = createUiController(this.actions, this.transloco);
 
   startLoader$ = this.ui.startLoaderOn(
-    userSignInActions.signIn,
-    userSignOutActions.signOut,
+    userSignIn.try,
+    userSignOut.try,
   );
 
   stopLoader$ = this.ui.stopLoaderOn(
-    userSignInActions.signInSuccess,
-    userSignInActions.signInError,
-    userSignOutActions.signOutSuccess,
-    userSignOutActions.signOutError,
+    ...[userSignIn.ok, userSignIn.err],
+    ...[userSignOut.ok, userSignOut.err],
   );
 
   showError$ = this.ui.showErrorOn(
-    userSignInActions.signInError,
-    userSignOutActions.signOutError,
+    userSignIn.err,
+    userSignOut.err,
   );
 
   showSuccess$ = this.ui.showSuccessOn(
-    userSignInActions.signInSuccess,
-    userSignOutActions.signOutSuccess,
+    userSignIn.ok,
+    userSignOut.ok,
   );
 }

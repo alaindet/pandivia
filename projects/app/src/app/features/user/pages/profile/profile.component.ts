@@ -9,7 +9,7 @@ import { environment } from '@app/environment';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
 import { ButtonComponent, SelectComponent } from '@app/common/components';
-import { selectUserDisplayData, selectUserIsAdmin, userSignOutActions } from '../../store';
+import { selectUserDisplayData, selectUserIsAdmin, userSignOut } from '../../store';
 import { InviteUserComponent } from '../../components';
 
 const imports = [
@@ -47,7 +47,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   onSignOut() {
-    this.store.dispatch(userSignOutActions.signOut());
+    this.store.dispatch(userSignOut.try());
   }
 
   private initPageMetadata(): void {

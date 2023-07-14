@@ -9,7 +9,6 @@ import { environment } from '@app/environment';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { errorI18n, readErrorI18n } from '@app/common/utils';
-import { NotificationService } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
 import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { CreateListItemDto, ListItem } from '@app/features/list';
@@ -23,6 +22,7 @@ import { findInventoryItemById } from './functions';
 import { inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 import { OnceSource } from '@app/common/sources';
+import { UiService } from '@app/core/ui';
 
 const imports = [
   CommonModule,
@@ -46,7 +46,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private once = new OnceSource();
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
-  private notification = inject(NotificationService);
+  private ui = inject(UiService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
@@ -209,7 +209,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   private showEditItemModal(itemId: string): void {
     findInventoryItemById(this.store, itemId).subscribe({
-      error: err => this.notification.error(...readErrorI18n(err)),
+      error: err => this.ui.notification.err(...readErrorI18n(err)),
       next: item => {
         const title = this.transloco.translate('common.itemModal.editTitle');
         const modalInput: InventoryItemFormModalInput = { title, item };
@@ -249,7 +249,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     combineLatest({ inventoryItem, listItem })
       .pipe(take(1), switchMap(checkUniqueNameContraint))
       .subscribe({
-        error: err => this.notification.error(...readErrorI18n(err)),
+        error: err => this.ui.notification.err(...readErrorI18n(err)),
         next: inventoryItem => {
 
           const dto: CreateListItemDto = {

@@ -4,22 +4,30 @@ import { Theme } from '@app/core/theme';
 import { Notification } from '@app/common/types';
 import { BottomMenuItem } from '@app/common/components';
 
-export const uiNotificationsActions = createActionGroup({
-  source: 'UI/Notifications',
-  events: {
-    addSuccess: props<{ message: Notification['message'] }>(),
-    addError: props<{ message: Notification['message'] }>(),
-    dismiss: emptyProps(),
-  },
-});
+export const uiNotificationAddSuccess = createAction(
+  '[UI] Add success notification',
+  props<{ message: Notification['message'] }>(),
+);
 
-export const uiLoaderActions = createActionGroup({
-  source: 'UI/Loader',
-  events: {
-    start: emptyProps(),
-    stop: emptyProps(),
-  },
-});
+export const uiNotificationAddError = createAction(
+  '[UI] Add error notification',
+  props<{ message: Notification['message'] }>(),
+);
+
+export const uiNotificationDismiss = createAction(
+  '[UI] Dismiss notification',
+);
+
+export const uiLoaderStart = createAction(
+  '[UI] Start loader',
+);
+
+export const uiLoaderStop = createAction(
+  '[UI] Stop loader',
+);
+
+
+
 
 export const uiNavigationActions = createActionGroup({
   source: 'UI/Navigation',

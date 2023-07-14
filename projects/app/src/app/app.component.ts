@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ThemeService } from './core/theme';
 import { selectUiIsLoading } from './core/store';
-import { NotificationService } from './core/notification';
+import { UiService } from './core/ui';
 import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
 
 const imports = [
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   private store = inject(Store);
   private theme = inject(ThemeService);
 
-  notification = inject(NotificationService);
+  ui = inject(UiService);
   loading = false;
   cssTheme = this.theme.cssClass;
 

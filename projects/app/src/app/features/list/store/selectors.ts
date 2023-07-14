@@ -112,7 +112,11 @@ export const selectListFilters = createSelector(
 
     if (state.filters[LIST_FILTER.CATEGORY]) {
       const value = state.filters[LIST_FILTER.CATEGORY];
-      filters.push({ key: LIST_FILTER.CATEGORY, value });
+      filters.push({
+        key: LIST_FILTER.CATEGORY,
+        value,
+        label: value ?? undefined,
+      });
     }
 
     if (state.filters[LIST_FILTER.IS_DONE]) {

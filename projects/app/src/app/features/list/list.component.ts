@@ -1,17 +1,19 @@
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
-import { Observable, switchMap, take, takeUntil } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { Observable, filter, map, switchMap, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
-import { NotificationService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
+import { DEFAULT_CATEGORY, UiService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
 import { uiNavigationActions, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/navigation';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor, ActionsMenuItem } from '@app/common/components';
 import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
+import { OnceSource } from '@app/common/sources';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
@@ -20,7 +22,6 @@ import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import { findListItemById } from './functions';
-import { OnceSource } from '@app/common/sources';
 
 const imports = [
   NgIf,
@@ -45,7 +46,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private once = new OnceSource();
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
-  private notification = inject(NotificationService);
+  private ui = inject(UiService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
@@ -60,7 +61,15 @@ export class ListPageComponent implements OnInit, OnDestroy {
   itemGroups = this.store.selectSignal(selectListCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectListIsLoaded);
   inErrorStatus = this.store.selectSignal(selectListInErrorStatus);
-  filters = this.store.selectSignal(selectListFilters);
+  filters = toSignal(
+    this.store.select(selectListFilters).pipe(map(filters => {
+      if (filters === null) return filters;
+      return filters.map(filter => {
+        if (filter.label !== DEFAULT_CATEGORY) return filter;
+        return { ...filter, label: 'common.uncategorized' };
+      });
+    })),
+  );
   pinnedCategory = this.store.selectSignal(selectListCategoryFilter);
   uiTheme = this.store.selectSignal(selectUiTheme);
   uiCheckboxColor = computed<CheckboxColor>(() => getThemeCheckboxColor(this.uiTheme()));
@@ -258,7 +267,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   private showEditItemModal(itemId: string): void {
     findListItemById(this.store, itemId).subscribe({
-      error: err => this.notification.error(...readErrorI18n(err)),
+      error: err => this.ui.notification.err(...readErrorI18n(err)),
       next: item => {
         const title = this.transloco.translate('common.itemModal.editTitle');
         const modalInput: ListItemFormModalInput = { item, title };

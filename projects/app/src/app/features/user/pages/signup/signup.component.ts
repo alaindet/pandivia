@@ -1,20 +1,20 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { finalize } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { TranslocoModule } from '@ngneat/transloco';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+import { finalize } from 'rxjs';
 
-import { NotificationService, uiLoaderActions } from '@app/core';
-import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { DEFAULT_ROUTE } from '@app/app.routes';
 import { ButtonComponent, FORM_FIELD_EXPORTS, PageHeaderComponent, TextInputComponent } from '@app/common/components';
+import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
+import { UiService } from '@app/core/ui';
 import { InvitesService } from '../../services';
 import { SignUpUserDto, UserInvite } from '../../types';
 import { SIGNUP_FIELD as FIELD } from './fields';
-import { DEFAULT_ROUTE } from '@app/app.routes';
 
 const imports = [
   NgIf,
@@ -41,7 +41,7 @@ export default class SignUpPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private store = inject(Store);
-  private notification = inject(NotificationService);
+  private ui = inject(UiService);
   private invitesService = inject(InvitesService);
 
   private inviteId = this.route.snapshot.queryParams['invite'];
@@ -87,9 +87,9 @@ export default class SignUpPageComponent implements OnInit {
       this.initForm();
     };
 
-    this.store.dispatch(uiLoaderActions.start());
+    this.ui.loader.start();
     this.invitesService.findInvite(this.inviteId)
-      .pipe(finalize(() => this.store.dispatch(uiLoaderActions.stop())))
+      .pipe(finalize(() => this.ui.loader.stop()))
       .subscribe({ error: onError, next: onSuccess });
   }
 
@@ -104,20 +104,20 @@ export default class SignUpPageComponent implements OnInit {
 
     if (this.invite!.email !== dto.email) {
       const email = this.invite!.email;
-      this.notification.error('inviteUser.emailMustMatchInvite', { email });
+      this.ui.notification.err('inviteUser.emailMustMatchInvite', { email });
       return;
     }
 
-    this.store.dispatch(uiLoaderActions.start());
+    this.ui.loader.start();
     this.invitesService.signUpUser(this.inviteId, dto)
-      .pipe(finalize(() => this.store.dispatch(uiLoaderActions.stop())))
+      .pipe(finalize(() => this.ui.loader.stop()))
       .subscribe({
         error: err => {
           console.error(err);
-          this.notification.error('auth.signUpError');
+          this.ui.notification.err('auth.signUpError');
         },
         next: () => {
-          this.notification.success('auth.signUpSuccess');
+          this.ui.notification.ok('auth.signUpSuccess');
           this.router.navigate([DEFAULT_ROUTE]);
         },
       });
@@ -135,6 +135,6 @@ export default class SignUpPageComponent implements OnInit {
 
   private invalidInvite(): void {
     this.router.navigate(['/signin']);
-    this.notification.error('inviteUser.invalidInvite');
+    this.ui.notification.err('inviteUser.invalidInvite');
   }
 }

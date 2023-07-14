@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import { AuthenticationService } from '../../services';
-import { userSignOutActions } from '../actions';
+import { userSignOut } from '../actions';
 
 @Injectable()
 export class UserSignOutEffects {
@@ -14,21 +14,21 @@ export class UserSignOutEffects {
   private authService = inject(AuthenticationService);
 
   signOut$ = createEffect(() => this.actions.pipe(
-    ofType(userSignOutActions.signOut),
+    ofType(userSignOut.try),
     switchMap(() => this.authService.signOut().pipe(
       map(() => {
         const message = 'auth.signOutSuccess';
-        return userSignOutActions.signOutSuccess({ message });
+        return userSignOut.ok({ message });
       }),
       catchError(() => {
         const message = 'auth.signOutError';
-        return of(userSignOutActions.signOutError({ message }));
+        return of(userSignOut.err({ message }));
       }),
     )),
   ));
 
   onSignedOut$ = createEffect(() => this.actions.pipe(
-    ofType(userSignOutActions.signOutSuccess),
+    ofType(userSignOut.ok),
     tap(() => this.router.navigate(['/signin'])),
   ), { dispatch: false });
 }

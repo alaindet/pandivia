@@ -5,8 +5,11 @@ import { NOTIFICATION_TYPE } from '@app/common/types';
 import { DEFAULT_THEME } from '@app/core/theme';
 import { UI_FEATURE_INITIAL_STATE } from './state';
 import {
-  uiNotificationsActions,
-  uiLoaderActions,
+  uiNotificationAddSuccess,
+  uiNotificationAddError,
+  uiNotificationDismiss,
+  uiLoaderStart,
+  uiLoaderStop,
   uiNavigationActions,
   uiSetPageTitle,
   uiThemeActions,
@@ -15,25 +18,25 @@ import {
 export const uiReducer = createReducer(
   UI_FEATURE_INITIAL_STATE,
 
-  immerOn(uiNotificationsActions.addSuccess, (state, { message }) => {
+  immerOn(uiNotificationAddSuccess, (state, { message }) => {
     const id = Date.now() + Math.random();
     state.notifications.push({ id, type: NOTIFICATION_TYPE.SUCCESS, message });
   }),
 
-  immerOn(uiNotificationsActions.addError, (state, { message }) => {
+  immerOn(uiNotificationAddError, (state, { message }) => {
     const id = Date.now() + Math.random();
     state.notifications.push({ id, type: NOTIFICATION_TYPE.ERROR, message });
   }),
 
-  immerOn(uiNotificationsActions.dismiss, state => {
+  immerOn(uiNotificationDismiss, state => {
     state.notifications.pop();
   }),
 
-  immerOn(uiLoaderActions.start, state => {
+  immerOn(uiLoaderStart, state => {
     state.loading = true;
   }),
 
-  immerOn(uiLoaderActions.stop, state => {
+  immerOn(uiLoaderStop, state => {
     state.loading = false;
   }),
 

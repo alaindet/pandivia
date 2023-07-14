@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, from } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Auth, Unsubscribe, User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 
-import { userSignInActions } from '../store';
+import { userAutoSignIn } from '../store';
 import { UserCredentials, UserData } from '../types';
 
 @Injectable({
@@ -33,11 +32,11 @@ export class AuthenticationService {
   tryAutoSignIn(): Promise<void> {
     return this.authStateOnce(async (authState: User | null) => {
       if (!authState) {
-        this.store.dispatch(userSignInActions.autoSignInFailed());
+        this.store.dispatch(userAutoSignIn.err());
         return;
       }
       const user = await this.getUserData(authState);
-      this.store.dispatch(userSignInActions.autoSignIn({ user }));
+      this.store.dispatch(userAutoSignIn.ok({ user }));
     });
   }
 
