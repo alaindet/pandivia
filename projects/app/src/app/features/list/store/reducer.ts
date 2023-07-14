@@ -61,6 +61,12 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
   immerOn(listFetchItems.ok, (state, { items }) => {
     state.status = LOADING_STATUS.IDLE;
     state.lastUpdated = Date.now();
+
+    // if (!state.items.length) {
+    //   state.items = items;
+    //   return;
+    // }
+
     state.items = items;
   }),
 

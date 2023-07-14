@@ -6,6 +6,7 @@ import { CollectionReference, DocumentData, Firestore, addDoc, collection, delet
 import { selectUserId } from '@app/features/user/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
 import { docToInventoryItem, docsToInventoryItems } from './utils';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,12 @@ export class InventoryService {
   createItem(dto: CreateInventoryItemDto): Observable<InventoryItem> {
     return from((async () => {
       const itemsRef = this.getItemsRef();
-      const itemRef = await addDoc(itemsRef, dto);
+      const itemData = {
+        ...dto,
+        category: dto?.category || DEFAULT_CATEGORY,
+        description: dto?.description || '',
+      };
+      const itemRef = await addDoc(itemsRef, itemData);
       const itemDoc = await getDoc(itemRef);
       return docToInventoryItem(itemDoc);
     })());
@@ -39,6 +45,8 @@ export class InventoryService {
       const itemId = editedItem.id;
       const itemRef = doc(this.db, 'inventories', userId, 'items', itemId);
       const { id: _, ...dto } = editedItem;
+      dto.category = dto?.category || DEFAULT_CATEGORY;
+      dto.description = dto?.description || '';
       await updateDoc(itemRef, dto);
       return editedItem;
     })());

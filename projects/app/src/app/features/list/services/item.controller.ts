@@ -6,6 +6,7 @@ import { CollectionReference, DocumentData, Firestore, addDoc, collection, delet
 import { selectUserId } from '@app/features/user/store';
 import { CreateListItemDto, ListItem } from '../types';
 import { docToListItem } from './utils';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 
 export function createListItemController() {
 
@@ -15,7 +16,13 @@ export function createListItemController() {
   function create(dto: CreateListItemDto): Observable<ListItem> {
     return from((async () => {
       const itemsRef = _getItemsRef();
-      const itemRef = await addDoc(itemsRef, dto);
+      const itemData = {
+        ...dto,
+        isDone: false,
+        category: dto?.category || DEFAULT_CATEGORY,
+        description: dto?.description || '',
+      };
+      const itemRef = await addDoc(itemsRef, itemData);
       const itemDoc = await getDoc(itemRef);
       return docToListItem(itemDoc);
     })());
@@ -23,6 +30,8 @@ export function createListItemController() {
 
   function edit(editedItem: ListItem): Observable<ListItem> {
     const { id, ...dto } = editedItem;
+    dto.category = dto?.category || DEFAULT_CATEGORY;
+    dto.description = dto?.description || '';
     return from(_editItem(id, () => dto));
   }
 
@@ -49,7 +58,7 @@ export function createListItemController() {
   function remove(itemId: ListItem['id']): Observable<ListItem> {
     if (!userId()) throw new Error('No user ID');
     return from((async () => {
-      const itemRef = doc(db, 'inventories', userId()!, 'items', itemId);
+      const itemRef = doc(db, 'lists', userId()!, 'items', itemId);
       const itemDoc = await getDoc(itemRef);
       await deleteDoc(itemRef);
       return docToListItem(itemDoc);
@@ -66,7 +75,7 @@ export function createListItemController() {
     updater: (oldItem: Omit<ListItem, 'id'>) => Partial<ListItem>,
   ): Promise<ListItem> {
     if (!userId()) throw new Error('No user ID');
-    const itemRef = doc(db, 'inventories', userId()!, 'items', itemId);
+    const itemRef = doc(db, 'lists', userId()!, 'items', itemId);
     const oldItemDoc = await getDoc(itemRef);
     const oldData = docToListItem(oldItemDoc);
     const patch = updater(oldData);

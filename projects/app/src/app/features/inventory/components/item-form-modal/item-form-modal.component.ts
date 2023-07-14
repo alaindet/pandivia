@@ -103,15 +103,15 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
       ...this.theForm.value,
     };
 
-    if (!item.description) {
-      const { description, ...theItem } = item;
-      item = theItem;
-    }
+    // if (!item.description) {
+    //   const { description, ...theItem } = item;
+    //   item = theItem;
+    // }
 
-    if (!item.category) {
-      const { category, ...theItem } = item;
-      item = theItem;
-    }
+    // if (!item.category) {
+    //   const { category, ...theItem } = item;
+    //   item = theItem;
+    // }
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
@@ -126,16 +126,6 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   private onCreate() {
 
     let item: CreateInventoryItemDto = this.theForm.value;
-
-    if (!item.description) {
-      const { description, ...theItem } = item;
-      item = theItem;
-    }
-
-    if (!item.category) {
-      const { category, ...theItem } = item;
-      item = theItem;
-    }
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {

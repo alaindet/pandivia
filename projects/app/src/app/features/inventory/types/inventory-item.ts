@@ -8,6 +8,6 @@ export type InventoryItem = {
 export type CreateInventoryItemDto = Omit<InventoryItem, 'id'>;
 
 export type CategorizedInventoryItems = {
-  category: string | 'no-category';
+  category: string;
   items: InventoryItem[];
 };

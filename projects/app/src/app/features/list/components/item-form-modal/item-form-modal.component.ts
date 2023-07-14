@@ -99,15 +99,15 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       ...this.theForm.value,
     };
 
-    if (!item.description) {
-      const { description, ...theItem } = item;
-      item = theItem;
-    }
+    // if (!item.description) {
+    //   const { description, ...theItem } = item;
+    //   item = theItem;
+    // }
 
-    if (!item.category) {
-      const { category, ...theItem } = item;
-      item = theItem;
-    }
+    // if (!item.category) {
+    //   const { category, ...theItem } = item;
+    //   item = theItem;
+    // }
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
@@ -125,16 +125,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       [FIELD.ADD_TO_INVENTORY.id]: addToInventory,
       ...item
     } = this.theForm.value;
-
-    if (!item.description) {
-      const { description, ...theItem } = item;
-      item = theItem;
-    }
-
-    if (!item.category) {
-      const { category, ...theItem } = item;
-      item = theItem;
-    }
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
