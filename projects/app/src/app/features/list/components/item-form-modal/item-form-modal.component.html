@@ -234,7 +234,7 @@
   <div *transloco="let t" class="_footer">
 
     <!-- Cancel -->
-    <button
+    <!-- <button
       type="button"
       appButton="outline"
       size="small"
@@ -243,27 +243,12 @@
     >
       <mat-icon>clear</mat-icon>
       {{ t('common.cancel') }}
-    </button>
+    </button> -->
 
     <!-- Edit -->
-    <button
-      *ngIf="isEditing(); else createRef"
-      type="button"
-      appButton="primary"
-      withIcon="left"
-      size="small"
-      [disabled]="isSaving()"
-      (click)="onSubmit()"
-    >
-    <mat-icon [class.-rotating]="isSaving()">
-      {{ isSaving() ? 'sync' : 'edit' }}
-    </mat-icon>
-      {{ t('common.edit') }}
-    </button>
-
-    <!-- Create -->
-    <ng-template #createRef>
+    <ng-container *ngIf="isEditing(); else createRef">
       <button
+        *ngIf="isEditing(); else createRef"
         type="button"
         appButton="primary"
         withIcon="left"
@@ -272,10 +257,39 @@
         (click)="onSubmit()"
       >
         <mat-icon [class.-rotating]="isSaving()">
-          {{ isSaving() ? 'sync' : 'add' }}
+          {{ isSaving() ? 'sync' : 'edit' }}
         </mat-icon>
-        {{ t('common.create') }}
+        {{ t('common.edit') }}
       </button>
+    </ng-container>
+
+    <!-- Create -->
+    <ng-template #createRef>
+
+      <!-- Confirm and continue -->
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        [disabled]="isSaving()"
+        (click)="onCreateAndContinue()"
+      >
+        {{ t('common.createAndContinue') }}
+      </button>
+
+      <!-- Create and close -->
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        [disabled]="isSaving()"
+        (click)="onSubmit()"
+      >
+        {{ t('common.createAndClose') }}
+      </button>
+
     </ng-template>
   </div>
 </ng-container>

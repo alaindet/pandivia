@@ -60,6 +60,8 @@
   "common.cancel": "Cancel",
   "common.edit": "Edit",
   "common.create": "Create",
+  "common.createAndClose": "Create and close",
+  "common.createAndContinue": "Create and continue",
   "common.noItems": "No items are currently present in List. Add one with the (+) button on the bottom of the page",
   "common.errorStatus": "An error occurred while downloading items. Try again by selecting the \"Refresh\" action from the top menu",
   "common.menu.complete": "Complete",

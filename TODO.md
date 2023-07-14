@@ -2,8 +2,6 @@
 - [ ] Configure firebase.indexes.json
 - [ ] Setup security rules
 - [ ] Fix broken language when English is stored in local storage
-- [ ] Add "Create and continue" button on item modals
-- [ ] Remove "Cancel" button on item modals or make it smaller
 
 # Backlog
 - [ ] Transform app to PWA

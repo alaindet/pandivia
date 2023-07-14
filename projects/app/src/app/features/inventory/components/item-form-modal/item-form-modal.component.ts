@@ -1,9 +1,9 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
@@ -53,10 +53,14 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   theForm!: FormGroup;
   isEditing = signal(false);
   isSaving = this.store.selectSignal(selectInventoryIsLoading);
+  shouldContinue = false;
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
   get fDesc() { return fDescribe(this.theForm, FIELD.DESCRIPTION.id) }
   get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
+
+  @ViewChild('nameRef', { read: TextInputComponent })
+  nameRef!: TextInputComponent;
 
   ngOnInit() {
     this.isEditing.set(!!this.modal.data?.item);
@@ -102,6 +106,11 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
       : this.onCreate();
   }
 
+  onCreateAndContinue() {
+    this.shouldContinue = true;
+    this.onSubmit();
+  }
+
   private onEdit() {
 
     let item: InventoryItem = {
@@ -123,8 +132,18 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
     let item: CreateInventoryItemDto = this.theForm.value;
 
-    // Listen to response, then close the modal
+    // Listen to response
     this.afterCreateOrEditSuccess(() => {
+
+      // If continuing, reset the form
+      if (this.shouldContinue) {
+        this.theForm.reset();
+        this.shouldContinue = false;
+        this.nameRef?.focus();
+        return;
+      }
+
+      // Otherwise close modal
       const data: CreateInventoryItemFormModalOutput = { item };
       this.modal.confirm(data);
     });
@@ -161,14 +180,19 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   private afterCreateOrEditSuccess(fn: () => void): void {
 
+    const stop$ = new Subject<void>();
     let first = true;
 
-    this.store.select(selectInventoryItemModalSuccessCounter).subscribe(() => {
-      if (first) {
-        first = false;
-        return;
-      }
-      fn();
-    });
+    this.store.select(selectInventoryItemModalSuccessCounter)
+      .pipe(takeUntil(stop$))
+      .subscribe(() => {
+        if (first) {
+          first = false;
+          return;
+        }
+        fn();
+        stop$.next();
+        stop$.complete();
+      });
   }
 }

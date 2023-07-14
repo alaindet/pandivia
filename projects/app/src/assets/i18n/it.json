@@ -60,6 +60,8 @@
   "common.cancel": "Annulla",
   "common.edit": "Modifica",
   "common.create": "Crea",
+  "common.createAndClose": "Crea e chiudi",
+  "common.createAndContinue": "Crea e continua",
   "common.noItems": "Nessun elemento attualmente presente. Aggiungine uno con il bottone (+) in fondo alla pagina",
   "common.errorStatus": "Impossibile scaricare gli elementi. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto",
   "common.menu.complete": "Completa",

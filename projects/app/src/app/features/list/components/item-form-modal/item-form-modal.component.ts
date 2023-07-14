@@ -1,9 +1,9 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
@@ -56,12 +56,16 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   theForm!: FormGroup;
   isEditing = signal(false);
   isSaving = this.store.selectSignal(selectListIsLoading);
+  shouldContinue = false;
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
   get fAmount() { return fDescribe(this.theForm, FIELD.AMOUNT.id) }
   get fDesc() { return fDescribe(this.theForm, FIELD.DESCRIPTION.id) }
   get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
   get fDone() { return fDescribe(this.theForm, FIELD.IS_DONE.id) }
+
+  @ViewChild('nameRef', { read: TextInputComponent })
+  nameRef!: TextInputComponent;
 
   ngOnInit() {
     this.store.dispatch(inventoryFetchItems.try());
@@ -82,7 +86,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   onSubmit() {
-
     if (this.theForm.invalid) {
       this.theForm.markAllAsTouched();
       return;
@@ -91,6 +94,11 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     this.isEditing()
       ? this.onEdit()
       : this.onCreate();
+  }
+
+  onCreateAndContinue() {
+    this.shouldContinue = true;
+    this.onSubmit();
   }
 
   private onEdit() {
@@ -117,8 +125,18 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       ...item
     } = this.theForm.value;
 
-    // Listen to response, then close the modal
+    // Listen to response
     this.afterCreateOrEditSuccess(() => {
+
+      // If continuing, reset the form
+      if (this.shouldContinue) {
+        this.theForm.reset();
+        this.shouldContinue = false;
+        this.nameRef?.focus();
+        return;
+      }
+
+      // Otherwise close the modal
       const data: CreateListItemFormModalOutput = { item, addToInventory };
       this.modal.confirm(data);
     });
@@ -204,14 +222,19 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
   private afterCreateOrEditSuccess(fn: () => void): void {
 
+    const stop$ = new Subject<void>();
     let first = true;
 
-    this.store.select(selectListItemModalSuccessCounter).subscribe(() => {
-      if (first) {
-        first = false;
-        return;
-      }
-      fn();
-    });
+    this.store.select(selectListItemModalSuccessCounter)
+      .pipe(takeUntil(stop$))
+      .subscribe(() => {
+        if (first) {
+          first = false;
+          return;
+        }
+        fn();
+        stop$.next();
+        stop$.complete();
+      });
   }
 }
