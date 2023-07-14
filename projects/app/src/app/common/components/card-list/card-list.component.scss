@@ -23,9 +23,16 @@
     padding: 1rem;
   }
 
-  ._title h2 {
-    display: inline-block;
-    margin: 0;
+  ._title {
+
+    &.-no-category {
+      color: $app-color-grey-700;
+    }
+
+    h2 {
+      display: inline-block;
+      margin: 0;
+    }
   }
 
   ._pin {

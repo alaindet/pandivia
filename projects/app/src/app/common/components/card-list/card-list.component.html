@@ -2,9 +2,19 @@
 
   <div class="_left">
 
-    <div class="_title">
-      <h2>{{ title }}</h2>
+    <div *ngIf="title !== DEFAULT_CATEGORY; else noCategoryTitleTemplate" class="_title">
+      <h2>
+        {{ title }}
+      </h2>
     </div>
+
+    <ng-template #noCategoryTitleTemplate>
+      <div class="_title -no-category">
+        <h2>
+          {{ 'common.uncategorized' | transloco }}
+        </h2>
+      </div>
+    </ng-template>
 
     <div class="_pin">
       <button
@@ -99,7 +109,7 @@
       </div>
 
     </div>
-    
+
     <div *ngIf="!!itemsDescriptionMap.get(item.id)" class="_item-description">
       {{ item.description }}
     </div>

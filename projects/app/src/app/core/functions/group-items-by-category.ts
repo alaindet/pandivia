@@ -1,11 +1,12 @@
 import { InventoryItem } from '@app/features/inventory';
 import { CategorizedListItems, ListItem } from '@app/features/list';
+import { DEFAULT_CATEGORY } from '../constants';
 
 export function groupItemsByCategory(items: (InventoryItem | ListItem)[]): CategorizedListItems[] {
   const grouped: { [category: string]: any[] } = {};
 
   for (const item of items) {
-    const category = item.category ?? 'no-category'; // TODO
+    const category = item.category ?? DEFAULT_CATEGORY;
 
     if (!grouped[category]) {
       grouped[category] = [];
