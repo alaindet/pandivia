@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, addDoc, collection, deleteDoc, doc, getDoc } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-import { Auth, User, createUserWithEmailAndPassword, updateProfile, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
 
 import { DAY_DURATION } from '@app/common/constants';
 import { CreateUserInviteDto, SignUpUserDto, UserData, UserInvite } from '../types';

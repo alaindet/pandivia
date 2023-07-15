@@ -43,7 +43,8 @@ export class AuthenticationService {
   private async getUserData(user: User): Promise<UserData> {
     const userData = user.toJSON() as UserData;
     const token = await user.getIdTokenResult();
-    userData.isAdmin = token.claims['role'] === 'admin';
+    const tokenTole = (token.claims['role'] ?? '').trim().toLowerCase();
+    userData.isAdmin = tokenTole === 'admin';
     return userData;
   }
 
