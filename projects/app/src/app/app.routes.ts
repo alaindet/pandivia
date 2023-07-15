@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-// import { environment } from '@app/environment';
+import { environment } from '@app/environment';
 import { LoggedPageCollectionComponent } from '@app/core';
 import { isAuthenticatedGuard } from './features/user/guards';
 
@@ -45,14 +45,14 @@ let routes: Routes = [
   },
 ];
 
-// if (!environment.production) {
+if (!environment.production) {
 
-//   const demoRoute = {
-//     path: 'demo',
-//     loadChildren: () => import('@app/__demo__'),
-//   };
+  const demoRoute = {
+    path: 'demo',
+    loadChildren: () => import('@app/__demo__'),
+  };
 
-//   routes = [demoRoute, ...routes];
-// }
+  routes = [demoRoute, ...routes];
+}
 
 export const APP_ROUTES = routes;
