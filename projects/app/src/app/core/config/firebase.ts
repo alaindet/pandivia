@@ -10,16 +10,16 @@ export const FIREBASE_PROVIDERS = [
     provideFirebaseApp(() => initializeApp(environment.firebase.config)),
       provideFirestore(() => {
         const firestore = getFirestore();
-        if (environment.firebase.useEmulators) {
-          connectFirestoreEmulator(firestore, 'localhost', 9902);
-        }
+        // if (environment.firebase.useEmulators) {
+        //   connectFirestoreEmulator(firestore, 'localhost', 9902);
+        // }
         return firestore;
       }),
       provideAuth(() => {
         const auth = getAuth();
-        if (environment.firebase.useEmulators) {
-          connectAuthEmulator(auth, 'http://localhost:9901');
-        }
+        // if (environment.firebase.useEmulators) {
+        //   connectAuthEmulator(auth, 'http://localhost:9901');
+        // }
         return auth;
       }),
   ]),
