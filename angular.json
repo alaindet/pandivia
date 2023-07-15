@@ -39,7 +39,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/app/src/favicon.ico",
-              "projects/app/src/assets"
+              "projects/app/src/assets",
+              "projects/app/src/manifest.webmanifest"
             ],
             "styles": [
               "projects/app/src/styles.scss"
@@ -49,7 +50,9 @@
                 "projects/app/src/app/style"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "projects/app/ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -107,7 +110,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/app/src/favicon.ico",
-              "projects/app/src/assets"
+              "projects/app/src/assets",
+              "projects/app/src/manifest.webmanifest"
             ],
             "styles": [
               "projects/app/src/styles.scss"
