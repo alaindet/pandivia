@@ -106,5 +106,6 @@
   "common.no": "No",
   "common.copy": "Copia",
   "common.error": "Errore",
-  "common.uncategorized": "Senza categoria"
+  "common.uncategorized": "Senza categoria",
+  "common.version": "Versione"
 }

@@ -62,12 +62,10 @@
     </button>
   </section>
 
-  <!-- Demo -->
-  <section *ngIf="!isProduction">
-    <h2>Demo</h2>
-    <a routerLink="/demo">
-      Go to the demo application &rarr;
-    </a>
+  <!-- App version -->
+  <section>
+    <h2>{{ t('common.version') }}</h2>
+    {{ version() }}
   </section>
 
 </ng-container>

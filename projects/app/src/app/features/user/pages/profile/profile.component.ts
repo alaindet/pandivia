@@ -4,7 +4,8 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { LanguageService, NAVIGATION_ITEM_USER, uiSetCurrentNavigation, uiSetPageTitle } from '@app/core';
+import { NAVIGATION_ITEM_USER, selectUiVersion, uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/ui';
+import { LanguageService } from '@app/core/language';
 import { environment } from '@app/environment';
 import { ThemeService } from '@app/core/theme';
 import { StackedLayoutService } from '@app/common/layouts';
@@ -39,6 +40,7 @@ export class ProfilePageComponent implements OnInit {
   language = inject(LanguageService);
   userData = this.store.selectSignal(selectUserDisplayData);
   isAdmin = this.store.selectSignal(selectUserIsAdmin);
+  version = this.store.selectSignal(selectUiVersion);
   isProduction = environment.production;
 
   ngOnInit() {
@@ -60,6 +62,6 @@ export class ProfilePageComponent implements OnInit {
   }
 
   private resetHeaderActions(): void {
-    this.layout.setHeaderActions([]);
+    this.layout.clearHeaderActions();
   }
 }

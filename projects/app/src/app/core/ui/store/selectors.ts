@@ -39,3 +39,8 @@ export const selectUiTheme = createSelector(
   selectUiFeature,
   state => state.theme,
 );
+
+export const selectUiVersion = createSelector(
+  selectUiFeature,
+  state => state.version,
+);
