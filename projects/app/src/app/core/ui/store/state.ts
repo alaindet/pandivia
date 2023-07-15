@@ -1,5 +1,5 @@
 import { DEFAULT_THEME, Theme } from '@app/core/theme';
-import { NAVIGATION_ITEMS } from '@app/core/navigation';
+import { NAVIGATION_ITEMS } from '@app/core/ui';
 import { BottomMenuItem } from '@app/common/components';
 import { Notification } from '@app/common/types';
 

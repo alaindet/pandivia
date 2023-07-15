@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { createUiController } from '@app/core/store/ui';
+import { createUiController } from '@app/core/ui';
 import { inventoryCreateItem, inventoryEditItem, inventoryFetchItems, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory } from '../actions';
 
 @Injectable()

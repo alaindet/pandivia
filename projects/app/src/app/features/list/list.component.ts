@@ -9,7 +9,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { environment } from '@app/environment';
 import { DEFAULT_CATEGORY, UiService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
-import { NAVIGATION_ITEM_LIST } from '@app/core/navigation';
+import { NAVIGATION_ITEM_LIST } from '@app/core/ui';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor, ActionsMenuItem } from '@app/common/components';
 import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';

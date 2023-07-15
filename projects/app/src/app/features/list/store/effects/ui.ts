@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { createUiController } from '@app/core/store/ui';
+import { createUiController } from '@app/core/ui';
 import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listCreateItem, listDecrementItem, listEditItem, listFetchItems, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory } from '../actions';
 
 @Injectable()

@@ -9,7 +9,7 @@ import { environment } from '@app/environment';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { errorI18n, readErrorI18n } from '@app/common/utils';
-import { NAVIGATION_ITEM_INVENTORY } from '@app/core/navigation';
+import { NAVIGATION_ITEM_INVENTORY } from '@app/core/ui';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { CreateListItemDto, ListItem } from '@app/features/list';
 import { listCreateItem, selectListItemExistsWithName } from '../list/store';

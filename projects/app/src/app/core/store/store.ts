@@ -1,5 +1,5 @@
 import { USER_FEATURE_NAME, UserFeatureState, userReducer, USER_FEATURE_EFFECTS } from '@app/features/user/store';
-import { UI_FEATURE_NAME, UiFeatureState, uiReducer, UI_FEATURE_EFFECTS } from './ui';
+import { UI_FEATURE_NAME, UiFeatureState, uiReducer, UI_FEATURE_EFFECTS } from '../ui/store';
 import { LIST_FEATURE_EFFECTS, LIST_FEATURE_NAME, ListFeatureState, listReducer } from '@app/features/list/store';
 import { INVENTORY_FEATURE_EFFECTS, INVENTORY_FEATURE_NAME, InventoryFeatureState, inventoryReducer } from '@app/features/inventory/store';
 

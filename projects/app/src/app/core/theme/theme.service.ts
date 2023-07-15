@@ -2,7 +2,7 @@ import { Injectable, computed, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { effectOnChange } from '@app/common/utils';
-import { selectUiTheme, uiSetTheme, uiFallbackToDefaultTheme } from '../store/ui';
+import { selectUiTheme, uiSetTheme, uiFallbackToDefaultTheme } from '../ui/store';
 import { THEME_STORAGE_KEY, DEFAULT_THEME, THEME_OPTIONS } from './constants';
 import { Theme } from './types';
 

@@ -9,7 +9,7 @@ import { BottomMenuItem } from '@app/common/components';
 import { BACK_BUTTON_STATUS } from '@app/common/types';
 import { SIXTY_FRAMES_PER_SECOND } from '@app/common/constants';
 import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layouts';
-import { NAVIGATION_ROUTES } from '../../navigation';
+import { NAVIGATION_ROUTES } from '../../ui';
 import { UiFeatureState, selectNavigation } from '../../store';
 
 const imports = [
