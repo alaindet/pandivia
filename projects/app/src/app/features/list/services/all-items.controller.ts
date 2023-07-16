@@ -58,7 +58,7 @@ export function createListAllItemsController() {
     const batch = writeBatch(db);
     const theQuery = query(
       itemsRef,
-      where('isDone', '==', false),
+      where('isDone', '==', !isDone),
       orderBy('isDone', 'asc'), // TODO: Needed?
     );
     const docs = await getDocs(theQuery);
