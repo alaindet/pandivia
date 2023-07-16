@@ -1,7 +1,6 @@
 import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import { ListItem } from '@app/features/list';
 import { InventoryItem } from '@app/features/inventory';
@@ -9,7 +8,7 @@ import { didInputChange } from '@app/common/utils';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
-import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
+import { ItemActionOutput, ItemToggledOutput, ItemActionsFn, CardListComponentLabels } from './types';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 
 const imports = [
@@ -17,7 +16,6 @@ const imports = [
   NgFor,
   NgTemplateOutlet,
   MatIconModule,
-  TranslocoModule,
   CheckboxComponent,
   ButtonComponent,
   ...ACTIONS_MENU_EXPORTS,
@@ -38,6 +36,7 @@ export class CardListComponent implements OnChanges {
   @Input({ required: true }) listActions!: ActionsMenuItem[];
   @Input({ required: true }) items!: ListItem[] | InventoryItem[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
+  @Input({ required: true }) labels!: CardListComponentLabels;
   @Input() @HostBinding('class.-muted-title') withMutedTitle = false;
   @Input() @HostBinding('class.-selectable') isSelectable = true;
   @Input() checkboxColor: CheckboxColor = 'black';

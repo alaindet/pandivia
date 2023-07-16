@@ -39,7 +39,7 @@
   "inviteUser.emailMustMatchInvite": "Email must match '{{ email }}'",
 
   "components.autocomplete.loading": "Loading...",
-  "components.autocomplete.nothingFound": "Nothing found...",
+  "components.autocomplete.nothingFound": "Nothing found",
   "components.modal.cancel": "Cancel",
   "components.modal.confirm": "Confirm",
   "components.modal.canceled": "Modal was canceled",
@@ -107,5 +107,7 @@
   "common.copy": "Copy",
   "common.error": "Error",
   "common.uncategorized": "Uncategorized",
-  "common.version": "Version"
+  "common.version": "Version",
+  "common.pin": "Pin",
+  "common.unpin": "Unpin"
 }
