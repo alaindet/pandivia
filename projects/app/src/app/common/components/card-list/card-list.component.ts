@@ -9,7 +9,7 @@ import { didInputChange } from '@app/common/utils';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
-import { ItemActionOutput, ItemToggledOutput, ItemActionsFn } from './types';
+import { ItemActionOutput, ItemToggledOutput, ItemActionsFn, CardListComponentLabels } from './types';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 
 const imports = [
@@ -38,6 +38,7 @@ export class CardListComponent implements OnChanges {
   @Input({ required: true }) listActions!: ActionsMenuItem[];
   @Input({ required: true }) items!: ListItem[] | InventoryItem[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
+  @Input({ required: true }) labels!: CardListComponentLabels;
   @Input() @HostBinding('class.-muted-title') withMutedTitle = false;
   @Input() @HostBinding('class.-selectable') isSelectable = true;
   @Input() checkboxColor: CheckboxColor = 'black';

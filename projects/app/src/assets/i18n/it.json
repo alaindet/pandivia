@@ -39,7 +39,7 @@
   "inviteUser.emailMustMatchInvite": "L'email deve essere uguale a '{{ email }}'",
 
   "components.autocomplete.loading": "Caricamento...",
-  "components.autocomplete.nothingFound": "Nessun risultato...",
+  "components.autocomplete.nothingFound": "Nessun risultato",
   "components.modal.cancel": "Cancella",
   "components.modal.confirm": "Conferma",
   "components.modal.canceled": "La modale è stata cancellata",
@@ -107,5 +107,7 @@
   "common.copy": "Copia",
   "common.error": "Errore",
   "common.uncategorized": "Senza categoria",
-  "common.version": "Versione"
+  "common.version": "Versione",
+  "common.pin": "Fissa",
+  "common.unpin": "Stacca"
 }

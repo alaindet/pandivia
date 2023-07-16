@@ -4,6 +4,10 @@
   [items]="items"
   [listActions]="listActions"
   [itemActionsFn]="itemActionsFn"
+  [labels]="{
+    pinned: 'Unpin',
+    unpinned: 'Pin'
+  }"
   (listActionClicked)="onListAction($event)"
   (itemActionClicked)="onItemAction($event)"
   (itemToggled)="onItemToggle($event)"
@@ -17,6 +21,10 @@
   [isSelectable]="false"
   [listActions]="listActions"
   [itemActionsFn]="itemActionsFn"
+  [labels]="{
+    pinned: 'Unpin',
+    unpinned: 'Pin'
+  }"
   (listActionClicked)="consoleLog('listActionClicked', $event)"
   (itemActionClicked)="consoleLog('itemActionClicked', $event)"
   (pinned)="consoleLog('pinned', $event)"
