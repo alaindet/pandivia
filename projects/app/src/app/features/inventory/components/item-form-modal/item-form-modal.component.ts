@@ -15,6 +15,7 @@ import { inventoryCreateItem, inventoryEditItem, selectInventoryCategoriesByName
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
 import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
+import { uniqueInventoryItemNameValidator } from '../../validators';
 
 const imports = [
   NgIf,
@@ -163,7 +164,10 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     const controls: any = {
       [FIELD.NAME.id]: [
         item?.name ?? '',
+        // Sync validators
         [required, minLength(2), maxLength(100)],
+        // Async validators
+        [uniqueInventoryItemNameValidator(this.store, this.modal.data?.item?.id ?? null)],
       ],
       [FIELD.DESCRIPTION.id]: [
         item?.description ?? '',

@@ -54,16 +54,13 @@ export const selectInventoryShouldFetch = createSelector(
 );
 
 export const selectInventoryItemExistsWithName = (
-  itemId: string | null,
   name: string,
 ) => createSelector(
   selectInventoryFeature,
-  (state): boolean => {
+  (state): InventoryItem | null => {
     const query = name.toLowerCase();
-    return !!state.items.filter(item => (
-      item.id !== itemId &&
-      item.name.toLowerCase() === query
-    )).length;
+    const item = state.items.find(item => item.name.toLowerCase() === query);
+    return item ?? null;
   },
 );
 
