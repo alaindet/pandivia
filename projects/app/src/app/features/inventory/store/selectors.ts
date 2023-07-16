@@ -1,10 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { groupItemsByCategory } from '@app/core/functions';
+import { groupItemsByCategory, sortItemsByName } from '@app/core/functions';
 import { CACHE_MAX_AGE } from '@app/core/cache';
-import { INVENTORY_FEATURE_NAME, InventoryFeatureState } from './state';
 import { LOADING_STATUS } from '@app/common/types';
 import { INVENTORY_FILTER, InventoryFilterToken, InventoryItem } from '../types';
+import { INVENTORY_FEATURE_NAME, InventoryFeatureState } from './state';
 
 const selectInventoryFeature = createFeatureSelector<InventoryFeatureState>(
   INVENTORY_FEATURE_NAME,
@@ -97,17 +97,15 @@ export const selectInventoryCategorizedFilteredItems = createSelector(
   selectInventoryFeature,
   state => {
     const categoryFilter = state.filters[INVENTORY_FILTER.CATEGORY];
-
     const filteredItems: InventoryItem[] = state.items.filter(item => {
-
       if (categoryFilter !== null && item.category !== categoryFilter) {
         return false;
       }
-
       return true;
     });
 
-    return groupItemsByCategory(filteredItems);
+    const sortedItems = sortItemsByName(filteredItems);
+    return groupItemsByCategory(sortedItems);
   },
 );
 

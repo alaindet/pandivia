@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { groupItemsByCategory } from '@app/core/functions';
+import { groupItemsByCategory, sortItemsByName } from '@app/core/functions';
 import { CACHE_MAX_AGE } from '@app/core/cache';
 import { LOADING_STATUS } from '@app/common/types';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
@@ -101,7 +101,8 @@ export const selectListCategorizedFilteredItems = createSelector(
       return true;
     });
 
-    return groupItemsByCategory(filteredItems);
+    const sortedItems = sortItemsByName(filteredItems);
+    return groupItemsByCategory(sortedItems);
   },
 );
 
