@@ -3,6 +3,7 @@
 - [ ] Fix broken language when English is stored in local storage
 
 # Backlog
+- [ ] Enable themes and remove checkboxColor input from <app-cards-list>
 - [ ] Create show/hide password input
 - [ ] Add dark themes
 - [ ] Split app in libraries and applications inside Angular Workspace

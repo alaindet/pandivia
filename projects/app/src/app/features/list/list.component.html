@@ -56,9 +56,9 @@
           [isPinned]="pinnedCategory() === group.category"
           [checkboxColor]="uiCheckboxColor()"
           [labels]="{
-              pinned: t('common.unpin'),
-              unpinned: t('common.pin')
-            }"
+            pinned: t('common.unpin'),
+            unpinned: t('common.pin')
+          }"
           (listActionClicked)="onCategoryAction(group.category, $event)"
           (itemActionClicked)="onItemAction($event)"
           (itemToggled)="onItemToggle($event)"

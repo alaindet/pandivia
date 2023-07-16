@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { DatePipe, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -40,7 +40,8 @@ export class ProfilePageComponent implements OnInit {
   language = inject(LanguageService);
   userData = this.store.selectSignal(selectUserDisplayData);
   isAdmin = this.store.selectSignal(selectUserIsAdmin);
-  version = this.store.selectSignal(selectUiVersion);
+  private version = this.store.selectSignal(selectUiVersion);
+  nameAndVersion = computed(() => `${environment.appName} v.${this.version()}`);
   isProduction = environment.production;
 
   ngOnInit() {
