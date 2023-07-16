@@ -36,7 +36,7 @@ export class CardListComponent implements OnChanges {
   @Input({ required: true }) listActions!: ActionsMenuItem[];
   @Input({ required: true }) items!: ListItem[] | InventoryItem[];
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
-  @Input({ required: true }) labels!: CardListComponentLabels;
+  @Input() labels?: CardListComponentLabels;
   @Input() @HostBinding('class.-muted-title') withMutedTitle = false;
   @Input() @HostBinding('class.-selectable') isSelectable = true;
   @Input() checkboxColor: CheckboxColor = 'black';

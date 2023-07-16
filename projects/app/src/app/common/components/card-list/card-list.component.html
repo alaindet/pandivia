@@ -17,7 +17,7 @@
         (click)="onTogglePin()"
       >
         <mat-icon>{{ isPinned ? 'clear' : 'push_pin' }}</mat-icon>
-        {{ isPinned ? labels.pinned : labels.unpinned }}
+        {{ isPinned ? (labels?.pinned ?? 'Unpin') : (labels?.unpinned ?? 'Pin') }}
       </button>
     </div>
   </div>

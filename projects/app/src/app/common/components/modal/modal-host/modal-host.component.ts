@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, HostBinding, OnDestroy, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnDestroy, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -7,6 +7,7 @@ import { ButtonComponent } from '../../button';
 import { ModalService } from '../modal.service';
 import { OnceSource } from '@app/common/sources';
 import { createModalKeyboardController } from './keyboard.controller';
+import { ModalHostLabels } from '../types';
 
 const imports = [
   CommonModule,
@@ -29,6 +30,8 @@ export class ModalHostComponent implements OnDestroy {
   private once = new OnceSource();
   private cdr = inject(ChangeDetectorRef);
   modalService = inject(ModalService);
+
+  @Input() labels?: ModalHostLabels;
 
   @HostBinding('class.-open') cssOpen = false;
 

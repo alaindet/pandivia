@@ -24,6 +24,10 @@
       pickKey="word"
       [staticOptions]="options"
       [staticSearchableFields]="['word']"
+      [labels]="{
+        loading: 'Loading...',
+        nothingFound: 'Nothing found'
+      }"
       width="19.25rem"
       (confirmed)="consoleLog('confirmed', $event)"
     >
@@ -60,6 +64,10 @@
       pickKey="word"
       [asyncOptions]="asyncOptions"
       [minChars]="3"
+      [labels]="{
+        loading: 'Loading...',
+        nothingFound: 'Nothing found'
+      }"
       (confirmed)="consoleLog('confirmed', $event)"
     >
       <ng-container *appAutocompleteOption="let option">

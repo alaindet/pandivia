@@ -10,7 +10,7 @@ import { didInputChange } from '@app/common/utils';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
-import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType, AUTOCOMPLETE_ITEMS_TEMPLATE } from './types';
+import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType, AUTOCOMPLETE_ITEMS_TEMPLATE, AutocompleteComponentLabels } from './types';
 
 const imports = [
   NgIf,
@@ -37,7 +37,8 @@ const imports = [
 })
 export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() inputComponent!: TextInputComponent;
+  @Input({ required: true }) inputComponent!: TextInputComponent;
+  @Input() labels?: AutocompleteComponentLabels;
   @Input() minChars?: number;
   @Input() sourceType!: AutocompleteSourceType;
   @Input() filteringDelay = 400;

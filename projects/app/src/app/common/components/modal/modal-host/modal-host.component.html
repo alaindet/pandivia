@@ -57,7 +57,7 @@
       (click)="onDismiss()"
     >
       <mat-icon>close</mat-icon>
-      {{ 'components.modal.cancel' | transloco }}
+      {{ labels?.cancel ?? 'Cancel' }}
     </button>
 
     <!-- Confirm -->
@@ -69,7 +69,7 @@
       (click)="onConfirm()"
     >
       <mat-icon>check</mat-icon>
-      {{ 'components.modal.confirm' | transloco }}
+      {{ labels?.confirm ?? 'Confirm' }}
     </button>
 
   </div>

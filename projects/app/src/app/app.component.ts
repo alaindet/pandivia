@@ -3,6 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { ThemeService } from './core/theme';
 import { selectUiIsLoading } from './core/store';
@@ -14,11 +15,12 @@ const imports = [
   NgClass,
   AsyncPipe,
   RouterOutlet,
+  MatIconModule,
+  TranslocoModule,
   NotificationsHostComponent,
   ModalHostComponent,
   LinearSpinnerComponent,
   BottomMenuComponent,
-  MatIconModule,
 ];
 
 @Component({

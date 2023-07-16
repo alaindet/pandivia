@@ -26,3 +26,8 @@ export const AUTOCOMPLETE_ITEMS_TEMPLATE = {
 } as const;
 
 export type AutocompleteItemsTemplate = ObjectValues<typeof AUTOCOMPLETE_ITEMS_TEMPLATE>;
+
+export type AutocompleteComponentLabels = {
+  loading: string;
+  nothingFound: string;
+};

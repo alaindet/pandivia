@@ -39,6 +39,10 @@
       pickKey="label"
       [showEmptyOptions]="false"
       [minChars]="1"
+      [labels]="{
+        loading: t('components.autocomplete.loading'),
+        nothingFound: t('components.autocomplete.nothingFound')
+      }"
       width="16rem"
       offsetY="0.5rem"
       (confirmed)="onConfirmName($event)"
@@ -171,6 +175,10 @@
       [showEmptyOptions]="false"
       [asyncOptions]="categoryFieldOptions"
       [minChars]="1"
+      [labels]="{
+        loading: t('components.autocomplete.loading'),
+        nothingFound: t('components.autocomplete.nothingFound')
+      }"
       width="16rem"
       offsetY="0.5rem"
       (confirmed)="onConfirmCategory($event)"

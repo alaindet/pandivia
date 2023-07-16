@@ -32,3 +32,8 @@ export class BaseModalComponent<TInput extends any, TOutput extends any> {
     this.modal.confirmClicked$.pipe(take(1)).subscribe(() => fn());
   }
 }
+
+export type ModalHostLabels = {
+  cancel: string;
+  confirm: string;
+};

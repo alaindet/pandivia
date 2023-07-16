@@ -5,6 +5,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { FormFieldStatus, FormOption } from '@app/common/types';
 import { didInputChange, uniqueId } from '@app/common/utils';
+import { SelectComponentLabels } from './types';
 
 const SELECT_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -38,6 +39,7 @@ export class SelectComponent implements OnInit, OnChanges, ControlValueAccessor 
   @Input() options: FormOption[] = [];
   @Input() width?: string;
   @Input() withDefaultOption = true;
+  @Input() labels?: SelectComponentLabels;
 
   @ViewChild('selectRef', { static: true })
   private selectRef!: ElementRef<HTMLSelectElement>;

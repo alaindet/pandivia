@@ -11,7 +11,7 @@
     value=""
     [selected]="selectedValue() === null"
   >
-    {{ 'components.select.defaultLabel' | transloco }}
+    {{ labels?.defaultOption ?? 'Select...'}}
   </option>
 
   <option

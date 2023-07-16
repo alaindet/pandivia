@@ -9,6 +9,5 @@
 - [?] Rename "Inventory" to "Habits"/"Habit"
 - [?] Split selectors in multiple files
 - [?] Add ESLint and Prettier
-- [ ] Accept input strings instead of importing TranslocoModule inside components
 - [ ] Use &lt;dialog&gt;
 - [ ] Add screenshots to README.md and manifest.json

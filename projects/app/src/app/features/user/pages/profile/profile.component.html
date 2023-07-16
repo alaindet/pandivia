@@ -44,6 +44,9 @@
       id="language-switcher"
       [options]="language.options"
       [value]="language.current()"
+      [labels]="{
+        defaultOption: t('components.select.defaultLabel')
+      }"
       (selected)="language.set($event)"
     />
   </section>
