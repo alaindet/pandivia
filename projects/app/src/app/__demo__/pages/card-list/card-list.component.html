@@ -4,10 +4,7 @@
   [items]="items"
   [listActions]="listActions"
   [itemActionsFn]="itemActionsFn"
-  [labels]="{
-    pinned: 'Unpin',
-    unpinned: 'Pin'
-  }"
+  [labels]="{ pinned: 'Unpin', unpinned: 'Pin' }"
   (listActionClicked)="onListAction($event)"
   (itemActionClicked)="onItemAction($event)"
   (itemToggled)="onItemToggle($event)"
@@ -21,10 +18,35 @@
   [isSelectable]="false"
   [listActions]="listActions"
   [itemActionsFn]="itemActionsFn"
-  [labels]="{
-    pinned: 'Unpin',
-    unpinned: 'Pin'
-  }"
+  [labels]="{ pinned: 'Unpin', unpinned: 'Pin' }"
+  (listActionClicked)="consoleLog('listActionClicked', $event)"
+  (itemActionClicked)="consoleLog('itemActionClicked', $event)"
+  (pinned)="consoleLog('pinned', $event)"
+/>
+
+<h2>With counters</h2>
+<app-card-list
+  title="List with counters"
+  [items]="items"
+  [listActions]="listActions"
+  [itemActionsFn]="itemActionsFn"
+  [withCounters]="true"
+  [labels]="{ pinned: 'Unpin', unpinned: 'Pin' }"
+  (listActionClicked)="onListAction($event)"
+  (itemActionClicked)="onItemAction($event)"
+  (itemToggled)="onItemToggle($event)"
+  (pinned)="consoleLog('pinned', $event)"
+/>
+
+<h2>With counters and not selectable</h2>
+<app-card-list
+  title="The non-selectable list"
+  [items]="items"
+  [isSelectable]="false"
+  [listActions]="listActions"
+  [itemActionsFn]="itemActionsFn"
+  [withCounters]="true"
+  [labels]="{ pinned: 'Unpin', unpinned: 'Pin' }"
   (listActionClicked)="consoleLog('listActionClicked', $event)"
   (itemActionClicked)="consoleLog('itemActionClicked', $event)"
   (pinned)="consoleLog('pinned', $event)"

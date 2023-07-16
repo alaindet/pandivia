@@ -3,9 +3,15 @@
   <div class="_left">
 
     <div class="_title">
-      <h2>
-        {{ title }}
-      </h2>
+      <h2>{{ title }}</h2>
+      <span *ngIf="withCounters" class="_counters">
+        <ng-container *ngIf="isSelectable; else selectableCountersRef">
+          ({{ counters!().done }}/<strong>{{ counters!().total }}</strong>)
+        </ng-container>
+        <ng-template #selectableCountersRef>
+          (<strong>{{ counters!().total }}</strong>)
+        </ng-template>
+      </span>
     </div>
 
     <div class="_pin">

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation, WritableSignal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
@@ -8,7 +8,7 @@ import { didInputChange } from '@app/common/utils';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ButtonComponent } from '../button';
-import { ItemActionOutput, ItemToggledOutput, ItemActionsFn, CardListComponentLabels } from './types';
+import { ItemActionOutput, ItemToggledOutput, ItemActionsFn, CardListComponentLabels, CardListCounters } from './types';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 
 const imports = [
@@ -34,13 +34,14 @@ export class CardListComponent implements OnChanges {
 
   @Input({ required: true }) title!: string;
   @Input({ required: true }) listActions!: ActionsMenuItem[];
-  @Input({ required: true }) items!: ListItem[] | InventoryItem[];
+  @Input({ required: true }) items!: ListItem[] | InventoryItem[]; // TODO: Generalize type!
   @Input({ required: true }) itemActionsFn!: ItemActionsFn;
   @Input() labels?: CardListComponentLabels;
   @Input() @HostBinding('class.-muted-title') withMutedTitle = false;
   @Input() @HostBinding('class.-selectable') isSelectable = true;
   @Input() checkboxColor: CheckboxColor = 'black';
   @Input() isPinned = false;
+  @Input() withCounters = false;
 
   @Output() listActionClicked = new EventEmitter<string>();
   @Output() itemActionClicked = new EventEmitter<ItemActionOutput>();
@@ -50,14 +51,14 @@ export class CardListComponent implements OnChanges {
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   itemActionsMap = new Map<string, ActionsMenuItem[]>();
   itemsDescriptionMap = new Map<string, boolean>();
+  counters: WritableSignal<CardListCounters> | null = null;
 
   ngOnChanges(changes: SimpleChanges) {
     if (didInputChange(changes['items'])) {
-      const itemActionsMap = new Map<string, ActionsMenuItem[]>();
-      this.items.forEach(item => {
-        itemActionsMap.set(item.id, this.itemActionsFn(item));
-      });
-      this.itemActionsMap = itemActionsMap;
+      this.itemActionsMap = this.updateActionsByItemMap(this.items);
+      if (this.withCounters) {
+        this.updateCounters(this.items as ListItem[]);
+      }
     }
   }
 
@@ -87,5 +88,26 @@ export class CardListComponent implements OnChanges {
 
   trackByItemId(index: number, item: ListItem | InventoryItem): string {
     return item.id;
+  }
+
+  private updateActionsByItemMap(
+    items: ListItem[] | InventoryItem[],
+  ): Map<string, ActionsMenuItem[]> {
+    const itemActionsMap = new Map<string, ActionsMenuItem[]>();
+    this.items.forEach(item => {
+      itemActionsMap.set(item.id, this.itemActionsFn(item));
+    });
+    return itemActionsMap;
+  }
+
+  private updateCounters(items: ListItem[]) {
+    let done = 0;
+    items.forEach(item => {
+      if (item.isDone) {
+        done++;
+      }
+    });
+    const total = items.length;
+    this.counters = signal<CardListCounters>({ done, total });
   }
 }

@@ -28,10 +28,18 @@
   }
 
   ._title {
+    display: flex;
+    align-items: center;
+
     h2 {
       display: inline-block;
       margin: 0;
     }
+  }
+
+  ._counters {
+    color: $app-color-grey-800;
+    margin-left: 0.25rem;
   }
 
   ._pin {

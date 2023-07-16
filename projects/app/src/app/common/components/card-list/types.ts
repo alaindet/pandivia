@@ -12,3 +12,8 @@ export type CardListComponentLabels = {
   pinned: string;
   unpinned: string;
 };
+
+export type CardListCounters = {
+  done: number;
+  total: number;
+};

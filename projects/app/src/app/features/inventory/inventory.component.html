@@ -54,6 +54,7 @@
           [items]="group.items"
           [listActions]="categoryContextualMenu"
           [itemActionsFn]="getItemContextualMenu"
+          [withCounters]="true"
           [isPinned]="pinnedCategory() === group.category"
           [labels]="{
             pinned: t('common.unpin'),
