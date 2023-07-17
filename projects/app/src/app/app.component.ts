@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
 import { selectUiIsLoading } from './core/store';
 import { UiService } from './core/ui';
+import { LanguageService, ThemeService } from './core';
 
 const imports = [
   NgIf,
@@ -32,14 +33,21 @@ const imports = [
 export class AppComponent implements OnInit {
 
   private store = inject(Store);
+  private theme = inject(ThemeService); // Only injected for side effect
+  private lang = inject(LanguageService); // Only injected for side effect
 
   ui = inject(UiService);
   loading = false;
 
   ngOnInit() {
+    this.initUiLoading();
+  }
+
+  private initUiLoading(): void {
     // This guarantees no NG0100 error happens
     // "Expression has changed after it was checked"
-    this.store.select(selectUiIsLoading)
-      .subscribe(loading => queueMicrotask(() => this.loading = loading));
+    this.store.select(selectUiIsLoading).subscribe(loading => {
+      queueMicrotask(() => this.loading = loading);
+    });
   }
 }

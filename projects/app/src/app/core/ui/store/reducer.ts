@@ -2,7 +2,6 @@ import { createReducer } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
 
 import { NOTIFICATION_TYPE } from '@app/common/types';
-import { DEFAULT_THEME } from '@app/core/theme';
 import { UI_FEATURE_INITIAL_STATE } from './state';
 import {
   uiNotificationAddSuccess,
@@ -13,7 +12,6 @@ import {
   uiSetCurrentNavigation,
   uiSetPageTitle,
   uiSetTheme,
-  uiFallbackToDefaultTheme,
 } from './actions';
 
 export const uiReducer = createReducer(
@@ -51,9 +49,5 @@ export const uiReducer = createReducer(
 
   immerOn(uiSetTheme, (state, { theme }) => {
     state.theme = theme;
-  }),
-
-  immerOn(uiFallbackToDefaultTheme, state => {
-    state.theme = DEFAULT_THEME;
   }),
 );

@@ -40,7 +40,3 @@ export const uiSetTheme = createAction(
   '[UI] Set theme',
   props<{ theme: Theme }>(),
 );
-
-export const uiFallbackToDefaultTheme = createAction(
-  '[UI] Fallback to default theme',
-);
