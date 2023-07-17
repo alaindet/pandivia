@@ -1,0 +1,7 @@
+@mixin app-theme-fairy() {
+  body[theme="fairy"] {
+    background-color: $app-color-secondary-100;
+    // ...
+    // TODO: Remove checkbox color input from card list
+  }
+}

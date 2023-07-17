@@ -14,7 +14,7 @@ export class ThemeService {
   private store = inject(Store);
   current = this.store.selectSignal(selectUiTheme);
   options = THEME_OPTIONS;
-  cssClass = computed(() => `-theme-${this.current()}`);
+  cssClass = computed(() => `theme-${this.current()}`);
 
   constructor() {
     this.initThemeFromStorage();
@@ -40,6 +40,7 @@ export class ThemeService {
   private listenToThemeChange(): void {
     effectOnChange(this.current, theme => {
       this.saveToStorage(theme);
+      document.body.setAttribute('theme', theme);
     });
   }
 

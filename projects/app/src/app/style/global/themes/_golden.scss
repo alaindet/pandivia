@@ -1,0 +1,6 @@
+@mixin app-theme-golden() {
+  body[theme="golden"] {
+    background-color: $app-color-grey-400;
+    // ...
+  }
+}
