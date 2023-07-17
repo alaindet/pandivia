@@ -10,7 +10,7 @@
   padding-bottom: 0.5rem;
   cursor: pointer;
   transition: 0.15s all ease-out;
-  background-color: $app-color-grey-50;
+  background-color: var(--app-color-grey-50);
   flex: 1 1 0;
   -webkit-user-select: none;
   user-select: none;
@@ -22,7 +22,7 @@
     left: 0;
     right: 0;
     height: 5px;
-    background-color: $app-color-primary-500;
+    background-color: var(--app-color-primary-500);
     transform: scaleY(0);
     transform-origin: bottom;
     transition: 0.15s all ease-in-out;
@@ -30,12 +30,12 @@
 
   &:hover::after {
     transform: scaleY(1.5) !important;
-    background-color: $app-color-primary-500 !important;
+    background-color: var(--app-color-primary-500) !important;
   }
 
   &:focus::after, &.-selected::after {
     transform: scaleY(1);
-    background-color: $app-color-primary-600;
+    background-color: var(--app-color-primary-600);
   }
 
   > ._icon .mat-icon {

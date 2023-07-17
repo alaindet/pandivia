@@ -5,8 +5,9 @@ import { DOCUMENT } from '@angular/common';
 import { createLocalStorageItemController } from '@app/common/controllers';
 import { effectOnChange } from '@app/common/utils';
 import { selectUiTheme, uiSetTheme } from '../ui/store';
-import { DEFAULT_THEME, THEME_OPTIONS, THEME_STORAGE_KEY } from './constants';
+import { DEFAULT_THEME, THEME_OPTIONS, THEME_STORAGE_KEY, THEME_CONFIG } from './constants';
 import { Theme } from './types';
+import { Meta } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ import { Theme } from './types';
 export class ThemeService {
 
   private store = inject(Store);
+  private meta = inject(Meta);
   current = this.store.selectSignal(selectUiTheme);
   options = THEME_OPTIONS;
 
@@ -45,7 +47,9 @@ export class ThemeService {
   private listenToThemeChange(): void {
     effectOnChange(this.current, theme => {
       this.storage.write(theme);
+      const config = THEME_CONFIG[theme];
       this.document.body.setAttribute('theme', theme);
+      this.meta.updateTag({ name: 'theme-color', content: config.themeColor });
     });
   }
 }

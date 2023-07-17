@@ -4,7 +4,7 @@
   display: block;
   border-radius: 0.5rem;
   background-color: $app-color-white;
-  border: 1px solid $app-color-grey-600;
+  border: 1px solid var(--app-color-grey-600);
 
   &.-selectable {
     ._item-header ._left {
@@ -12,18 +12,18 @@
     }
 
     ._item:hover {
-      background-color: rgba(0,0,0,0.1);
+      background-color: rgba(0,0,0,0.07);
     }
   }
 
   &.-muted-title ._title {
-    color: $app-color-grey-700;
+    color: var(--app-color-grey-700);
   }
 
   > ._header {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid $app-color-grey-600;
+    border-bottom: 1px solid var(--app-color-grey-600);
     padding: 1rem;
   }
 
@@ -38,7 +38,7 @@
   }
 
   ._counters {
-    color: $app-color-grey-800;
+    color: var(--app-color-grey-800);
     margin-left: 0.25rem;
   }
 
@@ -66,7 +66,7 @@
   }
 
   ._item {
-    border-bottom: 2px solid $app-color-grey-600;
+    border-bottom: 2px solid var(--app-color-grey-600);
   }
 
   ._item.-last {
@@ -79,7 +79,7 @@
 
   .-crossed {
     text-decoration: line-through !important;
-    color: $app-color-grey-800;
+    color: var(--app-color-grey-800);
   }
 
   ._item-header {

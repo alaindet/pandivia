@@ -6,3 +6,11 @@ export const THEME = {
 } as const;
 
 export type Theme = ObjectValues<typeof THEME>;
+
+export type CssColorValue = string;
+
+export type ThemeConfig = {
+  id: Theme;
+  themeColor: CssColorValue;
+  label: string;
+};

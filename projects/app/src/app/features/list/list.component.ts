@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
-import { DEFAULT_CATEGORY, UiService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
+import { DEFAULT_CATEGORY, UiService } from '@app/core';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/ui';
 import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor, ActionsMenuItem } from '@app/common/components';
@@ -74,8 +74,6 @@ export class ListPageComponent implements OnInit, OnDestroy {
   );
 
   pinnedCategory = this.store.selectSignal(selectListCategoryFilter);
-  uiTheme = this.store.selectSignal(selectUiTheme);
-  uiCheckboxColor = computed<CheckboxColor>(() => getThemeCheckboxColor(this.uiTheme()));
 
   ngOnInit() {
     this.initPageMetadata();

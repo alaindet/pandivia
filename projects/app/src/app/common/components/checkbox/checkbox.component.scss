@@ -87,22 +87,22 @@
 
   &.-color-primary {
     @include app-checkbox-color(
-      $app-color-primary-500,
-      $app-color-primary-600,
+      var(--app-color-primary-500),
+      var(--app-color-primary-600),
     );
   }
 
   &.-color-secondary {
     @include app-checkbox-color(
-      $app-color-secondary-500,
-      $app-color-secondary-600,
+      var(--app-color-secondary-500),
+      var(--app-color-secondary-600),
     );
   }
 
   &.-color-tertiary {
     @include app-checkbox-color(
-      $app-color-tertiary-500,
-      $app-color-tertiary-600,
+      var(--app-color-tertiary-500),
+      var(--app-color-tertiary-600),
     );
   }
 

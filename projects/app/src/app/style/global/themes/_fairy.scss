@@ -1,7 +1,50 @@
 @mixin app-theme-fairy() {
   body[theme="fairy"] {
-    background-color: $app-color-secondary-100;
-    // ...
-    // TODO: Remove checkbox color input from card list
+    --app-color-grey-50: #ffffff;
+    --app-color-grey-100: #f9f9fb;
+    --app-color-grey-200: #f2f2f8;
+    --app-color-grey-300: #ececf4;
+    --app-color-grey-400: #e5e5f0;
+    --app-color-grey-500: #d2d2e5;
+    --app-color-grey-600: #bfbfda;
+    --app-color-grey-700: #9999ae;
+    --app-color-grey-800: #737383;
+    --app-color-grey-900: #4c4c57;
+
+    --app-color-primary-50: #F2F2F8;
+    --app-color-primary-100: #E5E5F0;
+    --app-color-primary-200: #CBCBE2;
+    --app-color-primary-300: #B1B1D3;
+    --app-color-primary-400: #9797C4;
+    --app-color-primary-500: #7C7DB6;
+    --app-color-primary-600: #6263A7;
+    --app-color-primary-700: #515290;
+    --app-color-primary-800: #494A83;
+    --app-color-primary-900: #424376;
+
+    --app-color-secondary-50: #FBF8FA;
+    --app-color-secondary-100: #F8F1F4;
+    --app-color-secondary-200: #ECDCE4;
+    --app-color-secondary-300: #E1C7D4;
+    --app-color-secondary-400: #CB9EB4;
+    --app-color-secondary-500: #B47494;
+    --app-color-secondary-600: #A26885;
+    --app-color-secondary-700: #6C4659;
+    --app-color-secondary-800: #513443;
+    --app-color-secondary-900: #36232C;
+
+    --app-color-tertiary-50: #F7FAF8;
+    --app-color-tertiary-100: #EFF6F2;
+    --app-color-tertiary-200: #D6E8DE;
+    --app-color-tertiary-300: #BEDBCB;
+    --app-color-tertiary-400: #8DBFA3;
+    --app-color-tertiary-500: #5CA47C;
+    --app-color-tertiary-600: #539470;
+    --app-color-tertiary-700: #37624A;
+    --app-color-tertiary-800: #294A38;
+    --app-color-tertiary-900: #1C3125;
+
+    --app-color-background: var(--app-color-secondary-100);
+    --app-color-foreground: var(--app-color-grey-900);
   }
 }
