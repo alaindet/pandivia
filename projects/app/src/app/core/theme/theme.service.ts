@@ -1,9 +1,8 @@
-import { Inject, Injectable, inject } from '@angular/core';
+import { Inject, Injectable, effect, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { DOCUMENT } from '@angular/common';
 import { createLocalStorageItemController } from '@app/common/controllers';
-import { effectOnChange } from '@app/common/utils';
 import { selectUiTheme, uiSetTheme } from '../ui/store';
 import { DEFAULT_THEME, THEME_OPTIONS, THEME_STORAGE_KEY, THEME_CONFIG } from './constants';
 import { Theme } from './types';
@@ -45,7 +44,8 @@ export class ThemeService {
   }
 
   private listenToThemeChange(): void {
-    effectOnChange(this.current, theme => {
+    effect(() => {
+      const theme = this.current();
       this.storage.write(theme);
       const config = THEME_CONFIG[theme];
       this.document.body.setAttribute('theme', theme);

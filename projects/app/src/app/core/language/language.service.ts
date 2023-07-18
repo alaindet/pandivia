@@ -1,8 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, effect, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { effectOnChange } from '@app/common/utils';
 import { userSetLanguage } from '@app/features/user/store/actions';
 import { selectUserLanguage } from '@app/features/user/store';
 import { Language } from './types';
@@ -44,7 +43,8 @@ export class LanguageService {
   }
 
   private listenToLanguageChange(): void {
-    effectOnChange(this.current, language => {
+    effect(() => {
+      const language = this.current();
       this.storage.write(language);
     });
   }
