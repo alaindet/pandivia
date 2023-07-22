@@ -105,5 +105,10 @@
     --app-checkbox-background: #{$app-color-white};
     --app-checkbox-border-color: var(--app-color-primary-300);
     --app-checkbox-hover-foreground: var(--app-color-primary-500);;
+
+    // Form field
+    --app-form-field-error: #{$app-color-error};
+    --app-form-field-hint: var(--app-color-grey-800);
+    --app-form-field-label: #{$app-color-black};
   }
 }

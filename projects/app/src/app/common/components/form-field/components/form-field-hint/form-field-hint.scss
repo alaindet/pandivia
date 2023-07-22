@@ -1,8 +1,11 @@
 @import 'scoped';
 
+// Variables
+// --app-form-field-hint
+
 .app-form-field-hint {
   display: block;
-  color: $app-color-grey-800;
+  color: var(--app-form-field-hint);
   font-size: 0.75rem;
   letter-spacing: 0.08px;
 }
