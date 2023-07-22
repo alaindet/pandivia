@@ -41,6 +41,7 @@ export class CardListComponent implements OnChanges {
   @Input() @HostBinding('class.-selectable') isSelectable = true;
   @Input() isPinned = false;
   @Input() withCounters = false;
+  @Input() checkboxColor: CheckboxColor = 'black';
 
   @Output() listActionClicked = new EventEmitter<string>();
   @Output() itemActionClicked = new EventEmitter<ItemActionOutput>();

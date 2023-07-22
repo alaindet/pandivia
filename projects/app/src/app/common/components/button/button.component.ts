@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnI
 
 import { asBoolean, cssClassesList } from '@app/common/utils';
 
-type ButtonColor = 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ghost';
-type ButtonSize = 'extra-small' | 'small' | 'medium' | 'large';
-type ButtonFloatingType = 'container' | 'fixed';
+export type ButtonColor = 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ghost';
+export type ButtonSize = 'extra-small' | 'small' | 'medium' | 'large';
+export type ButtonFloatingType = 'container' | 'fixed';
 
 @Component({
   selector: 'button[appButton]',

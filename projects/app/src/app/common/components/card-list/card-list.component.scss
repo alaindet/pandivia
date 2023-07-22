@@ -15,7 +15,7 @@
   border: 1px solid var(--app-card-list-border-color);
 
   // A little override
-  mat-icon,
+  button > mat-icon,
   button[appbutton="ghost"] {
     color: var(--app-card-list-foreground-muted);
   }

@@ -9,11 +9,17 @@ export const THEME_CONFIG = {
   [THEME.GOLDEN]: {
     id: THEME.GOLDEN,
     themeColor: '#dcb41c',
+    checkboxColor: 'black',
+    fabColor: 'primary',
+    filterColor: 'secondary',
     label: 'Golden',
   },
   [THEME.FAIRY]: {
     id: THEME.FAIRY,
-    themeColor: '#6869aa',
+    themeColor: '#b3849b',
+    checkboxColor: 'tertiary',
+    fabColor: 'tertiary',
+    filterColor: 'tertiary',
     label: 'Fairy',
   },
 } as const;

@@ -1,11 +1,11 @@
-import { Inject, Injectable, effect, inject } from '@angular/core';
+import { Inject, Injectable, computed, effect, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { DOCUMENT } from '@angular/common';
 import { createLocalStorageItemController } from '@app/common/controllers';
 import { selectUiTheme, uiSetTheme } from '../ui/store';
 import { DEFAULT_THEME, THEME_OPTIONS, THEME_STORAGE_KEY, THEME_CONFIG } from './constants';
-import { Theme } from './types';
+import { Theme, ThemeConfig } from './types';
 import { Meta } from '@angular/platform-browser';
 
 @Injectable({
@@ -16,6 +16,7 @@ export class ThemeService {
   private store = inject(Store);
   private meta = inject(Meta);
   current = this.store.selectSignal(selectUiTheme);
+  config = computed<ThemeConfig>(() => THEME_CONFIG[this.current()]);
   options = THEME_OPTIONS;
 
   storage = createLocalStorageItemController<Theme>(THEME_STORAGE_KEY, {

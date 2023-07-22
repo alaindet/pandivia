@@ -6,7 +6,8 @@
       <li *ngFor="let filter of filters()">
         <button
           type="button"
-          appButton="secondary"
+          appButton
+          [color]="themeConfig().filterColor"
           withIcon="left"
           size="extra-small"
           (click)="onRemoveFilter(filter)"
@@ -28,6 +29,7 @@
     <!-- Add new item -->
     <button
       appButton
+      [color]="themeConfig().fabColor"
       isCircle
       withIconOnly
       size="large"

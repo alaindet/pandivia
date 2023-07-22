@@ -123,6 +123,7 @@
     [id]="item.id"
     [isInteractable]="false"
     [checked]="item.isDone"
+    [color]="checkboxColor"
   >
     <span [class.-crossed]="item.isDone">
       {{ item.amount }}x {{ item.name }}

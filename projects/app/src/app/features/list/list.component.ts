@@ -10,7 +10,7 @@ import { environment } from '@app/environment';
 import { DEFAULT_CATEGORY, UiService } from '@app/core';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/ui';
-import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor, ActionsMenuItem } from '@app/common/components';
+import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ActionsMenuItem } from '@app/common/components';
 import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
 import { OnceSource } from '@app/common/sources';
@@ -49,6 +49,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private ui = inject(UiService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
+
+  themeConfig = this.ui.theme.config;
 
   getItemContextualMenu = (item: ListItem) => {
     return itemMenu.getItemContextualMenu(item).map(action => {

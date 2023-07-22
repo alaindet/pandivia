@@ -87,18 +87,18 @@
     --app-button-ghost-foreground: #{$app-color-black};
     --app-button-ghost-hover-background: rgba(0, 0, 0, 0.1);
 
-    // // Card list (variant 1)
-    // --app-card-list-background: var(--app-color-primary-600);
-    // --app-card-list-foreground: #{$app-color-white};
-    // --app-card-list-border-color: rgba(0,0,0,0.15);
-    // --app-card-list-foreground-muted: var(--app-color-grey-500);
-    // --app-card-list-item-hover-background: rgba(0, 0, 0, 0.15);
+    // Card list (variant 1)
+    --app-card-list-background: var(--app-color-primary-600);
+    --app-card-list-foreground: #{$app-color-white};
+    --app-card-list-border-color: rgba(0,0,0,0.15);
+    --app-card-list-foreground-muted: var(--app-color-grey-500);
+    --app-card-list-item-hover-background: rgba(0, 0, 0, 0.15);
 
     // Card list (variant 2)
-    --app-card-list-background: var(--app-color-primary-200);
-    --app-card-list-foreground: #{$app-color-black};
-    --app-card-list-border-color: rgba(0, 0, 0, 0.15);
-    --app-card-list-foreground-muted: #{scale_color($app-color-black, $lightness: 15%)};
-    --app-card-list-item-hover-background: rgba(0, 0, 0, 0.15);
+    // --app-card-list-background: var(--app-color-primary-200);
+    // --app-card-list-foreground: #{$app-color-black};
+    // --app-card-list-border-color: rgba(0, 0, 0, 0.15);
+    // --app-card-list-foreground-muted: #{scale_color($app-color-black, $lightness: 15%)};
+    // --app-card-list-item-hover-background: rgba(0, 0, 0, 0.15);
   }
 }
