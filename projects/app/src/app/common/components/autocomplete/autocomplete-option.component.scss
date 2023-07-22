@@ -1,5 +1,9 @@
 @import 'scoped';
 
+// Variables
+// --app-autocomplete-item-active-background
+// --app-autocomplete-item-active-foreground
+
 .app-autocomplete-option {
   padding: 0.5rem;
   display: block;
@@ -8,6 +12,7 @@
   &:focus,
   &.-focused {
     outline: 0;
-    background-color: $app-color-beige-600 !important;
+    background-color: var(--app-autocomplete-item-active-background) !important;
+    color: var(--app-autocomplete-item-active-foreground);
   }
 }

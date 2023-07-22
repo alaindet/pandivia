@@ -64,6 +64,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   itemGroups = this.store.selectSignal(selectInventoryCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectInventoryIsLoaded);
   inErrorStatus = this.store.selectSignal(selectInventoryInErrorStatus);
+  themeConfig = this.ui.theme.config;
 
   filters = toSignal(
     this.store.select(selectInventoryFilters).pipe(map(theFilters => {

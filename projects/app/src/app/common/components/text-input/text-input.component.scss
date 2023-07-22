@@ -1,5 +1,14 @@
 @import 'scoped';
 
+// Variables
+// --app-form-control-border-color
+// --app-form-control-hover-border-color
+// --app-form-control-focus-border-color
+// --app-form-control-background
+// --app-form-control-foreground
+// --app-form-control-placeholder
+// --app-text-input-width (LOCAL)
+
 .app-text-input {
   --app-text-input-width: fit-content;
 
@@ -15,7 +24,7 @@
   }
 
   > input::placeholder {
-    color: $app-color-grey-700;
+    color: var(--app-form-control-placeholder);
   }
 
   &.-with-custom-width {
@@ -42,23 +51,24 @@
   }
 
   ._input {
-    border: 2px solid $app-color-grey-600;
+    border: 2px solid var(--app-form-control-border-color);
     border-radius: 0.25rem;
     font-size: 1rem;
     line-height: 1rem;
     min-width: 19.25rem;
     height: 2.8rem;
     padding: 0 1rem;
-    color: $app-color-black;
+    background-color: var(--app-form-control-background);
+    color: var(--app-form-control-foreground);
     transition: 0.15s border-color ease-in-out;
 
     &:hover {
-      border-color: $app-color-grey-700;
+      border-color: var(--app-form-control-hover-border-color);
     }
 
     &:focus {
       outline: 0;
-      border-color: $app-color-black;
+      border-color: var(--app-form-control-focus-border-color);
       box-shadow: 0 2px 5px #0e141a1a;
     }
   }

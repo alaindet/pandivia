@@ -1,10 +1,9 @@
 import { createReducer } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
 
-import { DEFAULT_LANGUAGE } from '@app/core';
 import { LOADING_STATUS } from '@app/common/types';
 import { USER_FEATURE_INITIAL_STATE } from './state';
-import { userSignIn, userAutoSignIn, userSetLanguage, userFallbackToDefaultLanguage, userSignOut } from './actions';
+import { userSignIn, userAutoSignIn, userSetLanguage, userSignOut } from './actions';
 
 export const userReducer = createReducer(USER_FEATURE_INITIAL_STATE,
 
@@ -44,9 +43,5 @@ export const userReducer = createReducer(USER_FEATURE_INITIAL_STATE,
 
   immerOn(userSetLanguage, (state, { language }) => {
     state.language = language;
-  }),
-
-  immerOn(userFallbackToDefaultLanguage, state => {
-    state.language = DEFAULT_LANGUAGE;
   }),
 );

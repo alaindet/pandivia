@@ -1,10 +1,25 @@
 @import 'scoped';
 
+// Variables
+// --app-card-list-background
+// --app-card-list-foreground
+// --app-card-list-border-color
+// --app-card-list-foreground-muted
+// --app-card-list-item-hover-background
+// --app-card-list-secondary-text
+
 .app-card-list {
   display: block;
   border-radius: 0.5rem;
-  background-color: $app-color-white;
-  border: 1px solid $app-color-grey-600;
+  background-color: var(--app-card-list-background);
+  color: var(--app-card-list-foreground);
+  border: 1px solid var(--app-card-list-border-color);
+
+  // A little override
+  button > mat-icon,
+  button[appbutton="ghost"] {
+    color: var(--app-card-list-secondary-text);
+  }
 
   &.-selectable {
     ._item-header ._left {
@@ -12,18 +27,18 @@
     }
 
     ._item:hover {
-      background-color: rgba(0,0,0,0.1);
+      background-color: var(--app-card-list-item-hover-background);
     }
   }
 
   &.-muted-title ._title {
-    color: $app-color-grey-700;
+    color: var(--app-card-list-foreground-muted);
   }
 
   > ._header {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid $app-color-grey-600;
+    border-bottom: 1px solid var(--app-card-list-border-color);
     padding: 1rem;
   }
 
@@ -38,7 +53,7 @@
   }
 
   ._counters {
-    color: $app-color-grey-800;
+    color: var(--app-card-list-foreground-muted);
     margin-left: 0.25rem;
   }
 
@@ -66,7 +81,7 @@
   }
 
   ._item {
-    border-bottom: 2px solid $app-color-grey-600;
+    border-bottom: 2px solid var(--app-card-list-border-color);
   }
 
   ._item.-last {
@@ -79,7 +94,7 @@
 
   .-crossed {
     text-decoration: line-through !important;
-    color: $app-color-grey-800;
+    color: var(--app-card-list-foreground-muted);
   }
 
   ._item-header {

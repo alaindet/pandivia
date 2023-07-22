@@ -1,10 +1,12 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Inject, Injectable, computed, effect, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { effectOnChange } from '@app/common/utils';
-import { selectUiTheme, uiSetTheme, uiFallbackToDefaultTheme } from '../ui/store';
-import { THEME_STORAGE_KEY, DEFAULT_THEME, THEME_OPTIONS } from './constants';
-import { Theme } from './types';
+import { DOCUMENT } from '@angular/common';
+import { createLocalStorageItemController } from '@app/common/controllers';
+import { selectUiTheme, uiSetTheme } from '../ui/store';
+import { DEFAULT_THEME, THEME_OPTIONS, THEME_STORAGE_KEY, THEME_CONFIG } from './constants';
+import { Theme, ThemeConfig } from './types';
+import { Meta } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
@@ -12,43 +14,43 @@ import { Theme } from './types';
 export class ThemeService {
 
   private store = inject(Store);
+  private meta = inject(Meta);
   current = this.store.selectSignal(selectUiTheme);
+  config = computed<ThemeConfig>(() => THEME_CONFIG[this.current()]);
   options = THEME_OPTIONS;
-  cssClass = computed(() => `-theme-${this.current()}`);
 
-  constructor() {
+  storage = createLocalStorageItemController<Theme>(THEME_STORAGE_KEY, {
+    serialize: theme => theme as string,
+    deserialize: theme => theme as Theme,
+    default: DEFAULT_THEME,
+  });
+
+  // TODO: Is there a better way?
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+  ) {
+    this.document.body.setAttribute('theme', DEFAULT_THEME);
     this.initThemeFromStorage();
     this.listenToThemeChange();
   }
 
   set(_theme: string | null) {
-
-    if (_theme === null) {
-      this.store.dispatch(uiFallbackToDefaultTheme());
-      return;
-    }
-
-    const theme = _theme as Theme;
+    const theme = (_theme ?? DEFAULT_THEME) as Theme;
     this.store.dispatch(uiSetTheme({ theme }));
   }
 
   private initThemeFromStorage(): void {
-    const theme = this.fetchFromStorage() ?? DEFAULT_THEME;
+    const theme = this.storage.read();
     this.store.dispatch(uiSetTheme({ theme }));
   }
 
   private listenToThemeChange(): void {
-    effectOnChange(this.current, theme => {
-      this.saveToStorage(theme);
+    effect(() => {
+      const theme = this.current();
+      this.storage.write(theme);
+      const config = THEME_CONFIG[theme];
+      this.document.body.setAttribute('theme', theme);
+      this.meta.updateTag({ name: 'theme-color', content: config.themeColor });
     });
-  }
-
-  private fetchFromStorage(): Theme | null {
-    const input = window.localStorage.getItem(THEME_STORAGE_KEY);
-    return input ? input as Theme : null;
-  }
-
-  private saveToStorage(theme: Theme): void {
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
   }
 }

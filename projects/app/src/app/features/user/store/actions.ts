@@ -46,7 +46,3 @@ export const userSetLanguage = createAction(
   '[User] Set language',
   props<{ language: Language }>(),
 );
-
-export const userFallbackToDefaultLanguage = createAction(
-  '[User] Fallback to default language',
-);

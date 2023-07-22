@@ -1,0 +1,139 @@
+@mixin app-theme-golden() {
+  body[theme="golden"] {
+
+    // TODO: Turn these variables into SCSS?
+    --app-color-grey-50: #FFFEFE;
+    --app-color-grey-100: #FFFEFC;
+    --app-color-grey-200: #FEFCF8;
+    --app-color-grey-300: #FEFBF4;
+    --app-color-grey-400: #FDF7EC;
+    --app-color-grey-500: #FCF4E4;
+    --app-color-grey-600: #E3DCCD;
+    --app-color-grey-700: #979289;
+    --app-color-grey-800: #716E67;
+    --app-color-grey-900: #4C4944;
+
+    --app-color-primary-50: #FDFBF4;
+    --app-color-primary-100: #FCF8E8;
+    --app-color-primary-200: #F6ECC6;
+    --app-color-primary-300: #F1E1A4;
+    --app-color-primary-400: #E7CB60;
+    --app-color-primary-500: #DCB41C;
+    --app-color-primary-600: #C6A219;
+    --app-color-primary-700: #846C11;
+    --app-color-primary-800: #63510D;
+    --app-color-primary-900: #423608;
+
+    --app-color-secondary-50: #FBF8FA;
+    --app-color-secondary-100: #F8F1F4;
+    --app-color-secondary-200: #ECDCE4;
+    --app-color-secondary-300: #E1C7D4;
+    --app-color-secondary-400: #CB9EB4;
+    --app-color-secondary-500: #B47494;
+    --app-color-secondary-600: #A26885;
+    --app-color-secondary-700: #6C4659;
+    --app-color-secondary-800: #513443;
+    --app-color-secondary-900: #36232C;
+
+    --app-color-tertiary-50: #F7FAF8;
+    --app-color-tertiary-100: #EFF6F2;
+    --app-color-tertiary-200: #D6E8DE;
+    --app-color-tertiary-300: #BEDBCB;
+    --app-color-tertiary-400: #8DBFA3;
+    --app-color-tertiary-500: #5CA47C;
+    --app-color-tertiary-600: #539470;
+    --app-color-tertiary-700: #37624A;
+    --app-color-tertiary-800: #294A38;
+    --app-color-tertiary-900: #1C3125;
+
+    // Root
+    --app-root-color-background: var(--app-color-grey-400);
+    --app-root-color-foreground: var(--app-color-black);
+
+    // Actions menu
+    --app-actions-menu-item-background: var(--app-root-color-background);
+    --app-actions-menu-item-foreground: #{$app-color-black};
+    --app-actions-menu-item-border-color: #{$app-color-grey-600};
+    --app-actions-menu-item-active-background: var(--app-color-primary-500);
+    --app-actions-menu-item-active-foreground: #{$app-color-black};
+
+    // Autocomplete
+    --app-autocomplete-item-active-background: var(--app-color-primary-600);
+    --app-autocomplete-item-active-foreground: #{$app-color-black};
+    --app-autocomplete-border-color: var(--app-color-grey-700);
+    --app-autocomplete-item-background: #{$app-color-white};
+    --app-autocomplete-item-foreground: #{$app-color-black};
+
+    // Bottom menu
+    --app-bottom-menu-top-border-color: var(--app-color-grey-600);
+    --app-bottom-menu-item-background: var(--app-color-grey-50);
+    --app-bottom-menu-item-foreground: #{$app-color-black};
+    --app-bottom-menu-item-indicator-color: var(--app-color-primary-500);
+    --app-bottom-menu-item-indicator-hover-color: var(--app-color-primary-600);
+
+    // Button
+    --app-button-primary-background: var(--app-color-primary-500);
+    --app-button-primary-foreground: #{$app-color-black};
+    --app-button-primary-hover-background: var(--app-color-primary-600);
+    --app-button-secondary-background: var(--app-color-secondary-500);
+    --app-button-secondary-foreground: #{$app-color-white};
+    --app-button-secondary-hover-background: var(--app-color-secondary-600);
+    --app-button-tertiary-background: var(--app-color-tertiary-500);
+    --app-button-tertiary-foreground: #{$app-color-white};
+    --app-button-tertiary-hover-background: var(--app-color-tertiary-600);
+    --app-button-outline-border-color: var(--app-color-primary-500);
+    --app-button-outline-hover-background: var(--app-color-primary-500);
+    --app-button-outline-hover-foreground: #{$app-color-black};
+    --app-button-ghost-foreground: #{$app-color-black};
+    --app-button-ghost-hover-background: rgba(0, 0, 0, 0.1);
+
+    // Card list
+    --app-card-list-background: #{$app-color-white};
+    --app-card-list-foreground: #{$app-color-black};
+    --app-card-list-border-color: var(--app-color-grey-600);
+    --app-card-list-foreground-muted: var(--app-color-grey-700);
+    --app-card-list-item-hover-background: rgba(0, 0, 0, 0.07);
+    --app-card-list-secondary-text: var(--app-color-grey-800);
+
+    // Checkbox
+    --app-checkbox-background: #{$app-color-white};
+    --app-checkbox-border-color: #{$app-color-grey-600};
+    --app-checkbox-hover-foreground: #{$app-color-grey-900};
+
+    // Form field
+    --app-form-field-error: #{$app-color-error};
+    --app-form-field-hint: var(--app-color-grey-800);
+    --app-form-field-label: #{$app-color-black};
+
+    // Modal
+    --app-modal-background: var(--app-root-color-background);
+
+    // Page header
+    --app-page-header-bottom-line: var(--app-color-grey-600);
+
+    // Quick number
+    --app-quick-number-background: #{$app-color-white};
+    --app-quick-number-border-color: var(--app-color-grey-600);
+
+    // Form control
+    --app-form-control-border-color: var(--app-color-grey-600);
+    --app-form-control-hover-border-color: var(--app-color-grey-700);
+    --app-form-control-focus-border-color: #{$app-color-black};
+    --app-form-control-background: #{$app-color-white};
+    --app-form-control-foreground: #{$app-color-black};
+    --app-form-control-placeholder: var(--app-color-grey-700);
+
+    // Select
+    --app-select-closed-caret: #{$app-color-black};
+    --app-select-open-caret: var(--app-color-primary-500);
+
+    // Text input
+    // ...
+
+    // Textarea
+    // ...
+
+    // Toggle
+    --app-toggle-hover-foreground: #{$app-color-grey-900};
+  }
+}

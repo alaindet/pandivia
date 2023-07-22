@@ -20,9 +20,9 @@
 
   // TODO: Make it mobile-first
   @media (max-width: 768px) {
-    top: 6vh !important;
-    bottom: auto !important; // This should be on top of FAB button
-    left: 2.5vw !important;
-    right: 2.5vw !important;
+    top: $app-pos-notification-mobile-top !important;
+    right: $app-pos-notification-mobile-right !important;
+    bottom: $app-pos-notification-mobile-bottom !important;
+    left: $app-pos-notification-mobile-left !important;
   }
 }

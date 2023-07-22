@@ -1,12 +1,21 @@
 @import 'scoped';
 
+// Variables
+// --app-toggle-hover-foreground
+// --app-toggle-bullet-size (LOCAL)
+// --app-toggle-rail-width (LOCAL)
+// --app-toggle-rail-height (LOCAL)
+// --app-toggle-offset (LOCAL)
+// --app-toggle-color-rail (LOCAL)
+// --app-toggle-color-bullet (LOCAL)
+
 .app-toggle {
   --app-toggle-bullet-size: 0.5rem;
   --app-toggle-rail-width: calc(var(--app-toggle-bullet-size) * 1.667);
   --app-toggle-rail-height: calc(var(--app-toggle-bullet-size) * 0.667);
   --app-toggle-offset: 0;
-  --app-toggle-color-rail: #{$app-color-grey-600};
-  --app-toggle-color-bullet: #{$app-color-grey-700};
+  --app-toggle-color-rail: var(--app-color-grey-600);
+  --app-toggle-color-bullet: var(--app-color-grey-700);
 
   position: relative;
 
@@ -16,18 +25,18 @@
 
   &.-checked.-color {
     &-primary {
-      --app-toggle-color-rail: #{$app-color-primary-400};
-      --app-toggle-color-bullet: #{$app-color-primary-600};
+      --app-toggle-color-rail: var(--app-color-primary-400);
+      --app-toggle-color-bullet: var(--app-color-primary-600);
     }
 
     &-secondary {
-      --app-toggle-color-rail: #{$app-color-secondary-400};
-      --app-toggle-color-bullet: #{$app-color-secondary-600};
+      --app-toggle-color-rail: var(--app-color-secondary-400);
+      --app-toggle-color-bullet: var(--app-color-secondary-600);
     }
 
     &-tertiary {
-      --app-toggle-color-rail: #{$app-color-tertiary-400};
-      --app-toggle-color-bullet: #{$app-color-tertiary-600};
+      --app-toggle-color-rail: var(--app-color-tertiary-400);
+      --app-toggle-color-bullet: var(--app-color-tertiary-600);
     }
   }
 
@@ -66,13 +75,11 @@
     }
   }
 
-
-
   button[aria-pressed] {
     &:hover, &:focus {
       outline-offset: 0.5rem;
       filter: brightness(0.85);
-      color: $app-color-grey-700;
+      color: var(--app-toggle-hover-foreground);
     }
   }
 

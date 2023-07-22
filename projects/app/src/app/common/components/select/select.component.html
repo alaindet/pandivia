@@ -3,6 +3,7 @@
   class="_select"
   [attr.id]="id"
   [disabled]="isDisabled"
+  [class.-default-option]="selectedValue() === null"
   (change)="onSelectChange()"
 >
   <option

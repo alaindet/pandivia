@@ -1,9 +1,12 @@
 @import 'scoped';
 
+// Variables
+// --app-form-field-label
+
 .app-form-field-label {
   label {
     display: inline-block;
-    color: $app-color-black;
+    color: var(--app-form-field-label);
     margin-bottom: 0.5rem;
     font-weight: bold;
   }

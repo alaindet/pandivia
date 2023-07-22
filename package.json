@@ -1,16 +1,18 @@
 {
   "name": "pandivia",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --configuration production",
+    "build:stats": "ng build --configuration production --stats-json",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "firebase:dev": "firebase emulators:start --only firestore,auth --import firebase-testdata",
     "firebase:dev:clear": "firebase emulators:start --only firestore,auth",
     "firebase:dev:export": "firebase emulators:export firebase-testdata",
-    "firebase:admin": "node ./scripts/init-admin.js"
+    "firebase:admin": "node ./scripts/init-admin.js",
+    "analyze": "npm run build:stats && webpack-bundle-analyzer dist/app/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -50,6 +52,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "~5.0.2"
+    "typescript": "~5.0.2",
+    "webpack-bundle-analyzer": "^4.9.0"
   }
 }

@@ -1,5 +1,12 @@
 @import 'scoped';
 
+// Variables
+// --app-autocomplete-item-background
+// --app-autocomplete-item-foreground
+// --app-autocomplete-border-color
+// --app-autocomplete-width (LOCAL)
+// --app-autocomplete-offset-y (LOCAL)
+
 .app-autocomplete {
   --app-autocomplete-width: 19.25rem;
   --app-autocomplete-offset-y: 0;
@@ -15,10 +22,11 @@
   }
 
   ._options {
-    border: 2px solid $app-color-grey-700;
+    border: 2px solid var(--app-autocomplete-border-color);
     border-radius: 4px;
     position: absolute;
-    background-color: $app-color-white;
+    background-color: var(--app-autocomplete-item-background);
+    color: var(--app-autocomplete-item-foreground);
     transform: scaleY(0);
     transform-origin: top center;
     max-height: $app-height-autocomplete-options;

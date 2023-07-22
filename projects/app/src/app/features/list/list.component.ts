@@ -7,10 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
-import { DEFAULT_CATEGORY, UiService, getThemeCheckboxColor, selectUiTheme } from '@app/core';
+import { DEFAULT_CATEGORY, UiService } from '@app/core';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/ui';
-import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, CheckboxColor, ActionsMenuItem } from '@app/common/components';
+import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ActionsMenuItem } from '@app/common/components';
 import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
 import { OnceSource } from '@app/common/sources';
@@ -50,6 +50,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
+  themeConfig = this.ui.theme.config;
+
   getItemContextualMenu = (item: ListItem) => {
     return itemMenu.getItemContextualMenu(item).map(action => {
       const label = this.transloco.translate(action.label);
@@ -74,8 +76,6 @@ export class ListPageComponent implements OnInit, OnDestroy {
   );
 
   pinnedCategory = this.store.selectSignal(selectListCategoryFilter);
-  uiTheme = this.store.selectSignal(selectUiTheme);
-  uiCheckboxColor = computed<CheckboxColor>(() => getThemeCheckboxColor(this.uiTheme()));
 
   ngOnInit() {
     this.initPageMetadata();

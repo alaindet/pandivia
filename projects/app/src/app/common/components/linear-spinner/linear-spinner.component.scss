@@ -26,15 +26,24 @@
 
   &.-color {
     &-primary {
-      @include _spinner-color($app-color-primary-300, $app-color-primary-500);
+      @include _spinner-color(
+        var(--app-color-primary-300),
+        var(--app-color-primary-500)
+      );
     }
 
     &-secondary {
-      @include _spinner-color($app-color-secondary-300, $app-color-secondary-500);
+      @include _spinner-color(
+        var(--app-color-secondary-300),
+        var(--app-color-secondary-500)
+      );
     }
 
     &-tertiary {
-      @include _spinner-color($app-color-tertiary-300, $app-color-tertiary-500);
+      @include _spinner-color(
+        var(--app-color-tertiary-300),
+        var(--app-color-tertiary-500)
+      );
     }
   }
 

@@ -1,5 +1,8 @@
 @import 'scoped';
 
+// Variables
+// --app-modal-background
+
 .app-modal-host {
   display: none;
   isolation: isolate;
@@ -21,7 +24,7 @@
     max-width: 100vw;
     max-height: 80vh;
     overflow-y: auto;
-    background-color: $app-color-white;
+    background-color: var(--app-modal-background);
     border-radius: 0.5rem;
     padding: 1.5rem;
     display: flex;
