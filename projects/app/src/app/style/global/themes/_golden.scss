@@ -93,5 +93,10 @@
     --app-card-list-border-color: var(--app-color-grey-600);
     --app-card-list-foreground-muted: var(--app-color-grey-700);
     --app-card-list-item-hover-background: rgba(0, 0, 0, 0.07);
+
+    // Checkbox
+    --app-checkbox-background: #{$app-color-white};
+    --app-checkbox-border-color: #{$app-color-grey-600};
+    --app-checkbox-hover-foreground: #{$app-color-grey-900};
   }
 }

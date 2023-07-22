@@ -100,5 +100,10 @@
     // --app-card-list-border-color: rgba(0, 0, 0, 0.15);
     // --app-card-list-foreground-muted: #{scale_color($app-color-black, $lightness: 15%)};
     // --app-card-list-item-hover-background: rgba(0, 0, 0, 0.15);
+
+    // Checkbox
+    --app-checkbox-background: #{$app-color-white};
+    --app-checkbox-border-color: var(--app-color-primary-300);
+    --app-checkbox-hover-foreground: var(--app-color-primary-500);;
   }
 }
