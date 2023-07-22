@@ -113,5 +113,14 @@
     // Quick number
     --app-quick-number-background: #{$app-color-white};
     --app-quick-number-border-color: var(--app-color-grey-600);
+
+    // Select
+    --app-select-border-color: var(--app-color-grey-600);
+    --app-select-closed-caret: #{$app-color-black};
+    --app-select-open-caret: var(--app-color-primary-500);
+    --app-select-background: #{$app-color-white};
+    --app-select-foreground: #{$app-color-black};
+    --app-select-hover-border-color: var(--$app-color-grey-700);
+    --app-select-focus-border-color: #{$app-color-black};
   }
 }
