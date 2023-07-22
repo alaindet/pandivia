@@ -12,6 +12,7 @@ export const THEME_CONFIG = {
     checkboxColor: 'black',
     fabColor: 'primary',
     filterColor: 'secondary',
+    linearSpinnerColor: 'primary',
     label: 'Golden',
   },
   [THEME.FAIRY]: {
@@ -20,6 +21,7 @@ export const THEME_CONFIG = {
     checkboxColor: 'tertiary',
     fabColor: 'tertiary',
     filterColor: 'tertiary',
+    linearSpinnerColor: 'tertiary',
     label: 'Fairy',
   },
 } as const;

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 
-type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
+export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 
 @Component({
   selector: 'app-linear-spinner',

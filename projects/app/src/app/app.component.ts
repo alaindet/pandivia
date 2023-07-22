@@ -33,10 +33,9 @@ const imports = [
 export class AppComponent implements OnInit {
 
   private store = inject(Store);
-  private theme = inject(ThemeService); // Only injected for side effect
-  private lang = inject(LanguageService); // Only injected for side effect
 
   ui = inject(UiService);
+  themeConfig = this.ui.theme.config;
   loading = false;
 
   ngOnInit() {

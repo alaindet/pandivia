@@ -1,5 +1,5 @@
 import { ObjectValues } from '@app/common/types';
-import { ButtonColor, CheckboxColor } from '@app/common/components';
+import { ButtonColor, CheckboxColor, LinearSpinnerColor } from '@app/common/components';
 
 export const THEME = {
   GOLDEN: 'golden',
@@ -16,5 +16,6 @@ export type ThemeConfig = {
   checkboxColor: CheckboxColor;
   fabColor: ButtonColor;
   filterColor: ButtonColor;
+  linearSpinnerColor: LinearSpinnerColor;
   label: string;
 };
