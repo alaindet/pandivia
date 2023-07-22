@@ -6,6 +6,7 @@
 // --app-card-list-border-color
 // --app-card-list-foreground-muted
 // --app-card-list-item-hover-background
+// --app-card-list-secondary-text
 
 .app-card-list {
   display: block;
@@ -17,7 +18,7 @@
   // A little override
   button > mat-icon,
   button[appbutton="ghost"] {
-    color: var(--app-card-list-foreground-muted);
+    color: var(--app-card-list-secondary-text);
   }
 
   &.-selectable {
