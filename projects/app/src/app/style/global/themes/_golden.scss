@@ -1,5 +1,7 @@
 @mixin app-theme-golden() {
   body[theme="golden"] {
+
+    // TODO: Turn these variables into SCSS?
     --app-color-grey-50: #FFFEFE;
     --app-color-grey-100: #FFFEFC;
     --app-color-grey-200: #FEFCF8;
@@ -50,23 +52,46 @@
 
     // Actions menu
     --app-actions-menu-item-background: var(--app-root-color-background);
-    --app-actions-menu-item-foreground: $app-color-black;
-    --app-actions-menu-item-border-color: $app-color-grey-600;
+    --app-actions-menu-item-foreground: #{$app-color-black};
+    --app-actions-menu-item-border-color: #{$app-color-grey-600};
     --app-actions-menu-item-active-background: var(--app-color-primary-500);
-    --app-actions-menu-item-active-foreground: $app-color-black;
+    --app-actions-menu-item-active-foreground: #{$app-color-black};
 
     // Autocomplete
     --app-autocomplete-item-active-background: var(--app-color-primary-600);
-    --app-autocomplete-item-active-foreground: $app-color-black;
+    --app-autocomplete-item-active-foreground: #{$app-color-black};
     --app-autocomplete-border-color: var(--app-color-grey-700);
-    --app-autocomplete-item-background: $app-color-white;
-    --app-autocomplete-item-foreground: $app-color-black;
+    --app-autocomplete-item-background: #{$app-color-white};
+    --app-autocomplete-item-foreground: #{$app-color-black};
 
     // Bottom menu
     --app-bottom-menu-top-border-color: var(--app-color-grey-600);
     --app-bottom-menu-item-background: var(--app-color-grey-50);
-    --app-bottom-menu-item-foreground: $app-color-black;
+    --app-bottom-menu-item-foreground: #{$app-color-black};
     --app-bottom-menu-item-indicator-color: var(--app-color-primary-500);
     --app-bottom-menu-item-indicator-hover-color: var(--app-color-primary-600);
+
+    // Button
+    --app-button-primary-background: var(--app-color-primary-500);
+    --app-button-primary-foreground: #{$app-color-black};
+    --app-button-primary-hover-background: var(--app-color-primary-600);
+    --app-button-secondary-background: var(--app-color-secondary-500);
+    --app-button-secondary-foreground: #{$app-color-white};
+    --app-button-secondary-hover-background: var(--app-color-secondary-600);
+    --app-button-tertiary-background: var(--app-color-tertiary-500);
+    --app-button-tertiary-foreground: #{$app-color-white};
+    --app-button-tertiary-hover-background: var(--app-color-tertiary-600);
+    --app-button-outline-border-color: var(--app-color-primary-500);
+    --app-button-outline-hover-background: var(--app-color-primary-500);
+    --app-button-outline-hover-foreground: #{$app-color-black};
+    --app-button-ghost-foreground: #{$app-color-black};
+    --app-button-ghost-hover-background: rgba(0, 0, 0, 0.1);
+
+    // Card list
+    --app-card-list-background: #{$app-color-white};
+    --app-card-list-foreground: #{$app-color-black};
+    --app-card-list-border-color: var(--app-color-grey-600);
+    --app-card-list-foreground-muted: var(--app-color-grey-700);
+    --app-card-list-item-hover-background: rgba(0, 0, 0, 0.07);
   }
 }

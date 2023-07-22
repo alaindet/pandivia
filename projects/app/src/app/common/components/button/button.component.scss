@@ -1,5 +1,27 @@
 @import 'scoped';
 
+// TODO: Can these variables be simplified?
+
+// Variables
+// --app-button-primary-background
+// --app-button-primary-foreground
+// --app-button-primary-hover-background
+// --app-button-secondary-background
+// --app-button-secondary-foreground
+// --app-button-secondary-hover-background
+// --app-button-tertiary-background
+// --app-button-tertiary-foreground
+// --app-button-tertiary-hover-background
+// --app-button-outline-border-color
+// --app-button-outline-hover-background
+// --app-button-outline-hover-foreground
+// --app-button-ghost-foreground
+// --app-button-ghost-hover-background
+// --app-button-top (LOCAL)
+// --app-button-right (LOCAL)
+// --app-button-bottom (LOCAL)
+// --app-button-left (LOCAL)
+
 .app-button {
   --app-button-top: auto;
   --app-button-right: 1rem;
@@ -26,38 +48,39 @@
   &.-color {
 
     &-primary {
-      background-color: $app-color-primary-500;
-      color: $app-color-black;
+      background-color: var(--app-button-primary-background);
+      color: var(--app-button-primary-foreground);
 
       &:hover {
-        background-color: $app-color-primary-600;
+        background-color: var(--app-button-primary-hover-background);
       }
     }
 
     &-secondary {
-      background-color: $app-color-secondary-500;
-      color: $app-color-white;
+      background-color: var(--app-button-secondary-background);
+      color: var(--app-button-secondary-foreground);
 
       &:hover {
-        background-color: $app-color-secondary-600;
+        background-color: var(--app-button-secondary-hover-background);
       }
     }
 
     &-tertiary {
-      background-color: $app-color-tertiary-500;
-      color: $app-color-white;
+      background-color: var(--app-button-tertiary-background);
+      color: var(--app-button-tertiary-foreground);
 
       &:hover {
-        background-color: $app-color-tertiary-600;
+        background-color: var(--app-button-tertiary-hover-background);
       }
     }
 
     &-outline {
       background-color: transparent;
-      border-color: $app-color-primary-500;
+      border-color: var(--app-button-outline-border-color);
 
       &:hover {
-        background-color: $app-color-primary-500;
+        background-color: var(--app-button-outline-hover-background);
+        color: var(--app-button-outline-hover-foreground);
       }
 
       i {
@@ -67,11 +90,11 @@
 
     &-ghost {
       background-color: transparent;
-      color: $app-color-black;
+      color: var(--app-button-ghost-foreground);
       border-color: transparent;
 
       &:hover {
-        background-color: rgba(0,0,0,0.1);
+        background-color: var(--app-button-ghost-hover-background);
       }
     }
   }
