@@ -17,5 +17,6 @@ export type ThemeConfig = {
   fabColor: ButtonColor;
   filterColor: ButtonColor;
   linearSpinnerColor: LinearSpinnerColor;
+  quickNumberColor: ButtonColor;
   label: string;
 };

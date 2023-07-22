@@ -4,7 +4,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
 import { MatIconModule } from '@angular/material/icon';
 
 import { didInputChange, uniqueId } from '@app/common/utils';
-import { ButtonComponent } from '../button';
+import { ButtonColor, ButtonComponent } from '../button';
 
 const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -34,6 +34,7 @@ export class QuickNumberComponent implements OnChanges, OnInit, ControlValueAcce
 
   @Input() id?: string;
   @Input('value') _value = 1;
+  @Input() color: ButtonColor = 'primary';
   @Input() min?: number;
   @Input() max?: number;
   @Input() isDisabled = false;

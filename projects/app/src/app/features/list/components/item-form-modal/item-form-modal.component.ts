@@ -18,6 +18,7 @@ import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
+import { UiService } from '@app/core';
 
 const imports = [
   NgIf,
@@ -51,12 +52,14 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
   private store = inject(Store);
   private formBuilder = inject(FormBuilder);
+  private ui = inject(UiService);
 
   FIELD = FIELD;
   theForm!: FormGroup;
   isEditing = signal(false);
   isSaving = this.store.selectSignal(selectListIsLoading);
   shouldContinue = false;
+  themeConfig = this.ui.theme.config;
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
   get fAmount() { return fDescribe(this.theForm, FIELD.AMOUNT.id) }

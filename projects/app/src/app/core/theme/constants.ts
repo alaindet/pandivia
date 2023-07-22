@@ -13,6 +13,7 @@ export const THEME_CONFIG = {
     fabColor: 'primary',
     filterColor: 'secondary',
     linearSpinnerColor: 'primary',
+    quickNumberColor: 'primary',
     label: 'Golden',
   },
   [THEME.FAIRY]: {
@@ -22,6 +23,7 @@ export const THEME_CONFIG = {
     fabColor: 'tertiary',
     filterColor: 'tertiary',
     linearSpinnerColor: 'tertiary',
+    quickNumberColor: 'primary',
     label: 'Fairy',
   },
 } as const;
