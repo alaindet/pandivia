@@ -1,5 +1,11 @@
 @import 'scoped';
 
+// Variables
+// --app-bottom-menu-item-background
+// --app-bottom-menu-item-foreground
+// --app-bottom-menu-item-indicator-color
+// --app-bottom-menu-item-indicator-hover-color
+
 .app-bottom-menu-item {
   position: relative;
   display: flex;
@@ -10,7 +16,8 @@
   padding-bottom: 0.5rem;
   cursor: pointer;
   transition: 0.15s all ease-out;
-  background-color: var(--app-color-grey-50);
+  background-color: var(--app-bottom-menu-item-background);
+  color: var(--app-bottom-menu-item-foreground);
   flex: 1 1 0;
   -webkit-user-select: none;
   user-select: none;
@@ -22,7 +29,7 @@
     left: 0;
     right: 0;
     height: 5px;
-    background-color: var(--app-color-primary-500);
+    background-color: var(--app-bottom-menu-item-indicator-color);
     transform: scaleY(0);
     transform-origin: bottom;
     transition: 0.15s all ease-in-out;
@@ -30,16 +37,16 @@
 
   &:hover::after {
     transform: scaleY(1.5) !important;
-    background-color: var(--app-color-primary-500) !important;
+    background-color: var(--app-bottom-menu-item-indicator-color) !important;
   }
 
   &:focus::after, &.-selected::after {
     transform: scaleY(1);
-    background-color: var(--app-color-primary-600);
+    background-color: var(--app-bottom-menu-item-indicator-hover-color);
   }
 
   > ._icon .mat-icon {
-    color: $app-color-black;
+    color: var(--app-bottom-menu-item-foreground);
   }
 
   > ._label {

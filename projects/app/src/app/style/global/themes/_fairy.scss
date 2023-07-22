@@ -51,7 +51,7 @@
     // Actions menu
     --app-actions-menu-item-background: var(--app-root-color-background);
     --app-actions-menu-item-foreground: $app-color-black;
-    --app-actions-menu-item-border: var(--app-color-primary-200);
+    --app-actions-menu-item-border-color: var(--app-color-primary-200);
     --app-actions-menu-item-active-background: var(--app-color-primary-500);
     --app-actions-menu-item-active-foreground: white;
 
@@ -61,5 +61,12 @@
     --app-autocomplete-border-color: var(--app-color-grey-700);
     --app-autocomplete-item-background: var(--app-root-color-background);
     --app-autocomplete-item-foreground: $app-color-black;
+
+    // Bottom menu
+    --app-bottom-menu-top-border-color: var(--app-color-primary-300);
+    --app-bottom-menu-item-background: var(--app-root-color-background);
+    --app-bottom-menu-item-foreground: var(--app-color-primary-700);
+    --app-bottom-menu-item-indicator-color: var(--app-color-primary-500);
+    --app-bottom-menu-item-indicator-hover-color: var(--app-color-primary-600);
   }
 }
