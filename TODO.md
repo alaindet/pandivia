@@ -1,6 +1,5 @@
 # To Do
 - [ ] Configure firebase.indexes.json
-- [ ] Fix broken language when English is stored in local storage
 
 # Backlog
 - [ ] Enable themes and remove checkboxColor input from <app-cards-list>
