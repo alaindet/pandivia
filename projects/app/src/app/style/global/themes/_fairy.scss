@@ -121,13 +121,19 @@
     --app-quick-number-background: #{$app-color-white};
     --app-quick-number-border-color: var(--app-color-grey-600);
 
+    // Form control
+    --app-form-control-border-color: var(--app-color-primary-200);
+    --app-form-control-hover-border-color: var(--app-color-primary-400);
+    --app-form-control-focus-border-color: #{$app-color-black};
+    --app-form-control-background: #{$app-color-white};
+    --app-form-control-foreground: #{$app-color-black};
+    --app-form-control-placeholder: var(--app-color-grey-700);
+
     // Select
-    --app-select-border-color: var(--app-color-primary-200);
     --app-select-closed-caret: #{$app-color-black};
     --app-select-open-caret: var(--app-color-primary-500);
-    --app-select-background: #{$app-color-white};
-    --app-select-foreground: #{$app-color-black};
-    --app-select-hover-border-color: var(--app-color-primary-400);
-    --app-select-focus-border-color: #{$app-color-black};
+
+    // Text input
+    // ...
   }
 }

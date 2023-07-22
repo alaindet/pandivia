@@ -1,13 +1,14 @@
 @import 'scoped';
 
 // Variables
-// --app-select-border-color
+// --app-form-control-border-color
+// --app-form-control-hover-border-color
+// --app-form-control-focus-border-color
+// --app-form-control-background
+// --app-form-control-foreground
+// --app-form-control-placeholder
 // --app-select-closed-caret
 // --app-select-open-caret
-// --app-select-background
-// --app-select-foreground
-// --app-select-hover-border-color
-// --app-select-focus-border-color
 // --app-select-width (LOCAL)
 // --app-select-caret-size (LOCAL)
 
@@ -36,9 +37,9 @@
     -moz-appearance:none; /* Firefox */
     -webkit-appearance:none; /* Safari and Chrome */
     appearance:none;
-    border: 2px solid var(--app-select-border-color);
-    background-color: var(--app-select-background);
-    color: var(--app-select-foreground);
+    border: 2px solid var(--app-form-control-border-color);
+    background-color: var(--app-form-control-background);
+    color: var(--app-form-control-foreground);
     border-radius: 0.25rem;
     font-size: 1rem;
     line-height: 1rem;
@@ -49,13 +50,17 @@
     transition: 0.15s border-color ease-in-out;
 
     &:hover {
-      border-color: var(--app-select-hover-border-color);
+      border-color: var(--app-form-control-hover-border-color);
     }
 
     &:focus {
       outline: 0;
-      border-color: var(--app-select-focus-border-color);
+      border-color: var(--app-form-control-focus-border-color);
       box-shadow: 0 2px 5px #0e141a1a;
+    }
+
+    &.-default-option {
+      color: var(--app-form-control-placeholder);
     }
   }
 

@@ -1,5 +1,13 @@
 @import 'scoped';
 
+// Variables
+// --app-form-control-border-color
+// --app-form-control-hover-border-color
+// --app-form-control-focus-border-color
+// --app-form-control-background
+// --app-form-control-foreground
+// --app-form-control-placeholder
+
 .app-textarea {
 
   position: relative;
@@ -15,7 +23,7 @@
   }
 
   > textarea::placeholder {
-    color: $app-color-grey-700;
+    color: var(--app-form-control-placeholder);
   }
 
   &.-full-width {
@@ -43,22 +51,23 @@
   }
 
   ._textarea {
-    border: 2px solid $app-color-grey-600;
+    border: 2px solid var(--app-form-control-border-color);
     border-radius: 0.25rem;
     font-size: 1rem;
     line-height: 1rem;
     min-width: 19.25rem;
     padding: 0.5rem;
-    color: $app-color-black;
+    background-color: var(--app-form-control-background);
+    color: var(--app-form-control-foreground);
     transition: 0.15s border-color ease-in-out;
 
     &:hover {
-      border-color: $app-color-grey-700;
+      border-color: var(--app-form-control-hover-border-color);
     }
 
     &:focus {
       outline: 0;
-      border-color: $app-color-black;
+      border-color: var(--app-form-control-focus-border-color);
       box-shadow: 0 2px 5px #0e141a1a;
     }
   }
