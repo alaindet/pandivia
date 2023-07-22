@@ -52,7 +52,14 @@
     --app-actions-menu-item-background: var(--app-root-color-background);
     --app-actions-menu-item-foreground: $app-color-black;
     --app-actions-menu-item-border: $app-color-grey-600;
-    --app-actions-menu-item-active-background: $app-color-primary-500;
+    --app-actions-menu-item-active-background: var(--app-color-primary-500);
     --app-actions-menu-item-active-foreground: $app-color-black;
+
+    // Autocomplete
+    --app-autocomplete-item-active-background: var(--app-color-primary-600);
+    --app-autocomplete-item-active-foreground: $app-color-black;
+    --app-autocomplete-border-color: var(--app-color-grey-700);
+    --app-autocomplete-item-background: $app-color-white;
+    --app-autocomplete-item-foreground: $app-color-black;
   }
 }
