@@ -1,2 +1,2 @@
-export * from './list-filter';
-export * from './list-item';
+export * from './filters';
+export * from './item';

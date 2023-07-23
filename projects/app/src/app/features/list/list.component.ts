@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, computed, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Observable, filter, map, switchMap, take, takeUntil } from 'rxjs';
@@ -16,7 +16,7 @@ import { StackedLayoutService } from '@app/common/layouts';
 import { OnceSource } from '@app/common/sources';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
+import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListCounters, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
 import { ListFilterToken, CategorizedListItems, ListItem } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
@@ -50,32 +50,17 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
-  themeConfig = this.ui.theme.config;
-
-  getItemContextualMenu = (item: ListItem) => {
-    return itemMenu.getItemContextualMenu(item).map(action => {
-      const label = this.transloco.translate(action.label);
-      return { ...action, label };
-    });
-  };
-
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
   itemGroups = this.store.selectSignal(selectListCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectListIsLoaded);
   inErrorStatus = this.store.selectSignal(selectListInErrorStatus);
-
-  filters = toSignal(
-    this.store.select(selectListFilters).pipe(map(theFilters => {
-      if (theFilters === null) return theFilters;
-      return theFilters.map(filter => {
-        if (filter.label !== DEFAULT_CATEGORY) return filter;
-        return { ...filter, label: 'common.uncategorized' };
-      });
-    })),
-  );
-
+  themeConfig = this.ui.theme.config;
   pinnedCategory = this.store.selectSignal(selectListCategoryFilter);
+  filters = this.getTranslatedFilters();
+  getItemContextualMenu = this.getTranslatedItemContextualMenuFn();
+  counters = this.store.selectSignal(selectListCounters);
+  pageCounters$ = effect(() => this.layout.setHeaderCounters(this.counters()));
 
   ngOnInit() {
     this.initPageMetadata();
@@ -244,6 +229,25 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   trackByCategory(index: number, group: CategorizedListItems): string {
     return group.category;
+  }
+
+  private getTranslatedFilters(): Signal<ListFilterToken[] | null> {
+    return toSignal(this.store.select(selectListFilters).pipe(map(filters => {
+      if (filters === null) return null;
+      return filters.map(filter => {
+        if (filter.label !== DEFAULT_CATEGORY) return filter;
+        return { ...filter, label: 'common.uncategorized' };
+      });
+    }))) as Signal<ListFilterToken[] | null>;
+  }
+
+  private getTranslatedItemContextualMenuFn(): (item: ListItem) => ActionsMenuItem[] {
+    return (item: ListItem) => {
+      return itemMenu.getItemContextualMenu(item).map(action => {
+        const label = this.transloco.translate(action.label);
+        return { ...action, label };
+      });
+    };
   }
 
   private initPageMetadata(): void {

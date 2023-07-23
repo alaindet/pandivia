@@ -1,7 +1,13 @@
 <header>
   <app-page-header>
 
-    <h1>{{ title }}</h1>
+    <!-- Title with optional counters -->
+    <ng-container [ngTemplateOutlet]="!headerCounters
+      ? headerWithoutCountersRef
+      : headerCounters.completed === null
+        ? headerWithCounterRef
+        : headerWithCountersRef"
+    />
 
     <ng-container slot="right" *ngIf="!!headerActions.length">
       <app-actions-menu
@@ -37,3 +43,28 @@
     (selected)="onBottomMenuChange($event)"
   ></app-bottom-menu>
 </footer>
+
+<!-- Template: header without counters -->
+<ng-template #headerWithoutCountersRef>
+  <h1 class="_title">{{ title }}</h1>
+</ng-template>
+
+<!-- Template: header with simple counter -->
+<ng-template #headerWithCounterRef>
+  <h1 class="_title -with-counters">
+    {{ title }}
+    <div class="_counters">
+      ({{ headerCounters!.total }})
+    </div>
+  </h1>
+</ng-template>
+
+<!-- Template: header with compound counters -->
+<ng-template #headerWithCountersRef>
+  <h1 class="_title -with-counters">
+    {{ title }}
+    <div class="_counters">
+      ({{ headerCounters!.completed }} / <strong>{{ headerCounters!.total }}</strong>)
+    </div>
+  </h1>
+</ng-template>

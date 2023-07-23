@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, BottomMenuComponent, BottomMenuItem, ButtonComponent, PageHeaderComponent } from '@app/common/components';
-import { StackedLayoutService } from './stacked.service';
-import { MatIconModule } from '@angular/material/icon';
-import { NgIf } from '@angular/common';
+import { Counters } from '../../types';
 
 const imports = [
   NgIf,
+  NgTemplateOutlet,
   ...ACTIONS_MENU_EXPORTS,
   PageHeaderComponent,
   ButtonComponent,
@@ -25,10 +26,9 @@ const imports = [
 })
 export class StackedLayoutComponent {
 
-  svc = inject(StackedLayoutService);
-
   @Input({ required: true }) title!: string;
   @Input({ required: true }) headerActions!: ActionsMenuItem[];
+  @Input() headerCounters: Counters | null = null;
   @Input({ required: true }) footerActions!: BottomMenuItem[];
   @Input() footerCurrentAction: string | null = null;
   @Input() withBackButton = false;

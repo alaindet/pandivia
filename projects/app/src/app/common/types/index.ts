@@ -1,4 +1,5 @@
 export * from './back-button-status';
+export * from './counters';
 export * from './form-field-descriptor';
 export * from './form-field-status';
 export * from './form-option';

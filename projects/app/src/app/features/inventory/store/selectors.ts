@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { groupItemsByCategory, sortItemsByName } from '@app/core/functions';
 import { CACHE_MAX_AGE } from '@app/core/cache';
-import { LOADING_STATUS } from '@app/common/types';
+import { Counters, LOADING_STATUS } from '@app/common/types';
 import { INVENTORY_FILTER, InventoryFilterToken, InventoryItem } from '../types';
 import { INVENTORY_FEATURE_NAME, InventoryFeatureState } from './state';
 
@@ -143,4 +143,13 @@ export const selectInventoryItemById = (itemId: string) => createSelector(
 export const selectInventoryItemModalSuccessCounter = createSelector(
   selectInventoryFeature,
   state => state.itemModalSuccessCounter,
+);
+
+export const selectInventoryCounters = createSelector(
+  selectInventoryFeature,
+  state => {
+    const counters: Counters = { completed: null, total: 0 };
+    counters.total = state.items.length;
+    return counters;
+  },
 );

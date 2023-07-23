@@ -12,7 +12,8 @@ export type ListFilters = {
   [LIST_FILTER.IS_DONE]: boolean | null;
 };
 
-export type ListFilterToken = {
+export type ListFilterToken<T = any> = {
   key: ListFilter;
-  value: any; // TODO: Add type
+  label?: string; // This is translated
+  value: T;
 };

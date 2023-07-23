@@ -6,7 +6,7 @@
       <h2>{{ title }}</h2>
       <span *ngIf="withCounters" class="_counters">
         <ng-container *ngIf="isSelectable; else selectableCountersRef">
-          ({{ counters!().done }}/<strong>{{ counters!().total }}</strong>)
+          ({{ counters!().done }} / <strong>{{ counters!().total }}</strong>)
         </ng-container>
         <ng-template #selectableCountersRef>
           (<strong>{{ counters!().total }}</strong>)

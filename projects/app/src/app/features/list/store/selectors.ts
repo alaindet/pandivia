@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { groupItemsByCategory, sortItemsByName } from '@app/core/functions';
 import { CACHE_MAX_AGE } from '@app/core/cache';
-import { LOADING_STATUS } from '@app/common/types';
+import { LOADING_STATUS, Counters } from '@app/common/types';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
 import { LIST_FILTER, ListFilterToken, ListItem } from '../types';
 import { selectInventoryItemsByName } from '@app/features/inventory/store';
@@ -187,3 +187,13 @@ export const selectListItemNameAutocompleteItems = (nameQuery: string) => {
     },
   );
 };
+
+export const selectListCounters = createSelector(
+  selectListFeature,
+  state => {
+    const counters: Counters = { completed: 0, total: 0 };
+    counters.completed = state.items.filter(item => item.isDone).length;
+    counters.total = state.items.length;
+    return counters;
+  },
+);

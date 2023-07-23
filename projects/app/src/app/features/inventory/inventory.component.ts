@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
@@ -19,7 +19,7 @@ import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
-import { inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
+import { inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryCounters, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 import { OnceSource } from '@app/common/sources';
 import { UiService } from '@app/core/ui';
@@ -52,31 +52,17 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
-  getItemContextualMenu = (item: InventoryItem) => {
-    return itemMenu.getItemContextualMenu(item).map(action => {
-      const label = this.transloco.translate(action.label);
-      return { ...action, label };
-    });
-  };
-
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
   itemGroups = this.store.selectSignal(selectInventoryCategorizedFilteredItems);
   loaded = this.store.selectSignal(selectInventoryIsLoaded);
   inErrorStatus = this.store.selectSignal(selectInventoryInErrorStatus);
   themeConfig = this.ui.theme.config;
-
-  filters = toSignal(
-    this.store.select(selectInventoryFilters).pipe(map(theFilters => {
-      if (theFilters === null) return theFilters;
-      return theFilters.map(filter => {
-        if (filter.label !== DEFAULT_CATEGORY) return filter;
-        return { ...filter, label: 'common.uncategorized' };
-      });
-    }))
-  )
-
+  getItemContextualMenu = this.getTranslatedItemContextualMenuFn();
+  filters = this.getTranslatedFilters();
   pinnedCategory = this.store.selectSignal(selectInventoryCategoryFilter);
+  counters = this.store.selectSignal(selectInventoryCounters);
+  pageCounters$ = effect(() => this.layout.setHeaderCounters(this.counters()));
 
   ngOnInit() {
     this.initPageMetadata();
@@ -184,6 +170,25 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   trackByCategory(index: number, group: CategorizedInventoryItems): string {
     return group.category;
+  }
+
+  private getTranslatedItemContextualMenuFn(): (item: InventoryItem) => ActionsMenuItem[] {
+    return (item: InventoryItem) => {
+      return itemMenu.getItemContextualMenu(item).map(action => {
+        const label = this.transloco.translate(action.label);
+        return { ...action, label };
+      });
+    };
+  }
+
+  private getTranslatedFilters(): Signal<InventoryFilterToken[] | null> {
+    return toSignal(this.store.select(selectInventoryFilters).pipe(map(filters => {
+      if (filters === null) return null;
+      return filters.map(filter => {
+        if (filter.label !== DEFAULT_CATEGORY) return filter;
+        return { ...filter, label: 'common.uncategorized' };
+      });
+    }))) as Signal<InventoryFilterToken[] | null>;
   }
 
   private initPageMetadata(): void {
