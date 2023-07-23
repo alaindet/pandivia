@@ -60,6 +60,7 @@ export class ProfilePageComponent implements OnInit {
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_USER.id;
     this.store.dispatch(uiSetCurrentNavigation({ current }));
+    this.layout.clearHeaderCounters();
   }
 
   private resetHeaderActions(): void {

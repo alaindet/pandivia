@@ -1,8 +1,8 @@
 import { DEFAULT_THEME, Theme } from '@app/core/theme';
 import { BottomMenuItem } from '@app/common/components';
 import { Notification } from '@app/common/types';
+import packageJson from '@root/package.json';
 import { NAVIGATION_ITEMS } from '../constants';
-import packageJson from '../../../../../../../package.json';
 
 export type UiFeatureState = {
   notifications: Notification[];

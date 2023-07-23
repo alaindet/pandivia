@@ -8,7 +8,7 @@ import { DemoHeaderComponent } from './components/header/header.component';
 import { DemoLayoutComponent } from './components/layout/layout.component';
 import { DemoNavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
 import { DEMO_PAGES } from './routes';
-import { DEMO_VERSION } from './version';
+import packageJson from '@root/package.json';
 
 const imports = [
   CommonModule,
@@ -57,7 +57,7 @@ export class DemoPageComponent {
   titleService = inject(Title);
 
   pages = DEMO_PAGES;
-  version = DEMO_VERSION;
+  version = packageJson.version;
   title = 'Demo';
 
   ngOnInit() {

@@ -26,6 +26,9 @@
       "dom"
     ],
     "paths": {
+      "@root/*": [
+        "./*"
+      ],
       "@app/*": [
         "projects/app/src/app/*"
       ],
