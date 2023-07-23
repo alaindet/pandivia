@@ -8,5 +8,6 @@
   ```
 - Simply deploy the application via
   ```
+  npm version minor
   npx firebase deploy
   ```

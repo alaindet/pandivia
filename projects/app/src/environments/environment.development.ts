@@ -1,7 +1,7 @@
 import { firebaseConfig } from './firebase';
 
 export const environment = {
-  production: true,
+  production: false,
   appName: 'Pandivia',
   firebase: {
     config: firebaseConfig,

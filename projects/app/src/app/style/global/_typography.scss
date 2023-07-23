@@ -1,6 +1,6 @@
 @mixin app-typography() {
-  body {
-    font-family: 'Josefin Sans', sans-serif;
+  body, input, textarea, button {
+    font-family: $app-typography-body-font;
   }
 
   h1, h2, h3, h4, h5, h6 {
