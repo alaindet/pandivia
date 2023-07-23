@@ -278,12 +278,13 @@
       <!-- Confirm and continue -->
       <button
         type="button"
-        appButton="primary"
+        appButton="outline"
         withIcon="left"
         size="small"
         [disabled]="isSaving()"
         (click)="onCreateAndContinue()"
       >
+        <mat-icon>playlist_add</mat-icon>
         {{ t('common.createAndContinue') }}
       </button>
 
@@ -296,6 +297,7 @@
         [disabled]="isSaving()"
         (click)="onSubmit()"
       >
+        <mat-icon>add</mat-icon>
         {{ t('common.createAndClose') }}
       </button>
 
