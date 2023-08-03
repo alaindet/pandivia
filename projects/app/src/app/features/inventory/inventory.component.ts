@@ -130,6 +130,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
         this.cloneItemToList(itemId);
         break;
       }
+      case itemMenu.ITEM_ACTION_MOVE_TO_CATEGORY.id: {
+        this.showMoveToCategoryModal();
+        break;
+      }
       case itemMenu.ITEM_ACTION_EDIT.id: {
         this.showEditItemModal(itemId);
         break;
@@ -305,5 +309,12 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
           this.store.dispatch(listCreateItem.try({ dto }));
         },
       });
+  }
+
+  private showMoveToCategoryModal(): void {
+    // const title = this.transloco.translate('common.itemModal.editTitle');
+    const title = 'TODO: Move to category';
+    const modalInput: InventoryItemFormModalInput = { title, item };
+    this.modal.open(InventoryItemFormModalComponent, modalInput);
   }
 }
