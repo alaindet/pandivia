@@ -42,60 +42,60 @@ export const inventoryRemoveItems = {
 
 export const inventoryRemoveItemsByCategory = {
   try: createAction(
-    '[Inventory/Category] Remove items by category',
+    '[Inventory] Remove items by category',
     props<{ category: string }>(),
   ),
   ok: createAction(
-    '[Inventory/Category] Remove items by category success',
+    '[Inventory] Remove items by category success',
     props<{ category: string, message: string }>(),
   ),
   err: createAction(
-    '[Inventory/Category] Remove items by category error',
+    '[Inventory] Remove items by category error',
     props<{ message: string }>(),
   ),
 };
 
 export const inventoryCreateItem = {
   try: createAction(
-    '[Inventory/Item] Create item',
+    '[Inventory] Create item',
     props<{ dto: CreateInventoryItemDto }>(),
   ),
   ok: createAction(
-    '[Inventory/Item] Create item success',
+    '[Inventory] Create item success',
     props<{ item: InventoryItem, message: string }>(),
   ),
   err: createAction(
-    '[Inventory/Item] Create item error',
+    '[Inventory] Create item error',
     props<{ message: string }>(),
   ),
 };
 
 export const inventoryEditItem = {
   try: createAction(
-    '[Inventory/Item] Edit item',
+    '[Inventory] Edit item',
     props<{ item: InventoryItem }>(),
   ),
   ok: createAction(
-    '[Inventory/Item] Edit item success',
+    '[Inventory] Edit item success',
     props<{ item: InventoryItem, message: string }>(),
   ),
   err: createAction(
-    '[Inventory/Item] Edit item error',
+    '[Inventory] Edit item error',
     props<{ message: string }>(),
   ),
 };
 
 export const inventoryRemoveItem = {
   try: createAction(
-    '[Inventory/Item] Remove item',
+    '[Inventory] Remove item',
     props<{ itemId: string }>(),
   ),
   ok: createAction(
-    '[Inventory/Item] Remove item success',
+    '[Inventory] Remove item success',
     props<{ itemId: string, message: string }>(),
   ),
   err: createAction(
-    '[Inventory/Item] Remove item error',
+    '[Inventory] Remove item error',
     props<{ message: string }>(),
   ),
 };
@@ -103,17 +103,24 @@ export const inventoryRemoveItem = {
 // WARNING: Potentially too generic name
 export const inventoryFilters = {
   setCategory: createAction(
-    '[Inventory/Filters] Set category filter',
+    '[Inventory] Set category filter',
     props<{ category: string }>(),
   ),
   clearCategory: createAction(
-    '[Inventory/Filters] Clear category filter'
+    '[Inventory] Clear category filter'
+  ),
+  setSearchQuery: createAction(
+    '[Inventory] Set search query filter',
+    props<{ searchQuery: string }>(),
+  ),
+  clearSearchQuery: createAction(
+    '[Inventory] Clear search query filter',
   ),
   clearByName: createAction(
-    '[Inventory/Filters] Clear filter by name',
+    '[Inventory] Clear filter by name',
     props<{ name: InventoryFilter }>(),
   ),
   clearAll: createAction(
-    '[Inventory/Filters] Clear all filters',
+    '[Inventory] Clear all filters',
   ),
 };

@@ -97,10 +97,22 @@ export const selectInventoryCategorizedFilteredItems = createSelector(
   selectInventoryFeature,
   state => {
     const categoryFilter = state.filters[INVENTORY_FILTER.CATEGORY];
+    const searchQueryFilter = (state.filters[INVENTORY_FILTER.SEARCH_QUERY] ?? '').toLowerCase();
+
     const filteredItems: InventoryItem[] = state.items.filter(item => {
-      if (categoryFilter !== null && item.category !== categoryFilter) {
-        return false;
+
+      if (categoryFilter !== null) {
+        if (item.category !== categoryFilter) {
+          return false;
+        }
       }
+
+      if (searchQueryFilter !== '') {
+        if (!item.name.toLowerCase().includes(searchQueryFilter)) {
+          return false;
+        }
+      }
+
       return true;
     });
 
@@ -115,12 +127,17 @@ export const selectInventoryFilters = createSelector(
     const filters: InventoryFilterToken[] = [];
 
     if (state.filters[INVENTORY_FILTER.CATEGORY]) {
-      const value = state.filters[INVENTORY_FILTER.CATEGORY];
-      filters.push({
-        key: INVENTORY_FILTER.CATEGORY,
-        value,
-        label: value ?? undefined,
-      });
+      const key = INVENTORY_FILTER.CATEGORY;
+      const value = state.filters[key];
+      const label = value ?? undefined;
+      filters.push({ key, value, label });
+    }
+
+    if (state.filters[INVENTORY_FILTER.SEARCH_QUERY] !== null) {
+      const key = INVENTORY_FILTER.SEARCH_QUERY;
+      const value = state.filters[key];
+      const label = `"${value}"`;
+      filters.push({ key, value, label });
     }
 
     return filters.length ? filters : null;

@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit, Signal, computed, effect, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Observable, filter, map, switchMap, take, takeUntil } from 'rxjs';
+import { Observable, map, switchMap, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -17,7 +17,7 @@ import { OnceSource } from '@app/common/sources';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListCounters, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
-import { ListFilterToken, CategorizedListItems, ListItem } from './types';
+import { ListFilterToken, CategorizedListItems, ListItem, LIST_FILTER } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
@@ -69,6 +69,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
     this.initPageMetadata();
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
+    this.initSearchFeature();
     this.store.dispatch(listFetchItems.try());
   }
 
@@ -228,6 +229,11 @@ export class ListPageComponent implements OnInit, OnDestroy {
   onRemoveFilter(filter: ListFilterToken) {
     const name = filter.key;
     this.store.dispatch(listFilters.clearByName({ name }));
+
+    if (name === LIST_FILTER.SEARCH_QUERY) {
+      this.layout.search.clear(false);
+      this.layout.search.hide();
+    }
   }
 
   trackByCategory(index: number, group: CategorizedListItems): string {
@@ -326,5 +332,22 @@ export class ListPageComponent implements OnInit, OnDestroy {
       const label = this.transloco.translate(item.label);
       return { ...item, label };
     })
+  }
+
+  private initSearchFeature(): void {
+    // For some reason, it triggers a NG0100 error
+    // https://angular.io/errors/NG0100
+    queueMicrotask(() => this.layout.search.enable());
+    // this.layout.search.enable();
+
+    this.layout.search.searched$.subscribe(searchQuery => {
+      !!searchQuery
+        ? this.store.dispatch(listFilters.setSearchQuery({ searchQuery }))
+        : this.store.dispatch(listFilters.clearSearchQuery());
+    });
+
+    this.layout.search.cleared$.subscribe(() => {
+      this.store.dispatch(listFilters.clearSearchQuery());
+    });
   }
 }

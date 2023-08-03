@@ -199,9 +199,18 @@ export const listReducer = createReducer(LIST_FEATURE_INITIAL_STATE,
     state.filters[LIST_FILTER.CATEGORY] = null;
   }),
 
+  immerOn(listFilters.setSearchQuery, (state, { searchQuery }) => {
+    state.filters[LIST_FILTER.SEARCH_QUERY] = searchQuery;
+  }),
+
+  immerOn(listFilters.clearSearchQuery, state => {
+    state.filters[LIST_FILTER.SEARCH_QUERY] = null;
+  }),
+
   immerOn(listFilters.clearAll, state => {
     state.filters[LIST_FILTER.CATEGORY] = null;
     state.filters[LIST_FILTER.IS_DONE] = null;
+    state.filters[LIST_FILTER.SEARCH_QUERY] = null;
   }),
 
   immerOn(listFilters.clearByName, (state, { name }) => {

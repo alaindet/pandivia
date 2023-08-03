@@ -52,6 +52,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 
   @Output() changed = new EventEmitter<string>();
   @Output() inputChanged = new EventEmitter<string>();
+  @Output() cleared = new EventEmitter<void>();
 
   @ViewChild('inputRef', { static: true })
   private inputRef!: ElementRef<HTMLInputElement>;
@@ -111,7 +112,8 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
   onClearInput(): void {
     this.clear();
     this.inputRef.nativeElement.focus();
-    if (this.onChange) this.onChange(this.inputRef.nativeElement.value);
+    if (this.onChange) this.onChange('');
+    this.cleared.emit();
   }
 
   onInputChange(event: Event) {

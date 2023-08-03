@@ -5,10 +5,14 @@
   "list.hint.addToInventory": "Aggiunge questo elemento all'Inventario se non è già presente",
   "list.filter.onlyToDo": "Solo elementi da fare",
   "list.filter.onlyCompleted": "Solo elementi completati",
+  "list.noItems": "Nessun elemento attualmente presente nella Lista. Aggiungine uno con il bottone (+) in fondo alla pagina.",
+  "list.errorStatus": "Impossibile scaricare gli elementi della Lista. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto.",
 
   "inventory.title": "Inventario",
   "inventory.error.itemNoFound": "Elemento di Inventario con ID \"{{ id }}\" non trovato",
   "inventory.menu.addToList": "Aggiunti alla pagina Lista",
+  "inventory.noItems": "Nessun elemento attualmente presente nell'Inventario. Aggiungine uno con il bottone (+) in fondo alla pagina.",
+  "inventory.errorStatus": "Impossibile scaricare gli elementi dell'Inventario. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto.",
 
   "userProfile.title": "Utente",
   "userProfile.info": "Informazioni",
@@ -62,8 +66,6 @@
   "common.create": "Crea",
   "common.createAndClose": "Crea e chiudi",
   "common.createAndContinue": "Crea e continua",
-  "common.noItems": "Nessun elemento attualmente presente. Aggiungine uno con il bottone (+) in fondo alla pagina",
-  "common.errorStatus": "Impossibile scaricare gli elementi. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto",
   "common.menu.complete": "Completa",
   "common.menu.undo": "Segna come da fare",
   "common.menu.increment": "Incrementa +1",
@@ -109,5 +111,6 @@
   "common.uncategorized": "Senza categoria",
   "common.version": "Versione",
   "common.pin": "Fissa",
-  "common.unpin": "Stacca"
+  "common.unpin": "Stacca",
+  "common.searchItems": "Cerca elementi"
 }

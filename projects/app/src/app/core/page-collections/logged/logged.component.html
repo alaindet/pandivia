@@ -11,7 +11,11 @@
   (headerActionClicked)="layout.headerActions.confirm($event)"
 
   [withSearch]="vm.layout.search.enabled"
+  [withVisibleSearch]="vm.layout.search.visible"
+  [searchQuery]="vm.layout.search.query"
+  (toggledSearch)="layout.search.toggle()"
   (searched)="layout.search.search($event)"
+  (searchCleared)="layout.search.clear()"
 
   [footerActions]="vm.nav.items"
   [footerCurrentAction]="vm.nav.current"

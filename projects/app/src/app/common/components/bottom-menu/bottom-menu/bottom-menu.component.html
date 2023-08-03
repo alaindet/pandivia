@@ -3,6 +3,7 @@
   [icon]="item.icon"
   [isSelected]="item.id === selectedItem"
   (click)="selected.emit(item.id)"
+  (keydown.enter)="selected.emit(item.id)"
 >
   {{ item.label }}
 </app-bottom-menu-item>

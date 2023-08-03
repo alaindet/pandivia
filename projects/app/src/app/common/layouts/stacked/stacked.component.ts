@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, BottomMenuComponent, BottomMenuItem, ButtonComponent, PageHeaderComponent } from '@app/common/components';
+import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, BottomMenuComponent, BottomMenuItem, ButtonComponent, PageHeaderComponent, TextInputComponent } from '@app/common/components';
 import { Counters } from '../../types';
+import { TranslocoModule } from '@ngneat/transloco';
+import { didInputChange } from '../../utils';
 
 const imports = [
   NgIf,
@@ -13,6 +15,8 @@ const imports = [
   ButtonComponent,
   BottomMenuComponent,
   MatIconModule,
+  TextInputComponent,
+  TranslocoModule,
 ];
 
 @Component({
@@ -34,11 +38,27 @@ export class StackedLayoutComponent {
   @Input() withBackButton = false;
   @Input() withControlledBackButton = false;
   @Input() withSearch = false;
+  @Input() withVisibleSearch = false;
+  @Input() searchQuery = '';
 
   @Output() headerActionClicked = new EventEmitter<string>();
   @Output() footerActionClicked = new EventEmitter<string>();
   @Output() backButtonClicked = new EventEmitter<void>();
+  @Output() toggledSearch = new EventEmitter<void>();
   @Output() searched = new EventEmitter<string>();
+  @Output() searchCleared = new EventEmitter<void>();
+
+  @ViewChild('inputRef', { read: TextInputComponent })
+  set inputRefSetter(ref: TextInputComponent) {
+    this.inputRef = ref;
+  }
+  inputRef?: TextInputComponent;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (didInputChange(changes['withVisibleSearch']) && this.withVisibleSearch) {
+      queueMicrotask(() => this.inputRef?.focus());
+    }
+  }
 
   onHeaderAction(action: string) {
     this.headerActionClicked.emit(action);
@@ -46,5 +66,9 @@ export class StackedLayoutComponent {
 
   onBottomMenuChange(action: string) {
     this.footerActionClicked.emit(action);
+  }
+
+  onToggleSearchBar() {
+    this.toggledSearch.emit();
   }
 }

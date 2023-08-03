@@ -61,5 +61,10 @@ export class ProfilePageComponent implements OnInit {
     this.store.dispatch(uiSetCurrentNavigation({ current }));
     this.layout.headerCounters.clear();
     this.layout.headerActions.clear();
+
+    // For some reason, it triggers a NG0100 error
+    // https://angular.io/errors/NG0100
+    queueMicrotask(() => this.layout.search.disable());
+    // this.layout.search.disable();
   }
 }
