@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { Observable, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { Observable, catchError, combineLatest, map, merge, mergeAll, of, switchMap, take, takeUntil, tap, throwError } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@app/environment';
@@ -19,7 +19,7 @@ import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
-import { inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryCounters, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
+import { inventoryEditItem, inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategories, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryCounters, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
 import { OnceSource } from '@app/common/sources';
 import { UiService } from '@app/core/ui';
@@ -127,21 +127,16 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   onItemAction({ itemId, action }: ItemActionOutput) {
     switch(action) {
-      case itemMenu.ITEM_ACTION_ADD_TO_LIST.id: {
+      case itemMenu.ITEM_ACTION_ADD_TO_LIST.id:
         this.cloneItemToList(itemId);
         break;
-      }
-      case itemMenu.ITEM_ACTION_MOVE_TO_CATEGORY.id: {
-        this.showMoveToCategoryModal().subscribe(category => {
-          console.log('Moved to category', category); // TODO: Remove
-        });
+      case itemMenu.ITEM_ACTION_MOVE_TO_CATEGORY.id:
+        this.showMoveToCategoryModal(itemId);
         break;
-      }
-      case itemMenu.ITEM_ACTION_EDIT.id: {
+      case itemMenu.ITEM_ACTION_EDIT.id:
         this.showEditItemModal(itemId);
         break;
-      }
-      case itemMenu.ITEM_ACTION_REMOVE.id: {
+      case itemMenu.ITEM_ACTION_REMOVE.id:
         findInventoryItemById(this.store, itemId)
           .pipe(switchMap(item => {
             const config = ITEM_REMOVE_PROMPT;
@@ -151,12 +146,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
             const prompt = { ...ITEM_REMOVE_PROMPT, title, message };
             return this.confirmPrompt(prompt);
           }))
-          .subscribe({
-            error: () => console.log('Canceled'),
-            next: () => this.store.dispatch(inventoryRemoveItem.try({ itemId })),
+          .subscribe(() => {
+            this.store.dispatch(inventoryRemoveItem.try({ itemId }));
           });
         break;
-      }
     }
   }
 
@@ -314,12 +307,41 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  private showMoveToCategoryModal(): Observable<ChangeCategoryModalOutput> {
-    // const title = this.transloco.translate('common.itemModal.editTitle');
-    const title = 'TODO: Move to category';
-    const categories = ['Foo', 'Bar'];
-    const modalInput: ChangeCategoryModalInput = { title, categories };
-    const modal$ = this.modal.open(ChangeCategoryModalComponent, modalInput);
-    return modal$.closed().pipe(take(1));
+  private showMoveToCategoryModal(itemId: string): void {
+
+    let theItem!: InventoryItem;
+
+    findInventoryItemById(this.store, itemId).pipe(
+      switchMap(item => {
+        theItem = item;
+        const title = this.transloco.translate('common.menu.moveToCategory');
+        const allCategories = this.store.selectSignal(selectInventoryCategories);
+        const categories = allCategories().filter(cat => cat !== item.category);
+
+        if (!categories.length) {
+          return throwError(() => Error(JSON.stringify({
+            message: 'common.error.onlyOneCategory',
+          })));
+        }
+
+        const modalInput: ChangeCategoryModalInput = { title, categories };
+        const modal$ = this.modal.open(ChangeCategoryModalComponent, modalInput);
+
+        return modal$.closed().pipe(
+          // Emit canceled modal as a silent error
+          catchError(() => of(null)),
+          take(1),
+        );
+      }),
+    ).subscribe({
+      error: err => this.ui.notification.err(...readErrorI18n(err)),
+      next: modalPayload => {
+        if (modalPayload === null) return; // Modal was canceled
+        const { category } = modalPayload;
+        const item = { ...theItem, category };
+        // TODO: Please add a specific "Move to category" action
+        this.store.dispatch(inventoryEditItem.try({ item }));
+      },
+    });
   }
 }

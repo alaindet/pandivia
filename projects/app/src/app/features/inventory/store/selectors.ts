@@ -64,6 +64,19 @@ export const selectInventoryItemExistsWithName = (
   },
 );
 
+export const selectInventoryCategories = createSelector(
+  selectInventoryFeature,
+  (state): string[] => {
+    const categories: { [category: string]: boolean } = {};
+    state.items.forEach(item => {
+      if (item.category && !categories[item.category]) {
+        categories[item.category] = true;
+      }
+    });
+    return Object.keys(categories);
+  },
+);
+
 export const selectInventoryCategoriesByName = (category: string) => createSelector(
   selectInventoryFeature,
   (state): string[] => {

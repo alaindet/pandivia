@@ -2,10 +2,23 @@
   <h2>{{ modal.data.title }}</h2>
 </ng-container>
 
-<ul>
+<ul class="_categories">
   <li *ngFor="let category of modal.data.categories">
-    <button type="button" appButton="ghost" (click)="onSelectCategory(category)">
+    <button type="button" appButton="primary" (click)="onSelectCategory(category)">
       {{ category }}
     </button>
   </li>
 </ul>
+
+<div *appModalFooter class="_footer">
+  <button
+    type="button"
+    appButton="outline"
+    size="small"
+    withIcon="left"
+    (click)="onDismiss()"
+  >
+    <mat-icon>close</mat-icon>
+    {{ 'components.modal.cancel' | transloco }}
+  </button>
+</div>

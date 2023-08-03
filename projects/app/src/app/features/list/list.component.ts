@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Observable, map, switchMap, take, takeUntil } from 'rxjs';
+import { Observable, catchError, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -10,13 +10,13 @@ import { environment } from '@app/environment';
 import { DEFAULT_CATEGORY, UiService } from '@app/core';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/ui';
-import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ActionsMenuItem } from '@app/common/components';
+import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ActionsMenuItem, ChangeCategoryModalComponent, ChangeCategoryModalInput } from '@app/common/components';
 import { readErrorI18n } from '@app/common/utils';
 import { StackedLayoutService } from '@app/common/layouts';
 import { OnceSource } from '@app/common/sources';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListCounters, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
+import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listEditItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategories, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListCounters, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
 import { ListFilterToken, CategorizedListItems, ListItem, LIST_FILTER } from './types';
 import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
@@ -181,6 +181,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
         break;
       case itemMenu.ITEM_ACTION_EDIT.id:
         this.showEditItemModal(itemId);
+        break;
+      case itemMenu.ITEM_ACTION_MOVE_TO_CATEGORY.id:
+        this.showMoveToCategoryModal(itemId);
         break;
       case itemMenu.ITEM_ACTION_INCREMENT.id:
         this.store.dispatch(listIncrementItem.try({ itemId }));
@@ -348,6 +351,44 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
     this.layout.search.cleared$.subscribe(() => {
       this.store.dispatch(listFilters.clearSearchQuery());
+    });
+  }
+
+  private showMoveToCategoryModal(itemId: string): void {
+
+    let theItem!: ListItem;
+
+    findListItemById(this.store, itemId).pipe(
+      switchMap(item => {
+        theItem = item;
+        const title = this.transloco.translate('common.menu.moveToCategory');
+        const allCategories = this.store.selectSignal(selectListCategories);
+        const categories = allCategories().filter(cat => cat !== item.category);
+
+        if (!categories.length) {
+          return throwError(() => Error(JSON.stringify({
+            message: 'common.error.onlyOneCategory',
+          })));
+        }
+
+        const modalInput: ChangeCategoryModalInput = { title, categories };
+        const modal$ = this.modal.open(ChangeCategoryModalComponent, modalInput);
+
+        return modal$.closed().pipe(
+          // Emit canceled modal as a silent error
+          catchError(() => of(null)),
+          take(1),
+        );
+      }),
+    ).subscribe({
+      error: err => this.ui.notification.err(...readErrorI18n(err)),
+      next: modalPayload => {
+        if (modalPayload === null) return; // Modal was canceled
+        const { category } = modalPayload;
+        const item = { ...theItem, category };
+        // TODO: Please add a specific "Move to category" action
+        this.store.dispatch(listEditItem.try({ item }));
+      },
     });
   }
 }
