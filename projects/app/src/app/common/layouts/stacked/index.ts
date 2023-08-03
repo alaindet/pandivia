@@ -1,2 +1,2 @@
 export * from './stacked.component';
-export * from './stacked.service';
+export * from './services/stacked.service';

@@ -4,6 +4,8 @@ import { Counters } from '../../types';
 
 export type StackedLayoutViewModel = {
   title: string;
+  withSearch: boolean;
+  searchQuery: string;
   headerActions: ActionsMenuItem[];
   headerCounters: Counters | null;
   backButton: BackButtonStatus;

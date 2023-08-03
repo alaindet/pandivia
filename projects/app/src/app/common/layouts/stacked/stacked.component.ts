@@ -33,10 +33,12 @@ export class StackedLayoutComponent {
   @Input() footerCurrentAction: string | null = null;
   @Input() withBackButton = false;
   @Input() withControlledBackButton = false;
+  @Input() withSearch = false;
 
   @Output() headerActionClicked = new EventEmitter<string>();
   @Output() footerActionClicked = new EventEmitter<string>();
   @Output() backButtonClicked = new EventEmitter<void>();
+  @Output() searched = new EventEmitter<string>();
 
   onHeaderAction(action: string) {
     this.headerActionClicked.emit(action);

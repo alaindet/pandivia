@@ -47,6 +47,10 @@ export class LoggedPageCollectionComponent {
     this.router.navigate([NAVIGATION_ROUTES[actionId]]);
   }
 
+  onSearched(query: string) {
+    this.layout.search.search(query);
+  }
+
   private getTranslatedNavItems() {
     return this.store.select(selectNavigation).pipe(map(nav => {
       return {

@@ -10,6 +10,9 @@
   [headerCounters]="vm.layout.headerCounters"
   (headerActionClicked)="onHeaderAction($event)"
 
+  [withSearch]="vm.layout.withSearch"
+  (searched)="onSearched($event)"
+
   [footerActions]="vm.nav.items"
   [footerCurrentAction]="vm.nav.current"
   (footerActionClicked)="onBottomNavigation($event)"
