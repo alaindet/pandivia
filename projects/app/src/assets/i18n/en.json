@@ -80,6 +80,7 @@
   "common.menu.showCompletedItems": "Show completed items",
   "common.menu.hideCompletedItems": "Hide completed items",
   "common.menu.removeCompletedItems": "Remove completed items",
+  "common.menu.moveToCategory": "Move to category...",
   "common.itemModal.createTitle": "Create item",
   "common.itemModal.editTitle": "Edit item",
   "common.async.fetchItemsSuccess": "Items successfully fetched",

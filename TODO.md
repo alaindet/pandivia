@@ -1,5 +1,6 @@
 # To Do
 - [ ] Configure firebase.indexes.json
+- [ ] Group sub-feature on pages (List, Inventory) as controllers
 
 # Backlog
 - [ ] Enable themes and remove checkboxColor input from <app-cards-list>

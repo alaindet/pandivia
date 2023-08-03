@@ -80,6 +80,7 @@
   "common.menu.showCompletedItems": "Mostra i completati",
   "common.menu.hideCompletedItems": "Nascondi i completati",
   "common.menu.removeCompletedItems": "Rimuovi i completati",
+  "common.menu.moveToCategory": "Sposta nella categoria...",
   "common.itemModal.createTitle": "Crea elemento",
   "common.itemModal.editTitle": "Modifica elemento",
   "common.async.fetchItemsSuccess": "Elementi scaricati con successo",
