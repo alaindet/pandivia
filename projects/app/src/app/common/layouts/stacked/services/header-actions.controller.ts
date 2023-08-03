@@ -1,24 +1,25 @@
+import { signal } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { DataSource, EventSource } from '../../../sources';
 import { ActionsMenuItem } from '../../../components';
+import { EventSource } from '../../../sources';
 
 export type StackedLayoutHeaderActionsViewModel = ActionsMenuItem[];
 
 export function createHeaderActionsController(destroy$: Observable<void>) {
 
-  const data = new DataSource<StackedLayoutHeaderActionsViewModel>([], destroy$);
+  const data = signal<StackedLayoutHeaderActionsViewModel>([]);
 
   const events = {
     confirmed: new EventSource<ActionsMenuItem['id']>(destroy$),
   };
 
   function set(actions: ActionsMenuItem[]) {
-    data.next(actions);
+    data.set(actions);
   }
 
   function clear() {
-    data.next([]);
+    data.set([]);
   }
 
   function confirm(actionId: ActionsMenuItem['id']) {
@@ -26,8 +27,8 @@ export function createHeaderActionsController(destroy$: Observable<void>) {
   }
 
   return {
-    data: data.data$,
-    events,
+    data,
+    confirmed$: events.confirmed.event$,
 
     set,
     clear,

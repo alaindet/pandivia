@@ -1,24 +1,24 @@
+import { signal } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { DataSource } from '../../../sources';
 import { Counters } from '../../../types';
 
 export type StackedLayoutHeaderCountersViewModel = Counters | null;
 
 export function createHeaderCountersController(destroy$: Observable<void>) {
 
-  const data = new DataSource<StackedLayoutHeaderCountersViewModel>(null, destroy$);
+  const data = signal<StackedLayoutHeaderCountersViewModel>(null);
 
   function set(counters: Counters) {
-    data.next(counters);
+    data.set(counters);
   }
 
   function clear() {
-    data.next(null);
+    data.set(null);
   }
 
   return {
-    data: data.data$,
+    data,
 
     set,
     clear,

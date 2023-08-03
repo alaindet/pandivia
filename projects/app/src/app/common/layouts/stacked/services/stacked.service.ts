@@ -1,14 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { combineLatest } from 'rxjs';
+import { Injectable, OnDestroy, computed } from '@angular/core';
 
 import { OnceSource } from '@app/common/sources';
-import { createSearchController } from './search.controller';
-import { createTitleController } from './title.controller';
+import { createBackButtonController } from './back-button.controller';
 import { createHeaderActionsController } from './header-actions.controller';
 import { createHeaderCountersController } from './header-counters.controller';
-import { createBackController } from './back.controller';
+import { createSearchController } from './search.controller';
+import { createTitleController } from './title.controller';
 
-// TODO: Convert all to signals
+
 @Injectable()
 export class StackedLayoutService implements OnDestroy {
 
@@ -18,15 +17,17 @@ export class StackedLayoutService implements OnDestroy {
   title = createTitleController(this.once.event$);
   headerActions = createHeaderActionsController(this.once.event$);
   headerCounters = createHeaderCountersController(this.once.event$);
-  back = createBackController(this.once.event$);
+  backButton = createBackButtonController(this.once.event$);
   // ...
 
-  vm = combineLatest({
-    search: this.search.data,
-    title: this.title.data,
-    headerActions: this.headerActions.data,
+  vm = computed(() => ({
+    search: this.search.data(),
+    title: this.title.data(),
+    headerActions: this.headerActions.data(),
+    headerCounters: this.headerCounters.data(),
+    backButton: this.backButton.data(),
     // ...
-  });
+  }));
 
   ngOnDestroy(): void {
     this.once.trigger();

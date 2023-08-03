@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 
-import { DataSource, EventSource } from '../../../sources';
+import { EventSource } from '../../../sources';
+import { signal } from '@angular/core';
 
 export type StackedLayoutSearchViewModel = {
   enabled: boolean;
@@ -9,43 +10,51 @@ export type StackedLayoutSearchViewModel = {
 
 export function createSearchController(destroy$: Observable<void>) {
 
-  const initialState: StackedLayoutSearchViewModel = {
+  const data = signal<StackedLayoutSearchViewModel>({
     enabled: false,
     query: '',
-  };
-
-  const data = new DataSource<StackedLayoutSearchViewModel>(
-    initialState,
-    destroy$,
-  );
+  });
 
   const events = {
     searched: new EventSource<string>(destroy$),
   };
 
   function enable() {
-    data.next(data => ({ ...data, enabled: true, query: '' }));
+    data.mutate(data => {
+      data.enabled = true;
+      data.query = '';
+    });
   }
 
   function disable() {
-    data.next(data => ({ ...data, enabled: false, query: '' }));
+    data.mutate(data => {
+      data.enabled = false;
+      data.query = '';
+    });
   }
 
   function toggle() {
-    data.next(data => ({ ...data, enabled: !data.enabled, query: '' }));
+    data.mutate(data => {
+      data.enabled = !data.enabled;
+      data.query = '';
+    });
   }
 
   function search(query: string) {
-    data.next(data => ({ ...data, query }));
+    data.mutate(data => {
+      data.query = query;
+    });
   }
 
   function clear() {
-    data.next(data => ({ ...data, query: '' }));
+    data.mutate(data => {
+      data.query = '';
+    });
   }
 
   return {
-    data: data.data$,
-    events,
+    data,
+    searched$: events.searched.event$,
 
     enable,
     disable,

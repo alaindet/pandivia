@@ -60,7 +60,10 @@ export class ListPageComponent implements OnInit, OnDestroy {
   filters = this.getTranslatedFilters();
   getItemContextualMenu = this.getTranslatedItemContextualMenuFn();
   counters = this.store.selectSignal(selectListCounters);
-  pageCounters$ = effect(() => this.layout.setHeaderCounters(this.counters()));
+  pageCounters$ = effect(
+    () => this.layout.headerCounters.set(this.counters()),
+    { allowSignalWrites: true },
+  );
 
   ngOnInit() {
     this.initPageMetadata();
@@ -252,7 +255,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   private initPageMetadata(): void {
     const headerTitle = this.transloco.translate('list.title');
-    this.layout.setTitle(headerTitle);
+    this.layout.title.set(headerTitle);
     const title = `${headerTitle} - ${environment.appName}`;
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_LIST.id;
@@ -310,10 +313,10 @@ export class ListPageComponent implements OnInit, OnDestroy {
         const label = this.transloco.translate(action.label);
         return { ...action, label };
       });
-      this.layout.setHeaderActions(actions);
+      this.layout.headerActions.set(actions);
     });
 
-    this.layout.headerActionEvent
+    this.layout.headerActions.confirmed$
       .pipe(takeUntil(this.once.event$))
       .subscribe(this.onListAction.bind(this));
   }

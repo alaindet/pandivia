@@ -62,7 +62,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   filters = this.getTranslatedFilters();
   pinnedCategory = this.store.selectSignal(selectInventoryCategoryFilter);
   counters = this.store.selectSignal(selectInventoryCounters);
-  pageCounters$ = effect(() => this.layout.setHeaderCounters(this.counters()));
+  pageCounters$ = effect(
+    () => this.layout.headerCounters.set(this.counters()),
+    { allowSignalWrites: true },
+  );
 
   ngOnInit() {
     this.initPageMetadata();
@@ -193,7 +196,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   private initPageMetadata(): void {
     const headerTitle = this.transloco.translate('inventory.title');
-    this.layout.setTitle(headerTitle);
+    this.layout.title.set(headerTitle);
     const title = `${headerTitle} - ${environment.appName}`;
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_INVENTORY.id;
@@ -205,8 +208,8 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       const label = this.transloco.translate(action.label);
       return { ...action, label };
     });
-    this.layout.setHeaderActions(actions);
-    this.layout.headerActionEvent
+    this.layout.headerActions.set(actions);
+    this.layout.headerActions.confirmed$
       .pipe(takeUntil(this.once.event$))
       .subscribe(this.onListAction.bind(this));
   }

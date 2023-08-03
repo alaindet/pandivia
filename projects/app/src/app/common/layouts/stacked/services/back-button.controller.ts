@@ -1,33 +1,29 @@
+import { signal } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { DataSource, EventSource } from '../../../sources';
+import { EventSource } from '../../../sources';
 import { BACK_BUTTON_STATUS, BackButtonStatus } from '../../../types';
 
 export type StackedLayoutBackButtonViewModel = BackButtonStatus;
 
-export function createBackController(destroy$: Observable<void>) {
+export function createBackButtonController(destroy$: Observable<void>) {
 
-  const initialState: StackedLayoutBackButtonViewModel = BACK_BUTTON_STATUS.NONE;
-
-  const data = new DataSource<StackedLayoutBackButtonViewModel>(
-    initialState,
-    destroy$,
-  );
+  const data = signal<StackedLayoutBackButtonViewModel>(BACK_BUTTON_STATUS.NONE);
 
   const events = {
     pressed: new EventSource<void>(destroy$),
   };
 
   function enableNative() {
-    data.next(BACK_BUTTON_STATUS.NATIVE);
+    data.set(BACK_BUTTON_STATUS.NATIVE);
   }
 
   function enableControlled() {
-    data.next(BACK_BUTTON_STATUS.CONTROLLED);
+    data.set(BACK_BUTTON_STATUS.CONTROLLED);
   }
 
   function disable() {
-    data.next(BACK_BUTTON_STATUS.NONE);
+    data.set(BACK_BUTTON_STATUS.NONE);
   }
 
   function press() {
@@ -35,8 +31,8 @@ export function createBackController(destroy$: Observable<void>) {
   }
 
   return {
-    data: data.data$,
-    events,
+    data,
+    pressed$: events.pressed.event$,
 
     enableNative,
     enableControlled,
