@@ -1,17 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Store } from '@ngrx/store';
-import { Observable, catchError, combineLatest, map, merge, mergeAll, of, switchMap, take, takeUntil, tap, throwError } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+import { Observable, catchError, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
 
-import { environment } from '@app/environment';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
+import { OnceSource } from '@app/common/sources';
 import { errorI18n, readErrorI18n } from '@app/common/utils';
-import { NAVIGATION_ITEM_INVENTORY } from '@app/core/ui';
+import { DEFAULT_CATEGORY } from '@app/core';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
+import { NAVIGATION_ITEM_INVENTORY, UiService } from '@app/core/ui';
+import { environment } from '@app/environment';
 import { CreateListItemDto, ListItem } from '@app/features/list';
+import { ChangeCategoryModalComponent, ChangeCategoryModalInput } from '../../common/components/change-category-modal';
 import { listCreateItem, selectListItemExistsWithName } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
@@ -21,11 +25,6 @@ import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
 import { inventoryEditItem, inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategories, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryCounters, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
-import { OnceSource } from '@app/common/sources';
-import { UiService } from '@app/core/ui';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { DEFAULT_CATEGORY } from '@app/core';
-import { ChangeCategoryModalComponent, ChangeCategoryModalInput, ChangeCategoryModalOutput } from '../../common/components/change-category-modal';
 
 const imports = [
   CommonModule,
@@ -310,13 +309,21 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private showMoveToCategoryModal(itemId: string): void {
 
     let theItem!: InventoryItem;
+    const translatedUncategorized = this.transloco.translate('common.uncategorized');
+
+    const translateCategory = (category: string): string => {
+      if (category !== DEFAULT_CATEGORY) return category;
+      return translatedUncategorized;
+    };
 
     findInventoryItemById(this.store, itemId).pipe(
       switchMap(item => {
         theItem = item;
         const title = this.transloco.translate('common.menu.moveToCategory');
         const allCategories = this.store.selectSignal(selectInventoryCategories);
-        const categories = allCategories().filter(cat => cat !== item.category);
+        const categories = allCategories()
+          .filter(category => category !== item.category)
+          .map(category => translateCategory(category));
 
         if (!categories.length) {
           return throwError(() => Error(JSON.stringify({
@@ -337,7 +344,8 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       error: err => this.ui.notification.err(...readErrorI18n(err)),
       next: modalPayload => {
         if (modalPayload === null) return; // Modal was canceled
-        const { category } = modalPayload;
+        let { category } = modalPayload;
+        if (category === translatedUncategorized) category = DEFAULT_CATEGORY;
         const item = { ...theItem, category };
         // TODO: Please add a specific "Move to category" action
         this.store.dispatch(inventoryEditItem.try({ item }));

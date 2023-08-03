@@ -357,13 +357,21 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private showMoveToCategoryModal(itemId: string): void {
 
     let theItem!: ListItem;
+    const translatedUncategorized = this.transloco.translate('common.uncategorized');
+
+    const translateCategory = (category: string): string => {
+      if (category !== DEFAULT_CATEGORY) return category;
+      return translatedUncategorized;
+    };
 
     findListItemById(this.store, itemId).pipe(
       switchMap(item => {
         theItem = item;
         const title = this.transloco.translate('common.menu.moveToCategory');
         const allCategories = this.store.selectSignal(selectListCategories);
-        const categories = allCategories().filter(cat => cat !== item.category);
+        const categories = allCategories()
+          .filter(category => category !== item.category)
+          .map(category => translateCategory(category));
 
         if (!categories.length) {
           return throwError(() => Error(JSON.stringify({
@@ -384,7 +392,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
       error: err => this.ui.notification.err(...readErrorI18n(err)),
       next: modalPayload => {
         if (modalPayload === null) return; // Modal was canceled
-        const { category } = modalPayload;
+        let { category } = modalPayload;
+        if (category === translatedUncategorized) category = DEFAULT_CATEGORY;
         const item = { ...theItem, category };
         // TODO: Please add a specific "Move to category" action
         this.store.dispatch(listEditItem.try({ item }));

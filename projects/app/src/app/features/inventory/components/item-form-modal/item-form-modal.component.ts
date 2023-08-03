@@ -113,11 +113,14 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   }
 
   private onEdit() {
-
     let item: InventoryItem = {
       id: this.modal.data.item!.id,
       ...this.theForm.value,
     };
+
+    if (item.category === '') {
+      item.category = DEFAULT_CATEGORY;
+    }
 
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
@@ -132,6 +135,10 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   private onCreate() {
 
     let item: CreateInventoryItemDto = this.theForm.value;
+
+    if (item.category === '') {
+      item.category = DEFAULT_CATEGORY;
+    }
 
     // Listen to response
     this.afterCreateOrEditSuccess(() => {
@@ -157,9 +164,13 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     const { item, category } = this.modal.data;
     const { required, minLength, maxLength } = Validators;
 
-    const defaultCategory = !!this.modal.data?.item
+    let fieldCategory = !!this.modal.data?.item
       ? item?.category ?? ''
       : category ?? '';
+
+    if (fieldCategory === DEFAULT_CATEGORY) {
+      fieldCategory = '';
+    }
 
     const controls: any = {
       [FIELD.NAME.id]: [
@@ -174,7 +185,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
         [minLength(2), maxLength(100)],
       ],
       [FIELD.CATEGORY.id]: [
-        defaultCategory,
+        fieldCategory,
         [minLength(2), maxLength(100)],
       ],
     };
