@@ -65,6 +65,19 @@ export const selectListItemExistsWithName = (
   },
 );
 
+export const selectListCategories = createSelector(
+  selectListFeature,
+  (state): string[] => {
+    const categories: { [category: string]: boolean } = {};
+    state.items.forEach(item => {
+      if (item.category && !categories[item.category]) {
+        categories[item.category] = true;
+      }
+    });
+    return Object.keys(categories);
+  },
+);
+
 export const selectListCategoriesByName = (category: string) => createSelector(
   selectListFeature,
   (state): string[] => {

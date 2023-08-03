@@ -111,6 +111,10 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       ...this.theForm.value,
     };
 
+    if (item.category === '') {
+      item.category = DEFAULT_CATEGORY;
+    }
+
     // Listen to response, then close the modal
     this.afterCreateOrEditSuccess(() => {
       const data: EditListItemFormModalOutput = { item };
@@ -127,6 +131,10 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       [FIELD.ADD_TO_INVENTORY.id]: addToInventory,
       ...item
     } = this.theForm.value;
+
+    if (item.category === '') {
+      item.category = DEFAULT_CATEGORY;
+    }
 
     // Listen to response
     this.afterCreateOrEditSuccess(() => {
@@ -183,9 +191,13 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     const { item, category } = this.modal.data;
     const { required, minLength, maxLength, min, max } = Validators;
 
-    const defaultCategory = !!this.modal.data?.item
+    let fieldCategory = !!this.modal.data?.item
       ? item?.category ?? ''
       : category ?? '';
+
+    if (fieldCategory === DEFAULT_CATEGORY) {
+      fieldCategory = '';
+    }
 
     const controls: any = {
       [FIELD.NAME.id]: [
@@ -205,7 +217,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
         [minLength(2), maxLength(100)],
       ],
       [FIELD.CATEGORY.id]: [
-        defaultCategory,
+        fieldCategory,
         [minLength(2), maxLength(100)],
       ],
     };
