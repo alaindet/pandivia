@@ -11,6 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 
   ._left:not(:empty) {
     margin-right: 1rem;
@@ -33,5 +34,10 @@
 
   ._right:not(:empty) {
     margin-left: 1rem;
+  }
+
+  ._sub-header:not(:empty) {
+    flex-basis: 100%;
+    width: 100%;
   }
 }

@@ -87,15 +87,26 @@ export const selectListCategorizedFilteredItems = createSelector(
   state => {
     const categoryFilter = state.filters[LIST_FILTER.CATEGORY];
     const isDoneFilter = state.filters[LIST_FILTER.IS_DONE];
+    const searchQueryFilter = (state.filters[LIST_FILTER.SEARCH_QUERY] ?? '').toLowerCase();
 
     const filteredItems: ListItem[] = state.items.filter(item => {
 
-      if (categoryFilter !== null && item.category !== categoryFilter) {
-        return false;
+      if (categoryFilter !== null) {
+        if (item.category !== categoryFilter) {
+          return false;
+        }
       }
 
-      if (isDoneFilter === true && item.isDone) {
-        return false;
+      if (isDoneFilter !== null) {
+        if (isDoneFilter === true && item.isDone) {
+          return false;
+        }
+      }
+
+      if (searchQueryFilter !== '') {
+        if (!item.name.toLowerCase().includes(searchQueryFilter)) {
+          return false;
+        }
       }
 
       return true;
@@ -111,19 +122,24 @@ export const selectListFilters = createSelector(
   (state): ListFilterToken[] | null => {
     const filters: ListFilterToken[] = [];
 
-    if (state.filters[LIST_FILTER.CATEGORY]) {
-      const value = state.filters[LIST_FILTER.CATEGORY];
-      filters.push({
-        key: LIST_FILTER.CATEGORY,
-        value,
-        label: value ?? undefined,
-      });
+    if (state.filters[LIST_FILTER.CATEGORY] !== null) {
+      const key = LIST_FILTER.CATEGORY;
+      const value = state.filters[key];
+      const label = value ?? undefined;
+      filters.push({ key, value, label });
     }
 
-    if (state.filters[LIST_FILTER.IS_DONE]) {
+    if (state.filters[LIST_FILTER.IS_DONE] !== null) {
       const key = LIST_FILTER.IS_DONE;
-      const value = state.filters[LIST_FILTER.IS_DONE];
+      const value = state.filters[key];
       const label = value ? 'list.filter.onlyToDo' : 'list.filter.onlyCompleted';
+      filters.push({ key, value, label });
+    }
+
+    if (state.filters[LIST_FILTER.SEARCH_QUERY] !== null) {
+      const key = LIST_FILTER.SEARCH_QUERY;
+      const value = state.filters[key];
+      const label = `"${value}"`;
       filters.push({ key, value, label });
     }
 

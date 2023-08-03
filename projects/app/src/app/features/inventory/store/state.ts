@@ -18,5 +18,6 @@ export const INVENTORY_FEATURE_INITIAL_STATE: InventoryFeatureState = {
   itemModalSuccessCounter: 0,
   filters: {
     [INVENTORY_FILTER.CATEGORY]: null,
+    [INVENTORY_FILTER.SEARCH_QUERY]: null,
   },
 };

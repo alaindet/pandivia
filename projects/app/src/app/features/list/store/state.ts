@@ -19,5 +19,6 @@ export const LIST_FEATURE_INITIAL_STATE: ListFeatureState = {
   filters: {
     [LIST_FILTER.CATEGORY]: null,
     [LIST_FILTER.IS_DONE]: null,
+    [LIST_FILTER.SEARCH_QUERY]: null,
   },
 };

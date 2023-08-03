@@ -16,7 +16,14 @@ export const listFilters = {
     props<{ isDone: boolean }>(),
   ),
   clearCompleted: createAction(
-    '[List] Clear completed',
+    '[List] Clear completed filter',
+  ),
+  setSearchQuery: createAction(
+    '[List] Set search query filter',
+    props<{ searchQuery: string }>(),
+  ),
+  clearSearchQuery: createAction(
+    '[List] Clear search query filter',
   ),
   clearByName: createAction(
     '[List] Clear filter by name',

@@ -46,7 +46,6 @@ export class ProfilePageComponent implements OnInit {
 
   ngOnInit() {
     this.initPageMetadata();
-    this.resetHeaderActions();
   }
 
   onSignOut() {
@@ -55,15 +54,17 @@ export class ProfilePageComponent implements OnInit {
 
   private initPageMetadata(): void {
     const headerTitle = this.transloco.translate('userProfile.title');
-    this.layout.setTitle(headerTitle);
+    this.layout.title.set(headerTitle);
     const title = `${headerTitle} - ${environment.appName}`;
     this.store.dispatch(uiSetPageTitle({ title }));
     const current = NAVIGATION_ITEM_USER.id;
     this.store.dispatch(uiSetCurrentNavigation({ current }));
-    this.layout.clearHeaderCounters();
-  }
+    this.layout.headerCounters.clear();
+    this.layout.headerActions.clear();
 
-  private resetHeaderActions(): void {
-    this.layout.clearHeaderActions();
+    // For some reason, it triggers a NG0100 error
+    // https://angular.io/errors/NG0100
+    queueMicrotask(() => this.layout.search.disable());
+    // this.layout.search.disable();
   }
 }

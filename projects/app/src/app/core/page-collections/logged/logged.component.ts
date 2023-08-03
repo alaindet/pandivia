@@ -1,13 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { combineLatest, debounceTime, map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { BottomMenuItem } from '@app/common/components';
 import { BACK_BUTTON_STATUS } from '@app/common/types';
-import { SIXTY_FRAMES_PER_SECOND } from '@app/common/constants';
 import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layouts';
 import { NAVIGATION_ROUTES } from '../../ui';
 import { selectNavigation } from '../../store';
@@ -34,28 +32,24 @@ export class LoggedPageCollectionComponent {
   private transloco = inject(TranslocoService);
 
   BACK_BUTTON_STATUS = BACK_BUTTON_STATUS;
-  vm$ = combineLatest({
-    layout: this.layout.vm,
-    nav: this.getTranslatedNavItems(),
-  }).pipe(debounceTime(SIXTY_FRAMES_PER_SECOND));
 
-  onHeaderAction(action: string) {
-    this.layout.clickHeaderAction(action);
-  }
+  vm = computed(() => ({
+    layout: this.layout.vm(),
+    nav: this.getTranslatedNavItems()(),
+  }));
 
   onBottomNavigation(actionId: BottomMenuItem['id']) {
     this.router.navigate([NAVIGATION_ROUTES[actionId]]);
   }
 
   private getTranslatedNavItems() {
-    return this.store.select(selectNavigation).pipe(map(nav => {
-      return {
-        ...nav,
-        items: nav.items.map(item => {
-          const label = this.transloco.translate(item.label);
-          return { ...item, label };
-        }),
-      };
+    const nav = this.store.selectSignal(selectNavigation);
+    return computed(() => ({
+      ...nav(),
+      items: nav().items.map(item => {
+        const label = this.transloco.translate(item.label);
+        return { ...item, label };
+      }),
     }));
   }
 }

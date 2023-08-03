@@ -60,6 +60,14 @@ export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
     state.filters[INVENTORY_FILTER.CATEGORY] = null;
   }),
 
+  immerOn(inventoryFilters.setSearchQuery, (state, { searchQuery }) => {
+    state.filters[INVENTORY_FILTER.SEARCH_QUERY] = searchQuery;
+  }),
+
+  immerOn(inventoryFilters.clearSearchQuery, state => {
+    state.filters[INVENTORY_FILTER.SEARCH_QUERY] = null;
+  }),
+
   immerOn(inventoryFilters.clearAll, state => {
     state.filters[INVENTORY_FILTER.CATEGORY] = null;
   }),
