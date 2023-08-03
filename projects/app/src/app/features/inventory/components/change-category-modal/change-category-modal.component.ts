@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { AUTOCOMPLETE_EXPORTS, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
-import { InventoryChangeCategoryModalInput,InventoryChangeCategoryModalOutput } from './types';
+import { InventoryChangeCategoryModalInput, InventoryChangeCategoryModalOutput } from './types';
 
 const imports = [
   NgIf,
@@ -35,8 +35,8 @@ const imports = [
   styleUrls: ['./change-category-modal.component.scss'],
 })
 export class InventoryChangeCategoryModalComponent extends BaseModalComponent<
-  InventoryItemFormModalInput,
-  InventoryItemFormModalOutput
+  InventoryChangeCategoryModalInput,
+  InventoryChangeCategoryModalOutput
 > implements OnInit {
 
   private store = inject(Store);

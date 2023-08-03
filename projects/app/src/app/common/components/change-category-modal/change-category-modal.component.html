@@ -1,0 +1,11 @@
+<ng-container *appModalHeader>
+  <h2>{{ modal.data.title }}</h2>
+</ng-container>
+
+<ul>
+  <li *ngFor="let category of modal.data.categories">
+    <button type="button" appButton="ghost" (click)="onSelectCategory(category)">
+      {{ category }}
+    </button>
+  </li>
+</ul>

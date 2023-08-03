@@ -25,6 +25,7 @@ import { OnceSource } from '@app/common/sources';
 import { UiService } from '@app/core/ui';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DEFAULT_CATEGORY } from '@app/core';
+import { ChangeCategoryModalComponent, ChangeCategoryModalInput, ChangeCategoryModalOutput } from '../../common/components/change-category-modal';
 
 const imports = [
   CommonModule,
@@ -131,7 +132,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
         break;
       }
       case itemMenu.ITEM_ACTION_MOVE_TO_CATEGORY.id: {
-        this.showMoveToCategoryModal();
+        this.showMoveToCategoryModal().subscribe(category => {
+          console.log('Moved to category', category); // TODO: Remove
+        });
         break;
       }
       case itemMenu.ITEM_ACTION_EDIT.id: {
@@ -311,10 +314,12 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  private showMoveToCategoryModal(): void {
+  private showMoveToCategoryModal(): Observable<ChangeCategoryModalOutput> {
     // const title = this.transloco.translate('common.itemModal.editTitle');
     const title = 'TODO: Move to category';
-    const modalInput: InventoryItemFormModalInput = { title, item };
-    this.modal.open(InventoryItemFormModalComponent, modalInput);
+    const categories = ['Foo', 'Bar'];
+    const modalInput: ChangeCategoryModalInput = { title, categories };
+    const modal$ = this.modal.open(ChangeCategoryModalComponent, modalInput);
+    return modal$.closed().pipe(take(1));
   }
 }
