@@ -1,13 +1,16 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { EMPTY, catchError, map, of, switchMap, take, throwError, withLatestFrom } from 'rxjs';
 
 import { InventoryService } from '../../services';
-import { inventoryCreateItem, inventoryEditItem, inventoryRemoveItem } from '../actions';
+import { inventoryCloneItemFromList, inventoryCreateItem, inventoryEditItem, inventoryRemoveItem } from '../actions';
+import { Store } from '@ngrx/store';
+import { selectInventoryItemExistsWithName } from '../selectors';
 
 @Injectable()
 export class InventoryItemEffects {
 
+  private store = inject(Store);
   private actions = inject(Actions);
   private inventoryService = inject(InventoryService);
 
@@ -24,6 +27,35 @@ export class InventoryItemEffects {
         return of(inventoryCreateItem.err({ message }));
       }),
     )),
+  ));
+
+  cloneFromListItem$ = createEffect(() => this.actions.pipe(
+    ofType(inventoryCloneItemFromList.try),
+    switchMap(({ dto }) => {
+      const inventoryItemExists = selectInventoryItemExistsWithName(dto.name);
+      return this.store.select(inventoryItemExists).pipe(
+        take(1),
+        switchMap(exists => {
+
+          if (exists) {
+            const message = `Item "${dto.name}" already exists in the Inventory`;
+            return of(inventoryCloneItemFromList.errDuplicate({ message }));
+          }
+
+          return this.inventoryService.createItem(dto).pipe(
+            map(item => {
+              const message = `Item "${dto.name}" was successfully created in the Inventory`;
+              return inventoryCloneItemFromList.ok({ item, message });
+            }),
+            catchError(err => {
+              console.error(err);
+              const message = `Cannot create item "${dto.name}" in the Inventory`;
+              return of(inventoryCloneItemFromList.err({ message }));
+            }),
+          );
+        }),
+      );
+    }),
   ));
 
   editItem$ = createEffect(() => this.actions.pipe(

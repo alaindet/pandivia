@@ -3,7 +3,7 @@ import { Actions } from '@ngrx/effects';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { createUiController } from '@app/core/ui';
-import { inventoryCreateItem, inventoryEditItem, inventoryFetchItems, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory } from '../actions';
+import { inventoryCloneItemFromList, inventoryCreateItem, inventoryEditItem, inventoryFetchItems, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory } from '../actions';
 
 @Injectable()
 export class InventoryUiEffects {
@@ -18,6 +18,7 @@ export class InventoryUiEffects {
     inventoryRemoveItems.try,
     inventoryRemoveItemsByCategory.try,
     inventoryCreateItem.try,
+    inventoryCloneItemFromList.try,
     inventoryEditItem.try,
     inventoryRemoveItem.try,
   );
@@ -32,6 +33,9 @@ export class InventoryUiEffects {
     inventoryRemoveItemsByCategory.err,
     inventoryCreateItem.ok,
     inventoryCreateItem.err,
+    inventoryCloneItemFromList.ok,
+    inventoryCloneItemFromList.err,
+    inventoryCloneItemFromList.errDuplicate,
     inventoryEditItem.ok,
     inventoryEditItem.err,
     inventoryRemoveItem.ok,
@@ -51,6 +55,7 @@ export class InventoryUiEffects {
     inventoryRemoveItems.err,
     inventoryRemoveItemsByCategory.err,
     inventoryCreateItem.err,
+    inventoryCloneItemFromList.err,
     inventoryEditItem.err,
     inventoryRemoveItem.err,
   );
