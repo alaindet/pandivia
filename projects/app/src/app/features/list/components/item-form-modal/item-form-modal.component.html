@@ -242,18 +242,6 @@
 <ng-container *appModalFooter>
   <div *transloco="let t" class="_footer">
 
-    <!-- Cancel -->
-    <!-- <button
-      type="button"
-      appButton="outline"
-      size="small"
-      withIcon="left"
-      (click)="onCancel()"
-    >
-      <mat-icon>clear</mat-icon>
-      {{ t('common.cancel') }}
-    </button> -->
-
     <!-- Edit -->
     <ng-container *ngIf="isEditing(); else createRef">
       <button
@@ -288,7 +276,7 @@
         {{ t('common.createAndContinue') }}
       </button>
 
-      <!-- Create and close -->
+      <!-- Confirm and close -->
       <button
         type="button"
         appButton="primary"
