@@ -1,20 +1,21 @@
 <div class="app-container">
 
   <!-- Stack level: 0 -->
-  <router-outlet></router-outlet>
+  <router-outlet />
 
   <!-- Stack level: 1 -->
   <app-linear-spinner
     *ngIf="loading"
     [color]="themeConfig().linearSpinnerColor"
     [fixed]="true"
-  ></app-linear-spinner>
+  />
 
   <!-- Stack level: 2 -->
   <app-notifications-host
     [notification]="ui.notification.current()"
     (dismissed)="ui.notification.dismiss()"
-  ></app-notifications-host>
+  />
+
 </div>
 
 <!-- Stack level: 3 -->
@@ -24,4 +25,4 @@
     cancel: t('components.modal.cancel'),
     confirm: t('components.modal.confirm'),
   }"
-></app-modal-host>
+/>
