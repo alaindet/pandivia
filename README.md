@@ -2,7 +2,7 @@
 
 Pandivia is a shopping list PWA made with Angular and Firebase.
 
-Users have have
+Users have
 - a List page where they can add items to buy, grouped by category
 - an Inventory page where they can add frequently bought items for easy retrieval
 - a Profile page to be able to change theme and language
