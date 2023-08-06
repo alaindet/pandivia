@@ -5,7 +5,7 @@ import { LOADING_STATUS } from '@app/common/types';
 import { replaceOn } from '@app/common/utils';
 import { INVENTORY_FILTER } from '../types';
 import { INVENTORY_FEATURE_INITIAL_STATE } from './state';
-import { inventoryFetchItems, inventoryRemoveItems, inventoryRemoveItemsByCategory, inventoryCreateItem, inventoryEditItem, inventoryRemoveItem, inventoryFilters, inventoryFeatureReset } from './actions';
+import { inventoryFetchItems, inventoryRemoveItems, inventoryRemoveItemsByCategory, inventoryCreateItem, inventoryEditItem, inventoryRemoveItem, inventoryFilters, inventoryFeatureReset, inventoryCloneItemFromList } from './actions';
 
 export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
 
@@ -23,6 +23,7 @@ export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
     inventoryRemoveItems.try,
     inventoryRemoveItemsByCategory.try,
     inventoryCreateItem.try,
+    inventoryCloneItemFromList.try,
     inventoryEditItem.try,
     inventoryRemoveItem.try,
     state => {
@@ -35,6 +36,8 @@ export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
     inventoryRemoveItems.err,
     inventoryRemoveItemsByCategory.err,
     inventoryCreateItem.err,
+    inventoryCloneItemFromList.err,
+    inventoryCloneItemFromList.errDuplicate,
     inventoryEditItem.err,
     inventoryRemoveItem.err,
     state => {
@@ -91,6 +94,11 @@ export const inventoryReducer = createReducer(INVENTORY_FEATURE_INITIAL_STATE,
   immerOn(inventoryCreateItem.ok, (state, { item }) => {
     state.status = LOADING_STATUS.IDLE;
     state.itemModalSuccessCounter += 1;
+    state.items.push(item);
+  }),
+
+  immerOn(inventoryCloneItemFromList.ok, (state, { item }) => {
+    state.status = LOADING_STATUS.IDLE;
     state.items.push(item);
   }),
 

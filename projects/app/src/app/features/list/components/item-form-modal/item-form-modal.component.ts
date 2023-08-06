@@ -11,7 +11,7 @@ import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { InventoryItem } from '@app/features/inventory';
-import { inventoryCreateItem, inventoryFetchItems } from '@app/features/inventory/store';
+import { inventoryCloneItemFromList, inventoryCreateItem, inventoryFetchItems } from '@app/features/inventory/store';
 import { TranslocoModule } from '@ngneat/transloco';
 import { listCreateItem, listEditItem, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
@@ -161,10 +161,10 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     // Try to create
     this.store.dispatch(listCreateItem.try({ dto: item }));
 
-    // Try to add to inventory
+    // Try to clone this item to the Inventory
     if (addToInventory) {
       const { amount, ...dto } = item;
-      this.store.dispatch(inventoryCreateItem.try({ dto }));
+      this.store.dispatch(inventoryCloneItemFromList.try({ dto }));
     }
   }
 

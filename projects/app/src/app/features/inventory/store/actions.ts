@@ -70,6 +70,25 @@ export const inventoryCreateItem = {
   ),
 };
 
+export const inventoryCloneItemFromList = {
+  try: createAction(
+    '[Inventory] Clone item from List',
+    props<{ dto: CreateInventoryItemDto }>(),
+  ),
+  ok: createAction(
+    '[Inventory] Clone item from List success',
+    props<{ item: InventoryItem, message: string }>(),
+  ),
+  errDuplicate: createAction(
+    '[Inventory] Clone item from List duplicate error',
+    props<{ message: string }>(),
+  ),
+  err: createAction(
+    '[Inventory] Clone item from List error',
+    props<{ message: string }>(),
+  ),
+};
+
 export const inventoryEditItem = {
   try: createAction(
     '[Inventory] Edit item',
