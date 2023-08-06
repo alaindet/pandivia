@@ -141,7 +141,13 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
       // If continuing, reset the form
       if (this.shouldContinue) {
-        this.theForm.reset();
+        this.theForm.reset({
+          [FIELD.NAME.id]: '',
+          [FIELD.AMOUNT.id]: 1,
+          [FIELD.DESCRIPTION.id]: '',
+          [FIELD.CATEGORY.id]: '',
+          [FIELD.ADD_TO_INVENTORY.id]: false,
+        });
         this.shouldContinue = false;
         this.nameRef?.focus();
         return;
