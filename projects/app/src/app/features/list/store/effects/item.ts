@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { ListService } from '../../services';
 import { listCompleteItem, listCreateItem, listDecrementItem, listEditItem, listIncrementItem, listRemoveItem, listToggleItem, listUndoItem } from '../actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, concatMap, map, of, switchMap } from 'rxjs';
 
 @Injectable()
 export class ListItemEffects {
@@ -41,7 +41,7 @@ export class ListItemEffects {
 
   complete$ = createEffect(() => this.actions.pipe(
     ofType(listCompleteItem.try),
-    switchMap(({ itemId }) => this.svc.complete(itemId).pipe(
+    concatMap(({ itemId }) => this.svc.complete(itemId).pipe(
       map(() => listCompleteItem.ok({ itemId, message: 'nope' })),
       catchError(() => of(listCompleteItem.err({ message: 'nope' }))),
     )),
@@ -49,7 +49,7 @@ export class ListItemEffects {
 
   undo$ = createEffect(() => this.actions.pipe(
     ofType(listUndoItem.try),
-    switchMap(({ itemId }) => this.svc.undo(itemId).pipe(
+    concatMap(({ itemId }) => this.svc.undo(itemId).pipe(
       map(() => listUndoItem.ok({ itemId, message: 'nope' })),
       catchError(() => of(listUndoItem.err({ message: 'nope' }))),
     )),
@@ -57,7 +57,7 @@ export class ListItemEffects {
 
   toggle$ = createEffect(() => this.actions.pipe(
     ofType(listToggleItem.try),
-    switchMap(({ itemId }) => this.svc.toggle(itemId).pipe(
+    concatMap(({ itemId }) => this.svc.toggle(itemId).pipe(
       map(() => listToggleItem.ok({ itemId, message: 'nope' })),
       catchError(() => of(listToggleItem.err({ message: 'nope' }))),
     )),
