@@ -7,6 +7,7 @@ import { selectUserId } from '@app/features/user/store';
 import { ListItem } from '../types';
 import { docsToListItems } from './utils';
 
+// I Love You Puccipù
 export function createListAllItemsController() {
 
   const db = inject(Firestore);
