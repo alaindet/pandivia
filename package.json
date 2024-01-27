@@ -1,6 +1,6 @@
 {
   "name": "pandivia",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -34,6 +34,7 @@
     "@ngrx/store-devtools": "^16.0.0",
     "focusable-selectors": "^0.8.0",
     "ngrx-immer": "^2.0.1",
+    "rxfire": "^6.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
