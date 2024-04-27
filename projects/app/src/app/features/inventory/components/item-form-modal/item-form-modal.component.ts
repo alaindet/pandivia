@@ -145,7 +145,15 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
       // If continuing, reset the form
       if (this.shouldContinue) {
+
+        // Backup category
+        const category = this.fCategory.value;
+
         this.theForm.reset();
+
+        // Restore category
+        this.theForm.get(FIELD.CATEGORY.id)!.setValue(category);
+
         this.shouldContinue = false;
         this.nameRef?.focus();
         return;

@@ -141,11 +141,15 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
       // If continuing, reset the form
       if (this.shouldContinue) {
+
+        // Backup category
+        const category = this.fCategory.value;
+
         this.theForm.reset({
           [FIELD.NAME.id]: '',
           [FIELD.AMOUNT.id]: 1,
           [FIELD.DESCRIPTION.id]: '',
-          [FIELD.CATEGORY.id]: '',
+          [FIELD.CATEGORY.id]: category,
           [FIELD.ADD_TO_INVENTORY.id]: false,
         });
         this.shouldContinue = false;
