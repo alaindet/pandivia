@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } from '@angular/core';
 
 import { BottomMenuItemComponent } from '../bottom-menu-item/bottom-menu-item.component';
 import { BottomMenuItem } from '../types';
 
 const imports = [
-  CommonModule,
   BottomMenuItemComponent,
 ];
 
@@ -21,8 +19,8 @@ const imports = [
 })
 export class BottomMenuComponent {
 
-  @Input() items: BottomMenuItem[] = [];
-  @Input() selectedItem: string | null = null;
+  items = input<BottomMenuItem[]>([]);
+  selectedItem = input<string | null>(null);
 
-  @Output() selected = new EventEmitter<string>();
+  selected = output<string>();
 }

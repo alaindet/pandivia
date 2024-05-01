@@ -1,12 +1,13 @@
 @import 'scoped';
 
-// Variables
-// --app-bottom-menu-top-border-color
+/**
+ * Theme variables
+ * --app-bottom-menu-top-border-color
+ */
 
 .app-bottom-menu {
   display: flex;
   justify-content: stretch;
   align-items: center;
   border-top: 2px solid var(--app-bottom-menu-top-border-color);
-  // box-shadow: 0 -10px 10px -10px rgba(0,0,0,0.2);
 }
