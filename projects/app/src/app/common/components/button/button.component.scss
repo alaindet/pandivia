@@ -2,31 +2,34 @@
 
 // TODO: Can these variables be simplified?
 
-// Variables
-// --app-button-primary-background
-// --app-button-primary-foreground
-// --app-button-primary-hover-background
-// --app-button-secondary-background
-// --app-button-secondary-foreground
-// --app-button-secondary-hover-background
-// --app-button-tertiary-background
-// --app-button-tertiary-foreground
-// --app-button-tertiary-hover-background
-// --app-button-outline-border-color
-// --app-button-outline-hover-background
-// --app-button-outline-hover-foreground
-// --app-button-ghost-foreground
-// --app-button-ghost-hover-background
-// --app-button-top (LOCAL)
-// --app-button-right (LOCAL)
-// --app-button-bottom (LOCAL)
-// --app-button-left (LOCAL)
+/**
+ * Theme variables
+ *
+ * --app-button-primary-background
+ * --app-button-primary-foreground
+ * --app-button-primary-hover-background
+ *
+ * --app-button-secondary-background
+ * --app-button-secondary-foreground
+ * --app-button-secondary-hover-background
+ *
+ * --app-button-tertiary-background
+ * --app-button-tertiary-foreground
+ *
+ * --app-button-tertiary-hover-background
+ * --app-button-outline-border-color
+ * --app-button-outline-hover-background
+ * --app-button-outline-hover-foreground
+ *
+ * --app-button-ghost-foreground
+ * --app-button-ghost-hover-background
+ */
 
 .app-button {
-  --app-button-top: auto;
-  --app-button-right: 1rem;
-  --app-button-bottom: 1rem;
-  --app-button-left: auto;
+  --_top: auto;
+  --_right: 1rem;
+  --_bottom: 1rem;
+  --_left: auto;
 
   width: -moz-fit-content;
   width: fit-content;
@@ -212,19 +215,19 @@
 
     &-container {
       position: absolute;
-      top: var(--app-button-top);
-      right: var(--app-button-right);
-      bottom: var(--app-button-bottom);
-      left: var(--app-button-left);
+      top: var(--_top);
+      right: var(--_right);
+      bottom: var(--_bottom);
+      left: var(--_left);
       z-index: 2;
     }
 
     &-fixed {
       position: fixed;
-      top: var(--app-button-top);
-      right: var(--app-button-right);
-      bottom: var(--app-button-bottom);
-      left: var(--app-button-left);
+      top: var(--_top);
+      right: var(--_right);
+      bottom: var(--_bottom);
+      left: var(--_left);
       z-index: 3;
     }
   }

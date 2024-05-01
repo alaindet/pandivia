@@ -3,15 +3,16 @@
   <div class="_left">
 
     <div class="_title">
-      <h2>{{ title }}</h2>
-      <span *ngIf="withCounters" class="_counters">
-        <ng-container *ngIf="isSelectable; else selectableCountersRef">
-          ({{ counters!().done }} / <strong>{{ counters!().total }}</strong>)
-        </ng-container>
-        <ng-template #selectableCountersRef>
-          (<strong>{{ counters!().total }}</strong>)
-        </ng-template>
-      </span>
+      <h2>{{ title() }}</h2>
+      @if (withCounters()) {
+        <span class="_counters">
+          @if (isSelectable()) {
+            ({{ counters!().done }} / <strong>{{ counters!().total }}</strong>)
+          } @else {
+            (<strong>{{ counters!().total }}</strong>)
+          }
+        </span>
+      }
     </div>
 
     <div class="_pin">
@@ -22,16 +23,17 @@
         size="extra-small"
         (click)="onTogglePin()"
       >
-        <mat-icon>{{ isPinned ? 'clear' : 'push_pin' }}</mat-icon>
-        {{ isPinned ? (labels?.pinned ?? 'Unpin') : (labels?.unpinned ?? 'Pin') }}
+        <mat-icon>{{ isPinned() ? 'clear' : 'push_pin' }}</mat-icon>
+        {{ isPinned() ? (pinnedLabel() ?? 'Unpin') : (unpinnedLabel() ?? 'Pin') }}
       </button>
     </div>
+
   </div>
 
   <div class="_right">
     <app-actions-menu
       [id]="title + '-menu'"
-      [actions]="listActions"
+      [actions]="listActions()"
       position="left"
       offsetY="-2rem"
       (actionConfirmed)="onListAction($event)"
@@ -47,91 +49,77 @@
 </div>
 
 <ul class="_items">
-  <li
-    *ngFor="
-      let item of items; let last = last;
-      let index = index;
-      trackBy: trackByItemId;
-    "
-    class="_item"
-    [class.-last]="last"
-  >
-    <div class="_item-header">
+  @for (item of items(); track item.id) {
+    <li class="_item" [class.-last]="$last">
+      <div class="_item-header">
 
-      <div class="_left" (click)="onToggleItem(item.id)">
-        <div class="_item-info">
-          <ng-container
-            [ngTemplateOutlet]="isSelectable ? selectableItemRef : nonSelectableItemRef"
-            [ngTemplateOutletContext]="{ $implicit: item }"
-          />
+        <div class="_left" (click)="onToggleItem(item.id)">
+          <div class="_item-info">
+            @if (isSelectable()) {
+              <app-checkbox
+                [id]="item.id"
+                [isInteractable]="false"
+                [checked]="item.isDone"
+                [color]="checkboxColor()"
+              >
+                <span [class.-crossed]="item.isDone">
+                  {{ item.amount }}x {{ item.name }}
+                </span>
+              </app-checkbox>
+            } @else {
+              {{ item.name }}
+            }
+          </div>
         </div>
-      </div>
 
-      <div class="_right">
+        <div class="_right">
 
-        <!-- Show/hide description -->
-        <div class="_toggle-description" *ngIf="!!item.description">
-          <button
-            type="button"
-            appButton="ghost"
-            withIconOnly
-            isCircle
-            size="small"
-            (click)="onToggleDescription(item.id)"
+          <!-- Show/hide description -->
+          @if (!!item.description) {
+            <div class="_toggle-description">
+              <button
+                type="button"
+                appButton="ghost"
+                withIconOnly
+                isCircle
+                size="small"
+                (click)="onToggleDescription(item.id)"
+              >
+                <mat-icon>{{ !!itemsDescriptionMap.get(item.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
+              </button>
+            </div>
+          }
+
+          <!-- Actions -->
+          <app-actions-menu
+            [id]="item.id + '-menu'"
+            [actions]="itemActionsMap.get(item.id) ?? []"
+            position="left"
+            (actionConfirmed)="onItemAction(item.id, $event)"
           >
-            <mat-icon>{{ !!itemsDescriptionMap.get(item.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
-          </button>
-        </div>
+            <ng-container *appActionsMenuButton="let open">
+              <button
+                type="button"
+                appButton
+                [color]="open ? 'primary' : 'ghost'"
+                withIconOnly
+                isCircle
+                size="small"
+              >
+                <mat-icon>{{ open ? 'close' : 'more_horiz' }}</mat-icon>
+              </button>
+            </ng-container>
+          </app-actions-menu>
 
-        <!-- Actions -->
-        <app-actions-menu
-          [id]="item.id + '-menu'"
-          [actions]="itemActionsMap.get(item.id) ?? []"
-          position="left"
-          (actionConfirmed)="onItemAction(item.id, $event)"
-        >
-          <ng-container *appActionsMenuButton="let open">
-            <button
-              type="button"
-              appButton
-              [color]="open ? 'primary' : 'ghost'"
-              withIconOnly
-              isCircle
-              size="small"
-            >
-              <mat-icon>{{ open ? 'close' : 'more_horiz' }}</mat-icon>
-            </button>
-          </ng-container>
-        </app-actions-menu>
+        </div>
 
       </div>
 
-    </div>
-
-    <div *ngIf="!!itemsDescriptionMap.get(item.id)" class="_item-description">
-      {{ item.description }}
-    </div>
-  </li>
+      @if (!!itemsDescriptionMap.get(item.id)) {
+        <div class="_item-description">
+          {{ item.description }}
+        </div>
+      }
+    </li>
+  }
 </ul>
-
-
-<!-- Template: Selectable item -->
-<ng-template #selectableItemRef let-item>
-  <app-checkbox
-    *ngIf="isSelectable"
-    #theCheckbox="app-checkbox"
-    [id]="item.id"
-    [isInteractable]="false"
-    [checked]="item.isDone"
-    [color]="checkboxColor"
-  >
-    <span [class.-crossed]="item.isDone">
-      {{ item.amount }}x {{ item.name }}
-    </span>
-  </app-checkbox>
-</ng-template>
-
-<!-- Template: Non-selectable item -->
-<ng-template #nonSelectableItemRef let-item>
-  {{ item.name }}
-</ng-template>

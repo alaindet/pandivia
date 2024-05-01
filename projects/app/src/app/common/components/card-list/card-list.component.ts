@@ -1,19 +1,16 @@
-import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation, WritableSignal, signal } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, WritableSignal, computed, effect, input, output, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
-import { ListItem } from '@app/features/list';
-import { InventoryItem } from '@app/features/inventory';
-import { didInputChange } from '@app/common/utils';
-import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
-import { CheckboxColor, CheckboxComponent } from '../checkbox';
-import { ButtonComponent } from '../button';
-import { ItemActionOutput, ItemToggledOutput, ItemActionsFn, CardListComponentLabels, CardListCounters } from './types';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
+import { InventoryItem } from '@app/features/inventory';
+import { ListItem } from '@app/features/list';
+import { ButtonComponent } from '../button';
+import { CheckboxColor, CheckboxComponent } from '../checkbox';
+import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
+import { CardListComponentLabels, CardListCounters, ItemActionOutput, ItemActionsFn, ItemToggledOutput } from './types';
 
 const imports = [
-  NgIf,
-  NgFor,
   NgTemplateOutlet,
   MatIconModule,
   CheckboxComponent,
@@ -27,53 +24,75 @@ const imports = [
   imports,
   templateUrl: './card-list.component.html',
   styleUrls: ['./card-list.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   host: { class: 'app-card-list' },
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardListComponent implements OnChanges {
+export class CardListComponent {
 
-  @Input({ required: true }) title!: string;
-  @Input({ required: true }) listActions!: ActionsMenuItem[];
-  @Input({ required: true }) items!: ListItem[] | InventoryItem[]; // TODO: Generalize type!
-  @Input({ required: true }) itemActionsFn!: ItemActionsFn;
-  @Input() labels?: CardListComponentLabels;
-  @Input() @HostBinding('class.-muted-title') withMutedTitle = false;
-  @Input() @HostBinding('class.-selectable') isSelectable = true;
-  @Input() isPinned = false;
-  @Input() withCounters = false;
-  @Input() checkboxColor: CheckboxColor = 'black';
+  title = input.required<string>();
+  listActions = input.required<ActionsMenuItem[]>();
+  // items = input.required<ListItem[] | InventoryItem[]>();
+  items = input.required<any[]>();
+  itemActionsFn = input.required<ItemActionsFn>();
+  labels = input<CardListComponentLabels>();
+  withMutedTitle = input(false);
+  isSelectable = input(true);
+  _isPinned = input(true, { alias: 'isPinned '});
+  withCounters = input(true);
+  checkboxColor = input<CheckboxColor>('black');
 
-  @Output() listActionClicked = new EventEmitter<string>();
-  @Output() itemActionClicked = new EventEmitter<ItemActionOutput>();
-  @Output() itemToggled = new EventEmitter<ItemToggledOutput>();
-  @Output() pinned = new EventEmitter<boolean>();
+  listActionClicked = output<string>();
+  itemActionClicked = output<ItemActionOutput>();
+  itemToggled = output<ItemToggledOutput>();
+  pinned = output<boolean>();
+  pinnedLabel = computed(() => this.labels()?.pinned);
+  unpinnedLabel = computed(() => this.labels()?.unpinned);
+
+  @HostBinding('class.-muted-title')
+  get cssClassMutedTitle() {
+    return this.withMutedTitle();
+  }
+
+  @HostBinding('class.-selectable')
+  get cssClassSelectable() {
+    return this.isSelectable();
+  }
 
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   itemActionsMap = new Map<string, ActionsMenuItem[]>();
   itemsDescriptionMap = new Map<string, boolean>();
   counters: WritableSignal<CardListCounters> | null = null;
+  isPinned = signal(true);
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (didInputChange(changes['items'])) {
-      this.itemActionsMap = this.updateActionsByItemMap(this.items);
-      if (this.withCounters) {
-        this.updateCounters(this.items as ListItem[]);
-      }
+  onItemsChange$ = effect(() => {
+    const items = this.items();
+    this.itemActionsMap = this.updateActionsByItemMap(items);
+    if (this.withCounters()) {
+      this.updateCounters(items as ListItem[]);
     }
-  }
+  });
+
+  onIsPinnedChange$ = effect(() => {
+    this.isPinned.set(this._isPinned());
+  });
 
   onListAction(action: string) {
     this.listActionClicked.emit(action);
   }
 
   onTogglePin() {
-    this.isPinned = !this.isPinned;
-    this.pinned.emit(this.isPinned);
+    const isPinned = this.isPinned();
+    this.isPinned.set(!isPinned);
+    this.pinned.emit(!isPinned);
   }
 
   onToggleItem(itemId: string) {
-    if (!this.isSelectable) return;
-    const isDone = !(this.items as ListItem[]).find(it => it.id === itemId)?.isDone;
+    if (!this.isSelectable()) {
+      return;
+    }
+    const items = this.items() as ListItem[];
+    const isDone = !items.find(it => it.id === itemId)?.isDone;
     this.itemToggled.emit({ itemId, isDone });
   }
 
@@ -86,17 +105,12 @@ export class CardListComponent implements OnChanges {
     this.itemsDescriptionMap.set(itemId, !existing);
   }
 
-  trackByItemId(index: number, item: ListItem | InventoryItem): string {
-    return item.id;
-  }
-
   private updateActionsByItemMap(
     items: ListItem[] | InventoryItem[],
   ): Map<string, ActionsMenuItem[]> {
     const itemActionsMap = new Map<string, ActionsMenuItem[]>();
-    this.items.forEach(item => {
-      itemActionsMap.set(item.id, this.itemActionsFn(item));
-    });
+    const fn = this.itemActionsFn();
+    items.forEach(item => itemActionsMap.set(item.id, fn(item)));
     return itemActionsMap;
   }
 
