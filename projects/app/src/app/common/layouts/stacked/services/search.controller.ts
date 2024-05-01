@@ -25,38 +25,40 @@ export function createSearchController(destroy$: Observable<void>) {
     cleared: new EventSource<void>(destroy$),
   };
 
+  function patchData(
+    updatedData: (
+      | Partial<StackedLayoutSearchViewModel>
+      | ((prev: StackedLayoutSearchViewModel) => Partial<StackedLayoutSearchViewModel>)
+    ),
+  ): void {
+
+    if (typeof updatedData === 'function') {
+      const newData = updatedData(data());
+      data.update(data => ({ ...data, ...newData }));
+      return;
+    }
+
+    data.update(data => ({ ...data, ...updatedData }));
+  }
+
   function enable() {
-    data.mutate(data => {
-      data.enabled = true;
-      data.visible = false;
-      data.query = '';
-    });
+    patchData({ enabled: true, visible: false, query: '' });
   }
 
   function disable() {
-    data.mutate(data => {
-      data.enabled = false;
-      data.visible = false;
-      data.query = '';
-    });
+    patchData({ enabled: false, visible: false, query: '' });
   }
 
   function show() {
-    data.mutate(data => {
-      data.visible = true;
-    });
+    patchData({ visible: true });
   }
 
   function hide() {
-    data.mutate(data => {
-      data.visible = false;
-    });
+    patchData({ visible: false });
   }
 
   function toggle() {
-    data.mutate(data => {
-      data.visible = !data.visible;
-    });
+    patchData(data => ({ visible: !data.visible }));
   }
 
   function search(query: string) {
@@ -65,15 +67,13 @@ export function createSearchController(destroy$: Observable<void>) {
     }
 
     searchTimer = setTimeout(() => {
-      data.mutate(data => data.query = query);
+      patchData({ query });
       events.searched.next(query);
     }, thresholdMilliseconds);
   }
 
   function clear(triggerEvents = true) {
-    data.mutate(data => {
-      data.query = '';
-    });
+    patchData({ query: '' });
     if (triggerEvents) {
       events.cleared.next();
     }
