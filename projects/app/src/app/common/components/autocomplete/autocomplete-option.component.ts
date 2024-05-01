@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, Output, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, ViewEncapsulation, effect, inject, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-autocomplete-option',
@@ -9,24 +9,31 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBindi
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-autocomplete-option' },
 })
-export class AutocompleteOptionComponent implements OnChanges {
+export class AutocompleteOptionComponent {
 
   private host = inject(ElementRef);
 
-  @Input()
-  isDropdownOpen = false;
+  isDropdownOpen = input(false);
+  isFocused = input(false);
 
-  @Input()
+  confirmed = output<void>();
+
   @HostBinding('class.-focused')
+  get cssClassFocused() {
+    return this.isFocused();
+  }
+
   @HostBinding('attr.aria-selected')
-  isFocused = false;
+  get attrAriaSelected() {
+    return this.isFocused();
+  }
 
-  @Output() confirmed = new EventEmitter<void>();
-
-  ngOnChanges() {
-    if (this.isFocused && this.isDropdownOpen) {
-      const scrollOptions = { behavior: 'smooth', block: 'nearest' };
-      this.host.nativeElement.scrollIntoView(scrollOptions);
-    }
+  constructor() {
+    effect(() => {
+      if (this.isFocused() && this.isDropdownOpen()) {
+        const scrollOptions = { behavior: 'smooth', block: 'nearest' };
+        this.host.nativeElement.scrollIntoView(scrollOptions);
+      }
+    });
   }
 }

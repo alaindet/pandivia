@@ -7,6 +7,14 @@ export interface AutocompleteOptionValuesMap {
   [index: number]: string;
 }
 
+export const AUTOCOMPLETE_CURRENT_TEMPLATE = {
+  LOADING: 'loading',
+  EMPTY: 'empty',
+  OPTIONS: 'options',
+} as const;
+
+export type AutocompleteCurrentTemplate = ObjectValues<typeof AUTOCOMPLETE_CURRENT_TEMPLATE>;
+
 export const AUTOCOMPLETE_SOURCE_TYPE = {
   STATIC: 'static',
   ASYNC: 'async',

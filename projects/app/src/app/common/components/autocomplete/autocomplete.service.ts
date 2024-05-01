@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, TemplateRef } from '@angular/core';
+import { Injectable, OnDestroy, TemplateRef, signal } from '@angular/core';
 import { filter, fromEvent, Observable, of, switchMap, take, takeUntil } from 'rxjs';
 
 import { DataSource, EventSource, OnceSource } from '@app/common/sources';
@@ -25,12 +25,12 @@ export class AutocompleteService implements OnDestroy {
   sourceType!: AutocompleteSourceType;
 
   // Data sources
-  optionTemplate = new DataSource<TemplateRef<AutocompleteOption> | null>(null, this.once.event$);
-  options = new DataSource<AutocompleteOption[]>([], this.once.event$);
-  open = new DataSource<boolean>(false, this.once.event$);
-  loading = new DataSource<boolean>(false, this.once.event$);
-  focusedIndex = new DataSource<number | null>(null, this.once.event$);
-  focusedId = new DataSource<string | null>(null, this.once.event$);
+  optionTemplate = signal<TemplateRef<AutocompleteOption> | null>(null);
+  options = signal<AutocompleteOption[]>([]);
+  open = signal(false);
+  loading = signal(false);
+  focusedIndex = signal<number | null>(null);
+  focusedId = signal<string | null>(null);
 
   // Event sources
   confirmedEvent = new EventSource<AutocompleteOption>(this.once.event$);
@@ -40,12 +40,12 @@ export class AutocompleteService implements OnDestroy {
   }
 
   clearFocused(): void {
-    this.focusedIndex.next(null);
+    this.focusedIndex.set(null);
     this.updateFocusedId(null);
   }
 
   setOptionTemplate(template: TemplateRef<AutocompleteOption>): void {
-    this.optionTemplate.next(template);
+    this.optionTemplate.set(template);
   }
 
   setInputElement(
@@ -76,8 +76,8 @@ export class AutocompleteService implements OnDestroy {
   }
 
   closeDropdown(): void {
-    this.open.next(false);
-    this.focusedIndex.next(null);
+    this.open.set(false);
+    this.focusedIndex.set(null);
     this.updateFocusedId(null);
   }
 
@@ -121,7 +121,7 @@ export class AutocompleteService implements OnDestroy {
       )
       .subscribe(() => {
         this.onQuery(element.value);
-        this.open.next(true);
+        this.open.set(true);
       });
   }
 
@@ -165,16 +165,19 @@ export class AutocompleteService implements OnDestroy {
         break;
     }
 
-    shouldOpenEarly && this.open.next(true);
-    this.loading.next(true);
+    if (shouldOpenEarly) {
+      this.open.set(true);
+    }
+
+    this.loading.set(true);
     options$.pipe(take(1)).subscribe(options => {
       this.currentOptionsCount = options.length;
       this._options = options;
-      this.options.next(options);
-      this.loading.next(false);
-      this.focusedIndex.next(null);
+      this.options.set(options);
+      this.loading.set(false);
+      this.focusedIndex.set(null);
       this.updateFocusedId(null);
-      this.open.next(true);
+      this.open.set(true);
     });
   }
 
@@ -226,64 +229,64 @@ export class AutocompleteService implements OnDestroy {
   private focusLast(): void {
     this.openDropdownIfNeeded();
     const index = this._options.length - 1;
-    this.focusedIndex.next(index);
+    this.focusedIndex.set(index);
     this.updateFocusedId(index);
   }
 
   private focusFirst(): void {
     this.openDropdownIfNeeded();
-    this.focusedIndex.next(0);
+    this.focusedIndex.set(0);
     this.updateFocusedId(0);
   }
 
   private focusPrevious(): void {
     this.openDropdownIfNeeded();
-    const focusedIndex = this.focusedIndex.getCurrent();
+    const focusedIndex = this.focusedIndex();
     if (focusedIndex === null) return this.focusLast();
     const firstIndex = 0;
     if (focusedIndex === firstIndex) return this.focusLast();
     const index = focusedIndex - 1;
-    this.focusedIndex.next(index);
+    this.focusedIndex.set(index);
     this.updateFocusedId(index);
   }
 
   private focusNext(): void {
     this.openDropdownIfNeeded();
-    const focusedIndex = this.focusedIndex.getCurrent();
+    const focusedIndex = this.focusedIndex();
     if (focusedIndex === null) return this.focusFirst();
     const lastIndex = this.currentOptionsCount - 1;
     if (focusedIndex === lastIndex) return this.focusFirst();
     const index = focusedIndex + 1;
-    this.focusedIndex.next(index);
+    this.focusedIndex.set(index);
     this.updateFocusedId(index);
   }
 
   confirm(option: AutocompleteOption): void {
-    this.focusedIndex.next(null);
-    this.open.next(false);
+    this.focusedIndex.set(null);
+    this.open.set(false);
     this.confirmedEvent.next(option);
   }
 
   private confirmFocused(): void {
-    const focusedIndex = this.focusedIndex.getCurrent();
+    const focusedIndex = this.focusedIndex();
     const confirmedOption = this._options[focusedIndex as number];
-    this.focusedIndex.next(null);
+    this.focusedIndex.set(null);
     this.updateFocusedId(null);
-    this.open.next(false);
+    this.open.set(false);
     this.confirmedEvent.next(confirmedOption);
   }
 
   private openDropdownIfNeeded(): void {
-    const open = this.open.getCurrent();
-    if (!open) this.open.next(true);
+    const open = this.open();
+    if (!open) this.open.set(true);
   }
 
   private updateFocusedId(focusedIndex: number | null): void {
     if (focusedIndex === null) {
-      this.focusedId.next(null);
+      this.focusedId.set(null);
       return;
     }
     const valuePicker = this.getValuePicker();
-    this.focusedId.next(valuePicker(this._options[focusedIndex]));
+    this.focusedId.set(valuePicker(this._options[focusedIndex]));
   }
 }
