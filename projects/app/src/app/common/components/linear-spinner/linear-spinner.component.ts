@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation, input } from '@angular/core';
 
 export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 
+// Thanks to @alxhub
+// https://github.com/angular/angular/issues/53888#issuecomment-1888071170
 @Component({
   selector: 'app-linear-spinner',
   standalone: true,
@@ -13,12 +15,16 @@ export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 })
 export class LinearSpinnerComponent {
 
-  @Input() @HostBinding('class.-fixed') fixed = false;
+  fixed = input(false);
+  color = input<LinearSpinnerColor>('primary');
 
-  @Input('color')
-  set colorInput(color: LinearSpinnerColor) {
-    this.cssClass = `-color-${color}`;
+  @HostBinding('class.-fixed')
+  get cssClassFixed() {
+    return this.fixed();
   }
 
-  @HostBinding('class') cssClass = '-color-primary';
+  @HostBinding('class')
+  get cssClass() {
+    return `-color-${this.color()}`;
+  }
 }
