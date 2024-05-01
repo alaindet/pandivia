@@ -1,59 +1,37 @@
-<ng-container
-  *ngIf="vm$ | async as vm"
-  [ngTemplateOutlet]="vm.optionsTemplate"
-  [ngTemplateOutletContext]="{ $implicit: vm }"
-/>
+@switch (currentOptionsTemplate()) {
 
-<!-- Template: Available options -->
-<ng-template #availableOptionsRef let-vm>
-  <ul
-    *ngIf="!!vm.optionTemplate"
-    class="_options"
-    id="{{ inputId }}-menu"
-    [attr.aria-labelledby]="inputId"
-  >
-    <li
-      *ngFor="let option of vm.options; let index = index"
-      class="_option"
-      role="menuitem"
-    >
-      <app-autocomplete-option
-        [isFocused]="vm.focusedIndex === index"
-        [isDropdownOpen]="vm.isOpen"
-        (click)="onConfirmOption($event, option)"
-      >
-        <ng-container
-          [ngTemplateOutlet]="vm.optionTemplate"
-          [ngTemplateOutletContext]="{ $implicit: option }"
-        ></ng-container>
-      </app-autocomplete-option>
-    </li>
-  </ul>
-</ng-template>
+  @case (CURRENT_TEMPLATE.LOADING) {
+    <ul class="_options" id="{{ inputId }}-menu" [attr.aria-labelledby]="inputId">
+      <li role="status" class="_missing-option">
+        {{ labels()?.loading ?? 'Loading...' }}
+      </li>
+    </ul>
+  }
 
-<!-- Template: Loading options -->
-<ng-template #loadingOptionsRef>
-  <ul
-    class="_options"
-    id="{{ inputId }}-menu"
-    [attr.aria-labelledby]="inputId"
-  >
-    <li role="status" class="_missing-option">
-      {{ labels?.loading ?? 'Loading...' }}
-    </li>
-  </ul>
-</ng-template>
+  @case (CURRENT_TEMPLATE.EMPTY) {
+    <ul class="_options" id="{{ inputId }}-menu" [attr.aria-labelledby]="inputId">
+      <li role="status" class="_missing-option">
+        {{ labels()?.nothingFound ?? 'Nothing found' }}
+      </li>
+    </ul>
+  }
 
-<!-- Template: no options -->
-<ng-template #noOptionsRef>
-  <ul
-    *ngIf="showEmptyOptions"
-    class="_options"
-    id="{{ inputId }}-menu"
-    [attr.aria-labelledby]="inputId"
-  >
-    <li role="status" class="_missing-option">
-      {{ labels?.nothingFound ?? 'Nothing found' }}
-    </li>
-  </ul>
-</ng-template>
+  @case (CURRENT_TEMPLATE.OPTIONS) {
+    <ul class="_options" id="{{ inputId }}-menu" [attr.aria-labelledby]="inputId">
+      @for (option of options(); track option.value; let index = $index) {
+        <li class="_option" role="menuitem">
+          <app-autocomplete-option
+            [isFocused]="focusedIndex() === index"
+            [isDropdownOpen]="isOpen()"
+            (click)="onConfirmOption($event, option)"
+          >
+            <ng-container
+              [ngTemplateOutlet]="optionTemplate()"
+              [ngTemplateOutletContext]="{ $implicit: option }"
+            />
+          </app-autocomplete-option>
+        </li>
+      }
+    </ul>
+  }
+}

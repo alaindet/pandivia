@@ -1,19 +1,20 @@
 @import 'scoped';
 
-// Variables
-// --app-autocomplete-item-background
-// --app-autocomplete-item-foreground
-// --app-autocomplete-border-color
-// --app-autocomplete-width (LOCAL)
-// --app-autocomplete-offset-y (LOCAL)
+/**
+ * Theme variables
+ *
+ * --app-autocomplete-item-background
+ * --app-autocomplete-item-foreground
+ * --app-autocomplete-border-color
+ */
 
 .app-autocomplete {
-  --app-autocomplete-width: 19.25rem;
-  --app-autocomplete-offset-y: 0;
+  --_width: : 19.25rem;
+  --_offset-y: 0;
 
   display: block;
   position: relative;
-  width: var(--app-autocomplete-width);
+  width: var(--_width);
 
   &.-open {
     ._options {
@@ -31,8 +32,8 @@
     transform-origin: top center;
     max-height: $app-height-autocomplete-options;
     overflow-y: auto;
-    width: var(--app-autocomplete-width);
-    top: var(--app-autocomplete-offset-y);
+    width: var(--_width);
+    top: var(--_offset-y);
     left: 0;
     display: flex;
     flex-direction: column;

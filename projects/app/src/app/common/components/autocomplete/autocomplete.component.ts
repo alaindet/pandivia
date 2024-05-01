@@ -1,16 +1,13 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Observable, auditTime, combineLatest, map, startWith } from 'rxjs';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges, ViewEncapsulation, computed, input, output } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { AsyncPipe, NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
-import { SIXTY_FRAMES_PER_SECOND } from '@app/common/constants';
 import { PipefyPipe } from '@app/common/pipes';
-import { filterNull } from '@app/common/rxjs';
 import { didInputChange } from '@app/common/utils';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
-import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType, AUTOCOMPLETE_ITEMS_TEMPLATE, AutocompleteComponentLabels } from './types';
+import { AUTOCOMPLETE_CURRENT_TEMPLATE, AUTOCOMPLETE_ITEMS_TEMPLATE, AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteComponentLabels, AutocompleteCurrentTemplate, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
 
 const imports = [
   NgIf,
@@ -37,48 +34,52 @@ const imports = [
 })
 export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input({ required: true }) inputComponent!: TextInputComponent;
-  @Input() labels?: AutocompleteComponentLabels;
-  @Input() minChars?: number;
-  @Input() sourceType!: AutocompleteSourceType;
-  @Input() filteringDelay = 400;
-  @Input() searchOnEmpty = false;
-  @Input() pickKey?: AutocompleteOptionValuePicker | string;
-  @Input() asyncOptions?: AutocompleteAsyncOptionsFn;
-  @Input() staticOptions?: AutocompleteOption[] = [];
-  @Input() staticSearchableFields?: string[] = ['id'];
-  @Input() showEmptyOptions = true;
-  @Input() @HostBinding('style.--app-autocomplete-width') width = '19.25rem';
-  @Input() @HostBinding('style.--app-autocomplete-offset-y') offsetY = '0';
+  // Input
+  inputComponent = input.required<TextInputComponent>();
+  sourceType = input.required<AutocompleteSourceType>();
+  labels = input<AutocompleteComponentLabels>();
+  minChars = input<number>();
+  filteringDelay = input(400);
+  searchOnEmpty = input(false);
+  trackKey = input<AutocompleteOptionValuePicker | string>('id');
+  pickKey = input<AutocompleteOptionValuePicker | string>();
+  asyncOptions = input<AutocompleteAsyncOptionsFn>();
+  staticOptions = input<AutocompleteOption[]>([]);
+  staticSearchableFields = input<string[]>(['id']);
+  showEmptyOptions = input(true);
+  width = input('19.25rem');
+  offsetY = input('0');
 
-  @Output() confirmed = new EventEmitter<AutocompleteOption>();
+  // Output
+  confirmed = output<AutocompleteOption>();
 
-  @HostBinding('class.-open') cssOpen = false;
+  // Host bindings
+  @HostBinding('style.--app-autocomplete-width')
+  get styleWidth() {
+    return this.width();
+  }
+
+  @HostBinding('style.--app-autocomplete-offset-y')
+  get styleOffsetY() {
+    return this.offsetY();
+  }
+
+  @HostBinding('class.-open')
+  get cssClassOpen() {
+    return this.isOpen();
+  }
 
   inputId!: string;
   ITEMS_TEMPLATE = AUTOCOMPLETE_ITEMS_TEMPLATE;
+  CURRENT_TEMPLATE = AUTOCOMPLETE_CURRENT_TEMPLATE;
 
-  vm$ = combineLatest({
-    isLoading: this.svc.loading.data$,
-    options: this.svc.options.data$,
-    optionTemplate: this.svc.optionTemplate.data$.pipe(filterNull()),
-    optionsTemplate: this.getOptionsTemplate(),
-    isOpen: this.svc.open.data$,
-    focusedIndex: this.svc.focusedIndex.data$,
-    focusedId: this.svc.focusedId.data$,
-  }).pipe(
-    startWith(null),
-    auditTime(SIXTY_FRAMES_PER_SECOND),
-  );
-
-  @ViewChild('availableOptionsRef', { static: true })
-  availableOptionsRef!: TemplateRef<any>;
-
-  @ViewChild('loadingOptionsRef', { static: true })
-  loadingOptionsRef!: TemplateRef<any>;
-
-  @ViewChild('noOptionsRef', { static: true })
-  noOptionsRef!: TemplateRef<any>;
+  isLoading = this.svc.loading;
+  isOpen = this.svc.open;
+  options = this.svc.options;
+  optionTemplate = this.svc.optionTemplate;
+  focusedIndex = this.svc.focusedIndex;
+  focusedId = this.svc.focusedId;
+  currentOptionsTemplate = computed(() => this.computeCurrentOptionsTemplate());
 
   private onClickOutRef!: (e: MouseEvent) => void;
   private nativeInput!: HTMLInputElement;
@@ -89,17 +90,14 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.svc.sourceType = this.sourceType;
-    this.svc.setValuePicker(this.pickKey);
+    this.svc.sourceType = this.sourceType();
+    this.svc.setValuePicker(this.pickKey());
     this.initInputElement();
     this.initSource();
     this.setupAsyncSource();
     this.setupStaticSource();
     this.listenToConfirmOptionEvent();
     this.initClickOut();
-
-    // TODO: Move?
-    this.vm$.pipe(map(vm => !!vm?.isOpen)).subscribe(isOpen => this.cssOpen = isOpen);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -121,51 +119,35 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     this.svc.confirm(option);
   }
 
-  getOptionsTemplate(): Observable<TemplateRef<any> | null> {
-    return combineLatest({
-      isLoading: this.svc.loading.data$,
-      options: this.svc.options.data$,
-    }).pipe(map(({ isLoading, options }) => {
-
-      if (isLoading) {
-        return this.loadingOptionsRef;
-      }
-
-      if (!!options.length) {
-        return this.availableOptionsRef;
-      }
-
-      if (this.showEmptyOptions) {
-        return this.noOptionsRef;
-      }
-
-      return null;
-    }));
-  }
-
   private initInputElement(): void {
-    this.nativeInput = this.inputComponent.getNativeElement();
-    this.inputId = this.inputComponent.id!;
+    const inputComponent = this.inputComponent();
+    this.nativeInput = inputComponent.getNativeElement();
+    this.inputId = inputComponent.id!;
     this.svc.setInputElement(
       this.nativeInput,
-      this.filteringDelay,
-      this.searchOnEmpty,
-      this.minChars,
+      this.filteringDelay(),
+      this.searchOnEmpty(),
+      this.minChars(),
     );
   }
 
   private initSource(): void {
-    switch (this.sourceType) {
+    switch (this.sourceType()) {
 
       case AUTOCOMPLETE_SOURCE_TYPE.STATIC:
-        if (!this.staticOptions?.length) throw new Error('Missing static options');
-        let fields = this.staticSearchableFields;
+        if (!this.staticOptions()?.length) {
+          throw new Error('Missing static options');
+        }
+        let fields = this.staticSearchableFields();
         this.svc.setStaticSearchableFields(fields?.length ? fields : ['id']);
         break;
 
       case AUTOCOMPLETE_SOURCE_TYPE.ASYNC:
-        if (!this.asyncOptions) throw new Error('Missing async options function');
-        this.svc.setAsyncOptions(this.asyncOptions);
+        const asyncOptions = this.asyncOptions();
+        if (!asyncOptions) {
+          throw new Error('Missing async options function');
+        }
+        this.svc.setAsyncOptions(asyncOptions);
         break;
     }
   }
@@ -180,8 +162,11 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private onClickOut(event: any): void {
-    if (!this.svc.open.getCurrent()) return;
-    if (this.host.nativeElement.contains(event.target)) return;
+
+    if (this.host.nativeElement.contains(event.target)) {
+      return;
+    }
+
     this.nativeInput.focus();
     this.svc.closeDropdown();
   }
@@ -190,30 +175,72 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     const valuePicker = this.svc.getValuePicker();
     this.svc.confirmedEvent.event$.subscribe(option => {
       const value = valuePicker(option);
-      this.inputComponent.setValue(value);
+      this.inputComponent().setValue(value);
       this.confirmed.emit(option);
+      this.svc.closeDropdown();
     });
   }
 
   private setupAsyncSource(): void {
-    if (this.sourceType !== AUTOCOMPLETE_SOURCE_TYPE.ASYNC) return;
-    if (!this.asyncOptions) throw new Error('Missing async options function');
-    this.svc.setAsyncOptions(this.asyncOptions);
+    if (this.sourceType() !== AUTOCOMPLETE_SOURCE_TYPE.ASYNC) {
+      return;
+    }
+
+    const asyncOptions = this.asyncOptions();
+    if (!asyncOptions) {
+      throw new Error('Missing async options function');
+    }
+
+    this.svc.setAsyncOptions(asyncOptions);
   }
 
   private setupStaticSource(): void {
-    if (this.sourceType !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) return;
-    if (!this.staticOptions?.length) throw new Error('Missing static options');
-    const fields = this.staticSearchableFields?.length
-      ? this.staticSearchableFields
+    if (this.sourceType() !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) {
+      return;
+    }
+
+    if (!this.staticOptions()?.length) {
+      throw new Error('Missing static options');
+    }
+
+    const staticSearchableFields = this.staticSearchableFields();
+    const fields = staticSearchableFields?.length
+      ? staticSearchableFields
       : ['id'];
+
     this.svc.setStaticSearchableFields(fields);
   }
 
   private updateStaticOptions(staticOptionsChange?: SimpleChange): void {
-    if (this.sourceType !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) return;
-    if (!didInputChange(staticOptionsChange)) return;
-    if (!this.staticOptions?.length) return;
-    this.svc.updateStaticOptions(this.staticOptions);
+    if (this.sourceType() !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) {
+      return;
+    }
+
+    if (!didInputChange(staticOptionsChange)) {
+      return;
+    }
+
+    if (!this.staticOptions()?.length) {
+      return;
+    }
+
+    this.svc.updateStaticOptions(this.staticOptions());
+  }
+
+  private computeCurrentOptionsTemplate(): AutocompleteCurrentTemplate | null {
+
+    if (this.isLoading()) {
+      return AUTOCOMPLETE_CURRENT_TEMPLATE.LOADING;
+    }
+
+    if (!!this.options().length) {
+      return AUTOCOMPLETE_CURRENT_TEMPLATE.OPTIONS;
+    }
+
+    if (this.showEmptyOptions()) {
+      return AUTOCOMPLETE_CURRENT_TEMPLATE.EMPTY;
+    }
+
+    return null;
   }
 }
