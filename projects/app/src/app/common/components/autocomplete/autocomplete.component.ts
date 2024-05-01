@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges, ViewEncapsulation, computed, input, output } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
 
-import { AsyncPipe, NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
-import { PipefyPipe } from '@app/common/pipes';
+import { NgTemplateOutlet } from '@angular/common';
 import { didInputChange } from '@app/common/utils';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
@@ -10,15 +8,8 @@ import { AutocompleteService } from './autocomplete.service';
 import { AUTOCOMPLETE_CURRENT_TEMPLATE, AUTOCOMPLETE_ITEMS_TEMPLATE, AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteComponentLabels, AutocompleteCurrentTemplate, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
 
 const imports = [
-  NgIf,
-  NgFor,
-  NgSwitch,
-  NgSwitchCase,
-  AsyncPipe,
   NgTemplateOutlet,
   AutocompleteOptionComponent,
-  PipefyPipe,
-  TranslocoModule,
 ];
 
 @Component({
@@ -27,10 +18,10 @@ const imports = [
   imports,
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
+  host: { class: 'app-autocomplete' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [AutocompleteService],
-  host: { class: 'app-autocomplete' },
 })
 export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
 

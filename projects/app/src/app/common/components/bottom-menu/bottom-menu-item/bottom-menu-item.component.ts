@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 const imports = [
@@ -20,7 +20,12 @@ const imports = [
 })
 export class BottomMenuItemComponent {
 
-  @Input() id!: string;
-  @Input() icon!: string;
-  @Input() @HostBinding('class.-selected') isSelected = false;
+  id = input.required<string>();
+  icon = input.required<string>();
+  isSelected = input(false);
+
+  @HostBinding('class.-selected')
+  get cssClassSelected() {
+    return this.isSelected();
+  }
 }
