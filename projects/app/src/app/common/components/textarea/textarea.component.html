@@ -2,12 +2,12 @@
 <div class="_textarea-container">
   <textarea
     #textareaRef
-    [rows]="rows"
-    [attr.id]="id"
-    [attr.placeholder]="placeholder"
-    [attr.aria-invalid]="withErrorId !== null ? 'true' : 'false'"
-    [attr.aria-errormessage]="withErrorId"
-    [disabled]="isDisabled"
+    [rows]="rows()"
+    [attr.id]="id()"
+    [attr.placeholder]="placeholder()"
+    [attr.aria-invalid]="withErrorId() !== null ? 'true' : 'false'"
+    [attr.aria-errormessage]="withErrorId()"
+    [disabled]="isDisabled()"
     class="_textarea"
     (change)="onInputChange($event)"
     (input)="onInput($event)"
@@ -19,35 +19,39 @@
 <div class="_icons">
 
   <!-- Clearable icon -->
-  <button
-    *ngIf="clearable"
-    appButton="ghost"
-    type="button"
-    isCircle
-    withIconOnly
-    size="extra-small"
-    (click)="onClearInput()"
-  >
-    &times;
-  </button>
+  @if (clearable()) {
+    <button
+      appButton="ghost"
+      type="button"
+      isCircle
+      withIconOnly
+      size="extra-small"
+      (click)="onClearInput()"
+    >
+      &times;
+    </button>
+  }
 
   <!-- Status icon -->
-  <mat-icon
-    *ngIf="withStatusIcon && status"
-    width="1rem"
-    [ngSwitch]="status"
-    class="_status-icon"
-  >
-    <ng-container *ngSwitchCase="'success'">check</ng-container>
-    <ng-container *ngSwitchCase="'error'">clear</ng-container>
-  </mat-icon>
+  @if (withStatusIcon() && status()) {
+    @switch (status()) {
+      @case ('success') {
+        <mat-icon width="1rem" class="_status-icon">check</mat-icon>
+      }
+      @case ('error') {
+        <mat-icon width="1rem" class="_status-icon">clear</mat-icon>
+      }
+    }
+  }
 </div>
 
 <!-- Characters counters -->
-<div class="_char-counter" *ngIf="withCharsCounter">
-  <span class="_counter" [class.-error]="charsCounter() > maxChars">
-    {{ charsCounter() }}
-  </span>
-  <span class="_separator">/</span>
-  <span class="_total">{{ maxChars }}</span>
-</div>
+@if (withCharsCounter()) {
+  <div class="_char-counter">
+    <span class="_counter" [class.-error]="charsCounter() > maxChars()">
+      {{ charsCounter() }}
+    </span>
+    <span class="_separator">/</span>
+    <span class="_total">{{ maxChars() }}</span>
+  </div>
+}
