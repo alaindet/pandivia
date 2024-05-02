@@ -1,13 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, effect, input, output } from '@angular/core';
 
 import { NOTIFICATION_POSITION, NotificationPosition, RuntimeNotification } from '@app/common/types';
 import { cssClassesList } from '@app/common/utils';
-import { NotificationComponent } from '../notification/notification.component';
 import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
+import { NotificationComponent } from '../notification/notification.component';
 
 const imports = [
-  CommonModule,
   NotificationComponent,
 ];
 
@@ -21,29 +19,22 @@ const imports = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-notifications-host' },
 })
-export class NotificationsHostComponent implements OnInit, OnChanges {
+export class NotificationsHostComponent {
 
-  @Input() notification: RuntimeNotification | null = null;
-  @Input() position: NotificationPosition = NOTIFICATION_POSITION.TOP_RIGHT;
+  notification = input<RuntimeNotification | null>(null);
+  position = input<NotificationPosition>(NOTIFICATION_POSITION.TOP_RIGHT);
 
-  @Output() dismissed = new EventEmitter<void>();
+  dismissed = output<void>();
 
-  @HostBinding('class') cssClasses!: string;
+  @HostBinding('class')
+  cssClasses!: string;
 
   NOTIFICATION_TIMEOUT = NOTIFICATION_TIMEOUT;
 
-  ngOnInit() {
-    this.updateStyle();
-  }
-
-  ngOnChanges() {
-    this.updateStyle();
-  }
-
-  private updateStyle(): void {
+  onStyleChange$ = effect(() => {
     this.cssClasses = cssClassesList([
-      this.notification !== null ? '-open' : null,
-      `-position-${this.position}`,
+      this.notification() !== null ? '-open' : null,
+      `-position-${this.position()}`,
     ]);
-  }
+  });
 }

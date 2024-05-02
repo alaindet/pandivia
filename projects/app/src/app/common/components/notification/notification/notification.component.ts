@@ -1,18 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Renderer2, ViewEncapsulation, effect, inject, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NOTIFICATION_TYPE, NotificationType } from '@app/common/types';
-import { didInputChange } from '@app/common/utils';
 import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
 
-const NOTIFICATION_ICON: { [key in NotificationType]: string } = {
+const NOTIFICATION_ICON: Record<NotificationType, string> = {
   [NOTIFICATION_TYPE.SUCCESS]: 'check_circle',
   [NOTIFICATION_TYPE.ERROR]: 'report_problem',
 };
 
 const imports = [
-  CommonModule,
   MatIconModule,
 ];
 
@@ -21,57 +18,56 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
+  styleUrl: './notification.component.scss',
   host: { class: 'app-notification' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificationComponent implements OnChanges {
+export class NotificationComponent {
 
-  private cdr = inject(ChangeDetectorRef);
   private host = inject(ElementRef);
   private renderer = inject(Renderer2);
 
-  @Input() notificationId!: number;
-  @Input() notificationType!: NotificationType;
-  @Input() more = 0;
-  @Input() dismissAfter = NOTIFICATION_TIMEOUT;
+  notificationId = input.required<number>();
+  notificationType = input.required<NotificationType>();
+  more = input(0);
+  dismissAfter = input(NOTIFICATION_TIMEOUT);
 
-  @Output() dismissed = new EventEmitter<void>();
+  dismissed = output<void>();
 
   @HostBinding('style.--app-notification-transition-duration')
   cssDuration = `${NOTIFICATION_TIMEOUT}ms`;
 
   notificationIcon!: string;
 
-  ngOnChanges(changes: SimpleChanges) {
+  onDismissAfterChange$ = effect(() => {
+    this.cssDuration = `${this.dismissAfter()}ms`;
+  });
 
-    const el = this.host.nativeElement;
+  onNotificationTypeChange$ = effect(onCleanup => {
+    const notificationType = this.notificationType();
+    this.notificationIcon = NOTIFICATION_ICON[notificationType];
+    this.renderer.addClass(this.host.nativeElement, `-type-${notificationType}`);
 
-    if (didInputChange(changes['dismissAfter'])) {
-      this.cssDuration = `${this.dismissAfter}ms`;
-    }
+    onCleanup(() => {
+      const cssPrev = `-type-${notificationType}`;
+      this.renderer.removeClass(this.host.nativeElement, cssPrev);
+    });
+  });
 
-    if (didInputChange(changes['notificationType'])) {
-      this.notificationIcon = NOTIFICATION_ICON[this.notificationType];
+  onNotificationIdChange$ = effect(() => {
+    this.notificationId(); // <-- Create dependency
+    this.stopAnimation();
+    setTimeout(() => this.startAnimation());
+  });
 
-      if (!changes['notificationType'].isFirstChange()) {
-        const cssPrev = `-type-${changes['notificationType'].previousValue}`;
-        this.renderer.removeClass(el, cssPrev);
-      }
+  private stopAnimation(): void {
+    this.renderer.removeClass(this.host.nativeElement, '-animating');
+    this.renderer.addClass(this.host.nativeElement, '-stopped');
+  }
 
-      this.renderer.addClass(el, `-type-${this.notificationType}`);
-    }
-
-    if (didInputChange(changes['notificationId'])) {
-      this.renderer.removeClass(el, '-animating');
-      this.renderer.addClass(el, '-stopped');
-    }
-
-    setTimeout(() => {
-      this.renderer.removeClass(el, '-stopped');
-      this.renderer.addClass(el, '-animating');
-      this.cdr.detectChanges();
-    }, 20);
+  private startAnimation(): void {
+    this.renderer.removeClass(this.host.nativeElement, '-stopped');
+    this.renderer.addClass(this.host.nativeElement, '-animating');
   }
 }

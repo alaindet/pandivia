@@ -12,7 +12,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './bottom-menu.component.html',
-  styleUrls: ['./bottom-menu.component.scss'],
+  styleUrl: './bottom-menu.component.scss',
   host: { class: 'app-bottom-menu' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

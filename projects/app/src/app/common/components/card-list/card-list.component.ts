@@ -21,7 +21,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './card-list.component.html',
-  styleUrls: ['./card-list.component.scss'],
+  styleUrl: './card-list.component.scss',
   host: { class: 'app-card-list' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

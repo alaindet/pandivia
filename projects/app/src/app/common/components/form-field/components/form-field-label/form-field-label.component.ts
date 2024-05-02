@@ -1,18 +1,11 @@
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
+import { Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
 
-import { FormFieldContextService } from '../../context.service';
 import { asBoolean } from '@app/common/utils';
-
-const imports = [
-  NgIf,
-  AsyncPipe,
-];
+import { FormFieldContextService } from '../../context.service';
 
 @Component({
   selector: 'app-form-field-label',
   standalone: true,
-  imports,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-form-field-label' },
   templateUrl: './form-field-label.component.html',
@@ -22,16 +15,9 @@ export class FormFieldLabelComponent {
 
   context = inject(FormFieldContextService);
 
-  @Input('isRequired')
-  set isRequiredInput(val: boolean | string) {
-    this.isRequired = asBoolean(val);
-  }
+  _isRequired = input<boolean | string>(false, { alias: 'isRequired' });
+  isRequired = computed(() => asBoolean(this._isRequired()));
 
-  @Input('isOptional')
-  set isOptionalInput(val: boolean | string) {
-    this.isOptional = asBoolean(val);
-  }
-
-  isRequired = false;
-  isOptional = false;
+  _isOptional = input<boolean | string>(false, { alias: 'isOptional' });
+  isOptional = computed(() => asBoolean(this._isOptional()));
 }

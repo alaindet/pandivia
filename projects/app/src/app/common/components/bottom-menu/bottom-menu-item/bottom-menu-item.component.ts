@@ -10,7 +10,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './bottom-menu-item.component.html',
-  styleUrls: ['./bottom-menu-item.component.scss'],
+  styleUrl: './bottom-menu-item.component.scss',
   host: {
     class: 'app-bottom-menu-item',
     tabindex: '0',

@@ -3,11 +3,13 @@
 </ng-container>
 
 <ul class="_categories">
-  <li *ngFor="let category of modal.data.categories">
-    <button type="button" appButton="primary" (click)="onSelectCategory(category)">
-      {{ category }}
-    </button>
-  </li>
+  @for (category of  modal.data.categories; track category) {
+    <li>
+      <button type="button" appButton="primary" (click)="onSelectCategory(category)">
+        {{ category }}
+      </button>
+    </li>
+  }
 </ul>
 
 <div *appModalFooter class="_footer">

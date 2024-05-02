@@ -1,5 +1,16 @@
 @import 'scoped';
 
+/**
+ * Theme variables
+ *
+ * --app-color-primary-300
+ * --app-color-primary-500
+ * --app-color-secondary-300
+ * --app-color-secondary-500
+ * --app-color-tertiary-300
+ * --app-color-tertiary-500
+ */
+
 @mixin _spinner-color($background: #ccc, $foreground: black) {
   background-color: $background;
 
