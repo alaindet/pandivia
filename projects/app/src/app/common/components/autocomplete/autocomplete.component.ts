@@ -17,7 +17,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.scss'],
+  styleUrl: './autocomplete.component.scss',
   host: { class: 'app-autocomplete' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

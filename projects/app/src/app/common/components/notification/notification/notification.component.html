@@ -6,10 +6,10 @@
   <ng-content></ng-content>
 </div>
 
-<div *ngIf="more > 0" class="_more">+{{ more }}</div>
+@if (more() > 0) {
+  <div class="_more">+{{ more() }}</div>
+}
 
-<button type="button" class="_dismiss" (click)="dismissed.emit()">
-  &times;
-</button>
+<button type="button" class="_dismiss" (click)="dismissed.emit()">&times;</button>
 
 <div class="_progress"></div>

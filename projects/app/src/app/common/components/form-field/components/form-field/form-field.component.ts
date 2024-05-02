@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ViewEncapsulation, inject } from '@angular/core';
+import { Component, ViewEncapsulation, effect, inject, input } from '@angular/core';
 
 import { FormFieldContextService } from '../../context.service';
 
@@ -9,15 +9,15 @@ import { FormFieldContextService } from '../../context.service';
   host: { class: 'app-form-field' },
   providers: [FormFieldContextService],
   templateUrl: './form-field.component.html',
-  styleUrls: ['./form-field.component.scss'],
+  styleUrl: './form-field.component.scss',
 })
-export class FormFieldComponent implements OnChanges {
+export class FormFieldComponent {
 
   private context = inject(FormFieldContextService);
 
-  @Input() id!: string;
+  id = input<string>('');
 
-  ngOnChanges() {
-    this.context.id.set(this.id);
-  }
+  onIdChange$ = effect(() => {
+    this.context.id.set(this.id());
+  });
 }

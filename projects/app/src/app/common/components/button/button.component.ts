@@ -7,7 +7,7 @@ import { ButtonColor, ButtonFloatingType, ButtonSize } from './types';
   selector: 'button[appButton]',
   standalone: true,
   template: '<ng-content></ng-content>',
-  styleUrls: ['./button.component.scss'],
+  styleUrl: './button.component.scss',
   host: { class: 'app-button' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

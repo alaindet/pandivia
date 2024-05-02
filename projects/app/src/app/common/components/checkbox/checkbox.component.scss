@@ -1,11 +1,12 @@
 @import 'scoped';
 
-// Variables
-// --app-checkbox-background
-// --app-checkbox-border-color
-// --app-checkbox-hover-foreground
-// --app-checkbox-size (LOCAL)
-// --app-checkbox-border-size (LOCAL)
+/**
+ * Theme variables
+ *
+ * --app-checkbox-background
+ * --app-checkbox-border-color
+ * --app-checkbox-hover-foreground
+ */
 
 @mixin app-checkbox-color(
   $color-checked: black,
@@ -23,7 +24,8 @@
 }
 
 .app-checkbox {
-  --app-checkbox-size: 20px;
+  --_size: 20px;
+  --_border-size: clamp(2px, calc(0.1 * var(--_size)), 10px);
 
   display: flex;
   align-items: center;
@@ -42,25 +44,23 @@
     position: relative;
     background-color: var(--app-checkbox-background);
     border: 2px solid var(--app-checkbox-border-color);
-    min-width: var(--app-checkbox-size);
-    max-width: var(--app-checkbox-size);
-    width: var(--app-checkbox-size);
-    min-height: var(--app-checkbox-size);
-    max-height: var(--app-checkbox-size);
-    height: var(--app-checkbox-size);
-    border-radius: calc(0.2 * var(--app-checkbox-size));
+    min-width: var(--_size);
+    max-width: var(--_size);
+    width: var(--_size);
+    min-height: var(--_size);
+    max-height: var(--_size);
+    height: var(--_size);
+    border-radius: calc(0.2 * var(--_size));
     display: flex;
     justify-content: center;
     align-items: center;
 
     &::after {
-      --app-checkbox-border-size: clamp(2px, calc(0.1 * var(--app-checkbox-size)), 10px);
-
       position: absolute;
       content: '';
-      width: calc(0.65 * var(--app-checkbox-size));
-      height: calc(0.35 * var(--app-checkbox-size));
-      border: var(--app-checkbox-border-size) solid $app-color-white;
+      width: calc(0.65 * var(--_size));
+      height: calc(0.35 * var(--_size));
+      border: var(--_border-size) solid $app-color-white;
       border-top: 0;
       border-right: 0;
       z-index: 2;

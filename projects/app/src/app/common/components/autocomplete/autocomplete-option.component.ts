@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, ViewEncaps
   selector: 'app-autocomplete-option',
   standalone: true,
   template: '<ng-content></ng-content>',
-  styleUrls: ['./autocomplete-option.component.scss'],
+  styleUrl: './autocomplete-option.component.scss',
   host: { class: 'app-autocomplete-option' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

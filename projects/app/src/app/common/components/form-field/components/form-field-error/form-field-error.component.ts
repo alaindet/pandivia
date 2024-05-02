@@ -1,13 +1,19 @@
-import { Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, ViewEncapsulation, input } from '@angular/core';
 
 @Component({
   selector: 'app-form-field-error',
   standalone: true,
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-form-field-error' },
   template: `<ng-content></ng-content>`,
-  styleUrls: ['./form-field-error.scss'],
+  styleUrl: './form-field-error.scss',
+  host: { class: 'app-form-field-error' },
+  encapsulation: ViewEncapsulation.None,
 })
 export class FormFieldErrorComponent {
-  @Input() @HostBinding('attr.id') errorId!: string;
+
+  errorId = input('');
+
+  @HostBinding('attr.id')
+  get attrId() {
+    return this.errorId();
+  }
 }
