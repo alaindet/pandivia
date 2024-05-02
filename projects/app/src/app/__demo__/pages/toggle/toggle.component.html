@@ -28,7 +28,7 @@
   </app-form-field-label>
   <app-toggle
     [id]="'outside-form'"
-    [checked]="outsideForm"
+    [isChecked]="outsideForm"
     (changed)="onOutsideFormChanged($event)"
   >
     Are you ok?
@@ -37,9 +37,9 @@
 
 <h2>Color</h2>
 <div class="demo-cases">
-  <app-toggle color="primary" [checked]="true">Primary (default)</app-toggle>
-  <app-toggle color="secondary" [checked]="true">Secondary</app-toggle>
-  <app-toggle color="tertiary" [checked]="true">Tertiary</app-toggle>
+  <app-toggle color="primary" [isChecked]="true">Primary (default)</app-toggle>
+  <app-toggle color="secondary" [isChecked]="true">Secondary</app-toggle>
+  <app-toggle color="tertiary" [isChecked]="true">Tertiary</app-toggle>
 </div>
 
 <h2>Custom size</h2>
@@ -51,8 +51,8 @@
 
 <h2>Disabled</h2>
 <div class="demo-cases">
-  <app-toggle [isDisabled]="true" [checked]="true">Disabled</app-toggle>
-  <app-toggle [isDisabled]="true" [checked]="false">Disabled</app-toggle>
+  <app-toggle [isDisabled]="true" [isChecked]="true">Disabled</app-toggle>
+  <app-toggle [isDisabled]="true" [isChecked]="false">Disabled</app-toggle>
 </div>
 
 <h2>Label position</h2>

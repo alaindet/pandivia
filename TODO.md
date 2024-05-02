@@ -13,6 +13,8 @@
   - [ ] Convert all local CSS variables to the pattern `--_local`
   - [ ] Attach CSS variables to host components
   - [ ] Remove all *ngX directives from template and from imports
+  - [ ] Change ObjectValues to EnumLike
+  - [ ] Create "common" package
 
 ## Refactoring
 Angular 16

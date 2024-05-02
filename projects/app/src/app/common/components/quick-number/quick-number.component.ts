@@ -29,7 +29,7 @@ const imports = [
 })
 export class QuickNumberComponent implements ControlValueAccessor {
 
-  id = input<string>('');
+  _id = input<string>('', { alias: 'id' });
   _value = input<number>(1, { alias: 'value' });
   color = input<ButtonColor>('primary');
   min = input<number>(0);
@@ -47,7 +47,7 @@ export class QuickNumberComponent implements ControlValueAccessor {
 
   @HostBinding('attr.id')
   get attrId() {
-    return this.theId();
+    return this.id();
   }
 
   @HostBinding('class.-full-width')
@@ -59,7 +59,7 @@ export class QuickNumberComponent implements ControlValueAccessor {
   isDisabled = signal(false);
   isDecrementDisabled = computed(() => this.value() <= this.min());
   isIncrementDisabled = computed(() => this.value() >= this.max());
-  theId = computed(() => uniqueId(this.id(), 'app-quick-number'));
+  id = computed(() => uniqueId(this._id(), 'app-quick-number'));
 
   private onChange!: (value: number | null) => void;
   private onTouched!: () => void;
