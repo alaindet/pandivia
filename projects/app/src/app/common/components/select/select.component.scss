@@ -1,21 +1,24 @@
 @import 'scoped';
 
-// Variables
-// --app-form-control-border-color
-// --app-form-control-hover-border-color
-// --app-form-control-focus-border-color
-// --app-form-control-background
-// --app-form-control-foreground
-// --app-form-control-placeholder
-// --app-select-closed-caret
-// --app-select-open-caret
-// --app-select-width (LOCAL)
-// --app-select-caret-size (LOCAL)
+/**
+ * Theme variables
+ *
+ * --app-form-control-border-color
+ * --app-form-control-hover-border-color
+ * --app-form-control-focus-border-color
+ * --app-form-control-background
+ * --app-form-control-foreground
+ * --app-form-control-placeholder
+ * --app-select-closed-caret
+ * --app-select-open-caret
+ */
+
+app-select {
+  --_width: fit-content;
+  --_caret-size: 0.66rem;
+}
 
 .app-select {
-  --app-select-width: fit-content;
-  --app-select-caret-size: 0.66rem;
-
   position: relative;
   display: inline-flex;
   justify-content: space-between;
@@ -24,7 +27,7 @@
   max-width: 100% !important;
 
   &.-with-custom-width {
-    width: var(--app-select-width);
+    width: var(--_width);
   }
 
   &:focus-within {
@@ -70,8 +73,8 @@
   &::after {
     position: absolute;
     content: '';
-    width: var(--app-select-caret-size);
-    height: var(--app-select-caret-size);
+    width: var(--_caret-size);
+    height: var(--_caret-size);
     transform: rotate(-45deg);
     border-left: 3px solid var(--app-select-closed-caret);
     border-bottom: 3px solid var(--app-select-closed-caret);

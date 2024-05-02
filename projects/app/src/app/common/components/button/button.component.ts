@@ -28,22 +28,22 @@ export class ButtonComponent {
   floatingBottom = input('1rem');
   floatingLeft = input('auto');
 
-  @HostBinding('style.--app-button-top')
+  @HostBinding('style.--_top')
   get styleTop() {
     return this.floatingTop();
   }
 
-  @HostBinding('style.--app-button-right')
+  @HostBinding('style.--_right')
   get styleRight() {
     return this.floatingRight();
   }
 
-  @HostBinding('style.--app-button-bottom')
+  @HostBinding('style.--_bottom')
   get styleBottom() {
     return this.floatingBottom();
   }
 
-  @HostBinding('style.--app-button-left')
+  @HostBinding('style.--_left')
   get styleLeft() {
     return this.floatingLeft();
   }

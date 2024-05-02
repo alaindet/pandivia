@@ -35,7 +35,7 @@ export class NotificationComponent {
 
   dismissed = output<void>();
 
-  @HostBinding('style.--app-notification-transition-duration')
+  @HostBinding('style.--_transition-duration')
   cssDuration = `${NOTIFICATION_TIMEOUT}ms`;
 
   notificationIcon!: string;
