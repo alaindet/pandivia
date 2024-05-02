@@ -113,7 +113,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   private initInputElement(): void {
     const inputComponent = this.inputComponent();
     this.nativeInput = inputComponent.getNativeElement();
-    this.inputId = inputComponent.id!;
+    this.inputId = inputComponent.id()!;
     this.svc.setInputElement(
       this.nativeInput,
       this.filteringDelay(),

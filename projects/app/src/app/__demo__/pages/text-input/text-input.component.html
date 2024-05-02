@@ -8,7 +8,7 @@
     formControlName="myTextInput"
     [status]="fMyTextInput.touched ? (fMyTextInput.valid ? 'success' : 'error') : undefined"
     placeholder="Enter some text here..."
-  ></app-text-input>
+  />
   <p *ngIf="fMyTextInput.touched && fMyTextInput.hasError('required')">
     Required field
   </p>
@@ -27,7 +27,7 @@
     'required': true,
     'readonly': false,
   }"
-></app-text-input>
+/>
 
 <h2>Disabled</h2>
 <app-text-input
@@ -35,7 +35,7 @@
   value="This is disabled"
   [isDisabled]="true"
   (changed)="consoleLog('changed', $event)"
-></app-text-input>
+/>
 
 <h2>Custom widths</h2>
 
@@ -47,7 +47,7 @@
     placeholder="Full width"
     [withFullWidth]="true"
     (changed)="consoleLog('changed', $event)"
-  ></app-text-input>
+  />
 </p>
 
 <h3>Custom width: 6rem</h3>
@@ -58,7 +58,7 @@
     placeholder="Custom width (6rem)"
     width="6rem"
     (changed)="consoleLog('changed', $event)"
-  ></app-text-input>
+  />
 </p>
 
 <h3>Custom width: 30rem</h3>
@@ -69,5 +69,5 @@
     placeholder="Custom width (30rem)"
     width="30rem"
     (changed)="consoleLog('changed', $event)"
-  ></app-text-input>
+  />
 </p>

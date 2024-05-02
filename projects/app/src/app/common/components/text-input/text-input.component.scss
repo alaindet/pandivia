@@ -1,17 +1,21 @@
 @import 'scoped';
 
-// Variables
-// --app-form-control-border-color
-// --app-form-control-hover-border-color
-// --app-form-control-focus-border-color
-// --app-form-control-background
-// --app-form-control-foreground
-// --app-form-control-placeholder
-// --app-text-input-width (LOCAL)
+/**
+ * Theme variables
+ *
+ * --app-form-control-border-color
+ * --app-form-control-hover-border-color
+ * --app-form-control-focus-border-color
+ * --app-form-control-background
+ * --app-form-control-foreground
+ * --app-form-control-placeholder
+ */
+
+ app-text-input {
+   --_width: fit-content;
+ }
 
 .app-text-input {
-  --app-text-input-width: fit-content;
-
   position: relative;
   display: inline-flex;
   justify-content: space-between;
@@ -28,7 +32,7 @@
   }
 
   &.-with-custom-width {
-    width: var(--app-text-input-width);
+    width: var(--_width);
   }
 
   &.-full-width {
