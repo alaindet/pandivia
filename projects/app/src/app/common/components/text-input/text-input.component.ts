@@ -1,10 +1,10 @@
 import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component, ElementRef, EnvironmentInjector, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FormFieldStatus } from '@app/common/types';
-import { ElementAttributes, useHtmlAttributes, didInputChange, uniqueId } from '@app/common/utils';
+import { ElementAttributes, didInputChange, uniqueId, useHtmlAttributes } from '@app/common/utils';
 import { ButtonComponent } from '../button';
 
 type TextInputType = 'text' | 'email' | 'number' | 'password' | 'search';

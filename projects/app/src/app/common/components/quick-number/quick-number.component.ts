@@ -1,9 +1,8 @@
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewEncapsulation, computed, effect, forwardRef, signal } from '@angular/core';
+import { Component, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { didInputChange, uniqueId } from '@app/common/utils';
+import { uniqueId } from '@app/common/utils';
 import { ButtonColor, ButtonComponent } from '../button';
 
 const QUICK_NUMBER_FORM_PROVIDER: Provider = {
@@ -13,8 +12,6 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
 };
 
 const imports = [
-  NgIf,
-  AsyncPipe,
   MatIconModule,
   ReactiveFormsModule,
   ButtonComponent,
@@ -25,55 +22,62 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './quick-number.component.html',
-  styleUrls: ['./quick-number.component.scss'],
+  styleUrl: './quick-number.component.scss',
+  host: { class: 'app-quick-number' },
   encapsulation: ViewEncapsulation.None,
   providers: [QUICK_NUMBER_FORM_PROVIDER],
-  host: { class: 'app-quick-number' },
 })
-export class QuickNumberComponent implements OnChanges, OnInit, ControlValueAccessor {
+export class QuickNumberComponent implements ControlValueAccessor {
 
-  @Input() id?: string;
-  @Input('value') _value = 1;
-  @Input() color: ButtonColor = 'primary';
-  @Input() min?: number;
-  @Input() max?: number;
-  @Input() isDisabled = false;
-  @Input() @HostBinding('attr.aria-errormessage') withErrorId: string | null = null;
+  id = input<string>('');
+  _value = input<number>(1, { alias: 'value' });
+  color = input<ButtonColor>('primary');
+  min = input<number>(0);
+  max = input<number>(100);
+  _isDisabled = input(false, { alias: 'isDisabled' });
+  withErrorId = input<string | null>(null);
+  withFullWidth = input(false);
 
-  @Output() changed = new EventEmitter<number>();
+  changed = output<number>();
+
+  @HostBinding('attr.aria-errormessage')
+  get attrAriaErrorMessage() {
+    return this.withErrorId();
+  }
+
+  @HostBinding('attr.id')
+  get attrId() {
+    return this.theId();
+  }
+
+  @HostBinding('class.-full-width')
+  get cssClassFullWidth() {
+    return this.withFullWidth();
+  }
 
   value = signal<number>(1);
-
-  isDecrementDisabled = computed(() => {
-    return (this.min === undefined) ? false : this.value() <= this.min;
-  });
-
-  isIncrementDisabled = computed(() => {
-    return (this.max === undefined) ? false : this.value() >= this.max;
-  });
+  isDisabled = signal(false);
+  isDecrementDisabled = computed(() => this.value() <= this.min());
+  isIncrementDisabled = computed(() => this.value() >= this.max());
+  theId = computed(() => uniqueId(this.id(), 'app-quick-number'));
 
   private onChange!: (value: number | null) => void;
   private onTouched!: () => void;
 
-  ngOnInit() {
-    this.id = uniqueId(this.id, 'app-quick-number');
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (didInputChange(changes['_value'])) {
-      this.value.set(this._value ?? null);
-    }
+  constructor() {
+    effect(() => this.value.set(this._value()), { allowSignalWrites: true });
+    effect(() => this.isDisabled.set(this._isDisabled()), { allowSignalWrites: true });
   }
 
   // @publicApi
   decrement() {
-    if (this.isDisabled) return;
+    if (this.isDisabled()) return;
     this.value.update(value => value - 1);
   }
 
   // @publicApi
   increment() {
-    if (this.isDisabled) return;
+    if (this.isDisabled()) return;
     this.value.update(value => value + 1);
   }
 
@@ -103,14 +107,22 @@ export class QuickNumberComponent implements OnChanges, OnInit, ControlValueAcce
 
   // ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.isDisabled.set(isDisabled);
   }
 
   private updateAndOutputValue(fn: (value: number) => number) {
+
     const newValue = fn(this.value());
     this.changed.emit(newValue);
-    if (this.onChange) this.onChange(newValue);
-    if (this.onTouched) this.onTouched();
+
+    if (this.onChange) {
+      this.onChange(newValue);
+    }
+
+    if (this.onTouched) {
+      this.onTouched();
+    }
+
     this.value.set(newValue);
   }
 }
