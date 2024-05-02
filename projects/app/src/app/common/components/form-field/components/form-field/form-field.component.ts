@@ -19,5 +19,5 @@ export class FormFieldComponent {
 
   onIdChange$ = effect(() => {
     this.context.id.set(this.id());
-  });
+  }, { allowSignalWrites: true });
 }
