@@ -1,8 +1,10 @@
 @import 'scoped';
 
-// Variables
-// --app-quick-number-background
-// --app-quick-number-border-color
+/**
+ * Theme variables
+ * --app-quick-number-background
+ * --app-quick-number-border-color
+ */
 
 .app-quick-number {
   display: inline-flex;
@@ -16,6 +18,11 @@
   width: fit-content;
   border: 2px solid var(--app-quick-number-border-color);
   min-width: 150px;
+
+  &.-full-width {
+    min-width: 100%;
+    width: 100%;
+  }
 
   ._value {
     // padding: 0 0.5rem;

@@ -8,6 +8,8 @@
   - [ ] Remove DataSource from `@app/common/sources`
   - [ ] Dismiss the ViewModel (vm) approach from all components
   - [ ] Remove `@import 'scoped';` from every component's .scss file
+  - [ ] Add full page modal
+  - [ ] Add full width buttons
 
 ## Refactoring
 Angular 16
