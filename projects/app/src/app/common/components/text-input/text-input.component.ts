@@ -1,13 +1,11 @@
-import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef } from '@angular/core';
+import { Component, ElementRef, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FormFieldStatus } from '@app/common/types';
-import { ElementAttributes, didInputChange, uniqueId, useHtmlAttributes } from '@app/common/utils';
+import { ElementAttributes, cssClassesList, uniqueId, useHtmlAttributes } from '@app/common/utils';
 import { ButtonComponent } from '../button';
-
-type TextInputType = 'text' | 'email' | 'number' | 'password' | 'search';
+import { TextInputType } from './types';
 
 const TEXT_INPUT_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -16,9 +14,6 @@ const TEXT_INPUT_FORM_PROVIDER: Provider = {
 };
 
 const imports = [
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
   MatIconModule,
   ButtonComponent,
 ];
@@ -29,65 +24,95 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './text-input.component.html',
-  styleUrls: ['./text-input.component.scss'],
+  styleUrl: './text-input.component.scss',
+  host: { class: 'app-text-input' },
   encapsulation: ViewEncapsulation.None,
   providers: [TEXT_INPUT_FORM_PROVIDER],
-  host: { class: 'app-text-input' },
 })
-export class TextInputComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class TextInputComponent implements ControlValueAccessor {
 
-  @Input() id?: string;
-  @Input() type: TextInputType = 'text';
-  @Input() value?: string;
-  @Input() status?: FormFieldStatus;
-  @Input() @HostBinding('class.-clearable') clearable = false;
-  @Input() placeholder = '';
-  @Input() autocomplete?: string;
-  @Input() withStatusIcon = true;
-  @Input() withErrorId: string | null = null;
-  @Input() @HostBinding('class.-full-width') withFullWidth = false;
-  @Input() @HostBinding('class.-disabled') isDisabled = false;
-  @Input() width?: string;
-  @Input() attrs: ElementAttributes | null = null;
+  _id = input<string>('', { alias: 'id' });
+  type = input<TextInputType>('text');
+  value = input<string>();
+  status = input<FormFieldStatus>();
+  clearable = input(false);
+  placeholder = input('');
+  autocomplete = input<string>();
+  withStatusIcon = input(true);
+  withErrorId = input<string | null>(null);
+  withFullWidth = input(false);
+  _isDisabled = input(false, { alias: 'isDisabled' });
+  width = input<string>();
+  attrs = input<ElementAttributes | null>(null);
 
-  @Output() changed = new EventEmitter<string>();
-  @Output() inputChanged = new EventEmitter<string>();
-  @Output() cleared = new EventEmitter<void>();
+  changed = output<string>();
+  inputChanged = output<string>();
+  cleared = output<void>();
 
-  @ViewChild('inputRef', { static: true })
-  private inputRef!: ElementRef<HTMLInputElement>;
+  private inputRef = viewChild.required<ElementRef<HTMLInputElement>>('inputRef');
 
-  @HostBinding('class') cssClass = '';
-  @HostBinding('style.--app-text-input-width') cssWidth = '';
+  @HostBinding('class')
+  get getCssClass() {
+    return this.cssClass();
+  }
+
+  @HostBinding('style.--_width')
+  get getStyleWidth() {
+    return this.cssWidth();
+  }
+
+  @HostBinding('class.-clearable')
+  get cssClassClearable() {
+    return this.clearable();
+  }
+
+  @HostBinding('class.-full-width')
+  get cssClassFullWidth() {
+    return this.withFullWidth();
+  }
+
+  @HostBinding('class.-disabled')
+  get cssClassDisabled() {
+    return this.isDisabled();
+  }
+
+  id = computed(() => uniqueId(this._id(), 'app-text-input'));
+  isDisabled = signal(false);
+  nativeInput = computed(() => this.inputRef().nativeElement);
+  cssClass = computed(() => cssClassesList([
+    this.status() ? `-status-${this.status()}` : null,
+    this.width() ? '-with-custom-width' : null,
+  ]));
+  cssWidth = computed(() => this.width() ?? 'fit-content');
+
+  onDisabledChange$ = effect(() => this.isDisabled.set(this._isDisabled()), {
+    allowSignalWrites: true,
+  });
+
+  onAttributesChange$ = effect(() => {
+    this.htmlAttrs.apply(this.inputRef().nativeElement, this.attrs());
+  });
+
+  onValueChange$ = effect(() => {
+    const value = this.value();
+    if (value === undefined) {
+      return;
+    }
+    this.nativeInput().value = value;
+  });
 
   private onChange!: (val: any) => {};
 	private onTouched!: () => {};
   private htmlAttrs = useHtmlAttributes();
 
-  ngOnInit() {
-    this.id = uniqueId(this.id, 'app-text-input');
-    this.htmlAttrs.apply(this.inputRef.nativeElement, this.attrs);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-
-    if (didInputChange(changes['value']) && this.value !== undefined) {
-      this.inputRef.nativeElement.value = this.value;
-    }
-
-    if (didInputChange(changes['width']) || didInputChange(changes['status'])) {
-      this.updateStyle();
-    }
-  }
-
   // @publicApi
   focus(): void {
-    this.inputRef?.nativeElement?.focus();
+    this.nativeInput().focus();
   }
 
   // @publicApi
   setValue(value: string | null, triggerEvents = false): void {
-    this.inputRef.nativeElement.value = value === null ? '' : value;
+    this.nativeInput().value = value === null ? '' : value;
 
     if (triggerEvents) {
       if (this.onChange) this.onChange(value);
@@ -97,7 +122,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 
   // @publicApi
   clear(triggerEvents = false): void {
-    this.inputRef.nativeElement.value = '';
+    this.nativeInput().value = '';
 
     if (triggerEvents) {
       if (this.onChange) this.onChange('');
@@ -106,12 +131,12 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 
   // @publicApi
   getNativeElement(): HTMLInputElement {
-    return this.inputRef.nativeElement;
+    return this.nativeInput();
   }
 
   onClearInput(): void {
     this.clear();
-    this.inputRef.nativeElement.focus();
+    this.nativeInput().focus();
     if (this.onChange) this.onChange('');
     this.cleared.emit();
   }
@@ -135,7 +160,7 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 
   // From ControlValueAccessor
 	writeValue(value: any): void {
-    this.inputRef.nativeElement.value = value ?? '';
+    this.inputRef().nativeElement.value = value ?? '';
 	}
 
 	// From ControlValueAccessor
@@ -150,21 +175,6 @@ export class TextInputComponent implements OnInit, OnChanges, ControlValueAccess
 
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  private updateStyle(): void {
-    const cssClasses: string[] = [];
-
-    if (this.status) {
-      cssClasses.push(`-status-${this.status}`);
-    }
-
-    if (this.width) {
-      cssClasses.push('-with-custom-width');
-    }
-
-    this.cssWidth = !!this.width ? this.width : 'fit-content';
-    this.cssClass = cssClasses.length ? cssClasses.join(' ') : '';
+    this.isDisabled.set(isDisabled);
   }
 }
