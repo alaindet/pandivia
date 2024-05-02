@@ -23,10 +23,12 @@
   }
 }
 
-.app-checkbox {
+app-checkbox {
   --_size: 20px;
   --_border-size: clamp(2px, calc(0.1 * var(--_size)), 10px);
+}
 
+.app-checkbox {
   display: flex;
   align-items: center;
   border-radius: 0.25rem;
