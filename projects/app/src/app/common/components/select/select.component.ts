@@ -1,10 +1,9 @@
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, forwardRef, signal } from '@angular/core';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { Component, ElementRef, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { FormFieldStatus, FormOption } from '@app/common/types';
-import { didInputChange, uniqueId } from '@app/common/utils';
+import { cssClassesList, uniqueId } from '@app/common/utils';
 import { SelectComponentLabels } from './types';
 
 const SELECT_FORM_PROVIDER: Provider = {
@@ -14,9 +13,6 @@ const SELECT_FORM_PROVIDER: Provider = {
 };
 
 const imports = [
-  NgFor,
-  NgIf,
-  AsyncPipe,
   TranslocoModule,
 ];
 
@@ -30,64 +26,82 @@ const imports = [
   encapsulation: ViewEncapsulation.None,
   providers: [SELECT_FORM_PROVIDER],
 })
-export class SelectComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class SelectComponent implements ControlValueAccessor {
 
-  @Input() id?: string;
-  @Input() value?: string;
-  @Input() status?: FormFieldStatus;
-  @Input() @HostBinding('class.-disabled') isDisabled = false;
-  @Input() options: FormOption[] = [];
-  @Input() width?: string;
-  @Input() withDefaultOption = true;
-  @Input() labels?: SelectComponentLabels;
+  _id = input<string>('', { alias: 'id' });
+  value = input<string>();
+  status = input<FormFieldStatus>()
+  _isDisabled = input(false, { alias: 'isDisabled' });
+  options = input<FormOption[]>([]);
+  width = input<string>();
+  withDefaultOption = input(true);
+  labels = input<SelectComponentLabels>();
 
-  @ViewChild('selectRef', { static: true })
-  private selectRef!: ElementRef<HTMLSelectElement>;
+  selected = output<string | null>();
 
-  @Output() selected = new EventEmitter<string | null>();
+  @HostBinding('class.-disabled')
+  get cssClassDisabled() {
+    return this.isDisabled();
+  }
 
-  @HostBinding('style.--app-select-width') cssWidth = '';
-  @HostBinding('class') cssClass = '';
+  @HostBinding('style.--_width')
+  get getStyleWidth() {
+    return this.styleWidth();
+  }
 
+  @HostBinding('class')
+  get getCssClass() {
+    return this.cssClass();
+  }
+
+  @HostBinding('class.-with-custom-width')
+  get getCssClassWithCustomWidth() {
+    return this.width() !== undefined;
+  }
+
+  selectedValue = signal<string | null>(null);
+  isDisabled = signal(false);
+  id = computed(() => uniqueId(this._id(), 'app-select'));
+  styleWidth = computed(() => this.width() ?? 'fit-content');
+  cssClass = computed(() => cssClassesList([
+    this.status() ? `-status-${this.status()}` : null,
+  ]));
+
+  private selectRef = viewChild.required<ElementRef<HTMLSelectElement>>('selectRef');
   private onChange!: (val: any) => {};
 	private onTouched!: () => {};
 
-  selectedValue = signal<string | null>(null);
+  onValueChange$ = effect(() => this.selectedValue.set(this.value() ?? null), {
+    allowSignalWrites: true,
+  });
 
-  ngOnInit() {
-    this.id = uniqueId(this.id, 'app-select');
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (didInputChange(changes['value'])) {
-      this.selectedValue.set(this.value ?? null);
-    }
-
-    if (didInputChange(changes['width'])) {
-      this.cssWidth = !!this.width ? this.width : 'fit-content';
-    }
-
-    if (didInputChange(changes['status'])) {
-      this.updateStyle();
-    }
-  }
+  onDisabledChange$ =  effect(() => this.isDisabled.set(this._isDisabled()), {
+    allowSignalWrites: true,
+  });
 
   // Thanks to https://linuxhint.com/select-onchange-javascript/
   onSelectChange() {
 
-    let index = this.selectRef.nativeElement.selectedIndex;
+    let index = this.selectRef().nativeElement.selectedIndex;
 
-    if (this.withDefaultOption && index === 0) {
+    if (this.withDefaultOption() && index === 0) {
       this.outputValue(null);
       return;
     }
 
-    if (this.withDefaultOption) {
+    if (this.withDefaultOption()) {
       index -= 1;
     }
 
-    const option = this.options[index];
+    const option = this.options()[index];
     this.outputValue(option.value);
+  }
+
+  private outputValue(value: string | null): void {
+    this.selectedValue.set(value);
+    this.selected.emit(value);
+    if (this.onChange) this.onChange(value);
+    if (this.onTouched) this.onTouched();
   }
 
   // From ControlValueAccessor
@@ -107,21 +121,6 @@ export class SelectComponent implements OnInit, OnChanges, ControlValueAccessor 
 
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  private outputValue(value: string | null): void {
-    this.selectedValue.set(value);
-    this.selected.emit(value);
-    if (this.onChange) this.onChange(value);
-    if (this.onTouched) this.onTouched();
-  }
-
-  private updateStyle(): void {
-    if (this.status) {
-      this.cssClass = `-status-${this.status}`;
-    } else {
-      this.cssClass = '';
-    }
+    this.isDisabled.set(isDisabled);
   }
 }

@@ -1,25 +1,20 @@
 <select
   #selectRef
   class="_select"
-  [attr.id]="id"
-  [disabled]="isDisabled"
+  [attr.id]="id()"
+  [disabled]="isDisabled()"
   [class.-default-option]="selectedValue() === null"
   (change)="onSelectChange()"
 >
-  <option
-    #defaultOptionRef
-    *ngIf="withDefaultOption"
-    value=""
-    [selected]="selectedValue() === null"
-  >
-    {{ labels?.defaultOption ?? 'Select...'}}
-  </option>
+  @if (withDefaultOption()) {
+    <option value="" [selected]="selectedValue() === null">
+      {{ labels()?.defaultOption ?? 'Select...'}}
+    </option>
+  }
 
-  <option
-    *ngFor="let option of options"
-    [value]="option.value"
-    [selected]="selectedValue() === option.value"
-  >
-    {{ option.label }}
-  </option>
+  @for (option of options(); track option.value) {
+    <option [value]="option.value" [selected]="selectedValue() === option.value">
+      {{ option.label }}
+    </option>
+  }
 </select>

@@ -1,20 +1,14 @@
 @import 'scoped';
 
-/**
- * Theme variables
- *
- * --app-notification-transition-width
- * --app-notification-transition-duration
- * --app-notification-background
- */
+app-notification {
+  --_transition-width: 0;
+  --_transition-duration: 3000ms;
+  --_background: black;
+}
 
 .app-notification {
   $app-notification-more-size: 1.2rem;
   $app-notification-dismiss-size: 1.75rem;
-
-  --app-notification-transition-width: 0;
-  --app-notification-transition-duration: 3000ms;
-  --app-notification-background: black;
 
   position: relative;
   display: flex;
@@ -25,25 +19,25 @@
   font-size: 1rem;
   padding: 0.25rem 1rem;
   padding-bottom: calc(0.25rem + #{$app-height-notification-progress});
-  background-color: var(--app-notification-background);
+  background-color: var(--_background);
   color: $app-color-white;
   font-size: 0.85rem;
   border-radius: 0.33rem;
 
   &.-type-success {
-    --app-notification-background: #{$app-color-success};
+    --_background: #{$app-color-success};
   }
 
   &.-type-error {
-    --app-notification-background: #{$app-color-error};
+    --_background: #{$app-color-error};
   }
 
   &.-animating {
-    --app-notification-transition-width: 0;
+    --_transition-width: 0;
   }
 
   &.-stopped {
-    --app-notification-transition-width: 1;
+    --_transition-width: 1;
     & > ._progress {
       transition: none;
     }
@@ -108,7 +102,7 @@
     height: $app-height-notification-progress;
     background-color: rgba(255,255,255,0.5);
     transform-origin: left;
-    transition: transform var(--app-notification-transition-duration) linear;
-    transform: scaleX(var(--app-notification-transition-width));
+    transition: transform var(--_transition-duration) linear;
+    transform: scaleX(var(--_transition-width));
   }
 }

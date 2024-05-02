@@ -45,12 +45,12 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   confirmed = output<AutocompleteOption>();
 
   // Host bindings
-  @HostBinding('style.--app-autocomplete-width')
+  @HostBinding('style.--_width')
   get styleWidth() {
     return this.width();
   }
 
-  @HostBinding('style.--app-autocomplete-offset-y')
+  @HostBinding('style.--_offset-y')
   get styleOffsetY() {
     return this.offsetY();
   }

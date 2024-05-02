@@ -10,6 +10,8 @@
   - [ ] Remove `@import 'scoped';` from every component's .scss file
   - [ ] Add full page modal
   - [ ] Add full width buttons
+  - [ ] Convert all local CSS variables to the pattern `--_local`
+  - [ ] Attach CSS variables to host components
 
 ## Refactoring
 Angular 16
