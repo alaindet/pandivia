@@ -1,11 +1,10 @@
-import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, Provider, SimpleChanges, ViewChild, ViewEncapsulation, computed, forwardRef, signal } from '@angular/core';
+import { Component, ElementRef, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { FormFieldStatus } from '@app/common/types';
 import { HTMLAttributes, createAttributesController } from '@app/common/controllers';
-import { cssClassesList, didInputChange, uniqueId } from '@app/common/utils';
+import { FormFieldStatus } from '@app/common/types';
+import { cssClassesList, uniqueId } from '@app/common/utils';
 import { ButtonComponent } from '../button';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
@@ -15,9 +14,6 @@ const TEXTAREA_FORM_PROVIDER: Provider = {
 };
 
 const imports = [
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
   MatIconModule,
   ButtonComponent,
 ];
@@ -28,63 +24,86 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './textarea.component.html',
-  styleUrls: ['./textarea.component.scss'],
+  styleUrl: './textarea.component.scss',
+  host: { class: 'app-textarea' },
   encapsulation: ViewEncapsulation.None,
   providers: [TEXTAREA_FORM_PROVIDER],
-  host: { class: 'app-textarea' },
 })
-export class TextareaComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class TextareaComponent implements ControlValueAccessor {
 
-  @Input() id?: string;
-  @Input() value?: string;
-  @Input() status?: FormFieldStatus;
-  @Input() rows = 7;
-  @Input() @HostBinding('class.-clearable') clearable = false;
-  @Input() placeholder = '';
-  @Input() withCharsCounter = false;
-  @Input() maxChars = 500;
-  @Input() withStatusIcon = true;
-  @Input() withErrorId: string | null = null;
-  @Input() @HostBinding('class.-full-width') withFullWidth = true;
-  @Input() @HostBinding('class.-disabled') isDisabled = false;
-  @Input() attrs: HTMLAttributes | null = null;
+  _id = input<string>('', { alias: 'id' });
+  value = input<string>();
+  status = input<FormFieldStatus>();
+  withStatusIcon = input(true);
+  rows = input(7);
+  clearable = input(false);
+  placeholder = input('');
+  maxChars = input(500);
+  withCharsCounter = input(false);
+  withErrorId = input<string | null>(null);
+  withFullWidth = input(true);
+  _isDisabled = input(false, { alias: 'isDisabled' });
+  attrs = input<HTMLAttributes | null>(null);
 
-  @Output() changed = new EventEmitter<string>();
-  @Output() inputChanged = new EventEmitter<string>();
+  changed = output<string>();
+  inputChanged = output<string>();
 
-  @ViewChild('textareaRef', { static: true })
-  private textareRef!: ElementRef<HTMLTextAreaElement>;
+  @HostBinding('class')
+  get getCssClass() {
+    return this.cssClass();
+  }
 
-  @HostBinding('class') cssClass = '';
+  @HostBinding('class.-clearable')
+  get cssClassClearable() {
+    return this.clearable();
+  }
 
+  @HostBinding('class.-full-width')
+  get cssClassFullWidth() {
+    return this.withFullWidth();
+  }
+
+  @HostBinding('class.-disabled')
+  get cssClassDisabled() {
+    return this.isDisabled();
+  }
+
+  private textareaRef = viewChild.required<ElementRef<HTMLTextAreaElement>>('textareaRef');
+
+  id = computed(() => uniqueId(this._id(), 'app-textarea'));
+  isDisabled = signal(false);
   inputValue = signal('');
   charsCounter = computed(() => this.inputValue().length);
+  nativeInput = computed(() => this.textareaRef().nativeElement);
   attrsController = createAttributesController();
+  cssClass = computed(() => cssClassesList([
+    this.status() ? `-status-${this.status()}` : null,
+  ]));
+
+  onDisabledChange$ = effect(() => this.isDisabled.set(this._isDisabled()), {
+    allowSignalWrites: true,
+  });
+
+  onAttributesChange$ = effect(() => {
+    this.attrsController.apply(this.nativeInput(), this.attrs());
+  });
+
+  onValueChange$ = effect(() => {
+    const value = this.value();
+    if (value === undefined) {
+      return;
+    }
+    this.inputValue.set(value);
+    this.nativeInput().value = value;
+  }, { allowSignalWrites: true });
 
   private onChange!: (val: any) => {};
 	private onTouched!: () => {};
 
-  ngOnInit() {
-    this.id = uniqueId(this.id, 'app-textarea');
-    this.attrsController.apply(this.textareRef.nativeElement, this.attrs);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-
-    if (didInputChange(changes['value']) && this.value !== undefined) {
-      this.inputValue.set(this.value);
-      this.textareRef.nativeElement.value = this.value;
-    }
-
-    if (didInputChange(changes['width']) || didInputChange(changes['status'])) {
-      this.updateCssClasses();
-    }
-  }
-
   // @publicApi
   setValue(val: string | null, triggerEvents = false): void {
     const value = val === null ? '' : val;
-    this.textareRef.nativeElement.value = value;
+    this.nativeInput().value = value;
     this.inputValue.set(value);
 
     if (triggerEvents) {
@@ -96,7 +115,7 @@ export class TextareaComponent implements OnInit, OnChanges, ControlValueAccesso
   // @publicApi
   clear(triggerEvents = false): void {
     const value = '' ;
-    this.textareRef.nativeElement.value = value;
+    this.nativeInput().value = value;
     this.inputValue.set(value);
 
     if (triggerEvents) {
@@ -106,13 +125,13 @@ export class TextareaComponent implements OnInit, OnChanges, ControlValueAccesso
 
   // @publicApi
   getNativeElement(): HTMLTextAreaElement {
-    return this.textareRef.nativeElement;
+    return this.nativeInput();
   }
 
   onClearInput(): void {
     this.clear();
-    this.textareRef.nativeElement.focus();
-    if (this.onChange) this.onChange(this.textareRef.nativeElement.value);
+    this.nativeInput().focus();
+    if (this.onChange) this.onChange(this.nativeInput().value);
   }
 
   onInputChange(event: Event) {
@@ -137,7 +156,7 @@ export class TextareaComponent implements OnInit, OnChanges, ControlValueAccesso
   // From ControlValueAccessor
 	writeValue(val: any): void {
     const value = val ?? '';
-    this.textareRef.nativeElement.value = value;
+    this.nativeInput().value = value;
     this.inputValue.set(value);
 	}
 
@@ -153,12 +172,6 @@ export class TextareaComponent implements OnInit, OnChanges, ControlValueAccesso
 
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  private updateCssClasses(): void {
-    this.cssClass = cssClassesList([
-      !!this.status ? `-status-${this.status}` : null,
-    ]);
+    this.isDisabled.set(isDisabled);
   }
 }

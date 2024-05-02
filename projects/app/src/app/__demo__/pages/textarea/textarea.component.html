@@ -11,7 +11,7 @@
       formControlName="myTextarea"
       [status]="fMyTextarea | appFieldStatus"
       placeholder="Enter some text here..."
-    ></app-textarea>
+    />
     <app-form-field-error *ngIf="fMyTextarea | appFieldError:'required'">
       Required field
     </app-form-field-error>
@@ -30,14 +30,14 @@
     'required': true,
     'readonly': false,
   }"
-></app-textarea>
+/>
 
 <h2>Disabled</h2>
 <app-textarea
   value="This is disabled"
   [isDisabled]="true"
   (changed)="consoleLog('changed', $event)"
-></app-textarea>
+/>
 
 <h2>Custom widths</h2>
 
@@ -48,7 +48,7 @@
     placeholder="Full width"
     [withFullWidth]="true"
     (changed)="consoleLog('changed', $event)"
-  ></app-textarea>
+  />
 </p>
 
 <h2>With characters counter</h2>
@@ -60,7 +60,7 @@
     [withCharsCounter]="true"
     [maxChars]="123"
     (changed)="consoleLog('changed', $event)"
-  ></app-textarea>
+  />
   <app-form-field-hint>
     This textarea has a characters counter
   </app-form-field-hint>
