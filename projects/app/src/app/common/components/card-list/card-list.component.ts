@@ -1,5 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, WritableSignal, computed, effect, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, computed, effect, input, output, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
@@ -11,7 +10,6 @@ import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import { CardListComponentLabels, CardListCounters, ItemActionOutput, ItemActionsFn, ItemToggledOutput } from './types';
 
 const imports = [
-  NgTemplateOutlet,
   MatIconModule,
   CheckboxComponent,
   ButtonComponent,
