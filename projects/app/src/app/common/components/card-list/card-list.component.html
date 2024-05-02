@@ -4,12 +4,12 @@
 
     <div class="_title">
       <h2>{{ title() }}</h2>
-      @if (withCounters()) {
+      @if (withCounters() && !!counters()) {
         <span class="_counters">
           @if (isSelectable()) {
-            ({{ counters!().done }} / <strong>{{ counters!().total }}</strong>)
+            ({{ counters()!.done }} / <strong>{{ counters()!.total }}</strong>)
           } @else {
-            (<strong>{{ counters!().total }}</strong>)
+            (<strong>{{ counters()!.total }}</strong>)
           }
         </span>
       }
