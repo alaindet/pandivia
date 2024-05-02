@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, Provider, SimpleChanges, ViewEncapsulation, computed, effect, forwardRef, inject, input, output, signal } from '@angular/core';
-import { filter, fromEvent, merge, takeUntil } from 'rxjs';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, inject, input, output, signal } from '@angular/core';
+import { Subscription, filter, fromEvent, merge } from 'rxjs';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EventSource, OnceSource } from '@app/common/sources';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
-import { didInputChange, getRandomHash, uniqueId } from '@app/common/utils';
+import { cssClassesList, uniqueId } from '@app/common/utils';
 import { CheckboxColor } from './types';
 
 const CHECKBOX_FORM_PROVIDER: Provider = {
@@ -13,9 +12,6 @@ const CHECKBOX_FORM_PROVIDER: Provider = {
 	multi: true,
 };
 
-/**
- * TODO: Make it accessible
- */
 @Component({
   selector: 'app-checkbox',
   exportAs: 'app-checkbox',
@@ -33,14 +29,9 @@ const CHECKBOX_FORM_PROVIDER: Provider = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CHECKBOX_FORM_PROVIDER],
 })
-export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+export class CheckboxComponent implements ControlValueAccessor {
 
   private host = inject(ElementRef);
-
-  private once = new OnceSource();
-  private disableEvents$ = new EventSource<void>(this.once.event$);
-  private onChange!: (val: any) => void;
-	private onTouched!: () => void;
 
   _id = input('', { alias: 'id' });
   _isChecked = input(false, { alias: 'isChecked' });
@@ -53,17 +44,20 @@ export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlV
 
   changed = output<boolean>();
 
-  // TODO
   @HostBinding('class')
-  cssClasses = '-color-primary';
+  get getCssClass() {
+    return this.cssClass();
+  }
 
-  // TODO
   @HostBinding('class.-interactable')
-  cssIsInteractable = true;
+  get cssClassInteractable() {
+    return this.isInteractable();
+  }
 
-  // TODO
   @HostBinding('tabindex')
-  tabIndex = '0';
+  get getTabIndex() {
+    return this.tabIndex();
+  }
 
   @HostBinding('attr.id')
   get attrId() {
@@ -96,9 +90,17 @@ export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlV
     return this.withErrorId();
   }
 
+  private onChange!: (val: any) => void;
+	private onTouched!: () => void;
+  private interactiveSub: Subscription | null = null;
+
   id = computed(() => uniqueId(this._id(), 'app-select'));
   isDisabled = signal(false);
   isChecked = signal(false);
+  tabIndex = computed(() => this.isDisabled() ? '-1' : '0');
+  cssClass = computed(() => cssClassesList([
+    `-color-${this.color()}`,
+  ]));
 
   onCheckedChange$ = effect(() => this.isChecked.set(this._isChecked()), {
     allowSignalWrites: true,
@@ -106,6 +108,32 @@ export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlV
 
   onDisabledChange$ = effect(() => this.isDisabled.set(this._isDisabled()), {
     allowSignalWrites: true,
+  });
+
+  onInteractivityChange$ = effect(onCleanup => {
+
+    if (!this.isInteractable() || this.isDisabled()) {
+      return;
+    }
+
+    const el = this.host.nativeElement;
+
+    const clicked$ = fromEvent<MouseEvent>(el, 'click');
+
+    const spaceOrEnterPressed$ = fromEvent<KeyboardEvent>(el, 'keydown')
+      .pipe(filter(e => e.key === KB.SPACE || e.key === KB.ENTER));
+
+    const toggledCheckbox$ = merge(clicked$, spaceOrEnterPressed$);
+
+    this.interactiveSub = toggledCheckbox$.subscribe((event: Event) => {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      this.toggle();
+    });
+
+    onCleanup(() => {
+      this.interactiveSub?.unsubscribe();
+    });
   });
 
   // @publicApi
@@ -121,65 +149,6 @@ export class CheckboxComponent implements OnInit, OnChanges, OnDestroy, ControlV
     if (this.onTouched) {
       this.onTouched();
     }
-  }
-
-  ngOnInit() {
-    if (this.isInteractable()) {
-      this.toggleInteractivity();
-    }
-
-    if (this.isDisabled()) {
-      this.disableEvents$.next();
-      this.tabIndex = '-1';
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (didInputChange(changes['isInteractable'])) {
-      this.toggleInteractivity();
-    }
-
-    if (didInputChange(changes['color'])) {
-      this.cssClasses = `-color-${this.color}`;
-    }
-
-    if (didInputChange(changes['isDisabled'])) {
-      this.disableEvents$.next();
-      this.tabIndex = '-1';
-    }
-  }
-
-  // TODO
-  private toggleInteractivity(): void {
-    this.cssIsInteractable = this.isInteractable;
-    this.tabIndex = this.isInteractable ? '0' : '-1';
-    this.disableEvents$.next();
-
-    if (!this.isInteractable || this.isDisabled) {
-      return;
-    }
-
-    const el = this.host.nativeElement;
-    const clicked$ = fromEvent<MouseEvent>(el, 'click');
-
-    const spaceOrEnterPressed$ = fromEvent<KeyboardEvent>(el, 'keydown').pipe(
-      filter(e => e.key === KB.SPACE || e.key === KB.ENTER),
-    );
-
-    const toggleCheckbox$ = merge(clicked$, spaceOrEnterPressed$).pipe(
-      takeUntil(this.once.event$),
-      takeUntil(this.disableEvents$.event$),
-    );
-
-    toggleCheckbox$.subscribe((event: Event) => {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      this.toggle();
-    });
-  }
-
-  ngOnDestroy() {
-    this.once.trigger();
   }
 
   // From ControlValueAccessor
