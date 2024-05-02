@@ -1,11 +1,10 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, Input, inject, EventEmitter, Output } from '@angular/core';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '../button';
 
 const imports = [
-  NgIf,
   ButtonComponent,
   MatIconModule,
 ];
@@ -15,28 +14,28 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './page-header.component.html',
-  styleUrls: ['./page-header.component.scss'],
+  styleUrl: './page-header.component.scss',
+  host: { class: 'app-page-header' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'app-page-header' },
 })
 export class PageHeaderComponent {
 
   private location = inject(Location);
 
-  @Input() withBackButton = false;
-  @Input() withControlledBackButton = false;
+  withBackButton = input(false);
+  withControlledBackButton = input(false);
 
-  @Output() backClicked = new EventEmitter<void>();
+  backClicked = output<void>();
 
   onBackClicked() {
 
-    if (this.withControlledBackButton) {
+    if (this.withControlledBackButton()) {
       this.backClicked.emit();
       return;
     }
 
-    if (this.withBackButton) {
+    if (this.withBackButton()) {
       this.location.back();
       return;
     }
