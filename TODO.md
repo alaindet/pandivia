@@ -3,6 +3,8 @@
 - [ ] Add prompt to install new version
 - [ ] Add full width to quick number input
 - [ ] Refactor
+  - [ ] Change demo app to use CSS Grid
+  - [ ] Fix button
   - [ ] Remove DataSource from `@app/common/sources`
   - [ ] Dismiss the ViewModel (vm) approach from all components
   - [ ] Remove `@import 'scoped';` from every component's .scss file

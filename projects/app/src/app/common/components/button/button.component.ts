@@ -75,11 +75,11 @@ export class ButtonComponent {
 
   private cssClasses = computed(() => cssClassesList([
     this.cssColorClass(),
-    `-size-${this.size}`,
+    `-size-${this.size()}`,
     this.cssIconColorClass(),
-    asBoolean(this.withIconOnly) ? '-with-icon-only' : null,
-    asBoolean(this.isCircle) ? '-circle' : null,
-    !!this.floating ? `-floating-${this.floating}` : null,
+    asBoolean(this.withIconOnly()) ? '-with-icon-only' : null,
+    asBoolean(this.isCircle()) ? '-circle' : null,
+    !!this.floating ? `-floating-${this.floating()}` : null,
   ]));
 
   // Public API
