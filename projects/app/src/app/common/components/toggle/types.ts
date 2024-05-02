@@ -8,3 +8,9 @@ export const TOGGLE_LABEL_POSITION = {
 } as const;
 
 export type ToggleLabelPosition = ObjectValues<typeof TOGGLE_LABEL_POSITION>;
+
+export type ToggleColor = (
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+);

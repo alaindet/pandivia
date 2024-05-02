@@ -1,14 +1,8 @@
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output, Provider, ViewEncapsulation, forwardRef, signal } from '@angular/core';
+import { Component, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { cssClassesList, getRandomHash } from '@app/common/utils';
-import { TOGGLE_LABEL_POSITION, ToggleLabelPosition } from './types';
-
-const imports = [
-  NgIf,
-  NgTemplateOutlet,
-];
+import { cssClassesList, uniqueId } from '@app/common/utils';
+import { TOGGLE_LABEL_POSITION, ToggleColor, ToggleLabelPosition } from './types';
 
 const TOGGLE_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -19,49 +13,95 @@ const TOGGLE_FORM_PROVIDER: Provider = {
 @Component({
   selector: 'app-toggle',
   standalone: true,
-  imports,
   templateUrl: './toggle.component.html',
-  styleUrls: ['./toggle.component.scss'],
-  providers: [TOGGLE_FORM_PROVIDER],
-  encapsulation: ViewEncapsulation.None,
+  styleUrl: './toggle.component.scss',
   host: { class: 'app-toggle' },
+  encapsulation: ViewEncapsulation.None,
+  providers: [TOGGLE_FORM_PROVIDER],
 })
-export class ToggleComponent implements OnInit, ControlValueAccessor {
+export class ToggleComponent implements ControlValueAccessor {
 
-  @Input() id!: string;
-  @Input() title?: string;
-  @Input() color: 'primary' | 'secondary' | 'tertiary' = 'primary';
-  @Input() @HostBinding('class.-checked') checked = false;
-  @Input() @HostBinding('class.-disabled') isDisabled = false;
-  @Input() @HostBinding('style.--app-toggle-bullet-size') size = '24px';
-  @Input() withLabel: ToggleLabelPosition = TOGGLE_LABEL_POSITION.RIGHT;
-  @Input() @HostBinding('attr.aria-errormessage') withErrorId: string | null = null;
+  _id = input('', { alias: 'id' });
+  title = input<string>();
+  color = input<ToggleColor>('primary');
+  _isChecked = input(false, { alias: 'isChecked' });
+  _isDisabled = input(false, { alias: 'isDisabled' });
+  size = input('24px');
+  withLabel = input<ToggleLabelPosition>(TOGGLE_LABEL_POSITION.RIGHT);
+  withErrorId = input<string | null>(null);
 
-  @Output() changed = new EventEmitter<boolean>();
+  changed = output<boolean>();
 
-  @HostBinding('class') cssClasses!: string;
+  @HostBinding('class')
+  get getCssClass() {
+    return this.cssClass();
+  }
+
+  @HostBinding('class.-checked')
+  get cssClassChecked() {
+    return this.isChecked();
+  }
+
+  @HostBinding('class.-disabled')
+  get cssClassDisabled() {
+    return this.isDisabled();
+  }
+
+  @HostBinding('style.--_bullet-size')
+  get styleBulletSize() {
+    return this.size();
+  }
+
+  @HostBinding('attr.aria-errormessage')
+  get attrAriaErrorMessage() {
+    return this.withErrorId();
+  }
 
   LABEL = TOGGLE_LABEL_POSITION;
-  idLabel!: string;
+  isChecked = signal(false);
+  isDisabled = signal(false);
   toggleValue = signal(false);
+  id = computed(() => uniqueId(this._id(), 'app-toggle'));
+  idLabel = computed(() => `${this.id()}-label`);
+  cssClass = computed(() => cssClassesList([
+    `-with-label-${this.withLabel()}`,
+    `-color-${this.color()}`,
+  ]));
+
+  onCheckedChange$ = effect(() => this.isChecked.set(this._isChecked()), {
+    allowSignalWrites: true,
+  });
+
+  onDisabledChange$ = effect(() => this.isDisabled.set(this._isDisabled()), {
+    allowSignalWrites: true,
+  });
 
   private onChange!: (val: any) => {};
   private onTouched!: () => {};
 
-  ngOnInit() {
-    this.initIds();
-    this.initCssClasses();
+  onToggle() {
+    if (this.isDisabled()) {
+      return;
+    }
+    this.outputValue(!this.isChecked());
   }
 
-  onToggle() {
-    if (this.isDisabled) return;
-    this.outputValue(!this.checked);
+  private outputValue(checked: boolean): void {
+    this.isChecked.set(checked);
+    this.changed.emit(checked);
+
+    if (this.onChange) {
+      this.onChange(checked);
+    }
+
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   // From ControlValueAccessor
   writeValue(value: any): void {
-    const checked = !!value;
-    this.checked = checked;
+    this.isChecked.set(!!value);
   }
 
   // From ControlValueAccessor
@@ -76,27 +116,6 @@ export class ToggleComponent implements OnInit, ControlValueAccessor {
 
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  private initIds(): void {
-    if (!this.id) {
-      this.id = `app-toggle-${getRandomHash(3)}`;
-    }
-    this.idLabel = `${this.id}-label`;
-  }
-
-  private initCssClasses(): void {
-    this.cssClasses = cssClassesList([
-      `-with-label-${this.withLabel}`,
-      `-color-${this.color}`,
-    ]);
-  }
-
-  private outputValue(checked: boolean): void {
-    this.checked = checked;
-    this.changed.emit(checked);
-    if (this.onChange) this.onChange(checked);
-    if (this.onTouched) this.onTouched();
+    this.isDisabled.set(isDisabled);
   }
 }

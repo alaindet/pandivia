@@ -1,42 +1,48 @@
 @import 'scoped';
 
-// Variables
-// --app-toggle-hover-foreground
-// --app-toggle-bullet-size (LOCAL)
-// --app-toggle-rail-width (LOCAL)
-// --app-toggle-rail-height (LOCAL)
-// --app-toggle-offset (LOCAL)
-// --app-toggle-color-rail (LOCAL)
-// --app-toggle-color-bullet (LOCAL)
+/**
+ * Theme variables
+ * --app-color-grey-600
+ * --app-color-grey-700
+ * --app-color-primary-400
+ * --app-color-primary-600
+ * --app-color-secondary-400
+ * --app-color-secondary-600
+ * --app-color-tertiary-400
+ * --app-color-tertiary-600
+ * --app-toggle-hover-foreground
+ */
+
+app-toggle {
+  --_bullet-size: 0.5rem;
+  --_rail-width: calc(var(--_bullet-size) * 1.667);
+  --_rail-height: calc(var(--_bullet-size) * 0.667);
+  --_offset: 0;
+  --_color-rail: var(--app-color-grey-600);
+  --_color-bullet: var(--app-color-grey-700);
+}
 
 .app-toggle {
-  --app-toggle-bullet-size: 0.5rem;
-  --app-toggle-rail-width: calc(var(--app-toggle-bullet-size) * 1.667);
-  --app-toggle-rail-height: calc(var(--app-toggle-bullet-size) * 0.667);
-  --app-toggle-offset: 0;
-  --app-toggle-color-rail: var(--app-color-grey-600);
-  --app-toggle-color-bullet: var(--app-color-grey-700);
-
   position: relative;
 
   &.-checked {
-    --app-toggle-offset: calc(var(--app-toggle-rail-width) - var(--app-toggle-bullet-size));
+    --_offset: calc(var(--_rail-width) - var(--_bullet-size));
   }
 
   &.-checked.-color {
     &-primary {
-      --app-toggle-color-rail: var(--app-color-primary-400);
-      --app-toggle-color-bullet: var(--app-color-primary-600);
+      --_color-rail: var(--app-color-primary-400);
+      --_color-bullet: var(--app-color-primary-600);
     }
 
     &-secondary {
-      --app-toggle-color-rail: var(--app-color-secondary-400);
-      --app-toggle-color-bullet: var(--app-color-secondary-600);
+      --_color-rail: var(--app-color-secondary-400);
+      --_color-bullet: var(--app-color-secondary-600);
     }
 
     &-tertiary {
-      --app-toggle-color-rail: var(--app-color-tertiary-400);
-      --app-toggle-color-bullet: var(--app-color-tertiary-600);
+      --_color-rail: var(--app-color-tertiary-400);
+      --_color-bullet: var(--app-color-tertiary-600);
     }
   }
 
@@ -96,8 +102,8 @@
   ._toggle {
     display: block;
     position: relative;
-    width: var(--app-toggle-rail-width);
-    height: var(--app-toggle-rail-height);
+    width: var(--_rail-width);
+    height: var(--_rail-height);
   }
 
   // Rail
@@ -105,8 +111,8 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-color: var(--app-toggle-color-rail);
-    border-radius: var(--app-toggle-rail-height);
+    background-color: var(--_color-rail);
+    border-radius: var(--_rail-height);
     z-index: 1;
   }
 
@@ -117,11 +123,11 @@
     left: 0;
     top: 50%;
     transition: 0.15s transform ease-in-out;
-    transform: translate(var(--app-toggle-offset), -50%);
-    width: var(--app-toggle-bullet-size);
-    height: var(--app-toggle-bullet-size);
-    background-color: var(--app-toggle-color-bullet);
-    border-radius: var(--app-toggle-bullet-size);
+    transform: translate(var(--_offset), -50%);
+    width: var(--_bullet-size);
+    height: var(--_bullet-size);
+    background-color: var(--_color-bullet);
+    border-radius: var(--_bullet-size);
     z-index: 2;
   }
 }
