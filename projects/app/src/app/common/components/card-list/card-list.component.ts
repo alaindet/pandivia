@@ -32,13 +32,12 @@ export class CardListComponent {
 
   title = input.required<string>();
   listActions = input.required<ActionsMenuItem[]>();
-  // items = input.required<ListItem[] | InventoryItem[]>();
   items = input.required<any[]>();
   itemActionsFn = input.required<ItemActionsFn>();
   labels = input<CardListComponentLabels>();
   withMutedTitle = input(false);
   isSelectable = input(true);
-  _isPinned = input(true, { alias: 'isPinned '});
+  _isPinned = input(true, { alias: 'isPinned' });
   withCounters = input(true);
   checkboxColor = input<CheckboxColor>('black');
 
@@ -62,7 +61,7 @@ export class CardListComponent {
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   itemActionsMap = new Map<string, ActionsMenuItem[]>();
   itemsDescriptionMap = new Map<string, boolean>();
-  counters: WritableSignal<CardListCounters> | null = null;
+  counters = signal<CardListCounters | null>(null);
   isPinned = signal(true);
 
   onItemsChange$ = effect(() => {
@@ -71,11 +70,11 @@ export class CardListComponent {
     if (this.withCounters()) {
       this.updateCounters(items as ListItem[]);
     }
-  });
+  }, { allowSignalWrites: true });
 
   onIsPinnedChange$ = effect(() => {
     this.isPinned.set(this._isPinned());
-  });
+  }, { allowSignalWrites: true });
 
   onListAction(action: string) {
     this.listActionClicked.emit(action);
@@ -122,6 +121,6 @@ export class CardListComponent {
       }
     });
     const total = items.length;
-    this.counters = signal<CardListCounters>({ done, total });
+    this.counters.set({ done, total });
   }
 }
