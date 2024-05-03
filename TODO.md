@@ -17,6 +17,7 @@
   - [ ] Remove all *ngX directives from template and from imports
   - [ ] Change ObjectValues to EnumLike
   - [ ] Create "common" package
+  - [ ] Add fullpage to modal
 
 ## Refactoring
 Angular 16
