@@ -37,3 +37,7 @@ export type ModalHostLabels = {
   cancel: string;
   confirm: string;
 };
+
+export type ModalOptions = {
+  fullPage: boolean;
+};

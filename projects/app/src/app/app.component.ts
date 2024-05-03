@@ -8,12 +8,8 @@ import { Store } from '@ngrx/store';
 import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
 import { selectUiIsLoading } from './core/store';
 import { UiService } from './core/ui';
-import { LanguageService, ThemeService } from './core';
 
 const imports = [
-  NgIf,
-  NgClass,
-  AsyncPipe,
   RouterOutlet,
   MatIconModule,
   TranslocoModule,
@@ -28,25 +24,13 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   private store = inject(Store);
 
   ui = inject(UiService);
   themeConfig = this.ui.theme.config;
-  loading = false;
-
-  ngOnInit() {
-    this.initUiLoading();
-  }
-
-  private initUiLoading(): void {
-    // This guarantees no NG0100 error happens
-    // "Expression has changed after it was checked"
-    this.store.select(selectUiIsLoading).subscribe(loading => {
-      queueMicrotask(() => this.loading = loading);
-    });
-  }
+  loading = this.store.selectSignal(selectUiIsLoading);
 }

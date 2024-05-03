@@ -1,21 +1,23 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, map, takeUntil } from 'rxjs';
+import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
+import { MediaQueryService } from '@app/common/services';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { inventoryCreateItem, inventoryEditItem, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
 import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
 import { uniqueInventoryItemNameValidator } from '../../validators';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 const imports = [
   NgIf,
@@ -49,6 +51,10 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   private store = inject(Store);
   private formBuilder = inject(FormBuilder);
+  private mediaQuery = inject(MediaQueryService);
+
+  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
+  isMobile = computed(() => !!this.mobileQuery());
 
   FIELD = FIELD;
   theForm!: FormGroup;

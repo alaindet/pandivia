@@ -172,6 +172,12 @@
     }
   }
 
+  // Full width ---------------------------------------------------------------
+  &.-full-width {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
   // Circle -------------------------------------------------------------------
   &.-circle {
     border-radius: 200px;

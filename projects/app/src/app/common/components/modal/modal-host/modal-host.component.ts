@@ -35,6 +35,11 @@ export class ModalHostComponent implements OnDestroy {
     return this.modalService.isOpen();
   }
 
+  @HostBinding('class.-full-page')
+  get cssClassFullPage() {
+    return this.modalService.isFullPage();
+  }
+
   modalTarget = viewChild.required('modalTarget', { read: ViewContainerRef });
   modalRef = viewChild.required<ElementRef<HTMLElement>>('modalRef');
   headerTemplate = this.modalService.headerTemplate;
@@ -47,7 +52,7 @@ export class ModalHostComponent implements OnDestroy {
     } else {
       this.keyboardController.disable();
     }
-  });
+  }, { allowSignalWrites: true });
 
   ngOnInit() {
     this.modalService.registerTarget(this.modalTarget());

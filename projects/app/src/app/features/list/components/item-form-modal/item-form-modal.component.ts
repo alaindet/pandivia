@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
@@ -19,6 +19,8 @@ import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
 import { UiService } from '@app/core';
+import { MediaQueryService } from '../../../../common/services';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 const imports = [
   NgIf,
@@ -53,6 +55,10 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   private store = inject(Store);
   private formBuilder = inject(FormBuilder);
   private ui = inject(UiService);
+  private mediaQuery = inject(MediaQueryService);
+
+  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
+  isMobile = computed(() => !!this.mobileQuery());
 
   FIELD = FIELD;
   theForm!: FormGroup;
@@ -85,6 +91,10 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   onCancel() {
+
+    // TODO: Remove
+    console.log('Canceling modal');
+
     this.modal.cancel();
   }
 

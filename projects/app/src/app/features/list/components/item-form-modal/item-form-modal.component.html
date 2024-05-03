@@ -244,6 +244,21 @@
 <ng-container *appModalFooter>
   <div *transloco="let t" class="_footer">
 
+    @if (isMobile()) {
+      <!-- Cancel -->
+      <button
+        type="button"
+        appButton="outline"
+        size="small"
+        [withFullWidth]="true"
+        withIcon="left"
+        (click)="onCancel()"
+      >
+        <mat-icon>clear</mat-icon>
+        {{ t('common.close') }}
+      </button>
+    }
+
     <!-- Edit -->
     <ng-container *ngIf="isEditing(); else createRef">
       <button
@@ -252,6 +267,7 @@
         appButton="primary"
         withIcon="left"
         size="small"
+        [withFullWidth]="isMobile()"
         [disabled]="isSaving()"
         (click)="onSubmit()"
       >
@@ -268,9 +284,10 @@
       <!-- Confirm and continue -->
       <button
         type="button"
-        appButton="outline"
+        appButton="secondary"
         withIcon="left"
         size="small"
+        [withFullWidth]="isMobile()"
         [disabled]="isSaving()"
         (click)="onCreateAndContinue()"
       >
@@ -284,6 +301,7 @@
         appButton="primary"
         withIcon="left"
         size="small"
+        [withFullWidth]="isMobile()"
         [disabled]="isSaving()"
         (click)="onSubmit()"
       >

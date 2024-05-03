@@ -1,4 +1,4 @@
-import { Observable, Subject, filter, fromEvent, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, first, fromEvent, takeUntil } from 'rxjs';
 
 import { FOCUSABLE_SELECTORS } from '@app/common/utils';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
@@ -20,12 +20,26 @@ export function createModalKeyboardController(
   const canceled$ = new Subject<void>();
 
   function enable() {
+
+    // TODO: Remove
+    console.log('Enabling keyboard control on element', element);
+
     const firstFocusable = handleFocusTrap(element);
     handleCancelByEscape(element);
-    setTimeout(() => firstFocusable?.focus());
+    setTimeout(() => {
+
+      // TODO: Remove
+      console.log('Focusing first focusable element in modal', firstFocusable);
+      firstFocusable?.focus();
+
+    }, 100);
   }
 
   function disable() {
+
+    // TODO: Remove
+    console.log('Disabling keyboard control');
+
     isEnabled.set(false);
     stop$.next();
   }
