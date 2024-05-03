@@ -18,6 +18,9 @@
   - [ ] Change ObjectValues to EnumLike
   - [ ] Create "common" package
   - [ ] Add fullpage to modal
+  - [ ] Focus first focusable element on modal open
+  - [ ] Full page modal does not work on List page
+  - [ ] Fix click out
 
 ## Refactoring
 Angular 16

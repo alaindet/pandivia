@@ -19,6 +19,7 @@ export class ButtonComponent {
   mainInput = input<ButtonColor | null | ''>(null, { alias: 'appButton' });
   color = input<ButtonColor>('primary');
   size = input<ButtonSize>('medium');
+  withFullWidth = input(false);
   isCircle = input<'' | boolean>(false);
   withIcon = input<'' | 'left' | 'right' | boolean>(false);
   withIconOnly = input<'' | boolean>(false);
@@ -56,7 +57,10 @@ export class ButtonComponent {
   private cssColorClass = computed(() => {
     const main = this.mainInput();
     const color = this.color();
-    return `-color-${!!main ? main : color}`;
+    return cssClassesList([
+      `-color-${!!main ? main : color}`,
+      this.withFullWidth() ? '-full-width' : null,
+    ]);
   });
 
   private cssIconColorClass = computed(() => {

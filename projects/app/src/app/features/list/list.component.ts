@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, computed, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Observable, catchError, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
@@ -22,6 +22,7 @@ import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import { findListItemById } from './functions';
+import { MediaQueryService } from '../../common/services';
 
 const imports = [
   NgIf,
@@ -49,6 +50,10 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private ui = inject(UiService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
+  private mediaQuery = inject(MediaQueryService);
+
+  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
+  isMobile = computed(() => !!this.mobileQuery());
 
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
@@ -214,7 +219,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
   onShowCreateItemModal(): void {
     const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: ListItemFormModalInput = { title };
-    this.modal.open(ListItemFormModalComponent, modalInput);
+    this.modal.open(ListItemFormModalComponent, modalInput, {
+      fullPage: this.isMobile(),
+    });
   }
 
   onItemToggle({ itemId, isDone }: ItemToggledOutput) {
@@ -281,7 +288,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private showCreateItemByCategoryModal(category: string): void {
     const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: ListItemFormModalInput = { title, category };
-    this.modal.open(ListItemFormModalComponent, modalInput);
+    this.modal.open(ListItemFormModalComponent, modalInput, {
+      fullPage: this.isMobile(),
+    });
   }
 
   private showEditItemModal(itemId: string): void {
@@ -290,7 +299,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
       next: item => {
         const title = this.transloco.translate('common.itemModal.editTitle');
         const modalInput: ListItemFormModalInput = { item, title };
-        this.modal.open(ListItemFormModalComponent, modalInput);
+        this.modal.open(ListItemFormModalComponent, modalInput, {
+          fullPage: this.isMobile(),
+        });
       },
     });
   }

@@ -143,17 +143,20 @@
 <ng-container *appModalFooter>
   <div *transloco="let t" class="_footer">
 
-    <!-- Cancel -->
-    <!-- <button
-      type="button"
-      appButton="outline"
-      size="small"
-      withIcon="left"
-      (click)="onCancel()"
-    >
-      <mat-icon>clear</mat-icon>
-      {{ t('common.cancel') }}
-    </button> -->
+    @if (isMobile()) {
+      <!-- Cancel -->
+      <button
+        type="button"
+        appButton="outline"
+        size="small"
+        [withFullWidth]="true"
+        withIcon="left"
+        (click)="onCancel()"
+      >
+        <mat-icon>clear</mat-icon>
+        {{ t('common.close') }}
+      </button>
+    }
 
     <!-- Edit -->
     <button
@@ -162,6 +165,7 @@
       appButton="primary"
       withIcon="left"
       size="small"
+      [withFullWidth]="isMobile()"
       [disabled]="isSaving()"
       (click)="onSubmit()"
     >
@@ -177,8 +181,9 @@
       <!-- Confirm and continue -->
       <button
         type="button"
-        appButton="outline"
+        appButton="secondary"
         withIcon="left"
+        [withFullWidth]="isMobile()"
         [disabled]="isSaving()"
         (click)="onCreateAndContinue()"
       >
@@ -191,6 +196,7 @@
         type="button"
         appButton="primary"
         withIcon="left"
+        [withFullWidth]="isMobile()"
         [disabled]="isSaving()"
         (click)="onSubmit()"
       >

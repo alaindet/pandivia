@@ -4,11 +4,12 @@
   <router-outlet />
 
   <!-- Stack level: 1 -->
-  <app-linear-spinner
-    *ngIf="loading"
-    [color]="themeConfig().linearSpinnerColor"
-    [fixed]="true"
-  />
+  @if (loading()) {
+    <app-linear-spinner
+      [color]="themeConfig().linearSpinnerColor"
+      [fixed]="true"
+    />
+  }
 
   <!-- Stack level: 2 -->
   <app-notifications-host

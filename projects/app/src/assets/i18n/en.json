@@ -63,6 +63,7 @@
   "common.form.field.addToInventory": "Add to Inventory",
   "common.signin": "Sign in",
   "common.cancel": "Cancel",
+  "common.close": "Close",
   "common.edit": "Edit",
   "common.create": "Create",
   "common.createAndClose": "Create and close",

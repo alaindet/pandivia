@@ -1,8 +1,8 @@
-import { Injectable, OnDestroy, TemplateRef, ViewContainerRef, signal } from '@angular/core';
+import { Injectable, OnDestroy, TemplateRef, ViewContainerRef, effect, signal } from '@angular/core';
 
 import { errorI18n } from '@app/common/utils';
 import { Subject, filter, map, of, switchMap, take, throwError } from 'rxjs';
-import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOutput, ModalRef } from './types';
+import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOptions, ModalOutput, ModalRef } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +12,16 @@ export class ModalService implements OnDestroy {
   private target: ViewContainerRef | null = null;
   private focusedBeforeModal: HTMLElement | null = null;
   isOpen = signal(false);
+  isFullPage = signal(false);
   private _closed$ = new Subject<ModalOutput<any>>();
   private _confirmClicked$ = new Subject<void>();
 
   headerTemplate = signal<TemplateRef<void> | null>(null);
   footerTemplate = signal<TemplateRef<void> | null>(null);
+
+  constructor() {
+    this._closed$.subscribe(() => this.isFullPage.set(false));
+  }
 
   ngOnDestroy() {
     this._closed$.complete();
@@ -89,9 +94,14 @@ export class ModalService implements OnDestroy {
   open<TInput extends any, TOutput extends any>(
     componentClass: typeof BaseModalComponent<TInput, TOutput>,
     data: TInput,
+    options?: ModalOptions,
   ): ModalRef<TInput, TOutput> {
 
     this.focusedBeforeModal = document.activeElement as HTMLElement | null;
+
+    if (!!options?.fullPage) {
+      this.isFullPage.set(true);
+    }
 
     if (!this.target) {
       throw new Error('Missing modal target');

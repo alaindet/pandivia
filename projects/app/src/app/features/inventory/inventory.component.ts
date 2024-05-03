@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, computed, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -25,6 +25,7 @@ import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
 import { inventoryEditItem, inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategories, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryCounters, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
 import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
+import { MediaQueryService } from '../../common/services';
 
 const imports = [
   CommonModule,
@@ -51,7 +52,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private ui = inject(UiService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
+  private mediaQuery = inject(MediaQueryService);
 
+  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
+  isMobile = computed(() => !!this.mobileQuery());
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
   itemGroups = this.store.selectSignal(selectInventoryCategorizedFilteredItems);
@@ -155,7 +159,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   onShowCreateItemModal(): void {
     const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: InventoryItemFormModalInput = { title };
-    this.modal.open(InventoryItemFormModalComponent, modalInput);
+    this.modal.open(InventoryItemFormModalComponent, modalInput, {
+      fullPage: this.isMobile(),
+    });
   }
 
   onPinCategory(category: string, isPinned: boolean) {
@@ -252,7 +258,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       next: item => {
         const title = this.transloco.translate('common.itemModal.editTitle');
         const modalInput: InventoryItemFormModalInput = { title, item };
-        this.modal.open(InventoryItemFormModalComponent, modalInput);
+        this.modal.open(InventoryItemFormModalComponent, modalInput, {
+          fullPage: this.isMobile(),
+        });
       },
     });
   }
@@ -260,7 +268,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private showCreateItemByCategoryModal(category: string): void {
     const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: InventoryItemFormModalInput = { title, category };
-    this.modal.open(InventoryItemFormModalComponent, modalInput);
+    this.modal.open(InventoryItemFormModalComponent, modalInput, {
+      fullPage: this.isMobile(),
+    });
   }
 
   private cloneItemToList(itemId: string): void {

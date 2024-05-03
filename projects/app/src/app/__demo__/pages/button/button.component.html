@@ -1,6 +1,6 @@
 <h2>Color</h2>
 <div class="buttons">
-  <div><button appButton="primary">Primary</button> (default)</div>
+  <div><button appButton="primary">Primary (default)</button></div>
   <button appButton="secondary">Secondary</button>
   <button appButton="tertiary">Tertiary</button>
   <button appButton="outline">Outline</button>
@@ -11,8 +11,16 @@
 <div class="buttons">
   <button appButton size="extra-small">Extra small</button>
   <button appButton size="small">Small</button>
-  <p><button appButton size="medium">Medium</button> (default)</p>
+  <button appButton size="medium">Medium (default)</button>
   <button appButton size="large">Large</button>
+</div>
+
+<h2>Full width</h2>
+<div class="buttons">
+  <button appButton size="extra-small" [withFullWidth]="true">Extra small</button>
+  <button appButton size="small" [withFullWidth]="true">Small</button>
+  <button appButton size="medium" [withFullWidth]="true">Medium (default)</button>
+  <button appButton size="large" [withFullWidth]="true">Large</button>
 </div>
 
 <h2>Circled</h2>
@@ -81,8 +89,8 @@
 <button
   appButton
   isCircle
-  withIconOnly 
-  size="large" 
+  withIconOnly
+  size="large"
   floating="fixed"
   floatingRight="2rem"
   floatingBottom="2rem"
@@ -97,8 +105,8 @@
   <button
     appButton
     isCircle
-    withIconOnly 
-    size="medium" 
+    withIconOnly
+    size="medium"
     floating="container"
     floatingRight="2rem"
     floatingBottom="2rem"
