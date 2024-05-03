@@ -26,7 +26,6 @@ const imports = [
 })
 export class ModalHostComponent implements OnDestroy {
 
-  private cdr = inject(ChangeDetectorRef);
   private modalService = inject(ModalService);
 
   labels = input<ModalHostLabels>();
