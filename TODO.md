@@ -5,7 +5,9 @@
 - [ ] Refactor
   - [ ] Change demo app to use CSS Grid
   - [ ] Fix button
-  - [ ] Remove DataSource from `@app/common/sources`
+  - [ ] Remove `DataSource` from `@app/common/sources`
+  - [ ] Remove `EventSource` from `@app/common/sources`
+  - [ ] Remove `OnceSource` from `@app/common/sources`
   - [ ] Dismiss the ViewModel (vm) approach from all components
   - [ ] Remove `@import 'scoped';` from every component's .scss file
   - [ ] Add full page modal
