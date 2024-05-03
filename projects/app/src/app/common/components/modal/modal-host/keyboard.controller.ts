@@ -1,23 +1,23 @@
-import { Observable, filter, fromEvent, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, fromEvent, takeUntil } from 'rxjs';
 
 import { FOCUSABLE_SELECTORS } from '@app/common/utils';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
-import { DataSource, EventSource } from '@app/common/sources';
+import { signal } from '@angular/core';
 
 export type ModalKeyboardController = {
   enable: () => void;
   disable: () => void;
   canceled$: Observable<void>;
+  destroy: () => void;
 };
 
 export function createModalKeyboardController(
   element: HTMLElement,
-  destroy$: Observable<void>,
 ): ModalKeyboardController {
 
-  const isEnabled$ = new DataSource<boolean>(false, destroy$);
-  const stop$ = new EventSource<void>(destroy$);
-  const canceled$ = new EventSource<void>(destroy$);
+  const isEnabled = signal(false);
+  const stop$ = new Subject<void>();
+  const canceled$ = new Subject<void>();
 
   function enable() {
     const firstFocusable = handleFocusTrap(element);
@@ -26,13 +26,13 @@ export function createModalKeyboardController(
   }
 
   function disable() {
-    isEnabled$.next(false);
+    isEnabled.set(false);
     stop$.next();
   }
 
   function handleFocusTrap(modal: HTMLElement): HTMLElement | null {
 
-    const focusables = element.querySelectorAll(FOCUSABLE_SELECTORS);
+    const focusables = modal.querySelectorAll(FOCUSABLE_SELECTORS);
 
     if (!focusables.length) {
       disable();
@@ -58,7 +58,7 @@ export function createModalKeyboardController(
 
     return firstFocusable;
   }
-  
+
   function handleCancelByEscape(modal: HTMLElement) {
     onKeydown(modal)
       .pipe(filter(event => event.key === KB.ESC || event.key === KB.ESCAPE))
@@ -69,10 +69,7 @@ export function createModalKeyboardController(
   }
 
   function onKeydown(element: HTMLElement) {
-    return fromEvent<KeyboardEvent>(element, 'keydown').pipe(
-      takeUntil(destroy$),
-      takeUntil(stop$.event$),
-    );
+    return fromEvent<KeyboardEvent>(element, 'keydown').pipe(takeUntil(stop$));
   }
 
   function stopEvent(event: Event) {
@@ -80,9 +77,15 @@ export function createModalKeyboardController(
     event.preventDefault();
   }
 
+  function destroy() {
+    stop$.complete();
+    canceled$.complete();
+  }
+
   return {
     enable,
     disable,
-    canceled$: canceled$.event$,
+    canceled$: canceled$.asObservable(),
+    destroy,
   };
 }

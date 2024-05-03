@@ -6,12 +6,16 @@
   aria-labelledby="modal-header"
   aria-describedby="modal-body"
 >
+  <!-- Header -->
   <header id="modal-header">
-    <ng-container
-      [ngTemplateOutlet]="modalService.headerTemplate ?? defaultHeaderTemplate"
-    ></ng-container>
+    @if (headerTemplate(); as headerTemplate) {
+      <ng-container [ngTemplateOutlet]="headerTemplate" />
+    } @else {
+      <h2>&nbsp;</h2>
+    }
   </header>
 
+  <!-- Dismiss -->
   <div class="_dismiss">
     <button
       type="button"
@@ -25,53 +29,46 @@
     </button>
   </div>
 
+  <!-- Body -->
   <div class="_body" id="modal-body">
     <ng-container #modalTarget></ng-container>
   </div>
 
+  <!-- Footer -->
   <footer>
-    <ng-container
-      [ngTemplateOutlet]="modalService.footerTemplate ?? defaultFooterTemplate"
-    ></ng-container>
+    @if (footerTemplate(); as footerTemplate) {
+      <ng-container [ngTemplateOutlet]="footerTemplate" />
+    } @else {
+      <div class="default-footer">
+
+        <!-- Cancel -->
+        <button
+          type="button"
+          appButton="outline"
+          size="small"
+          withIcon="left"
+          (click)="onDismiss()"
+        >
+          <mat-icon>close</mat-icon>
+          {{ labels()?.cancel ?? 'Cancel' }}
+        </button>
+
+        <!-- Confirm -->
+        <button
+          type="button"
+          appButton="primary"
+          withIcon="left"
+          size="small"
+          (click)="onConfirm()"
+        >
+          <mat-icon>check</mat-icon>
+          {{ labels()?.confirm ?? 'Confirm' }}
+        </button>
+
+      </div>
+    }
+
   </footer>
 </div>
 
 <div class="_backdrop" (click)="onDismiss()"></div>
-
-<!-- Template: Default header -->
-<ng-template #defaultHeaderTemplate>
-  <h2>&nbsp;</h2>
-</ng-template>
-
-<!-- Template: Default footer -->
-<ng-template #defaultFooterTemplate>
-
-  <div class="default-footer">
-
-    <!-- Cancel -->
-    <button
-      type="button"
-      appButton="outline"
-      size="small"
-      withIcon="left"
-      (click)="onDismiss()"
-    >
-      <mat-icon>close</mat-icon>
-      {{ labels?.cancel ?? 'Cancel' }}
-    </button>
-
-    <!-- Confirm -->
-    <button
-      type="button"
-      appButton="primary"
-      withIcon="left"
-      size="small"
-      (click)="onConfirm()"
-    >
-      <mat-icon>check</mat-icon>
-      {{ labels?.confirm ?? 'Confirm' }}
-    </button>
-
-  </div>
-
-</ng-template>

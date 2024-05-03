@@ -1,16 +1,15 @@
-import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnDestroy, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectorRef, Component, ElementRef, HostBinding, OnDestroy, ViewContainerRef, ViewEncapsulation, effect, inject, input, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { ButtonComponent } from '../../button';
 import { ModalService } from '../modal.service';
-import { OnceSource } from '@app/common/sources';
-import { createModalKeyboardController } from './keyboard.controller';
 import { ModalHostLabels } from '../types';
+import { ModalKeyboardController, createModalKeyboardController } from './keyboard.controller';
 
 const imports = [
-  CommonModule,
+  NgTemplateOutlet,
   ButtonComponent,
   MatIconModule,
   TranslocoModule,
@@ -21,45 +20,45 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './modal-host.component.html',
-  styleUrls: ['./modal-host.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrl: './modal-host.component.scss',
   host: { class: 'app-modal-host' },
+  encapsulation: ViewEncapsulation.None,
 })
 export class ModalHostComponent implements OnDestroy {
 
-  private once = new OnceSource();
   private cdr = inject(ChangeDetectorRef);
-  modalService = inject(ModalService);
+  private modalService = inject(ModalService);
 
-  @Input() labels?: ModalHostLabels;
+  labels = input<ModalHostLabels>();
 
-  @HostBinding('class.-open') cssOpen = false;
+  @HostBinding('class.-open')
+  get cssClassOpen() {
+    return this.modalService.isOpen();
+  }
 
-  @ViewChild('modalTarget', { static: true, read: ViewContainerRef })
-  modalTarget!: ViewContainerRef;
+  modalTarget = viewChild.required('modalTarget', { read: ViewContainerRef });
+  modalRef = viewChild.required<ElementRef<HTMLElement>>('modalRef');
+  headerTemplate = this.modalService.headerTemplate;
+  footerTemplate = this.modalService.footerTemplate;
+  private keyboardController!: ModalKeyboardController;
 
-  @ViewChild('modalRef', { static: true })
-  modalRef!: ElementRef<HTMLElement>;
+  onOpenChange$ = effect(() => {
+    if (this.modalService.isOpen()) {
+      this.keyboardController.enable();
+    } else {
+      this.keyboardController.disable();
+    }
+  });
 
   ngOnInit() {
-    this.modalService.registerTarget(this.modalTarget);
-
-    const keyboardController = createModalKeyboardController(
-      this.modalRef.nativeElement,
-      this.once.event$,
-    );
-
-    keyboardController.canceled$.subscribe(() => this.modalService.cancel());
-
-    this.modalService.open$.subscribe(open => {
-      open ? keyboardController.enable() : keyboardController.disable();
-      this.cssOpen = open;
-      this.cdr.detectChanges();
-    });
+    this.modalService.registerTarget(this.modalTarget());
+    const modalElement = this.modalRef().nativeElement;
+    this.keyboardController = createModalKeyboardController(modalElement);
+    this.keyboardController.canceled$.subscribe(() => this.modalService.cancel());
   }
 
   ngOnDestroy() {
-    this.once.trigger();
+    this.keyboardController.destroy();
   }
 
   onDismiss() {

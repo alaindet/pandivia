@@ -1,28 +1,26 @@
-import { Injectable, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Injectable, OnDestroy, TemplateRef, ViewContainerRef, signal } from '@angular/core';
 
-import { DataSource, EventSource, OnceSource } from '@app/common/sources';
-import { filter, map, of, switchMap, take, throwError } from 'rxjs';
-import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOutput, ModalRef } from './types';
 import { errorI18n } from '@app/common/utils';
+import { Subject, filter, map, of, switchMap, take, throwError } from 'rxjs';
+import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOutput, ModalRef } from './types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService implements OnDestroy {
 
-  private once = new OnceSource();
   private target: ViewContainerRef | null = null;
-  private _open$ = new DataSource<boolean>(false, this.once.event$);
-  private _closed$ = new EventSource<ModalOutput<any>>(this.once.event$);
-  private _confirmClicked$ = new EventSource<void>(this.once.event$);
   private focusedBeforeModal: HTMLElement | null = null;
+  isOpen = signal(false);
+  private _closed$ = new Subject<ModalOutput<any>>();
+  private _confirmClicked$ = new Subject<void>();
 
-  headerTemplate: TemplateRef<void> | null = null;
-  footerTemplate: TemplateRef<void> | null = null;
-  open$ = this._open$.data$;
+  headerTemplate = signal<TemplateRef<void> | null>(null);
+  footerTemplate = signal<TemplateRef<void> | null>(null);
 
   ngOnDestroy() {
-    this.once.trigger();
+    this._closed$.complete();
+    this._confirmClicked$.complete();
   }
 
   registerTarget(target: ViewContainerRef) {
@@ -30,11 +28,11 @@ export class ModalService implements OnDestroy {
   }
 
   registerHeaderTemplate(template: TemplateRef<void>) {
-    this.headerTemplate = template;
+    this.headerTemplate.set(template);
   }
 
   registerFooterTemplate(template: TemplateRef<void>) {
-    this.footerTemplate = template;
+    this.footerTemplate.set(template);
   }
 
   close<TOutput extends any>(output: ModalOutput<TOutput>) {
@@ -43,7 +41,7 @@ export class ModalService implements OnDestroy {
   }
 
   closed() {
-    return this._closed$.event$.pipe(switchMap(output => {
+    return this._closed$.asObservable().pipe(switchMap(output => {
       if (output.status === MODAL_OUTPUT_STATUS.CANCELED) {
         return throwError(() => errorI18n('components.modal.canceled'));
       }
@@ -60,7 +58,7 @@ export class ModalService implements OnDestroy {
   }
 
   canceled() {
-    return this._closed$.event$.pipe(
+    return this._closed$.asObservable().pipe(
       filter(({ status }) => status === MODAL_OUTPUT_STATUS.CANCELED),
       map(({ data }) => data),
       take(1),
@@ -76,7 +74,7 @@ export class ModalService implements OnDestroy {
   }
 
   confirmed() {
-    return this._closed$.event$.pipe(
+    return this._closed$.pipe(
       filter(({ status }) => status === MODAL_OUTPUT_STATUS.CONFIRMED),
       map(({ data }) => data),
       take(1),
@@ -107,7 +105,7 @@ export class ModalService implements OnDestroy {
       canceled: this.canceled.bind(this),
       confirm: this.confirm.bind(this),
       confirmed: this.confirmed.bind(this),
-      confirmClicked$: this._confirmClicked$.event$,
+      confirmClicked$: this._confirmClicked$.asObservable(),
       closed: this.closed.bind(this),
     };
 
@@ -115,15 +113,15 @@ export class ModalService implements OnDestroy {
     const instance = component.instance as BaseModalComponent<TInput, TOutput>;
     instance.modal = modalRef;
 
-    this._open$.next(true);
+    this.isOpen.set(true);
     return modalRef;
   }
 
   private clear(): void {
     this.target!.clear();
-    this._open$.next(false);
-    this.headerTemplate = null;
-    this.footerTemplate = null;
+    this.isOpen.set(false);
+    this.headerTemplate.set(null);
+    this.footerTemplate.set(null);
     queueMicrotask(() => this.focusedBeforeModal?.focus());
   }
 }
