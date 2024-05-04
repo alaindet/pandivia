@@ -3,6 +3,5 @@
 - [ ] Create `common` package
 - [ ] Refactor
   - [ ] Change demo app to use CSS Grid
-  - [ ] Attach CSS variables to host components
   - [ ] Analyze ESBuild
   - [ ] Remove `MatIcon`
