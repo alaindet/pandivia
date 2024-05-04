@@ -1,5 +1,6 @@
 export * from './back-button-status';
 export * from './counters';
+export * from './enum-like';
 export * from './form-field-descriptor';
 export * from './form-field-status';
 export * from './form-option';
@@ -7,6 +8,5 @@ export * from './keyboard';
 export * from './loading-status';
 export * from './media-query';
 export * from './notification';
-export * from './object-values';
 export * from './template-implicit-context';
 export * from './unix-timestamp';

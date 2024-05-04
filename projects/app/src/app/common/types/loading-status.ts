@@ -1,4 +1,4 @@
-import { ObjectValues } from './object-values';
+import { EnumLike } from './enum-like';
 
 export const LOADING_STATUS = {
   PRISTINE: 'pristine',
@@ -7,4 +7,4 @@ export const LOADING_STATUS = {
   ERROR: 'error',
 } as const;
 
-export type LoadingStatus = ObjectValues<typeof LOADING_STATUS>;
+export type LoadingStatus = EnumLike<typeof LOADING_STATUS>;

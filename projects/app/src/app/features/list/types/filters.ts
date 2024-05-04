@@ -1,4 +1,4 @@
-import { ObjectValues } from '@app/common/types';
+import { EnumLike } from '@app/common/types';
 
 export const LIST_FILTER = {
   CATEGORY: 'category',
@@ -6,7 +6,7 @@ export const LIST_FILTER = {
   SEARCH_QUERY: 'searchQuery',
 } as const;
 
-export type ListFilter = ObjectValues<typeof LIST_FILTER>;
+export type ListFilter = EnumLike<typeof LIST_FILTER>;
 
 export type ListFilters = {
   [LIST_FILTER.CATEGORY]: string | null;

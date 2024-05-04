@@ -1,4 +1,4 @@
-import { ObjectValues } from '@app/common/types';
+import { EnumLike } from '@app/common/types';
 import { Observable } from 'rxjs';
 
 export type AutocompleteOption = any;
@@ -13,14 +13,14 @@ export const AUTOCOMPLETE_CURRENT_TEMPLATE = {
   OPTIONS: 'options',
 } as const;
 
-export type AutocompleteCurrentTemplate = ObjectValues<typeof AUTOCOMPLETE_CURRENT_TEMPLATE>;
+export type AutocompleteCurrentTemplate = EnumLike<typeof AUTOCOMPLETE_CURRENT_TEMPLATE>;
 
 export const AUTOCOMPLETE_SOURCE_TYPE = {
   STATIC: 'static',
   ASYNC: 'async',
 } as const;
 
-export type AutocompleteSourceType = ObjectValues<typeof AUTOCOMPLETE_SOURCE_TYPE>;
+export type AutocompleteSourceType = EnumLike<typeof AUTOCOMPLETE_SOURCE_TYPE>;
 
 export type AutocompleteAsyncOptionsFn = (query: string) => Observable<AutocompleteOption[]>;
 
@@ -33,7 +33,7 @@ export const AUTOCOMPLETE_ITEMS_TEMPLATE = {
   OPTIONS: 'options',
 } as const;
 
-export type AutocompleteItemsTemplate = ObjectValues<typeof AUTOCOMPLETE_ITEMS_TEMPLATE>;
+export type AutocompleteItemsTemplate = EnumLike<typeof AUTOCOMPLETE_ITEMS_TEMPLATE>;
 
 export type AutocompleteComponentLabels = {
   loading: string;

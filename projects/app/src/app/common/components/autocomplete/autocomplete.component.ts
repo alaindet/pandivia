@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges, ViewEncapsulation, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnInit, ViewEncapsulation, computed, effect, inject, input, output } from '@angular/core';
 
 import { NgTemplateOutlet } from '@angular/common';
-import { didInputChange } from '@app/common/utils';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
+import { createClickOutController } from './click-out.controller';
 import { AUTOCOMPLETE_CURRENT_TEMPLATE, AUTOCOMPLETE_ITEMS_TEMPLATE, AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteComponentLabels, AutocompleteCurrentTemplate, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
 
 const imports = [
@@ -23,7 +23,10 @@ const imports = [
   encapsulation: ViewEncapsulation.None,
   providers: [AutocompleteService],
 })
-export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
+export class AutocompleteComponent implements OnInit {
+
+  private svc = inject(AutocompleteService);
+  private host = inject(ElementRef);
 
   // Input
   inputComponent = input.required<TextInputComponent>();
@@ -63,7 +66,6 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   inputId!: string;
   ITEMS_TEMPLATE = AUTOCOMPLETE_ITEMS_TEMPLATE;
   CURRENT_TEMPLATE = AUTOCOMPLETE_CURRENT_TEMPLATE;
-
   isLoading = this.svc.loading;
   isOpen = this.svc.open;
   options = this.svc.options;
@@ -72,13 +74,18 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   focusedId = this.svc.focusedId;
   currentOptionsTemplate = computed(() => this.computeCurrentOptionsTemplate());
 
-  private onClickOutRef!: (e: MouseEvent) => void;
   private nativeInput!: HTMLInputElement;
+  private clickOut = createClickOutController(
+    this.host.nativeElement,
+    () => this.onClickOut(),
+    'mousedown',
+  );
 
-  constructor(
-    private svc: AutocompleteService,
-    private host: ElementRef,
-  ) {}
+  onStaticOptionsChange$ = effect(() => {
+    if (this.sourceType() !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) return;
+    if (!this.staticOptions()?.length) return;
+    this.svc.updateStaticOptions(this.staticOptions());
+  });
 
   ngOnInit() {
     this.svc.sourceType = this.sourceType();
@@ -89,14 +96,6 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     this.setupStaticSource();
     this.listenToConfirmOptionEvent();
     this.initClickOut();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.updateStaticOptions(changes['staticOptions']);
-  }
-
-  ngOnDestroy() {
-    this.destroyClickOut();
   }
 
   @HostListener('mousemove')
@@ -143,28 +142,9 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private initClickOut(): void {
-    this.onClickOutRef = this.onClickOut.bind(this);
-    window.addEventListener('mousedown', this.onClickOutRef, true);
-  }
-
-  private destroyClickOut(): void {
-    window.removeEventListener('mousedown', this.onClickOutRef);
-  }
-
-  private onClickOut(event: any): void {
-
-    if (this.host.nativeElement.contains(event.target)) {
-      return;
-    }
-
-    this.nativeInput.focus();
-    this.svc.closeDropdown();
-  }
-
   private listenToConfirmOptionEvent(): void {
     const valuePicker = this.svc.getValuePicker();
-    this.svc.confirmedEvent.event$.subscribe(option => {
+    this.svc.confirmedEvent.subscribe(option => {
       const value = valuePicker(option);
       this.inputComponent().setValue(value);
       this.confirmed.emit(option);
@@ -202,22 +182,6 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     this.svc.setStaticSearchableFields(fields);
   }
 
-  private updateStaticOptions(staticOptionsChange?: SimpleChange): void {
-    if (this.sourceType() !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) {
-      return;
-    }
-
-    if (!didInputChange(staticOptionsChange)) {
-      return;
-    }
-
-    if (!this.staticOptions()?.length) {
-      return;
-    }
-
-    this.svc.updateStaticOptions(this.staticOptions());
-  }
-
   private computeCurrentOptionsTemplate(): AutocompleteCurrentTemplate | null {
 
     if (this.isLoading()) {
@@ -233,5 +197,22 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     return null;
+  }
+
+  private initClickOut(): void {
+    this.svc.opened.subscribe(() => {
+      console.log('opened');
+      this.clickOut.start();
+    });
+
+    this.svc.closed.subscribe(() => {
+      console.log('closed');
+      this.clickOut.stop();
+    });
+  }
+
+  private onClickOut(): void {
+    this.svc.closeDropdown();
+    this.nativeInput.focus();
   }
 }

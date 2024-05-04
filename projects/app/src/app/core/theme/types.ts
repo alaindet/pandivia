@@ -1,4 +1,4 @@
-import { ObjectValues } from '@app/common/types';
+import { EnumLike } from '@app/common/types';
 import { ButtonColor, CheckboxColor, LinearSpinnerColor } from '@app/common/components';
 
 export const THEME = {
@@ -6,7 +6,7 @@ export const THEME = {
   FAIRY: 'fairy',
 } as const;
 
-export type Theme = ObjectValues<typeof THEME>;
+export type Theme = EnumLike<typeof THEME>;
 
 export type CssColorValue = string;
 

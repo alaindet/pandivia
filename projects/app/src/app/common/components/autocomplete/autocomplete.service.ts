@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy, TemplateRef, signal } from '@angular/core';
-import { filter, fromEvent, Observable, of, switchMap, take, takeUntil } from 'rxjs';
+import { filter, fromEvent, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 import { DataSource, EventSource, OnceSource } from '@app/common/sources';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
@@ -33,10 +33,14 @@ export class AutocompleteService implements OnDestroy {
   focusedId = signal<string | null>(null);
 
   // Event sources
-  confirmedEvent = new EventSource<AutocompleteOption>(this.once.event$);
+  confirmedEvent = new Subject<AutocompleteOption>();
+  opened = new Subject<void>();
+  closed = new Subject<void>();
 
   ngOnDestroy() {
-    this.once.trigger();
+    this.confirmedEvent.complete();
+    this.opened.complete();
+    this.closed.complete();
   }
 
   clearFocused(): void {
@@ -79,6 +83,7 @@ export class AutocompleteService implements OnDestroy {
     this.open.set(false);
     this.focusedIndex.set(null);
     this.updateFocusedId(null);
+    this.closed.next();
   }
 
   setValuePicker(_picker?: AutocompleteOptionValuePicker | string): void {
@@ -122,6 +127,7 @@ export class AutocompleteService implements OnDestroy {
       .subscribe(() => {
         this.onQuery(element.value);
         this.open.set(true);
+        this.opened.next();
       });
   }
 
@@ -167,6 +173,7 @@ export class AutocompleteService implements OnDestroy {
 
     if (shouldOpenEarly) {
       this.open.set(true);
+      this.opened.next();
     }
 
     this.loading.set(true);
@@ -177,7 +184,11 @@ export class AutocompleteService implements OnDestroy {
       this.loading.set(false);
       this.focusedIndex.set(null);
       this.updateFocusedId(null);
-      this.open.set(true);
+
+      if (!this.open()) {
+        this.open.set(true);
+        this.opened.next();
+      }
     });
   }
 
@@ -265,6 +276,7 @@ export class AutocompleteService implements OnDestroy {
     this.focusedIndex.set(null);
     this.open.set(false);
     this.confirmedEvent.next(option);
+    this.closed.next();
   }
 
   private confirmFocused(): void {
@@ -273,12 +285,16 @@ export class AutocompleteService implements OnDestroy {
     this.focusedIndex.set(null);
     this.updateFocusedId(null);
     this.open.set(false);
+    this.closed.next();
     this.confirmedEvent.next(confirmedOption);
   }
 
   private openDropdownIfNeeded(): void {
     const open = this.open();
-    if (!open) this.open.set(true);
+    if (!open) {
+      this.open.set(true);
+      this.opened.next();
+    }
   }
 
   private updateFocusedId(focusedIndex: number | null): void {

@@ -1,13 +1,13 @@
 import { Observable, take } from 'rxjs';
 
-import { ObjectValues } from '@app/common/types';
+import { EnumLike } from '@app/common/types';
 
 export const MODAL_OUTPUT_STATUS = {
   CANCELED: 'canceled',
   CONFIRMED: 'confirmed',
 } as const;
 
-export type ModalOutputStatus = ObjectValues<typeof MODAL_OUTPUT_STATUS>;
+export type ModalOutputStatus = EnumLike<typeof MODAL_OUTPUT_STATUS>;
 
 export type ModalOutput<TOutput extends any> = {
   status: ModalOutputStatus;
