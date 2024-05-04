@@ -13,6 +13,7 @@
   - [ ] Remove all `queueMicrotask()` by using signals
   - [ ] Refactor action-menu
   - [ ] Move `isMobile` signal inside `MediaQueryService`
+  - [ ] Rename all assigned `effect()` as `fooEffect`
 
 ## Refactoring
 Angular 16
