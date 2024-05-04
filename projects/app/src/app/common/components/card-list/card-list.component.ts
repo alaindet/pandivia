@@ -62,7 +62,7 @@ export class CardListComponent {
   counters = signal<CardListCounters | null>(null);
   isPinned = signal(true);
 
-  onItemsChange$ = effect(() => {
+  itemsEffect = effect(() => {
     const items = this.items();
     this.itemActionsMap = this.updateActionsByItemMap(items);
     if (this.withCounters()) {
@@ -70,7 +70,7 @@ export class CardListComponent {
     }
   }, { allowSignalWrites: true });
 
-  onIsPinnedChange$ = effect(() => {
+  isPinnedEffect = effect(() => {
     this.isPinned.set(this._isPinned());
   }, { allowSignalWrites: true });
 

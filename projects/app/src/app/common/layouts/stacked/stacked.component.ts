@@ -48,7 +48,7 @@ export class StackedLayoutComponent {
 
   inputRef = viewChild.required('inputRef', { read: TextInputComponent });
 
-  onVisibleSearchChange$ = effect(() => {
+  visibleSearchEffect = effect(() => {
     if (this.withVisibleSearch()) {
       queueMicrotask(() => this.inputRef()?.focus());
     }

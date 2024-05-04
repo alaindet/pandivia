@@ -81,7 +81,7 @@ export class AutocompleteComponent implements OnInit {
     'mousedown',
   );
 
-  onStaticOptionsChange$ = effect(() => {
+  onStaticOptionsChangeEffect = effect(() => {
     if (this.sourceType() !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) return;
     if (!this.staticOptions()?.length) return;
     this.svc.updateStaticOptions(this.staticOptions());

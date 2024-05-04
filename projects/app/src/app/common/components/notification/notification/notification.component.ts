@@ -40,15 +40,15 @@ export class NotificationComponent {
 
   notificationIcon = signal('');
 
-  onDismissAfterChange$ = effect(() => {
+  dismissEffect = effect(() => {
     this.cssDuration = `${this.dismissAfter()}ms`;
   });
 
-  onNotificationTypeChange$ = effect(this.effectOnNotificationType.bind(this), {
+  notificationEffect = effect(this.effectOnNotificationType.bind(this), {
     allowSignalWrites: true,
   });
 
-  onNotificationIdChange$ = effect(() => {
+  notificationIdEffect = effect(() => {
     this.notificationId(); // <-- Create dependency
     this.stopAnimation();
     setTimeout(() => this.startAnimation());
