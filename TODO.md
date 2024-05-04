@@ -5,4 +5,4 @@
   - [ ] Change demo app to use CSS Grid
   - [ ] Attach CSS variables to host components
   - [ ] Analyze ESBuild
-  - [ ] Fix demo: clicking the menu does not navigate
+  - [ ] Remove `MatIcon`

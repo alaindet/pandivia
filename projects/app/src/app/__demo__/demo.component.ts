@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -11,7 +10,6 @@ import { DEMO_PAGES } from './routes';
 import packageJson from '@root/package.json';
 
 const imports = [
-  CommonModule,
   RouterModule,
   DemoLayoutComponent,
   DemoHeaderComponent,

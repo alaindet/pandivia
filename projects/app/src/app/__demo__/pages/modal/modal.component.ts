@@ -1,12 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 
 import { ButtonComponent } from '@app/common/components';
 import { ModalService } from '@app/common/components/modal';
-import { ModalOneInput, ModalOneOutput, ModalOneComponent } from './modal-one';
+import { ModalOneComponent, ModalOneInput, ModalOneOutput } from './modal-one';
 
 const imports = [
-  CommonModule,
   ButtonComponent,
 ];
 
