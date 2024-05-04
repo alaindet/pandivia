@@ -28,12 +28,10 @@ export class AutocompleteOptionComponent {
     return this.isFocused();
   }
 
-  constructor() {
-    effect(() => {
-      if (this.isFocused() && this.isDropdownOpen()) {
-        const scrollOptions = { behavior: 'smooth', block: 'nearest' };
-        this.host.nativeElement.scrollIntoView(scrollOptions);
-      }
-    });
-  }
+  scrollEffect = effect(() => {
+    if (this.isFocused() && this.isDropdownOpen()) {
+      const scrollOptions = { behavior: 'smooth', block: 'nearest' };
+      this.host.nativeElement.scrollIntoView(scrollOptions);
+    }
+  });
 }

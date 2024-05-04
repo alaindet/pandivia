@@ -1,15 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
-import { createCoreController } from './core.controller';
-import { createMenuController } from './menu.controller';
 import { createActionsController } from './actions.controller';
-import { createTemplatesController } from './templates.controller';
-import { createIdsController } from './ids.controller';
-import { createFocusController } from './focus.controller';
 import { createButtonElementController } from './button-element.controller';
-import { createInitController } from './init.controller';
-import { createViewModelController } from './view-model.controller';
+import { createCoreController } from './core.controller';
+import { createFocusController } from './focus.controller';
+import { createIdsController } from './ids.controller';
 import { createItemsElementController } from './items-element.controller';
+import { createMenuController } from './menu.controller';
+import { createTemplatesController } from './templates.controller';
 
 @Injectable()
 export class ActionsMenuService implements OnDestroy {
@@ -22,10 +20,12 @@ export class ActionsMenuService implements OnDestroy {
   templates = createTemplatesController(this);
   ids = createIdsController(this);
   focus = createFocusController(this);
-  init = createInitController(this);
-  vm = createViewModelController(this);
 
   ngOnDestroy() {
-    this.core.destructor();
+    this.core.destroy();
+    this.buttonElement.destroy();
+    this.itemsElement.destroy();
+    this.menu.destroy();
+    this.actions.destroy();
   }
 }

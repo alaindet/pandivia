@@ -1,88 +1,72 @@
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
-import { EventSource } from '../../../sources';
 import { signal } from '@angular/core';
 
-export type StackedLayoutSearchViewModel = {
-  enabled: boolean;
-  visible: boolean;
-  query: string;
-};
+export function createSearchController() {
 
-export function createSearchController(destroy$: Observable<void>) {
+  const enabled = signal(false);
+  const visible = signal(false);
+  const query = signal('');
+
+  const searched$ = new Subject<string>();
+  const cleared$ = new Subject<void>();
 
   const thresholdMilliseconds = 400;
   let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
-  const data = signal<StackedLayoutSearchViewModel>({
-    enabled: false,
-    visible: false,
-    query: '',
-  });
-
-  const events = {
-    searched: new EventSource<string>(destroy$),
-    cleared: new EventSource<void>(destroy$),
-  };
-
-  function patchData(
-    updatedData: (
-      | Partial<StackedLayoutSearchViewModel>
-      | ((prev: StackedLayoutSearchViewModel) => Partial<StackedLayoutSearchViewModel>)
-    ),
-  ): void {
-
-    if (typeof updatedData === 'function') {
-      const newData = updatedData(data());
-      data.update(data => ({ ...data, ...newData }));
-      return;
-    }
-
-    data.update(data => ({ ...data, ...updatedData }));
-  }
-
   function enable() {
-    patchData({ enabled: true, visible: false, query: '' });
+    enabled.set(true);
   }
 
   function disable() {
-    patchData({ enabled: false, visible: false, query: '' });
+    enabled.set(false);
   }
 
   function show() {
-    patchData({ visible: true });
+    visible.set(true);
   }
 
   function hide() {
-    patchData({ visible: false });
+    visible.set(false);
   }
 
   function toggle() {
-    patchData(data => ({ visible: !data.visible }));
+    visible.update(prev => !prev);
   }
 
-  function search(query: string) {
+  function search(_query: string) {
+
     if (searchTimer !== null) {
       clearTimeout(searchTimer);
     }
 
-    searchTimer = setTimeout(() => {
-      patchData({ query });
-      events.searched.next(query);
-    }, thresholdMilliseconds);
+    const fn = () => {
+      query.set(_query);
+      searched$.next(_query);
+    };
+
+    searchTimer = setTimeout(fn,  thresholdMilliseconds);
   }
 
   function clear(triggerEvents = true) {
-    patchData({ query: '' });
+    query.set('');
     if (triggerEvents) {
-      events.cleared.next();
+      cleared$.next();
     }
   }
 
+  function destroy() {
+    searched$.complete();
+    cleared$.complete();
+  }
+
   return {
-    data,
-    searched$: events.searched.event$,
-    cleared$: events.cleared.event$,
+    enabled: enabled.asReadonly(),
+    visible: visible.asReadonly(),
+    query: query.asReadonly(),
+
+    searched: searched$.asObservable(),
+    cleared: cleared$.asObservable(),
 
     enable,
     disable,
@@ -91,5 +75,6 @@ export function createSearchController(destroy$: Observable<void>) {
     toggle,
     search,
     clear,
+    destroy,
   };
 }

@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy, TemplateRef, signal } from '@angular/core';
 import { Observable, Subject, filter, fromEvent, of, switchMap, take, takeUntil } from 'rxjs';
 
-import { OnceSource } from '@app/common/sources';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
 import { createDebouncedInputEvent } from '@app/common/utils';
 import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
@@ -9,7 +8,7 @@ import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOptio
 @Injectable()
 export class AutocompleteService implements OnDestroy {
 
-  private once = new OnceSource();
+  private destroy$ = new Subject<void>();
   private currentOptionsCount = 0;
 
   // Async
@@ -41,6 +40,8 @@ export class AutocompleteService implements OnDestroy {
     this.confirmedEvent.complete();
     this.opened.complete();
     this.closed.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   clearFocused(): void {
@@ -121,7 +122,7 @@ export class AutocompleteService implements OnDestroy {
 
     fromEvent<Event>(element, 'focus')
       .pipe(
-        takeUntil(this.once.event$),
+        takeUntil(this.destroy$),
         filter(() => !!element.value),
       )
       .subscribe(() => {
@@ -131,15 +132,15 @@ export class AutocompleteService implements OnDestroy {
       });
   }
 
-  // TODO
   private listenToQuery(
     element: HTMLInputElement,
     delay: number,
     searchOnEmpty: boolean,
     minChars = 0,
   ): void {
+
     let source$ = createDebouncedInputEvent(element, delay).pipe(
-      takeUntil(this.once.event$),
+      takeUntil(this.destroy$),
     );
 
     if (!searchOnEmpty) {
@@ -194,7 +195,7 @@ export class AutocompleteService implements OnDestroy {
 
   private listenToKeyboardControls(element: HTMLInputElement): void {
     fromEvent<KeyboardEvent>(element, 'keydown')
-      .pipe(takeUntil(this.once.event$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(event => {
 
         switch (event.key) {

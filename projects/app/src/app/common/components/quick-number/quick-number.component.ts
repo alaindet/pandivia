@@ -64,10 +64,13 @@ export class QuickNumberComponent implements ControlValueAccessor {
   private onChange!: (value: number | null) => void;
   private onTouched!: () => void;
 
-  constructor() {
-    effect(() => this.value.set(this._value()), { allowSignalWrites: true });
-    effect(() => this.isDisabled.set(this._isDisabled()), { allowSignalWrites: true });
-  }
+  valueEffect = effect(() => this.value.set(this._value()), {
+    allowSignalWrites: true,
+  });
+
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
+    allowSignalWrites: true,
+  });
 
   // @publicApi
   decrement() {

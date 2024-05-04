@@ -1,21 +1,23 @@
-import { DataSource } from '@app/common/sources';
+import { computed, signal } from '@angular/core';
 import { ActionsMenuService } from './actions-menu.service';
+
+function addSuffix(id: string | null, suffix: string): string {
+  return id ? `${id}-${suffix}` : '';
+}
 
 export function createIdsController(parent: ActionsMenuService) {
 
-  const button$ = new DataSource<string | null>(null, parent.core.destroy$);
-  const items$ = new DataSource<string | null>(null, parent.core.destroy$);
+  const id = signal<string | null>(null);
+  const button = computed(() => addSuffix(id(), 'button'));
+  const items = computed(() => addSuffix(id(), 'items'));
 
-  const init = (id: string) => {
-    button$.next(`${id}-button`);
-    items$.next(`${id}-items`);
-  };
+  function init(_id: string) {
+    id.set(_id);
+  }
 
   return {
-    getButton: button$.getCurrent,
-    button$: button$.data$,
-    items$: items$.data$,
-    getItems: items$.getCurrent,
     init,
+    button,
+    items,
   };
 }

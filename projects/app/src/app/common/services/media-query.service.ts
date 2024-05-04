@@ -1,19 +1,11 @@
-import { Injectable, OnDestroy, Signal, signal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 
-
-import { OnceSource } from '../sources';
 import { MEDIA_QUERY_BREAKPOINT, MEDIA_QUERY_OPERATOR, MediaQueryBreakpoint, MediaQueryOperator } from '../types';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MediaQueryService implements OnDestroy {
-
-  private once = new OnceSource();
-
-  ngOnDestroy() {
-    this.once.trigger();
-  }
+export class MediaQueryService {
 
   private mediaQuerySubjects: Record<string, Signal<boolean>> = {};
 	private mediaQueriesLists: Record<string, MediaQueryList> = {};

@@ -1,37 +1,37 @@
 import { signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { ActionsMenuItem } from '../../../components';
-import { EventSource } from '../../../sources';
 
-export type StackedLayoutHeaderActionsViewModel = ActionsMenuItem[];
+export function createHeaderActionsController() {
 
-export function createHeaderActionsController(destroy$: Observable<void>) {
+  const actions = signal<ActionsMenuItem[]>([]);
 
-  const data = signal<StackedLayoutHeaderActionsViewModel>([]);
+  const confirmed$ = new Subject<ActionsMenuItem['id']>();
 
-  const events = {
-    confirmed: new EventSource<ActionsMenuItem['id']>(destroy$),
-  };
-
-  function set(actions: ActionsMenuItem[]) {
-    data.set(actions);
+  function set(_actions: ActionsMenuItem[]) {
+    actions.set(_actions);
   }
 
   function clear() {
-    data.set([]);
+    actions.set([]);
   }
 
   function confirm(actionId: ActionsMenuItem['id']) {
-    events.confirmed.next(actionId);
+    confirmed$.next(actionId);
+  }
+
+  function destroy() {
+    confirmed$.complete();
   }
 
   return {
-    data,
-    confirmed$: events.confirmed.event$,
+    actions: actions.asReadonly(),
+    confirmed: confirmed$.asObservable(),
 
     set,
     clear,
     confirm,
+    destroy,
   };
 }

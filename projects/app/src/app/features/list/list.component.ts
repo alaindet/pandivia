@@ -1,32 +1,29 @@
-import { Component, OnDestroy, OnInit, Signal, computed, effect, inject } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Observable, catchError, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, catchError, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
 
-import { environment } from '@app/environment';
+import { ActionsMenuItem, ButtonComponent, CardListComponent, ChangeCategoryModalComponent, ChangeCategoryModalInput, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
+import { StackedLayoutService } from '@app/common/layouts';
+import { readErrorI18n } from '@app/common/utils';
 import { DEFAULT_CATEGORY, UiService } from '@app/core';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
 import { NAVIGATION_ITEM_LIST } from '@app/core/ui';
-import { ButtonComponent, CardListComponent, ItemActionOutput, ItemToggledOutput, ModalService, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ActionsMenuItem, ChangeCategoryModalComponent, ChangeCategoryModalInput } from '@app/common/components';
-import { readErrorI18n } from '@app/common/utils';
-import { StackedLayoutService } from '@app/common/layouts';
-import { OnceSource } from '@app/common/sources';
+import { environment } from '@app/environment';
+import { MediaQueryService } from '../../common/services';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
-import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listEditItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategories, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListCounters, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
-import { ListFilterToken, CategorizedListItems, ListItem, LIST_FILTER } from './types';
-import * as listMenu from './contextual-menus/list';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
+import * as listMenu from './contextual-menus/list';
 import { findListItemById } from './functions';
-import { MediaQueryService } from '../../common/services';
+import { listCompleteItem, listCompleteItems, listCompleteItemsByCategory, listDecrementItem, listEditItem, listFetchItems, listFilters, listIncrementItem, listRemoveCompletedItems, listRemoveCompletedItemsByCategory, listRemoveItem, listRemoveItems, listRemoveItemsByCategory, listToggleItem, listUndoItem, listUndoItems, listUndoItemsByCategory, selectListCategories, selectListCategorizedFilteredItems, selectListCategoryFilter, selectListCounters, selectListFilters, selectListInErrorStatus, selectListIsDoneFilter, selectListIsLoaded } from './store';
+import { LIST_FILTER, ListFilterToken, ListItem } from './types';
 
 const imports = [
-  NgIf,
-  NgFor,
   NgTemplateOutlet,
   AsyncPipe,
   CardListComponent,
@@ -44,7 +41,7 @@ const imports = [
 })
 export class ListPageComponent implements OnInit, OnDestroy {
 
-  private once = new OnceSource();
+  private destroy$ = new Subject<void>();
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
   private ui = inject(UiService);
@@ -76,7 +73,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.once.trigger();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onListAction(action: string) {
@@ -329,8 +327,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
       this.layout.headerActions.set(actions);
     });
 
-    this.layout.headerActions.confirmed$
-      .pipe(takeUntil(this.once.event$))
+    this.layout.headerActions.confirmed
+      .pipe(takeUntil(this.destroy$))
       .subscribe(this.onListAction.bind(this));
   }
 
@@ -342,18 +340,15 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   private initSearchFeature(): void {
-    // For some reason, it triggers a NG0100 error
-    // https://angular.io/errors/NG0100
-    queueMicrotask(() => this.layout.search.enable());
-    // this.layout.search.enable();
+    this.layout.search.enable();
 
-    this.layout.search.searched$.subscribe(searchQuery => {
+    this.layout.search.searched.subscribe(searchQuery => {
       !!searchQuery
         ? this.store.dispatch(listFilters.setSearchQuery({ searchQuery }))
         : this.store.dispatch(listFilters.clearSearchQuery());
     });
 
-    this.layout.search.cleared$.subscribe(() => {
+    this.layout.search.cleared.subscribe(() => {
       this.store.dispatch(listFilters.clearSearchQuery());
     });
   }

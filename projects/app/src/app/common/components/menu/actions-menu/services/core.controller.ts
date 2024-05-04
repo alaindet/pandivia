@@ -1,23 +1,21 @@
-import { OnceSource, EventSource } from '@app/common/sources';
+import { Subject } from 'rxjs';
 import { ActionsMenuService } from './actions-menu.service';
 
 export function createCoreController(parent: ActionsMenuService) {
 
-  const destroy$ = new OnceSource();
-  const ready$ = new EventSource<void>(destroy$.event$);
+  const ready$ = new Subject<void>();
 
   function ready() {
     ready$.next();
   }
 
-  function destructor() {
-    destroy$.trigger();
+  function destroy() {
+    ready$.complete();
   }
 
   return {
-    destroy$: destroy$.event$,
-    ready$: ready$.event$,
-    destructor,
+    ready$: ready$.asObservable(),
+    destroy,
     ready,
   };
 }
