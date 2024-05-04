@@ -1,5 +1,4 @@
 # To Do
-- [ ] Add screenshots to README
 - [ ] Add prompt to install new version
 - [ ] Add full width to quick number input
 - [ ] Refactor
@@ -13,7 +12,6 @@
   - [ ] Attach CSS variables to host components
   - [ ] Remove all *ngX directives from template and from imports
   - [ ] Create "common" package
-  - [ ] Fix broken icons on notifications
 
 ## Refactoring
 Angular 16

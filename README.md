@@ -19,6 +19,28 @@ Requirements
 2. `npm run firebase:dev`
 3. In another terminal `npm run start`
 
+## Screenshots
+
+### On mobile
+
+![Mobile screenshot - List page](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/narrow-1.png)
+
+![Mobile screenshot - List modal](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/narrow-2.png)
+
+![Mobile screenshot - Inventory page](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/narrow-3.png)
+
+![Mobile screenshot - Fairy theme](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/narrow-4.png)
+
+### On desktop
+
+![Desktop screenshot - List page](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/wide-1.png)
+
+![Desktop screenshot - List modal](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/wide-2.png)
+
+![Desktop screenshot - Inventory page](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/wide-3.png)
+
+![Desktop screenshot - Fairy theme](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/wide-4.png)
+
 ## Technologies
 
 Angular 16+, workspaces, Angular Signals, custom components, accessibility, focus management via keyboard, themes, i18n, service workers, NgRx, Firestore, Firestore rules, Firebase Auth, Firebase Emulators, authentication, authorization, invite-based sign up.
