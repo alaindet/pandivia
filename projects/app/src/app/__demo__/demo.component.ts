@@ -32,14 +32,14 @@ const imports = [
       </ng-container>
 
       <ng-container slot="main">
-        <router-outlet></router-outlet>
+        <router-outlet />
       </ng-container>
 
       <ng-container slot="aside">
         <app-demo-navigation-menu
           routePrefix="/demo"
           [routes]="pages"
-        ></app-demo-navigation-menu>
+        />
       </ng-container>
 
     </app-demo-layout>

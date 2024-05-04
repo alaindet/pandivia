@@ -11,16 +11,17 @@
       <mat-icon>menu</mat-icon>
     </button>
   }
-  <ng-content select="[slot='header']"></ng-content>
+  <ng-content select="[slot='header']" />
 </header>
 
 <div class="content">
-  <main>
-    <ng-content></ng-content>
-    <ng-content slot="main"></ng-content>
-  </main>
-  <aside>
 
+  <main>
+    <ng-content />
+    <ng-content slot="main" />
+  </main>
+
+  <aside>
     <div class="_menu-button-nav">
       @if (isMobile() && isOpen()) {
         <button
@@ -35,8 +36,7 @@
         </button>
       }
     </div>
-
-    <ng-content select="[slot='aside']"></ng-content>
+    <ng-content select="[slot='aside']" />
   </aside>
 
   <!-- Backdrop -->
