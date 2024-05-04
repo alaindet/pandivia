@@ -3,15 +3,18 @@
 <pre>{{ { value: myForm.value, errors: fMyTextInput.errors } | json }}</pre>
 
 <form [formGroup]="myForm">
+
   <app-text-input
     type="text"
     formControlName="myTextInput"
     [status]="fMyTextInput.touched ? (fMyTextInput.valid ? 'success' : 'error') : undefined"
     placeholder="Enter some text here..."
   />
-  <p *ngIf="fMyTextInput.touched && fMyTextInput.hasError('required')">
-    Required field
-  </p>
+
+  @if (fMyTextInput.touched && fMyTextInput.hasError('required')) {
+    <p>Required field</p>
+  }
+
 </form>
 
 <h2>Outside a form</h2>

@@ -1,25 +1,26 @@
-<app-layout-stacked
-  *ngIf="vm() as vm"
-  [title]="vm.layout.title"
+@if (vm(); as vm) {
+  <app-layout-stacked
+    [title]="vm.layout.title"
 
-  [withBackButton]="vm.layout.backButton === BACK_BUTTON_STATUS.NATIVE"
-  [withControlledBackButton]="vm.layout.backButton === BACK_BUTTON_STATUS.CONTROLLED"
-  (backButtonClicked)="layout.backButton.press()"
+    [withBackButton]="vm.layout.backButton === BACK_BUTTON_STATUS.NATIVE"
+    [withControlledBackButton]="vm.layout.backButton === BACK_BUTTON_STATUS.CONTROLLED"
+    (backButtonClicked)="layout.backButton.press()"
 
-  [headerActions]="vm.layout.headerActions"
-  [headerCounters]="vm.layout.headerCounters"
-  (headerActionClicked)="layout.headerActions.confirm($event)"
+    [headerActions]="vm.layout.headerActions"
+    [headerCounters]="vm.layout.headerCounters"
+    (headerActionClicked)="layout.headerActions.confirm($event)"
 
-  [withSearch]="vm.layout.search.enabled"
-  [withVisibleSearch]="vm.layout.search.visible"
-  [searchQuery]="vm.layout.search.query"
-  (toggledSearch)="layout.search.toggle()"
-  (searched)="layout.search.search($event)"
-  (searchCleared)="layout.search.clear()"
+    [withSearch]="vm.layout.search.enabled"
+    [withVisibleSearch]="vm.layout.search.visible"
+    [searchQuery]="vm.layout.search.query"
+    (toggledSearch)="layout.search.toggle()"
+    (searched)="layout.search.search($event)"
+    (searchCleared)="layout.search.clear()"
 
-  [footerActions]="vm.nav.items"
-  [footerCurrentAction]="vm.nav.current"
-  (footerActionClicked)="onBottomNavigation($event)"
->
-  <router-outlet></router-outlet>
-</app-layout-stacked>
+    [footerActions]="vm.nav.items"
+    [footerCurrentAction]="vm.nav.current"
+    (footerActionClicked)="onBottomNavigation($event)"
+  >
+    <router-outlet></router-outlet>
+  </app-layout-stacked>
+}

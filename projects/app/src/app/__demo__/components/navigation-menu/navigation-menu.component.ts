@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { DemoRoute } from '@app/__demo__/types';
@@ -15,9 +15,11 @@ const imports = [
   imports,
   template: `
     <ul>
-      <li *ngFor="let route of routes">
-        <a [routerLink]="[routePrefix, route.path]">{{ route.label }}</a>
-      </li>
+      @for (route of routes(); track route.path) {
+        <li>
+          <a [routerLink]="[routePrefix, route.path]">{{ route.label }}</a>
+        </li>
+      }
     </ul>
   `,
   styles: [`
@@ -40,6 +42,6 @@ const imports = [
   `],
 })
 export class DemoNavigationMenuComponent {
-  @Input() routePrefix = '';
-  @Input() routes: DemoRoute[] = [];
+  routePrefix = input('');
+  routes = input.required<DemoRoute[]>();
 }

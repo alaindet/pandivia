@@ -15,7 +15,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss'],
+  styleUrl: './button.component.scss',
 })
 export class ButtonDemoPageComponent {
 

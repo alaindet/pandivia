@@ -21,12 +21,11 @@
       />
 
       <!-- Error: email -->
-      <app-form-field-error
-        *ngIf="fEmail | appFieldError:'email'"
-        errorId="field-email-err-email"
-      >
-        {{ t('common.error.email') }}
-      </app-form-field-error>
+      @if (fEmail | appFieldError:'email') {
+        <app-form-field-error errorId="field-email-err-email">
+          {{ t('common.error.email') }}
+        </app-form-field-error>
+      }
 
     </app-form-field>
 
@@ -43,9 +42,12 @@
     </button>
 
     <!-- Generated link -->
-    <div *ngIf="inviteUrl" class="generated-link">
-      {{ inviteUrl }}
-    </div>
+    @if (inviteUrl) {
+      <div class="generated-link">
+        {{ inviteUrl }}
+      </div>
+    }
+
     <p>{{ t('inviteUser.linkDescription') }}</p>
 
   </form>

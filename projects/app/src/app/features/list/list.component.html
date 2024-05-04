@@ -2,29 +2,34 @@
   <div class="fab-large-container">
 
     <!-- Filters -->
-    <ul *ngIf="filters()" class="_filters">
-      <li *ngFor="let filter of filters()">
-        <button
-          type="button"
-          appButton
-          [color]="themeConfig().filterColor"
-          withIcon="left"
-          size="extra-small"
-          (click)="onRemoveFilter(filter)"
-        >
-          <mat-icon>clear</mat-icon>
-          {{ filter.label ? t(filter.label) : filter.value }}
-        </button>
-      </li>
-    </ul>
+    @if (filters()) {
+      <ul class="_filters">
+        @for (filter of filters(); track filter.key) {
+          <li>
+            <button
+              type="button"
+              appButton
+              [color]="themeConfig().filterColor"
+              withIcon="left"
+              size="extra-small"
+              (click)="onRemoveFilter(filter)"
+            >
+              <mat-icon>clear</mat-icon>
+              {{ filter.label ? t(filter.label) : filter.value }}
+            </button>
+          </li>
+        }
+      </ul>
+    }
 
     <!-- Items -->
-    <ng-container [ngTemplateOutlet]="
-      itemGroups().length ? itemsRef
-        : loaded() ? noItemsRef
-        : inErrorStatus() ? errorStateRef
-        : null
-    " />
+    <ng-container [ngTemplateOutlet]="itemGroups().length
+      ? itemsRef
+      : loaded()
+        ? noItemsRef
+        : inErrorStatus()
+          ? errorStateRef
+          : null" />
 
     <!-- Add new item -->
     <button
@@ -46,28 +51,30 @@
   <!-- Template: Show items -->
   <ng-template #itemsRef>
     <ul class="_cards">
-      <li *ngFor="let group of itemGroups(); trackBy: trackByCategory">
-        <app-card-list
-          [title]="group.category === DEFAULT_CATEGORY
-            ? t('common.uncategorized')
-            : group.category"
-          [withMutedTitle]="group.category === DEFAULT_CATEGORY"
-          [items]="group.items"
-          [listActions]="categoryContextualMenu"
-          [itemActionsFn]="getItemContextualMenu"
-          [isPinned]="pinnedCategory() === group.category"
-          [withCounters]="true"
-          [checkboxColor]="themeConfig().checkboxColor"
-          [labels]="{
-            pinned: t('common.unpin'),
-            unpinned: t('common.pin')
-          }"
-          (listActionClicked)="onCategoryAction(group.category, $event)"
-          (itemActionClicked)="onItemAction($event)"
-          (itemToggled)="onItemToggle($event)"
-          (pinned)="onPinCategory(group.category, $event)"
-        />
-      </li>
+      @for (group of itemGroups(); track group.category) {
+        <li>
+          <app-card-list
+            [title]="group.category === DEFAULT_CATEGORY
+              ? t('common.uncategorized')
+              : group.category"
+            [withMutedTitle]="group.category === DEFAULT_CATEGORY"
+            [items]="group.items"
+            [listActions]="categoryContextualMenu"
+            [itemActionsFn]="getItemContextualMenu"
+            [isPinned]="pinnedCategory() === group.category"
+            [withCounters]="true"
+            [checkboxColor]="themeConfig().checkboxColor"
+            [labels]="{
+              pinned: t('common.unpin'),
+              unpinned: t('common.pin')
+            }"
+            (listActionClicked)="onCategoryAction(group.category, $event)"
+            (itemActionClicked)="onItemAction($event)"
+            (itemToggled)="onItemToggle($event)"
+            (pinned)="onPinCategory(group.category, $event)"
+          />
+        </li>
+      }
     </ul>
   </ng-template>
 

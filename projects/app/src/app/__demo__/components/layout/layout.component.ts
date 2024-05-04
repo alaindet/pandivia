@@ -1,14 +1,13 @@
-import { filter } from 'rxjs';
-import { Component, HostBinding, inject, OnInit } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, computed, HostBinding, inject, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 import { ButtonComponent } from '@app/common/components';
 import { MediaQueryService } from '@app/common/services';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 const imports = [
-  NgIf,
   MatIconModule,
   ButtonComponent,
 ];
@@ -18,30 +17,37 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
+  styleUrl: './layout.component.scss',
 })
 export class DemoLayoutComponent implements OnInit {
 
   private mediaQuery = inject(MediaQueryService);
   private router = inject(Router);
 
-  @HostBinding('class.-mobile') isMobile = false;
-  @HostBinding('class.-open') isOpen = false;
+  @HostBinding('class.-mobile')
+  get cssClassMobile() {
+    return this.isMobile();
+  }
+
+  @HostBinding('class.-open')
+  get cssClassOpen() {
+    return this.isOpen();
+  }
+
+  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
+  isMobile = computed(() => !!this.mobileQuery());
+  isOpen = signal(false);
 
   ngOnInit() {
-
-    this.mediaQuery.getFromMobileDown()
-      .subscribe(isMobile => this.isMobile = isMobile);
-
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(() => this.closeMenu());
+    const navigated$ = this.router.events.pipe(filter(e => e instanceof NavigationEnd));
+    navigated$.subscribe(() => this.closeMenu());
   }
 
   closeMenu() {
-    this.isOpen = false;
+    this.isOpen.set(false);
   }
 
   openMenu() {
-    this.isOpen = true;
+    this.isOpen.set(true);
   }
 }

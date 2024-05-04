@@ -1,18 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewEncapsulation, inject } from '@angular/core';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, HostBinding, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation, computed, effect, inject, input, output, viewChild } from '@angular/core';
 
-import { ActionsMenuItem, ActionsMenuViewModel } from './types';
-import { ButtonComponent } from '../../button';
-import { ActionsMenuService } from './services/actions-menu.service';
-import { ActionsMenuItemDirective } from './directives/actions-menu-item.directive';
-import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
-import { filterNull } from '@app/common/rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { filterNull } from '@app/common/rxjs';
 import { didInputChange, doOnce } from '@app/common/utils';
+import { ButtonComponent } from '../../button';
+import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
+import { ActionsMenuItemDirective } from './directives/actions-menu-item.directive';
+import { ActionsMenuService } from './services/actions-menu.service';
+import { ActionsMenuItem, ActionsMenuViewModel } from './types';
 
 const imports = [
-  NgIf,
-  NgFor,
   NgTemplateOutlet,
   ButtonComponent,
   MatIconModule,
@@ -23,7 +21,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './actions-menu.component.html',
-  styleUrls: ['./actions-menu.component.scss'],
+  styleUrl: './actions-menu.component.scss',
   host: { class: 'app-actions-menu' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,26 +34,29 @@ export class ActionsMenuComponent implements OnInit, OnChanges {
   private host = inject(ElementRef);
   vm: ActionsMenuViewModel | null = null;
 
-  @Input() id!: string;
-  @Input() actions: ActionsMenuItem[] = [];
-  @Input() position: 'left' | 'right' = 'left';
+  id = input.required<string>();
+  actions = input.required<ActionsMenuItem[]>();
+  position = input<'left' | 'right'>('left');
+  offsetY = input('0');
 
-  @Input()
-  set offsetY(offsetY: number | string) {
-    this.cssOffsetY = (typeof offsetY === 'number')
-      ? `${offsetY}px`
-      : offsetY;
+  actionConfirmed = output<string>();
+
+  private cssOffsetY = computed(() => {
+    const offsetY = this.offsetY();
+    return (typeof offsetY === 'number') ? `${offsetY}px` : offsetY;
+  });
+
+  @HostBinding('style.--app-actions-menu-offset-y')
+  get styleOffsetY() {
+    return this.cssOffsetY();
   }
 
-  @Output() actionConfirmed = new EventEmitter<string>();
-
-  @HostBinding('style.--app-actions-menu-offset-y') cssOffsetY = '0';
-
-  @ViewChild('itemsElementRef')
-  set itemsElementRefChild(ref: ElementRef<HTMLElement>) {
-    if (!ref) return;
-    this.svc.init.itemsElement(ref.nativeElement);
-  }
+  itemsElementRef = viewChild<ElementRef<HTMLElement>>('itemsElementRef');
+  itemsElement$ = effect(() => {
+    const el = this.itemsElementRef();
+    if (!el) return;
+    this.svc.init.itemsElement(el.nativeElement);
+  });
 
   @ContentChild(ActionsMenuItemDirective)
   set itemTemplateRef(dir: ActionsMenuItemDirective) {
@@ -85,8 +86,8 @@ export class ActionsMenuComponent implements OnInit, OnChanges {
       initializeButton();
     });
 
-    this.svc.init.id(this.id);
-    this.svc.init.actions(this.actions);
+    this.svc.init.id(this.id());
+    this.svc.init.actions(this.actions());
     this.svc.init.focus();
     this.svc.actions.confirmed$.subscribe(actionId => {
       this.actionConfirmed.emit(actionId);
@@ -95,7 +96,7 @@ export class ActionsMenuComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (didInputChange(changes['actions'])) {
-      this.svc.actions.initOrUpdate(this.actions);
+      this.svc.actions.initOrUpdate(this.actions());
     }
   }
 

@@ -1,23 +1,29 @@
 # Pandivia
 
-Pandivia is a shopping list PWA made with Angular and Firebase.
+Pandivia is a shopping list progressive web app (PWA) made with Angular 17+ and Firebase.
 
 Users have
 - a List page where they can add items to buy, grouped by category
 - an Inventory page where they can add frequently bought items for easy retrieval
-- a Profile page to be able to change theme and language
+- a Profile page to be able to change theme, language and invite new users to use the application
 
-TODO: Add screenshots
+The Angular application features
+- Angular workspaces (TODO)
+- Completely custom and accessible components
+- Themable via CSS variables
+- Internationalization via `@ngneat/transloco`
+- Service workers
+- NgRx
 
 ## How to run it locally
 
 Requirements
-  - Node.js 16+
+  - Node.js 20+
   - Java 17+
 
 1. `npm install`
 2. `npm run firebase:dev`
-3. In another terminal `npm run start`
+3. Open another terminal and run `npm run start`
 
 ## Screenshots
 
@@ -40,10 +46,6 @@ Requirements
 ![Desktop screenshot - Inventory page](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/wide-3.png)
 
 ![Desktop screenshot - Fairy theme](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/wide-4.png)
-
-## Technologies
-
-Angular 16+, workspaces, Angular Signals, custom components, accessibility, focus management via keyboard, themes, i18n, service workers, NgRx, Firestore, Firestore rules, Firebase Auth, Firebase Emulators, authentication, authorization, invite-based sign up.
 
 ## Resources and ideas
 

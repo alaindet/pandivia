@@ -9,7 +9,7 @@ import { FormFieldContextService } from '../../context.service';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-form-field-label' },
   templateUrl: './form-field-label.component.html',
-  styleUrls: ['./form-field-label.scss'],
+  styleUrl: './form-field-label.scss',
 })
 export class FormFieldLabelComponent {
 

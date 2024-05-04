@@ -17,7 +17,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss'],
+  styleUrl: './signin.component.scss',
 })
 export default class SignInPageComponent {
 

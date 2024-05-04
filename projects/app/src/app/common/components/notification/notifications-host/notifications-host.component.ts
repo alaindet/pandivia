@@ -14,7 +14,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './notifications-host.component.html',
-  styleUrls: ['./notifications-host.component.scss'],
+  styleUrl: './notifications-host.component.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-notifications-host' },

@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -6,7 +5,6 @@ import { TextInputComponent } from '@app/common/components';
 import { FORM_FIELD_EXPORTS } from '@app/common/components/form-field';
 
 const imports = [
-  NgIf,
   ...FORM_FIELD_EXPORTS,
   ReactiveFormsModule,
   TextInputComponent,

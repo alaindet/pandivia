@@ -3,27 +3,31 @@
   <!-- User data -->
   <section>
     <h2>{{ t('userProfile.info') }}</h2>
-    <ul *ngIf="userData() as u" class="user-info">
-      <li *ngIf="u.isAdmin" class="-admin">
-        <strong>ADMIN</strong>
-      </li>
-      <li>
-        <strong>{{ t('userProfile.name') }}:</strong>
-        {{ u.displayName }}
-      </li>
-      <li>
-        <strong>Email:</strong>
-        {{ u.email }}
-      </li>
-      <li>
-        <strong>{{ t('userProfile.registeredOn') }}:</strong>
-        {{ u.createdAt | date:'yyyy-MM-dd' }}
-      </li>
-      <li>
-        <strong>{{ t('userProfile.lastSignedInOn') }}:</strong>
-        {{ u.lastLoginAt | date:'yyyy-MM-dd hh:mm:ss' }}
-      </li>
-    </ul>
+    @if (userData(); as u) {
+      <ul class="user-info">
+        @if (u.isAdmin) {
+          <li class="-admin">
+            <strong>ADMIN</strong>
+          </li>
+        }
+        <li>
+          <strong>{{ t('userProfile.name') }}:</strong>
+          {{ u.displayName }}
+        </li>
+        <li>
+          <strong>Email:</strong>
+          {{ u.email }}
+        </li>
+        <li>
+          <strong>{{ t('userProfile.registeredOn') }}:</strong>
+          {{ u.createdAt | date:'yyyy-MM-dd' }}
+        </li>
+        <li>
+          <strong>{{ t('userProfile.lastSignedInOn') }}:</strong>
+          {{ u.lastLoginAt | date:'yyyy-MM-dd hh:mm:ss' }}
+        </li>
+      </ul>
+    }
   </section>
 
   <!-- Preferences -->
@@ -52,10 +56,12 @@
   </section>
 
   <!-- Invite people -->
-  <section *ngIf="isAdmin()">
-    <h2>{{ t('inviteUser.title') }}</h2>
-    <app-invite-user />
-  </section>
+  @if (isAdmin()) {
+    <section>
+      <h2>{{ t('inviteUser.title') }}</h2>
+      <app-invite-user />
+    </section>
+  }
 
   <!-- Sign out -->
   <section>

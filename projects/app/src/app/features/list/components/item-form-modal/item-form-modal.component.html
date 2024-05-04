@@ -54,28 +54,25 @@
     </app-autocomplete>
 
     <!-- Error: required -->
-    <app-form-field-error
-      *ngIf="fName | appFieldError:'required'"
-      [errorId]="FIELD.NAME.errors.REQUIRED"
-    >
-      {{ t('common.error.required') }}
-    </app-form-field-error>
+    @if (fName | appFieldError:'required') {
+      <app-form-field-error [errorId]="FIELD.NAME.errors.REQUIRED">
+        {{ t('common.error.required') }}
+      </app-form-field-error>
+    }
 
     <!-- Error: min/max length -->
-    <app-form-field-error
-      *ngIf="fName | appFieldError:'minlength,maxlength'"
-      [errorId]="FIELD.NAME.errors.LENGTH"
-    >
-      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-    </app-form-field-error>
+    @if (fName | appFieldError:'minlength,maxlength') {
+      <app-form-field-error [errorId]="FIELD.NAME.errors.LENGTH">
+        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
+      </app-form-field-error>
+    }
 
     <!-- Error: unique name -->
-    <app-form-field-error
-      *ngIf="fName | appFieldError:'uniqueItemName'"
-      [errorId]="FIELD.NAME.errors.UNIQUE"
-    >
-      {{ t('common.error.uniqueName') }}
-    </app-form-field-error>
+    @if (fName | appFieldError:'uniqueItemName') {
+      <app-form-field-error [errorId]="FIELD.NAME.errors.UNIQUE">
+        {{ t('common.error.uniqueName') }}
+      </app-form-field-error>
+    }
 
   </app-form-field>
 
@@ -100,20 +97,18 @@
     />
 
     <!-- Error: required -->
-    <app-form-field-error
-      *ngIf="fAmount | appFieldError:'required'"
-      [errorId]="FIELD.AMOUNT.errors.REQUIRED"
-    >
-      {{ t('common.error.required') }}
-    </app-form-field-error>
+    @if (fAmount | appFieldError:'required') {
+      <app-form-field-error [errorId]="FIELD.AMOUNT.errors.REQUIRED">
+        {{ t('common.error.required') }}
+      </app-form-field-error>
+    }
 
     <!-- Error: min/max -->
-    <app-form-field-error
-      *ngIf="fAmount | appFieldError:'min,max'"
-      [errorId]="FIELD.AMOUNT.errors.MIN_MAX"
-    >
-      {{ t('common.error.minMax', { min:1, max: 100 }) }}
-    </app-form-field-error>
+    @if (fAmount | appFieldError:'min,max') {
+      <app-form-field-error [errorId]="FIELD.AMOUNT.errors.MIN_MAX">
+        {{ t('common.error.minMax', { min:1, max: 100 }) }}
+      </app-form-field-error>
+    }
 
   </app-form-field>
 
@@ -139,12 +134,11 @@
     />
 
     <!-- Error: min/max length -->
-    <app-form-field-error
-      *ngIf="fDesc | appFieldError:'minlength,maxlength'"
-      [errorId]="FIELD.DESCRIPTION.errors.LENGTH"
-    >
-      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-    </app-form-field-error>
+    @if (fDesc | appFieldError:'minlength,maxlength') {
+      <app-form-field-error [errorId]="FIELD.DESCRIPTION.errors.LENGTH">
+        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
+      </app-form-field-error>
+    }
 
   </app-form-field>
 
@@ -192,53 +186,56 @@
     </app-autocomplete>
 
     <!-- Error: min/max length -->
-    <app-form-field-error
-      *ngIf="fCategory | appFieldError:'minlength,maxlength'"
-      [errorId]="FIELD.CATEGORY.errors.LENGTH"
-    >
-      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-    </app-form-field-error>
+    @if (fCategory | appFieldError:'minlength,maxlength') {
+      <app-form-field-error [errorId]="FIELD.CATEGORY.errors.LENGTH">
+        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
+      </app-form-field-error>
+    }
 
   </app-form-field>
 
   <!-- Is done (edit-only) -->
-  <app-form-field *ngIf="isEditing()" [id]="FIELD.IS_DONE.htmlId">
+  @if (isEditing()) {
+    <app-form-field [id]="FIELD.IS_DONE.htmlId">
 
-    <app-form-field-label isOptional>
-      {{ t('common.form.field.completed') }}
-    </app-form-field-label>
+      <app-form-field-label isOptional>
+        {{ t('common.form.field.completed') }}
+      </app-form-field-label>
 
-    <app-toggle
-      [formControlName]="FIELD.IS_DONE.id"
-      [id]="FIELD.IS_DONE.htmlId"
-      color="primary"
-    >
-      {{ t('common.form.field.completed') }}?
-    </app-toggle>
+      <app-toggle
+        [formControlName]="FIELD.IS_DONE.id"
+        [id]="FIELD.IS_DONE.htmlId"
+        color="primary"
+      >
+        {{ t('common.form.field.completed') }}?
+      </app-toggle>
 
-  </app-form-field>
+    </app-form-field>
+  }
 
   <!-- Add to inventory (create-only)-->
-  <app-form-field *ngIf="!isEditing()" [id]="FIELD.ADD_TO_INVENTORY.htmlId">
+  @if (!isEditing()) {
+    <app-form-field [id]="FIELD.ADD_TO_INVENTORY.htmlId">
 
-    <app-form-field-label isOptional>
-      {{ t('common.form.field.addToInventory') }}
-    </app-form-field-label>
+      <app-form-field-label isOptional>
+        {{ t('common.form.field.addToInventory') }}
+      </app-form-field-label>
 
-    <app-toggle
-      [formControlName]="FIELD.ADD_TO_INVENTORY.id"
-      [id]="FIELD.ADD_TO_INVENTORY.htmlId"
-      color="primary"
-      class="_add-to-inventory-toggle"
-    >
-      {{ t('common.form.field.addToInventory') }}?
-    </app-toggle>
+      <app-toggle
+        [formControlName]="FIELD.ADD_TO_INVENTORY.id"
+        [id]="FIELD.ADD_TO_INVENTORY.htmlId"
+        color="primary"
+        class="_add-to-inventory-toggle"
+      >
+        {{ t('common.form.field.addToInventory') }}?
+      </app-toggle>
 
-    <app-form-field-hint>
-      {{ t('list.hint.addToInventory') }}
-    </app-form-field-hint>
+      <app-form-field-hint>
+        {{ t('list.hint.addToInventory') }}
+      </app-form-field-hint>
 
-  </app-form-field>
+    </app-form-field>
+  }
 </form>
 
 <ng-container *appModalFooter>
@@ -259,10 +256,9 @@
       </button>
     }
 
-    <!-- Edit -->
-    <ng-container *ngIf="isEditing(); else createRef">
+    @if (isEditing()) {
+      <!-- Edit -->
       <button
-        *ngIf="isEditing(); else createRef"
         type="button"
         appButton="primary"
         withIcon="left"
@@ -276,10 +272,9 @@
         </mat-icon>
         {{ t('common.edit') }}
       </button>
-    </ng-container>
+    }
 
-    <!-- Create -->
-    <ng-template #createRef>
+    @else {
 
       <!-- Confirm and continue -->
       <button
@@ -308,7 +303,7 @@
         <mat-icon>add</mat-icon>
         {{ t('common.createAndClose') }}
       </button>
+    }
 
-    </ng-template>
   </div>
 </ng-container>

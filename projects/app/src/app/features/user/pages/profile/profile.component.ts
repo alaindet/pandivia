@@ -28,7 +28,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  styleUrl: './profile.component.scss',
 })
 export class ProfilePageComponent implements OnInit {
 

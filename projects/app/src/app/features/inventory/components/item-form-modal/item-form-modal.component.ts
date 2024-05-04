@@ -1,26 +1,25 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { Store } from '@ngrx/store';
-import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 
-import { DEFAULT_CATEGORY } from '@app/core/constants';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
-import { FormOption } from '@app/common/types';
 import { MediaQueryService } from '@app/common/services';
+import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { inventoryCreateItem, inventoryEditItem, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
-import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
-import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
 import { uniqueInventoryItemNameValidator } from '../../validators';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
+import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
 
 const imports = [
-  NgIf,
   MatIconModule,
   ReactiveFormsModule,
   TranslocoModule,
@@ -42,7 +41,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './item-form-modal.component.html',
-  styleUrls: ['./item-form-modal.component.scss'],
+  styleUrl: './item-form-modal.component.scss',
 })
 export class InventoryItemFormModalComponent extends BaseModalComponent<
   InventoryItemFormModalInput,
@@ -66,8 +65,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   get fDesc() { return fDescribe(this.theForm, FIELD.DESCRIPTION.id) }
   get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
 
-  @ViewChild('nameRef', { read: TextInputComponent })
-  nameRef!: TextInputComponent;
+  nameRef = viewChild.required('nameRef', { read: TextInputComponent });
 
   ngOnInit() {
     this.isEditing.set(!!this.modal.data?.item);
@@ -161,7 +159,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
         this.theForm.get(FIELD.CATEGORY.id)!.setValue(category);
 
         this.shouldContinue = false;
-        this.nameRef?.focus();
+        this.nameRef()?.focus();
         return;
       }
 

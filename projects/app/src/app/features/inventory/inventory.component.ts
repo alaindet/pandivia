@@ -42,7 +42,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.scss'],
+  styleUrl: './inventory.component.scss',
 })
 export class InventoryPageComponent implements OnInit, OnDestroy {
 
@@ -177,10 +177,6 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(inventoryFilters.clearByName({ name }));
   }
 
-  trackByCategory(index: number, group: CategorizedInventoryItems): string {
-    return group.category;
-  }
-
   private getTranslatedItemContextualMenuFn(): (item: InventoryItem) => ActionsMenuItem[] {
     return (item: InventoryItem) => {
       return itemMenu.getItemContextualMenu(item).map(action => {
@@ -191,13 +187,18 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private getTranslatedFilters(): Signal<InventoryFilterToken[] | null> {
-    return toSignal(this.store.select(selectInventoryFilters).pipe(map(filters => {
-      if (filters === null) return null;
-      return filters.map(filter => {
-        if (filter.label !== DEFAULT_CATEGORY) return filter;
-        return { ...filter, label: 'common.uncategorized' };
-      });
-    }))) as Signal<InventoryFilterToken[] | null>;
+    return toSignal(
+      this.store.select(selectInventoryFilters).pipe(map(filters => {
+        if (filters === null) {
+          return null;
+        }
+        return filters.map(filter => {
+          return (filter.label === DEFAULT_CATEGORY)
+            ? { ...filter, label: 'common.uncategorized' }
+            : filter;
+        });
+      }))
+    ) as Signal<InventoryFilterToken[] | null>;
   }
 
   private initPageMetadata(): void {

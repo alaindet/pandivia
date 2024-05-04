@@ -1,4 +1,5 @@
-import { Component, HostBinding, Input, inject, OnInit } from '@angular/core';
+import { Component, HostBinding, computed, inject, input } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MediaQueryService } from '@app/common/services';
 
 @Component({
@@ -6,7 +7,7 @@ import { MediaQueryService } from '@app/common/services';
   standalone: true,
   template: `
     <h1><ng-content></ng-content></h1>
-    <div>Pandivia Demo v{{ version }}</div>
+    <div>Pandivia Demo v{{ version() }}</div>
   `,
   styles: [`
     :host {
@@ -27,15 +28,18 @@ import { MediaQueryService } from '@app/common/services';
     }
   `],
 })
-export class DemoHeaderComponent implements OnInit {
-
-  @Input() version!: string;
+export class DemoHeaderComponent {
 
   private mediaQuery = inject(MediaQueryService);
 
-  @HostBinding('class.-mobile') isMobile = false;
+  version = input.required<string>();
 
-  ngOnInit() {
-    this.mediaQuery.getFromMobileDown().subscribe(x => this.isMobile = x);
+  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
+  isMobile = computed(() => !!this.mobileQuery());
+
+
+  @HostBinding('class.-mobile')
+  get cssClassMobile() {
+    return this.isMobile();
   }
 }
