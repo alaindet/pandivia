@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Renderer2, ViewEncapsulation, effect, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EffectCleanupRegisterFn, ElementRef, HostBinding, Renderer2, ViewEncapsulation, effect, inject, input, output, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NOTIFICATION_TYPE, NotificationType } from '@app/common/types';
@@ -38,21 +38,14 @@ export class NotificationComponent {
   @HostBinding('style.--_transition-duration')
   cssDuration = `${NOTIFICATION_TIMEOUT}ms`;
 
-  notificationIcon!: string;
+  notificationIcon = signal('');
 
   onDismissAfterChange$ = effect(() => {
     this.cssDuration = `${this.dismissAfter()}ms`;
   });
 
-  onNotificationTypeChange$ = effect(onCleanup => {
-    const notificationType = this.notificationType();
-    this.notificationIcon = NOTIFICATION_ICON[notificationType];
-    this.renderer.addClass(this.host.nativeElement, `-type-${notificationType}`);
-
-    onCleanup(() => {
-      const cssPrev = `-type-${notificationType}`;
-      this.renderer.removeClass(this.host.nativeElement, cssPrev);
-    });
+  onNotificationTypeChange$ = effect(this.effectOnNotificationType.bind(this), {
+    allowSignalWrites: true,
   });
 
   onNotificationIdChange$ = effect(() => {
@@ -60,6 +53,17 @@ export class NotificationComponent {
     this.stopAnimation();
     setTimeout(() => this.startAnimation());
   });
+
+  private effectOnNotificationType(onCleanup: EffectCleanupRegisterFn): void {
+    const notificationType = this.notificationType();
+    this.notificationIcon.set(NOTIFICATION_ICON[notificationType]);
+    this.renderer.addClass(this.host.nativeElement, `-type-${notificationType}`);
+
+    onCleanup(() => {
+      const cssPrev = `-type-${notificationType}`;
+      this.renderer.removeClass(this.host.nativeElement, cssPrev);
+    });
+  }
 
   private stopAnimation(): void {
     this.renderer.removeClass(this.host.nativeElement, '-animating');
