@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, catchError, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { NgTemplateOutlet } from '@angular/common';
 
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
@@ -15,6 +15,7 @@ import { NAVIGATION_ITEM_INVENTORY, UiService } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { CreateListItemDto, ListItem } from '@app/features/list';
 import { ChangeCategoryModalComponent, ChangeCategoryModalInput } from '../../common/components/change-category-modal';
+import { MediaQueryService } from '../../common/services';
 import { listCreateItem, selectListItemExistsWithName } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
@@ -23,11 +24,10 @@ import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
 import { findInventoryItemById } from './functions';
 import { inventoryEditItem, inventoryFetchItems, inventoryFilters, inventoryRemoveItem, inventoryRemoveItems, inventoryRemoveItemsByCategory, selectInventoryCategories, selectInventoryCategorizedFilteredItems, selectInventoryCategoryFilter, selectInventoryCounters, selectInventoryFilters, selectInventoryInErrorStatus, selectInventoryIsLoaded } from './store';
-import { CategorizedInventoryItems, InventoryFilterToken, InventoryItem } from './types';
-import { MediaQueryService } from '../../common/services';
+import { InventoryFilterToken, InventoryItem } from './types';
 
 const imports = [
-  CommonModule,
+  NgTemplateOutlet,
   PageHeaderComponent,
   ...ACTIONS_MENU_EXPORTS,
   MatIconModule,

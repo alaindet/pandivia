@@ -1,14 +1,13 @@
-import { CommonModule, JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { JsonPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ButtonComponent, CheckboxComponent } from '@app/common/components';
 
 const imports = [
-  CommonModule,
+  JsonPipe,
   ReactiveFormsModule,
   CheckboxComponent,
-  JsonPipe,
   ButtonComponent,
 ];
 

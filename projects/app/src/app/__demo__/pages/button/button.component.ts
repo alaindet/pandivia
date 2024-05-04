@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '@app/common/components';
 
 const imports = [
-  CommonModule,
   ButtonComponent,
   MatIconModule,
 ];

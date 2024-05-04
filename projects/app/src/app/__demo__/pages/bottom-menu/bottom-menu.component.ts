@@ -1,10 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { BottomMenuComponent, BottomMenuItem, BottomMenuItemComponent } from '@app/common/components';
 
 const imports = [
-  CommonModule,
   BottomMenuComponent,
   BottomMenuItemComponent,
 ];
