@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { DemoRoute } from '@app/__demo__/types';
 
 const imports = [
-  CommonModule,
   RouterModule,
 ];
 
@@ -17,7 +15,7 @@ const imports = [
     <ul>
       @for (route of routes(); track route.path) {
         <li>
-          <a [routerLink]="[routePrefix, route.path]">{{ route.label }}</a>
+          <a [routerLink]="[routePrefix(), route.path]">{{ route.label }}</a>
         </li>
       }
     </ul>
