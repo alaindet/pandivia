@@ -91,10 +91,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   onCancel() {
-
-    // TODO: Remove
-    console.log('Canceling modal');
-
     this.modal.cancel();
   }
 

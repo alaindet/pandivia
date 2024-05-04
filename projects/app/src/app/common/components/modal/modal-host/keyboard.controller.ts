@@ -20,26 +20,12 @@ export function createModalKeyboardController(
   const canceled$ = new Subject<void>();
 
   function enable() {
-
-    // TODO: Remove
-    console.log('Enabling keyboard control on element', element);
-
     const firstFocusable = handleFocusTrap(element);
     handleCancelByEscape(element);
-    setTimeout(() => {
-
-      // TODO: Remove
-      console.log('Focusing first focusable element in modal', firstFocusable);
-      firstFocusable?.focus();
-
-    }, 100);
+    setTimeout(() => firstFocusable?.focus(), 100);
   }
 
   function disable() {
-
-    // TODO: Remove
-    console.log('Disabling keyboard control');
-
     isEnabled.set(false);
     stop$.next();
   }
