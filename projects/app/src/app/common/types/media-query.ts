@@ -1,4 +1,4 @@
-import { ObjectValues } from './object-values';
+import { EnumLike } from './enum-like';
 
 export const MEDIA_QUERY_BREAKPOINT = {
   MOBILE: '600px',
@@ -6,11 +6,11 @@ export const MEDIA_QUERY_BREAKPOINT = {
   DESKTOP: '1024px',
 } as const;
 
-export type MediaQueryBreakpoint = ObjectValues<typeof MEDIA_QUERY_BREAKPOINT>;
+export type MediaQueryBreakpoint = EnumLike<typeof MEDIA_QUERY_BREAKPOINT>;
 
 export const MEDIA_QUERY_OPERATOR = {
   MIN_WIDTH: 'min-width',
   MAX_WIDTH: 'max-width',
 } as const;
 
-export type MediaQueryOperator = ObjectValues<typeof MEDIA_QUERY_OPERATOR>;
+export type MediaQueryOperator = EnumLike<typeof MEDIA_QUERY_OPERATOR>;

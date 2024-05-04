@@ -1,4 +1,4 @@
-import { ObjectValues } from './object-values';
+import { EnumLike } from './enum-like';
 
 export const FORM_FIELD_STATUS = {
   ERROR: 'error',
@@ -6,4 +6,4 @@ export const FORM_FIELD_STATUS = {
   NONE: 'none',
 } as const;
 
-export type FormFieldStatus = ObjectValues<typeof FORM_FIELD_STATUS>;
+export type FormFieldStatus = EnumLike<typeof FORM_FIELD_STATUS>;

@@ -1,4 +1,4 @@
-import { ObjectValues } from './object-values';
+import { EnumLike } from './enum-like';
 
 export const KEYBOARD_KEY = {
   TAB: 'Tab',
@@ -16,4 +16,4 @@ export const KEYBOARD_KEY = {
   PAGE_DOWN: 'PageDown',
 } as const;
 
-export type KeyboardKey = ObjectValues<typeof KEYBOARD_KEY>;
+export type KeyboardKey = EnumLike<typeof KEYBOARD_KEY>;
