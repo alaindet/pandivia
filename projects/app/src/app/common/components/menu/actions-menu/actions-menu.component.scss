@@ -6,16 +6,17 @@
 // --app-actions-menu-item-border-color
 // --app-actions-menu-item-active-background
 // --app-actions-menu-item-active-foreground
-// --app-actions-menu-offset-y (LOCAL)
+
+app-actions-menu {
+  --_offset-y: 0;
+}
 
 .app-actions-menu {
-  --app-actions-menu-offset-y: 0;
-
   position: relative;
   display: inline-block;
 
   &-items {
-    transform: translateY(var(--app-actions-menu-offset-y));
+    transform: translateY(var(--_offset-y));
     position: absolute;
     z-index: 4;
     isolation: isolate;

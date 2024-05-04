@@ -1,9 +1,9 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, HostBinding, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation, computed, effect, inject, input, output, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, OnInit, ViewEncapsulation, computed, contentChild, effect, inject, input, output, viewChild } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 import { filterNull } from '@app/common/rxjs';
-import { didInputChange, doOnce } from '@app/common/utils';
+import { doOnce } from '@app/common/utils';
 import { ButtonComponent } from '../../button';
 import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
 import { ActionsMenuItemDirective } from './directives/actions-menu-item.directive';
@@ -27,7 +27,7 @@ const imports = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ActionsMenuService],
 })
-export class ActionsMenuComponent implements OnInit, OnChanges {
+export class ActionsMenuComponent implements OnInit {
 
   private svc = inject(ActionsMenuService);
   private cdr = inject(ChangeDetectorRef);
@@ -35,7 +35,12 @@ export class ActionsMenuComponent implements OnInit, OnChanges {
   vm: ActionsMenuViewModel | null = null;
 
   id = input.required<string>();
+
   actions = input.required<ActionsMenuItem[]>();
+  actionsEffect = effect(() => {
+    this.svc.actions.initOrUpdate(this.actions());
+  });
+
   position = input<'left' | 'right'>('left');
   offsetY = input('0');
 
@@ -46,29 +51,34 @@ export class ActionsMenuComponent implements OnInit, OnChanges {
     return (typeof offsetY === 'number') ? `${offsetY}px` : offsetY;
   });
 
-  @HostBinding('style.--app-actions-menu-offset-y')
+  @HostBinding('style.--_offset-y')
   get styleOffsetY() {
     return this.cssOffsetY();
   }
 
+  constructor() {
+    effect(() => {
+      this.svc.actions.initOrUpdate(this.actions());
+    });
+  }
+
   itemsElementRef = viewChild<ElementRef<HTMLElement>>('itemsElementRef');
-  itemsElement$ = effect(() => {
-    const el = this.itemsElementRef();
-    if (!el) return;
-    this.svc.init.itemsElement(el.nativeElement);
+  itemsElementRefEffect = effect(() => {
+    const ref = this.itemsElementRef();
+    if (ref) doOnce(() => this.svc.init.itemsElement(ref.nativeElement));
   });
 
-  @ContentChild(ActionsMenuItemDirective)
-  set itemTemplateRef(dir: ActionsMenuItemDirective) {
-    if (!dir) return;
-    this.svc.templates.setItem(dir.template);
-  }
+  itemTemplateRef = contentChild(ActionsMenuItemDirective);
+  itemTemplateRefEffect = effect(() => {
+    const ref = this.itemTemplateRef();
+    if (ref) doOnce(() => this.svc.templates.setItem(ref.template));
+  });
 
-  @ContentChild(ActionsMenuButtonDirective)
-  set buttonTemplateRef(dir: ActionsMenuButtonDirective) {
-    if (!dir) return;
-    this.svc.templates.setButton(dir.template);
-  }
+  buttonTemplateRef = contentChild(ActionsMenuButtonDirective);
+  buttonTemplateRefEffect = effect(() => {
+    const ref = this.buttonTemplateRef();
+    if (ref) doOnce(() => this.svc.templates.setButton(ref.template));
+  });
 
   ngOnInit() {
 
@@ -92,12 +102,6 @@ export class ActionsMenuComponent implements OnInit, OnChanges {
     this.svc.actions.confirmed$.subscribe(actionId => {
       this.actionConfirmed.emit(actionId);
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (didInputChange(changes['actions'])) {
-      this.svc.actions.initOrUpdate(this.actions());
-    }
   }
 
   onActionClicked(event: MouseEvent, actionId: string) {
