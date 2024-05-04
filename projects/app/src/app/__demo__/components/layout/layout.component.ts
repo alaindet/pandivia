@@ -1,11 +1,10 @@
-import { Component, computed, HostBinding, inject, OnInit, signal } from '@angular/core';
+import { Component, HostBinding, inject, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
 import { ButtonComponent } from '@app/common/components';
 import { MediaQueryService } from '@app/common/services';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 const imports = [
   MatIconModule,
@@ -21,7 +20,6 @@ const imports = [
 })
 export class DemoLayoutComponent implements OnInit {
 
-  private mediaQuery = inject(MediaQueryService);
   private router = inject(Router);
 
   @HostBinding('class.-mobile')
@@ -34,8 +32,7 @@ export class DemoLayoutComponent implements OnInit {
     return this.isOpen();
   }
 
-  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
-  isMobile = computed(() => !!this.mobileQuery());
+  isMobile = inject(MediaQueryService).getFromMobileDown();
   isOpen = signal(false);
 
   ngOnInit() {

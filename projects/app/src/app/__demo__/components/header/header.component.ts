@@ -1,5 +1,4 @@
-import { Component, HostBinding, computed, inject, input } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, HostBinding, inject, input } from '@angular/core';
 import { MediaQueryService } from '@app/common/services';
 
 @Component({
@@ -30,13 +29,9 @@ import { MediaQueryService } from '@app/common/services';
 })
 export class DemoHeaderComponent {
 
-  private mediaQuery = inject(MediaQueryService);
-
   version = input.required<string>();
 
-  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
-  isMobile = computed(() => !!this.mobileQuery());
-
+  isMobile = inject(MediaQueryService).getFromMobileDown();
 
   @HostBinding('class.-mobile')
   get cssClassMobile() {

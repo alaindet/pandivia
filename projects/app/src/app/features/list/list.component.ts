@@ -50,10 +50,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private ui = inject(UiService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
-  private mediaQuery = inject(MediaQueryService);
 
-  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
-  isMobile = computed(() => !!this.mobileQuery());
+  isMobile = inject(MediaQueryService).getFromMobileDown();
 
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];

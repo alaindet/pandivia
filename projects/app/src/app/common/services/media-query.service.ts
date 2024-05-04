@@ -1,8 +1,7 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Signal, signal } from '@angular/core';
 
-import { Observable } from 'rxjs';
 
-import { DataSource, OnceSource } from '../sources';
+import { OnceSource } from '../sources';
 import { MEDIA_QUERY_BREAKPOINT, MEDIA_QUERY_OPERATOR, MediaQueryBreakpoint, MediaQueryOperator } from '../types';
 
 @Injectable({
@@ -16,10 +15,10 @@ export class MediaQueryService implements OnDestroy {
     this.once.trigger();
   }
 
-  private mediaQuerySubjects: { [key: string]: DataSource<boolean> } = {};
-	private mediaQueriesLists: { [key: string]: MediaQueryList } = {};
+  private mediaQuerySubjects: Record<string, Signal<boolean>> = {};
+	private mediaQueriesLists: Record<string, MediaQueryList> = {};
 
-	getFromMobileDown(): Observable<boolean> {
+	getFromMobileDown(): Signal<boolean> {
 		return this.getMediaQuery(
       MEDIA_QUERY_OPERATOR.MAX_WIDTH,
 			MEDIA_QUERY_BREAKPOINT.MOBILE,
@@ -27,14 +26,14 @@ export class MediaQueryService implements OnDestroy {
 	}
 
 	// Alias of getMediaQuery('max-width', '768px')
-	getFromTabletDown(): Observable<boolean> {
+	getFromTabletDown(): Signal<boolean> {
 		return this.getMediaQuery(
 			MEDIA_QUERY_OPERATOR.MAX_WIDTH,
 			MEDIA_QUERY_BREAKPOINT.TABLET,
 		);
 	}
 
-	getFromDesktopDown(): Observable<boolean> {
+	getFromDesktopDown(): Signal<boolean> {
 		return this.getMediaQuery(
 			MEDIA_QUERY_OPERATOR.MAX_WIDTH,
       MEDIA_QUERY_BREAKPOINT.DESKTOP,
@@ -44,24 +43,23 @@ export class MediaQueryService implements OnDestroy {
   private getMediaQuery(
 		operator: MediaQueryOperator,
 		breakpoint: MediaQueryBreakpoint,
-	): Observable<boolean> {
+	): Signal<boolean> {
 
     const query = `(${operator}: ${breakpoint})`;
 
 		if (!this.mediaQuerySubjects[query]) {
-
-			// Init media query
-			const mediaQueryList = window.matchMedia(query);
-			const matches = mediaQueryList.matches;
-
-			// Init data source
-			const mediaQuery$ = new DataSource<boolean>(matches, this.once.event$);
-			mediaQueryList.addEventListener('change', e => mediaQuery$.next(e.matches));
-
-      this.mediaQueriesLists[query] = mediaQueryList;
-      this.mediaQuerySubjects[query] = mediaQuery$;
+			this.initMediaQuery(query);
 		}
 
-		return this.mediaQuerySubjects[query].data$;
+		return this.mediaQuerySubjects[query];
+	}
+
+	private initMediaQuery(query: string): void {
+		const mediaQueryList = window.matchMedia(query);
+		const matches = mediaQueryList.matches;
+		const mediaQuery$ = signal(matches);
+		mediaQueryList.addEventListener('change', e => mediaQuery$.set(e.matches));
+		this.mediaQueriesLists[query] = mediaQueryList;
+		this.mediaQuerySubjects[query] = mediaQuery$.asReadonly();
 	}
 }

@@ -50,10 +50,8 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   private store = inject(Store);
   private formBuilder = inject(FormBuilder);
-  private mediaQuery = inject(MediaQueryService);
 
-  private mobileQuery = toSignal(this.mediaQuery.getFromMobileDown());
-  isMobile = computed(() => !!this.mobileQuery());
+  isMobile = inject(MediaQueryService).getFromMobileDown();
 
   FIELD = FIELD;
   theForm!: FormGroup;
