@@ -71,11 +71,11 @@ export class SelectComponent implements ControlValueAccessor {
   private onChange!: (val: any) => {};
 	private onTouched!: () => {};
 
-  onValueChange$ = effect(() => this.selectedValue.set(this.value() ?? null), {
+  valueEffect = effect(() => this.selectedValue.set(this.value() ?? null), {
     allowSignalWrites: true,
   });
 
-  onDisabledChange$ =  effect(() => this.isDisabled.set(this._isDisabled()), {
+  disabledEffect =  effect(() => this.isDisabled.set(this._isDisabled()), {
     allowSignalWrites: true,
   });
 

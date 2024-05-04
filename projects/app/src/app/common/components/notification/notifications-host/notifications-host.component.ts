@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, computed, effect, input, output } from '@angular/core';
 
 import { NOTIFICATION_POSITION, NotificationPosition, RuntimeNotification } from '@app/common/types';
 import { cssClassesList } from '@app/common/utils';
@@ -27,14 +27,13 @@ export class NotificationsHostComponent {
   dismissed = output<void>();
 
   @HostBinding('class')
-  cssClasses!: string;
+  get cssClass() {
+    return this.cssClasses();
+  }
 
   NOTIFICATION_TIMEOUT = NOTIFICATION_TIMEOUT;
-
-  onStyleChange$ = effect(() => {
-    this.cssClasses = cssClassesList([
-      this.notification() !== null ? '-open' : null,
-      `-position-${this.position()}`,
-    ]);
-  });
+  cssClasses = computed(() => cssClassesList([
+    this.notification() !== null ? '-open' : null,
+    `-position-${this.position()}`,
+  ]));
 }

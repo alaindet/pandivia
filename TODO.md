@@ -8,12 +8,10 @@
   - [ ] Remove `OnceSource` from `@app/common/sources`
   - [ ] Dismiss the ViewModel (vm) approach from all components
   - [ ] Remove `@import 'scoped';` from every component's .scss file if unneeded
-  - [ ] Convert all local CSS variables to the pattern `--_local`
   - [ ] Attach CSS variables to host components
   - [ ] Remove all `queueMicrotask()` by using signals
   - [ ] Refactor action-menu
   - [ ] Move `isMobile` signal inside `MediaQueryService`
-  - [ ] Rename all assigned `effect()` as `fooEffect`
 
 ## Refactoring
 Angular 16

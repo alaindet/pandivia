@@ -1,10 +1,10 @@
 import { Injectable, OnDestroy, TemplateRef, signal } from '@angular/core';
-import { filter, fromEvent, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, fromEvent, of, switchMap, take, takeUntil } from 'rxjs';
 
-import { DataSource, EventSource, OnceSource } from '@app/common/sources';
+import { OnceSource } from '@app/common/sources';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
 import { createDebouncedInputEvent } from '@app/common/utils';
-import { AutocompleteOption, AutocompleteSourceType, AutocompleteAsyncOptionsFn, AutocompleteOptionValuePicker, AUTOCOMPLETE_SOURCE_TYPE } from './types';
+import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
 
 @Injectable()
 export class AutocompleteService implements OnDestroy {

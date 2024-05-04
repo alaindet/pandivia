@@ -68,11 +68,11 @@ export class ToggleComponent implements ControlValueAccessor {
     `-color-${this.color()}`,
   ]));
 
-  onCheckedChange$ = effect(() => this.isChecked.set(this._isChecked()), {
+  checkedEffect = effect(() => this.isChecked.set(this._isChecked()), {
     allowSignalWrites: true,
   });
 
-  onDisabledChange$ = effect(() => this.isDisabled.set(this._isDisabled()), {
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
     allowSignalWrites: true,
   });
 

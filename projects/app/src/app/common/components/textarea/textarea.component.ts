@@ -80,15 +80,15 @@ export class TextareaComponent implements ControlValueAccessor {
     this.status() ? `-status-${this.status()}` : null,
   ]));
 
-  onDisabledChange$ = effect(() => this.isDisabled.set(this._isDisabled()), {
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
     allowSignalWrites: true,
   });
 
-  onAttributesChange$ = effect(() => {
+  attributesEffect = effect(() => {
     this.attrsController.apply(this.nativeInput(), this.attrs());
   });
 
-  onValueChange$ = effect(() => {
+  valueEffect = effect(() => {
     const value = this.value();
     if (value === undefined) {
       return;

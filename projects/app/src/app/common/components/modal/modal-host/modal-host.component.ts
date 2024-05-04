@@ -46,12 +46,10 @@ export class ModalHostComponent implements OnDestroy {
   footerTemplate = this.modalService.footerTemplate;
   private keyboardController!: ModalKeyboardController;
 
-  onOpenChange$ = effect(() => {
-    if (this.modalService.isOpen()) {
-      this.keyboardController.enable();
-    } else {
-      this.keyboardController.disable();
-    }
+  openEffect = effect(() => {
+    this.modalService.isOpen()
+      ? this.keyboardController.enable()
+      : this.keyboardController.disable();
   }, { allowSignalWrites: true });
 
   ngOnInit() {

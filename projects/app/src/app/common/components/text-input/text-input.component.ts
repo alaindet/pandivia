@@ -85,15 +85,15 @@ export class TextInputComponent implements ControlValueAccessor {
   ]));
   cssWidth = computed(() => this.width() ?? 'fit-content');
 
-  onDisabledChange$ = effect(() => this.isDisabled.set(this._isDisabled()), {
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
     allowSignalWrites: true,
   });
 
-  onAttributesChange$ = effect(() => {
+  attributesEffect = effect(() => {
     this.htmlAttrs.apply(this.inputRef().nativeElement, this.attrs());
   });
 
-  onValueChange$ = effect(() => {
+  valueEffect = effect(() => {
     const value = this.value();
     if (value === undefined) {
       return;
