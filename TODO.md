@@ -11,7 +11,6 @@
   - [ ] Attach CSS variables to host components
   - [ ] Remove all `queueMicrotask()` by using signals
   - [ ] Refactor action-menu
-  - [ ] Move `isMobile` signal inside `MediaQueryService`
 
 ## Refactoring
 Angular 16
