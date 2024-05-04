@@ -1,20 +1,19 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
-import { DatePipe, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 
-import { NAVIGATION_ITEM_USER, selectUiVersion, uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/ui';
-import { LanguageService } from '@app/core/language';
-import { environment } from '@app/environment';
-import { ThemeService } from '@app/core/theme';
-import { StackedLayoutService } from '@app/common/layouts';
 import { ButtonComponent, SelectComponent } from '@app/common/components';
-import { selectUserDisplayData, selectUserIsAdmin, userSignOut } from '../../store';
+import { StackedLayoutService } from '@app/common/layouts';
+import { LanguageService } from '@app/core/language';
+import { ThemeService } from '@app/core/theme';
+import { NAVIGATION_ITEM_USER, selectUiVersion, uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/ui';
+import { environment } from '@app/environment';
 import { InviteUserComponent } from '../../components';
+import { selectUserDisplayData, selectUserIsAdmin, userSignOut } from '../../store';
 
 const imports = [
-  NgIf,
   DatePipe,
   RouterLink,
   TranslocoModule,
@@ -61,10 +60,6 @@ export class ProfilePageComponent implements OnInit {
     this.store.dispatch(uiSetCurrentNavigation({ current }));
     this.layout.headerCounters.clear();
     this.layout.headerActions.clear();
-
-    // For some reason, it triggers a NG0100 error
-    // https://angular.io/errors/NG0100
-    queueMicrotask(() => this.layout.search.disable());
-    // this.layout.search.disable();
+    this.layout.search.disable();
   }
 }

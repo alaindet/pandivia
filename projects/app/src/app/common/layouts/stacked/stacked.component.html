@@ -25,7 +25,7 @@
       }
 
       <!-- Actions -->
-      @if (!!headerActions.length) {
+      @if (!!headerActions().length) {
         <app-actions-menu
           [id]="title()"
           [actions]="headerActions()"
@@ -75,7 +75,7 @@
     [items]="footerActions()"
     [selectedItem]="footerCurrentAction()"
     (selected)="onBottomMenuChange($event)"
-  ></app-bottom-menu>
+  />
 </footer>
 
 <!-- Template: header without counters -->

@@ -1,24 +1,18 @@
-import { DataSource } from '@app/common/sources';
-import { ActionsMenuService } from './actions-menu.service';
+import { signal } from '@angular/core';
+
 import { ACTIONS_MENU_BUTTON_FOCUSED, ActionsMenuFocusable, ActionsMenuItem } from '../types';
+import { ActionsMenuService } from './actions-menu.service';
 
 export function createFocusController(parent: ActionsMenuService) {
 
-  const focused$ = new DataSource<ActionsMenuFocusable | null>(null, parent.core.destroy$);
-  let actions: ActionsMenuItem[] | null = null;
-  let searchableActions: string[] | null = null;
-
-  function init() {
-    parent.actions.actions$.subscribe(x => actions = x);
-    parent.actions.searchableActions$.subscribe(x => searchableActions = x);
-  }
+  const focused = signal<ActionsMenuFocusable | null>(null);
 
   function button() {
-    focused$.next(ACTIONS_MENU_BUTTON_FOCUSED);
+    focused.set(ACTIONS_MENU_BUTTON_FOCUSED);
   }
 
   function clear() {
-    focused$.next(null);
+    focused.set(null);
   }
 
   function first() {
@@ -31,45 +25,67 @@ export function createFocusController(parent: ActionsMenuService) {
 
   function previous() {
     byIdWithActions(actions => {
-      const focused = focused$.getCurrent();
+      const _focused = focused();
+
       const lastId = actions[actions.length - 1].id;
-      if (!focused || focused === ACTIONS_MENU_BUTTON_FOCUSED) return lastId;
-      const index = actions.findIndex(action => action.id === focused);
-      if (index === 0) return lastId;
+      if (!_focused || _focused === ACTIONS_MENU_BUTTON_FOCUSED) {
+        return lastId;
+      }
+
+      const index = actions.findIndex(action => action.id === _focused);
+      if (index === 0) {
+        return lastId;
+      }
+
       return actions[index - 1].id;
     });
   }
 
   function next() {
     byIdWithActions(actions => {
-      const focused = focused$.getCurrent();
+      const _focused = focused();
+
       const firstId = actions[0].id;
-      if (!focused || focused === ACTIONS_MENU_BUTTON_FOCUSED) return firstId;
-      const index = actions.findIndex(action => action.id === focused);
-      if (index === (actions.length - 1)) return firstId;
+      if (!_focused || _focused === ACTIONS_MENU_BUTTON_FOCUSED) {
+        return firstId;
+      }
+
+      const index = actions.findIndex(action => action.id === _focused);
+      if (index === (actions.length - 1)) {
+        return firstId;
+      }
+
       return actions[index + 1].id;
     });
   }
 
   function search(letter: string) {
-    if (!actions || !searchableActions) return focused$.next(null);
+
+    const actions = parent.actions.actions();
+    const searchableActions = parent.actions.searchableActions();
+
+    if (!actions || !searchableActions) {
+      return focused.set(null);
+    }
+
     const index = searchableActions.findIndex(x => x === letter);
-    focused$.next(actions[index].id);
+    focused.set(actions[index].id);
   }
 
   function byId(actionId: string) {
-    focused$.next(actionId);
+    focused.set(actionId);
   }
 
   function byIdWithActions(fn: (actions: ActionsMenuItem[]) => string) {
-    if (!actions) return focused$.next(null);
-    focused$.next(fn(actions));
+    const actions = parent.actions.actions();
+    if (!actions) {
+      return focused.set(null);
+    }
+    focused.set(fn(actions));
   }
 
   return {
-    focused$: focused$.data$,
-    getFocused: () => focused$.getCurrent(),
-    init,
+    focused: focused.asReadonly(),
     first,
     last,
     previous,

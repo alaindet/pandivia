@@ -1,19 +1,17 @@
-import { Observable } from 'rxjs';
-
 import { signal } from '@angular/core';
 
 export type StackedLayoutTitleViewModel = string;
 
-export function createTitleController(destroy$: Observable<void>) {
+export function createTitleController() {
 
-  const data = signal<StackedLayoutTitleViewModel>('');
+  const title = signal('');
 
-  function set(title: string) {
-    data.set(title);
+  function set(_title: string) {
+    title.set(_title);
   }
 
   return {
-    data,
+    title,
     set,
   };
 }

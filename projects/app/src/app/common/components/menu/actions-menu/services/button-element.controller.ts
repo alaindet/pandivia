@@ -1,23 +1,25 @@
-import { Renderer2, inject } from '@angular/core';
-import { filter, fromEvent, switchMap, take, takeUntil } from 'rxjs';
+import { Renderer2, effect, inject, signal } from '@angular/core';
+import { Subject, fromEvent, takeUntil } from 'rxjs';
 
 import { KEYBOARD_KEY as KB } from '@app/common/types';
-import { onKeydown } from '@app/common/utils';
+import { createKeyBinding, onKeydown } from '@app/common/utils';
 import { ACTIONS_MENU_BUTTON_FOCUSED } from '../types';
 import { ActionsMenuService } from './actions-menu.service';
 
 export function createButtonElementController(parent: ActionsMenuService) {
 
   const renderer = inject(Renderer2);
-  let el: HTMLButtonElement | null = null;
+
+  const el = signal<HTMLButtonElement | null>(null);
+  const destroy$ = new Subject<void>();
 
   function init(inputEl: HTMLButtonElement) {
 
-    if (el !== null) {
+    if (el() !== null) {
       return;
     }
 
-    el = inputEl;
+    el.set(inputEl);
     listenToReady(inputEl);
     listenToFocus(inputEl);
     listenToMenuOpen(inputEl);
@@ -25,27 +27,26 @@ export function createButtonElementController(parent: ActionsMenuService) {
     listenToKeyboard(inputEl);
   }
 
-  function getElement(): HTMLButtonElement | null {
-    return el;
-  }
-
   function listenToReady(el: HTMLButtonElement) {
     parent.core.ready$.subscribe(() => {
-      renderer.setAttribute(el, 'id', parent.ids.getButton()!);
+      renderer.setAttribute(el, 'id', parent.ids.button());
       renderer.setAttribute(el, 'aria-haspopup', 'menu');
-      renderer.setAttribute(el, 'aria-controls', parent.ids.getItems()!);
+      renderer.setAttribute(el, 'aria-controls', parent.ids.items());
     });
   }
 
   function listenToFocus(el: HTMLButtonElement) {
-    parent.focus.focused$
-      .pipe(filter(focus => focus === ACTIONS_MENU_BUTTON_FOCUSED))
-      .subscribe(() => el.focus());
+    effect(() => {
+      const focused = parent.focus.focused();
+      if (focused === ACTIONS_MENU_BUTTON_FOCUSED) {
+        el.focus();
+      }
+    });
   }
 
   function listenToMenuOpen(el: HTMLButtonElement) {
-    parent.menu.open$.subscribe(open => {
-      if (open) {
+    effect(() => {
+      if (parent.menu.isOpen()) {
         renderer.setAttribute(el, 'aria-expanded', 'true');
       } else {
         renderer.removeAttribute(el, 'aria-expanded');
@@ -54,53 +55,63 @@ export function createButtonElementController(parent: ActionsMenuService) {
   }
 
   function listenToClick(el: HTMLButtonElement) {
-    fromEvent<MouseEvent>(el, 'click').pipe(
-      takeUntil(parent.core.destroy$),
-      switchMap(() => parent.menu.open$.pipe(take(1))),
-    ).subscribe(open => {
-      if (open) {
-        parent.menu.close();
-        parent.focus.clear();
-      } else {
+
+    const clicked$ = fromEvent<MouseEvent>(el, 'click').pipe(
+      takeUntil(destroy$),
+    );
+
+    clicked$.subscribe(() => {
+      if (!parent.menu.isOpen()) {
         parent.menu.open();
+        return;
       }
+
+      parent.menu.close();
+      parent.focus.clear();
     });
   }
 
   function listenToKeyboard(el: HTMLButtonElement) {
-    onKeydown(el, parent.core.destroy$, [
-      {
-        on: [KB.SPACE, KB.ENTER, KB.ARROW_DOWN, KB.DOWN],
-        handler: () => {
-          parent.menu.open();
-          parent.focus.first();
-          setTimeout(() => parent.itemsElement.getElement()?.focus(), 20);
-        },
-      },
-      {
-        on: [KB.ESC, KB.ESCAPE],
-        handler: () => {
-          parent.menu.close();
-          parent.focus.clear();
-        },
-      },
-      {
-        on: [KB.ARROW_UP, KB.UP],
-        handler: () => {
-          parent.menu.open();
-          parent.focus.last();
-        },
-      },
-      {
-        on: [KB.TAB],
-        handler: () => {
-          parent.menu.close();
-          parent.focus.clear();
-          return true;
-        },
-      },
-    ]).pipe(takeUntil(parent.core.destroy$)).subscribe();
+
+    const focusFirstItem = createKeyBinding(
+      [KB.SPACE, KB.ENTER, KB.ARROW_DOWN, KB.DOWN], () => {
+        parent.menu.open();
+        parent.focus.first();
+        setTimeout(() => parent.itemsElement.el()?.focus(), 20);
+      }
+    );
+
+    const focusLastItem = createKeyBinding([KB.ARROW_UP, KB.UP], () => {
+      parent.menu.open();
+      parent.focus.last();
+    });
+
+    const clearFocus = createKeyBinding([KB.ESC, KB.ESCAPE], () => {
+      parent.menu.close();
+      parent.focus.clear();
+    });
+
+    const focusOut = createKeyBinding([KB.TAB], () => {
+      parent.menu.close();
+      parent.focus.clear();
+      return true;
+    });
+
+    onKeydown(el, destroy$, [
+      focusFirstItem,
+      focusLastItem,
+      clearFocus,
+      focusOut,
+    ]).pipe(takeUntil(destroy$)).subscribe();
   }
 
-  return { init, getElement };
+  function destroy() {
+    destroy$.complete();
+  }
+
+  return {
+    el: el.asReadonly(),
+    init,
+    destroy,
+  };
 }

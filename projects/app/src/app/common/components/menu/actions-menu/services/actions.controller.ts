@@ -1,22 +1,24 @@
-import { DataSource, EventSource } from '@app/common/sources';
 import { ActionsMenuService } from './actions-menu.service';
 import { ACTIONS_MENU_BUTTON_FOCUSED, ActionsMenuItem } from '../types';
+import { signal } from '@angular/core';
+import { Subject } from 'rxjs';
 
 export function createActionsController(parent: ActionsMenuService) {
 
-  const actions$ = new DataSource<ActionsMenuItem[] | null>(null, parent.core.destroy$);
-  const searchableActions$ = new DataSource<string[] | null>(null, parent.core.destroy$);
-  const confirmed$ = new EventSource<ActionsMenuItem['id']>(parent.core.destroy$);
+  const actions = signal<ActionsMenuItem[] | null>(null);
+  const searchableActions = signal<string[] | null>(null);
 
-  function initOrUpdate(actions: ActionsMenuItem[]) {
-    actions$.next(actions);
-    const searchableActions: string[] = [];
+  const confirmed$ = new Subject<ActionsMenuItem['id']>();
 
-    for (const action of actions) {
-      searchableActions.push(action.label[0].toLowerCase());
+  function initOrUpdate(_actions: ActionsMenuItem[]) {
+    actions.set(_actions);
+    const _searchableActions: string[] = [];
+
+    for (const action of _actions) {
+      _searchableActions.push(action.label[0].toLowerCase());
     }
 
-    searchableActions$.next(searchableActions);
+    searchableActions.set(_searchableActions);
   }
 
   function confirm(actionId: string) {
@@ -26,17 +28,24 @@ export function createActionsController(parent: ActionsMenuService) {
   }
 
   function confirmFocused() {
-    const focused = parent.focus.getFocused();
-    if (focused === null || focused === ACTIONS_MENU_BUTTON_FOCUSED) return;
+    const focused = parent.focus.focused();
+    if (focused === null || focused === ACTIONS_MENU_BUTTON_FOCUSED) {
+      return;
+    }
     confirmed$.next(focused);
   }
 
+  function destroy() {
+    confirmed$.complete();
+  }
+
   return {
-    actions$: actions$.data$,
-    searchableActions$: searchableActions$.data$,
+    actions: actions.asReadonly(),
+    searchableActions: searchableActions.asReadonly(),
     initOrUpdate,
-    confirmed$: confirmed$.event$,
+    confirmed: confirmed$.asObservable(),
     confirm,
     confirmFocused,
+    destroy,
   };
 }

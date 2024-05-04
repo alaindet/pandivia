@@ -1,27 +1,25 @@
-import { TemplateRef } from '@angular/core';
+import { TemplateRef, signal } from '@angular/core';
 
-import { DataSource } from '@app/common/sources';
 import { TemplateImplicitContext } from '@app/common/types';
+import { ActionsMenuItem } from '../types';
 import { ActionsMenuService } from './actions-menu.service';
-import { ActionsMenuItem, ActionsMenuTemplates } from '../types';
 
 export function createTemplatesController(parent: ActionsMenuService) {
 
-  const templates$ = new DataSource<ActionsMenuTemplates>(
-    { button: null, item: null },
-    parent.core.destroy$,
-  );
+  const button = signal<TemplateRef<TemplateImplicitContext<boolean>> | null>(null);
+  const item = signal<TemplateRef<TemplateImplicitContext<ActionsMenuItem>> | null>(null);
 
-  function setButton(button: TemplateRef<void>) {
-    templates$.next(templates => ({ ...templates, button }));
+  function setButton(_button: TemplateRef<TemplateImplicitContext<boolean>>) {
+    button.set(_button);
   }
 
-  function setItem(item: TemplateRef<TemplateImplicitContext<ActionsMenuItem>>) {
-    templates$.next(templates => ({ ...templates, item }));
+  function setItem(_item: TemplateRef<TemplateImplicitContext<ActionsMenuItem>>) {
+    item.set(_item);
   }
 
   return {
-    templates$: templates$.data$,
+    button: button.asReadonly(),
+    item: item.asReadonly(),
     setButton,
     setItem,
   };

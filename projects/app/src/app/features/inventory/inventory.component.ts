@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, Signal, computed, effect, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { Observable, catchError, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
-
+import { Observable, Subject, catchError, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
-import { OnceSource } from '@app/common/sources';
 import { errorI18n, readErrorI18n } from '@app/common/utils';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { uiSetCurrentNavigation, uiSetPageTitle } from '@app/core/store';
@@ -46,7 +45,7 @@ const imports = [
 })
 export class InventoryPageComponent implements OnInit, OnDestroy {
 
-  private once = new OnceSource();
+  private destroy$ = new Subject<void>();
   private store = inject(Store);
   private layout = inject(StackedLayoutService);
   private ui = inject(UiService);
@@ -77,7 +76,8 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.once.trigger();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onListAction(action: string) {
@@ -213,8 +213,8 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       return { ...action, label };
     });
     this.layout.headerActions.set(actions);
-    this.layout.headerActions.confirmed$
-      .pipe(takeUntil(this.once.event$))
+    this.layout.headerActions.confirmed
+      .pipe(takeUntil(this.destroy$))
       .subscribe(this.onListAction.bind(this));
   }
 
@@ -227,18 +227,17 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private initSearchFeature(): void {
-    // For some reason, it triggers a NG0100 error
-    // https://angular.io/errors/NG0100
-    queueMicrotask(() => this.layout.search.enable());
-    // this.layout.search.enable();
+    this.layout.search.enable();
 
-    this.layout.search.searched$.subscribe(searchQuery => {
-      !!searchQuery
-        ? this.store.dispatch(inventoryFilters.setSearchQuery({ searchQuery }))
-        : this.store.dispatch(inventoryFilters.clearSearchQuery());
+    this.layout.search.searched.subscribe(searchQuery => {
+      this.store.dispatch(
+        !!searchQuery
+          ? inventoryFilters.setSearchQuery({ searchQuery })
+          : inventoryFilters.clearSearchQuery()
+      );
     });
 
-    this.layout.search.cleared$.subscribe(() => {
+    this.layout.search.cleared.subscribe(() => {
       this.store.dispatch(inventoryFilters.clearSearchQuery());
     });
   }

@@ -1,17 +1,18 @@
-import { DataSource } from '@app/common/sources';
+import { signal } from '@angular/core';
+
 import { ActionsMenuService } from './actions-menu.service';
 
 export function createMenuController(parent: ActionsMenuService) {
 
-  const open$ = new DataSource(false, parent.core.destroy$);
+  const isOpen = signal(false);
 
   function close() {
-    open$.next(false);
+    isOpen.set(false);
     removeClickOut();
   }
 
   function globalClickHandler(event: MouseEvent) {
-    const itemsElement = parent.itemsElement.getElement();
+    const itemsElement = parent.itemsElement.el();
     const target = event.target as HTMLElement;
 
     if (itemsElement && !itemsElement.contains(target)) {
@@ -22,15 +23,13 @@ export function createMenuController(parent: ActionsMenuService) {
   }
 
   function open() {
-    open$.next(true);
+    isOpen.set(true);
     setTimeout(() => addClickOut());
   }
 
   function toggle() {
-    open$.getCurrent() ? close() : open();
+    isOpen() ? close() : open();
   }
-
-  parent.core.destroy$.subscribe(() => removeClickOut());
 
   function addClickOut() {
     window.addEventListener('click', globalClickHandler);
@@ -40,10 +39,15 @@ export function createMenuController(parent: ActionsMenuService) {
     window.removeEventListener('click', globalClickHandler)
   }
 
+  function destroy() {
+    removeClickOut();
+  }
+
   return {
-    open$: open$.data$,
+    isOpen: isOpen.asReadonly(),
     toggle,
     open,
     close,
+    destroy,
   };
 }

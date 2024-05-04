@@ -1,58 +1,47 @@
-@if (!!vm) {
-
-  <div class="app-actions-menu-button">
+<div class="app-actions-menu-button">
+  @if (buttonTemplate(); as buttonTemplate) {
     <ng-container
-      [ngTemplateOutlet]="vm.templates.button ?? defaultButtonTemplate"
-      [ngTemplateOutletContext]="{ $implicit: vm.isOpen }"
+      [ngTemplateOutlet]="buttonTemplate"
+      [ngTemplateOutletContext]="{ $implicit: isOpen() }"
     />
-  </div>
+  } @else {
+    <button type="button" appButton="outline" type="button" isCircle withIconOnly>
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+  }
+</div>
 
-  <ul
-    #itemsElementRef
-    [attr.id]="vm.itemsId"
-    role="menu"
-    tabindex="-1"
-    [attr.aria-labelledby]="vm.buttonId"
-    [attr.aria-activedescendant]="vm.focused"
-    class="app-actions-menu-items -position-{{ position() }}"
-    [class.-open]="vm.isOpen"
-  >
-    @for (action of vm.actions; track action.id) {
-      <li
-        class="app-actions-menu-item"
-        [class.-focused]="vm.focused === action.id"
-        [class.-first]="$first"
-        [class.-last]="$last"
-        role="menuitem"
-        [attr.id]="action.id"
-        tabindex="-1"
-        (click)="onActionClicked($event, action.id)"
-        (mouseover)="onActionMouseover($event, action.id)"
-      >
+<ul
+  #itemsElementRef
+  [attr.id]="itemsId()"
+  role="menu"
+  tabindex="-1"
+  [attr.aria-labelledby]="buttonId()"
+  [attr.aria-activedescendant]="focused()"
+  class="app-actions-menu-items -position-{{ position() }}"
+  [class.-open]="isOpen()"
+>
+  @for (action of menuActions(); track action.id) {
+    <li
+      class="app-actions-menu-item"
+      [class.-focused]="focused() === action.id"
+      [class.-first]="$first"
+      [class.-last]="$last"
+      role="menuitem"
+      [attr.id]="action.id"
+      tabindex="-1"
+      (click)="onActionClicked($event, action.id)"
+      (mouseover)="onActionMouseover($event, action.id)"
+    >
+      @if (itemTemplate(); as itemTemplate) {
         <ng-container
-          [ngTemplateOutlet]="vm.templates.item ?? defaultItemTemplate"
+          [ngTemplateOutlet]="itemTemplate"
           [ngTemplateOutletContext]="{ $implicit: action }"
         />
-      </li>
-    }
-  </ul>
-}
-
-<!-- Template: Default button -->
-<ng-template #defaultButtonTemplate>
-  <button
-    type="button"
-    appButton="outline"
-    type="button"
-    isCircle
-    withIconOnly
-  >
-    <mat-icon>more_horiz</mat-icon>
-  </button>
-</ng-template>
-
-<!-- Template: Default item -->
-<ng-template #defaultItemTemplate let-action>
-  <mat-icon>{{ action.icon }}</mat-icon>
-  {{ action.label }}
-</ng-template>
+      } @else {
+        <mat-icon>{{ action.icon }}</mat-icon>
+        {{ action.label }}
+      }
+    </li>
+  }
+</ul>

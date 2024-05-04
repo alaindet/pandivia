@@ -1,62 +1,84 @@
-import { takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { isPrintableChar, onKeydown } from '@app/common/utils';
 import { KEYBOARD_KEY as KB } from '@app/common/types';
 import { ActionsMenuService } from './actions-menu.service';
+import { signal } from '@angular/core';
 
 export function createItemsElementController(parent: ActionsMenuService) {
 
-  let el: HTMLElement | null;
+  const el = signal<HTMLElement | null>(null);
+
+  const destroy$ = new Subject<void>();
 
   function init(inputEl: HTMLElement) {
-    el = inputEl;
+    el.set(inputEl);
     listenToKeyboard(inputEl);
   }
 
   function listenToKeyboard(el: HTMLElement) {
-    onKeydown(el, parent.core.destroy$, [
-      {
-        on: [KB.SPACE, KB.ENTER],
-        handler: () => {
-          parent.actions.confirmFocused();
-          parent.menu.close();
-          parent.focus.clear();
-          parent.buttonElement.getElement()?.focus();
-        },
+
+    const confirmItem = {
+      on: [KB.SPACE, KB.ENTER],
+      handler: () => {
+        parent.actions.confirmFocused();
+        parent.menu.close();
+        parent.focus.clear();
+        parent.buttonElement.el()?.focus();
       },
-      {
-        on: [KB.ESC, KB.ESCAPE, KB.TAB],
-        handler: () => {
-          parent.menu.close();
-          parent.focus.button();
-        },
+    };
+
+    const closeItems = {
+      on: [KB.ESC, KB.ESCAPE, KB.TAB],
+      handler: () => {
+        parent.menu.close();
+        parent.focus.button();
       },
-      {
-        on: [KB.ARROW_UP, KB.UP],
-        handler: () => parent.focus.previous(),
-      },
-      {
-        on: [KB.ARROW_DOWN, KB.DOWN],
-        handler: () => parent.focus.next(),
-      },
-      {
-        on: [KB.HOME, KB.PAGE_UP],
-        handler: () => parent.focus.first(),
-      },
-      {
-        on: [KB.END, KB.PAGE_DOWN],
-        handler: () => parent.focus.last(),
-      },
-      {
-        on: isPrintableChar,
-        handler: event => parent.focus.search(event.key),
-      },
-    ]).pipe(takeUntil(parent.core.destroy$)).subscribe();
+    };
+
+    const focusPreviousItem = {
+      on: [KB.ARROW_UP, KB.UP],
+      handler: () => parent.focus.previous(),
+    };
+
+    const focusNextItem = {
+      on: [KB.ARROW_DOWN, KB.DOWN],
+      handler: () => parent.focus.next(),
+    };
+
+    const focusFirstItem = {
+      on: [KB.HOME, KB.PAGE_UP],
+      handler: () => parent.focus.first(),
+    };
+
+    const focusLastItem = {
+      on: [KB.END, KB.PAGE_DOWN],
+      handler: () => parent.focus.last(),
+    };
+
+    const searchItems = {
+      on: isPrintableChar,
+      handler: (event: KeyboardEvent) => parent.focus.search(event.key),
+    };
+
+    onKeydown(el, destroy$, [
+      confirmItem,
+      closeItems,
+      focusPreviousItem,
+      focusNextItem,
+      focusFirstItem,
+      focusLastItem,
+      searchItems,
+    ]).pipe(takeUntil(destroy$)).subscribe();
   }
 
-  function getElement() {
-    return el;
+  function destroy() {
+    destroy$.complete();
   }
 
-  return { init, getElement };
+  return {
+    el: el.asReadonly(),
+    init,
+    destroy,
+  };
 };

@@ -1,26 +1,20 @@
-@if (vm(); as vm) {
-  <app-layout-stacked
-    [title]="vm.layout.title"
+<app-layout-stacked
+  [title]="title()"
 
-    [withBackButton]="vm.layout.backButton === BACK_BUTTON_STATUS.NATIVE"
-    [withControlledBackButton]="vm.layout.backButton === BACK_BUTTON_STATUS.CONTROLLED"
-    (backButtonClicked)="layout.backButton.press()"
+  [headerActions]="headerActions()"
+  [headerCounters]="headerCounters()"
+  (headerActionClicked)="onHeaderActionClicked($event)"
 
-    [headerActions]="vm.layout.headerActions"
-    [headerCounters]="vm.layout.headerCounters"
-    (headerActionClicked)="layout.headerActions.confirm($event)"
+  [withSearch]="searchEnabled()"
+  [withVisibleSearch]="searchVisible()"
+  [searchQuery]="searchQuery()"
+  (toggledSearch)="onToggleSearchBox()"
+  (searched)="onTypeSearchQuery($event)"
+  (searchCleared)="onClearSearchQuery()"
 
-    [withSearch]="vm.layout.search.enabled"
-    [withVisibleSearch]="vm.layout.search.visible"
-    [searchQuery]="vm.layout.search.query"
-    (toggledSearch)="layout.search.toggle()"
-    (searched)="layout.search.search($event)"
-    (searchCleared)="layout.search.clear()"
-
-    [footerActions]="vm.nav.items"
-    [footerCurrentAction]="vm.nav.current"
-    (footerActionClicked)="onBottomNavigation($event)"
-  >
-    <router-outlet></router-outlet>
-  </app-layout-stacked>
-}
+  [footerActions]="bottomNavigationItems()"
+  [footerCurrentAction]="bottomNavigationCurrent()"
+  (footerActionClicked)="onBottomNavigation($event)"
+>
+  <router-outlet></router-outlet>
+</app-layout-stacked>

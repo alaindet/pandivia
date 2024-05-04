@@ -1,24 +1,21 @@
 import { signal } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { Counters } from '../../../types';
 
-export type StackedLayoutHeaderCountersViewModel = Counters | null;
+export function createHeaderCountersController() {
 
-export function createHeaderCountersController(destroy$: Observable<void>) {
+  const counters = signal<Counters | null>(null);
 
-  const data = signal<StackedLayoutHeaderCountersViewModel>(null);
-
-  function set(counters: Counters) {
-    data.set(counters);
+  function set(_counters: Counters) {
+    counters.set(_counters);
   }
 
   function clear() {
-    data.set(null);
+    counters.set(null);
   }
 
   return {
-    data,
+    counters: counters.asReadonly(),
 
     set,
     clear,

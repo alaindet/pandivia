@@ -33,15 +33,12 @@ export class StackedLayoutComponent {
   headerCounters = input<Counters | null>(null);
   footerActions = input.required<BottomMenuItem[]>();
   footerCurrentAction = input<string | null>(null);
-  withBackButton = input(false);
-  withControlledBackButton = input(false);
   withSearch = input(false);
   withVisibleSearch = input(false);
   searchQuery = input('');
 
   headerActionClicked = output<string>();
   footerActionClicked = output<string>();
-  backButtonClicked = output<void>();
   toggledSearch = output<void>();
   searched = output<string>();
   searchCleared = output<void>();

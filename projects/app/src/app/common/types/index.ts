@@ -1,4 +1,4 @@
-export * from './back-button-status';
+export * from './back-button-mode';
 export * from './counters';
 export * from './enum-like';
 export * from './form-field-descriptor';

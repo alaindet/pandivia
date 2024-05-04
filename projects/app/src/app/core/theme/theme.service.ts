@@ -1,18 +1,19 @@
-import { Inject, Injectable, computed, effect, inject } from '@angular/core';
+import { Injectable, computed, effect, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { DOCUMENT } from '@angular/common';
+import { Meta } from '@angular/platform-browser';
 import { createLocalStorageItemController } from '@app/common/controllers';
 import { selectUiTheme, uiSetTheme } from '../ui/store';
-import { DEFAULT_THEME, THEME_OPTIONS, THEME_STORAGE_KEY, THEME_CONFIG } from './constants';
+import { DEFAULT_THEME, THEME_CONFIG, THEME_OPTIONS, THEME_STORAGE_KEY } from './constants';
 import { Theme, ThemeConfig } from './types';
-import { Meta } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
 
+  private document = inject(DOCUMENT);
   private store = inject(Store);
   private meta = inject(Meta);
   current = this.store.selectSignal(selectUiTheme);
@@ -25,10 +26,7 @@ export class ThemeService {
     default: DEFAULT_THEME,
   });
 
-  // TODO: Is there a better way?
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-  ) {
+  constructor() {
     this.document.body.setAttribute('theme', DEFAULT_THEME);
     this.initThemeFromStorage();
     this.listenToThemeChange();

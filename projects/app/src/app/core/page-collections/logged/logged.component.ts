@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { BottomMenuItem } from '@app/common/components';
-import { BACK_BUTTON_STATUS } from '@app/common/types';
+import { BACK_BUTTON_MODE } from '@app/common/types';
 import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layouts';
 import { NAVIGATION_ROUTES } from '../../ui';
 import { selectNavigation } from '../../store';
@@ -26,30 +26,52 @@ const imports = [
 })
 export class LoggedPageCollectionComponent {
 
-  layout = inject(StackedLayoutService);
+  private layout = inject(StackedLayoutService);
   private router = inject(Router);
   private store = inject(Store);
   private transloco = inject(TranslocoService);
 
-  BACK_BUTTON_STATUS = BACK_BUTTON_STATUS;
-
-  vm = computed(() => ({
-    layout: this.layout.vm(),
-    nav: this.getTranslatedNavItems()(),
-  }));
+  private bottomNavigation = computed(() => this.computeBottomNavigationItems());
+  bottomNavigationItems = computed(() => this.bottomNavigation().items);
+  bottomNavigationCurrent = computed(() => this.bottomNavigation().current);
+  search = this.layout.search;
+  title = this.layout.title.title;
+  headerActions = this.layout.headerActions.actions;
+  headerCounters = this.layout.headerCounters.counters;
+  searchEnabled = this.layout.search.enabled;
+  searchVisible = this.layout.search.visible;
+  searchQuery = this.layout.search.query;
 
   onBottomNavigation(actionId: BottomMenuItem['id']) {
     this.router.navigate([NAVIGATION_ROUTES[actionId]]);
   }
 
-  private getTranslatedNavItems() {
+  onHeaderActionClicked(action: string) {
+    this.layout.headerActions.confirm(action);
+  }
+
+  onTypeSearchQuery(query: string) {
+    this.layout.search.search(query);
+  }
+
+  onClearSearchQuery() {
+    this.layout.search.clear();
+  }
+
+  onToggleSearchBox() {
+    this.layout.search.toggle();
+  }
+
+  private computeBottomNavigationItems() {
+
     const nav = this.store.selectSignal(selectNavigation);
-    return computed(() => ({
+
+    return {
       ...nav(),
       items: nav().items.map(item => {
         const label = this.transloco.translate(item.label);
         return { ...item, label };
       }),
-    }));
+    };
   }
 }
