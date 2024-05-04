@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,14 +33,13 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  styleUrl: './signup.component.scss',
 })
 export default class SignUpPageComponent implements OnInit {
 
   private formBuilder = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private store = inject(Store);
   private ui = inject(UiService);
   private invitesService = inject(InvitesService);
 
@@ -49,11 +48,7 @@ export default class SignUpPageComponent implements OnInit {
   theForm!: FormGroup;
   FIELD = FIELD;
 
-  @ViewChild('emailRef', { read: TextInputComponent })
-  set emailRefSetter(ref: TextInputComponent) {
-    this.emailRef = ref;
-  }
-  emailRef!: TextInputComponent;
+  emailRef = viewChild.required('emailRef', { read: TextInputComponent });
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
   get fEmail() { return fDescribe(this.theForm, FIELD.EMAIL.id) }

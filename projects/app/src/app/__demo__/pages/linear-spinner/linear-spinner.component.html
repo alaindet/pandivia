@@ -10,4 +10,6 @@
   {{ fixedToViewport ? 'Hide fixed spinner' : 'Show fixed spinner' }}
 </button>
 
-<app-linear-spinner *ngIf="fixedToViewport" [fixed]="true"></app-linear-spinner>
+@if (fixedToViewport) {
+  <app-linear-spinner [fixed]="true"></app-linear-spinner>
+}

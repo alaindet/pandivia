@@ -32,28 +32,25 @@
     />
 
     <!-- Error: required -->
-    <app-form-field-error
-      *ngIf="fName | appFieldError:'required'"
-      [errorId]="FIELD.NAME.errors.REQUIRED"
-    >
-      {{ t('common.error.required') }}
-    </app-form-field-error>
+    @if (fName | appFieldError:'required') {
+      <app-form-field-error [errorId]="FIELD.NAME.errors.REQUIRED">
+        {{ t('common.error.required') }}
+      </app-form-field-error>
+    }
 
     <!-- Error: min/max length -->
-    <app-form-field-error
-      *ngIf="fName | appFieldError:'minlength,maxlength'"
-      [errorId]="FIELD.NAME.errors.LENGTH"
-    >
-      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-    </app-form-field-error>
+    @if (fName | appFieldError:'minlength,maxlength') {
+      <app-form-field-error [errorId]="FIELD.NAME.errors.LENGTH">
+        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
+      </app-form-field-error>
+    }
 
     <!-- Error: unique name -->
-    <app-form-field-error
-      *ngIf="fName | appFieldError:'uniqueItemName'"
-      [errorId]="FIELD.NAME.errors.UNIQUE"
-    >
-      {{ t('common.error.uniqueName') }}
-    </app-form-field-error>
+    @if (fName | appFieldError:'uniqueItemName') {
+      <app-form-field-error [errorId]="FIELD.NAME.errors.UNIQUE">
+        {{ t('common.error.uniqueName') }}
+      </app-form-field-error>
+    }
 
   </app-form-field>
 
@@ -78,12 +75,11 @@
       }"
     />
 
-    <app-form-field-error
-      *ngIf="fDesc | appFieldError:'minlength,maxlength'"
-      [errorId]="FIELD.DESCRIPTION.errors.LENGTH"
-    >
-      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-    </app-form-field-error>
+    @if (fDesc | appFieldError:'minlength,maxlength') {
+      <app-form-field-error [errorId]="FIELD.DESCRIPTION.errors.LENGTH">
+        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
+      </app-form-field-error>
+    }
 
   </app-form-field>
 
@@ -130,12 +126,11 @@
       </ng-container>
     </app-autocomplete>
 
-    <app-form-field-error
-      *ngIf="fCategory | appFieldError:'minlength,minlength'"
-      [errorId]="FIELD.CATEGORY.errors.LENGTH"
-    >
-      {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-    </app-form-field-error>
+    @if (fCategory | appFieldError:'minlength,minlength') {
+      <app-form-field-error [errorId]="FIELD.CATEGORY.errors.LENGTH">
+        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
+      </app-form-field-error>
+    }
   </app-form-field>
 
 </form>
@@ -158,25 +153,26 @@
       </button>
     }
 
-    <!-- Edit -->
-    <button
-      *ngIf="isEditing(); else createRef"
-      type="button"
-      appButton="primary"
-      withIcon="left"
-      size="small"
-      [withFullWidth]="isMobile()"
-      [disabled]="isSaving()"
-      (click)="onSubmit()"
-    >
-    <mat-icon [class.-rotating]="isSaving()">
-      {{ isSaving() ? 'sync' : 'edit' }}
-    </mat-icon>
-      {{ t('common.edit') }}
-    </button>
+    @if (isEditing()) {
+      <!-- Edit -->
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        [withFullWidth]="isMobile()"
+        [disabled]="isSaving()"
+        (click)="onSubmit()"
+      >
+      <mat-icon [class.-rotating]="isSaving()">
+        {{ isSaving() ? 'sync' : 'edit' }}
+      </mat-icon>
+        {{ t('common.edit') }}
+      </button>
+    }
 
-    <!-- Create -->
-    <ng-template #createRef>
+    @else {
+      <!-- Create -->
 
       <!-- Confirm and continue -->
       <button
@@ -203,7 +199,7 @@
         <mat-icon>add</mat-icon>
         {{ t('common.createAndClose') }}
       </button>
+    }
 
-    </ng-template>
   </div>
 </ng-container>

@@ -4,17 +4,23 @@
 
 <form [formGroup]="myForm">
   <app-form-field>
+
     <app-form-field-label isRequired>
       My textarea
     </app-form-field-label>
+
     <app-textarea
       formControlName="myTextarea"
       [status]="fMyTextarea | appFieldStatus"
       placeholder="Enter some text here..."
     />
-    <app-form-field-error *ngIf="fMyTextarea | appFieldError:'required'">
-      Required field
-    </app-form-field-error>
+
+    @if (fMyTextarea | appFieldError:'required') {
+      <app-form-field-error>
+        Required field
+      </app-form-field-error>
+    }
+
   </app-form-field>
 </form>
 

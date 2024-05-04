@@ -40,7 +40,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  styleUrl: './list.component.scss',
 })
 export class ListPageComponent implements OnInit, OnDestroy {
 
@@ -244,10 +244,6 @@ export class ListPageComponent implements OnInit, OnDestroy {
       this.layout.search.clear(false);
       this.layout.search.hide();
     }
-  }
-
-  trackByCategory(index: number, group: CategorizedListItems): string {
-    return group.category;
   }
 
   private getTranslatedFilters(): Signal<ListFilterToken[] | null> {

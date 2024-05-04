@@ -1,6 +1,5 @@
-import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AfterContentInit, Component, ViewChild, inject, input, output, viewChild } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -11,7 +10,6 @@ import { UserCredentials } from '@app/features/user';
 import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
 
 const imports = [
-  NgIf,
   ReactiveFormsModule,
   MatIconModule,
   TranslocoModule,
@@ -27,34 +25,30 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './user-credentials-form.component.html',
-  styleUrls: ['./user-credentials-form.component.scss'],
+  styleUrl: './user-credentials-form.component.scss',
 })
-export class UserCredentialsFormComponent implements OnInit {
+export class UserCredentialsFormComponent implements AfterContentInit {
 
   private formBuilder = inject(FormBuilder);
 
-  @Input() submitLabel!: string;
-  @Input() email?: string;
-  @Output() confirmed = new EventEmitter<UserCredentials>();
+  submitLabel = input.required<string>();
+  email = input<string>();
 
-  theForm!: FormGroup;
+  confirmed = output<UserCredentials>();
+
   FIELD = FIELD;
+  theForm = this.formBuilder.group({
+    [FIELD.EMAIL.id]: [this.email() ?? '', [Validators.required, Validators.email]],
+    [FIELD.PASSWORD.id]: ['', [Validators.required]],
+  });
 
-  @ViewChild('emailRef', { read: TextInputComponent })
-  set emailRefSetter(ref: TextInputComponent) {
-    this.emailRef = ref;
-  }
-  emailRef!: TextInputComponent;
+  emailRef = viewChild.required('emailRef', { read: TextInputComponent });
 
   get fEmail() { return fDescribe(this.theForm, FIELD.EMAIL.id) }
   get fPassword() { return fDescribe(this.theForm, FIELD.PASSWORD.id) }
 
-  ngOnInit() {
-    this.initForm();
-  }
-
   ngAfterContentInit() {
-    setTimeout(() => this.emailRef.focus());
+    setTimeout(() => this.emailRef().focus());
   }
 
   onSignIn() {
@@ -62,16 +56,7 @@ export class UserCredentialsFormComponent implements OnInit {
       return;
     }
 
-    const credentials: UserCredentials = this.theForm.value;
+    const credentials = this.theForm.value as UserCredentials;
     this.confirmed.emit(credentials);
-  }
-
-  private initForm(): void {
-    const { required, email } = Validators;
-
-    this.theForm = this.formBuilder.group({
-      [FIELD.EMAIL.id]: [this.email ?? '', [required, email]],
-      [FIELD.PASSWORD.id]: ['', [required]],
-    });
   }
 }

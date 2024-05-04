@@ -21,7 +21,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss'],
+  styleUrl: './select.component.scss',
   host: { class: 'app-select' },
   encapsulation: ViewEncapsulation.None,
   providers: [SELECT_FORM_PROVIDER],

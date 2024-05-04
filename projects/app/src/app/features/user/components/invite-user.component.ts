@@ -28,7 +28,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './invite-user.component.html',
-  styleUrls: ['./invite-user.component.scss'],
+  styleUrl: './invite-user.component.scss',
 })
 export class InviteUserComponent {
 

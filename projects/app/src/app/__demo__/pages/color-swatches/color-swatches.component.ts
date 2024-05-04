@@ -1,9 +1,5 @@
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
-
-const imports = [
-  CommonModule,
-];
 
 type Swatch = {
   name: string;
@@ -15,12 +11,16 @@ type SwatchesCollection = {
   swatches: Swatch[];
 };
 
+const imports = [
+  NgClass,
+];
+
 @Component({
   selector: 'app-demo-color-swatches',
   standalone: true,
   imports,
   templateUrl: './color-swatches.component.html',
-  styleUrls: ['./color-swatches.component.scss'],
+  styleUrl: './color-swatches.component.scss',
 })
 export class ColorSwatchesDemoPageComponent {
 

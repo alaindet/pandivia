@@ -1,10 +1,10 @@
-<ng-container *ngIf="!!vm">
+@if (!!vm) {
 
   <div class="app-actions-menu-button">
     <ng-container
       [ngTemplateOutlet]="vm.templates.button ?? defaultButtonTemplate"
       [ngTemplateOutletContext]="{ $implicit: vm.isOpen }"
-    ></ng-container>
+    />
   </div>
 
   <ul
@@ -14,28 +14,29 @@
     tabindex="-1"
     [attr.aria-labelledby]="vm.buttonId"
     [attr.aria-activedescendant]="vm.focused"
-    class="app-actions-menu-items -position-{{ position }}"
+    class="app-actions-menu-items -position-{{ position() }}"
     [class.-open]="vm.isOpen"
   >
-    <li
-      *ngFor="let action of vm.actions; let first = first; let last = last"
-      class="app-actions-menu-item"
-      [class.-focused]="vm.focused === action.id"
-      [class.-first]="first"
-      [class.-last]="last"
-      role="menuitem"
-      [attr.id]="action.id"
-      tabindex="-1"
-      (click)="onActionClicked($event, action.id)"
-      (mouseover)="onActionMouseover($event, action.id)"
-    >
-      <ng-container
-        [ngTemplateOutlet]="vm.templates.item ?? defaultItemTemplate"
-        [ngTemplateOutletContext]="{ $implicit: action }"
-      ></ng-container>
-    </li>
+    @for (action of vm.actions; track action.id) {
+      <li
+        class="app-actions-menu-item"
+        [class.-focused]="vm.focused === action.id"
+        [class.-first]="$first"
+        [class.-last]="$last"
+        role="menuitem"
+        [attr.id]="action.id"
+        tabindex="-1"
+        (click)="onActionClicked($event, action.id)"
+        (mouseover)="onActionMouseover($event, action.id)"
+      >
+        <ng-container
+          [ngTemplateOutlet]="vm.templates.item ?? defaultItemTemplate"
+          [ngTemplateOutletContext]="{ $implicit: action }"
+        />
+      </li>
+    }
   </ul>
-</ng-container>
+}
 
 <!-- Template: Default button -->
 <ng-template #defaultButtonTemplate>

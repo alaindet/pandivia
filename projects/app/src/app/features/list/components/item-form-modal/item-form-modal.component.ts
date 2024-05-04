@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, ViewChild, computed, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
@@ -23,7 +23,6 @@ import { MediaQueryService } from '../../../../common/services';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 const imports = [
-  NgIf,
   ReactiveFormsModule,
   MatIconModule,
   TranslocoModule,
@@ -45,7 +44,7 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './item-form-modal.component.html',
-  styleUrls: ['./item-form-modal.component.scss'],
+  styleUrl: './item-form-modal.component.scss',
 })
 export class ListItemFormModalComponent extends BaseModalComponent<
   ListItemFormModalInput,
@@ -73,8 +72,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
   get fDone() { return fDescribe(this.theForm, FIELD.IS_DONE.id) }
 
-  @ViewChild('nameRef', { read: TextInputComponent })
-  nameRef!: TextInputComponent;
+  nameRef = viewChild.required('nameRef', { read: TextInputComponent });
 
   ngOnInit() {
     this.store.dispatch(inventoryFetchItems.try());
@@ -159,7 +157,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
           [FIELD.ADD_TO_INVENTORY.id]: false,
         });
         this.shouldContinue = false;
-        this.nameRef?.focus();
+        this.nameRef()?.focus();
         return;
       }
 

@@ -56,37 +56,40 @@
 <h2>Dynamic</h2>
 <form [formGroup]="myForm">
   <app-form-field id="demo-dynamic">
+
     <app-form-field-label>
       Your name
     </app-form-field-label>
+
     <app-text-input
       type="text"
       formControlName="firstName"
-      [withErrorId]="
-        fFirstName.valid
+      [status]="!fFirstName.touched
+        ? undefined
+        : (fFirstName.valid ? 'success' : 'error')"
+      [withErrorId]="fFirstName.valid
         ? null
         : fFirstName.hasError('required')
           ? 'demo-dynamic-required'
           : fFirstName.hasError('minlength')
             ? 'demo-dynamic-minlength'
-            : null
-      "
-      [status]="!fFirstName.touched ? undefined : (fFirstName.valid ? 'success' : 'error')"
+            : null"
     ></app-text-input>
+
     <app-form-field-hint>
       This should help you fill the control
     </app-form-field-hint>
-    <app-form-field-error
-      *ngIf="fFirstName.touched && fFirstName.hasError('required')"
-      errorId="demo-dynamic-required"
-    >
-      This field is required
-    </app-form-field-error>
-    <app-form-field-error
-      *ngIf="fFirstName.touched && fFirstName.hasError('minlength')"
-      errorId="demo-dynamic-minlength"
-    >
-      Must have at least 3 characters
-    </app-form-field-error>
+
+    @if (fFirstName.touched && fFirstName.hasError('required')) {
+      <app-form-field-error errorId="demo-dynamic-required">
+        This field is required
+      </app-form-field-error>
+    }
+
+    @if (fFirstName.touched && fFirstName.hasError('minlength')) {
+      <app-form-field-error errorId="demo-dynamic-minlength">
+        Must have at least 3 characters
+      </app-form-field-error>
+    }
   </app-form-field>
 </form>

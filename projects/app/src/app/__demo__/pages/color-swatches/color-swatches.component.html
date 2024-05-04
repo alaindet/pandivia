@@ -1,12 +1,12 @@
-<ng-container *ngFor="let collection of swatchesCollections; let last = last">
-  <div class="swatches-collection" [class.-last]="last">
+@for (collection of swatchesCollections; track collection.name) {
+  <div class="swatches-collection" [class.-last]="$last">
     <h2>{{ collection.name }}</h2>
     <div class="swatches">
-      <ng-container *ngFor="let swatch of collection.swatches">
+      @for (swatch of collection.swatches; track swatch.name) {
         <div class="swatch" [ngClass]="swatch.cssClass">
           {{ swatch.name }}
         </div>
-      </ng-container>
+      }
     </div>
   </div>
-</ng-container>
+}
