@@ -3,6 +3,7 @@ import { Injectable, OnDestroy, TemplateRef, ViewContainerRef, effect, signal } 
 import { errorI18n } from '@app/common/utils';
 import { Subject, filter, map, of, switchMap, take, throwError } from 'rxjs';
 import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOptions, ModalOutput, ModalRef } from './types';
+import { createBodyScrollingController } from './scrolling.controller';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +16,16 @@ export class ModalService implements OnDestroy {
   isFullPage = signal(false);
   private _closed$ = new Subject<ModalOutput<any>>();
   private _confirmClicked$ = new Subject<void>();
+  private bodyScrolling = createBodyScrollingController();
 
   headerTemplate = signal<TemplateRef<void> | null>(null);
   footerTemplate = signal<TemplateRef<void> | null>(null);
 
   constructor() {
-    this._closed$.subscribe(() => this.isFullPage.set(false));
+    this._closed$.subscribe(() => {
+      this.isFullPage.set(false);
+      this.bodyScrolling.restore();
+    });
   }
 
   ngOnDestroy() {
@@ -98,6 +103,7 @@ export class ModalService implements OnDestroy {
   ): ModalRef<TInput, TOutput> {
 
     this.focusedBeforeModal = document.activeElement as HTMLElement | null;
+    this.bodyScrolling.block();
 
     if (!!options?.fullPage) {
       this.isFullPage.set(true);

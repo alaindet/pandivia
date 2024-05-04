@@ -21,6 +21,7 @@
   - [ ] Focus first focusable element on modal open
   - [ ] Full page modal does not work on List page
   - [ ] Fix click out
+  - [ ] Set `overflow-y: hidden;` when opening a dialog
 
 ## Refactoring
 Angular 16
