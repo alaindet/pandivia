@@ -10,7 +10,8 @@
   - [ ] Remove `@import 'scoped';` from every component's .scss file if unneeded
   - [ ] Attach CSS variables to host components
   - [ ] Remove all `queueMicrotask()` by using signals
-  - [ ] Refactor action-menu
+  - [ ] Refactor and fix action-menu
+  - [ ] Analyze ESBuild
 
 ## Refactoring
 Angular 16
@@ -19,5 +20,8 @@ build: 18 files, 1.31 Mb
 Angular 17
 build: 18 files, 1.32 Mb
 
-Angular 17 post refactoring
+Angular 17 post refactoring 1
+build: ? files, ?.?? Mb
+
+Angular 17 post refactoring 2
 build: ? files, ?.?? Mb
