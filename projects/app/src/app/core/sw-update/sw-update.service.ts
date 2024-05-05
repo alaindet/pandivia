@@ -1,33 +1,41 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { filter } from 'rxjs';
+import { filter, take } from 'rxjs';
+import { TranslocoService } from '@ngneat/transloco';
+
+import { UPGRADE_APPLICATION_PROMPT } from './prompt';
+import { ConfirmPromptModalComponent, ModalService } from '@app/common/components';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SoftwareUpdateService {
 
-  constructor(swUpdates: SwUpdate) {
+  private transloco = inject(TranslocoService);
+  private modal = inject(ModalService);
+  private swUpdates = inject(SwUpdate);
 
-    if (!swUpdates.isEnabled) {
+  check(): void {
+
+    if (!this.swUpdates.isEnabled) {
       return;
     }
 
-    // const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
-    const newVersionExists$ = swUpdates.versionUpdates.pipe(filter(e => e.type === 'VERSION_READY'));
+    const newVersionExists$ = this.swUpdates.versionUpdates.pipe(
+      filter(e => e.type === 'VERSION_READY'),
+    );
 
-    // concat(appIsStable$, newVersionExists$).subscribe(() => {
     newVersionExists$.subscribe(() => {
 
-      // TODO: Remove
-      console.log('A new version exists');
+      const title = this.transloco.translate(UPGRADE_APPLICATION_PROMPT.title);
+      const message = this.transloco.translate(UPGRADE_APPLICATION_PROMPT.message);
+      const prompt = { ...UPGRADE_APPLICATION_PROMPT, title, message };
 
-      // TODO: Ask the user via prompt if the application should reload
-      const userConfirmed = false;
-
-      if (userConfirmed) {
-        document.location.reload();
-      }
+      const modal$ = this.modal.open(ConfirmPromptModalComponent, prompt);
+      modal$.closed().pipe(take(1)).subscribe({
+        error: () => console.log('Canceled'),
+        next: () => document.location.reload(),
+      });
     });
   }
 }

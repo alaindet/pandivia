@@ -1,4 +1,6 @@
 {
+  "upgrade.promptTitle": "Aggiornamento",
+  "upgrade.promptMessage": "Una nuova versione dell'applicazione è stata installata. Vuoi attivarla subito? Se no, verrà attivata automaticamente al prossimo avvio.",
   "list.title": "Lista",
   "list.error.itemUnique": "Un elemento di Lista con nome \"{{ name }}\" già esiste",
   "list.error.itemNotFound": "Elemento di Lista con ID \"{{ id }}\" non trovato",

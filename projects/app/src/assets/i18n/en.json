@@ -1,4 +1,6 @@
 {
+  "upgrade.promptTitle": "Upgrade",
+  "upgrade.promptMessage": "A new version of the application was installed. Do you want to activate it now? If not, it will activate automatically next time.",
   "list.title": "List",
   "list.error.itemUnique": "List item with name \"{{ name }}\" already exists",
   "list.error.itemNotFound": "List item with ID \"{{ id }}\" not found",
