@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions } from '@ngrx/effects';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { createUiController } from '@app/core/ui';
 import { userSignIn, userSignOut } from '../actions';

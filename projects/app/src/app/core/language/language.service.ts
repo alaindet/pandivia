@@ -1,6 +1,6 @@
 import { Injectable, effect, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { userSetLanguage } from '@app/features/user/store/actions';
 import { selectUserLanguage } from '@app/features/user/store';

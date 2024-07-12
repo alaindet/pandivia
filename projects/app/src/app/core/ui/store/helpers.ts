@@ -1,6 +1,6 @@
 import { createEffect, ofType } from '@ngrx/effects';
 import { Observable, of, switchMap } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { uiLoaderStart, uiLoaderStop, uiNotificationAddSuccess, uiNotificationAddError } from './actions';
 

@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import { FormFieldStatus, FormOption } from '@app/common/types';
 import { cssClassesList, uniqueId } from '@app/common/utils';
