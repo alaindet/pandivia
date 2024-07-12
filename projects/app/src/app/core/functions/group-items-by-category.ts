@@ -2,7 +2,9 @@ import { InventoryItem } from '@app/features/inventory';
 import { CategorizedListItems, ListItem } from '@app/features/list';
 import { DEFAULT_CATEGORY } from '../constants';
 
-export function groupItemsByCategory(items: (InventoryItem | ListItem)[]): CategorizedListItems[] {
+export function groupItemsByCategory(
+  items: (InventoryItem | ListItem)[],
+): CategorizedListItems[] {
   const grouped: { [category: string]: any[] } = {};
 
   for (const item of items) {
