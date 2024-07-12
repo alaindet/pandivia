@@ -11,7 +11,7 @@ The Angular application features
 - Angular workspaces (TODO)
 - Completely custom and accessible components
 - Themable via CSS variables
-- Internationalization via `@ngneat/transloco`
+- Internationalization via `@jsverse/transloco`
 - Service workers
 - NgRx
 

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { filter, take } from 'rxjs';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { UPGRADE_APPLICATION_PROMPT } from './prompt';
 import { ConfirmPromptModalComponent, ModalService } from '@app/common/components';

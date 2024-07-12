@@ -2,7 +2,7 @@ import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, Signal, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, catchError, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
 

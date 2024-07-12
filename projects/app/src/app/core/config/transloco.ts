@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, isDevMode } from '@angular/core';
-import { provideTransloco, translocoConfig, Translation } from '@ngneat/transloco';
+import { provideTransloco, translocoConfig, Translation } from '@jsverse/transloco';
 import { DEFAULT_LANGUAGE, LANGUAGE_OPTIONS } from '../language';
 
 @Injectable({

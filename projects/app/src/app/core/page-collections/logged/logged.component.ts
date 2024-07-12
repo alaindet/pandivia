@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { BottomMenuItem } from '@app/common/components';
 import { BACK_BUTTON_MODE } from '@app/common/types';

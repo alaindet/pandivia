@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, HostBinding, OnDestroy, ViewContainerRef, ViewEncapsulation, effect, inject, input, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import { ButtonComponent } from '../../button';
 import { ModalService } from '../modal.service';

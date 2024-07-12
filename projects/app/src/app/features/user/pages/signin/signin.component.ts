@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { PageHeaderComponent, UserCredentialsFormComponent } from '@app/common/components';

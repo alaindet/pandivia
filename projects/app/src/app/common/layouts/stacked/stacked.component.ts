@@ -3,7 +3,7 @@ import { Component, ViewEncapsulation, effect, input, output, viewChild } from '
 import { MatIconModule } from '@angular/material/icon';
 
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, BottomMenuComponent, BottomMenuItem, ButtonComponent, PageHeaderComponent, TextInputComponent } from '@app/common/components';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Counters } from '../../types';
 
 const imports = [

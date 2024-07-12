@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { selectNotification, selectNotificationsExist, uiNotificationAddError, uiNotificationAddSuccess, uiNotificationDismiss } from '../store';
 
 export function createNotificationController() {
