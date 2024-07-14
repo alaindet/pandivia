@@ -1,12 +1,13 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { finalize } from 'rxjs';
 
+import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
+import { extractCategories, filterItems, filterItemsByName, getItemByExactId, getItemByName, shouldFetchCollection } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
-import { CACHE_MAX_AGE, groupItemsByCategory, sortItemsByName } from '../../../core';
+import { groupItemsByCategory, sortItemsByName } from '../../../core';
 import { CategorizedListItems } from '../../list';
 import { INVENTORY_FILTER, InventoryFilters, InventoryFilterToken, InventoryItem } from '../types';
 import { InventoryService } from '../services';
-import { UiStoreFeatureService } from '../../../core/ui/store/__feature';
-import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,55 +31,39 @@ export class InventoryStoreFeatureService {
   isLoaded = computed(() => this.status() === LOADING_STATUS.IDLE);
   isLoading = computed(() => this.status() === LOADING_STATUS.LOADING);
   isError = computed(() => this.status() === LOADING_STATUS.ERROR);
-  shouldFetch = computed(() => this.computeShouldFetch());
-  categories = computed(() => this.computeCategories());
+  shouldFetch = computed(() => {
+    return shouldFetchCollection(this.items(), this.status(), this.lastUpdated());
+  });
+  categories = computed(() => extractCategories(this.items()));
   filtersList = computed(() => this.computeFiltersList());
   categoryFilter = computed(() => this.filters()[INVENTORY_FILTER.CATEGORY]);
   counters = computed(() => ({ completed: null, total: this.items().length }));
 
+  // TODO: Return a computed()
   getItemById(itemId: string): InventoryItem | null {
-    const item = this.items().find(item => item.id === itemId);
-    return item ?? null;
+    return getItemByExactId(this.items(), itemId);
   }
 
   // TODO: Add to filtering section
-  itemExistsWithName(name: string): InventoryItem | null {
-    const query = name.toLowerCase();
-    const item = this.items().find(item => item.name.toLowerCase() === query);
-    return item ?? null;
+  // TODO: Return a computed()
+  itemExistsWithExactName(name: string): InventoryItem | null {
+    return getItemByName(this.items(), name);
   }
 
   // TODO: Add to filtering section
-  getCategoriesByName(name: string): string[] {
-    const query = name.toLowerCase();
-
-    const searchByCategory = (item: InventoryItem) => {
-      return item.category?.toLowerCase()?.includes(query);
-    };
-
-    const categories = new Set<string>();
-
-    this.items().forEach(item => {
-      if (searchByCategory(item)) {
-        categories.add(item.category!);
-      }
-    });
-
-    return [...categories.values()];
+  // TODO: Return a computed()
+  filterCategoriesByName(name: string): string[] {
+    return filterItems(this.categories(), name);
   }
 
   // TODO: Add to filtering section
-  getItemsByName(name: string): InventoryItem[] {
-    const query = name.toLowerCase();
-
-    const searchName = (item: InventoryItem) => {
-      return item.name?.toLowerCase()?.includes(query);
-    };
-
-    return this.items().filter(searchName);
+  // TODO: Return a computed()
+  filterItemsByName(name: string): InventoryItem[] {
+    return filterItemsByName(this.items(), name);
   }
 
   // TODO: Add to filtering section
+  // TODO: Return a computed()
   getCategorizedFilteredItems(): CategorizedListItems[] {
     const filters = this.filters();
 
@@ -107,7 +92,7 @@ export class InventoryStoreFeatureService {
   }
 
   fetchItems() {
-    if (!this.computeShouldFetch()) {
+    if (!this.shouldFetch()) {
       this.status.set(LOADING_STATUS.IDLE);
       return;
     }
@@ -128,39 +113,6 @@ export class InventoryStoreFeatureService {
           this.items.set(items);
         },
       });
-  }
-
-  private computeShouldFetch(): boolean {
-
-    if (this.status() === LOADING_STATUS.PRISTINE) {
-      return true;
-    }
-
-    if (this.lastUpdated() === null) {
-      return true;
-    }
-
-    if (Date.now() - this.lastUpdated()! > CACHE_MAX_AGE) {
-      return true;
-    }
-
-    if (!this.items().length) {
-      return true;
-    }
-
-    return false;
-  }
-
-  private computeCategories(): string[] {
-    const categories = new Set<string>();
-
-    this.items().forEach(item => {
-      if (item.category && !categories.has(item.category)) {
-        categories.add(item.category);
-      }
-    });
-
-    return Object.keys(categories);
   }
 
   private computeFiltersList(): InventoryFilterToken[] | null {
