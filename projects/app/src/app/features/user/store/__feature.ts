@@ -1,12 +1,13 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
+import { DEFAULT_ROUTE } from '@app/app.routes';
 import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
 import { DEFAULT_LANGUAGE, Language } from '@app/core/language';
 import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
 import { UserCredentials, UserData, UserDisplayData } from '../types';
 import { AuthenticationService } from '../services';
-import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class UserStoreFeatureService {
   private authService = inject(AuthenticationService);
   private ui = inject(UiStoreFeatureService);
 
-  // State -------------------------------------------------------------------- 
+  // State --------------------------------------------------------------------
   data = signal<UserData | null>(null);
   status = signal<LoadingStatus>(LOADING_STATUS.PRISTINE);
   language = signal<Language>(DEFAULT_LANGUAGE);
@@ -49,11 +50,9 @@ export class UserStoreFeatureService {
   signIn(credentials: UserCredentials) {
     this.status.set(LOADING_STATUS.LOADING);
     this.ui.loading.start();
-    
+
     this.authService.signIn(credentials)
-      .pipe(finalize(() => {
-        this.ui.loading.stop();
-      }))
+      .pipe(finalize(() => this.ui.loading.stop()))
       .subscribe({
         error: err => {
           console.error(err);
@@ -64,11 +63,30 @@ export class UserStoreFeatureService {
           this.status.set(LOADING_STATUS.IDLE);
           this.ui.notifications.success('auth.signInSuccess');
           this.data.set(user);
+          this.router.navigate([DEFAULT_ROUTE]);
         },
       });
   }
 
   signOut() {
     this.status.set(LOADING_STATUS.LOADING);
+    this.ui.loading.start();
+
+    this.authService.signOut()
+      .pipe(finalize(() => this.ui.loading.stop()))
+      .subscribe({
+        error: err => {
+          console.error(err);
+          this.status.set(LOADING_STATUS.ERROR);
+          this.ui.notifications.success('auth.signOutError');
+        },
+        next: user => {
+          this.status.set(LOADING_STATUS.IDLE);
+          this.ui.notifications.success('auth.signOutSuccess');
+          this.data.set(null);
+        },
+      });
   }
+
+  // TODO: Auto-signin
 }
