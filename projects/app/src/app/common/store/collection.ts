@@ -1,5 +1,12 @@
-import { CACHE_MAX_AGE } from "../../core";
-import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from "../types";
+import { CACHE_MAX_AGE, DEFAULT_CATEGORY } from '@app/core';
+import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '../types';
+
+export type SortingFn<T = any> = (a: T, b: T) => -1 | 0 | 1;
+
+export type CategorizedItems<T extends Record<string, any>> = {
+  category: string;
+  items: T[];
+};
 
 export function shouldFetchCollection<T extends Record<string, any>>(
   items: T[],
@@ -45,7 +52,10 @@ export function getItemByName<T extends (
   return item ?? null;
 }
 
-export function filterItems(items: string[], _query: string): string[] {
+export function filterItemsByQuery(
+  items: string[],
+  _query: string,
+): string[] {
   const query = _query.toLowerCase();
   return items.filter(item => item.toLowerCase().includes(query));
 }
@@ -55,4 +65,49 @@ export function filterItemsByName<T extends (
 )>(items: T[], name: string): T[] {
   const query = name.toLowerCase();
   return items.filter(item => item.name.toLowerCase().includes(query));
+}
+
+export function sortItemsByName<T extends { name: string }>(
+  items: T[],
+): T[] {
+  const newItems = [...items];
+  newItems.sort(compareByAscendingKey('name'));
+  return newItems;
+}
+
+export function compareByAscendingKey<T extends Record<string, any>>(
+  key: string,
+): SortingFn<T> {
+  const getter = (item: T): T[typeof key] => item[key];
+
+  return (a: T, b: T): -1 | 0 | 1 => {
+    const aValue = getter(a);
+    const bValue = getter(b);
+
+    if (aValue === bValue) {
+      return 0;
+    }
+
+    return aValue < bValue ? -1 : 1;
+  };
+}
+
+export function groupItemsByCategory<T extends { category?: string; }>(
+  items: T[],
+): CategorizedItems<T>[] {
+  const grouped: Record<string, T[]> = {};
+
+  for (const item of items) {
+    const category = item.category ?? DEFAULT_CATEGORY;
+
+    if (!grouped[category]) {
+      grouped[category] = [];
+    }
+
+    grouped[category].push(item);
+  };
+
+  return Object.entries(grouped).map(([category, items]) => {
+    return { category, items };
+  });
 }
