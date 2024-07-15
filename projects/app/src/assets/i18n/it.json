@@ -25,6 +25,7 @@
   "userProfile.lastSignedInOn": "Ultimo accesso",
   "userProfile.preferences": "Preferenze",
 
+  "auth.autoSignInError": "Impossibile accedere automaticamente. Riprova ad accedere",
   "auth.signIn": "Accedi",
   "auth.signInSuccess": "Accesso effettuato",
   "auth.signInError": "Impossibile accedere",

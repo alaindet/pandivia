@@ -8,6 +8,7 @@ import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, Notifi
 import { selectUiIsLoading } from './core/store';
 import { SoftwareUpdateService } from './core/sw-update';
 import { UiService } from './core/ui';
+import { UserStoreFeatureService } from './features/user/store/__feature';
 
 const imports = [
   RouterOutlet,
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit {
 
   private store = inject(Store);
   private swUpdate = inject(SoftwareUpdateService);
+  private userFeature = inject(UserStoreFeatureService);
 
   ui = inject(UiService);
   themeConfig = this.ui.theme.config;
@@ -37,5 +39,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.swUpdate.check();
+    this.userFeature.autoSignIn();
   }
 }

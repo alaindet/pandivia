@@ -1,9 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, from } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { Auth, Unsubscribe, User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Observable, from } from 'rxjs';
 
-import { userAutoSignIn } from '../store';
 import { UserCredentials, UserData } from '../types';
 
 @Injectable({
@@ -12,11 +10,6 @@ import { UserCredentials, UserData } from '../types';
 export class AuthenticationService {
 
   private auth = inject(Auth);
-  private store = inject(Store);
-
-  constructor() {
-    this.tryAutoSignIn();
-  }
 
   signIn({ email, password }: UserCredentials): Observable<UserData> {
     return from(
@@ -29,15 +22,21 @@ export class AuthenticationService {
     return from(signOut(this.auth));
   }
 
-  tryAutoSignIn(): Promise<void> {
-    return this.authStateOnce(async (authState: User | null) => {
-      if (!authState) {
-        this.store.dispatch(userAutoSignIn.err());
-        return;
-      }
-      const user = await this.getUserData(authState);
-      this.store.dispatch(userAutoSignIn.ok({ user }));
-    });
+  autoSignIn(): Observable<UserData | null> {
+    return from(new Promise<UserData | null>((resolve, reject) => {
+      let unsub!: Unsubscribe;
+      unsub = onAuthStateChanged(this.auth, async authState => {
+        unsub();
+
+        if (authState) {
+          const user = await this.getUserData(authState);
+          resolve(user);
+          return;
+        }
+
+        reject(null);
+      });
+    }));
   }
 
   private async getUserData(user: User): Promise<UserData> {
@@ -48,7 +47,7 @@ export class AuthenticationService {
     return userData;
   }
 
-  private authStateOnce(fn: (authState: User | null) => void): Promise<void> {
+  authStateOnce(fn: (authState: User | null) => void): Promise<void> {
     return new Promise(done => {
       let unsub!: Unsubscribe;
       unsub = onAuthStateChanged(this.auth, authState => {

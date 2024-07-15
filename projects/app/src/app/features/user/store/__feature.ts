@@ -80,7 +80,7 @@ export class UserStoreFeatureService {
           this.status.set(LOADING_STATUS.ERROR);
           this.ui.notifications.success('auth.signOutError');
         },
-        next: user => {
+        next: () => {
           this.status.set(LOADING_STATUS.IDLE);
           this.ui.notifications.success('auth.signOutSuccess');
           this.data.set(null);
@@ -88,5 +88,22 @@ export class UserStoreFeatureService {
       });
   }
 
-  // TODO: Auto-signin
+  autoSignIn() {
+    this.status.set(LOADING_STATUS.LOADING);
+    this.ui.loading.start();
+
+    this.authService.autoSignIn()
+      .pipe(finalize(() => this.ui.loading.stop()))
+      .subscribe({
+        error: err => {
+          console.error(err);
+          this.status.set(LOADING_STATUS.ERROR);
+          this.ui.notifications.success('auth.autoSignInError');
+        },
+        next: userData => {
+          this.status.set(LOADING_STATUS.IDLE);
+          this.data.set(userData);
+        },
+      });
+  }
 }
