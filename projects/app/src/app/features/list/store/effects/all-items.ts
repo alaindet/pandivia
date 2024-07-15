@@ -51,7 +51,7 @@ export class ListAllItemsEffects {
         return listUndoItems.ok({ message });
       }),
       catchError(() => {
-        const message = 'common.async.editItemError';
+        const message = 'common.async.editItemsError';
         return of(listUndoItems.err({ message  }));
       }),
     )),

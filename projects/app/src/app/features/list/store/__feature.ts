@@ -7,16 +7,24 @@ import { InventoryItem } from '../../inventory';
 import { InventoryStoreFeatureService } from '../../inventory/store/__feature';
 import { ListService } from '../services';
 import { LIST_FILTER, ListFilters, ListFilterToken, ListItem } from '../types';
-import { finalize } from 'rxjs';
+import { finalize, Observable, Subscription } from 'rxjs';
+import { StoreCommonFeedback, StoreLoader, StoreNotifier, StoreStatus } from './__types';
+import { getStoreFeedback, updateStoreItemsAsync } from './__functions';
+import { ListAllItemsStoreSubfeature } from './__all';
+import { ListCategoryItemsStoreSubfeature } from './__category';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ListStoreFeatureService {
 
-  private api = inject(ListService);
-  private ui = inject(UiStoreFeatureService);
-  private inventory = inject(InventoryStoreFeatureService);
+  public api = inject(ListService);
+  public ui = inject(UiStoreFeatureService);
+  public inventory = inject(InventoryStoreFeatureService);
+
+  // Controllers
+  all = new ListAllItemsStoreSubfeature(this);
+  category = new ListCategoryItemsStoreSubfeature(this);
 
   // State --------------------------------------------------------------------
   items = signal<ListItem[]>([]);
@@ -123,51 +131,15 @@ export class ListStoreFeatureService {
   }
 
   // Mutations ----------------------------------------------------------------
-  fetchItems(force = false) {
-
-    if (!force && !this.shouldFetch()) {
-      this.status.set(LOADING_STATUS.IDLE);
-      this.ui.loading.stop();
-      return;
-    }
-
-    this.ui.loading.start();
-    this.status.set(LOADING_STATUS.LOADING);
-
-    this.api.allItems.fetch()
-      .pipe(finalize(() => this.ui.loading.stop()))
-      .subscribe({
-        error: err => {
-          console.error(err);
-          this.status.set(LOADING_STATUS.ERROR);
-          this.ui.notifications.error('common.async.fetchItemsError');
-        },
-        next: items => {
-          this.status.set(LOADING_STATUS.IDLE);
-          this.lastUpdated.set(Date.now());
-          this.items.set(items);
-          this.ui.notifications.success('common.async.fetchItemsSuccess');
-        },
-      });
-  }
-
-  completeItems() {
-    this.ui.loading.start();
-    this.status.set(LOADING_STATUS.LOADING);
-
-    this.api.allItems.complete()
-      .pipe(finalize(() => this.ui.loading.stop()))
-      .subscribe({
-        error: err => {
-          console.error(err);
-          this.status.set(LOADING_STATUS.ERROR);
-          this.ui.notifications.error('common.async.editItemsError');
-        },
-        next: items => {
-          this.status.set(LOADING_STATUS.IDLE);
-          this.items.update(prev => prev.map(item => ({ ...item, isDone: true })));
-          this.ui.notifications.success('common.async.editItemsSuccess');
-        },
-      });
+  reset(): void {
+    this.items.set([]);
+    this.status.set(LOADING_STATUS.PRISTINE);
+    this.lastUpdated.set(null);
+    this.itemModalSuccessCounter.set(0);
+    this.filters.set({
+      [LIST_FILTER.CATEGORY]: null,
+      [LIST_FILTER.IS_DONE]: null,
+      [LIST_FILTER.SEARCH_QUERY]: null,
+    });
   }
 }
