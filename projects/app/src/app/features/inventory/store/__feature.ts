@@ -92,9 +92,11 @@ export class InventoryStoreFeatureService {
   }
 
   // Mutations ----------------------------------------------------------------
-  fetchItems() {
-    if (!this.shouldFetch()) {
+  fetchItems(force = false) {
+
+    if (!force && !this.shouldFetch()) {
       this.status.set(LOADING_STATUS.IDLE);
+      this.ui.loading.stop();
       return;
     }
 

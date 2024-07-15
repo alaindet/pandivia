@@ -7,6 +7,7 @@ import { InventoryItem } from '../../inventory';
 import { InventoryStoreFeatureService } from '../../inventory/store/__feature';
 import { ListService } from '../services';
 import { LIST_FILTER, ListFilters, ListFilterToken, ListItem } from '../types';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -121,28 +122,52 @@ export class ListStoreFeatureService {
     return filters.length ? filters : null;
   }
 
-  // // Mutations ----------------------------------------------------------------
-  // fetchItems() {
-  //   if (!this.shouldFetch()) {
-  //     this.status.set(LOADING_STATUS.IDLE);
-  //     return;
-  //   }
+  // Mutations ----------------------------------------------------------------
+  fetchItems(force = false) {
 
-  //   this.ui.loading.start();
-  //   this.status.set(LOADING_STATUS.LOADING);
+    if (!force && !this.shouldFetch()) {
+      this.status.set(LOADING_STATUS.IDLE);
+      this.ui.loading.stop();
+      return;
+    }
 
-  //   this.api.getItems()
-  //     .pipe(finalize(() => this.ui.loading.stop()))
-  //     .subscribe({
-  //       error: err => {
-  //         console.error(err);
-  //         this.status.set(LOADING_STATUS.ERROR);
-  //       },
-  //       next: items => {
-  //         this.status.set(LOADING_STATUS.IDLE);
-  //         this.lastUpdated.set(Date.now());
-  //         this.items.set(items);
-  //       },
-  //     });
-  // }
+    this.ui.loading.start();
+    this.status.set(LOADING_STATUS.LOADING);
+
+    this.api.allItems.fetch()
+      .pipe(finalize(() => this.ui.loading.stop()))
+      .subscribe({
+        error: err => {
+          console.error(err);
+          this.status.set(LOADING_STATUS.ERROR);
+          this.ui.notifications.error('common.async.fetchItemsError');
+        },
+        next: items => {
+          this.status.set(LOADING_STATUS.IDLE);
+          this.lastUpdated.set(Date.now());
+          this.items.set(items);
+          this.ui.notifications.success('common.async.fetchItemsSuccess');
+        },
+      });
+  }
+
+  completeItems() {
+    this.ui.loading.start();
+    this.status.set(LOADING_STATUS.LOADING);
+
+    this.api.allItems.complete()
+      .pipe(finalize(() => this.ui.loading.stop()))
+      .subscribe({
+        error: err => {
+          console.error(err);
+          this.status.set(LOADING_STATUS.ERROR);
+          this.ui.notifications.error('common.async.editItemsError');
+        },
+        next: items => {
+          this.status.set(LOADING_STATUS.IDLE);
+          this.items.update(prev => prev.map(item => ({ ...item, isDone: true })));
+          this.ui.notifications.success('common.async.editItemsSuccess');
+        },
+      });
+  }
 }

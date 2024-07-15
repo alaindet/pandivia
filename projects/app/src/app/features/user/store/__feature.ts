@@ -48,6 +48,7 @@ export class UserStoreFeatureService {
 
   // Mutations ----------------------------------------------------------------
   signIn(credentials: UserCredentials) {
+
     this.status.set(LOADING_STATUS.LOADING);
     this.ui.loading.start();
 
