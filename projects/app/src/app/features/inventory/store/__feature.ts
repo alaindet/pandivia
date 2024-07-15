@@ -1,19 +1,31 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
-import { finalize } from 'rxjs';
+import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
 
 import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
+import { provideFeedback } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
 import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
 import { InventoryService } from '../services';
 import { INVENTORY_FILTER, InventoryFilters, InventoryFilterToken, InventoryItem } from '../types';
+import { InventoryAllItemsStoreSubfeature } from './__all';
+import { InventoryCategoryItemsStoreSubfeature } from './__category';
+import { InventorySearchFiltersStoreSubfeature } from './__search-filters';
+import { InventoryItemStoreSubfeature } from './__item';
+import { UserStoreFeatureService } from '../../user/store/__feature';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryStoreFeatureService {
 
-  private api = inject(InventoryService);
-  private ui = inject(UiStoreFeatureService);
+  public api = inject(InventoryService);
+  public ui = inject(UiStoreFeatureService);
+  private user = inject(UserStoreFeatureService);
+
+  // Subfeatures --------------------------------------------------------------
+  allItems = new InventoryAllItemsStoreSubfeature(this);
+  categoryItems = new InventoryCategoryItemsStoreSubfeature(this);
+  searchFilters = new InventorySearchFiltersStoreSubfeature(this);
+  item = new InventoryItemStoreSubfeature(this);
 
   // State --------------------------------------------------------------------
   items = signal<InventoryItem[]>([]);
@@ -24,6 +36,9 @@ export class InventoryStoreFeatureService {
     [INVENTORY_FILTER.CATEGORY]: null,
     [INVENTORY_FILTER.SEARCH_QUERY]: null,
   });
+
+  // Feedback -----------------------------------------------------------------
+  feedback = provideFeedback(this.ui, this.status);
 
   // Derived state ------------------------------------------------------------
   isLoaded = computed(() => this.status() === LOADING_STATUS.IDLE);
@@ -37,6 +52,12 @@ export class InventoryStoreFeatureService {
   categoryFilter = computed(() => this.filters()[INVENTORY_FILTER.CATEGORY]);
   counters = computed(() => countDoneItems(this.items()));
 
+  // Effects ------------------------------------------------------------------
+  constructor() {
+    effect(() => this.effectOnGuest(), { allowSignalWrites: true });
+  }
+
+  // Derived state factories --------------------------------------------------
   getItemById(itemId: string): Signal<InventoryItem | null> {
     return computed(() => getItemByExactId(this.items(), itemId));
   }
@@ -92,29 +113,20 @@ export class InventoryStoreFeatureService {
   }
 
   // Mutations ----------------------------------------------------------------
-  fetchItems(force = false) {
+  reset(): void {
+    this.items.set([]);
+    this.status.set(LOADING_STATUS.PRISTINE);
+    this.lastUpdated.set(null);
+    this.itemModalSuccessCounter.set(0);
+    this.filters.set({
+      [INVENTORY_FILTER.CATEGORY]: null,
+      [INVENTORY_FILTER.SEARCH_QUERY]: null,
+    });
+  }
 
-    if (!force && !this.shouldFetch()) {
-      this.status.set(LOADING_STATUS.IDLE);
-      this.ui.loading.stop();
-      return;
+  effectOnGuest(): void {
+    if (this.user.isGuest()) {
+      this.reset();
     }
-
-    this.ui.loading.start();
-    this.status.set(LOADING_STATUS.LOADING);
-
-    this.api.getItems()
-      .pipe(finalize(() => this.ui.loading.stop()))
-      .subscribe({
-        error: err => {
-          console.error(err);
-          this.status.set(LOADING_STATUS.ERROR);
-        },
-        next: items => {
-          this.status.set(LOADING_STATUS.IDLE);
-          this.lastUpdated.set(Date.now());
-          this.items.set(items);
-        },
-      });
   }
 }

@@ -22,7 +22,6 @@ type FilterCreators = {
   like: FilterCreator;
 };
 
-
 export function createFilters(
   fn: (f: FilterCreators) => (Filter | null)[],
 ): Filter[] {

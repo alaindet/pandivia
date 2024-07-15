@@ -17,7 +17,7 @@ export class InventoryService {
   private store = inject(Store);
   private userId = this.store.selectSignal(selectUserId);
 
-  getItems(): Observable<InventoryItem[]> {
+  fetchItems(): Observable<InventoryItem[]> {
     return from((async () => {
       const itemsRef = this.getItemsRef();
       const docs = await getDocs(itemsRef);

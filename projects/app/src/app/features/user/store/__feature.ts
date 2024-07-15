@@ -28,6 +28,7 @@ export class UserStoreFeatureService {
     this.status() === LOADING_STATUS.IDLE ||
     this.status() === LOADING_STATUS.ERROR
   ));
+  isGuest = computed(() => this.data() === null);
   isAuthenticated = computed(() => this.data() !== null);
   isAdmin = computed(() => !!this.data()?.isAdmin);
   email = computed(() => this.data()?.email ?? null);

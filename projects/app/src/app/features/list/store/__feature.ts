@@ -1,10 +1,11 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
 
-import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
+import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, provideFeedback, shouldFetchCollection, sortItemsByName } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
 import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
+import { UserStoreFeatureService } from '@app/features/user/store/__feature';
 import { InventoryItem } from '../../inventory';
-import { InventoryStoreFeatureService } from '../../inventory/store/__feature';
+import { InventoryStoreFeatureService } from '@app/features/inventory/store/__feature';
 import { ListService } from '../services';
 import { LIST_FILTER, ListFilters, ListFilterToken, ListItem } from '../types';
 import { ListAllItemsStoreSubfeature } from './__all';
@@ -19,6 +20,7 @@ export class ListStoreFeatureService {
 
   public api = inject(ListService);
   public ui = inject(UiStoreFeatureService);
+  private user = inject(UserStoreFeatureService);
   public inventory = inject(InventoryStoreFeatureService);
 
   // Subfeatures --------------------------------------------------------------
@@ -38,6 +40,9 @@ export class ListStoreFeatureService {
     [LIST_FILTER.SEARCH_QUERY]: null,
   });
 
+  // Feedback -----------------------------------------------------------------
+  feedback = provideFeedback(this.ui, this.status);
+
   // Derived state ------------------------------------------------------------
   isLoaded = computed(() => this.status() === LOADING_STATUS.IDLE);
   isLoading = computed(() => this.status() === LOADING_STATUS.LOADING);
@@ -51,6 +56,12 @@ export class ListStoreFeatureService {
   isDoneFilter = computed(() => !!this.filters()[LIST_FILTER.IS_DONE]);
   counters = computed(() => countDoneItems(this.items()));
 
+  // Effects ------------------------------------------------------------------
+  constructor() {
+    effect(() => this.effectOnGuest(), { allowSignalWrites: true });
+  }
+
+  // Derived state factories --------------------------------------------------
   getItemById(itemId: string): Signal<ListItem | null> {
     return computed(() => getItemByExactId(this.items(), itemId));
   }
@@ -142,5 +153,11 @@ export class ListStoreFeatureService {
       [LIST_FILTER.IS_DONE]: null,
       [LIST_FILTER.SEARCH_QUERY]: null,
     });
+  }
+
+  effectOnGuest(): void {
+    if (this.user.isGuest()) {
+      this.reset();
+    }
   }
 }

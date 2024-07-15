@@ -1,6 +1,7 @@
+import { updateCollection } from '@app/common/store';
 import { CreateListItemDto, ListItem } from '../types';
 import { ListStoreFeatureService } from './__feature';
-import { getStoreFeedback, updateItem, updateStoreItemsAsync } from './__functions';
+import { removeItem, updateItem } from './__functions';
 
 export class ListItemStoreSubfeature {
 
@@ -9,88 +10,84 @@ export class ListItemStoreSubfeature {
   ) {}
 
   create(dto: CreateListItemDto) {
-    return updateStoreItemsAsync({
-      source: this.parent.api.item.create(dto),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      messages: ['common.async.createItemSuccess', 'common.async.createItemError'],
-      onSuccess: (item: ListItem) => {
-        this.parent.itemModalSuccessCounter.update(prev => prev + 1);
-        this.parent.items.update(prev => [...prev, item]);
-      },
-    });
+    return updateCollection(this.parent.api.item.create(dto))
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'common.async.createItemSuccess',
+        'common.async.createItemError',
+      )
+      .onSuccess(item => {
+        this.parent.itemModalSuccessCounter.update(counter => counter + 1);
+        this.parent.items.update(items => [...items, item]);
+      })
+      .update();
   }
 
   edit(editedItem: ListItem) {
-    return updateStoreItemsAsync({
-      source: this.parent.api.item.edit(editedItem),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      messages: ['common.async.editItemSuccess', 'common.async.editItemError'],
-      onSuccess: (updated: ListItem) => {
-        this.parent.itemModalSuccessCounter.update(prev => prev + 1);
+    return updateCollection(this.parent.api.item.edit(editedItem))
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'common.async.editItemSuccess',
+        'common.async.editItemError',
+      )
+      .onSuccess(updated => {
+        this.parent.itemModalSuccessCounter.update(counter => counter + 1);
         updateItem(this.parent.items, updated.id, updated);
-      },
-    });
+      })
+      .update();
   }
 
   complete(itemId: ListItem['id']) {
-    return updateStoreItemsAsync({
-      source: this.parent.api.item.complete(itemId),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      onSuccess: (updated: ListItem) => {
+    return updateCollection(this.parent.api.item.complete(itemId))
+      .withFeedback(this.parent.feedback)
+      .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
-      },
-    });
+      })
+      .update();
   }
 
   undo(itemId: ListItem['id']) {
-    return updateStoreItemsAsync({
-      source: this.parent.api.item.undo(itemId),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      onSuccess: (updated: ListItem) => {
+    return updateCollection(this.parent.api.item.undo(itemId))
+      .withFeedback(this.parent.feedback)
+      .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
-      },
-    });
+      })
+      .update();
   }
 
   toggle(itemId: ListItem['id']) {
-    return updateStoreItemsAsync({
-      source: this.parent.api.item.toggle(itemId),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      onSuccess: (updated: ListItem) => {
+    return updateCollection(this.parent.api.item.toggle(itemId))
+      .withFeedback(this.parent.feedback)
+      .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
-      },
-    });
+      })
+      .update();
   }
 
   increment(itemId: ListItem['id']) {
-    return updateStoreItemsAsync({
-      source: this.parent.api.item.increment(itemId),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      onSuccess: (updated: ListItem) => {
+    return updateCollection(this.parent.api.item.increment(itemId))
+      .withFeedback(this.parent.feedback)
+      .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
-      },
-    });
+      })
+      .update();
   }
 
   decrement(itemId: ListItem['id']) {
-    return updateStoreItemsAsync({
-      source: this.parent.api.item.decrement(itemId),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      onSuccess: (updated: ListItem) => {
+    return updateCollection(this.parent.api.item.decrement(itemId))
+      .withFeedback(this.parent.feedback)
+      .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
-      },
-    });
+      })
+      .update();
   }
 
   remove(itemId: ListItem['id']) {
-    return updateStoreItemsAsync({
-      source: this.parent.api.item.remove(itemId),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      onSuccess: (removed: ListItem) => {
-        this.parent.items.update(prev => {
-          return prev.filter(item => item.id !== removed.id);
-        });
-      },
-    });
+    return updateCollection(this.parent.api.item.remove(itemId))
+      .withFeedback(this.parent.feedback)
+      .onSuccess(removed => {
+        removeItem(this.parent.items, removed.id);
+      })
+      .update();
   }
 }

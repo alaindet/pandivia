@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
 
+import { updateCollection } from '@app/common/store';
 import { LOADING_STATUS } from '@app/common/types';
 import { ListStoreFeatureService } from './__feature';
-import { updateStoreItemsAsync, getStoreFeedback } from './__functions';
 
 export class ListAllItemsStoreSubfeature {
 
@@ -18,59 +18,75 @@ export class ListAllItemsStoreSubfeature {
       return;
     }
 
-    return updateStoreItemsAsync({
-      source: this.parent.api.allItems.fetch(),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      messages: ['common.async.fetchItemsSuccess', 'common.async.fetchItemsError'],
-      onSuccess: items => {
+    return updateCollection(this.parent.api.allItems.fetch())
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'common.async.fetchItemsSuccess',
+        'common.async.fetchItemsError',
+      )
+      .onSuccess(items => {
         this.parent.lastUpdated.set(Date.now());
         this.parent.items.set(items);
-      },
-    });
+      })
+      .update();
   }
 
   complete(): Subscription {
-    return updateStoreItemsAsync({
-      source: this.parent.api.allItems.complete(),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      messages: ['common.async.editItemsSuccess', 'common.async.editItemsError'],
-      onSuccess: () => {
-        this.parent.items.update(prev => prev.map(item => ({ ...item, isDone: true })));
-      },
-    });
+    return updateCollection(this.parent.api.allItems.complete())
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'common.async.editItemsSuccess',
+        'common.async.editItemsError',
+      )
+      .onSuccess(() => {
+        this.parent.items.update(items => {
+          return items.map(item => ({ ...item, isDone: true }));
+        });
+      })
+      .update();
   }
 
   undo(): Subscription {
-    return updateStoreItemsAsync({
-      source: this.parent.api.allItems.undo(),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      messages: ['common.async.editItemsSuccess', 'common.async.editItemsError'],
-      onSuccess: () => {
-        this.parent.items.update(prev => prev.map(item => ({ ...item, isDone: false })));
-      },
-    });
+    return updateCollection(this.parent.api.allItems.undo())
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'common.async.editItemsSuccess',
+        'common.async.editItemsError',
+      )
+      .onSuccess(() => {
+        this.parent.items.update(items => {
+          return items.map(item => ({ ...item, isDone: false }));
+        });
+      })
+      .update();
   }
 
   remove(): Subscription {
-    return updateStoreItemsAsync({
-      source: this.parent.api.allItems.remove(),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      messages: ['common.async.removeItemsSuccess', 'common.async.removeItemsError'],
-      onSuccess: () => {
+    return updateCollection(this.parent.api.allItems.remove())
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'common.async.removeItemsSuccess',
+        'common.async.removeItemsError',
+      )
+      .onSuccess(() => {
         this.parent.lastUpdated.set(Date.now());
         this.parent.items.set([]);
-      },
-    });
+      })
+      .update();
   }
 
   removeCompleted(): Subscription {
-    return updateStoreItemsAsync({
-      source: this.parent.api.allItems.removeCompleted(),
-      feedback: getStoreFeedback(this.parent.ui, this.parent.status),
-      messages: ['common.async.removeItemsSuccess', 'common.async.removeItemsError'],
-      onSuccess: () => {
-        this.parent.items.update(prev => prev.filter(item => !item.isDone));
-      },
-    });
+    return updateCollection(this.parent.api.allItems.removeCompleted())
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'common.async.removeItemsSuccess',
+        'common.async.removeItemsError',
+      )
+      .onSuccess(() => {
+        this.parent.items.update(items => {
+          return items.filter(item => !item.isDone);
+        });
+      })
+      .update();
   }
 }
