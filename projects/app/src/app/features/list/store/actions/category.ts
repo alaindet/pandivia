@@ -30,21 +30,6 @@ export const listUndoItemsByCategory = {
   ),
 };
 
-export const listRemoveCompletedItemsByCategory = {
-  try: createAction(
-    '[List] Remove completed by category items',
-    props<{ category: string }>(),
-  ),
-  ok: createAction(
-    '[List] Remove completed by category items success',
-    props<{ category: string, message: string }>(),
-  ),
-  err: createAction(
-    '[List] Remove completed by categoryitems error',
-    props<{ message: string }>(),
-  ),
-};
-
 export const listRemoveItemsByCategory = {
   try: createAction(
     '[List] Remove items by category',
@@ -56,6 +41,21 @@ export const listRemoveItemsByCategory = {
   ),
   err: createAction(
     '[List] Remove items by category error',
+    props<{ message: string }>(),
+  ),
+};
+
+export const listRemoveCompletedItemsByCategory = {
+  try: createAction(
+    '[List] Remove completed by category items',
+    props<{ category: string }>(),
+  ),
+  ok: createAction(
+    '[List] Remove completed by category items success',
+    props<{ category: string, message: string }>(),
+  ),
+  err: createAction(
+    '[List] Remove completed by categoryitems error',
     props<{ message: string }>(),
   ),
 };

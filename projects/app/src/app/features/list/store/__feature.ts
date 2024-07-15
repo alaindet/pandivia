@@ -7,11 +7,10 @@ import { InventoryItem } from '../../inventory';
 import { InventoryStoreFeatureService } from '../../inventory/store/__feature';
 import { ListService } from '../services';
 import { LIST_FILTER, ListFilters, ListFilterToken, ListItem } from '../types';
-import { finalize, Observable, Subscription } from 'rxjs';
-import { StoreCommonFeedback, StoreLoader, StoreNotifier, StoreStatus } from './__types';
-import { getStoreFeedback, updateStoreItemsAsync } from './__functions';
 import { ListAllItemsStoreSubfeature } from './__all';
 import { ListCategoryItemsStoreSubfeature } from './__category';
+import { ListSearchFiltersStoreSubfeature } from './__search-filters';
+import { ListItemStoreSubfeature } from './__item';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +21,11 @@ export class ListStoreFeatureService {
   public ui = inject(UiStoreFeatureService);
   public inventory = inject(InventoryStoreFeatureService);
 
-  // Controllers
-  all = new ListAllItemsStoreSubfeature(this);
-  category = new ListCategoryItemsStoreSubfeature(this);
+  // Subfeatures --------------------------------------------------------------
+  allItems = new ListAllItemsStoreSubfeature(this);
+  categoryItems = new ListCategoryItemsStoreSubfeature(this);
+  searchFilters = new ListSearchFiltersStoreSubfeature(this);
+  item = new ListItemStoreSubfeature(this);
 
   // State --------------------------------------------------------------------
   items = signal<ListItem[]>([]);

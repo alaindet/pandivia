@@ -25,6 +25,6 @@ export type StoreCommonFeedback = {
 export type StoreCollectionWriterSpec<T = any> = {
   source: Observable<T>,
   feedback: StoreCommonFeedback;
-  messages: [string, string],
+  messages?: [string, string],
   onSuccess: (data: T) => void;
 };

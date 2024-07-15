@@ -19,7 +19,7 @@ export class ListCategoryItemsEffects {
         return listCompleteItemsByCategory.ok({ category, message });
       }),
       catchError(() => {
-        const message = 'common.async.editItemError';
+        const message = 'common.async.editItemsError';
         return of(listCompleteItemsByCategory.err({ message }));
       }),
     )),
@@ -33,7 +33,7 @@ export class ListCategoryItemsEffects {
         return listUndoItemsByCategory.ok({ category, message });
       }),
       catchError(() => {
-        const message = 'common.async.editItemError';
+        const message = 'common.async.editItemsError';
         return of(listUndoItemsByCategory.err({ message }));
       }),
     )),
