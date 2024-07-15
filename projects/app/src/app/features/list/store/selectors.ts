@@ -1,10 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { groupItemsByCategory, sortItemsByName } from '@app/core/functions';
 import { CACHE_MAX_AGE } from '@app/core/cache';
 import { LOADING_STATUS, Counters } from '@app/common/types';
 import { LIST_FEATURE_NAME, ListFeatureState } from './state';
 import { LIST_FILTER, ListFilterToken, ListItem } from '../types';
+import { groupItemsByCategory, sortItemsByName } from '@app/common/store/collection';
 import { selectInventoryItemsByName } from '@app/features/inventory/store';
 
 const selectListFeature = createFeatureSelector<ListFeatureState>(

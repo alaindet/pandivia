@@ -1,10 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { groupItemsByCategory, sortItemsByName } from '@app/core/functions';
 import { CACHE_MAX_AGE } from '@app/core/cache';
 import { Counters, LOADING_STATUS } from '@app/common/types';
 import { INVENTORY_FILTER, InventoryFilterToken, InventoryItem } from '../types';
 import { INVENTORY_FEATURE_NAME, InventoryFeatureState } from './state';
+import { groupItemsByCategory, sortItemsByName } from '@app/common/store/collection';
 
 const selectInventoryFeature = createFeatureSelector<InventoryFeatureState>(
   INVENTORY_FEATURE_NAME,
