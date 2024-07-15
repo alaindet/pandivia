@@ -1,4 +1,6 @@
+import { Subscription } from 'rxjs';
 import { InventoryStoreFeatureService } from './__feature';
+import { updateCollection } from '../../../common/store';
 
 export class InventoryCategoryItemsStoreSubfeature {
 
@@ -6,5 +8,19 @@ export class InventoryCategoryItemsStoreSubfeature {
     private parent: InventoryStoreFeatureService,
   ) { }
 
-  // TODO...
+  remove(category: string): Subscription {
+    return updateCollection(this.parent.api.removeByCategory(category))
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'common.async.removeItemsSuccess',
+        'common.async.removeItemsError',
+      )
+      .onSuccess(() => {
+        this.parent.items.update(prev => prev.filter(item => {
+          if (item.category !== category) return true;
+          return false;
+        }));
+      })
+      .update();
+  }
 }
