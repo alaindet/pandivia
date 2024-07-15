@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 
-import { CategorizedItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
+import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
 import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
 import { InventoryService } from '../services';
@@ -35,7 +35,7 @@ export class InventoryStoreFeatureService {
   categories = computed(() => extractCategories(this.items()));
   filtersList = computed(() => this.computeFiltersList());
   categoryFilter = computed(() => this.filters()[INVENTORY_FILTER.CATEGORY]);
-  counters = computed(() => ({ completed: null, total: this.items().length }));
+  counters = computed(() => countDoneItems(this.items()));
 
   getItemById(itemId: string): Signal<InventoryItem | null> {
     return computed(() => getItemByExactId(this.items(), itemId));

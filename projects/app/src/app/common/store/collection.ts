@@ -1,5 +1,5 @@
 import { CACHE_MAX_AGE, DEFAULT_CATEGORY } from '@app/core';
-import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '../types';
+import { Counters, LOADING_STATUS, LoadingStatus, UnixTimestamp } from '../types';
 
 export type SortingFn<T = any> = (a: T, b: T) => -1 | 0 | 1;
 
@@ -35,6 +35,26 @@ export function extractCategories<T extends (
   });
 
   return Object.keys(categories);
+}
+
+export function countDoneItems<T extends (
+  Record<string, any> & { isDone?: boolean; }
+)>(
+  items: T[],
+): Counters {
+  if (items.length === 0) {
+    return { completed: null, total: 0 };
+  }
+
+  const withIsDoneProperty = items[0].isDone !== undefined;
+  const total = items.length;
+
+  if (!withIsDoneProperty) {
+    return { completed: null, total };
+  }
+
+  const completed = items.filter(item => item.isDone).length;
+  return { completed, total };
 }
 
 export function getItemByExactId<T extends (

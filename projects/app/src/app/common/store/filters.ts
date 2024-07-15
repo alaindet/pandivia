@@ -7,13 +7,15 @@ const FILTER_TYPE = {
 
 export type FilterType = EnumLike<typeof FILTER_TYPE>;
 
-type Filter<T = string | number> = {
+type Filter<T = string | number | boolean> = {
   name: string;
   value: T;
   type: FilterType;
 };
 
-type FilterCreator = <T extends string | number>(name: string, value: T) => Filter;
+type FilterCreator = <
+  T extends string | number | boolean | null | undefined
+>(name: string, value: T) => Filter | null;
 
 type FilterCreators = {
   exact: FilterCreator;
@@ -22,18 +24,35 @@ type FilterCreators = {
 
 
 export function createFilters(
-  fn: (f: FilterCreators) => Filter[],
+  fn: (f: FilterCreators) => (Filter | null)[],
 ): Filter[] {
 
-  function exact<T = string | number>(name: string, value: T) {
+  function exact<T extends string | number | boolean>(
+    name: string,
+    value: T | null | undefined,
+  ): Filter<T> | null {
+
+    if (value === null || value === undefined) {
+      return null;
+    }
+
     return { name, value, type: FILTER_TYPE.EXACT };
   }
 
-  function like<T = string | number>(name: string, value: T) {
+  function like<T extends string | number | boolean>(
+    name: string,
+    value: T | null | undefined,
+  ): Filter<T> | null {
+
+    if (value === null || value === undefined) {
+      return null;
+    }
+
     return { name, value, type: FILTER_TYPE.LIKE };
   }
 
-  return fn({ exact, like });
+  const rawFilters = fn({ exact, like });
+  return rawFilters.filter(f => f !== null);
 }
 
 export function filterItems<T extends Record<string, any>>(
