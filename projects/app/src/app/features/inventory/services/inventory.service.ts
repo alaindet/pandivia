@@ -1,12 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable, from } from 'rxjs';
 import { CollectionReference, DocumentData, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 
-import { selectUserId } from '@app/features/user/store';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
+import { UserStoreFeatureService } from '@app/features/user/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
 import { docToInventoryItem, docsToInventoryItems } from './utils';
-import { DEFAULT_CATEGORY } from '@app/core/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +13,8 @@ import { DEFAULT_CATEGORY } from '@app/core/constants';
 export class InventoryService {
 
   private db = inject(Firestore);
-  private store = inject(Store);
-  private userId = this.store.selectSignal(selectUserId);
+  private store = inject(UserStoreFeatureService);
+  private userId = this.store.userId;
 
   fetchItems(): Observable<InventoryItem[]> {
     return from((async () => {

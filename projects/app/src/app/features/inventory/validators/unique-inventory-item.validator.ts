@@ -1,17 +1,16 @@
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable, first, map } from 'rxjs';
-import { Store } from '@ngrx/store';
 
-import { selectInventoryItemExistsWithName } from '../store';
+import { InventoryStoreFeatureService } from '../store';
 
 export function uniqueInventoryItemNameValidator(
-  store: Store,
+  store: InventoryStoreFeatureService,
   itemId: string | null,
 ): AsyncValidatorFn {
-
   return (control: AbstractControl): Observable<ValidationErrors | null> => {
     const name = control.value;
-    return store.select(selectInventoryItemExistsWithName(name)).pipe(
+    return toObservable(store.itemExistsWithExactName(name)).pipe(
       map(item => item !== null && item.id !== itemId),
       map(alreadyExists => alreadyExists ? err(name) : null),
       first(),

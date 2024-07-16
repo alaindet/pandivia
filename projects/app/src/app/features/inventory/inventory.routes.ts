@@ -7,9 +7,5 @@ export const INVENTORY_ROUTES: Routes = [
     path: '',
     pathMatch: 'full',
     component: InventoryPageComponent,
-    // providers: [
-    //   provideState(INVENTORY_FEATURE_NAME, inventoryReducer),
-    //   provideEffects(...INVENTORY_FEATURE_EFFECTS),
-    // ],
   },
 ];
