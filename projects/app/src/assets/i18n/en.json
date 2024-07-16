@@ -60,7 +60,7 @@
   "common.error.minMaxLength": "Must be between {{ min }} and {{ max }} characters long",
   "common.error.minMax": "Must be between {{ min }} and {{ max }}",
   "common.error.uniqueName": "This name already exists",
-  "common.error.onlyOneCategory": "Currently there's only one category",
+  "common.error.onlyOneCategory": "No other category exists yet",
   "common.form.field.name": "Name",
   "common.form.field.description": "Description",
   "common.form.field.category": "Category",

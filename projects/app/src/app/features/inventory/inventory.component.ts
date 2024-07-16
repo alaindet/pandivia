@@ -1,27 +1,26 @@
-import { Component, OnDestroy, OnInit, Signal, computed, effect, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, OnDestroy, OnInit, computed, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { Observable, Subject, catchError, combineLatest, map, of, switchMap, take, takeUntil, throwError } from 'rxjs';
-import { NgTemplateOutlet } from '@angular/common';
+import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
+import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { StackedLayoutService } from '@app/common/layouts';
-import { errorI18n, readErrorI18n } from '@app/common/utils';
+import { filterNull } from '@app/common/rxjs';
+import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY, UiService, UiStoreFeatureService } from '@app/core/ui';
 import { environment } from '@app/environment';
-import { CreateListItemDto, ListItem } from '@app/features/list';
-import { ChangeCategoryModalComponent, ChangeCategoryModalInput } from '@app/common/components/change-category-modal';
-import { MediaQueryService } from '@app/common/services';
+import { CreateListItemDto } from '@app/features/list';
+import { ListStoreFeatureService } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
-import { InventoryFilterToken, InventoryItem } from './types';
 import { InventoryStoreFeatureService } from './store';
-import { ListStoreFeatureService } from '../list/store';
+import { InventoryFilterToken, InventoryItem } from './types';
 
 const imports = [
   NgTemplateOutlet,
@@ -43,7 +42,7 @@ const imports = [
 export class InventoryPageComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
-  private store = inject(InventoryStoreFeatureService);
+  private inventoryStore = inject(InventoryStoreFeatureService);
   private uiStore = inject(UiStoreFeatureService);
   private listStore = inject(ListStoreFeatureService);
   private layout = inject(StackedLayoutService);
@@ -54,14 +53,14 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   isMobile = inject(MediaQueryService).getFromMobileDown();
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
-  itemGroups = this.store.getCategorizedFilteredItems();
-  loaded = this.store.isLoaded;
-  inErrorStatus = this.store.isError;
+  itemGroups = this.inventoryStore.getCategorizedFilteredItems();
+  loaded = this.inventoryStore.isLoaded;
+  inErrorStatus = this.inventoryStore.isError;
   themeConfig = this.ui.theme.config;
   getItemContextualMenu = this.getTranslatedItemContextualMenuFn();
   filters = computed(() => this.computeTranslatedFilters());
-  pinnedCategory = this.store.categoryFilter;
-  counters = this.store.counters;
+  pinnedCategory = this.inventoryStore.categoryFilter;
+  counters = this.inventoryStore.counters;
   pageCountersEffect = effect(() => this.layout.headerCounters.set(this.counters()), {
     allowSignalWrites: true
   });
@@ -71,7 +70,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
     this.initSearchFeature();
-    this.store.allItems.fetch();
+    this.inventoryStore.allItems.fetch();
   }
 
   ngOnDestroy() {
@@ -83,7 +82,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     switch (action) {
 
       case listMenu.LIST_ACTION_REFRESH.id: {
-        this.store.allItems.fetch(true);
+        this.inventoryStore.allItems.fetch(true);
         break;
       }
 
@@ -94,7 +93,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.allItems.remove(),
+          next: () => this.inventoryStore.allItems.remove(),
         });
         break;
       }
@@ -118,7 +117,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
         this.confirmPrompt(prompt).subscribe({
           error: () => console.log('Canceled'),
-          next: () => this.store.categoryItems.remove(category),
+          next: () => this.inventoryStore.categoryItems.remove(category),
         });
         break;
       }
@@ -141,13 +140,15 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
         break;
 
       case itemMenu.ITEM_ACTION_REMOVE.id:
-        const item = this.store.getItemById(itemId)()!;
+        const item = this.inventoryStore.getItemById(itemId)()!;
         const config = ITEM_REMOVE_PROMPT;
         const params = { itemName: item.name };
         const title = this.transloco.translate(config.title, params);
         const message = this.transloco.translate(config.message, params);
         const prompt = { ...ITEM_REMOVE_PROMPT, title, message };
-        this.confirmPrompt(prompt).subscribe(() => this.store.item.remove(item.id));
+        this.confirmPrompt(prompt).subscribe(() => {
+          this.inventoryStore.item.remove(item.id);
+        });
         break;
     }
   }
@@ -162,17 +163,19 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   onPinCategory(category: string, isPinned: boolean) {
     if (isPinned) {
-      this.store.searchFilters.setCategory(category);
+      this.inventoryStore.searchFilters.setCategory(category);
     } else {
-      this.store.searchFilters.clearCategory();
+      this.inventoryStore.searchFilters.clearCategory();
     }
   }
 
   onRemoveFilter(filter: InventoryFilterToken) {
-    this.store.searchFilters.clearByName(filter.key);
+    this.inventoryStore.searchFilters.clearByName(filter.key);
   }
 
-  private getTranslatedItemContextualMenuFn(): (item: InventoryItem) => ActionsMenuItem[] {
+  private getTranslatedItemContextualMenuFn(): (
+    (item: InventoryItem) => ActionsMenuItem[]
+  ) {
     return (item: InventoryItem) => {
       return itemMenu.getItemContextualMenu(item).map(action => {
         const label = this.transloco.translate(action.label);
@@ -182,7 +185,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private computeTranslatedFilters(): InventoryFilterToken[] | null {
-    const filtersList = this.store.filtersList();
+    const filtersList = this.inventoryStore.filtersList();
 
     if (filtersList === null) {
       return null;
@@ -229,15 +232,15 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
     this.layout.search.searched.subscribe(searchQuery => {
       if (!searchQuery) {
-        this.store.searchFilters.clearSearchQuery();
+        this.inventoryStore.searchFilters.clearSearchQuery();
         return;
       }
 
-      this.store.searchFilters.setSearchQuery(searchQuery);
+      this.inventoryStore.searchFilters.setSearchQuery(searchQuery);
     });
 
     this.layout.search.cleared.subscribe(() => {
-      this.store.searchFilters.clearSearchQuery();
+      this.inventoryStore.searchFilters.clearSearchQuery();
     });
   }
 
@@ -249,7 +252,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private showEditItemModal(itemId: string): void {
-    const item = this.store.getItemById(itemId)()!;
+    const item = this.inventoryStore.getItemById(itemId)()!;
     const title = this.transloco.translate('common.itemModal.editTitle');
     const modalInput: InventoryItemFormModalInput = { title, item };
     this.modal.open(InventoryItemFormModalComponent, modalInput, {
@@ -267,51 +270,26 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   private cloneItemToList(itemId: string): void {
 
-    const inventoryItem = this.store.getItemById(itemId)()!;
-    const listItem = this.listStore.itemExistsWithExactName(inventoryItem.name);
+    const inventoryItem = this.inventoryStore.getItemById(itemId)()!;
+    const listItem = this.listStore.itemExistsWithExactName(inventoryItem.name)();
 
-    const inventoryItemName = inventoryItem?.name?.toLowerCase();
-    const listItemName = listItem?.name?.toLowerCase();
+    if (listItem !== null) {
+      const name = inventoryItem.name;
+      this.ui.notification.err('list.error.itemUnique', { name });
+      return;
+    }
 
-    // TODO...
-
-    const checkUniqueNameContraint = (payload: {
-      inventoryItem: InventoryItem;
-      listItem: ListItem | null;
-    }) => {
-      const { inventoryItem, listItem } = payload;
-      const inventoryItemName = inventoryItem?.name?.toLowerCase();
-      const listItemName = listItem?.name?.toLowerCase();
-      const name = inventoryItemName;
-      return (inventoryItemName === listItemName)
-        ? throwError(() => errorI18n('list.error.itemUnique', { name }))
-        : of(inventoryItem);
+    const dto: CreateListItemDto = {
+      category: inventoryItem?.category ?? '',
+      name: inventoryItem.name,
+      amount: 1,
+      description: inventoryItem.description,
     };
 
-    combineLatest({ inventoryItem, listItem })
-      .pipe(take(1), switchMap(checkUniqueNameContraint))
-      .subscribe({
-        error: err => this.ui.notification.err(...readErrorI18n(err)),
-        next: inventoryItem => {
-
-          const dto: CreateListItemDto = {
-            category: inventoryItem?.category ?? '',
-            name: inventoryItem.name,
-            amount: 1,
-          };
-
-          if (inventoryItem.description) {
-            dto.description = inventoryItem.description;
-          }
-
-          this.store.dispatch(listCreateItem.try({ dto }));
-        },
-      });
+    this.listStore.item.create(dto);
   }
 
   private showMoveToCategoryModal(itemId: string): void {
-
-    let theItem!: InventoryItem;
     const translatedUncategorized = this.transloco.translate('common.uncategorized');
 
     const translateCategory = (category: string): string => {
@@ -319,40 +297,33 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       return translatedUncategorized;
     };
 
-    findInventoryItemById(this.store, itemId).pipe(
-      switchMap(item => {
-        theItem = item;
-        const title = this.transloco.translate('common.menu.moveToCategory');
-        const allCategories = this.store.selectSignal(selectInventoryCategories);
-        const categories = allCategories()
-          .filter(category => category !== item.category)
-          .map(category => translateCategory(category));
+    const item = this.inventoryStore.getItemById(itemId)()!;
+    const title = this.transloco.translate('common.menu.moveToCategory');
+    const categories = this.inventoryStore.categories()
+      .filter(category => category !== item.category)
+      .map(category => translateCategory(category));
 
-        if (!categories.length) {
-          return throwError(() => Error(JSON.stringify({
-            message: 'common.error.onlyOneCategory',
-          })));
-        }
+    if (!categories.length) {
+      this.ui.notification.err('common.error.onlyOneCategory');
+      return;
+    }
 
-        const modalInput: ChangeCategoryModalInput = { title, categories };
-        const modal$ = this.modal.open(ChangeCategoryModalComponent, modalInput);
+    const selectedCategory$ = this.modal
+      .open(ChangeCategoryModalComponent, { title, categories })
+      .closed()
+      .pipe(
+        catchError(() => of(null)),
+        take(1),
+        filterNull(),
+      );
 
-        return modal$.closed().pipe(
-          // Emit canceled modal as a silent error
-          catchError(() => of(null)),
-          take(1),
-        );
-      }),
-    ).subscribe({
-      error: err => this.ui.notification.err(...readErrorI18n(err)),
-      next: modalPayload => {
-        if (modalPayload === null) return; // Modal was canceled
-        let { category } = modalPayload;
-        if (category === translatedUncategorized) category = DEFAULT_CATEGORY;
-        const item = { ...theItem, category };
-        // TODO: Please add a specific "Move to category" action
-        this.store.dispatch(inventoryEditItem.try({ item }));
-      },
+    selectedCategory$.subscribe(payload => {
+
+      const category = (payload.category === translatedUncategorized)
+        ? DEFAULT_CATEGORY
+        : payload.category;
+
+      this.inventoryStore.item.edit({ ...item, category });
     });
   }
 }

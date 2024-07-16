@@ -1,10 +1,8 @@
-import { NgIf } from '@angular/common';
-import { Component, OnInit, ViewChild, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 import { finalize } from 'rxjs';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
@@ -17,7 +15,6 @@ import { SignUpUserDto, UserInvite } from '../../types';
 import { SIGNUP_FIELD as FIELD } from './fields';
 
 const imports = [
-  NgIf,
   ReactiveFormsModule,
   TranslocoModule,
   PageHeaderComponent,

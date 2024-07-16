@@ -1,4 +1,4 @@
-import { JsonPipe, NgIf } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -11,7 +11,6 @@ const FIELD = {
 };
 
 const imports = [
-  NgIf,
   ReactiveFormsModule,
   JsonPipe,
   TextareaComponent,

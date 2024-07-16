@@ -1,8 +1,6 @@
-import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild, computed, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { Store } from '@ngrx/store';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
@@ -11,7 +9,7 @@ import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { InventoryItem } from '@app/features/inventory';
-import { inventoryCloneItemFromList, inventoryCreateItem, inventoryFetchItems } from '@app/features/inventory/store';
+import { inventoryCloneItemFromList, inventoryFetchItems } from '@app/features/inventory/store';
 import { TranslocoModule } from '@jsverse/transloco';
 import { listCreateItem, listEditItem, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
@@ -19,8 +17,7 @@ import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
 import { UiService } from '@app/core';
-import { MediaQueryService } from '../../../../common/services';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { MediaQueryService } from '@app/common/services';
 
 const imports = [
   ReactiveFormsModule,

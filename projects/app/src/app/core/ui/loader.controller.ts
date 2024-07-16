@@ -1,5 +1,4 @@
 import { inject } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { selectUiIsLoading, uiLoaderStart, uiLoaderStop } from '../store';
 
 export function createLoaderController() {

@@ -22,5 +22,6 @@ export class UiStoreFeatureService {
   constructor() {
     this.notifications.init();
     this.title.init();
+    this.theme.init();
   }
 }

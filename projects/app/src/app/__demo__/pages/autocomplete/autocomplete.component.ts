@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { JsonPipe, NgIf } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, delay, of } from 'rxjs';
 
@@ -8,7 +8,6 @@ import { AUTOCOMPLETE_EXPORTS } from '@app/common/components/autocomplete';
 import { OPTIONS } from './options';
 
 const imports = [
-  NgIf,
   ReactiveFormsModule,
   JsonPipe,
   TextInputComponent,

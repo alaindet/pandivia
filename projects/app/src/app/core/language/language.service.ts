@@ -1,21 +1,19 @@
-import { Injectable, effect, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { effect, inject, Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 
-import { userSetLanguage } from '@app/features/user/store/actions';
-import { selectUserLanguage } from '@app/features/user/store';
-import { Language } from './types';
-import { DEFAULT_LANGUAGE, LANGUAGE_OPTIONS, LANGUAGE_STORAGE_KEY } from './constants';
 import { createLocalStorageItemController } from '@app/common/controllers';
+import { UserStoreFeatureService } from '@app/features/user/store';
+import { DEFAULT_LANGUAGE, LANGUAGE_OPTIONS, LANGUAGE_STORAGE_KEY } from './constants';
+import { Language } from './types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LanguageService {
 
-  private store = inject(Store);
+  private userStore = inject(UserStoreFeatureService);
   private transloco = inject(TranslocoService);
-  current = this.store.selectSignal(selectUserLanguage);
+  current = this.userStore.language;
   options = LANGUAGE_OPTIONS;
 
   storage = createLocalStorageItemController<Language>(LANGUAGE_STORAGE_KEY, {
@@ -32,13 +30,13 @@ export class LanguageService {
 
   set(_language: string | null) {
     const language = (_language ?? DEFAULT_LANGUAGE) as Language;
-    this.store.dispatch(userSetLanguage({ language }));
+    this.userStore.language.set(language);
     this.transloco.setActiveLang(language);
   }
 
   private initLanguageFromStorage(): void {
     const language = this.storage.read();
-    this.store.dispatch(userSetLanguage({ language }));
+    this.userStore.language.set(language);
     this.transloco.setActiveLang(language);
   }
 

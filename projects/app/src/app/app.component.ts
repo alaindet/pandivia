@@ -27,15 +27,20 @@ const imports = [
 })
 export class AppComponent implements OnInit {
 
-  private ui = inject(UiStoreFeatureService);
+  private uiStore = inject(UiStoreFeatureService);
   private swUpdate = inject(SoftwareUpdateService);
   private userFeature = inject(UserStoreFeatureService);
 
-  loading = this.ui.loading.loading;
-  themeConfig = this.ui.theme;
+  notification = this.uiStore.notifications.notification;
+  loading = this.uiStore.loading.loading;
+  themeConfig = this.uiStore.theme.config;
 
   ngOnInit() {
     this.swUpdate.check();
     this.userFeature.autoSignIn();
+  }
+
+  onDismissNotification() {
+    this.uiStore.notifications.dismiss();
   }
 }

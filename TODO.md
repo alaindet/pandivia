@@ -8,3 +8,4 @@
   - [ ] Remove `MatIcon`
   - [ ] Remove `toObservable` wherever possible
   - [ ] Rename all `*StoreFeatureService` to `*Store`
+  - [ ] Remove `ErrorI18n`, `errorI18n()` and `readErrorI18n()`

@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { DEFAULT_ROUTE } from '@app/app.routes';
 import { provideFeedback, updateStore } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
-import { DEFAULT_LANGUAGE, Language } from '@app/core/language';
 import { UiStoreFeatureService } from '@app/core/ui/store';
 import { AuthenticationService } from '../services';
 import { UserCredentials, UserData, UserDisplayData } from '../types';
+import { createUserLanguageController } from './language';
 
 @Injectable({
   providedIn: 'root',
@@ -18,10 +18,12 @@ export class UserStoreFeatureService {
   private authService = inject(AuthenticationService);
   private ui = inject(UiStoreFeatureService);
 
+  // Subfeatures --------------------------------------------------------------
+  language = createUserLanguageController();
+
   // State --------------------------------------------------------------------
   data = signal<UserData | null>(null);
   status = signal<LoadingStatus>(LOADING_STATUS.PRISTINE);
-  language = signal<Language>(DEFAULT_LANGUAGE);
 
   // Feedback -----------------------------------------------------------------
   feedback = provideFeedback(this.ui, this.status);
@@ -49,6 +51,10 @@ export class UserStoreFeatureService {
       lastLoginAt: user.lastLoginAt,
     } as UserDisplayData;
   });
+
+  constructor() {
+    this.language.init();
+  }
 
   // Mutations ----------------------------------------------------------------
   signIn(credentials: UserCredentials) {

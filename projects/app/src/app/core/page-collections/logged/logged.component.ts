@@ -1,17 +1,13 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { AsyncPipe, NgIf } from '@angular/common';
-import { Store } from '@ngrx/store';
+import { AsyncPipe } from '@angular/common';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { BottomMenuItem } from '@app/common/components';
-import { BACK_BUTTON_MODE } from '@app/common/types';
 import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layouts';
-import { NAVIGATION_ROUTES } from '../../ui';
-import { selectNavigation } from '../../store';
+import { NAVIGATION_ROUTES, UiStoreFeatureService } from '@app/core/ui';
 
 const imports = [
-  NgIf,
   AsyncPipe,
   RouterOutlet,
   StackedLayoutComponent,
@@ -28,7 +24,7 @@ export class LoggedPageCollectionComponent {
 
   private layout = inject(StackedLayoutService);
   private router = inject(Router);
-  private store = inject(Store);
+  private uiStore = inject(UiStoreFeatureService);
   private transloco = inject(TranslocoService);
 
   private bottomNavigation = computed(() => this.computeBottomNavigationItems());

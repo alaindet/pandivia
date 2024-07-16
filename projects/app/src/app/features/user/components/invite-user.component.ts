@@ -1,8 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 import { finalize } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -13,7 +11,6 @@ import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { InvitesService } from '../services';
 
 const imports = [
-  NgIf,
   ReactiveFormsModule,
   TranslocoModule,
   MatIconModule,
