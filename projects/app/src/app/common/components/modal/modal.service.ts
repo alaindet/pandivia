@@ -1,6 +1,5 @@
 import { Injectable, OnDestroy, TemplateRef, ViewContainerRef, effect, signal } from '@angular/core';
 
-import { errorI18n } from '@app/common/utils';
 import { Subject, filter, map, of, switchMap, take, throwError } from 'rxjs';
 import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOptions, ModalOutput, ModalRef } from './types';
 import { createBodyScrollingController } from './scrolling.controller';
@@ -53,7 +52,7 @@ export class ModalService implements OnDestroy {
   closed() {
     return this._closed$.asObservable().pipe(switchMap(output => {
       if (output.status === MODAL_OUTPUT_STATUS.CANCELED) {
-        return throwError(() => errorI18n('components.modal.canceled'));
+        return throwError(() =>'components.modal.canceled');
       }
       return of(output.data);
     }), take(1));

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import packageJson from '@root/package.json';
-import { createUiLoadingController } from './loading';
+import { createUiLoaderController } from './loader';
 import { createUiNotificationController } from './notifications';
 import { createUiTitleController } from './title';
 import { createUiThemeController } from './theme';
@@ -10,10 +10,10 @@ import { createUiNavigationController } from './navigation';
 @Injectable({
   providedIn: 'root',
 })
-export class UiStoreFeatureService {
+export class UiStore {
 
   notifications = createUiNotificationController();
-  loading = createUiLoadingController();
+  loader = createUiLoaderController();
   title = createUiTitleController();
   theme = createUiThemeController();
   navigation = createUiNavigationController();

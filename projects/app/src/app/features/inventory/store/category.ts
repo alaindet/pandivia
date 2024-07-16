@@ -1,12 +1,12 @@
 import { Subscription } from 'rxjs';
 
 import { updateStore } from '@app/common/store';
-import { InventoryStoreFeatureService } from './feature';
+import { InventoryStore } from './feature';
 
 export class InventoryCategoryItemsStoreSubfeature {
 
   constructor(
-    private parent: InventoryStoreFeatureService,
+    private parent: InventoryStore,
   ) { }
 
   remove(category: string): Subscription {

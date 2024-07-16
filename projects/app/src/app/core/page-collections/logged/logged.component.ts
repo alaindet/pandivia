@@ -5,7 +5,7 @@ import { TranslocoService } from '@jsverse/transloco';
 
 import { BottomMenuItem } from '@app/common/components';
 import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layouts';
-import { NAVIGATION_ROUTES, UiStoreFeatureService } from '@app/core/ui';
+import { NAVIGATION_ROUTES, UiStore } from '@app/core/ui';
 
 const imports = [
   AsyncPipe,
@@ -24,7 +24,7 @@ export class LoggedPageCollectionComponent {
 
   private layout = inject(StackedLayoutService);
   private router = inject(Router);
-  private uiStore = inject(UiStoreFeatureService);
+  private uiStore = inject(UiStore);
   private transloco = inject(TranslocoService);
 
   private bottomNavigation = computed(() => this.computeBottomNavigationItems());

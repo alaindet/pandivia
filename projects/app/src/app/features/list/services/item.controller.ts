@@ -1,17 +1,18 @@
 import { inject } from '@angular/core';
 import { Observable, from } from 'rxjs'
-import { Store } from '@ngrx/store';
 import { CollectionReference, DocumentData, Firestore, addDoc, collection, deleteDoc, doc, getDoc, updateDoc } from '@angular/fire/firestore';
 
-import { selectUserId } from '@app/features/user/store';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { CreateListItemDto, ListItem } from '../types';
 import { docToListItem } from './utils';
-import { DEFAULT_CATEGORY } from '@app/core/constants';
+import { UserStore } from '../../user/store';
 
 export function createListItemController() {
 
   const db = inject(Firestore);
-  const userId = inject(Store).selectSignal(selectUserId);
+  const userStore = inject(UserStore);
+
+  const userId = userStore.userId;
 
   function create(dto: CreateListItemDto): Observable<ListItem> {
     return from((async () => {

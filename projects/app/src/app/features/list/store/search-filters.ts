@@ -1,9 +1,9 @@
 import { LIST_FILTER, ListFilter } from '../types';
-import { ListStoreFeatureService } from './feature';
+import { ListStore } from './feature';
 
 export class ListSearchFiltersStoreSubfeature {
   constructor(
-    private parent: ListStoreFeatureService,
+    private parent: ListStore,
   ) {}
 
   setCategory(category: string) {

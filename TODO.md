@@ -1,11 +1,13 @@
 # To Do
 
-- [ ] Add prompt to install new version
 - [ ] Create `common` package
 - [ ] Refactor
   - [ ] Change demo app to use CSS Grid
   - [ ] Analyze ESBuild
   - [ ] Remove `MatIcon`
   - [ ] Remove `toObservable` wherever possible
-  - [ ] Rename all `*StoreFeatureService` to `*Store`
-  - [ ] Remove `ErrorI18n`, `errorI18n()` and `readErrorI18n()`
+  - [ ] Remove `runInInjectionContext` wherever possible
+  - [ ] Rename all `*StoreSubfeature` as `*Substore`
+- [ ] Bug
+  - [ ] core loader and notifications must be visible on full screen modals
+  - [ ] autocomplete does not work on List item modal

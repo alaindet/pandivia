@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, Injector, OnInit, inject, runInInjectionContext, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -15,9 +15,9 @@ import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
-import { UiStoreFeatureService } from '@app/core/ui';
-import { ListStoreFeatureService } from '../../store';
-import { InventoryStoreFeatureService } from '@app/features/inventory/store';
+import { UiStore } from '@app/core/ui';
+import { ListStore } from '../../store';
+import { InventoryStore } from '@app/features/inventory/store';
 import { toObservable } from '@angular/core/rxjs-interop';
 
 const imports = [
@@ -50,15 +50,16 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 > implements OnInit {
 
   private formBuilder = inject(FormBuilder);
-  private uiStore = inject(UiStoreFeatureService);
-  private listStore = inject(ListStoreFeatureService);
-  private inventoryStore = inject(InventoryStoreFeatureService);
+  private uiStore = inject(UiStore);
+  private listStore = inject(ListStore);
+  private inventoryStore = inject(InventoryStore);
+  private injector = inject(Injector);
   isMobile = inject(MediaQueryService).getFromMobileDown();
 
   isEditing = signal(false);
   FIELD = FIELD;
   theForm!: FormGroup;
-  isSaving = this.uiStore.loading.loading;
+  isSaving = this.uiStore.loader.loading;
   shouldContinue = false;
   themeConfig = this.uiStore.theme.config;
 
@@ -175,26 +176,30 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   nameFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return toObservable(this.listStore.getAutocompleteItems(query)).pipe(
-      map((items: InventoryItem[]) => {
-        return items.map(item => ({ value: item.id, label: item.name }));
-      }),
-    );
+    return runInInjectionContext(this.injector, () => {
+      return toObservable(this.listStore.getAutocompleteItems(query)).pipe(
+        map((items: InventoryItem[]) => {
+          return items.map(item => ({ value: item.id, label: item.name }));
+        }),
+      );
+    });
   };
 
   categoryFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return toObservable(this.listStore.filterCategoriesByName(query)).pipe(
-      map(categories => {
-        const result: FormOption[] = [];
-        for (const category of categories) {
-          if (category === DEFAULT_CATEGORY) continue;
-          result.push({ value: category, label: category });
-        }
-        return result;
-      }),
-    );
+    return runInInjectionContext(this.injector, () => {
+      return toObservable(this.listStore.filterCategoriesByName(query)).pipe(
+        map(categories => {
+          const result: FormOption[] = [];
+          for (const category of categories) {
+            if (category === DEFAULT_CATEGORY) continue;
+            result.push({ value: category, label: category });
+          }
+          return result;
+        }),
+      );
+    });
   };
 
   private initForm(): void {
@@ -257,16 +262,18 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     const stop$ = new Subject<void>();
     let first = true;
 
-    toObservable(this.listStore.itemModalSuccessCounter)
-      .pipe(takeUntil(stop$))
-      .subscribe(() => {
-        if (first) {
-          first = false;
-          return;
-        }
-        fn();
-        stop$.next();
-        stop$.complete();
-      });
+    runInInjectionContext(this.injector, () => {
+      toObservable(this.listStore.itemModalSuccessCounter)
+        .pipe(takeUntil(stop$))
+        .subscribe(() => {
+          if (first) {
+            first = false;
+            return;
+          }
+          fn();
+          stop$.next();
+          stop$.complete();
+        });
+    });
   }
 }

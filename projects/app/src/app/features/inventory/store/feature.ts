@@ -4,8 +4,8 @@ import { TranslocoService } from '@jsverse/transloco';
 import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
 import { provideFeedback } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
-import { UserStoreFeatureService } from '@app/features/user/store';
-import { UiStoreFeatureService } from '@app/core/ui/store';
+import { UserStore } from '@app/features/user/store';
+import { UiStore } from '@app/core/ui/store';
 import { InventoryService } from '../services';
 import { INVENTORY_FILTER, InventoryFilters, InventoryFilterToken, InventoryItem } from '../types';
 import { InventoryAllItemsStoreSubfeature } from './all';
@@ -16,14 +16,14 @@ import { InventoryItemStoreSubfeature } from './item';
 @Injectable({
   providedIn: 'root',
 })
-export class InventoryStoreFeatureService {
+export class InventoryStore {
 
   public api = inject(InventoryService);
-  public ui = inject(UiStoreFeatureService);
-  private user = inject(UserStoreFeatureService);
+  public ui = inject(UiStore);
+  private user = inject(UserStore);
   private transloco = inject(TranslocoService);
 
-  // Subfeatures --------------------------------------------------------------
+  // Substores --------------------------------------------------------------
   allItems = new InventoryAllItemsStoreSubfeature(this);
   categoryItems = new InventoryCategoryItemsStoreSubfeature(this);
   searchFilters = new InventorySearchFiltersStoreSubfeature(this);
@@ -79,14 +79,12 @@ export class InventoryStoreFeatureService {
   getCategorizedFilteredItems(): Signal<CategorizedItems<InventoryItem>[]> {
     return computed(() => {
       const filters = this.filters();
-      const category= filters[INVENTORY_FILTER.CATEGORY] ?? '';
-      const query = (filters[INVENTORY_FILTER.SEARCH_QUERY] ?? '').toLowerCase();
 
       return groupItemsByCategory(
         sortItemsByName(
           filterItems(this.items(), createFilters(f => [
-            f.exact('category', category),
-            f.like('name', query),
+            f.exact('category', filters[INVENTORY_FILTER.CATEGORY]),
+            f.like('name', filters[INVENTORY_FILTER.SEARCH_QUERY]),
           ])),
         )
       );

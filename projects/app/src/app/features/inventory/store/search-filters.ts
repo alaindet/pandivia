@@ -1,10 +1,10 @@
 import { INVENTORY_FILTER, InventoryFilter } from '../types';
-import { InventoryStoreFeatureService } from './feature';
+import { InventoryStore } from './feature';
 
 export class InventorySearchFiltersStoreSubfeature {
 
   constructor(
-    private parent: InventoryStoreFeatureService,
+    private parent: InventoryStore,
   ) { }
 
   setCategory(category: string) {

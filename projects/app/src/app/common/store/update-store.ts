@@ -97,7 +97,7 @@ export function updateStore<T = any>(
             }
 
             if (okMessage) {
-              options.notifier?.error(okMessage);
+              options.notifier?.success(okMessage);
             }
           },
         });

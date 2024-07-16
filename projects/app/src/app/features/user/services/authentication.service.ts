@@ -26,15 +26,19 @@ export class AuthenticationService {
     return from(new Promise<UserData | null>((resolve, reject) => {
       let unsub!: Unsubscribe;
       unsub = onAuthStateChanged(this.auth, async authState => {
-        unsub();
+
+        // TODO: Remove
+        console.log('onAuthStateChanged', authState);
 
         if (authState) {
           const user = await this.getUserData(authState);
           resolve(user);
+          unsub();
           return;
         }
 
         reject(null);
+        unsub();
       });
     }));
   }
@@ -42,8 +46,8 @@ export class AuthenticationService {
   private async getUserData(user: User): Promise<UserData> {
     const userData = user.toJSON() as UserData;
     const token = await user.getIdTokenResult();
-    const tokenTole = (token.claims['role'] ?? '').trim().toLowerCase();
-    userData.isAdmin = tokenTole === 'admin';
+    const tokenRole = (token.claims['role'] ?? '').trim().toLowerCase();
+    userData.isAdmin = tokenRole === 'admin';
     return userData;
   }
 

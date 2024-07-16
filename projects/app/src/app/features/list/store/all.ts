@@ -2,19 +2,19 @@ import { Subscription } from 'rxjs';
 
 import { updateStore } from '@app/common/store';
 import { LOADING_STATUS } from '@app/common/types';
-import { ListStoreFeatureService } from './feature';
+import { ListStore } from './feature';
 
 export class ListAllItemsStoreSubfeature {
 
   constructor(
-    private parent: ListStoreFeatureService,
+    private parent: ListStore,
   ) {}
 
   fetch(force = false): Subscription | undefined {
 
     if (!force && !this.parent.shouldFetch()) {
       this.parent.status.set(LOADING_STATUS.IDLE);
-      this.parent.ui.loading.stop();
+      this.parent.ui.loader.stop();
       return;
     }
 

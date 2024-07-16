@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, Injector, OnInit, inject, runInInjectionContext, signal, viewChild } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +11,7 @@ import { MediaQueryService } from '@app/common/services';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
-import { InventoryStoreFeatureService } from '../../store';
+import { InventoryStore } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { uniqueInventoryItemNameValidator } from '../../validators';
 import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
@@ -46,9 +46,9 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   InventoryItemFormModalOutput
 > implements OnInit {
 
-  private inventoryStore = inject(InventoryStoreFeatureService);
+  private inventoryStore = inject(InventoryStore);
   private formBuilder = inject(FormBuilder);
-
+  private injector = inject(Injector);
   isMobile = inject(MediaQueryService).getFromMobileDown();
 
   FIELD = FIELD;
@@ -79,19 +79,18 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   categoryFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-
-    const categoriesByName$ = toObservable(
-      this.inventoryStore.filterCategoriesByName(query),
-    );
-
-    return categoriesByName$.pipe(map(categories => {
-      const result: FormOption[] = [];
-      for (const category of categories) {
-        if (category === DEFAULT_CATEGORY) continue;
-        result.push({ value: category, label: category });
-      }
-      return result;
-    }));
+    return runInInjectionContext(this.injector, () => {
+      return toObservable(
+        this.inventoryStore.filterCategoriesByName(query),
+      ).pipe(map(categories => {
+        const result: FormOption[] = [];
+        for (const category of categories) {
+          if (category === DEFAULT_CATEGORY) continue;
+          result.push({ value: category, label: category });
+        }
+        return result;
+      }));
+    });
   };
 
   onCancel() {
@@ -214,16 +213,18 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     const stop$ = new Subject<void>();
     let first = true;
 
-    toObservable(this.inventoryStore.itemModalSuccessCounter)
-      .pipe(takeUntil(stop$))
-      .subscribe(() => {
-        if (first) {
-          first = false;
-          return;
-        }
-        fn();
-        stop$.next();
-        stop$.complete();
-      });
+    return runInInjectionContext(this.injector, () => {
+      toObservable(this.inventoryStore.itemModalSuccessCounter)
+        .pipe(takeUntil(stop$))
+        .subscribe(() => {
+          if (first) {
+            first = false;
+            return;
+          }
+          fn();
+          stop$.next();
+          stop$.complete();
+        });
+    });
   }
 }

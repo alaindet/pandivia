@@ -31,6 +31,7 @@ export function createUserLanguageController() {
     const _language = selectedLanguage ?? DEFAULT_LANGUAGE;
     language.set(_language);
     storage.write(language());
+    transloco.setActiveLang(_language);
   }
 
   return {

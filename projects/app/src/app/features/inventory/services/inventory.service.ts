@@ -3,7 +3,7 @@ import { Observable, from } from 'rxjs';
 import { CollectionReference, DocumentData, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
-import { UserStoreFeatureService } from '@app/features/user/store';
+import { UserStore } from '@app/features/user/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
 import { docToInventoryItem, docsToInventoryItems } from './utils';
 
@@ -13,7 +13,7 @@ import { docToInventoryItem, docsToInventoryItems } from './utils';
 export class InventoryService {
 
   private db = inject(Firestore);
-  private userStore = inject(UserStoreFeatureService);
+  private userStore = inject(UserStore);
   private userId = this.userStore.userId;
 
   fetchItems(): Observable<InventoryItem[]> {

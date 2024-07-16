@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 
-export function createUiLoadingController() {
+export function createUiLoaderController() {
   const loading = signal(false);
 
   function start() {

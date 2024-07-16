@@ -1,14 +1,14 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 
 import { ActionsMenuItem, ButtonComponent, CardListComponent, ChangeCategoryModalComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
-import { NAVIGATION_ITEM_LIST, UiStoreFeatureService } from '@app/core/ui';
+import { NAVIGATION_ITEM_LIST, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { filterNull } from '../../common/rxjs';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
@@ -16,7 +16,7 @@ import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_P
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
-import { ListStoreFeatureService } from './store';
+import { ListStore } from './store';
 import { LIST_FILTER, ListFilterToken, ListItem } from './types';
 
 const imports = [
@@ -38,8 +38,8 @@ const imports = [
 export class ListPageComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
-  private uiStore = inject(UiStoreFeatureService);
-  private listStore = inject(ListStoreFeatureService);
+  private uiStore = inject(UiStore);
+  private listStore = inject(ListStore);
   private layout = inject(StackedLayoutService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
@@ -84,7 +84,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
         break;
 
       case listMenu.LIST_ACTION_HIDE_COMPLETED.id:
-        this.listStore.searchFilters.setCompleted(true);
+        this.listStore.searchFilters.setCompleted(false);
         break;
 
       case listMenu.LIST_ACTION_SHOW_COMPLETED.id:
@@ -96,14 +96,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
         break;
 
       case listMenu.LIST_ACTION_REMOVE_COMPLETED.id: {
-
-        // TODO: Refactor in a function?
-        const config = LIST_REMOVE_COMPLETED_PROMPT;
-        const title = this.transloco.translate(config.title);
-        const message = this.transloco.translate(config.message);
-        const prompt = { ...config, title, message };
-
-        this.confirmPrompt(prompt).subscribe({
+        this.confirmPrompt(LIST_REMOVE_COMPLETED_PROMPT).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.listStore.allItems.removeCompleted(),
         });
@@ -111,14 +104,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
       }
 
       case listMenu.LIST_ACTION_REMOVE.id: {
-
-        // TODO: Refactor in a function?
-        const config = LIST_REMOVE_PROMPT;
-        const title = this.transloco.translate(config.title);
-        const message = this.transloco.translate(config.message);
-        const prompt = { ...config, title, message };
-
-        this.confirmPrompt(prompt).subscribe({
+        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.listStore.allItems.remove(),
         });
@@ -128,6 +114,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   onCategoryAction(category: string, action: string) {
+    const categoryName = category;
+
     switch (action) {
 
       case categoryMenu.CATEGORY_ACTION_CREATE_ITEM.id:
@@ -143,34 +131,19 @@ export class ListPageComponent implements OnInit, OnDestroy {
         break;
 
       case categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id: {
-
-        // TODO: Refactor in a function?
-        const config = CATEGORY_REMOVE_COMPLETED_PROMPT;
-        const params = { categoryName: category };
-        const title = this.transloco.translate(config.title);
-        const message = this.transloco.translate(config.message, params);
-        const prompt = { ...config, title, message };
-
-        this.confirmPrompt(prompt).subscribe({
-          error: () => console.log('Canceled'),
-          next: () => this.listStore.categoryItems.removeCompleted(category),
-        });
+        this.confirmPrompt(CATEGORY_REMOVE_COMPLETED_PROMPT, { categoryName })
+          .subscribe({
+            error: () => console.log('Canceled'),
+            next: () => this.listStore.categoryItems.removeCompleted(category),
+          });
         break;
       }
 
       case categoryMenu.CATEGORY_ACTION_REMOVE.id: {
-
-        // TODO: Refactor in a function?
-        const config = CATEGORY_REMOVE_PROMPT;
-        const params = { categoryName: category };
-        const title = this.transloco.translate(config.title);
-        const message = this.transloco.translate(config.message, params);
-        const prompt = { ...config, title, message };
-
-        this.confirmPrompt(prompt).subscribe({
+        this.confirmPrompt(CATEGORY_REMOVE_PROMPT, { categoryName }).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.listStore.categoryItems.remove(category),
-          });
+        });
         break;
       }
     }
@@ -205,15 +178,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
       case itemMenu.ITEM_ACTION_REMOVE.id: {
         const item = this.listStore.getItemById(itemId)()!;
-
-        // TODO: Refactor in a function?
-        const config = ITEM_REMOVE_PROMPT;
-        const params = { itemName: item.name };
-        const title = this.transloco.translate(config.title);
-        const message = this.transloco.translate(config.message, params);
-        const prompt = { ...config, title, message };
-
-        this.confirmPrompt(prompt).subscribe({
+        this.confirmPrompt(ITEM_REMOVE_PROMPT, { itemName: item.name }).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.listStore.item.remove(itemId),
         });
@@ -286,9 +251,13 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   private confirmPrompt(
-    input: ConfirmPromptModalInput,
-  ): Observable<ConfirmPromptModalOutput> {
-    const modal$ = this.modal.open(ConfirmPromptModalComponent, input);
+    prompt: ConfirmPromptModalInput,
+    messageParams?: HashMap,
+  ) {
+    const title = this.transloco.translate(prompt.title);
+    const message = this.transloco.translate(prompt.message, messageParams);
+    const translatedPrompt = { ...prompt, title, message };
+    const modal$ = this.modal.open(ConfirmPromptModalComponent, translatedPrompt);
     return modal$.closed().pipe(take(1));
   }
 
@@ -316,14 +285,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // TODO: Refactor in a function?
-    const config = ITEM_REMOVE_PROMPT;
-    const params = { itemName: item.name };
-    const title = this.transloco.translate(config.title);
-    const message = this.transloco.translate(config.message, params);
-    const prompt = { ...config, title, message };
-
-    this.confirmPrompt(prompt).subscribe({
+    this.confirmPrompt(ITEM_REMOVE_PROMPT, { itemName: item.name }).subscribe({
       error: () => console.log('Canceled'),
       next: () => this.listStore.item.remove(itemId),
     });

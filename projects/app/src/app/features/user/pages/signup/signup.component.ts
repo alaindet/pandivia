@@ -6,10 +6,10 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
+import { UiStore } from '@app/core/ui';
 import { ButtonComponent, FORM_FIELD_EXPORTS, PageHeaderComponent, TextInputComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
-import { UiService } from '@app/core/ui';
 import { InvitesService } from '../../services';
 import { SignUpUserDto, UserInvite } from '../../types';
 import { SIGNUP_FIELD as FIELD } from './fields';
@@ -37,7 +37,7 @@ export default class SignUpPageComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private ui = inject(UiService);
+  private uiStore = inject(UiStore);
   private invitesService = inject(InvitesService);
 
   private inviteId = this.route.snapshot.queryParams['invite'];
@@ -79,9 +79,9 @@ export default class SignUpPageComponent implements OnInit {
       this.initForm();
     };
 
-    this.ui.loader.start();
+    this.uiStore.loader.start();
     this.invitesService.findInvite(this.inviteId)
-      .pipe(finalize(() => this.ui.loader.stop()))
+      .pipe(finalize(() => this.uiStore.loader.stop()))
       .subscribe({ error: onError, next: onSuccess });
   }
 
@@ -96,20 +96,20 @@ export default class SignUpPageComponent implements OnInit {
 
     if (this.invite!.email !== dto.email) {
       const email = this.invite!.email;
-      this.ui.notification.err('inviteUser.emailMustMatchInvite', { email });
+      this.uiStore.notifications.error('inviteUser.emailMustMatchInvite', { email });
       return;
     }
 
-    this.ui.loader.start();
+    this.uiStore.loader.start();
     this.invitesService.signUpUser(this.inviteId, dto)
-      .pipe(finalize(() => this.ui.loader.stop()))
+      .pipe(finalize(() => this.uiStore.loader.stop()))
       .subscribe({
         error: err => {
           console.error(err);
-          this.ui.notification.err('auth.signUpError');
+          this.uiStore.notifications.error('auth.signUpError');
         },
         next: () => {
-          this.ui.notification.ok('auth.signUpSuccess');
+          this.uiStore.notifications.success('auth.signUpSuccess');
           this.router.navigate([DEFAULT_ROUTE]);
         },
       });
@@ -127,6 +127,6 @@ export default class SignUpPageComponent implements OnInit {
 
   private invalidInvite(): void {
     this.router.navigate(['/signin']);
-    this.ui.notification.err('inviteUser.invalidInvite');
+    this.uiStore.notifications.error('inviteUser.invalidInvite');
   }
 }

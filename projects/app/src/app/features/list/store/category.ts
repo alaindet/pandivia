@@ -1,12 +1,12 @@
 import { Subscription } from 'rxjs';
 
 import { updateStore } from '@app/common/store';
-import { ListStoreFeatureService } from './feature';
+import { ListStore } from './feature';
 
 export class ListCategoryItemsStoreSubfeature {
 
   constructor(
-    private parent: ListStoreFeatureService,
+    private parent: ListStore,
   ) {}
 
   complete(category: string): Subscription {

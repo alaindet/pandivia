@@ -2,19 +2,19 @@ import { Subscription } from 'rxjs';
 
 import { updateStore } from '@app/common/store';
 import { LOADING_STATUS } from '@app/common/types';
-import { InventoryStoreFeatureService } from './feature';
+import { InventoryStore } from './feature';
 
 export class InventoryAllItemsStoreSubfeature {
 
   constructor(
-    private parent: InventoryStoreFeatureService,
+    private parent: InventoryStore,
   ) {}
 
   fetch(force = false): Subscription | undefined {
 
     if (!force && !this.parent.shouldFetch()) {
       this.parent.status.set(LOADING_STATUS.IDLE);
-      this.parent.ui.loading.stop();
+      this.parent.ui.loader.stop();
       return;
     }
 

@@ -5,8 +5,8 @@ import { TranslocoModule } from '@jsverse/transloco';
 
 import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from '@app/common/components';
 import { SoftwareUpdateService } from '@app/core/sw-update';
-import { UiStoreFeatureService } from '@app/core/ui';
-import { UserStoreFeatureService } from '@app/features/user/store/feature';
+import { UiStore } from '@app/core/ui';
+import { UserStore } from '@app/features/user/store/feature';
 
 const imports = [
   RouterOutlet,
@@ -27,17 +27,17 @@ const imports = [
 })
 export class AppComponent implements OnInit {
 
-  private uiStore = inject(UiStoreFeatureService);
+  private uiStore = inject(UiStore);
   private swUpdate = inject(SoftwareUpdateService);
-  private userFeature = inject(UserStoreFeatureService);
+  private userStore = inject(UserStore);
 
   notification = this.uiStore.notifications.notification;
-  loading = this.uiStore.loading.loading;
+  loading = this.uiStore.loader.loading;
   themeConfig = this.uiStore.theme.config;
 
   ngOnInit() {
     this.swUpdate.check();
-    this.userFeature.autoSignIn();
+    this.userStore.autoSignIn();
   }
 
   onDismissNotification() {

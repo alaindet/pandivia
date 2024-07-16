@@ -3,12 +3,12 @@ import { TranslocoService } from '@jsverse/transloco';
 
 import { removeItem, updateStore, updateItem } from '@app/common/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
-import { InventoryStoreFeatureService } from './feature';
+import { InventoryStore } from './feature';
 
 export class InventoryItemStoreSubfeature {
 
   constructor(
-    private parent: InventoryStoreFeatureService,
+    private parent: InventoryStore,
     private transloco: TranslocoService,
   ) {}
 

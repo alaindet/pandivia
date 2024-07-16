@@ -2,10 +2,10 @@ import { computed, effect, inject, Injectable, Signal, signal } from '@angular/c
 
 import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, provideFeedback, shouldFetchCollection, sortItemsByName } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
-import { UiStoreFeatureService } from '@app/core/ui/store';
-import { UserStoreFeatureService } from '@app/features/user/store';
+import { UiStore } from '@app/core/ui/store';
+import { UserStore } from '@app/features/user/store';
 import { InventoryItem } from '../../inventory';
-import { InventoryStoreFeatureService } from '@app/features/inventory/store';
+import { InventoryStore } from '@app/features/inventory/store';
 import { ListService } from '../services';
 import { LIST_FILTER, ListFilters, ListFilterToken, ListItem } from '../types';
 import { ListAllItemsStoreSubfeature } from './all';
@@ -16,14 +16,14 @@ import { ListItemStoreSubfeature } from './item';
 @Injectable({
   providedIn: 'root',
 })
-export class ListStoreFeatureService {
+export class ListStore {
 
   public api = inject(ListService);
-  public ui = inject(UiStoreFeatureService);
-  private user = inject(UserStoreFeatureService);
-  public inventory = inject(InventoryStoreFeatureService);
+  public ui = inject(UiStore);
+  private user = inject(UserStore);
+  public inventory = inject(InventoryStore);
 
-  // Subfeatures --------------------------------------------------------------
+  // Substores --------------------------------------------------------------
   allItems = new ListAllItemsStoreSubfeature(this);
   categoryItems = new ListCategoryItemsStoreSubfeature(this);
   searchFilters = new ListSearchFiltersStoreSubfeature(this);

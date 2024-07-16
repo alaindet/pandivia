@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { PageHeaderComponent, UserCredentialsFormComponent } from '@app/common/components';
-import { UserStoreFeatureService } from '../../store';
+import { UserStore } from '../../store';
 import { UserCredentials } from '../../types';
 
 const imports = [
@@ -20,7 +20,7 @@ const imports = [
 })
 export default class SignInPageComponent {
 
-  private userStore = inject(UserStoreFeatureService);
+  private userStore = inject(UserStore);
 
   onSignIn(credentials: UserCredentials) {
     this.userStore.signIn(credentials);

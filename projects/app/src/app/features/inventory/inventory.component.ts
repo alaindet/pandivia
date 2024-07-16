@@ -10,16 +10,16 @@ import { StackedLayoutService } from '@app/common/layouts';
 import { filterNull } from '@app/common/rxjs';
 import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
-import { NAVIGATION_ITEM_INVENTORY, UiStoreFeatureService } from '@app/core/ui';
+import { NAVIGATION_ITEM_INVENTORY, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { CreateListItemDto } from '@app/features/list';
-import { ListStoreFeatureService } from '../list/store';
+import { ListStore } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
-import { InventoryStoreFeatureService } from './store';
+import { InventoryStore } from './store';
 import { InventoryFilterToken, InventoryItem } from './types';
 
 const imports = [
@@ -42,9 +42,9 @@ const imports = [
 export class InventoryPageComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
-  private inventoryStore = inject(InventoryStoreFeatureService);
-  private uiStore = inject(UiStoreFeatureService);
-  private listStore = inject(ListStoreFeatureService);
+  private inventoryStore = inject(InventoryStore);
+  private uiStore = inject(UiStore);
+  private listStore = inject(ListStore);
   private layout = inject(StackedLayoutService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);

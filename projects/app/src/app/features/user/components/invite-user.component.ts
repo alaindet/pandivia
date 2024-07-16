@@ -4,7 +4,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
-import { UiStoreFeatureService } from '@app/core/ui';
+import { UiStore } from '@app/core/ui';
 import { ButtonComponent, FORM_FIELD_EXPORTS, TextInputComponent } from '@app/common/components';
 import { copyToClipboard, getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
@@ -30,7 +30,7 @@ const imports = [
 export class InviteUserComponent {
 
   private formBuilder = inject(FormBuilder);
-  private uiStore = inject(UiStoreFeatureService);
+  private uiStore = inject(UiStore);
   private invitesService = inject(InvitesService);
 
   inviteUrl: string | null = null;
@@ -48,10 +48,10 @@ export class InviteUserComponent {
 
     const { email } = this.theForm.value;
 
-    this.uiStore.loading.start();
+    this.uiStore.loader.start();
 
     this.invitesService.createInvite(email!)
-      .pipe(finalize(() => this.uiStore.loading.stop()))
+      .pipe(finalize(() => this.uiStore.loader.stop()))
       .subscribe({
         error: err => {
           console.error(err);

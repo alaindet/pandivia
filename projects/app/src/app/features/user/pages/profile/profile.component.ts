@@ -5,10 +5,10 @@ import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 import { ButtonComponent, SelectComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
-import { NAVIGATION_ITEM_USER, UiStoreFeatureService } from '@app/core/ui';
+import { NAVIGATION_ITEM_USER, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { InviteUserComponent } from '../../components';
-import { UserStoreFeatureService } from '../../store';
+import { UserStore } from '../../store';
 import { Theme } from '@app/core/theme';
 import { Language } from '@app/core/language';
 
@@ -30,8 +30,8 @@ const imports = [
 })
 export class ProfilePageComponent implements OnInit {
 
-  private uiStore = inject(UiStoreFeatureService);
-  private userStore = inject(UserStoreFeatureService);
+  private uiStore = inject(UiStore);
+  private userStore = inject(UserStore);
   private layout = inject(StackedLayoutService);
   private transloco = inject(TranslocoService);
 

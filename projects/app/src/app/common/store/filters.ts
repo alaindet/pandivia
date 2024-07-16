@@ -51,7 +51,7 @@ export function createFilters(
   }
 
   const rawFilters = fn({ exact, like });
-  return rawFilters.filter(f => f !== null);
+  return rawFilters.filter(f => f !== null) as Filter[];
 }
 
 export function filterItems<T extends Record<string, any>>(
@@ -64,6 +64,12 @@ export function filterItems<T extends Record<string, any>>(
       return { ...filter, value: (filter.value as string).toLowerCase() };
     }
     return filter;
+  });
+
+  // TODO: Remove
+  console.log('filterItems', {
+    items,
+    filters,
   });
 
   return items.filter(item => {
