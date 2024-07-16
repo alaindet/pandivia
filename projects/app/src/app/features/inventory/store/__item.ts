@@ -1,12 +1,15 @@
 import { removeItem, updateCollection, updateItem } from '@app/common/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
 import { InventoryStoreFeatureService } from './__feature';
+import { TranslocoService } from '@jsverse/transloco';
+import { Subscription } from 'rxjs';
 
 export class InventoryItemStoreSubfeature {
 
   constructor(
     private parent: InventoryStoreFeatureService,
-  ) { }
+    private transloco: TranslocoService,
+  ) {}
 
   create(dto: CreateInventoryItemDto) {
     return updateCollection(this.parent.api.createItem(dto))
@@ -45,11 +48,26 @@ export class InventoryItemStoreSubfeature {
       .update();
   }
 
-  // TODO
-  cloneFromListItem(dto: CreateInventoryItemDto) {
-    const exists = this.parent.itemExistsWithExactName(dto.name);
-    // if (exists()) {
+  cloneFromListItem(dto: CreateInventoryItemDto): Subscription | undefined {
 
-    // }
+    // Check for duplicates
+    if (this.parent.itemExistsWithExactName(dto.name)()) {
+      this.parent.ui.notifications.error(this.transloco.translate(
+        'inventory.cloneFromList.duplicateError',
+        { item: dto.name },
+      ));
+      return;
+    }
+
+    return updateCollection(this.parent.api.createItem(dto))
+      .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'inventory.cloneFromList.success',
+        'inventory.cloneFromList.error',
+      )
+      .onSuccess(item => {
+        this.parent.items.update(items => [...items, item]);
+      })
+      .update();
   }
 }

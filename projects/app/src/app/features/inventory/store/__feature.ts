@@ -1,4 +1,5 @@
 import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
 import { provideFeedback } from '@app/common/store';
@@ -20,12 +21,13 @@ export class InventoryStoreFeatureService {
   public api = inject(InventoryService);
   public ui = inject(UiStoreFeatureService);
   private user = inject(UserStoreFeatureService);
+  private transloco = inject(TranslocoService);
 
   // Subfeatures --------------------------------------------------------------
   allItems = new InventoryAllItemsStoreSubfeature(this);
   categoryItems = new InventoryCategoryItemsStoreSubfeature(this);
   searchFilters = new InventorySearchFiltersStoreSubfeature(this);
-  item = new InventoryItemStoreSubfeature(this);
+  item = new InventoryItemStoreSubfeature(this, this.transloco);
 
   // State --------------------------------------------------------------------
   items = signal<InventoryItem[]>([]);
