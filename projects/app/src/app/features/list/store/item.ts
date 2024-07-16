@@ -1,6 +1,6 @@
 import { removeItem, updateStore, updateItem } from '@app/common/store';
 import { CreateListItemDto, ListItem } from '../types';
-import { ListStoreFeatureService } from './__feature';
+import { ListStoreFeatureService } from './feature';
 
 export class ListItemStoreSubfeature {
 

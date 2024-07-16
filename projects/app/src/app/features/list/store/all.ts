@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs';
 
 import { updateStore } from '@app/common/store';
 import { LOADING_STATUS } from '@app/common/types';
-import { ListStoreFeatureService } from './__feature';
+import { ListStoreFeatureService } from './feature';
 
 export class ListAllItemsStoreSubfeature {
 

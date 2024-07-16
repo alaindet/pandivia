@@ -2,16 +2,16 @@ import { computed, effect, inject, Injectable, Signal, signal } from '@angular/c
 
 import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, provideFeedback, shouldFetchCollection, sortItemsByName } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
-import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
-import { UserStoreFeatureService } from '@app/features/user/store/__feature';
+import { UiStoreFeatureService } from '@app/core/ui/store';
+import { UserStoreFeatureService } from '@app/features/user/store';
 import { InventoryItem } from '../../inventory';
-import { InventoryStoreFeatureService } from '@app/features/inventory/store/__feature';
+import { InventoryStoreFeatureService } from '@app/features/inventory/store';
 import { ListService } from '../services';
 import { LIST_FILTER, ListFilters, ListFilterToken, ListItem } from '../types';
-import { ListAllItemsStoreSubfeature } from './__all';
-import { ListCategoryItemsStoreSubfeature } from './__category';
-import { ListSearchFiltersStoreSubfeature } from './__search-filters';
-import { ListItemStoreSubfeature } from './__item';
+import { ListAllItemsStoreSubfeature } from './all';
+import { ListCategoryItemsStoreSubfeature } from './category';
+import { ListSearchFiltersStoreSubfeature } from './search-filters';
+import { ListItemStoreSubfeature } from './item';
 
 @Injectable({
   providedIn: 'root',

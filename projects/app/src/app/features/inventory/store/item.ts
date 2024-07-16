@@ -1,8 +1,9 @@
+import { Subscription } from 'rxjs';
+import { TranslocoService } from '@jsverse/transloco';
+
 import { removeItem, updateStore, updateItem } from '@app/common/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
-import { InventoryStoreFeatureService } from './__feature';
-import { TranslocoService } from '@jsverse/transloco';
-import { Subscription } from 'rxjs';
+import { InventoryStoreFeatureService } from './feature';
 
 export class InventoryItemStoreSubfeature {
 

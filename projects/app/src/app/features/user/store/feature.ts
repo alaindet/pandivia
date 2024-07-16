@@ -5,7 +5,7 @@ import { DEFAULT_ROUTE } from '@app/app.routes';
 import { provideFeedback, updateStore } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
 import { DEFAULT_LANGUAGE, Language } from '@app/core/language';
-import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
+import { UiStoreFeatureService } from '@app/core/ui/store';
 import { AuthenticationService } from '../services';
 import { UserCredentials, UserData, UserDisplayData } from '../types';
 

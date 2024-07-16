@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import packageJson from '@root/package.json';
-import { createUiLoadingController } from './__loading';
-import { createUiNotificationController } from './__notifications';
-import { createUiTitleController } from './__title';
-import { createUiThemeController } from './__theme';
-import { createUiNavigationController } from './__navigation';
+import { createUiLoadingController } from './loading';
+import { createUiNotificationController } from './notifications';
+import { createUiTitleController } from './title';
+import { createUiThemeController } from './theme';
+import { createUiNavigationController } from './navigation';
 
 @Injectable({
   providedIn: 'root',

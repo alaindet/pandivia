@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 
 import { updateStore } from '@app/common/store';
-import { ListStoreFeatureService } from './__feature';
+import { ListStoreFeatureService } from './feature';
 
 export class ListCategoryItemsStoreSubfeature {
 

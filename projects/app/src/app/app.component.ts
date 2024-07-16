@@ -2,13 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 
 import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
 import { selectUiIsLoading } from './core/store';
 import { SoftwareUpdateService } from './core/sw-update';
-import { UiService } from './core/ui';
-import { UserStoreFeatureService } from './features/user/store/__feature';
+import { UiService, UiStoreFeatureService } from './core/ui';
+import { UserStoreFeatureService } from './features/user/store/feature';
 
 const imports = [
   RouterOutlet,
@@ -29,13 +28,14 @@ const imports = [
 })
 export class AppComponent implements OnInit {
 
-  private store = inject(Store);
+  private ui = inject(UiStoreFeatureService);
   private swUpdate = inject(SoftwareUpdateService);
   private userFeature = inject(UserStoreFeatureService);
 
-  ui = inject(UiService);
-  themeConfig = this.ui.theme.config;
-  loading = this.store.selectSignal(selectUiIsLoading);
+  loading = this.ui.
+
+  // themeConfig = this.ui.theme.config;
+  // loading = this.store.selectSignal(selectUiIsLoading);
 
   ngOnInit() {
     this.swUpdate.check();

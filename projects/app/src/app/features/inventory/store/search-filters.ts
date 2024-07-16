@@ -1,5 +1,5 @@
 import { INVENTORY_FILTER, InventoryFilter } from '../types';
-import { InventoryStoreFeatureService } from './__feature';
+import { InventoryStoreFeatureService } from './feature';
 
 export class InventorySearchFiltersStoreSubfeature {
 

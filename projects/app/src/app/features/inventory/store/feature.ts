@@ -4,14 +4,14 @@ import { TranslocoService } from '@jsverse/transloco';
 import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
 import { provideFeedback } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
-import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
+import { UserStoreFeatureService } from '@app/features/user/store';
+import { UiStoreFeatureService } from '@app/core/ui/store';
 import { InventoryService } from '../services';
 import { INVENTORY_FILTER, InventoryFilters, InventoryFilterToken, InventoryItem } from '../types';
-import { InventoryAllItemsStoreSubfeature } from './__all';
-import { InventoryCategoryItemsStoreSubfeature } from './__category';
-import { InventorySearchFiltersStoreSubfeature } from './__search-filters';
-import { InventoryItemStoreSubfeature } from './__item';
-import { UserStoreFeatureService } from '../../user/store/__feature';
+import { InventoryAllItemsStoreSubfeature } from './all';
+import { InventoryCategoryItemsStoreSubfeature } from './category';
+import { InventorySearchFiltersStoreSubfeature } from './search-filters';
+import { InventoryItemStoreSubfeature } from './item';
 
 @Injectable({
   providedIn: 'root',

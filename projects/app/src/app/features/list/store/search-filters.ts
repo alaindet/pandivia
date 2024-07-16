@@ -1,5 +1,5 @@
 import { LIST_FILTER, ListFilter } from '../types';
-import { ListStoreFeatureService } from './__feature';
+import { ListStoreFeatureService } from './feature';
 
 export class ListSearchFiltersStoreSubfeature {
   constructor(
