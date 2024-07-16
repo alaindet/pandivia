@@ -1,13 +1,13 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
+import { provideFeedback, updateStore } from '@app/common/store';
 import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
 import { DEFAULT_LANGUAGE, Language } from '@app/core/language';
 import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
-import { UserCredentials, UserData, UserDisplayData } from '../types';
 import { AuthenticationService } from '../services';
+import { UserCredentials, UserData, UserDisplayData } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,9 @@ export class UserStoreFeatureService {
   data = signal<UserData | null>(null);
   status = signal<LoadingStatus>(LOADING_STATUS.PRISTINE);
   language = signal<Language>(DEFAULT_LANGUAGE);
+
+  // Feedback -----------------------------------------------------------------
+  feedback = provideFeedback(this.ui, this.status);
 
   // Derived state ------------------------------------------------------------
   isLoaded = computed(() => (
@@ -49,63 +52,29 @@ export class UserStoreFeatureService {
 
   // Mutations ----------------------------------------------------------------
   signIn(credentials: UserCredentials) {
-
-    this.status.set(LOADING_STATUS.LOADING);
-    this.ui.loading.start();
-
-    this.authService.signIn(credentials)
-      .pipe(finalize(() => this.ui.loading.stop()))
-      .subscribe({
-        error: err => {
-          console.error(err);
-          this.status.set(LOADING_STATUS.ERROR);
-          this.ui.notifications.success('auth.signInError');
-        },
-        next: user => {
-          this.status.set(LOADING_STATUS.IDLE);
-          this.ui.notifications.success('auth.signInSuccess');
-          this.data.set(user);
-          this.router.navigate([DEFAULT_ROUTE]);
-        },
-      });
+    updateStore(this.authService.signIn(credentials))
+      .withFeedback(this.feedback)
+      .withNotifications('auth.signInSuccess', 'auth.signInError')
+      .onSuccess(user => {
+        this.data.set(user);
+        this.router.navigate([DEFAULT_ROUTE]);
+      })
+      .update();
   }
 
   signOut() {
-    this.status.set(LOADING_STATUS.LOADING);
-    this.ui.loading.start();
-
-    this.authService.signOut()
-      .pipe(finalize(() => this.ui.loading.stop()))
-      .subscribe({
-        error: err => {
-          console.error(err);
-          this.status.set(LOADING_STATUS.ERROR);
-          this.ui.notifications.success('auth.signOutError');
-        },
-        next: () => {
-          this.status.set(LOADING_STATUS.IDLE);
-          this.ui.notifications.success('auth.signOutSuccess');
-          this.data.set(null);
-        },
-      });
+    updateStore(this.authService.signOut())
+      .withFeedback(this.feedback)
+      .withNotifications('auth.signOutSuccess', 'auth.signOutError')
+      .onSuccess(() => this.data.set(null))
+      .update();
   }
 
   autoSignIn() {
-    this.status.set(LOADING_STATUS.LOADING);
-    this.ui.loading.start();
-
-    this.authService.autoSignIn()
-      .pipe(finalize(() => this.ui.loading.stop()))
-      .subscribe({
-        error: err => {
-          console.error(err);
-          this.status.set(LOADING_STATUS.ERROR);
-          this.ui.notifications.success('auth.autoSignInError');
-        },
-        next: userData => {
-          this.status.set(LOADING_STATUS.IDLE);
-          this.data.set(userData);
-        },
-      });
+    updateStore(this.authService.signOut())
+      .withFeedback(this.feedback)
+      .withNotifications(null, 'auth.signOutError')
+      .onSuccess(userData => this.data.set(userData))
+      .update();
   }
 }

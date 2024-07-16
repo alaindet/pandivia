@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 
-import { updateCollection } from '@app/common/store';
+import { updateStore } from '@app/common/store';
 import { LOADING_STATUS } from '@app/common/types';
 import { ListStoreFeatureService } from './__feature';
 
@@ -18,7 +18,7 @@ export class ListAllItemsStoreSubfeature {
       return;
     }
 
-    return updateCollection(this.parent.api.allItems.fetch())
+    return updateStore(this.parent.api.allItems.fetch())
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.fetchItemsSuccess',
@@ -32,7 +32,7 @@ export class ListAllItemsStoreSubfeature {
   }
 
   complete(): Subscription {
-    return updateCollection(this.parent.api.allItems.complete())
+    return updateStore(this.parent.api.allItems.complete())
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.editItemsSuccess',
@@ -47,7 +47,7 @@ export class ListAllItemsStoreSubfeature {
   }
 
   undo(): Subscription {
-    return updateCollection(this.parent.api.allItems.undo())
+    return updateStore(this.parent.api.allItems.undo())
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.editItemsSuccess',
@@ -62,7 +62,7 @@ export class ListAllItemsStoreSubfeature {
   }
 
   remove(): Subscription {
-    return updateCollection(this.parent.api.allItems.remove())
+    return updateStore(this.parent.api.allItems.remove())
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.removeItemsSuccess',
@@ -76,7 +76,7 @@ export class ListAllItemsStoreSubfeature {
   }
 
   removeCompleted(): Subscription {
-    return updateCollection(this.parent.api.allItems.removeCompleted())
+    return updateStore(this.parent.api.allItems.removeCompleted())
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.removeItemsSuccess',

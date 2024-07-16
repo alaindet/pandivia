@@ -1,42 +1,42 @@
 import { finalize, Observable, Subscription } from 'rxjs';
 
-export type CollectionLoader = {
+export type StoreLoader = {
   start: () => void;
   stop: () => void;
 };
 
-export type CollectionNotifier = {
+export type StoreNotifier = {
   error: (message: string) => void;
   success: (message: string) => void;
 };
 
-export type CollectionStatus = {
+export type StoreStatus = {
   loading: () => void;
   error: () => void;
   success: () => void;
 };
 
-export type CollectionFeedback = {
-  loader: CollectionLoader;
-  notifier: CollectionNotifier;
-  status: CollectionStatus;
+export type StoreFeedback = {
+  loader: StoreLoader;
+  notifier: StoreNotifier;
+  status: StoreStatus;
 };
 
-export type CollectionUpdateOptions<T = any> = {
+export type StoreUpdateOptions<T = any> = {
   source: Observable<T>;
-  notifications: { ok: string; err: string } | null;
+  notifications: { ok: string | null; err: string | null } | null;
   onSuccess: ((data: T) => void) | null;
-  loader: CollectionLoader | null;
-  notifier: CollectionNotifier | null;
-  status: CollectionStatus | null;
+  loader: StoreLoader | null;
+  notifier: StoreNotifier | null;
+  status: StoreStatus | null;
 };
 
-export function updateCollection<T = any>(
+export function updateStore<T = any>(
   source: Observable<T>,
   onSuccess?: (data: T) => void,
 ) {
 
-  const options: CollectionUpdateOptions = {
+  const options: StoreUpdateOptions = {
     source,
     notifications: null,
     onSuccess: onSuccess ?? null,
@@ -46,25 +46,25 @@ export function updateCollection<T = any>(
   };
 
   return {
-    withLoader(loader: CollectionLoader) {
+    withLoader(loader: StoreLoader) {
       options.loader = loader;
       return this;
     },
-    withNotifier(notifier: CollectionNotifier) {
+    withNotifier(notifier: StoreNotifier) {
       options.notifier = notifier;
       return this;
     },
-    withStatus(status: CollectionStatus) {
+    withStatus(status: StoreStatus) {
       options.status = status;
       return this;
     },
-    withFeedback(feedback: CollectionFeedback) {
+    withFeedback(feedback: StoreFeedback) {
       options.loader = feedback.loader;
       options.notifier = feedback.notifier;
       options.status = feedback.status;
       return this;
     },
-    withNotifications(ok: string, err: string) {
+    withNotifications(ok: string | null, err: string | null) {
       options.notifications = { ok, err };
       return this;
     },

@@ -1,13 +1,13 @@
 import { WritableSignal } from '@angular/core';
 
-import { CollectionFeedback } from '@app/common/store';
+import { StoreFeedback } from '@app/common/store';
 import { UiStoreFeatureService } from '@app/core/ui/store/__feature';
 import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
 
 export function provideFeedback(
   uiFeature: UiStoreFeatureService,
   status: WritableSignal<LoadingStatus>,
-): CollectionFeedback {
+): StoreFeedback {
   return {
     loader: {
       start: uiFeature.loading.start,

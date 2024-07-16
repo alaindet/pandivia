@@ -1,4 +1,4 @@
-import { removeItem, updateCollection, updateItem } from '@app/common/store';
+import { removeItem, updateStore, updateItem } from '@app/common/store';
 import { CreateListItemDto, ListItem } from '../types';
 import { ListStoreFeatureService } from './__feature';
 
@@ -9,7 +9,7 @@ export class ListItemStoreSubfeature {
   ) {}
 
   create(dto: CreateListItemDto) {
-    return updateCollection(this.parent.api.item.create(dto))
+    return updateStore(this.parent.api.item.create(dto))
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.createItemSuccess',
@@ -23,7 +23,7 @@ export class ListItemStoreSubfeature {
   }
 
   edit(editedItem: ListItem) {
-    return updateCollection(this.parent.api.item.edit(editedItem))
+    return updateStore(this.parent.api.item.edit(editedItem))
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.editItemSuccess',
@@ -37,7 +37,7 @@ export class ListItemStoreSubfeature {
   }
 
   complete(itemId: ListItem['id']) {
-    return updateCollection(this.parent.api.item.complete(itemId))
+    return updateStore(this.parent.api.item.complete(itemId))
       .withFeedback(this.parent.feedback)
       .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
@@ -46,7 +46,7 @@ export class ListItemStoreSubfeature {
   }
 
   undo(itemId: ListItem['id']) {
-    return updateCollection(this.parent.api.item.undo(itemId))
+    return updateStore(this.parent.api.item.undo(itemId))
       .withFeedback(this.parent.feedback)
       .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
@@ -55,7 +55,7 @@ export class ListItemStoreSubfeature {
   }
 
   toggle(itemId: ListItem['id']) {
-    return updateCollection(this.parent.api.item.toggle(itemId))
+    return updateStore(this.parent.api.item.toggle(itemId))
       .withFeedback(this.parent.feedback)
       .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
@@ -64,7 +64,7 @@ export class ListItemStoreSubfeature {
   }
 
   increment(itemId: ListItem['id']) {
-    return updateCollection(this.parent.api.item.increment(itemId))
+    return updateStore(this.parent.api.item.increment(itemId))
       .withFeedback(this.parent.feedback)
       .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
@@ -73,7 +73,7 @@ export class ListItemStoreSubfeature {
   }
 
   decrement(itemId: ListItem['id']) {
-    return updateCollection(this.parent.api.item.decrement(itemId))
+    return updateStore(this.parent.api.item.decrement(itemId))
       .withFeedback(this.parent.feedback)
       .onSuccess(updated => {
         updateItem(this.parent.items, updated.id, updated);
@@ -82,7 +82,7 @@ export class ListItemStoreSubfeature {
   }
 
   remove(itemId: ListItem['id']) {
-    return updateCollection(this.parent.api.item.remove(itemId))
+    return updateStore(this.parent.api.item.remove(itemId))
       .withFeedback(this.parent.feedback)
       .onSuccess(removed => {
         removeItem(this.parent.items, removed.id);

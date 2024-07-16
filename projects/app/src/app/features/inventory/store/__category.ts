@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { InventoryStoreFeatureService } from './__feature';
-import { updateCollection } from '../../../common/store';
+import { updateStore } from '../../../common/store';
 
 export class InventoryCategoryItemsStoreSubfeature {
 
@@ -9,7 +9,7 @@ export class InventoryCategoryItemsStoreSubfeature {
   ) { }
 
   remove(category: string): Subscription {
-    return updateCollection(this.parent.api.removeByCategory(category))
+    return updateStore(this.parent.api.removeByCategory(category))
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.removeItemsSuccess',

@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 
-import { updateCollection } from '@app/common/store';
+import { updateStore } from '@app/common/store';
 import { LOADING_STATUS } from '@app/common/types';
 import { InventoryStoreFeatureService } from './__feature';
 
@@ -18,7 +18,7 @@ export class InventoryAllItemsStoreSubfeature {
       return;
     }
 
-    return updateCollection(this.parent.api.fetchItems())
+    return updateStore(this.parent.api.fetchItems())
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.fetchItemsSuccess',
@@ -32,7 +32,7 @@ export class InventoryAllItemsStoreSubfeature {
   }
 
   remove(): Subscription {
-    return updateCollection(this.parent.api.removeAll())
+    return updateStore(this.parent.api.removeAll())
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.removeItemsSuccess',

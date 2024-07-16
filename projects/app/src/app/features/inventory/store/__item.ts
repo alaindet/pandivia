@@ -1,4 +1,4 @@
-import { removeItem, updateCollection, updateItem } from '@app/common/store';
+import { removeItem, updateStore, updateItem } from '@app/common/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
 import { InventoryStoreFeatureService } from './__feature';
 import { TranslocoService } from '@jsverse/transloco';
@@ -12,7 +12,7 @@ export class InventoryItemStoreSubfeature {
   ) {}
 
   create(dto: CreateInventoryItemDto) {
-    return updateCollection(this.parent.api.createItem(dto))
+    return updateStore(this.parent.api.createItem(dto))
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.createItemSuccess',
@@ -26,7 +26,7 @@ export class InventoryItemStoreSubfeature {
   }
 
   edit(editedItem: InventoryItem) {
-    return updateCollection(this.parent.api.editItem(editedItem))
+    return updateStore(this.parent.api.editItem(editedItem))
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.editItemSuccess',
@@ -40,7 +40,7 @@ export class InventoryItemStoreSubfeature {
   }
 
   remove(itemId: InventoryItem['id']) {
-    return updateCollection(this.parent.api.removeItem(itemId))
+    return updateStore(this.parent.api.removeItem(itemId))
       .withFeedback(this.parent.feedback)
       .onSuccess(removed => {
         removeItem(this.parent.items, removed.id);
@@ -59,7 +59,7 @@ export class InventoryItemStoreSubfeature {
       return;
     }
 
-    return updateCollection(this.parent.api.createItem(dto))
+    return updateStore(this.parent.api.createItem(dto))
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'inventory.cloneFromList.success',
