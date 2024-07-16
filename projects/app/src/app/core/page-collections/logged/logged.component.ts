@@ -60,11 +60,11 @@ export class LoggedPageCollectionComponent {
 
   private computeBottomNavigationItems() {
 
-    const nav = this.store.selectSignal(selectNavigation);
+    const nav = this.uiStore.navigation.navigation();
 
     return {
-      ...nav(),
-      items: nav().items.map(item => {
+      ...nav,
+      items: nav.items.map(item => {
         const label = this.transloco.translate(item.label);
         return { ...item, label };
       }),

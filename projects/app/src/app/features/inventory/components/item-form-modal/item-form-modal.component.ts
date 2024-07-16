@@ -46,7 +46,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   InventoryItemFormModalOutput
 > implements OnInit {
 
-  private store = inject(InventoryStoreFeatureService);
+  private inventoryStore = inject(InventoryStoreFeatureService);
   private formBuilder = inject(FormBuilder);
   private injector = inject(Injector);
 
@@ -55,7 +55,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   FIELD = FIELD;
   theForm!: FormGroup;
   isEditing = signal(false);
-  isSaving = this.store.isLoading;
+  isSaving = this.inventoryStore.isLoading;
   shouldContinue = false;
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
@@ -82,7 +82,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   ): Observable<FormOption[]> => {
 
     const categoriesByName$ = toObservable(
-      this.store.filterCategoriesByName(query),
+      this.inventoryStore.filterCategoriesByName(query),
       { injector: this.injector },
     );
 
@@ -134,7 +134,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to edit
-    this.store.item.edit(item);
+    this.inventoryStore.item.edit(item);
   }
 
   private onCreate() {
@@ -170,7 +170,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to create
-    this.store.item.create(item);
+    this.inventoryStore.item.create(item);
   }
 
   private initForm(): void {
@@ -191,7 +191,12 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
         // Sync validators
         [required, minLength(2), maxLength(100)],
         // Async validators
-        [uniqueInventoryItemNameValidator(this.store, this.modal.data?.item?.id ?? null)],
+        [
+          uniqueInventoryItemNameValidator(
+            this.inventoryStore,
+            this.modal.data?.item?.id ?? null
+          ),
+        ],
       ],
       [FIELD.DESCRIPTION.id]: [
         item?.description ?? '',
@@ -211,7 +216,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     const stop$ = new Subject<void>();
     let first = true;
 
-    toObservable(this.store.itemModalSuccessCounter, { injector: this.injector })
+    toObservable(this.inventoryStore.itemModalSuccessCounter, { injector: this.injector })
       .pipe(takeUntil(stop$))
       .subscribe(() => {
         if (first) {

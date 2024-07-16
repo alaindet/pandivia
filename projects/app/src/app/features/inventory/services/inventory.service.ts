@@ -13,8 +13,8 @@ import { docToInventoryItem, docsToInventoryItems } from './utils';
 export class InventoryService {
 
   private db = inject(Firestore);
-  private store = inject(UserStoreFeatureService);
-  private userId = this.store.userId;
+  private userStore = inject(UserStoreFeatureService);
+  private userId = this.userStore.userId;
 
   fetchItems(): Observable<InventoryItem[]> {
     return from((async () => {
