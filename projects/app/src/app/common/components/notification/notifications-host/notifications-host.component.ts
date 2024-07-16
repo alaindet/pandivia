@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, computed, effect, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, computed, input, output } from '@angular/core';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import { NOTIFICATION_POSITION, NotificationPosition, RuntimeNotification } from '@app/common/types';
 import { cssClassesList } from '@app/common/utils';
@@ -6,6 +7,7 @@ import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
 import { NotificationComponent } from '../notification/notification.component';
 
 const imports = [
+  TranslocoModule,
   NotificationComponent,
 ];
 

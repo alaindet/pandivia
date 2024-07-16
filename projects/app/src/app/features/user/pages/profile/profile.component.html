@@ -1,80 +1,78 @@
 <ng-container *transloco="let t">
-
   <!-- User data -->
   <section>
-    <h2>{{ t('userProfile.info') }}</h2>
+    <h2>{{ t("userProfile.info") }}</h2>
     @if (userData(); as u) {
-      <ul class="user-info">
-        @if (u.isAdmin) {
-          <li class="-admin">
-            <strong>ADMIN</strong>
-          </li>
-        }
-        <li>
-          <strong>{{ t('userProfile.name') }}:</strong>
-          {{ u.displayName }}
-        </li>
-        <li>
-          <strong>Email:</strong>
-          {{ u.email }}
-        </li>
-        <li>
-          <strong>{{ t('userProfile.registeredOn') }}:</strong>
-          {{ u.createdAt | date:'yyyy-MM-dd' }}
-        </li>
-        <li>
-          <strong>{{ t('userProfile.lastSignedInOn') }}:</strong>
-          {{ u.lastLoginAt | date:'yyyy-MM-dd hh:mm:ss' }}
-        </li>
-      </ul>
+    <ul class="user-info">
+      @if (u.isAdmin) {
+      <li class="-admin">
+        <strong>ADMIN</strong>
+      </li>
+      }
+      <li>
+        <strong>{{ t("userProfile.name") }}:</strong>
+        {{ u.displayName }}
+      </li>
+      <li>
+        <strong>Email:</strong>
+        {{ u.email }}
+      </li>
+      <li>
+        <strong>{{ t("userProfile.registeredOn") }}:</strong>
+        {{ u.createdAt | date : "yyyy-MM-dd" }}
+      </li>
+      <li>
+        <strong>{{ t("userProfile.lastSignedInOn") }}:</strong>
+        {{ u.lastLoginAt | date : "yyyy-MM-dd hh:mm:ss" }}
+      </li>
+    </ul>
     }
   </section>
 
   <!-- Preferences -->
   <section>
-    <h2>{{ t('userProfile.theme') }}</h2>
+    <h2>{{ t("userProfile.theme") }}</h2>
 
     <!-- Theme -->
     <app-select
       id="theme-switcher"
       [options]="theme.options"
-      [value]="theme.current()"
-      (selected)="theme.set($event)"
+      [value]="theme.config().id"
+      (selected)="onSelectTheme($event)"
     />
 
     <!-- Language -->
-    <h2>{{ t('userProfile.language') }}</h2>
+    <h2>{{ t("userProfile.language") }}</h2>
     <app-select
       id="language-switcher"
       [options]="language.options"
-      [value]="language.current()"
+      [value]="language.language()"
       [labels]="{
         defaultOption: t('components.select.defaultLabel')
       }"
-      (selected)="language.set($event)"
+      (selected)="onSelectLanguage($event)"
     />
   </section>
 
   <!-- Invite people -->
   @if (isAdmin()) {
-    <section>
-      <h2>{{ t('inviteUser.title') }}</h2>
-      <app-invite-user />
-    </section>
+  <section>
+    <h2>{{ t("inviteUser.title") }}</h2>
+    <app-invite-user />
+  </section>
   }
 
   <!-- Sign out -->
   <section>
-    <h2>{{ t('auth.signOut') }}</h2>
+    <h2>{{ t("auth.signOut") }}</h2>
     <button type="button" appButton="primary" (click)="onSignOut()">
-      {{ t('auth.signOut') }}
+      {{ t("auth.signOut") }}
     </button>
   </section>
 
   <!-- App version -->
   <section class="-last">
-    <h2>{{ t('common.version') }}</h2>
+    <h2>{{ t("common.version") }}</h2>
     <span>{{ nameAndVersion() }}</span>
   </section>
-
 </ng-container>

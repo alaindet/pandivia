@@ -1,23 +1,24 @@
-import { Component, OnInit, ViewChild, computed, inject, signal, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
 
-import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { MediaQueryService } from '@app/common/services';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryItem } from '@app/features/inventory';
-import { inventoryCloneItemFromList, inventoryFetchItems } from '@app/features/inventory/store';
-import { TranslocoModule } from '@jsverse/transloco';
-import { listCreateItem, listEditItem, selectListCategoriesByName, selectListIsLoading, selectListItemModalSuccessCounter, selectListItemNameAutocompleteItems } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
-import { UiService } from '@app/core';
-import { MediaQueryService } from '@app/common/services';
+import { UiStoreFeatureService } from '@app/core/ui';
+import { ListStoreFeatureService } from '../../store';
+import { InventoryStoreFeatureService } from '@app/features/inventory/store';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 const imports = [
   ReactiveFormsModule,
@@ -48,18 +49,18 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   ListItemFormModalOutput
 > implements OnInit {
 
-  private store = inject(Store);
   private formBuilder = inject(FormBuilder);
-  private ui = inject(UiService);
-
+  private uiStore = inject(UiStoreFeatureService);
+  private listStore = inject(ListStoreFeatureService);
+  private inventoryStore = inject(InventoryStoreFeatureService);
   isMobile = inject(MediaQueryService).getFromMobileDown();
 
+  isEditing = signal(false);
   FIELD = FIELD;
   theForm!: FormGroup;
-  isEditing = signal(false);
-  isSaving = this.store.selectSignal(selectListIsLoading);
+  isSaving = this.uiStore.loading.loading;
   shouldContinue = false;
-  themeConfig = this.ui.theme.config;
+  themeConfig = this.uiStore.theme.config;
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
   get fAmount() { return fDescribe(this.theForm, FIELD.AMOUNT.id) }
@@ -70,7 +71,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   nameRef = viewChild.required('nameRef', { read: TextInputComponent });
 
   ngOnInit() {
-    this.store.dispatch(inventoryFetchItems.try());
+    this.inventoryStore.allItems.fetch();
     this.isEditing.set(!!this.modal.data?.item);
     this.initForm();
   }
@@ -121,7 +122,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to edit
-    this.store.dispatch(listEditItem.try({ item }));
+    this.listStore.item.edit(item);
   }
 
   private onCreate() {
@@ -162,19 +163,19 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to create
-    this.store.dispatch(listCreateItem.try({ dto: item }));
+    this.listStore.item.create(item);
 
     // Try to clone this item to the Inventory
     if (addToInventory) {
       const { amount, ...dto } = item;
-      this.store.dispatch(inventoryCloneItemFromList.try({ dto }));
+      this.inventoryStore.item.cloneFromListItem(dto);
     }
   }
 
   nameFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return this.store.select(selectListItemNameAutocompleteItems(query)).pipe(
+    return toObservable(this.listStore.getAutocompleteItems(query)).pipe(
       map((items: InventoryItem[]) => {
         return items.map(item => ({ value: item.id, label: item.name }));
       }),
@@ -184,7 +185,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   categoryFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return this.store.select(selectListCategoriesByName(query)).pipe(
+    return toObservable(this.listStore.filterCategoriesByName(query)).pipe(
       map(categories => {
         const result: FormOption[] = [];
         for (const category of categories) {
@@ -212,10 +213,17 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       [FIELD.NAME.id]: [
         // Value
         item?.name ?? '',
+
         // Sync validators
         [required, minLength(2), maxLength(100)],
+
         // Async validators,
-        [uniqueListItemNameValidator(this.store, this.modal.data?.item?.id ?? null)],
+        [
+          uniqueListItemNameValidator(
+            this.listStore,
+            this.modal.data?.item?.id ?? null,
+          ),
+        ],
       ],
       [FIELD.AMOUNT.id]: [
         item?.amount ?? 1,
@@ -249,7 +257,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
     const stop$ = new Subject<void>();
     let first = true;
 
-    this.store.select(selectListItemModalSuccessCounter)
+    toObservable(this.listStore.itemModalSuccessCounter)
       .pipe(takeUntil(stop$))
       .subscribe(() => {
         if (first) {

@@ -6,14 +6,12 @@ import { Auth, createUserWithEmailAndPassword, updateProfile } from '@angular/fi
 import { DAY_DURATION } from '@app/common/constants';
 import { CreateUserInviteDto, SignUpUserDto, UserData, UserInvite } from '../types';
 import { AuthenticationService } from './authentication.service';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvitesService {
 
-  private router=  inject(Router);
   private auth = inject(Auth);
   private firestore = inject(Firestore);
   private authService = inject(AuthenticationService);

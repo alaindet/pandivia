@@ -1,19 +1,19 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { switchMap, tap } from 'rxjs';
 
-import { selectUserIsAuthenticated, selectUserIsLoaded } from '../store';
+import { UserStoreFeatureService } from '../store';
 import { firstTruthy } from '@app/common/rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 export const isAuthenticatedGuard = () => {
 
   const router = inject(Router);
-  const store = inject(Store);
+  const userStore = inject(UserStoreFeatureService);
 
-  return store.select(selectUserIsLoaded).pipe(
+  return toObservable(userStore.isLoaded).pipe(
     firstTruthy(),
-    switchMap(() => store.select(selectUserIsAuthenticated)),
+    switchMap(() => toObservable(userStore.isAuthenticated)),
     tap(isAuthenticated => {
       if (!isAuthenticated) {
         router.navigate(['/signin']);

@@ -1,4 +1,4 @@
-import { effect, inject, signal } from '@angular/core';
+import { inject, signal } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { DEFAULT_LANGUAGE, Language, LANGUAGE_OPTIONS, LANGUAGE_STORAGE_KEY } from '@app/core/language';
@@ -19,7 +19,6 @@ export function createUserLanguageController() {
   function init() {
     transloco.setDefaultLang(DEFAULT_LANGUAGE);
     initLanguageFromStorage();
-    onLanguageChange();
   }
 
   function initLanguageFromStorage(): void {
@@ -28,14 +27,15 @@ export function createUserLanguageController() {
     transloco.setActiveLang(storedLanguage);
   }
 
-  function onLanguageChange(): void {
-    effect(() => {
-      storage.write(language());
-    });
+  function set(selectedLanguage: Language | null) {
+    const _language = selectedLanguage ?? DEFAULT_LANGUAGE;
+    language.set(_language);
+    storage.write(language());
   }
 
   return {
     language: language.asReadonly(),
+    set,
     options,
     init,
   };

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, inject, signal, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,11 +11,11 @@ import { MediaQueryService } from '@app/common/services';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
+import { InventoryStoreFeatureService } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { uniqueInventoryItemNameValidator } from '../../validators';
 import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
 import { CreateInventoryItemFormModalOutput, EditInventoryItemFormModalOutput, InventoryItemFormModalInput, InventoryItemFormModalOutput } from './types';
-import { InventoryStoreFeatureService } from '../../store';
 
 const imports = [
   MatIconModule,
@@ -48,7 +48,6 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   private inventoryStore = inject(InventoryStoreFeatureService);
   private formBuilder = inject(FormBuilder);
-  private injector = inject(Injector);
 
   isMobile = inject(MediaQueryService).getFromMobileDown();
 
@@ -83,7 +82,6 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
     const categoriesByName$ = toObservable(
       this.inventoryStore.filterCategoriesByName(query),
-      { injector: this.injector },
     );
 
     return categoriesByName$.pipe(map(categories => {
@@ -216,7 +214,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     const stop$ = new Subject<void>();
     let first = true;
 
-    toObservable(this.inventoryStore.itemModalSuccessCounter, { injector: this.injector })
+    toObservable(this.inventoryStore.itemModalSuccessCounter)
       .pipe(takeUntil(stop$))
       .subscribe(() => {
         if (first) {

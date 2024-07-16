@@ -10,7 +10,7 @@ import { StackedLayoutService } from '@app/common/layouts';
 import { filterNull } from '@app/common/rxjs';
 import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
-import { NAVIGATION_ITEM_INVENTORY, UiService, UiStoreFeatureService } from '@app/core/ui';
+import { NAVIGATION_ITEM_INVENTORY, UiStoreFeatureService } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { CreateListItemDto } from '@app/features/list';
 import { ListStoreFeatureService } from '../list/store';
@@ -46,7 +46,6 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private uiStore = inject(UiStoreFeatureService);
   private listStore = inject(ListStoreFeatureService);
   private layout = inject(StackedLayoutService);
-  private ui = inject(UiService);
   private modal = inject(ModalService);
   private transloco = inject(TranslocoService);
 
@@ -56,7 +55,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   itemGroups = this.inventoryStore.getCategorizedFilteredItems();
   loaded = this.inventoryStore.isLoaded;
   inErrorStatus = this.inventoryStore.isError;
-  themeConfig = this.ui.theme.config;
+  themeConfig = this.uiStore.theme.config;
   getItemContextualMenu = this.getTranslatedItemContextualMenuFn();
   filters = computed(() => this.computeTranslatedFilters());
   pinnedCategory = this.inventoryStore.categoryFilter;
@@ -275,7 +274,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
     if (listItem !== null) {
       const name = inventoryItem.name;
-      this.ui.notification.err('list.error.itemUnique', { name });
+      this.uiStore.notifications.error('list.error.itemUnique', { name });
       return;
     }
 
@@ -304,7 +303,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       .map(category => translateCategory(category));
 
     if (!categories.length) {
-      this.ui.notification.err('common.error.onlyOneCategory');
+      this.uiStore.notifications.error('common.error.onlyOneCategory');
       return;
     }
 
