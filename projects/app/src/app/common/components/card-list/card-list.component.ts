@@ -56,10 +56,16 @@ export class CardListComponent {
     return this.isSelectable();
   }
 
+  @HostBinding('class.-completed')
+  get cssClassCompleted() {
+    return this.isCompleted();
+  }
+
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   itemActionsMap = new Map<string, ActionsMenuItem[]>();
   itemsDescriptionMap = new Map<string, boolean>();
   counters = signal<CardListCounters | null>(null);
+  isCompleted = computed(() => this.computeIsCompleted());
   isPinned = signal(true);
 
   itemsEffect = effect(() => {
@@ -100,6 +106,19 @@ export class CardListComponent {
   onToggleDescription(itemId: string) {
     const existing = this.itemsDescriptionMap.get(itemId) ?? false;
     this.itemsDescriptionMap.set(itemId, !existing);
+  }
+
+  private computeIsCompleted(): boolean {
+    if (!this.withCounters()) {
+      return false;
+    }
+
+    const counters = this.counters();
+    if (counters === null) {
+      return false;
+    }
+
+    return counters.done === counters.total;
   }
 
   private updateActionsByItemMap(

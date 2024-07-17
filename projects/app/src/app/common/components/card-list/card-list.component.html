@@ -1,17 +1,14 @@
 <div class="_header">
-
   <div class="_left">
-
     <div class="_title">
       <h2>{{ title() }}</h2>
       @if (withCounters() && !!counters()) {
-        <span class="_counters">
-          @if (isSelectable()) {
-            ({{ counters()!.done }} / <strong>{{ counters()!.total }}</strong>)
-          } @else {
-            (<strong>{{ counters()!.total }}</strong>)
-          }
-        </span>
+      <span class="_counters">
+        @if (isSelectable()) { ({{ counters()!.done }} /
+        <strong>{{ counters()!.total }}</strong
+        >) } @else { (<strong>{{ counters()!.total }}</strong
+        >) }
+      </span>
       }
     </div>
 
@@ -23,11 +20,10 @@
         size="extra-small"
         (click)="onTogglePin()"
       >
-        <mat-icon>{{ isPinned() ? 'clear' : 'push_pin' }}</mat-icon>
-        {{ isPinned() ? (pinnedLabel() ?? 'Unpin') : (unpinnedLabel() ?? 'Pin') }}
+        <mat-icon>{{ isPinned() ? "clear" : "push_pin" }}</mat-icon>
+        {{ isPinned() ? pinnedLabel() ?? "Unpin" : unpinnedLabel() ?? "Pin" }}
       </button>
     </div>
-
   </div>
 
   <div class="_right">
@@ -39,87 +35,96 @@
       (actionConfirmed)="onListAction($event)"
     >
       <ng-container *appActionsMenuButton>
-        <button type="button" appButton="ghost" withIconOnly isCircle size="small">
+        <button
+          type="button"
+          appButton="ghost"
+          withIconOnly
+          isCircle
+          size="small"
+        >
           <mat-icon>more_horiz</mat-icon>
         </button>
       </ng-container>
     </app-actions-menu>
   </div>
 
+  @if (isCompleted()) {
+  <span class="_completed-mark">
+    <mat-icon>check</mat-icon>
+  </span>
+  }
 </div>
 
 <ul class="_items">
   @for (item of items(); track item.id) {
-    <li class="_item" [class.-last]="$last">
-      <div class="_item-header">
-
-        <div class="_left" (click)="onToggleItem(item.id)">
-          <div class="_item-info">
-            @if (isSelectable()) {
-              <app-checkbox
-                [id]="item.id"
-                [isInteractable]="false"
-                [isChecked]="item.isDone"
-                [color]="checkboxColor()"
-              >
-                <span [class.-crossed]="item.isDone">
-                  {{ item.amount }}x {{ item.name }}
-                </span>
-              </app-checkbox>
-            } @else {
-              {{ item.name }}
-            }
-          </div>
-        </div>
-
-        <div class="_right">
-
-          <!-- Show/hide description -->
-          @if (!!item.description) {
-            <div class="_toggle-description">
-              <button
-                type="button"
-                appButton="ghost"
-                withIconOnly
-                isCircle
-                size="small"
-                (click)="onToggleDescription(item.id)"
-              >
-                <mat-icon>{{ !!itemsDescriptionMap.get(item.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
-              </button>
-            </div>
-          }
-
-          <!-- Actions -->
-          <app-actions-menu
-            [id]="item.id + '-menu'"
-            [actions]="itemActionsMap.get(item.id) ?? []"
-            position="left"
-            (actionConfirmed)="onItemAction(item.id, $event)"
+  <li class="_item" [class.-last]="$last">
+    <div class="_item-header">
+      <div class="_left" (click)="onToggleItem(item.id)">
+        <div class="_item-info">
+          @if (isSelectable()) {
+          <app-checkbox
+            [id]="item.id"
+            [isInteractable]="false"
+            [isChecked]="item.isDone"
+            [color]="checkboxColor()"
           >
-            <ng-container *appActionsMenuButton="let open">
-              <button
-                type="button"
-                appButton
-                [color]="open ? 'primary' : 'ghost'"
-                withIconOnly
-                isCircle
-                size="small"
-              >
-                <mat-icon>{{ open ? 'close' : 'more_horiz' }}</mat-icon>
-              </button>
-            </ng-container>
-          </app-actions-menu>
-
+            <span [class.-crossed]="item.isDone">
+              {{ item.amount }}x {{ item.name }}
+            </span>
+          </app-checkbox>
+          } @else {
+          {{ item.name }}
+          }
         </div>
-
       </div>
 
-      @if (!!itemsDescriptionMap.get(item.id)) {
-        <div class="_item-description">
-          {{ item.description }}
+      <div class="_right">
+        <!-- Show/hide description -->
+        @if (!!item.description) {
+        <div class="_toggle-description">
+          <button
+            type="button"
+            appButton="ghost"
+            withIconOnly
+            isCircle
+            size="small"
+            (click)="onToggleDescription(item.id)"
+          >
+            <mat-icon>{{
+              !!itemsDescriptionMap.get(item.id) ? "expand_less" : "expand_more"
+            }}</mat-icon>
+          </button>
         </div>
-      }
-    </li>
+        }
+
+        <!-- Actions -->
+        <app-actions-menu
+          [id]="item.id + '-menu'"
+          [actions]="itemActionsMap.get(item.id) ?? []"
+          position="left"
+          (actionConfirmed)="onItemAction(item.id, $event)"
+        >
+          <ng-container *appActionsMenuButton="let open">
+            <button
+              type="button"
+              appButton
+              [color]="open ? 'primary' : 'ghost'"
+              withIconOnly
+              isCircle
+              size="small"
+            >
+              <mat-icon>{{ open ? "close" : "more_horiz" }}</mat-icon>
+            </button>
+          </ng-container>
+        </app-actions-menu>
+      </div>
+    </div>
+
+    @if (!!itemsDescriptionMap.get(item.id)) {
+    <div class="_item-description">
+      {{ item.description }}
+    </div>
+    }
+  </li>
   }
 </ul>

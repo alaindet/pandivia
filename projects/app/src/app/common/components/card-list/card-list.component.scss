@@ -5,6 +5,7 @@
  *
  * --app-card-list-background
  * --app-card-list-foreground
+ * --app-card-list-completed
  * --app-card-list-border-color
  * --app-card-list-foreground-muted
  * --app-card-list-item-hover-background
@@ -44,6 +45,31 @@
     align-items: center;
     border-bottom: 1px solid var(--app-card-list-border-color);
     padding: 1rem;
+    position: relative;
+  }
+
+  &.-completed {
+    outline: 2px solid var(--app-card-list-completed);
+
+    ._completed-mark {
+      opacity: 1;
+    }
+  }
+
+  ._completed-mark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem;
+    transform: scale(0.8);
+    border-radius: 200px;
+    background-color: var(--app-card-list-completed);
+    color: white; // TODO
+    position: absolute;
+    top: -0.75rem;
+    left: -0.75rem;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
   }
 
   ._title {
