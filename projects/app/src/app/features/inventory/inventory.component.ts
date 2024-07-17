@@ -1,8 +1,8 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, effect, inject } from '@angular/core';
+import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
@@ -15,7 +15,7 @@ import { environment } from '@app/environment';
 import { CreateListItemDto } from '@app/features/list';
 import { ListStore } from '../list/store';
 import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
-import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_PROMPT } from './constants';
+import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT } from './constants';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
@@ -104,6 +104,13 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
       case categoryMenu.CATEGORY_ACTION_CREATE_ITEM.id: {
         this.showCreateItemByCategoryModal(category);
+        break;
+      }
+
+      case categoryMenu.CATEGORY_ACTION_ADD_TO_LIST.id: {
+        this.listStore.categoryItems.cloneFromInventory(
+          this.inventoryStore.filterItemsByCategory(category),
+        );
         break;
       }
 

@@ -6,13 +6,13 @@ export const LIST_ACTION_REFRESH: ActionsMenuItem = {
   icon: 'refresh',
 };
 
-export const LIST_ACTION_REMOVE: ActionsMenuItem = {
-  id: 'inventory:remove',
-  label: 'common.menu.removeAllItems',
-  icon: 'delete',
-};
+// export const LIST_ACTION_REMOVE: ActionsMenuItem = {
+//   id: 'inventory:remove',
+//   label: 'common.menu.removeAllItems',
+//   icon: 'delete',
+// };
 
 export const LIST_CONTEXTUAL_MENU: ActionsMenuItem[] = [
   LIST_ACTION_REFRESH,
-  LIST_ACTION_REMOVE,
+  // LIST_ACTION_REMOVE,
 ];

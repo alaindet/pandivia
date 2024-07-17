@@ -1,4 +1,5 @@
 import { finalize, Observable, Subscription } from 'rxjs';
+import { HashMap } from '@jsverse/transloco';
 
 export type StoreLoader = {
   start: () => void;
@@ -6,8 +7,8 @@ export type StoreLoader = {
 };
 
 export type StoreNotifier = {
-  error: (message: string) => void;
-  success: (message: string) => void;
+  error: (message: string, params?: HashMap) => void;
+  success: (message: string, params?: HashMap) => void;
 };
 
 export type StoreStatus = {
@@ -24,7 +25,10 @@ export type StoreFeedback = {
 
 export type StoreUpdateOptions<T = any> = {
   source: Observable<T>;
-  notifications: { ok: string | null; err: string | null } | null;
+  notifications: {
+    ok: string | [string, HashMap] | null;
+    err: string | [string, HashMap] | null;
+  } | null;
   onSuccess: ((data: T) => void) | null;
   loader: StoreLoader | null;
   notifier: StoreNotifier | null;
@@ -64,7 +68,10 @@ export function updateStore<T = any>(
       options.status = feedback.status;
       return this;
     },
-    withNotifications(ok: string | null, err: string | null) {
+    withNotifications(
+      ok: string | [string, HashMap] | null,
+      err: string | [string, HashMap] | null,
+    ) {
       options.notifications = { ok, err };
       return this;
     },
@@ -79,15 +86,42 @@ export function updateStore<T = any>(
       options.loader?.start();
       options.status?.loading();
 
+      const notify = (
+        content: string | [string, HashMap] | null,
+        type: 'error' | 'success',
+      ) => {
+
+        if (!content) {
+          return;
+        }
+
+        let message: string;
+        let params: HashMap | undefined = undefined;
+
+        if (Array.isArray(content)) {
+          message = content[0];
+          params = content[1];
+        } else {
+          message = content;
+        }
+
+        switch (type) {
+          case 'error':
+            options.notifier?.error(message, params);    
+            break;
+          case 'success':
+            options.notifier?.success(message, params);    
+            break;
+        }
+      }
+
       return options.source
         .pipe(finalize(() => options.loader?.stop()))
         .subscribe({
           error: err => {
             console.error(err);
             options.status?.error();
-            if (errMessage) {
-              options.notifier?.error(errMessage);
-            }
+            notify(errMessage, 'error');
           },
           next: data => {
             options.status?.success();
@@ -96,9 +130,7 @@ export function updateStore<T = any>(
               options.onSuccess(data);
             }
 
-            if (okMessage) {
-              options.notifier?.success(okMessage);
-            }
+            notify(okMessage, 'success');
           },
         });
     },

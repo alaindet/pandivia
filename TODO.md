@@ -6,7 +6,6 @@
   - [ ] Analyze ESBuild
   - [ ] Remove `MatIcon`
   - [ ] Remove `toObservable` wherever possible
-  - [ ] Manage your `z-index`!
+  - [ ] Manage your `z-index`
 - [ ] Bug
-  - [ ] core loader and notifications must be visible on full screen modals
-  - [ ] Sign out does not work!
+  - [ ] Setting a search query from the top search bar persists between pages and should not

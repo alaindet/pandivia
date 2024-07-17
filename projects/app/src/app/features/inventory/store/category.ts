@@ -1,13 +1,15 @@
 import { Subscription } from 'rxjs';
+import { inject } from '@angular/core';
 
 import { updateStore } from '@app/common/store';
+import { ListStore } from '@app/features/list/store';
 import { InventoryStore } from './feature';
 
 export class InventoryCategoryItemsSubstore {
-
+  
   constructor(
     private parent: InventoryStore,
-  ) { }
+  ) {}
 
   remove(category: string): Subscription {
     return updateStore(this.parent.api.removeByCategory(category))

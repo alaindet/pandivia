@@ -1,8 +1,10 @@
 import { inject } from '@angular/core';
 import { Observable, from } from 'rxjs'
-import { CollectionReference, DocumentData, Firestore, collection, getDocs, orderBy, query, where, writeBatch } from '@angular/fire/firestore';
+import { CollectionReference, DocumentData, Firestore, collection, doc, getDoc, getDocs, orderBy, query, where, writeBatch } from '@angular/fire/firestore';
 
-import { UserStore } from '../../user/store';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
+import { UserStore } from '@app/features/user/store';
+import { CreateListItemDto, ListItem } from '../types';
 
 export function createListCategoryItemsController() {
 
@@ -10,6 +12,34 @@ export function createListCategoryItemsController() {
   const userStore = inject(UserStore);
 
   const userId = userStore.userId;
+
+  function createMany(items: CreateListItemDto[]): Observable<ListItem[]> {
+    return from((async () => {
+      const itemsRef = _getItemsRef();
+      const batch = writeBatch(db);
+      const createdItems: ListItem[] = [];
+
+      // Logic here...
+      items.forEach(item => {
+        const itemData = {
+          ...item,
+          isDone: false,
+          category: item?.category || DEFAULT_CATEGORY,
+          description: item?.description || '',
+        };
+
+        // Create a new empty document reference with a unique ID
+        const itemRef = doc(itemsRef);
+        batch.set(itemRef, itemData);
+
+        const createdItem: ListItem = { id: itemRef.id, ...itemData };
+        createdItems.push(createdItem);
+      });
+
+      await batch.commit();
+      return createdItems;
+    })());
+  }
 
   function complete(category: string): Observable<void> {
     return from(_completeOrUndo(category, true));
@@ -75,6 +105,7 @@ export function createListCategoryItemsController() {
   }
 
   return {
+    createMany,
     complete,
     undo,
     removeCompleted,

@@ -36,11 +36,11 @@ export const LIST_ACTION_REMOVE_COMPLETED: ActionsMenuItem = {
   icon: 'remove_done',
 };
 
-export const LIST_ACTION_REMOVE: ActionsMenuItem = {
-  id: 'list:remove',
-  label: 'common.menu.removeAllItems',
-  icon: 'delete',
-};
+// export const LIST_ACTION_REMOVE: ActionsMenuItem = {
+//   id: 'list:remove',
+//   label: 'common.menu.removeAllItems',
+//   icon: 'delete',
+// };
 
 export function getListContextualMenu(showCompleted: boolean): ActionsMenuItem[] {
   return [
@@ -49,6 +49,6 @@ export function getListContextualMenu(showCompleted: boolean): ActionsMenuItem[]
     LIST_ACTION_COMPLETE,
     LIST_ACTION_UNDO,
     LIST_ACTION_REMOVE_COMPLETED,
-    LIST_ACTION_REMOVE,
+    // LIST_ACTION_REMOVE,
   ];
 }

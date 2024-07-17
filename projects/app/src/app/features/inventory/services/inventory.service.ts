@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { CollectionReference, DocumentData, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
