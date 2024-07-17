@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
-import { Observable, from, of } from 'rxjs'
-import { CollectionReference, DocumentData, Firestore, collection, getDocs, orderBy, query, where, writeBatch } from '@angular/fire/firestore';
+import { Observable, from } from 'rxjs'
+import { CollectionReference, DocumentData, Firestore, collection, doc, getDoc, getDocs, orderBy, query, where, writeBatch } from '@angular/fire/firestore';
 
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UserStore } from '@app/features/user/store';
 import { CreateListItemDto, ListItem } from '../types';
-import { DEFAULT_CATEGORY } from '../../../core';
 
 export function createListCategoryItemsController() {
 
@@ -13,40 +13,11 @@ export function createListCategoryItemsController() {
 
   const userId = userStore.userId;
 
-  // TODO
   function createMany(items: CreateListItemDto[]): Observable<ListItem[]> {
-
-    // function create(dto: CreateListItemDto): Observable<ListItem> {
-    //   return from((async () => {
-    //     const itemsRef = _getItemsRef();
-    //     const itemData = {
-    //       ...dto,
-    //       isDone: false,
-    //       category: dto?.category || DEFAULT_CATEGORY,
-    //       description: dto?.description || '',
-    //     };
-    //     const itemRef = await addDoc(itemsRef, itemData);
-    //     const itemDoc = await getDoc(itemRef);
-    //     return docToListItem(itemDoc);
-    //   })());
-    // }
-
-    // async function _completeOrUndo(category: string, isDone = true): Promise<void> {
-    //   const itemsRef = _getItemsRef();
-    //   const batch = writeBatch(db);
-    //   const theQuery = query(
-    //     itemsRef,
-    //     where('category', '==', category),
-    //     orderBy('category', 'asc'), // TODO: Needed?
-    //   );
-    //   const docs = await getDocs(theQuery);
-    //   docs.forEach(doc => batch.update(doc.ref, { isDone }));
-    //   await batch.commit();
-    // }
-
     return from((async () => {
       const itemsRef = _getItemsRef();
       const batch = writeBatch(db);
+      const createdItems: ListItem[] = [];
 
       // Logic here...
       items.forEach(item => {
@@ -56,12 +27,18 @@ export function createListCategoryItemsController() {
           category: item?.category || DEFAULT_CATEGORY,
           description: item?.description || '',
         };
-        batch.addDoc(itemsRef, itemData);
+
+        // Create a new empty document reference with a unique ID
+        const itemRef = doc(itemsRef);
+        batch.set(itemRef, itemData);
+
+        const createdItem: ListItem = { id: itemRef.id, ...itemData };
+        createdItems.push(createdItem);
       });
 
       await batch.commit();
-      return items; // TODO
-    }));
+      return createdItems;
+    })());
   }
 
   function complete(category: string): Observable<void> {

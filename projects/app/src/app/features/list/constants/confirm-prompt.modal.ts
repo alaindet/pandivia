@@ -9,11 +9,11 @@ export const LIST_REMOVE_COMPLETED_PROMPT: ConfirmPromptModalInput = {
   message: 'common.prompt.removeCompleted.message',
 };
 
-export const LIST_REMOVE_PROMPT: ConfirmPromptModalInput = {
-  action: listMenu.LIST_ACTION_REMOVE.id,
-  title: 'common.prompt.removeAll.title',
-  message: 'common.prompt.removeAll.message',
-};
+// export const LIST_REMOVE_PROMPT: ConfirmPromptModalInput = {
+//   action: listMenu.LIST_ACTION_REMOVE.id,
+//   title: 'common.prompt.removeAll.title',
+//   message: 'common.prompt.removeAll.message',
+// };
 
 export const CATEGORY_REMOVE_COMPLETED_PROMPT: ConfirmPromptModalInput = {
   action: categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id,

@@ -6,9 +6,7 @@ import { ListStore } from '@app/features/list/store';
 import { InventoryStore } from './feature';
 
 export class InventoryCategoryItemsSubstore {
-
-  private listStore = inject(ListStore);
-
+  
   constructor(
     private parent: InventoryStore,
   ) {}

@@ -1,5 +1,6 @@
 import { Subscription } from 'rxjs';
 
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { updateStore } from '@app/common/store';
 import { InventoryItem } from '@app/features/inventory';
 import { ListStore } from './feature';
@@ -30,12 +31,15 @@ export class ListCategoryItemsSubstore {
     return this.createMany(listItems);
   }
 
-  createMany(listItems: CreateListItemDto[]) {
+  createMany(listItems: CreateListItemDto[]): Subscription {
+
+    const category = listItems.length ? listItems[0].category : DEFAULT_CATEGORY;
+
     return updateStore(this.parent.api.categoryItems.createMany(listItems))
-    .withFeedback(this.parent.feedback)
+      .withFeedback(this.parent.feedback)
       .withNotifications(
-        'inventory.cloneCategoryToList.success',
-        'inventory.cloneCategoryToList.error',
+        ['inventory.cloneCategoryToList.success', { categoryName: category }],
+        ['inventory.cloneCategoryToList.error', { categoryName: category }],
       )
       .onSuccess(newItemsInCategory => {
         this.parent.items.update(items => [...items, ...newItemsInCategory]);

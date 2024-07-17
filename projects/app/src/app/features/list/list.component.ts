@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, computed, effect, inject } from '@angular/core';
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { Subject, catchError, of, take, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { Subject, catchError, of, take, takeUntil } from 'rxjs';
 
 import { ActionsMenuItem, ButtonComponent, CardListComponent, ChangeCategoryModalComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
@@ -12,7 +12,7 @@ import { NAVIGATION_ITEM_LIST, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { filterNull } from '../../common/rxjs';
 import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
-import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT, LIST_REMOVE_PROMPT } from './constants';
+import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT } from './constants';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
