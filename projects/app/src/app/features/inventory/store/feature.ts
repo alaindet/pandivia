@@ -1,17 +1,20 @@
 import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { Observable, of } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
 import { provideFeedback } from '@app/common/store';
-import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
+import { FormOption, LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
 import { UserStore } from '@app/features/user/store';
 import { UiStore } from '@app/core/ui/store';
 import { InventoryService } from '../services';
 import { INVENTORY_FILTER, InventoryFilters, InventoryFilterToken, InventoryItem } from '../types';
-import { InventoryAllItemsStoreSubfeature } from './all';
-import { InventoryCategoryItemsStoreSubfeature } from './category';
-import { InventorySearchFiltersStoreSubfeature } from './search-filters';
-import { InventoryItemStoreSubfeature } from './item';
+import { InventoryAllItemsSubstore } from './all';
+import { InventoryCategoryItemsSubstore } from './category';
+import { InventorySearchFiltersSubstore } from './search-filters';
+import { InventoryItemSubstore } from './item';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -24,10 +27,10 @@ export class InventoryStore {
   private transloco = inject(TranslocoService);
 
   // Substores --------------------------------------------------------------
-  allItems = new InventoryAllItemsStoreSubfeature(this);
-  categoryItems = new InventoryCategoryItemsStoreSubfeature(this);
-  searchFilters = new InventorySearchFiltersStoreSubfeature(this);
-  item = new InventoryItemStoreSubfeature(this, this.transloco);
+  allItems = new InventoryAllItemsSubstore(this);
+  categoryItems = new InventoryCategoryItemsSubstore(this);
+  searchFilters = new InventorySearchFiltersSubstore(this);
+  item = new InventoryItemSubstore(this, this.transloco);
 
   // State --------------------------------------------------------------------
   items = signal<InventoryItem[]>([]);
@@ -50,9 +53,11 @@ export class InventoryStore {
     return shouldFetchCollection(this.items(), this.status(), this.lastUpdated());
   });
   categories = computed(() => extractCategories(this.items()));
+  categoryOptions = computed(() => this.computeCategoryOptions());
   filtersList = computed(() => this.computeFiltersList());
   categoryFilter = computed(() => this.filters()[INVENTORY_FILTER.CATEGORY]);
   counters = computed(() => countDoneItems(this.items()));
+  itemModalSuccessCounter$ = toObservable(this.itemModalSuccessCounter);
 
   // Effects ------------------------------------------------------------------
   constructor() {
@@ -72,6 +77,13 @@ export class InventoryStore {
     return computed(() => filterItemsByQuery(this.categories(), name));
   }
 
+  filterCategoryOptions(name: string): Observable<FormOption[]> {
+    const query = name.toLowerCase();
+    return of(this.categoryOptions().filter(option => {
+      return option.value.toLowerCase().includes(query);
+    }));
+  }
+
   filterItemsByName(name: string): Signal<InventoryItem[]> {
     return computed(() => filterItemsByName(this.items(), name));
   }
@@ -89,6 +101,16 @@ export class InventoryStore {
         )
       );
     });
+  }
+
+  private computeCategoryOptions(): FormOption[] {
+    const result: FormOption[] = [];
+    for (const category of this.categories()) {
+      if (category !== DEFAULT_CATEGORY) {
+        result.push({ value: category, label: category });
+      }
+    }
+    return result;
   }
 
   private computeFiltersList(): InventoryFilterToken[] | null {

@@ -2,7 +2,7 @@ import { removeItem, updateStore, updateItem } from '@app/common/store';
 import { CreateListItemDto, ListItem } from '../types';
 import { ListStore } from './feature';
 
-export class ListItemStoreSubfeature {
+export class ListItemSubstore {
 
   constructor(
     private parent: ListStore,

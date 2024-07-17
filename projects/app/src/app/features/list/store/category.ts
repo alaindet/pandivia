@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { updateStore } from '@app/common/store';
 import { ListStore } from './feature';
 
-export class ListCategoryItemsStoreSubfeature {
+export class ListCategoryItemsSubstore {
 
   constructor(
     private parent: ListStore,

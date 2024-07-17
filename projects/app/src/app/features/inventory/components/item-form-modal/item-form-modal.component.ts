@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, inject, runInInjectionContext, signal, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -48,7 +48,6 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
 
   private inventoryStore = inject(InventoryStore);
   private formBuilder = inject(FormBuilder);
-  private injector = inject(Injector);
   isMobile = inject(MediaQueryService).getFromMobileDown();
 
   FIELD = FIELD;
@@ -79,18 +78,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   categoryFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return runInInjectionContext(this.injector, () => {
-      return toObservable(
-        this.inventoryStore.filterCategoriesByName(query),
-      ).pipe(map(categories => {
-        const result: FormOption[] = [];
-        for (const category of categories) {
-          if (category === DEFAULT_CATEGORY) continue;
-          result.push({ value: category, label: category });
-        }
-        return result;
-      }));
-    });
+    return this.inventoryStore.filterCategoryOptions(query);
   };
 
   onCancel() {
@@ -213,18 +201,16 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     const stop$ = new Subject<void>();
     let first = true;
 
-    return runInInjectionContext(this.injector, () => {
-      toObservable(this.inventoryStore.itemModalSuccessCounter)
-        .pipe(takeUntil(stop$))
-        .subscribe(() => {
-          if (first) {
-            first = false;
-            return;
-          }
-          fn();
-          stop$.next();
-          stop$.complete();
-        });
-    });
+    this.inventoryStore.itemModalSuccessCounter$
+      .pipe(takeUntil(stop$))
+      .subscribe(() => {
+        if (first) {
+          first = false;
+          return;
+        }
+        fn();
+        stop$.next();
+        stop$.complete();
+      });
   }
 }

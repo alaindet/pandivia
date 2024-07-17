@@ -1,7 +1,7 @@
 import { LIST_FILTER, ListFilter } from '../types';
 import { ListStore } from './feature';
 
-export class ListSearchFiltersStoreSubfeature {
+export class ListSearchFiltersSubstore {
   constructor(
     private parent: ListStore,
   ) {}

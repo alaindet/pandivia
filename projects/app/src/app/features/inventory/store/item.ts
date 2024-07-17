@@ -5,7 +5,7 @@ import { removeItem, updateStore, updateItem } from '@app/common/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
 import { InventoryStore } from './feature';
 
-export class InventoryItemStoreSubfeature {
+export class InventoryItemSubstore {
 
   constructor(
     private parent: InventoryStore,

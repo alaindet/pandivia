@@ -1,17 +1,19 @@
 import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, provideFeedback, shouldFetchCollection, sortItemsByName } from '@app/common/store';
-import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
+import { FormOption, LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
 import { UiStore } from '@app/core/ui/store';
+import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UserStore } from '@app/features/user/store';
-import { InventoryItem } from '../../inventory';
 import { InventoryStore } from '@app/features/inventory/store';
 import { ListService } from '../services';
 import { LIST_FILTER, ListFilters, ListFilterToken, ListItem } from '../types';
-import { ListAllItemsStoreSubfeature } from './all';
-import { ListCategoryItemsStoreSubfeature } from './category';
-import { ListSearchFiltersStoreSubfeature } from './search-filters';
-import { ListItemStoreSubfeature } from './item';
+import { ListAllItemsSubstore } from './all';
+import { ListCategoryItemsSubstore } from './category';
+import { ListSearchFiltersSubstore } from './search-filters';
+import { ListItemSubstore } from './item';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -24,10 +26,10 @@ export class ListStore {
   public inventory = inject(InventoryStore);
 
   // Substores --------------------------------------------------------------
-  allItems = new ListAllItemsStoreSubfeature(this);
-  categoryItems = new ListCategoryItemsStoreSubfeature(this);
-  searchFilters = new ListSearchFiltersStoreSubfeature(this);
-  item = new ListItemStoreSubfeature(this);
+  allItems = new ListAllItemsSubstore(this);
+  categoryItems = new ListCategoryItemsSubstore(this);
+  searchFilters = new ListSearchFiltersSubstore(this);
+  item = new ListItemSubstore(this);
 
   // State --------------------------------------------------------------------
   items = signal<ListItem[]>([]);
@@ -51,10 +53,12 @@ export class ListStore {
     return shouldFetchCollection(this.items(), this.status(), this.lastUpdated());
   });
   categories = computed(() => extractCategories(this.items()));
+  categoryOptions = computed(() => this.computeCategoryOptions());
   filtersList = computed(() => this.computeFiltersList());
   categoryFilter = computed(() => this.filters()[LIST_FILTER.CATEGORY]);
   isDoneFilter = computed(() => !!this.filters()[LIST_FILTER.IS_DONE]);
   counters = computed(() => countDoneItems(this.items()));
+  itemModalSuccessCounter$ = toObservable(this.itemModalSuccessCounter);
 
   // Effects ------------------------------------------------------------------
   constructor() {
@@ -72,6 +76,13 @@ export class ListStore {
 
   filterCategoriesByName(name: string): Signal<string[]> {
     return computed(() => filterItemsByQuery(this.categories(), name));
+  }
+
+  filterCategoryOptions(name: string): Observable<FormOption[]> {
+    const query = name.toLowerCase();
+    return of(this.categoryOptions().filter(option => {
+      return option.value.toLowerCase().includes(query);
+    }));
   }
 
   filterItemsByName(name: string): Signal<ListItem[]> {
@@ -94,23 +105,31 @@ export class ListStore {
     });
   }
 
-  private getItemNamesSet(): Signal<Set<string>> {
-    return computed(() => {
-      const itemsSet = new Set<string>();
-      this.items().forEach(item => itemsSet.add(item.name.toLowerCase()));
-      return itemsSet;
-    });
+  private computeCategoryOptions(): FormOption[] {
+    const result: FormOption[] = [];
+    for (const category of this.categories()) {
+      if (category !== DEFAULT_CATEGORY) {
+        result.push({ value: category, label: category });
+      }
+    }
+    return result;
   }
 
-  getAutocompleteItems(query: string): Signal<InventoryItem[]> {
-    return computed(() => {
-      const itemNamesSet = this.getItemNamesSet()();
-      const inventoryItems = this.inventory.filterItemsByName(query)();
-      return inventoryItems.filter(inventoryItem => {
-        const key = inventoryItem.name.toLowerCase();
-        return !itemNamesSet.has(key);
-      });
-    });
+  filterItemNameOptions(name: string): Observable<FormOption[]> {
+    const query = name.toLowerCase();
+    const itemNamesSet = new Set<string>();
+    this.items().forEach(item => itemNamesSet.add(item.name.toLowerCase()));
+    const inventoryItems = this.inventory.filterItemsByName(query)();
+    const result: FormOption[] = [];
+
+    for (const inventoryItem of inventoryItems) {
+      const key = inventoryItem.name.toLowerCase();
+      if (!itemNamesSet.has(key)) {
+        result.push({ label: inventoryItem.name, value: inventoryItem.id });
+      }
+    }
+
+    return of(result);
   }
 
   private computeFiltersList(): ListFilterToken[] | null {

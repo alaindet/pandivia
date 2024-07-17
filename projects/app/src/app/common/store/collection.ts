@@ -34,7 +34,7 @@ export function extractCategories<T extends (
     }
   });
 
-  return Object.keys(categories);
+  return [...categories];
 }
 
 export function countDoneItems<T extends (

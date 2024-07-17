@@ -4,7 +4,7 @@ import { updateStore } from '@app/common/store';
 import { LOADING_STATUS } from '@app/common/types';
 import { InventoryStore } from './feature';
 
-export class InventoryAllItemsStoreSubfeature {
+export class InventoryAllItemsSubstore {
 
   constructor(
     private parent: InventoryStore,

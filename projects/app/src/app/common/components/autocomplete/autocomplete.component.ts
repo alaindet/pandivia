@@ -201,12 +201,10 @@ export class AutocompleteComponent implements OnInit {
 
   private initClickOut(): void {
     this.svc.opened.subscribe(() => {
-      console.log('opened');
       this.clickOut.start();
     });
 
     this.svc.closed.subscribe(() => {
-      console.log('closed');
       this.clickOut.stop();
     });
   }

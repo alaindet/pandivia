@@ -1,7 +1,7 @@
 import { INVENTORY_FILTER, InventoryFilter } from '../types';
 import { InventoryStore } from './feature';
 
-export class InventorySearchFiltersStoreSubfeature {
+export class InventorySearchFiltersSubstore {
 
   constructor(
     private parent: InventoryStore,
