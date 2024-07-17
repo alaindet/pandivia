@@ -90,6 +90,7 @@
     // Card list (variant 1)
     --app-card-list-background: var(--app-color-primary-600);
     --app-card-list-foreground: #{$app-color-white};
+    --app-card-list-completed: var(--app-color-secondary-700);
     --app-card-list-border-color: rgba(0,0,0,0.15);
     --app-card-list-foreground-muted: var(--app-color-grey-500);
     --app-card-list-item-hover-background: rgba(0, 0, 0, 0.15);
