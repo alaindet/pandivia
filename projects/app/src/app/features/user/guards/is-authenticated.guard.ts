@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { RedirectCommand, Router } from '@angular/router';
 
 import { UserStore } from '../store';
-import { tap } from 'rxjs';
+import { map } from 'rxjs';
 
 export const isAuthenticatedGuard = () => {
 
@@ -10,10 +10,12 @@ export const isAuthenticatedGuard = () => {
   const userStore = inject(UserStore);
 
   return userStore.isAppStableAndAuthenticated.pipe(
-    tap(isAuthenticated => {
+    map(isAuthenticated => {
       if (!isAuthenticated) {
-        router.navigate(['/signin']);
+        const urlTree = router.parseUrl('/signin');
+        return new RedirectCommand(urlTree, { skipLocationChange: false });
       }
+      return isAuthenticated;
     }),
   );
 }
