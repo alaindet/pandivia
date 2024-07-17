@@ -16,7 +16,6 @@
   "inventory.noItems": "Nessun elemento attualmente presente nell'Inventario. Aggiungine uno con il bottone (+) in fondo alla pagina.",
   "inventory.errorStatus": "Impossibile scaricare gli elementi dell'Inventario. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto.",
   "inventory.cloneFromList.success": "Elemento creato nell'Inventario con successo",
-  "inventory.cloneFromList.duplicateError": "L'elemento \"{{ item }}\" esiste già nell'Inventario",
   "inventory.cloneFromList.error": "Impossibile creare l'elemento nell'Inventario",
 
   "userProfile.title": "Utente",

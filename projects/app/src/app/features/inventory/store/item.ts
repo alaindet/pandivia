@@ -53,10 +53,8 @@ export class InventoryItemSubstore {
 
     // Check for duplicates
     if (this.parent.itemExistsWithExactName(dto.name)()) {
-      this.parent.ui.notifications.error(this.transloco.translate(
-        'inventory.cloneFromList.duplicateError',
-        { item: dto.name },
-      ));
+      // Element already exists in the Inventory, notify in the console only
+      console.log(`ERROR: Element "${dto.name}" already exists in the Inventory`);
       return;
     }
 
