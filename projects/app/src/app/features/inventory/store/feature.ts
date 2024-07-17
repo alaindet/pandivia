@@ -69,6 +69,12 @@ export class InventoryStore {
     return computed(() => getItemByExactId(this.items(), itemId));
   }
 
+  filterItemsByCategory(category: string): InventoryItem[] {
+    return filterItems(this.items(), createFilters(f => [
+      f.exact('category', category),
+    ]));
+  }
+
   itemExistsWithExactName(name: string): Signal<InventoryItem | null> {
     return computed(() => getItemByName(this.items(), name));
   }

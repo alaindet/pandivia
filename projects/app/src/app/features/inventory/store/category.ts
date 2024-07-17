@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { inject } from '@angular/core';
 
-import { createFilters, filterItems, updateStore } from '@app/common/store';
+import { updateStore } from '@app/common/store';
 import { ListStore } from '@app/features/list/store';
 import { InventoryStore } from './feature';
 
@@ -12,14 +12,6 @@ export class InventoryCategoryItemsSubstore {
   constructor(
     private parent: InventoryStore,
   ) {}
-
-  cloneToList(category: string): Subscription {
-    return this.listStore.categoryItems.cloneFromInventory(
-      filterItems(this.parent.items(), createFilters(f => [
-        f.exact('category', category),
-      ])),
-    );
-  }
 
   remove(category: string): Subscription {
     return updateStore(this.parent.api.removeByCategory(category))

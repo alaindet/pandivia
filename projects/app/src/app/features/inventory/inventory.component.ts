@@ -108,7 +108,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       }
 
       case categoryMenu.CATEGORY_ACTION_ADD_TO_LIST.id: {
-        this.inventoryStore.categoryItems.cloneToList(category);
+        this.listStore.categoryItems.cloneFromInventory(
+          this.inventoryStore.filterItemsByCategory(category),
+        );
         break;
       }
 

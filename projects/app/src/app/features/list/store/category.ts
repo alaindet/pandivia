@@ -12,36 +12,35 @@ export class ListCategoryItemsSubstore {
   ) {}
 
   cloneFromInventory(inventoryItems: InventoryItem[]): Subscription {
-    const listItems: CreateListItemDto[] = [];
+
     const itemNamesSet = new Set<string>();
     this.parent.items().forEach(item => itemNamesSet.add(item.name.toLowerCase()));
 
-    for (const inventoryItem of inventoryItems) {
-
-      if (itemNamesSet.has(inventoryItem.name.toLowerCase())) {
-        continue;
-      }
-
-      const listItem: CreateListItemDto = {
+    // Pick only the inventory items that do not yet exist in the List
+    // Map the inventory items to a list of CreateListItemDto types
+    const listItems: CreateListItemDto[] = inventoryItems
+      .filter(item => !itemNamesSet.has(item.name.toLowerCase()))
+      .map(inventoryItem => ({
         category: inventoryItem?.category ?? '',
         name: inventoryItem.name,
         amount: 1,
         description: inventoryItem.description,
-      };
+      }));
 
-      listItems.push(listItem);
-    }
+    return this.createMany(listItems);
+  }
 
-    return updateStore(this.parent.api.categoryItems.createItemsInBatch(listItems))
-      .withFeedback(this.parent.feedback)
-        .withNotifications(
-          'inventory.cloneCategoryToList.success',
-          'inventory.cloneCategoryToList.error',
-        )
-        .onSuccess(newItemsInCategory => {
-          this.parent.items.update(items => [...items, ...newItemsInCategory]);
-        })
-        .update();
+  createMany(listItems: CreateListItemDto[]) {
+    return updateStore(this.parent.api.categoryItems.createMany(listItems))
+    .withFeedback(this.parent.feedback)
+      .withNotifications(
+        'inventory.cloneCategoryToList.success',
+        'inventory.cloneCategoryToList.error',
+      )
+      .onSuccess(newItemsInCategory => {
+        this.parent.items.update(items => [...items, ...newItemsInCategory]);
+      })
+      .update();
   }
 
   complete(category: string): Subscription {
