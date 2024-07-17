@@ -1,19 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 import { finalize } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
-import { UiService } from '@app/core/ui';
+import { UiStore } from '@app/core/ui';
 import { ButtonComponent, FORM_FIELD_EXPORTS, TextInputComponent } from '@app/common/components';
 import { copyToClipboard, getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { InvitesService } from '../services';
 
 const imports = [
-  NgIf,
   ReactiveFormsModule,
   TranslocoModule,
   MatIconModule,
@@ -33,9 +30,8 @@ const imports = [
 export class InviteUserComponent {
 
   private formBuilder = inject(FormBuilder);
-  private store = inject(Store);
+  private uiStore = inject(UiStore);
   private invitesService = inject(InvitesService);
-  private ui = inject(UiService);
 
   inviteUrl: string | null = null;
   theForm = this.formBuilder.group({
@@ -52,16 +48,17 @@ export class InviteUserComponent {
 
     const { email } = this.theForm.value;
 
-    this.ui.loader.start();
+    this.uiStore.loader.start();
+
     this.invitesService.createInvite(email!)
-      .pipe(finalize(() => this.ui.loader.stop()))
+      .pipe(finalize(() => this.uiStore.loader.stop()))
       .subscribe({
         error: err => {
           console.error(err);
-          this.ui.notification.err('inviteUser.generationError');
+          this.uiStore.notifications.error('inviteUser.generationError');
         },
         next: url => {
-          this.ui.notification.ok('inviteUser.generationSuccess');
+          this.uiStore.notifications.success('inviteUser.generationSuccess');
           this.inviteUrl = url;
           copyToClipboard(url);
         },

@@ -1,14 +1,15 @@
 import { inject } from '@angular/core';
 import { Observable, from } from 'rxjs'
-import { Store } from '@ngrx/store';
 import { CollectionReference, DocumentData, Firestore, collection, getDocs, orderBy, query, where, writeBatch } from '@angular/fire/firestore';
 
-import { selectUserId } from '@app/features/user/store';
+import { UserStore } from '../../user/store';
 
 export function createListCategoryItemsController() {
 
   const db = inject(Firestore);
-  const userId = inject(Store).selectSignal(selectUserId);
+  const userStore = inject(UserStore);
+
+  const userId = userStore.userId;
 
   function complete(category: string): Observable<void> {
     return from(_completeOrUndo(category, true));

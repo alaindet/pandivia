@@ -15,6 +15,9 @@
   "inventory.menu.addToList": "Aggiunti alla pagina Lista",
   "inventory.noItems": "Nessun elemento attualmente presente nell'Inventario. Aggiungine uno con il bottone (+) in fondo alla pagina.",
   "inventory.errorStatus": "Impossibile scaricare gli elementi dell'Inventario. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto.",
+  "inventory.cloneFromList.success": "Elemento creato nell'Inventario con successo",
+  "inventory.cloneFromList.duplicateError": "L'elemento \"{{ item }}\" esiste già nell'Inventario",
+  "inventory.cloneFromList.error": "Impossibile creare l'elemento nell'Inventario",
 
   "userProfile.title": "Utente",
   "userProfile.info": "Informazioni",
@@ -25,6 +28,7 @@
   "userProfile.lastSignedInOn": "Ultimo accesso",
   "userProfile.preferences": "Preferenze",
 
+  "auth.autoSignInError": "Impossibile accedere automaticamente. Riprova ad accedere",
   "auth.signIn": "Accedi",
   "auth.signInSuccess": "Accesso effettuato",
   "auth.signInError": "Impossibile accedere",
@@ -56,7 +60,7 @@
   "common.error.minMaxLength": "Deve contenere da {{ min }} a {{ max }} caratteri",
   "common.error.minMax": "Deve essere compreso tra {{ min }} e {{ max }}",
   "common.error.uniqueName": "Questo nome già esiste",
-  "common.error.onlyOneCategory": "Al momento esiste soltanto una categoria",
+  "common.error.onlyOneCategory": "Al momento non esistono altre categorie",
   "common.form.field.name": "Nome",
   "common.form.field.description": "Descrizione",
   "common.form.field.category": "Categoria",

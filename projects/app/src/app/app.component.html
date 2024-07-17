@@ -1,5 +1,4 @@
 <div class="app-container">
-
   <!-- Stack level: 0 -->
   <router-outlet />
 
@@ -13,10 +12,9 @@
 
   <!-- Stack level: 2 -->
   <app-notifications-host
-    [notification]="ui.notification.current()"
-    (dismissed)="ui.notification.dismiss()"
+    [notification]="notification()"
+    (dismissed)="onDismissNotification()"
   />
-
 </div>
 
 <!-- Stack level: 3 -->

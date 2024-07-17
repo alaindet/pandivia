@@ -1,19 +1,17 @@
-import { NgIf } from '@angular/common';
-import { Component, OnInit, computed, inject, signal, viewChild } from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 import { Observable, Subject, map, takeUntil } from 'rxjs';
 
-import { toSignal } from '@angular/core/rxjs-interop';
 import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { MediaQueryService } from '@app/common/services';
 import { FormOption } from '@app/common/types';
 import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
-import { inventoryCreateItem, inventoryEditItem, selectInventoryCategoriesByName, selectInventoryIsLoading, selectInventoryItemModalSuccessCounter } from '../../store';
+import { InventoryStore } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
 import { uniqueInventoryItemNameValidator } from '../../validators';
 import { INVENTORY_ITEM_FORM_FIELD as FIELD } from './fields';
@@ -48,15 +46,14 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   InventoryItemFormModalOutput
 > implements OnInit {
 
-  private store = inject(Store);
+  private inventoryStore = inject(InventoryStore);
   private formBuilder = inject(FormBuilder);
-
   isMobile = inject(MediaQueryService).getFromMobileDown();
 
   FIELD = FIELD;
   theForm!: FormGroup;
   isEditing = signal(false);
-  isSaving = this.store.selectSignal(selectInventoryIsLoading);
+  isSaving = this.inventoryStore.isLoading;
   shouldContinue = false;
 
   get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
@@ -81,16 +78,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
   categoryFieldOptions: AutocompleteAsyncOptionsFn = (
     query: string,
   ): Observable<FormOption[]> => {
-    return this.store.select(selectInventoryCategoriesByName(query)).pipe(
-      map(categories => {
-        const result: FormOption[] = [];
-        for (const category of categories) {
-          if (category === DEFAULT_CATEGORY) continue;
-          result.push({ value: category, label: category });
-        }
-        return result;
-      }),
-    );
+    return this.inventoryStore.filterCategoryOptions(query);
   };
 
   onCancel() {
@@ -131,7 +119,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to edit
-    this.store.dispatch(inventoryEditItem.try({ item }));
+    this.inventoryStore.item.edit(item);
   }
 
   private onCreate() {
@@ -167,7 +155,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     });
 
     // Try to create
-    this.store.dispatch(inventoryCreateItem.try({ dto: item }));
+    this.inventoryStore.item.create(item);
   }
 
   private initForm(): void {
@@ -188,7 +176,12 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
         // Sync validators
         [required, minLength(2), maxLength(100)],
         // Async validators
-        [uniqueInventoryItemNameValidator(this.store, this.modal.data?.item?.id ?? null)],
+        [
+          uniqueInventoryItemNameValidator(
+            this.inventoryStore,
+            this.modal.data?.item?.id ?? null
+          ),
+        ],
       ],
       [FIELD.DESCRIPTION.id]: [
         item?.description ?? '',
@@ -208,7 +201,7 @@ export class InventoryItemFormModalComponent extends BaseModalComponent<
     const stop$ = new Subject<void>();
     let first = true;
 
-    this.store.select(selectInventoryItemModalSuccessCounter)
+    this.inventoryStore.itemModalSuccessCounter$
       .pipe(takeUntil(stop$))
       .subscribe(() => {
         if (first) {

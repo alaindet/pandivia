@@ -8,8 +8,3 @@ export type ListItem = {
 };
 
 export type CreateListItemDto = Omit<ListItem, 'id' | 'isDone'>;
-
-export type CategorizedListItems = {
-  category: string;
-  items: ListItem[];
-};

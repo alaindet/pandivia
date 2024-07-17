@@ -1,19 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, addDoc, collection, deleteDoc, doc, getDoc } from '@angular/fire/firestore';
-import { Observable, from } from 'rxjs';
+import { Observable, firstValueFrom, from } from 'rxjs';
 import { Auth, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
 
 import { DAY_DURATION } from '@app/common/constants';
 import { CreateUserInviteDto, SignUpUserDto, UserData, UserInvite } from '../types';
 import { AuthenticationService } from './authentication.service';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvitesService {
 
-  private router=  inject(Router);
   private auth = inject(Auth);
   private firestore = inject(Firestore);
   private authService = inject(AuthenticationService);
@@ -45,7 +43,7 @@ export class InvitesService {
       const { user } = await createUserWithEmailAndPassword(this.auth, email, password);
       await deleteDoc(doc(this.firestore, 'invites', inviteId));
       await updateProfile(user, { displayName });
-      await this.authService.tryAutoSignIn();
+      await firstValueFrom(this.authService.autoSignIn());
       return { ...user.toJSON(), displayName } as UserData;
     })());
   }

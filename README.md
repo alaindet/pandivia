@@ -8,12 +8,11 @@ Users have
 - a Profile page to be able to change theme, language and invite new users to use the application
 
 The Angular application features
-- Angular workspaces (TODO)
-- Completely custom and accessible components
-- Themable via CSS variables
+- Angular workspaces
+- Completely custom-made, accessible and themable components
 - Internationalization via `@jsverse/transloco`
 - Service workers
-- NgRx
+- Signal-based store
 
 ## How to run it locally
 
@@ -53,10 +52,8 @@ Requirements
 - https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
 - https://www.atlassian.com/git/tutorials/git-log
 - https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
-- https://dev.to/ngrx/announcing-ngrx-v16-integration-with-angular-signals-functional-effects-standalone-schematics-and-more-5gk6
 - https://www.npmjs.com/package/@angular/localize
 - https://whiteduck.de/how-to-approach-angular-internationalization-i18n-in-2022/
 - https://www.npmjs.com/package/@angular/fire
 - https://www.npmjs.com/package/@angular/pwa
 - https://colorgen.dev/
-- https://medium.com/city-pantry/handling-errors-in-ngrx-effects-a95d918490d9

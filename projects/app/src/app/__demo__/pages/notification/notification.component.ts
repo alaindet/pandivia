@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 
 import { ButtonComponent } from '@app/common/components';
 
-import { UiService } from '@app/core/ui';
+import { UiStore } from '@app/core/ui';
 
 const imports = [
   ButtonComponent,
@@ -16,13 +16,13 @@ const imports = [
 })
 export class NotificationDemoPageComponent {
 
-  private ui = inject(UiService);
+  private uiStore = inject(UiStore);
 
   onAddSuccess() {
-    this.ui.notification.ok('A success message');
+    this.uiStore.notifications.success('A success message');
   }
 
   onAddError() {
-    this.ui.notification.err('An error message');
+    this.uiStore.notifications.error('An error message');
   }
 }

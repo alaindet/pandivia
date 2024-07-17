@@ -2,12 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 
-import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from './common/components';
-import { selectUiIsLoading } from './core/store';
-import { SoftwareUpdateService } from './core/sw-update';
-import { UiService } from './core/ui';
+import { BottomMenuComponent, LinearSpinnerComponent, ModalHostComponent, NotificationsHostComponent } from '@app/common/components';
+import { SoftwareUpdateService } from '@app/core/sw-update';
+import { UiStore } from '@app/core/ui';
+import { UserStore } from '@app/features/user/store/feature';
 
 const imports = [
   RouterOutlet,
@@ -28,14 +27,20 @@ const imports = [
 })
 export class AppComponent implements OnInit {
 
-  private store = inject(Store);
+  private uiStore = inject(UiStore);
   private swUpdate = inject(SoftwareUpdateService);
+  private userStore = inject(UserStore);
 
-  ui = inject(UiService);
-  themeConfig = this.ui.theme.config;
-  loading = this.store.selectSignal(selectUiIsLoading);
+  notification = this.uiStore.notifications.notification;
+  loading = this.uiStore.loader.loading;
+  themeConfig = this.uiStore.theme.config;
 
   ngOnInit() {
     this.swUpdate.check();
+    this.userStore.autoSignIn();
+  }
+
+  onDismissNotification() {
+    this.uiStore.notifications.dismiss();
   }
 }
