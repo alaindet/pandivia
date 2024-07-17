@@ -6,5 +6,6 @@
   - [ ] Analyze ESBuild
   - [ ] Remove `MatIcon`
   - [ ] Remove `toObservable` wherever possible
+  - [ ] Manage your `z-index`!
 - [ ] Bug
   - [ ] core loader and notifications must be visible on full screen modals
