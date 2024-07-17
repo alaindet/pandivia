@@ -16,7 +16,6 @@
   "inventory.noItems": "No items are currently present on the Inventory. Add one with the (+) button on the bottom of the page.",
   "inventory.errorStatus": "An error occurred while downloading items for the Inventory. Try again by selecting the \"Refresh\" action from the top menu.",
   "inventory.cloneFromList.success": "Item created into the Inventory successfully",
-  "inventory.cloneFromList.duplicateError": "Element \"{{ item }}\" already exists in the Inventory",
   "inventory.cloneFromList.error": "Cannot create item into the Inventory",
 
   "userProfile.title": "User",
