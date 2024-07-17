@@ -66,12 +66,6 @@ export function filterItems<T extends Record<string, any>>(
     return filter;
   });
 
-  // TODO: Remove
-  console.log('filterItems', {
-    items,
-    filters,
-  });
-
   return items.filter(item => {
     for (const filter of filters) {
 

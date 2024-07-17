@@ -21,7 +21,7 @@ export class UserStore {
   private authService = inject(AuthenticationService);
   private ui = inject(UiStore);
 
-  // Substores --------------------------------------------------------------
+  // Substores ----------------------------------------------------------------
   language = createUserLanguageController();
 
   // State --------------------------------------------------------------------
@@ -79,7 +79,6 @@ export class UserStore {
       .withNotifications(null, 'auth.signOutError')
       .onSuccess(userData => {
         this.data.set(userData);
-        this.router.navigate([DEFAULT_ROUTE]);
       })
       .update();
   }

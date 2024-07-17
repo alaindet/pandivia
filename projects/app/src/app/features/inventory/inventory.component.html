@@ -1,35 +1,38 @@
 <ng-container *transloco="let t">
   <div class="fab-large-container">
-
     <!-- Filters -->
     @if (filters(); as filters) {
-      <ul class="_filters">
-        @for (filter of filters; track filter.key) {
-          <li>
-            <button
-              type="button"
-              appButton
-              [color]="themeConfig().filterColor"
-              withIcon="left"
-              size="extra-small"
-              (click)="onRemoveFilter(filter)"
-            >
-              <mat-icon>clear</mat-icon>
-              {{ filter.label ? t(filter.label) : filter.value }}
-            </button>
-          </li>
-        }
-      </ul>
+    <ul class="_filters">
+      @for (filter of filters; track filter.key) {
+      <li>
+        <button
+          type="button"
+          appButton
+          [color]="themeConfig().filterColor"
+          withIcon="left"
+          size="extra-small"
+          (click)="onRemoveFilter(filter)"
+        >
+          <mat-icon>clear</mat-icon>
+          {{ filter.label ? t(filter.label) : filter.value }}
+        </button>
+      </li>
+      }
+    </ul>
     }
 
     <!-- Items -->
-    <ng-container [ngTemplateOutlet]="itemGroups().length
-      ? itemsRef
-      : loaded()
-        ? noItemsRef
-        : inErrorStatus()
+    <ng-container
+      [ngTemplateOutlet]="
+        itemGroups().length
+          ? itemsRef
+          : loaded()
+          ? noItemsRef
+          : inErrorStatus()
           ? errorStateRef
-          : null" />
+          : null
+      "
+    />
 
     <!-- Add new item -->
     <button
@@ -45,45 +48,46 @@
     >
       <mat-icon>add</mat-icon>
     </button>
-
   </div>
 
   <!-- Template: Show items -->
   <ng-template #itemsRef>
     <ul class="_cards">
       @for (group of itemGroups(); track group.category) {
-        <li>
-          <app-card-list
-            [title]="group.category === DEFAULT_CATEGORY
+      <li>
+        <app-card-list
+          [title]="
+            group.category === DEFAULT_CATEGORY
               ? t('common.uncategorized')
-              : group.category"
-            [withMutedTitle]="group.category === DEFAULT_CATEGORY"
-            [isSelectable]="false"
-            [items]="group.items"
-            [listActions]="categoryContextualMenu"
-            [itemActionsFn]="getItemContextualMenu"
-            [withCounters]="true"
-            [isPinned]="pinnedCategory() === group.category"
-            [labels]="{
-              pinned: t('common.unpin'),
-              unpinned: t('common.pin')
-            }"
-            (listActionClicked)="onCategoryAction(group.category, $event)"
-            (itemActionClicked)="onItemAction($event)"
-            (pinned)="onPinCategory(group.category, $event)"
-          />
-        </li>
+              : group.category
+          "
+          [withMutedTitle]="group.category === DEFAULT_CATEGORY"
+          [isSelectable]="false"
+          [items]="group.items"
+          [listActions]="categoryContextualMenu"
+          [itemActionsFn]="getItemContextualMenu"
+          [withCounters]="true"
+          [isPinned]="pinnedCategory() === group.category"
+          [labels]="{
+            pinned: t('common.unpin'),
+            unpinned: t('common.pin')
+          }"
+          (listActionClicked)="onCategoryAction(group.category, $event)"
+          (itemActionClicked)="onItemAction($event)"
+          (pinned)="onPinCategory(group.category, $event)"
+        />
+      </li>
       }
     </ul>
   </ng-template>
 
   <!-- Template: No items -->
   <ng-template #noItemsRef>
-    <p>{{ t('inventory.noItems') }}</p>
+    <p>{{ t("inventory.noItems") }}</p>
   </ng-template>
 
   <!-- Template: Error status -->
   <ng-template #errorStateRef>
-    <p>{{ t('inventory.errorStatus') }}</p>
+    <p>{{ t("inventory.errorStatus") }}</p>
   </ng-template>
 </ng-container>

@@ -2,9 +2,9 @@ import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
+import { Subject, catchError, of, take, takeUntil } from 'rxjs';
 
-import { ActionsMenuItem, ButtonComponent, CardListComponent, ChangeCategoryModalComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
+import { ActionsMenuItem, ButtonComponent, CardListComponent, ChangeCategoryModalComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';

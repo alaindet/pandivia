@@ -26,10 +26,6 @@ export class AuthenticationService {
     return from(new Promise<UserData | null>((resolve, reject) => {
       let unsub!: Unsubscribe;
       unsub = onAuthStateChanged(this.auth, async authState => {
-
-        // TODO: Remove
-        console.log('onAuthStateChanged', authState);
-
         if (authState) {
           const user = await this.getUserData(authState);
           resolve(user);
