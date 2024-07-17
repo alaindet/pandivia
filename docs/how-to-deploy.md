@@ -9,5 +9,6 @@
 - Simply deploy the application via
   ```
   npm version minor
+  npx firebase login --reauth # Only if this command failed previously
   npx firebase deploy
   ```
