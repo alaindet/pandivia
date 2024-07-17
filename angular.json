@@ -22,14 +22,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
               "flat"
             ],
-            "outputPath": "dist/app",
+            "outputPath": {
+              "base": "dist/app"
+            },
             "index": "projects/app/src/index.html",
-            "main": "projects/app/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -49,8 +50,8 @@
               ]
             },
             "scripts": [],
-            "serviceWorker": true,
-            "ngswConfigPath": "projects/app/ngsw-config.json"
+            "serviceWorker": "projects/app/ngsw-config.json",
+            "browser": "projects/app/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -69,9 +70,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
