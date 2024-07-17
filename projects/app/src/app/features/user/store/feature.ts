@@ -69,6 +69,7 @@ export class UserStore {
       .withNotifications('auth.signOutSuccess', 'auth.signOutError')
       .onSuccess(() => {
         this.data.set(null);
+        this.router.navigate(['/signin']);
       })
       .update();
   }
@@ -76,7 +77,6 @@ export class UserStore {
   autoSignIn() {
     updateStore(this.authService.autoSignIn())
       .withFeedback(this.feedback)
-      .withNotifications(null, 'auth.signOutError')
       .onSuccess(userData => {
         this.data.set(userData);
       })

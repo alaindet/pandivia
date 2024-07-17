@@ -28,7 +28,6 @@
   "userProfile.lastSignedInOn": "Last signed in on",
   "userProfile.preferences": "Preferences",
 
-  "auth.autoSignInError": "Error while signing in in automatically. Try to sign in in again",
   "auth.signIn": "Sign In",
   "auth.signInSuccess": "Signed in successfully",
   "auth.signInError": "Error while trying to sign in",
