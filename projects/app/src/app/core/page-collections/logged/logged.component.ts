@@ -18,7 +18,6 @@ const imports = [
   standalone: true,
   imports,
   templateUrl: './logged.component.html',
-  providers: [StackedLayoutService], // <-- Mind this
 })
 export class LoggedPageCollectionComponent {
 

@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { environment } from '@app/environment';
 import { LoggedPageCollectionComponent } from '@app/core';
 import { isAuthenticatedGuard } from './features/user/guards';
+import { StackedLayoutService } from './common/layouts';
 
 export const DEFAULT_ROUTE = '/list';
 
@@ -24,6 +25,7 @@ let routes: Routes = [
     path: '',
     component: LoggedPageCollectionComponent,
     canActivate: [isAuthenticatedGuard],
+    providers: [StackedLayoutService],
     children: [
       {
         path: 'list',
