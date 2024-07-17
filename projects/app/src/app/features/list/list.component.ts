@@ -1,5 +1,5 @@
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, effect, inject } from '@angular/core';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Subject, catchError, of, take, takeUntil } from 'rxjs';
@@ -103,13 +103,13 @@ export class ListPageComponent implements OnInit, OnDestroy {
         break;
       }
 
-      case listMenu.LIST_ACTION_REMOVE.id: {
-        this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe({
-          error: () => console.log('Canceled'),
-          next: () => this.listStore.allItems.remove(),
-        });
-        break;
-      }
+      // case listMenu.LIST_ACTION_REMOVE.id: {
+      //   this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe({
+      //     error: () => console.log('Canceled'),
+      //     next: () => this.listStore.allItems.remove(),
+      //   });
+      //   break;
+      // }
     }
   }
 

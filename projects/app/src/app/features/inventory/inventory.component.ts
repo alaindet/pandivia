@@ -85,17 +85,17 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
         break;
       }
 
-      case listMenu.LIST_ACTION_REMOVE.id: {
-        const title = this.transloco.translate(LIST_REMOVE_PROMPT.title);
-        const message = this.transloco.translate(LIST_REMOVE_PROMPT.message);
-        const prompt = { ...LIST_REMOVE_PROMPT, title, message };
+      // case listMenu.LIST_ACTION_REMOVE.id: {
+      //   const title = this.transloco.translate(LIST_REMOVE_PROMPT.title);
+      //   const message = this.transloco.translate(LIST_REMOVE_PROMPT.message);
+      //   const prompt = { ...LIST_REMOVE_PROMPT, title, message };
 
-        this.confirmPrompt(prompt).subscribe({
-          error: () => console.log('Canceled'),
-          next: () => this.inventoryStore.allItems.remove(),
-        });
-        break;
-      }
+      //   this.confirmPrompt(prompt).subscribe({
+      //     error: () => console.log('Canceled'),
+      //     next: () => this.inventoryStore.allItems.remove(),
+      //   });
+      //   break;
+      // }
     }
   }
 
