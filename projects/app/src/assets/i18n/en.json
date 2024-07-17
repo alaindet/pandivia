@@ -17,6 +17,8 @@
   "inventory.errorStatus": "An error occurred while downloading items for the Inventory. Try again by selecting the \"Refresh\" action from the top menu.",
   "inventory.cloneFromList.success": "Item created into the Inventory successfully",
   "inventory.cloneFromList.error": "Cannot create item into the Inventory",
+  "inventory.cloneCategoryToList.success": "Elements from category  \"{{ categoryName }}\" copied into the List successfully",
+  "inventory.cloneCategoryToList.error": "Error while copying elements from category \"{{ categoryName }} into the List\"",
 
   "userProfile.title": "User",
   "userProfile.info": "Info",

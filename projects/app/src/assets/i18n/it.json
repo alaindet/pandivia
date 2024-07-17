@@ -17,6 +17,8 @@
   "inventory.errorStatus": "Impossibile scaricare gli elementi dell'Inventario. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto.",
   "inventory.cloneFromList.success": "Elemento creato nell'Inventario con successo",
   "inventory.cloneFromList.error": "Impossibile creare l'elemento nell'Inventario",
+  "inventory.cloneCategoryToList.success": "Elementi della categoria  \"{{ categoryName }}\" copiati nella Lista con successo",
+  "inventory.cloneCategoryToList.error": "Impossibile copiare nella Lista gli elementi della categoria \"{{ categoryName }}\"",
 
   "userProfile.title": "Utente",
   "userProfile.info": "Informazioni",

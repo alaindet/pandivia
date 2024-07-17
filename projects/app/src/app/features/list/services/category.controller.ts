@@ -1,8 +1,9 @@
 import { inject } from '@angular/core';
-import { Observable, from } from 'rxjs'
+import { Observable, from, of } from 'rxjs'
 import { CollectionReference, DocumentData, Firestore, collection, getDocs, orderBy, query, where, writeBatch } from '@angular/fire/firestore';
 
 import { UserStore } from '../../user/store';
+import { CreateListItemDto, ListItem } from '../types';
 
 export function createListCategoryItemsController() {
 
@@ -10,6 +11,15 @@ export function createListCategoryItemsController() {
   const userStore = inject(UserStore);
 
   const userId = userStore.userId;
+
+  // TODO
+  function createItemsInBatch(items: CreateListItemDto[]): Observable<ListItem[]> {
+
+    // TODO: Remove
+    console.log('createItemsInBatch', items);
+
+    return of([]);
+  }
 
   function complete(category: string): Observable<void> {
     return from(_completeOrUndo(category, true));
@@ -75,6 +85,7 @@ export function createListCategoryItemsController() {
   }
 
   return {
+    createItemsInBatch,
     complete,
     undo,
     removeCompleted,

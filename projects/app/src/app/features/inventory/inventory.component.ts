@@ -107,6 +107,11 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
         break;
       }
 
+      case categoryMenu.CATEGORY_ACTION_ADD_TO_LIST.id: {
+        this.inventoryStore.categoryItems.cloneToList(category);
+        break;
+      }
+
       case categoryMenu.CATEGORY_ACTION_REMOVE.id: {
         const config = CATEGORY_REMOVE_PROMPT;
         const params = { categoryName: category };
