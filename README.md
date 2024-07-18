@@ -1,6 +1,6 @@
 # Pandivia
 
-Pandivia is a shopping list progressive web app (PWA) made with Angular 17+ and Firebase.
+Pandivia is a shopping list progressive web app (PWA) made with Angular 18+ and Firebase.
 
 Users have
 - a List page where they can add items to buy, grouped by category
