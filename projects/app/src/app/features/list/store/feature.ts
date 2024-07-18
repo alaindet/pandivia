@@ -56,6 +56,7 @@ export class ListStore {
   categoryOptions = computed(() => this.computeCategoryOptions());
   filtersList = computed(() => this.computeFiltersList());
   categoryFilter = computed(() => this.filters()[LIST_FILTER.CATEGORY]);
+  searchQuery = computed(() => this.filters()[LIST_FILTER.SEARCH_QUERY]);
   isDoneFilter = computed(() => !!this.filters()[LIST_FILTER.IS_DONE]);
   counters = computed(() => countDoneItems(this.items()));
   itemModalSuccessCounter$ = toObservable(this.itemModalSuccessCounter);

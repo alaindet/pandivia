@@ -59,6 +59,13 @@ export class ListPageComponent implements OnInit, OnDestroy {
     allowSignalWrites: true
   });
 
+  // TODO: Remove
+  debug$ = effect(() => {
+    const filters = this.listStore.filters();
+    const filtersList = this.listStore.filtersList();
+    console.log('LIST', { filters, filtersList });
+  });
+
   ngOnInit() {
     this.initPageMetadata();
     this.initListContextualMenu();
@@ -312,7 +319,20 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   private initSearchFeature(): void {
+
+    // TODO: Remove
+    console.log('LIST INIT', this.listStore.filters());
+
     this.layout.search.enable();
+    this.layout.search.hide();
+
+    // Pre-populate with existing search query?
+    const query = this.listStore.searchQuery();
+    if (!!query) {
+      this.layout.search.search(query as string);
+    } else {
+      this.layout.search.clear(false);
+    }
 
     this.layout.search.searched.subscribe(searchQuery => {
       if (!searchQuery) {

@@ -3,14 +3,14 @@ import { Component, OnInit, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
+import { environment } from '@app/environment';
 import { ButtonComponent, SelectComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { NAVIGATION_ITEM_USER, UiStore } from '@app/core/ui';
-import { environment } from '@app/environment';
-import { InviteUserComponent } from '../../components';
-import { UserStore } from '../../store';
 import { Theme } from '@app/core/theme';
 import { Language } from '@app/core/language';
+import { InviteUserComponent } from '../../components';
+import { UserStore } from '../../store';
 
 const imports = [
   DatePipe,
@@ -63,11 +63,13 @@ export class ProfilePageComponent implements OnInit {
   private initPageMetadata(): void {
     const headerTitle = this.transloco.translate('userProfile.title');
     this.layout.title.set(headerTitle);
-    const title = `${headerTitle} - ${environment.appName}`;
-    this.uiStore.title.set(title);
+
+    const pageTitle = `${headerTitle} - ${environment.appName}`;
+    this.uiStore.title.set(pageTitle);
 
     const current = NAVIGATION_ITEM_USER.id;
     this.uiStore.navigation.setCurrent(current);
+
     this.layout.headerCounters.clear();
     this.layout.headerActions.clear();
     this.layout.search.disable();

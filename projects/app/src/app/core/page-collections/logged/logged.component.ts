@@ -26,16 +26,18 @@ export class LoggedPageCollectionComponent {
   private uiStore = inject(UiStore);
   private transloco = inject(TranslocoService);
 
-  private bottomNavigation = computed(() => this.computeBottomNavigationItems());
-  bottomNavigationItems = computed(() => this.bottomNavigation().items);
-  bottomNavigationCurrent = computed(() => this.bottomNavigation().current);
-  search = this.layout.search;
   title = this.layout.title.title;
   headerActions = this.layout.headerActions.actions;
   headerCounters = this.layout.headerCounters.counters;
+
+  search = this.layout.search;
   searchEnabled = this.layout.search.enabled;
   searchVisible = this.layout.search.visible;
   searchQuery = this.layout.search.query;
+
+  bottomNavigation = computed(() => this.computeBottomNavigationItems());
+  bottomNavigationItems = computed(() => this.bottomNavigation().items);
+  bottomNavigationCurrent = computed(() => this.bottomNavigation().current);
 
   onBottomNavigation(actionId: BottomMenuItem['id']) {
     this.router.navigate([NAVIGATION_ROUTES[actionId]]);

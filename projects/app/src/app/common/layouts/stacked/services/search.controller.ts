@@ -2,7 +2,7 @@ import { Subject } from 'rxjs';
 
 import { signal } from '@angular/core';
 
-export function createSearchController() {
+export function createSearchController(debounceTime = 400) {
 
   const enabled = signal(false);
   const visible = signal(false);
@@ -11,7 +11,6 @@ export function createSearchController() {
   const searched$ = new Subject<string>();
   const cleared$ = new Subject<void>();
 
-  const thresholdMilliseconds = 400;
   let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
   function enable() {
@@ -40,12 +39,13 @@ export function createSearchController() {
       clearTimeout(searchTimer);
     }
 
-    const fn = () => {
-      query.set(_query);
-      searched$.next(_query);
-    };
-
-    searchTimer = setTimeout(fn,  thresholdMilliseconds);
+    searchTimer = setTimeout(
+      () => {
+        query.set(_query);
+        searched$.next(_query);
+      },
+      debounceTime,
+    );
   }
 
   function clear(triggerEvents = true) {

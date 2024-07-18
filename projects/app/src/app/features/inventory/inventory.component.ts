@@ -64,6 +64,13 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     allowSignalWrites: true
   });
 
+  // TODO: Remove
+  debug$ = effect(() => {
+    const filters = this.inventoryStore.filters();
+    const filtersList = this.inventoryStore.filtersList();
+    console.log('INVENTORY', { filters, filtersList });
+  });
+
   ngOnInit() {
     this.initPageMetadata();
     this.initListContextualMenu();
@@ -208,8 +215,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private initPageMetadata(): void {
     const headerTitle = this.transloco.translate('inventory.title');
     this.layout.title.set(headerTitle);
-    const title = `${headerTitle} - ${environment.appName}`;
-    this.uiStore.title.set(title);
+
+    const pageTitle = `${headerTitle} - ${environment.appName}`;
+    this.uiStore.title.set(pageTitle);
+
     const currentRoute = NAVIGATION_ITEM_INVENTORY.id;
     this.uiStore.navigation.setCurrent(currentRoute);
   }
@@ -235,6 +244,15 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   private initSearchFeature(): void {
     this.layout.search.enable();
+    this.layout.search.hide();
+
+    // Pre-populate with existing search query?
+    const query = this.inventoryStore.searchQuery();
+    if (!!query) {
+      this.layout.search.search(query as string);
+    } else {
+      this.layout.search.clear(false);
+    }
 
     this.layout.search.searched.subscribe(searchQuery => {
       if (!searchQuery) {

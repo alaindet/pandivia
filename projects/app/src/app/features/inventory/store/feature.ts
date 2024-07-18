@@ -56,6 +56,7 @@ export class InventoryStore {
   categoryOptions = computed(() => this.computeCategoryOptions());
   filtersList = computed(() => this.computeFiltersList());
   categoryFilter = computed(() => this.filters()[INVENTORY_FILTER.CATEGORY]);
+  searchQuery = computed(() => this.filters()[INVENTORY_FILTER.SEARCH_QUERY]);
   counters = computed(() => countDoneItems(this.items()));
   itemModalSuccessCounter$ = toObservable(this.itemModalSuccessCounter);
 
