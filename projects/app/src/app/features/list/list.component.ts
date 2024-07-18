@@ -59,19 +59,12 @@ export class ListPageComponent implements OnInit, OnDestroy {
     allowSignalWrites: true
   });
 
-  // TODO: Remove
-  debug$ = effect(() => {
-    const filters = this.listStore.filters();
-    const filtersList = this.listStore.filtersList();
-    console.log('LIST', { filters, filtersList });
-  });
-
   ngOnInit() {
     this.initPageMetadata();
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
     this.initSearchFeature();
-    this.listStore.allItems.fetch();
+    this.listStore.allItems.fetch(); // <-- TODO: Remove THIS IS THE CULPRIT
   }
 
   ngOnDestroy() {
@@ -219,8 +212,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
     this.listStore.searchFilters.clearByName(name);
 
     if (name === LIST_FILTER.SEARCH_QUERY) {
-      this.layout.search.clear(false);
-      this.layout.search.hide();
+      this.layout.search.clear('ListPageComponent', false);
+      this.layout.search.hide('ListPageComponent');
     }
   }
 
@@ -321,18 +314,19 @@ export class ListPageComponent implements OnInit, OnDestroy {
   private initSearchFeature(): void {
 
     // TODO: Remove
-    console.log('LIST INIT', this.listStore.filters());
+    console.log('LIST INIT', this.listStore.searchQuery());
 
-    this.layout.search.enable();
-    this.layout.search.hide();
+    this.layout.search.enable('ListPageComponent');
+    this.layout.search.hide('ListPageComponent');
+    const existingQuery = this.listStore.searchQuery();
+    this.layout.search.clear('ListPageComponent');
 
-    // Pre-populate with existing search query?
-    const query = this.listStore.searchQuery();
-    if (!!query) {
-      this.layout.search.search(query as string);
-    } else {
-      this.layout.search.clear(false);
-    }
+    // // Pre-populate with existing search query?
+    // if (!!existingQuery) {
+    //   this.layout.search.search('ListPageComponent', existingQuery as string);
+    // } else {
+    //   this.layout.search.clear('ListPageComponent', false);
+    // }
 
     this.layout.search.searched.subscribe(searchQuery => {
       if (!searchQuery) {

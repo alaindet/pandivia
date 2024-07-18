@@ -64,13 +64,6 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     allowSignalWrites: true
   });
 
-  // TODO: Remove
-  debug$ = effect(() => {
-    const filters = this.inventoryStore.filters();
-    const filtersList = this.inventoryStore.filtersList();
-    console.log('INVENTORY', { filters, filtersList });
-  });
-
   ngOnInit() {
     this.initPageMetadata();
     this.initListContextualMenu();
@@ -243,16 +236,21 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private initSearchFeature(): void {
-    this.layout.search.enable();
-    this.layout.search.hide();
 
-    // Pre-populate with existing search query?
-    const query = this.inventoryStore.searchQuery();
-    if (!!query) {
-      this.layout.search.search(query as string);
-    } else {
-      this.layout.search.clear(false);
-    }
+    // TODO: Remove
+    console.log('INVENTORY INIT', this.inventoryStore.searchQuery());
+
+    this.layout.search.enable('InventoryPageComponent');
+    this.layout.search.hide('InventoryPageComponent');
+    const existingQuery = this.inventoryStore.searchQuery();
+    this.layout.search.clear('InventoryPageComponent');
+
+    // // Pre-populate with existing search query?
+    // if (!!existingQuery) {
+    //   this.layout.search.search(existingQuery as string);
+    // } else {
+    //   this.layout.search.clear(false);
+    // }
 
     this.layout.search.searched.subscribe(searchQuery => {
       if (!searchQuery) {

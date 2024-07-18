@@ -48,15 +48,15 @@ export class LoggedPageCollectionComponent {
   }
 
   onTypeSearchQuery(query: string) {
-    this.layout.search.search(query);
+    this.layout.search.search('LoggedPageCollectionComponent', query);
   }
 
   onClearSearchQuery() {
-    this.layout.search.clear();
+    this.layout.search.clear('LoggedPageCollectionComponent');
   }
 
   onToggleSearchBox() {
-    this.layout.search.toggle();
+    this.layout.search.toggle('LoggedPageCollectionComponent');
   }
 
   private computeBottomNavigationItems() {

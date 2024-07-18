@@ -17,7 +17,7 @@ export class StackedLayoutService implements OnDestroy {
   backButton = createBackButtonController();
 
   ngOnDestroy(): void {
-    this.search.destroy();
+    this.search.destroy('StackedLayoutService');
     this.headerActions.destroy();
     this.backButton.destroy();
   }

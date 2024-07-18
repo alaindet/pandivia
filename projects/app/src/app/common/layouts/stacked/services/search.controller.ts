@@ -13,27 +13,33 @@ export function createSearchController(debounceTime = 400) {
 
   let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
-  function enable() {
+  function enable(src: string) {
+    console.log('SearchController.enable', src); // TODO: Remove
     enabled.set(true);
   }
 
-  function disable() {
+  function disable(src: string) {
+    console.log('SearchController.disable', src); // TODO: Remove
     enabled.set(false);
   }
 
-  function show() {
+  function show(src: string) {
+    console.log('SearchController.show', src); // TODO: Remove
     visible.set(true);
   }
 
-  function hide() {
+  function hide(src: string) {
+    console.log('SearchController.hide', src); // TODO: Remove
     visible.set(false);
   }
 
-  function toggle() {
+  function toggle(src: string) {
+    console.log('SearchController.toggle', src); // TODO: Remove
     visible.update(prev => !prev);
   }
 
-  function search(_query: string) {
+  function search(src: string, _query: string) {
+    console.log('SearchController.search', src, _query); // TODO: Remove
 
     if (searchTimer !== null) {
       clearTimeout(searchTimer);
@@ -48,14 +54,17 @@ export function createSearchController(debounceTime = 400) {
     );
   }
 
-  function clear(triggerEvents = true) {
+  function clear(src: string, triggerEvents = true) {
+    console.log('SearchController.clear', src, triggerEvents); // TODO: Remove
+
     query.set('');
     if (triggerEvents) {
       cleared$.next();
     }
   }
 
-  function destroy() {
+  function destroy(src: string) {
+    console.log('SearchController.destroy', src); // TODO: Remove
     searched$.complete();
     cleared$.complete();
   }

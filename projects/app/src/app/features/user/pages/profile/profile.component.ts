@@ -72,6 +72,6 @@ export class ProfilePageComponent implements OnInit {
 
     this.layout.headerCounters.clear();
     this.layout.headerActions.clear();
-    this.layout.search.disable();
+    this.layout.search.disable('ProfilePageComponent');
   }
 }
