@@ -45,15 +45,3 @@ Requirements
 ![Desktop screenshot - Inventory page](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/wide-3.png)
 
 ![Desktop screenshot - Fairy theme](https://raw.githubusercontent.com/alaindet/pandivia/main/projects/app/src/assets/screenshots/wide-4.png)
-
-## Resources and ideas
-
-- https://www.w3.org/WAI/ARIA/apg/patterns/
-- https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
-- https://www.atlassian.com/git/tutorials/git-log
-- https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
-- https://www.npmjs.com/package/@angular/localize
-- https://whiteduck.de/how-to-approach-angular-internationalization-i18n-in-2022/
-- https://www.npmjs.com/package/@angular/fire
-- https://www.npmjs.com/package/@angular/pwa
-- https://colorgen.dev/
