@@ -121,14 +121,14 @@
       line-height: 0.75rem;
       height: 1.5rem;
 
-      mat-icon {
+      ng-icon {
         transform: scale(0.75);
       }
 
       &.-with-icon-only {
         @include app-squared(1.5rem, 1.2rem);
 
-        mat-icon {
+        ng-icon {
           width: 1.2rem;
           height: 1.2rem;
         }
@@ -143,7 +143,7 @@
       &.-with-icon-only {
         @include app-squared(2rem, 1.4rem);
 
-        mat-icon {
+        ng-icon {
           width: 1.4rem;
           height: 1.4rem;
         }
@@ -158,7 +158,7 @@
       &.-with-icon-only {
         @include app-squared(3rem, 1.85rem);
 
-        mat-icon {
+        ng-icon {
           width: 1.85rem;
           height: 1.85rem;
         }
@@ -174,7 +174,7 @@
       &.-with-icon-only {
         @include app-squared(4rem, 2.5rem);
 
-        mat-icon {
+        ng-icon {
           width: 2.5rem;
           height: 2.5rem;
         }
@@ -201,13 +201,13 @@
     white-space: nowrap;
 
     &.-left {
-      mat-icon {
+      ng-icon {
         margin-right: 0.33rem;
       }
     }
 
     &.-right {
-      mat-icon {
+      ng-icon {
         margin-left: 0.33rem;
       }
     }
@@ -220,7 +220,7 @@
     align-items: center;
     position: relative;
 
-    mat-icon {
+    ng-icon {
       position: absolute;
       font-size: inherit;
     }

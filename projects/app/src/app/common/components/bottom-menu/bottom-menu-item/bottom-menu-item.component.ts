@@ -5,11 +5,11 @@ import {
   ViewEncapsulation,
   input,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-bottom-menu-item',
-  imports: [MatIconModule],
+  imports: [NgIcon],
   templateUrl: './bottom-menu-item.component.html',
   styleUrl: './bottom-menu-item.component.scss',
   host: {

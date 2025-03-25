@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import {
+  matClear,
+  matTaskAlt,
+  matUndo,
+} from '@ng-icons/material-icons/baseline';
 
 import {
   ACTIONS_MENU_EXPORTS,
@@ -9,15 +13,15 @@ import {
 
 @Component({
   selector: 'app-demo-actions-menu',
-  imports: [...ACTIONS_MENU_EXPORTS, ButtonComponent, MatIconModule],
+  imports: [...ACTIONS_MENU_EXPORTS, ButtonComponent],
   templateUrl: './actions-menu.component.html',
 })
 export class ActionsMenuDemoPageComponent {
   consoleLog = console.log;
 
   actions: ActionsMenuItem[] = [
-    { id: 'check', label: 'Check', icon: 'task_alt' },
-    { id: 'uncheck', label: 'Uncheck', icon: 'undo' },
-    { id: 'remove', label: 'Remove', icon: 'clear' },
+    { id: 'check', label: 'Check', icon: matTaskAlt },
+    { id: 'uncheck', label: 'Uncheck', icon: matUndo },
+    { id: 'remove', label: 'Remove', icon: matClear },
   ];
 }

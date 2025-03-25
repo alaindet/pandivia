@@ -7,9 +7,10 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Subject, catchError, of, take, takeUntil } from 'rxjs';
+import { NgIcon } from '@ng-icons/core';
+import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 
 import {
   ActionsMenuItem,
@@ -50,8 +51,8 @@ import { LIST_FILTER, ListFilterToken, ListItem } from './types';
     NgTemplateOutlet,
     CardListComponent,
     ButtonComponent,
-    MatIconModule,
     TranslocoModule,
+    NgIcon,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -78,6 +79,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
   pageCountersEffect = effect(() =>
     this.layout.headerCounters.set(this.counters())
   );
+
+  matClear = matClear;
+  matAdd = matAdd;
 
   ngOnInit() {
     this.initPageMetadata();

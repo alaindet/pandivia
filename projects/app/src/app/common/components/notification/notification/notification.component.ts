@@ -12,19 +12,23 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import {
+  matCheckCircle,
+  matReportProblem,
+} from '@ng-icons/material-icons/baseline';
 
 import { NOTIFICATION_TYPE, NotificationType } from '@app/common/types';
 import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
 
 const NOTIFICATION_ICON: Record<NotificationType, string> = {
-  [NOTIFICATION_TYPE.SUCCESS]: 'check_circle',
-  [NOTIFICATION_TYPE.ERROR]: 'report_problem',
+  [NOTIFICATION_TYPE.SUCCESS]: matCheckCircle,
+  [NOTIFICATION_TYPE.ERROR]: matReportProblem,
 };
 
 @Component({
   selector: 'app-notification',
-  imports: [MatIconModule],
+  imports: [NgIcon],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss',
   host: { class: 'app-notification' },

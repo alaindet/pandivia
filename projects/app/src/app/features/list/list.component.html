@@ -1,35 +1,38 @@
 <ng-container *transloco="let t">
   <div class="fab-large-container">
-
     <!-- Filters -->
     @if (filters()) {
-      <ul class="_filters">
-        @for (filter of filters(); track filter.key) {
-          <li>
-            <button
-              type="button"
-              appButton
-              [color]="themeConfig().filterColor"
-              withIcon="left"
-              size="extra-small"
-              (click)="onRemoveFilter(filter)"
-            >
-              <mat-icon>clear</mat-icon>
-              {{ filter.label ? t(filter.label) : filter.value }}
-            </button>
-          </li>
-        }
-      </ul>
+    <ul class="_filters">
+      @for (filter of filters(); track filter.key) {
+      <li>
+        <button
+          type="button"
+          appButton
+          [color]="themeConfig().filterColor"
+          withIcon="left"
+          size="extra-small"
+          (click)="onRemoveFilter(filter)"
+        >
+          <ng-icon [svg]="matClear" size="1rem" />
+          {{ filter.label ? t(filter.label) : filter.value }}
+        </button>
+      </li>
+      }
+    </ul>
     }
 
     <!-- Items -->
-    <ng-container [ngTemplateOutlet]="itemGroups().length
-      ? itemsRef
-      : loaded()
-        ? noItemsRef
-        : inErrorStatus()
+    <ng-container
+      [ngTemplateOutlet]="
+        itemGroups().length
+          ? itemsRef
+          : loaded()
+          ? noItemsRef
+          : inErrorStatus()
           ? errorStateRef
-          : null" />
+          : null
+      "
+    />
 
     <!-- Add new item -->
     <button
@@ -43,48 +46,49 @@
       floatingRight="calc(50vw - 0.5 * var(--app-width-container) + 1.1rem)"
       (click)="onShowCreateItemModal()"
     >
-      <mat-icon>add</mat-icon>
+      <ng-icon [svg]="matAdd" />
     </button>
-
   </div>
 
   <!-- Template: Show items -->
   <ng-template #itemsRef>
     <ul class="_cards">
       @for (group of itemGroups(); track group.category) {
-        <li>
-          <app-card-list
-            [title]="group.category === DEFAULT_CATEGORY
+      <li>
+        <app-card-list
+          [title]="
+            group.category === DEFAULT_CATEGORY
               ? t('common.uncategorized')
-              : group.category"
-            [withMutedTitle]="group.category === DEFAULT_CATEGORY"
-            [items]="group.items"
-            [listActions]="categoryContextualMenu"
-            [itemActionsFn]="getItemContextualMenu"
-            [isPinned]="pinnedCategory() === group.category"
-            [withCounters]="true"
-            [checkboxColor]="themeConfig().checkboxColor"
-            [labels]="{
-              pinned: t('common.unpin'),
-              unpinned: t('common.pin')
-            }"
-            (listActionClicked)="onCategoryAction(group.category, $event)"
-            (itemActionClicked)="onItemAction($event)"
-            (itemToggled)="onItemToggle($event)"
-            (pinned)="onPinCategory(group.category, $event)"
-          />
-        </li>
+              : group.category
+          "
+          [withMutedTitle]="group.category === DEFAULT_CATEGORY"
+          [items]="group.items"
+          [listActions]="categoryContextualMenu"
+          [itemActionsFn]="getItemContextualMenu"
+          [isPinned]="pinnedCategory() === group.category"
+          [withCounters]="true"
+          [checkboxColor]="themeConfig().checkboxColor"
+          [labels]="{
+            pinned: t('common.unpin'),
+            unpinned: t('common.pin')
+          }"
+          (listActionClicked)="onCategoryAction(group.category, $event)"
+          (itemActionClicked)="onItemAction($event)"
+          (itemToggled)="onItemToggle($event)"
+          (pinned)="onPinCategory(group.category, $event)"
+        />
+      </li>
       }
     </ul>
   </ng-template>
 
   <!-- Template: No items -->
   <ng-template #noItemsRef>
-    <p>{{ t('list.noItems') }}</p>
+    <p>{{ t("list.noItems") }}</p>
   </ng-template>
 
   <!-- Template: Error status -->
   <ng-template #errorStateRef>
-    <p>{{ t('list.errorStatus') }}</p>
+    <p>{{ t("list.errorStatus") }}</p>
   </ng-template>
 </ng-container>

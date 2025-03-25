@@ -24,7 +24,7 @@
   user-select: none;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -41,12 +41,13 @@
     background-color: var(--app-bottom-menu-item-indicator-color) !important;
   }
 
-  &:focus::after, &.-selected::after {
+  &:focus::after,
+  &.-selected::after {
     transform: scaleY(1);
     background-color: var(--app-bottom-menu-item-indicator-hover-color);
   }
 
-  > ._icon .mat-icon {
+  > ._icon ng-icon {
     color: var(--app-bottom-menu-item-foreground);
   }
 

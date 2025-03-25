@@ -1,13 +1,13 @@
 <div class="app-actions-menu-button">
   @if (buttonTemplate(); as buttonTemplate) {
-    <ng-container
-      [ngTemplateOutlet]="buttonTemplate"
-      [ngTemplateOutletContext]="{ $implicit: isOpen() }"
-    />
+  <ng-container
+    [ngTemplateOutlet]="buttonTemplate"
+    [ngTemplateOutletContext]="{ $implicit: isOpen() }"
+  />
   } @else {
-    <button type="button" appButton="outline" type="button" isCircle withIconOnly>
-      <mat-icon>more_horiz</mat-icon>
-    </button>
+  <button type="button" appButton="outline" type="button" isCircle withIconOnly>
+    <ng-icon [svg]="matMoreHoriz" />
+  </button>
   }
 </div>
 
@@ -22,26 +22,26 @@
   [class.-open]="isOpen()"
 >
   @for (action of menuActions(); track action.id) {
-    <li
-      class="app-actions-menu-item"
-      [class.-focused]="focused() === action.id"
-      [class.-first]="$first"
-      [class.-last]="$last"
-      role="menuitem"
-      [attr.id]="action.id"
-      tabindex="-1"
-      (click)="onActionClicked($event, action.id)"
-      (mouseover)="onActionMouseover($event, action.id)"
-    >
-      @if (itemTemplate(); as itemTemplate) {
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ $implicit: action }"
-        />
-      } @else {
-        <mat-icon>{{ action.icon }}</mat-icon>
-        {{ action.label }}
-      }
-    </li>
+  <li
+    class="app-actions-menu-item"
+    [class.-focused]="focused() === action.id"
+    [class.-first]="$first"
+    [class.-last]="$last"
+    role="menuitem"
+    [attr.id]="action.id"
+    tabindex="-1"
+    (click)="onActionClicked($event, action.id)"
+    (mouseover)="onActionMouseover($event, action.id)"
+  >
+    @if (itemTemplate(); as itemTemplate) {
+    <ng-container
+      [ngTemplateOutlet]="itemTemplate"
+      [ngTemplateOutletContext]="{ $implicit: action }"
+    />
+    } @else {
+    <ng-icon [svg]="action.icon" />
+    {{ action.label }}
+    }
+  </li>
   }
 </ul>

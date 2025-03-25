@@ -7,13 +7,14 @@ import {
   input,
   output,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matArrowBack } from '@ng-icons/material-icons/baseline';
 
 import { ButtonComponent } from '../button';
 
 @Component({
   selector: 'app-page-header',
-  imports: [ButtonComponent, MatIconModule],
+  imports: [ButtonComponent, NgIcon],
   templateUrl: './page-header.component.html',
   styleUrl: './page-header.component.scss',
   host: { class: 'app-page-header' },
@@ -27,6 +28,8 @@ export class PageHeaderComponent {
   withControlledBackButton = input(false);
 
   backClicked = output<void>();
+
+  matArrowBack = matArrowBack;
 
   onBackClicked() {
     if (this.withControlledBackButton()) {

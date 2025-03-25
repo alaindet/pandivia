@@ -9,7 +9,16 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import {
+  matCheck,
+  matClear,
+  matClose,
+  matExpandLess,
+  matExpandMore,
+  matMoreHoriz,
+  matPushPin,
+} from '@ng-icons/material-icons/baseline';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryItem } from '@app/features/inventory';
@@ -28,7 +37,7 @@ import {
 @Component({
   selector: 'app-card-list',
   imports: [
-    MatIconModule,
+    NgIcon,
     CheckboxComponent,
     ButtonComponent,
     ...ACTIONS_MENU_EXPORTS,
@@ -57,6 +66,14 @@ export class CardListComponent {
   pinned = output<boolean>();
   pinnedLabel = computed(() => this.labels()?.pinned);
   unpinnedLabel = computed(() => this.labels()?.unpinned);
+
+  matCheck = matCheck;
+  matClear = matClear;
+  matClose = matClose;
+  matExpandLess = matExpandLess;
+  matExpandMore = matExpandMore;
+  matMoreHoriz = matMoreHoriz;
+  matPushPin = matPushPin;
 
   @HostBinding('class.-muted-title')
   get cssClassMutedTitle() {

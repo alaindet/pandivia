@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matClose } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import {
@@ -13,8 +14,8 @@ import { ButtonComponent } from '../button';
 @Component({
   selector: 'app-change-category-modal',
   imports: [
-    MatIconModule,
     TranslocoModule,
+    NgIcon,
     ButtonComponent,
     ModalHeaderDirective,
     ModalFooterDirective,
@@ -28,6 +29,8 @@ export class ChangeCategoryModalComponent extends BaseModalComponent<
   ChangeCategoryModalInput,
   ChangeCategoryModalOutput
 > {
+  matClose = matClose;
+
   onSelectCategory(category: string) {
     this.modal.confirm({ category });
   }

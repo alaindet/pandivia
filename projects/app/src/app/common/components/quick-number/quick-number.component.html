@@ -10,7 +10,7 @@
   title="Decrement value"
   (click)="onDecrement()"
 >
-  <mat-icon>remove</mat-icon>
+  <ng-icon [svg]="matRemove" />
 </button>
 
 <span class="_value">{{ value() }}</span>
@@ -27,5 +27,5 @@
   title="Increment value"
   (click)="onIncrement()"
 >
-  <mat-icon>add</mat-icon>
+  <ng-icon [svg]="matAdd" />
 </button>

@@ -1,21 +1,20 @@
 <header>
   @if (isMobile()) {
-    <button
-      type="button"
-      class="_menu-button-header"
-      appButton="ghost"
-      isCircle
-      withIconOnly
-      (click)="openMenu()"
-    >
-      <mat-icon>menu</mat-icon>
-    </button>
+  <button
+    type="button"
+    class="_menu-button-header"
+    appButton="ghost"
+    isCircle
+    withIconOnly
+    (click)="openMenu()"
+  >
+    <ng-icon [svg]="matMenu" />
+  </button>
   }
   <ng-content select="[slot='header']" />
 </header>
 
 <div class="content">
-
   <main>
     <ng-content />
     <ng-content slot="main" />
@@ -24,16 +23,16 @@
   <aside>
     <div class="_menu-button-nav">
       @if (isMobile() && isOpen()) {
-        <button
-          type="button"
-          appButton="outline"
-          size="small"
-          withIcon="left"
-          (click)="closeMenu()"
-        >
-          <mat-icon>close</mat-icon>
-          Close
-        </button>
+      <button
+        type="button"
+        appButton="outline"
+        size="small"
+        withIcon="left"
+        (click)="closeMenu()"
+      >
+        <ng-icon [svg]="matClose" />
+        Close
+      </button>
       }
     </div>
     <ng-content select="[slot='aside']" />
@@ -41,6 +40,6 @@
 
   <!-- Backdrop -->
   @if (isMobile() && isOpen()) {
-    <div class="_backdrop" (click)="closeMenu()"></div>
+  <div class="_backdrop" (click)="closeMenu()"></div>
   }
 </div>

@@ -1,33 +1,40 @@
 import { ActionsMenuItem } from '@app/common/components';
+import {
+  matAddCircle,
+  matCheck,
+  matDelete,
+  matRemoveDone,
+  matUndo,
+} from '@ng-icons/material-icons/baseline';
 
 export const CATEGORY_ACTION_CREATE_ITEM: ActionsMenuItem = {
   id: 'category:create-item',
   label: 'common.menu.createNewItem',
-  icon: 'add_circle',
+  icon: matAddCircle,
 };
 
 export const CATEGORY_ACTION_COMPLETE: ActionsMenuItem = {
   id: 'category:complete',
   label: 'common.menu.completeAllItems',
-  icon: 'check',
+  icon: matCheck,
 };
 
 export const CATEGORY_ACTION_UNDO: ActionsMenuItem = {
   id: 'category:undo',
   label: 'common.menu.undoAllItems',
-  icon: 'undo',
+  icon: matUndo,
 };
 
 export const CATEGORY_ACTION_REMOVE_COMPLETED: ActionsMenuItem = {
   id: 'category:remove-completed',
   label: 'common.menu.removeCompletedItems',
-  icon: 'remove_done',
+  icon: matRemoveDone,
 };
 
 export const CATEGORY_ACTION_REMOVE: ActionsMenuItem = {
   id: 'category:remove',
   label: 'common.menu.removeAllItems',
-  icon: 'delete',
+  icon: matDelete,
 };
 
 export const CATEGORY_CONTEXTUAL_MENU = [

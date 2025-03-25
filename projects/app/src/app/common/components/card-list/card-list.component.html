@@ -20,7 +20,7 @@
         size="extra-small"
         (click)="onTogglePin()"
       >
-        <mat-icon>{{ isPinned() ? "clear" : "push_pin" }}</mat-icon>
+        <ng-icon [svg]="isPinned() ? matClear : matPushPin" size="1.2rem" />
         {{ isPinned() ? pinnedLabel() ?? "Unpin" : unpinnedLabel() ?? "Pin" }}
       </button>
     </div>
@@ -42,7 +42,7 @@
           isCircle
           size="small"
         >
-          <mat-icon>more_horiz</mat-icon>
+          <ng-icon [svg]="matMoreHoriz" />
         </button>
       </ng-container>
     </app-actions-menu>
@@ -50,7 +50,7 @@
 
   @if (isCompleted()) {
   <span class="_completed-mark">
-    <mat-icon>check</mat-icon>
+    <ng-icon [svg]="matCheck" />
   </span>
   }
 </div>
@@ -90,9 +90,13 @@
             size="small"
             (click)="onToggleDescription(item.id)"
           >
-            <mat-icon>{{
-              !!itemsDescriptionMap.get(item.id) ? "expand_less" : "expand_more"
-            }}</mat-icon>
+            <ng-icon
+              [svg]="
+                !!itemsDescriptionMap.get(item.id)
+                  ? matExpandLess
+                  : matExpandMore
+              "
+            />
           </button>
         </div>
         }
@@ -113,7 +117,7 @@
               isCircle
               size="small"
             >
-              <mat-icon>{{ open ? "close" : "more_horiz" }}</mat-icon>
+              <ng-icon [svg]="open ? matClose : matMoreHoriz" />
             </button>
           </ng-container>
         </app-actions-menu>
