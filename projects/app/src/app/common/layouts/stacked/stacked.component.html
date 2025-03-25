@@ -1,68 +1,67 @@
 <header>
   <app-page-header>
-
     <!-- Title with optional counters -->
-    <ng-container [ngTemplateOutlet]="!headerCounters()
-      ? headerWithoutCountersRef
-      : headerCounters()?.completed === null
-        ? headerWithCounterRef
-        : headerWithCountersRef"
+    <ng-container
+      [ngTemplateOutlet]="
+        !headerCounters()
+          ? headerWithoutCountersRef
+          : headerCounters()?.completed === null
+          ? headerWithCounterRef
+          : headerWithCountersRef
+      "
     />
 
     <div slot="right" class="_header-right">
-
       <!-- Search toggle -->
       @if (withSearch()) {
-        <button
-          type="button"
-          appButton="ghost"
-          isCircle
-          withIconOnly
-          (click)="onToggleSearchBar()"
-        >
-          <mat-icon>search</mat-icon>
-        </button>
+      <button
+        type="button"
+        appButton="ghost"
+        isCircle
+        withIconOnly
+        (click)="onToggleSearchBar()"
+      >
+        <ng-icon [svg]="matSearch" />
+      </button>
       }
 
       <!-- Actions -->
       @if (!!headerActions().length) {
-        <app-actions-menu
-          [id]="title()"
-          [actions]="headerActions()"
-          position="left"
-          (actionConfirmed)="onHeaderAction($event)"
+      <app-actions-menu
+        [id]="title()"
+        [actions]="headerActions()"
+        position="left"
+        (actionConfirmed)="onHeaderAction($event)"
+      >
+        <button
+          *appActionsMenuButton
+          type="button"
+          appButton="outline"
+          isCircle
+          withIconOnly
         >
-          <button
-            *appActionsMenuButton
-            type="button"
-            appButton="outline"
-            isCircle
-            withIconOnly
-          >
-            <mat-icon>more_horiz</mat-icon>
-          </button>
-        </app-actions-menu>
+          <ng-icon [svg]="matMoreHoriz" />
+        </button>
+      </app-actions-menu>
       }
-
     </div>
 
     @if (withVisibleSearch()) {
-      <app-text-input
-        #inputRef="app-text-input"
-        slot="sub-header"
-        class="_search-bar"
-        type="search"
-        id="search-bar"
-        [value]="searchQuery()"
-        [placeholder]="('common.searchItems' | transloco) + '...'"
-        [clearable]="true"
-        autocomplete="on"
-        [withFullWidth]="true"
-        (inputChanged)="searched.emit($event)"
-        (cleared)="searchCleared.emit()"
-      />
+    <app-text-input
+      #inputRef="app-text-input"
+      slot="sub-header"
+      class="_search-bar"
+      type="search"
+      id="search-bar"
+      [value]="searchQuery()"
+      [placeholder]="('common.searchItems' | transloco) + '...'"
+      [clearable]="true"
+      autocomplete="on"
+      [withFullWidth]="true"
+      (inputChanged)="searched.emit($event)"
+      (cleared)="searchCleared.emit()"
+    />
     }
-
   </app-page-header>
 </header>
 
@@ -87,9 +86,7 @@
 <ng-template #headerWithCounterRef>
   <h1 class="_title -with-counters">
     {{ title() }}
-    <div class="_counters">
-      ({{ headerCounters()!.total }})
-    </div>
+    <div class="_counters">({{ headerCounters()!.total }})</div>
   </h1>
 </ng-template>
 
@@ -98,7 +95,9 @@
   <h1 class="_title -with-counters">
     {{ title() }}
     <div class="_counters">
-      ({{ headerCounters()!.completed }} / <strong>{{ headerCounters()!.total }}</strong>)
+      ({{ headerCounters()!.completed }} /
+      <strong>{{ headerCounters()!.total }}</strong
+      >)
     </div>
   </h1>
 </ng-template>

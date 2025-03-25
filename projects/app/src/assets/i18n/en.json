@@ -9,7 +9,6 @@
   "list.filter.onlyCompleted": "Only completed items",
   "list.noItems": "No items are currently present on the List. Add one with the (+) button on the bottom of the page.",
   "list.errorStatus": "An error occurred while downloading items for the List. Try again by selecting the \"Refresh\" action from the top menu.",
-
   "inventory.title": "Inventory",
   "inventory.error.itemNoFound": "Inventory item with ID \"{{ id }}\" not found",
   "inventory.menu.addToList": "Add to List page",
@@ -19,7 +18,6 @@
   "inventory.cloneFromList.error": "Cannot create item into the Inventory",
   "inventory.cloneCategoryToList.success": "Elements from category  \"{{ categoryName }}\" copied into the List successfully",
   "inventory.cloneCategoryToList.error": "Error while copying elements from category \"{{ categoryName }} into the List\"",
-
   "userProfile.title": "User",
   "userProfile.info": "Info",
   "userProfile.theme": "Theme",
@@ -28,7 +26,6 @@
   "userProfile.registeredOn": "Registered on",
   "userProfile.lastSignedInOn": "Last signed in on",
   "userProfile.preferences": "Preferences",
-
   "auth.signIn": "Sign In",
   "auth.signInSuccess": "Signed in successfully",
   "auth.signInError": "Error while trying to sign in",
@@ -38,23 +35,20 @@
   "auth.signUp": "Sign Up",
   "auth.signUpSuccess": "You successfully signed up",
   "auth.signUpError": "Error while trying to sign up. The email you provided could be already in use or password could be invalid",
-
-  "inviteUser.title": "Invite user",
+  "inviteUser.title": "Invite user by email",
   "inviteUser.emailPlaceholder": "Enter a valid email to invite",
   "inviteUser.generateLink": "Generate link",
   "inviteUser.generationSuccess": "Generated invitation copied to clipboard",
   "inviteUser.generationError": "Error while generating invite",
-  "inviteUser.linkDescription": "Please send this link to your friend to sign up. The link expires within 24 hours from now",
+  "inviteUser.linkDescription": "Please send this link to the invited user. The link expires within 24 hours from now",
   "inviteUser.invalidInvite": "Missing or invalid invite",
   "inviteUser.emailMustMatchInvite": "Email must match '{{ email }}'",
-
   "components.autocomplete.loading": "Loading...",
   "components.autocomplete.nothingFound": "Nothing found",
   "components.modal.cancel": "Cancel",
   "components.modal.confirm": "Confirm",
   "components.modal.canceled": "Modal was canceled",
   "components.select.defaultLabel": "Select...",
-
   "common.error.email": "Must be a valid email",
   "common.error.required": "Required",
   "common.error.minMaxLength": "Must be between {{ min }} and {{ max }} characters long",
@@ -62,6 +56,7 @@
   "common.error.uniqueName": "This name already exists",
   "common.error.onlyOneCategory": "No other category exists yet",
   "common.form.field.name": "Name",
+  "common.form.field.email": "Email",
   "common.form.field.description": "Description",
   "common.form.field.category": "Category",
   "common.form.field.amount": "Amount",

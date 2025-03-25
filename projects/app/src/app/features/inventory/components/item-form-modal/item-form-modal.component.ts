@@ -5,9 +5,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@jsverse/transloco';
-import { Observable, Subject, map, takeUntil } from 'rxjs';
+import { NgIcon } from '@ng-icons/core';
+import {
+  matClear,
+  matSync,
+  matEdit,
+  matPlaylistAdd,
+  matAdd,
+} from '@ng-icons/material-icons/baseline';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import {
   AUTOCOMPLETE_EXPORTS,
@@ -18,11 +25,8 @@ import {
   FORM_FIELD_EXPORTS,
   ModalFooterDirective,
   ModalHeaderDirective,
-  QuickNumberComponent,
-  SelectComponent,
   TextInputComponent,
   TextareaComponent,
-  ToggleComponent,
 } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { MediaQueryService } from '@app/common/services';
@@ -43,9 +47,9 @@ import {
 @Component({
   selector: 'app-inventory-item-form-modal',
   imports: [
-    MatIconModule,
     ReactiveFormsModule,
     TranslocoModule,
+    NgIcon,
     ModalHeaderDirective,
     ModalFooterDirective,
     TextInputComponent,
@@ -74,6 +78,12 @@ export class InventoryItemFormModalComponent
   isEditing = signal(false);
   isSaving = this.inventoryStore.isLoading;
   shouldContinue = false;
+
+  matClear = matClear;
+  matSync = matSync;
+  matEdit = matEdit;
+  matPlaylistAdd = matPlaylistAdd;
+  matAdd = matAdd;
 
   get fName() {
     return fDescribe(this.theForm, FIELD.NAME.id);

@@ -5,7 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matPerson } from '@ng-icons/material-icons/baseline';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
@@ -30,7 +31,7 @@ import { SIGNUP_FIELD as FIELD } from './fields';
     ReactiveFormsModule,
     TranslocoModule,
     PageHeaderComponent,
-    MatIconModule,
+    NgIcon,
     TextInputComponent,
     ButtonComponent,
     ...FORM_FIELD_EXPORTS,
@@ -46,12 +47,13 @@ export default class SignUpPageComponent implements OnInit {
   private uiStore = inject(UiStore);
   private invitesService = inject(InvitesService);
 
+  emailRef = viewChild.required('emailRef', { read: TextInputComponent });
+
   private inviteId = this.route.snapshot.queryParams['invite'];
   invite?: UserInvite;
   theForm!: FormGroup;
   FIELD = FIELD;
-
-  emailRef = viewChild.required('emailRef', { read: TextInputComponent });
+  matPerson = matPerson;
 
   get fName() {
     return fDescribe(this.theForm, FIELD.NAME.id);

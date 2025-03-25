@@ -9,7 +9,6 @@
   "list.filter.onlyCompleted": "Solo elementi completati",
   "list.noItems": "Nessun elemento attualmente presente nella Lista. Aggiungine uno con il bottone (+) in fondo alla pagina.",
   "list.errorStatus": "Impossibile scaricare gli elementi della Lista. Riprovare selezionando la voce \"Aggiorna\" dal menu in alto.",
-
   "inventory.title": "Inventario",
   "inventory.error.itemNoFound": "Elemento di Inventario con ID \"{{ id }}\" non trovato",
   "inventory.menu.addToList": "Aggiunti alla pagina Lista",
@@ -19,7 +18,6 @@
   "inventory.cloneFromList.error": "Impossibile creare l'elemento nell'Inventario",
   "inventory.cloneCategoryToList.success": "Elementi della categoria  \"{{ categoryName }}\" copiati nella Lista con successo",
   "inventory.cloneCategoryToList.error": "Impossibile copiare nella Lista gli elementi della categoria \"{{ categoryName }}\"",
-
   "userProfile.title": "Utente",
   "userProfile.info": "Informazioni",
   "userProfile.theme": "Tema",
@@ -28,7 +26,6 @@
   "userProfile.registeredOn": "Registrato/a il",
   "userProfile.lastSignedInOn": "Ultimo accesso",
   "userProfile.preferences": "Preferenze",
-
   "auth.signIn": "Accedi",
   "auth.signInSuccess": "Accesso effettuato",
   "auth.signInError": "Impossibile accedere",
@@ -38,23 +35,20 @@
   "auth.signUp": "Registrati",
   "auth.signUpSuccess": "Registrazione avvenuta con successo",
   "auth.signUpError": "Impossibile registrare l'utente. La email fornita potrebbe essere già in uso o la password potrebbe non accettabile",
-
-  "inviteUser.title": "Invita utente",
+  "inviteUser.title": "Invita utente via email",
   "inviteUser.emailPlaceholder": "Inserisci una email valida da invitare",
   "inviteUser.generateLink": "Crea link",
   "inviteUser.generationSuccess": "Invito generato copiato negli appunti",
   "inviteUser.generationError": "Impossibile generare invito",
-  "inviteUser.linkDescription": "Invia questo link ad un amico/a per registrarsi. Il link scade entro in 24 ore da ora",
+  "inviteUser.linkDescription": "Invia questo link all'utente invitato. Il link scade entro in 24 ore da ora",
   "inviteUser.invalidInvite": "Invito mancante o non valido",
   "inviteUser.emailMustMatchInvite": "L'email deve essere uguale a '{{ email }}'",
-
   "components.autocomplete.loading": "Caricamento...",
   "components.autocomplete.nothingFound": "Nessun risultato",
   "components.modal.cancel": "Cancella",
   "components.modal.confirm": "Conferma",
   "components.modal.canceled": "La modale è stata cancellata",
   "components.select.defaultLabel": "Seleziona...",
-
   "common.error.email": "Deve essere una email valida",
   "common.error.required": "Obbligatorio",
   "common.error.minMaxLength": "Deve contenere da {{ min }} a {{ max }} caratteri",
@@ -62,6 +56,7 @@
   "common.error.uniqueName": "Questo nome già esiste",
   "common.error.onlyOneCategory": "Al momento non esistono altre categorie",
   "common.form.field.name": "Nome",
+  "common.form.field.email": "Email",
   "common.form.field.description": "Descrizione",
   "common.form.field.category": "Categoria",
   "common.form.field.amount": "Quantità",

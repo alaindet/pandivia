@@ -7,7 +7,8 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matSearch, matMoreHoriz } from '@ng-icons/material-icons/baseline';
 
 import {
   ACTIONS_MENU_EXPORTS,
@@ -25,11 +26,11 @@ import { Counters } from '../../types';
   selector: 'app-layout-stacked',
   imports: [
     NgTemplateOutlet,
+    NgIcon,
     ...ACTIONS_MENU_EXPORTS,
     PageHeaderComponent,
     ButtonComponent,
     BottomMenuComponent,
-    MatIconModule,
     TextInputComponent,
     TranslocoModule,
   ],
@@ -61,6 +62,9 @@ export class StackedLayoutComponent {
       queueMicrotask(() => this.inputRef()?.focus());
     }
   });
+
+  matSearch = matSearch;
+  matMoreHoriz = matMoreHoriz;
 
   onHeaderAction(action: string) {
     this.headerActionClicked.emit(action);

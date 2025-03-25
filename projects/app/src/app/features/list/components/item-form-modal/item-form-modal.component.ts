@@ -5,7 +5,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import {
+  matClear,
+  matSync,
+  matEdit,
+  matPlaylistAdd,
+  matAdd,
+} from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -19,7 +26,6 @@ import {
   ModalFooterDirective,
   ModalHeaderDirective,
   QuickNumberComponent,
-  SelectComponent,
   TextInputComponent,
   TextareaComponent,
   ToggleComponent,
@@ -46,7 +52,7 @@ import {
   selector: 'app-list-item-form-modal',
   imports: [
     ReactiveFormsModule,
-    MatIconModule,
+    NgIcon,
     TranslocoModule,
     ModalHeaderDirective,
     ModalFooterDirective,
@@ -78,6 +84,12 @@ export class ListItemFormModalComponent
   isSaving = this.uiStore.loader.loading;
   shouldContinue = false;
   themeConfig = this.uiStore.theme.config;
+
+  matClear = matClear;
+  matAdd = matAdd;
+  matSync = matSync;
+  matEdit = matEdit;
+  matPlaylistAdd = matPlaylistAdd;
 
   get fName() {
     return fDescribe(this.theForm, FIELD.NAME.id);
