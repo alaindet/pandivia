@@ -22,14 +22,14 @@
     "@angular/common": "^19.2.3",
     "@angular/compiler": "^19.2.3",
     "@angular/core": "^19.2.3",
-    "@angular/fire": "^18.0.1",
+    "@angular/fire": "^19.0.0",
     "@angular/forms": "^19.2.3",
     "@angular/material": "^19.2.6",
     "@angular/platform-browser": "^19.2.3",
     "@angular/platform-browser-dynamic": "^19.2.3",
     "@angular/router": "^19.2.3",
     "@angular/service-worker": "^19.2.3",
-    "@jsverse/transloco": "^7.4.2",
+    "@jsverse/transloco": "^7.6.1",
     "focusable-selectors": "^0.8.0",
     "rxfire": "^6.0.3",
     "rxjs": "~7.8.0",
@@ -51,7 +51,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "~5.5.3",
+    "typescript": "^5.8.2",
     "webpack-bundle-analyzer": "^4.9.0"
   }
 }
