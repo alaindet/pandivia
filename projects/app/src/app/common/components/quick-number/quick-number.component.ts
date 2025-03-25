@@ -1,5 +1,20 @@
-import { Component, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  HostBinding,
+  Provider,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { uniqueId } from '@app/common/utils';
@@ -11,16 +26,9 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   multi: true,
 };
 
-const imports = [
-  MatIconModule,
-  ReactiveFormsModule,
-  ButtonComponent,
-];
-
 @Component({
   selector: 'app-quick-number',
-  standalone: true,
-  imports,
+  imports: [MatIconModule, ReactiveFormsModule, ButtonComponent],
   templateUrl: './quick-number.component.html',
   styleUrl: './quick-number.component.scss',
   host: { class: 'app-quick-number' },
@@ -28,7 +36,6 @@ const imports = [
   providers: [QUICK_NUMBER_FORM_PROVIDER],
 })
 export class QuickNumberComponent implements ControlValueAccessor {
-
   _id = input<string>('', { alias: 'id' });
   _value = input<number>(1, { alias: 'value' });
   color = input<ButtonColor>('primary');
@@ -64,37 +71,33 @@ export class QuickNumberComponent implements ControlValueAccessor {
   private onChange!: (value: number | null) => void;
   private onTouched!: () => void;
 
-  valueEffect = effect(() => this.value.set(this._value()), {
-    allowSignalWrites: true,
-  });
+  valueEffect = effect(() => this.value.set(this._value()));
 
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
-    allowSignalWrites: true,
-  });
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   // @publicApi
   decrement() {
     if (this.isDisabled()) return;
-    this.value.update(value => value - 1);
+    this.value.update((value) => value - 1);
   }
 
   // @publicApi
   increment() {
     if (this.isDisabled()) return;
-    this.value.update(value => value + 1);
+    this.value.update((value) => value + 1);
   }
 
   onDecrement() {
-    this.updateAndOutputValue(value => value - 1);
+    this.updateAndOutputValue((value) => value - 1);
   }
 
   onIncrement() {
-    this.updateAndOutputValue(value => value + 1);
+    this.updateAndOutputValue((value) => value + 1);
   }
 
   // ControlValueAccessor
   writeValue(value: number | null | any): void {
-    const newValue = (value === null || typeof value !== 'number') ? 1 : value;
+    const newValue = value === null || typeof value !== 'number' ? 1 : value;
     this.value.set(newValue);
   }
 
@@ -114,7 +117,6 @@ export class QuickNumberComponent implements ControlValueAccessor {
   }
 
   private updateAndOutputValue(fn: (value: number) => number) {
-
     const newValue = fn(this.value());
     this.changed.emit(newValue);
 

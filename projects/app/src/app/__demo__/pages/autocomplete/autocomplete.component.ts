@@ -1,36 +1,45 @@
 import { Component } from '@angular/core';
 import { JsonPipe } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Observable, delay, of } from 'rxjs';
 
-import { TextInputComponent, FormFieldComponent, AutocompleteAsyncOptionsFn, AutocompleteOption, FormFieldLabelComponent } from '@app/common/components';
+import {
+  TextInputComponent,
+  FormFieldComponent,
+  AutocompleteAsyncOptionsFn,
+  AutocompleteOption,
+  FormFieldLabelComponent,
+} from '@app/common/components';
 import { AUTOCOMPLETE_EXPORTS } from '@app/common/components/autocomplete';
 import { OPTIONS } from './options';
 
-const imports = [
-  ReactiveFormsModule,
-  JsonPipe,
-  TextInputComponent,
-  ...AUTOCOMPLETE_EXPORTS,
-  FormFieldComponent,
-  FormFieldLabelComponent,
-];
-
 @Component({
   selector: 'app-demo-autocomplete',
-  standalone: true,
-  imports,
+  imports: [
+    ReactiveFormsModule,
+    JsonPipe,
+    TextInputComponent,
+    ...AUTOCOMPLETE_EXPORTS,
+    FormFieldComponent,
+    FormFieldLabelComponent,
+  ],
   templateUrl: './autocomplete.component.html',
 })
 export class AutocompleteDemoPageComponent {
-
   consoleLog = console.log;
   options = OPTIONS;
 
   asyncOptions: AutocompleteAsyncOptionsFn = (
-    query: string,
+    query: string
   ): Observable<AutocompleteOption[]> => {
-    const filteredOptions = this.options.filter(opt => opt.id.includes(query));
+    const filteredOptions = this.options.filter((opt) =>
+      opt.id.includes(query)
+    );
     return of(filteredOptions).pipe(delay(800));
   };
 

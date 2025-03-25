@@ -4,10 +4,8 @@ import { ModalService } from './modal.service';
 
 @Directive({
   selector: '[appModalHeader]',
-  standalone: true,
 })
 export class ModalHeaderDirective implements OnInit {
-
   template = inject(TemplateRef<void>);
   modalService = inject(ModalService);
 

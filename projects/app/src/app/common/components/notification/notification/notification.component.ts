@@ -1,4 +1,17 @@
-import { ChangeDetectionStrategy, Component, EffectCleanupRegisterFn, ElementRef, HostBinding, Renderer2, ViewEncapsulation, effect, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EffectCleanupRegisterFn,
+  ElementRef,
+  HostBinding,
+  Renderer2,
+  ViewEncapsulation,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { NOTIFICATION_TYPE, NotificationType } from '@app/common/types';
@@ -9,14 +22,9 @@ const NOTIFICATION_ICON: Record<NotificationType, string> = {
   [NOTIFICATION_TYPE.ERROR]: 'report_problem',
 };
 
-const imports = [
-  MatIconModule,
-];
-
 @Component({
   selector: 'app-notification',
-  standalone: true,
-  imports,
+  imports: [MatIconModule],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss',
   host: { class: 'app-notification' },
@@ -24,7 +32,6 @@ const imports = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationComponent {
-
   private host = inject(ElementRef);
   private renderer = inject(Renderer2);
 
@@ -44,9 +51,7 @@ export class NotificationComponent {
     this.cssDuration = `${this.dismissAfter()}ms`;
   });
 
-  notificationEffect = effect(this.effectOnNotificationType.bind(this), {
-    allowSignalWrites: true,
-  });
+  notificationEffect = effect(this.effectOnNotificationType.bind(this));
 
   notificationIdEffect = effect(() => {
     this.notificationId(); // <-- Create dependency
@@ -57,7 +62,10 @@ export class NotificationComponent {
   private effectOnNotificationType(onCleanup: EffectCleanupRegisterFn): void {
     const notificationType = this.notificationType();
     this.notificationIcon.set(NOTIFICATION_ICON[notificationType]);
-    this.renderer.addClass(this.host.nativeElement, `-type-${notificationType}`);
+    this.renderer.addClass(
+      this.host.nativeElement,
+      `-type-${notificationType}`
+    );
 
     onCleanup(() => {
       const cssPrev = `-type-${notificationType}`;

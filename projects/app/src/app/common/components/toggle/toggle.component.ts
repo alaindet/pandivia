@@ -1,8 +1,23 @@
-import { Component, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Provider,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { cssClassesList, uniqueId } from '@app/common/utils';
-import { TOGGLE_LABEL_POSITION, ToggleColor, ToggleLabelPosition } from './types';
+import {
+  TOGGLE_LABEL_POSITION,
+  ToggleColor,
+  ToggleLabelPosition,
+} from './types';
 
 const TOGGLE_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -12,7 +27,6 @@ const TOGGLE_FORM_PROVIDER: Provider = {
 
 @Component({
   selector: 'app-toggle',
-  standalone: true,
   templateUrl: './toggle.component.html',
   styleUrl: './toggle.component.scss',
   host: { class: 'app-toggle' },
@@ -20,7 +34,6 @@ const TOGGLE_FORM_PROVIDER: Provider = {
   providers: [TOGGLE_FORM_PROVIDER],
 })
 export class ToggleComponent implements ControlValueAccessor {
-
   _id = input('', { alias: 'id' });
   title = input<string>();
   color = input<ToggleColor>('primary');
@@ -63,18 +76,15 @@ export class ToggleComponent implements ControlValueAccessor {
   toggleValue = signal(false);
   id = computed(() => uniqueId(this._id(), 'app-toggle'));
   idLabel = computed(() => `${this.id()}-label`);
-  cssClass = computed(() => cssClassesList([
-    `-with-label-${this.withLabel()}`,
-    `-color-${this.color()}`,
-  ]));
+  cssClass = computed(() =>
+    cssClassesList([
+      `-with-label-${this.withLabel()}`,
+      `-color-${this.color()}`,
+    ])
+  );
 
-  checkedEffect = effect(() => this.isChecked.set(this._isChecked()), {
-    allowSignalWrites: true,
-  });
-
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
-    allowSignalWrites: true,
-  });
+  checkedEffect = effect(() => this.isChecked.set(this._isChecked()));
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   private onChange!: (val: any) => {};
   private onTouched!: () => {};

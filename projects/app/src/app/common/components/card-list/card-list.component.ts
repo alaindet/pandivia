@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, computed, effect, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  computed,
+  effect,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
@@ -7,19 +17,22 @@ import { ListItem } from '@app/features/list';
 import { ButtonComponent } from '../button';
 import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
-import { CardListComponentLabels, CardListCounters, ItemActionOutput, ItemActionsFn, ItemToggledOutput } from './types';
-
-const imports = [
-  MatIconModule,
-  CheckboxComponent,
-  ButtonComponent,
-  ...ACTIONS_MENU_EXPORTS,
-];
+import {
+  CardListComponentLabels,
+  CardListCounters,
+  ItemActionOutput,
+  ItemActionsFn,
+  ItemToggledOutput,
+} from './types';
 
 @Component({
   selector: 'app-card-list',
-  standalone: true,
-  imports,
+  imports: [
+    MatIconModule,
+    CheckboxComponent,
+    ButtonComponent,
+    ...ACTIONS_MENU_EXPORTS,
+  ],
   templateUrl: './card-list.component.html',
   styleUrl: './card-list.component.scss',
   host: { class: 'app-card-list' },
@@ -27,7 +40,6 @@ const imports = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardListComponent {
-
   title = input.required<string>();
   listActions = input.required<ActionsMenuItem[]>();
   items = input.required<any[]>();
@@ -74,11 +86,11 @@ export class CardListComponent {
     if (this.withCounters()) {
       this.updateCounters(items as ListItem[]);
     }
-  }, { allowSignalWrites: true });
+  });
 
   isPinnedEffect = effect(() => {
     this.isPinned.set(this._isPinned());
-  }, { allowSignalWrites: true });
+  });
 
   onListAction(action: string) {
     this.listActionClicked.emit(action);
@@ -95,7 +107,7 @@ export class CardListComponent {
       return;
     }
     const items = this.items() as ListItem[];
-    const isDone = !items.find(it => it.id === itemId)?.isDone;
+    const isDone = !items.find((it) => it.id === itemId)?.isDone;
     this.itemToggled.emit({ itemId, isDone });
   }
 
@@ -122,17 +134,17 @@ export class CardListComponent {
   }
 
   private updateActionsByItemMap(
-    items: ListItem[] | InventoryItem[],
+    items: ListItem[] | InventoryItem[]
   ): Map<string, ActionsMenuItem[]> {
     const itemActionsMap = new Map<string, ActionsMenuItem[]>();
     const fn = this.itemActionsFn();
-    items.forEach(item => itemActionsMap.set(item.id, fn(item)));
+    items.forEach((item) => itemActionsMap.set(item.id, fn(item)));
     return itemActionsMap;
   }
 
   private updateCounters(items: ListItem[]) {
     let done = 0;
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item.isDone) {
         done++;
       }

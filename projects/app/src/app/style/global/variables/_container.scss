@@ -1,0 +1,9 @@
+@mixin app-vars-container() {
+  // In mobile view, the container takes all width
+  --app-width-container: 100vw;
+
+  @media (min-width: 1024px) {
+    // In desktop view, the container gets fixed width
+    --app-width-container: #{$app-width-container};
+  }
+}

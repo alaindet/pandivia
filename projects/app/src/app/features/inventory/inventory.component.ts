@@ -1,10 +1,27 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, OnDestroy, OnInit, computed, effect, inject } from '@angular/core';
-import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  computed,
+  effect,
+  inject,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 
-import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, CardListComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ConfirmPromptModalOutput, ItemActionOutput, ModalService, PageHeaderComponent } from '@app/common/components';
+import {
+  ACTIONS_MENU_EXPORTS,
+  ActionsMenuItem,
+  ButtonComponent,
+  CardListComponent,
+  ConfirmPromptModalComponent,
+  ConfirmPromptModalInput,
+  ConfirmPromptModalOutput,
+  ItemActionOutput,
+  ModalService,
+} from '@app/common/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { StackedLayoutService } from '@app/common/layouts';
 import { filterNull } from '@app/common/rxjs';
@@ -14,7 +31,10 @@ import { NAVIGATION_ITEM_INVENTORY, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { CreateListItemDto } from '@app/features/list';
 import { ListStore } from '../list/store';
-import { InventoryItemFormModalComponent, InventoryItemFormModalInput } from './components/item-form-modal';
+import {
+  InventoryItemFormModalComponent,
+  InventoryItemFormModalInput,
+} from './components/item-form-modal';
 import { CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT } from './constants';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
@@ -22,25 +42,20 @@ import * as listMenu from './contextual-menus/list';
 import { InventoryStore } from './store';
 import { InventoryFilterToken, InventoryItem } from './types';
 
-const imports = [
-  NgTemplateOutlet,
-  PageHeaderComponent,
-  ...ACTIONS_MENU_EXPORTS,
-  MatIconModule,
-  ButtonComponent,
-  CardListComponent,
-  TranslocoModule,
-];
-
 @Component({
   selector: 'app-inventory-page',
-  standalone: true,
-  imports,
+  imports: [
+    NgTemplateOutlet,
+    ...ACTIONS_MENU_EXPORTS,
+    MatIconModule,
+    ButtonComponent,
+    CardListComponent,
+    TranslocoModule,
+  ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.scss',
 })
 export class InventoryPageComponent implements OnInit, OnDestroy {
-
   private destroy$ = new Subject<void>();
   private inventoryStore = inject(InventoryStore);
   private uiStore = inject(UiStore);
@@ -60,9 +75,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   filters = computed(() => this.computeTranslatedFilters());
   pinnedCategory = this.inventoryStore.categoryFilter;
   counters = this.inventoryStore.counters;
-  pageCountersEffect = effect(() => this.layout.headerCounters.set(this.counters()), {
-    allowSignalWrites: true
-  });
+  pageCountersEffect = effect(() =>
+    this.layout.headerCounters.set(this.counters())
+  );
 
   ngOnInit() {
     this.initPageMetadata();
@@ -79,29 +94,15 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
   onListAction(action: string) {
     switch (action) {
-
       case listMenu.LIST_ACTION_REFRESH.id: {
         this.inventoryStore.allItems.fetch(true);
         break;
       }
-
-      // case listMenu.LIST_ACTION_REMOVE.id: {
-      //   const title = this.transloco.translate(LIST_REMOVE_PROMPT.title);
-      //   const message = this.transloco.translate(LIST_REMOVE_PROMPT.message);
-      //   const prompt = { ...LIST_REMOVE_PROMPT, title, message };
-
-      //   this.confirmPrompt(prompt).subscribe({
-      //     error: () => console.log('Canceled'),
-      //     next: () => this.inventoryStore.allItems.remove(),
-      //   });
-      //   break;
-      // }
     }
   }
 
   onCategoryAction(category: string, action: string) {
     switch (action) {
-
       case categoryMenu.CATEGORY_ACTION_CREATE_ITEM.id: {
         this.showCreateItemByCategoryModal(category);
         break;
@@ -109,7 +110,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
       case categoryMenu.CATEGORY_ACTION_ADD_TO_LIST.id: {
         this.listStore.categoryItems.cloneFromInventory(
-          this.inventoryStore.filterItemsByCategory(category),
+          this.inventoryStore.filterItemsByCategory(category)
         );
         break;
       }
@@ -131,8 +132,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   onItemAction({ itemId, action }: ItemActionOutput) {
-    switch(action) {
-
+    switch (action) {
       case itemMenu.ITEM_ACTION_ADD_TO_LIST.id:
         this.cloneItemToList(itemId);
         break;
@@ -180,10 +180,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private getTranslatedItemContextualMenuFn(): (
-    (item: InventoryItem) => ActionsMenuItem[]
-  ) {
+    item: InventoryItem
+  ) => ActionsMenuItem[] {
     return (item: InventoryItem) => {
-      return itemMenu.getItemContextualMenu(item).map(action => {
+      return itemMenu.getItemContextualMenu(item).map((action) => {
         const label = this.transloco.translate(action.label);
         return { ...action, label };
       });
@@ -197,7 +197,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       return null;
     }
 
-    return filtersList.map(filter => {
+    return filtersList.map((filter) => {
       if (filter.label === DEFAULT_CATEGORY) {
         return { ...filter, label: 'common.uncategorized' };
       }
@@ -215,7 +215,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private initListContextualMenu(): void {
-    const actions = listMenu.LIST_CONTEXTUAL_MENU.map(action => {
+    const actions = listMenu.LIST_CONTEXTUAL_MENU.map((action) => {
       const label = this.transloco.translate(action.label);
       return { ...action, label };
     });
@@ -226,7 +226,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private initCategoryContextualMenu(): void {
-    const actions = categoryMenu.CATEGORY_CONTEXTUAL_MENU.map(action => {
+    const actions = categoryMenu.CATEGORY_CONTEXTUAL_MENU.map((action) => {
       const label = this.transloco.translate(action.label);
       return { ...action, label };
     });
@@ -236,7 +236,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   private initSearchFeature(): void {
     this.layout.search.enable();
 
-    this.layout.search.searched.subscribe(searchQuery => {
+    this.layout.search.searched.subscribe((searchQuery) => {
       if (!searchQuery) {
         this.inventoryStore.searchFilters.clearSearchQuery();
         return;
@@ -251,7 +251,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private confirmPrompt(
-    input: ConfirmPromptModalInput,
+    input: ConfirmPromptModalInput
   ): Observable<ConfirmPromptModalOutput> {
     const modal$ = this.modal.open(ConfirmPromptModalComponent, input);
     return modal$.closed().pipe(take(1));
@@ -275,9 +275,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private cloneItemToList(itemId: string): void {
-
     const inventoryItem = this.inventoryStore.getItemById(itemId)()!;
-    const listItem = this.listStore.itemExistsWithExactName(inventoryItem.name)();
+    const listItem = this.listStore.itemExistsWithExactName(
+      inventoryItem.name
+    )();
 
     if (listItem !== null) {
       const name = inventoryItem.name;
@@ -296,7 +297,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private showMoveToCategoryModal(itemId: string): void {
-    const translatedUncategorized = this.transloco.translate('common.uncategorized');
+    const translatedUncategorized = this.transloco.translate(
+      'common.uncategorized'
+    );
 
     const translateCategory = (category: string): string => {
       if (category !== DEFAULT_CATEGORY) return category;
@@ -305,9 +308,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
 
     const item = this.inventoryStore.getItemById(itemId)()!;
     const title = this.transloco.translate('common.menu.moveToCategory');
-    const categories = this.inventoryStore.categories()
-      .filter(category => category !== item.category)
-      .map(category => translateCategory(category));
+    const categories = this.inventoryStore
+      .categories()
+      .filter((category) => category !== item.category)
+      .map((category) => translateCategory(category));
 
     if (!categories.length) {
       this.uiStore.notifications.error('common.error.onlyOneCategory');
@@ -320,14 +324,14 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       .pipe(
         catchError(() => of(null)),
         take(1),
-        filterNull(),
+        filterNull()
       );
 
-    selectedCategory$.subscribe(payload => {
-
-      const category = (payload.category === translatedUncategorized)
-        ? DEFAULT_CATEGORY
-        : payload.category;
+    selectedCategory$.subscribe((payload) => {
+      const category =
+        payload.category === translatedUncategorized
+          ? DEFAULT_CATEGORY
+          : payload.category;
 
       this.inventoryStore.item.edit({ ...item, category });
     });

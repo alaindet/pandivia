@@ -1,24 +1,21 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { SelectComponent } from '@app/common/components';
 import { FormOption } from '@app/common/types';
 
-const imports = [
-  JsonPipe,
-  ReactiveFormsModule,
-  SelectComponent,
-];
-
 @Component({
   selector: 'app-demo-select',
-  standalone: true,
-  imports,
+  imports: [JsonPipe, ReactiveFormsModule, SelectComponent],
   templateUrl: './select.component.html',
 })
 export class SelectDemoPageComponent {
-
   consoleLog = console.log;
 
   options: FormOption<string>[] = [

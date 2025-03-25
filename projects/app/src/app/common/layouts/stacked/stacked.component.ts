@@ -1,33 +1,44 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ViewEncapsulation, effect, input, output, viewChild } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  effect,
+  input,
+  output,
+  viewChild,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, BottomMenuComponent, BottomMenuItem, ButtonComponent, PageHeaderComponent, TextInputComponent } from '@app/common/components';
+import {
+  ACTIONS_MENU_EXPORTS,
+  ActionsMenuItem,
+  BottomMenuComponent,
+  BottomMenuItem,
+  ButtonComponent,
+  PageHeaderComponent,
+  TextInputComponent,
+} from '@app/common/components';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Counters } from '../../types';
 
-const imports = [
-  NgTemplateOutlet,
-  ...ACTIONS_MENU_EXPORTS,
-  PageHeaderComponent,
-  ButtonComponent,
-  BottomMenuComponent,
-  MatIconModule,
-  TextInputComponent,
-  TranslocoModule,
-];
-
 @Component({
   selector: 'app-layout-stacked',
-  standalone: true,
-  imports,
+  imports: [
+    NgTemplateOutlet,
+    ...ACTIONS_MENU_EXPORTS,
+    PageHeaderComponent,
+    ButtonComponent,
+    BottomMenuComponent,
+    MatIconModule,
+    TextInputComponent,
+    TranslocoModule,
+  ],
   templateUrl: './stacked.component.html',
   styleUrl: './stacked.component.scss',
   host: { class: 'app-layout-stacked' },
   encapsulation: ViewEncapsulation.None,
 })
 export class StackedLayoutComponent {
-
   title = input.required<string>();
   headerActions = input.required<ActionsMenuItem[]>();
   headerCounters = input<Counters | null>(null);

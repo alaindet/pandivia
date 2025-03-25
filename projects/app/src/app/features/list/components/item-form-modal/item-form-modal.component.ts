@@ -1,10 +1,29 @@
 import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { AUTOCOMPLETE_EXPORTS, AutocompleteAsyncOptionsFn, AutocompleteOption, BaseModalComponent, ButtonComponent, FORM_FIELD_EXPORTS, ModalFooterDirective, ModalHeaderDirective, QuickNumberComponent, SelectComponent, TextInputComponent, TextareaComponent, ToggleComponent } from '@app/common/components';
+import {
+  AUTOCOMPLETE_EXPORTS,
+  AutocompleteAsyncOptionsFn,
+  AutocompleteOption,
+  BaseModalComponent,
+  ButtonComponent,
+  FORM_FIELD_EXPORTS,
+  ModalFooterDirective,
+  ModalHeaderDirective,
+  QuickNumberComponent,
+  SelectComponent,
+  TextInputComponent,
+  TextareaComponent,
+  ToggleComponent,
+} from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { MediaQueryService } from '@app/common/services';
 import { FormOption } from '@app/common/types';
@@ -16,37 +35,37 @@ import { ListStore } from '../../store';
 import { ListItem } from '../../types';
 import { uniqueListItemNameValidator } from '../../validators';
 import { LIST_ITEM_FORM_FIELD as FIELD } from './fields';
-import { CreateListItemFormModalOutput, EditListItemFormModalOutput, ListItemFormModalInput, ListItemFormModalOutput } from './types';
-
-const imports = [
-  ReactiveFormsModule,
-  MatIconModule,
-  TranslocoModule,
-  ModalHeaderDirective,
-  ModalFooterDirective,
-  TextInputComponent,
-  QuickNumberComponent,
-  SelectComponent,
-  ToggleComponent,
-  TextareaComponent,
-  ButtonComponent,
-  ...FORM_FIELD_EXPORTS,
-  ...AUTOCOMPLETE_EXPORTS,
-  ...FIELD_PIPES_EXPORTS,
-];
+import {
+  CreateListItemFormModalOutput,
+  EditListItemFormModalOutput,
+  ListItemFormModalInput,
+  ListItemFormModalOutput,
+} from './types';
 
 @Component({
   selector: 'app-list-item-form-modal',
-  standalone: true,
-  imports,
+  imports: [
+    ReactiveFormsModule,
+    MatIconModule,
+    TranslocoModule,
+    ModalHeaderDirective,
+    ModalFooterDirective,
+    TextInputComponent,
+    QuickNumberComponent,
+    ToggleComponent,
+    TextareaComponent,
+    ButtonComponent,
+    ...FORM_FIELD_EXPORTS,
+    ...AUTOCOMPLETE_EXPORTS,
+    ...FIELD_PIPES_EXPORTS,
+  ],
   templateUrl: './item-form-modal.component.html',
   styleUrl: './item-form-modal.component.scss',
 })
-export class ListItemFormModalComponent extends BaseModalComponent<
-  ListItemFormModalInput,
-  ListItemFormModalOutput
-> implements OnInit {
-
+export class ListItemFormModalComponent
+  extends BaseModalComponent<ListItemFormModalInput, ListItemFormModalOutput>
+  implements OnInit
+{
   private formBuilder = inject(FormBuilder);
   private uiStore = inject(UiStore);
   private listStore = inject(ListStore);
@@ -60,11 +79,21 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   shouldContinue = false;
   themeConfig = this.uiStore.theme.config;
 
-  get fName() { return fDescribe(this.theForm, FIELD.NAME.id) }
-  get fAmount() { return fDescribe(this.theForm, FIELD.AMOUNT.id) }
-  get fDesc() { return fDescribe(this.theForm, FIELD.DESCRIPTION.id) }
-  get fCategory() { return fDescribe(this.theForm, FIELD.CATEGORY.id) }
-  get fDone() { return fDescribe(this.theForm, FIELD.IS_DONE.id) }
+  get fName() {
+    return fDescribe(this.theForm, FIELD.NAME.id);
+  }
+  get fAmount() {
+    return fDescribe(this.theForm, FIELD.AMOUNT.id);
+  }
+  get fDesc() {
+    return fDescribe(this.theForm, FIELD.DESCRIPTION.id);
+  }
+  get fCategory() {
+    return fDescribe(this.theForm, FIELD.CATEGORY.id);
+  }
+  get fDone() {
+    return fDescribe(this.theForm, FIELD.IS_DONE.id);
+  }
 
   nameRef = viewChild.required('nameRef', { read: TextInputComponent });
 
@@ -92,9 +121,7 @@ export class ListItemFormModalComponent extends BaseModalComponent<
       return;
     }
 
-    this.isEditing()
-      ? this.onEdit()
-      : this.onCreate();
+    this.isEditing() ? this.onEdit() : this.onCreate();
   }
 
   onCreateAndContinue() {
@@ -103,7 +130,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   private onEdit() {
-
     let item: ListItem = {
       id: this.modal.data.item!.id,
       ...this.theForm.value,
@@ -124,11 +150,8 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   private onCreate() {
-
-    let {
-      [FIELD.ADD_TO_INVENTORY.id]: addToInventory,
-      ...item
-    } = this.theForm.value;
+    let { [FIELD.ADD_TO_INVENTORY.id]: addToInventory, ...item } =
+      this.theForm.value;
 
     if (item.category === '') {
       item.category = DEFAULT_CATEGORY;
@@ -136,10 +159,8 @@ export class ListItemFormModalComponent extends BaseModalComponent<
 
     // Listen to response
     this.afterCreateOrEditSuccess(() => {
-
       // If continuing, reset the form
       if (this.shouldContinue) {
-
         // Backup category
         const category = this.fCategory.value;
 
@@ -171,13 +192,13 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   nameFieldOptions: AutocompleteAsyncOptionsFn = (
-    query: string,
+    query: string
   ): Observable<FormOption[]> => {
     return this.listStore.filterItemNameOptions(query);
   };
 
   categoryFieldOptions: AutocompleteAsyncOptionsFn = (
-    query: string,
+    query: string
   ): Observable<FormOption[]> => {
     return this.listStore.filterCategoryOptions(query);
   };
@@ -206,22 +227,16 @@ export class ListItemFormModalComponent extends BaseModalComponent<
         [
           uniqueListItemNameValidator(
             this.listStore,
-            this.modal.data?.item?.id ?? null,
+            this.modal.data?.item?.id ?? null
           ),
         ],
       ],
-      [FIELD.AMOUNT.id]: [
-        item?.amount ?? 1,
-        [required, min(1), max(100)],
-      ],
+      [FIELD.AMOUNT.id]: [item?.amount ?? 1, [required, min(1), max(100)]],
       [FIELD.DESCRIPTION.id]: [
         item?.description ?? '',
         [minLength(2), maxLength(100)],
       ],
-      [FIELD.CATEGORY.id]: [
-        fieldCategory,
-        [minLength(2), maxLength(100)],
-      ],
+      [FIELD.CATEGORY.id]: [fieldCategory, [minLength(2), maxLength(100)]],
     };
 
     // Add create-only fields
@@ -238,7 +253,6 @@ export class ListItemFormModalComponent extends BaseModalComponent<
   }
 
   private afterCreateOrEditSuccess(fn: () => void): void {
-
     const stop$ = new Subject<void>();
     let first = true;
 

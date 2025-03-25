@@ -1,8 +1,17 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, ViewEncapsulation, effect, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  ViewEncapsulation,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-autocomplete-option',
-  standalone: true,
   template: '<ng-content></ng-content>',
   styleUrl: './autocomplete-option.component.scss',
   host: { class: 'app-autocomplete-option' },
@@ -10,7 +19,6 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, ViewEncaps
   encapsulation: ViewEncapsulation.None,
 })
 export class AutocompleteOptionComponent {
-
   private host = inject(ElementRef);
 
   isDropdownOpen = input(false);

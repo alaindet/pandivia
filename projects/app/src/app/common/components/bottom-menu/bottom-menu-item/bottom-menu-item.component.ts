@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-
-const imports = [
-  MatIconModule,
-];
 
 @Component({
   selector: 'app-bottom-menu-item',
-  standalone: true,
-  imports,
+  imports: [MatIconModule],
   templateUrl: './bottom-menu-item.component.html',
   styleUrl: './bottom-menu-item.component.scss',
   host: {
@@ -19,7 +20,6 @@ const imports = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BottomMenuItemComponent {
-
   id = input.required<string>();
   icon = input.required<string>();
   isSelected = input(false);

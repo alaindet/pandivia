@@ -1,15 +1,45 @@
-import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
+import {
+  computed,
+  effect,
+  inject,
+  Injectable,
+  Signal,
+  signal,
+} from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable, of } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
-import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, shouldFetchCollection, sortItemsByName } from '@app/common/store';
+import {
+  CategorizedItems,
+  countDoneItems,
+  createFilters,
+  extractCategories,
+  filterItems,
+  filterItemsByName,
+  filterItemsByQuery,
+  getItemByExactId,
+  getItemByName,
+  groupItemsByCategory,
+  shouldFetchCollection,
+  sortItemsByName,
+} from '@app/common/store';
 import { provideFeedback } from '@app/common/store';
-import { FormOption, LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
+import {
+  FormOption,
+  LOADING_STATUS,
+  LoadingStatus,
+  UnixTimestamp,
+} from '@app/common/types';
 import { UserStore } from '@app/features/user/store';
 import { UiStore } from '@app/core/ui/store';
 import { InventoryService } from '../services';
-import { INVENTORY_FILTER, InventoryFilters, InventoryFilterToken, InventoryItem } from '../types';
+import {
+  INVENTORY_FILTER,
+  InventoryFilters,
+  InventoryFilterToken,
+  InventoryItem,
+} from '../types';
 import { InventoryAllItemsSubstore } from './all';
 import { InventoryCategoryItemsSubstore } from './category';
 import { InventorySearchFiltersSubstore } from './search-filters';
@@ -20,7 +50,6 @@ import { DEFAULT_CATEGORY } from '@app/core/constants';
   providedIn: 'root',
 })
 export class InventoryStore {
-
   public api = inject(InventoryService);
   public ui = inject(UiStore);
   private user = inject(UserStore);
@@ -50,7 +79,11 @@ export class InventoryStore {
   isLoading = computed(() => this.status() === LOADING_STATUS.LOADING);
   isError = computed(() => this.status() === LOADING_STATUS.ERROR);
   shouldFetch = computed(() => {
-    return shouldFetchCollection(this.items(), this.status(), this.lastUpdated());
+    return shouldFetchCollection(
+      this.items(),
+      this.status(),
+      this.lastUpdated()
+    );
   });
   categories = computed(() => extractCategories(this.items()));
   categoryOptions = computed(() => this.computeCategoryOptions());
@@ -61,7 +94,7 @@ export class InventoryStore {
 
   // Effects ------------------------------------------------------------------
   constructor() {
-    effect(() => this.effectOnGuest(), { allowSignalWrites: true });
+    effect(() => this.effectOnGuest());
   }
 
   // Derived state factories --------------------------------------------------
@@ -70,9 +103,10 @@ export class InventoryStore {
   }
 
   filterItemsByCategory(category: string): InventoryItem[] {
-    return filterItems(this.items(), createFilters(f => [
-      f.exact('category', category),
-    ]));
+    return filterItems(
+      this.items(),
+      createFilters((f) => [f.exact('category', category)])
+    );
   }
 
   itemExistsWithExactName(name: string): Signal<InventoryItem | null> {
@@ -85,9 +119,11 @@ export class InventoryStore {
 
   filterCategoryOptions(name: string): Observable<FormOption[]> {
     const query = name.toLowerCase();
-    return of(this.categoryOptions().filter(option => {
-      return option.value.toLowerCase().includes(query);
-    }));
+    return of(
+      this.categoryOptions().filter((option) => {
+        return option.value.toLowerCase().includes(query);
+      })
+    );
   }
 
   filterItemsByName(name: string): Signal<InventoryItem[]> {
@@ -100,10 +136,13 @@ export class InventoryStore {
 
       return groupItemsByCategory(
         sortItemsByName(
-          filterItems(this.items(), createFilters(f => [
-            f.exact('category', filters[INVENTORY_FILTER.CATEGORY]),
-            f.like('name', filters[INVENTORY_FILTER.SEARCH_QUERY]),
-          ])),
+          filterItems(
+            this.items(),
+            createFilters((f) => [
+              f.exact('category', filters[INVENTORY_FILTER.CATEGORY]),
+              f.like('name', filters[INVENTORY_FILTER.SEARCH_QUERY]),
+            ])
+          )
         )
       );
     });

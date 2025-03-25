@@ -1,35 +1,29 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 import { ButtonComponent, SelectComponent } from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
+import { Language } from '@app/core/language';
+import { Theme } from '@app/core/theme';
 import { NAVIGATION_ITEM_USER, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { InviteUserComponent } from '../../components';
 import { UserStore } from '../../store';
-import { Theme } from '@app/core/theme';
-import { Language } from '@app/core/language';
-
-const imports = [
-  DatePipe,
-  RouterLink,
-  TranslocoModule,
-  SelectComponent,
-  ButtonComponent,
-  InviteUserComponent,
-];
 
 @Component({
   selector: 'app-profile-page',
-  standalone: true,
-  imports,
+  imports: [
+    DatePipe,
+    TranslocoModule,
+    SelectComponent,
+    ButtonComponent,
+    InviteUserComponent,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
 export class ProfilePageComponent implements OnInit {
-
   private uiStore = inject(UiStore);
   private userStore = inject(UserStore);
   private layout = inject(StackedLayoutService);

@@ -1,11 +1,19 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 
 import { asBoolean, cssClassesList } from '@app/common/utils';
 import { ButtonColor, ButtonFloatingType, ButtonSize } from './types';
 
 @Component({
   selector: 'button[appButton]',
-  standalone: true,
   template: '<ng-content></ng-content>',
   styleUrl: './button.component.scss',
   host: { class: 'app-button' },
@@ -13,7 +21,6 @@ import { ButtonColor, ButtonFloatingType, ButtonSize } from './types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-
   private host = inject(ElementRef<HTMLButtonElement>);
 
   mainInput = input<ButtonColor | null | ''>(null, { alias: 'appButton' });
@@ -67,7 +74,7 @@ export class ButtonComponent {
     switch (this.withIcon()) {
       case 'left':
       case 'right':
-        return `-with-icon -${this.withIcon() }`;
+        return `-with-icon -${this.withIcon()}`;
       case true:
       case '':
         return '-with-icon';
@@ -77,14 +84,16 @@ export class ButtonComponent {
     }
   });
 
-  private cssClasses = computed(() => cssClassesList([
-    this.cssColorClass(),
-    `-size-${this.size()}`,
-    this.cssIconColorClass(),
-    asBoolean(this.withIconOnly()) ? '-with-icon-only' : null,
-    asBoolean(this.isCircle()) ? '-circle' : null,
-    !!this.floating ? `-floating-${this.floating()}` : null,
-  ]));
+  private cssClasses = computed(() =>
+    cssClassesList([
+      this.cssColorClass(),
+      `-size-${this.size()}`,
+      this.cssIconColorClass(),
+      asBoolean(this.withIconOnly()) ? '-with-icon-only' : null,
+      asBoolean(this.isCircle()) ? '-circle' : null,
+      !!this.floating ? `-floating-${this.floating()}` : null,
+    ])
+  );
 
   // Public API
   getNativeElement(): HTMLButtonElement {

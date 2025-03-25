@@ -1,42 +1,62 @@
-import { Component, OnDestroy, OnInit, computed, effect, inject } from '@angular/core';
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-import { Subject, catchError, of, take, takeUntil } from 'rxjs';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  computed,
+  effect,
+  inject,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { Subject, catchError, of, take, takeUntil } from 'rxjs';
 
-import { ActionsMenuItem, ButtonComponent, CardListComponent, ChangeCategoryModalComponent, ConfirmPromptModalComponent, ConfirmPromptModalInput, ItemActionOutput, ItemToggledOutput, ModalService } from '@app/common/components';
+import {
+  ActionsMenuItem,
+  ButtonComponent,
+  CardListComponent,
+  ChangeCategoryModalComponent,
+  ConfirmPromptModalComponent,
+  ConfirmPromptModalInput,
+  ItemActionOutput,
+  ItemToggledOutput,
+  ModalService,
+} from '@app/common/components';
 import { StackedLayoutService } from '@app/common/layouts';
 import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_LIST, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
 import { filterNull } from '../../common/rxjs';
-import { ListItemFormModalComponent, ListItemFormModalInput } from './components/item-form-modal';
-import { CATEGORY_REMOVE_COMPLETED_PROMPT, CATEGORY_REMOVE_PROMPT, ITEM_REMOVE_PROMPT, LIST_REMOVE_COMPLETED_PROMPT } from './constants';
+import {
+  ListItemFormModalComponent,
+  ListItemFormModalInput,
+} from './components/item-form-modal';
+import {
+  CATEGORY_REMOVE_COMPLETED_PROMPT,
+  CATEGORY_REMOVE_PROMPT,
+  ITEM_REMOVE_PROMPT,
+  LIST_REMOVE_COMPLETED_PROMPT,
+} from './constants';
 import * as categoryMenu from './contextual-menus/category';
 import * as itemMenu from './contextual-menus/item';
 import * as listMenu from './contextual-menus/list';
 import { ListStore } from './store';
 import { LIST_FILTER, ListFilterToken, ListItem } from './types';
 
-const imports = [
-  NgTemplateOutlet,
-  AsyncPipe,
-  CardListComponent,
-  ButtonComponent,
-  MatIconModule,
-  TranslocoModule,
-];
-
 @Component({
   selector: 'app-list-page',
-  standalone: true,
-  imports,
+  imports: [
+    NgTemplateOutlet,
+    CardListComponent,
+    ButtonComponent,
+    MatIconModule,
+    TranslocoModule,
+  ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
 export class ListPageComponent implements OnInit, OnDestroy {
-
   private destroy$ = new Subject<void>();
   private uiStore = inject(UiStore);
   private listStore = inject(ListStore);
@@ -55,9 +75,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
   filters = computed(() => this.computeTranslatedFilters());
   getItemContextualMenu = this.getTranslatedItemContextualMenuFn();
   counters = this.listStore.counters;
-  pageCountersEffect = effect(() => this.layout.headerCounters.set(this.counters()), {
-    allowSignalWrites: true
-  });
+  pageCountersEffect = effect(() =>
+    this.layout.headerCounters.set(this.counters())
+  );
 
   ngOnInit() {
     this.initPageMetadata();
@@ -74,7 +94,6 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   onListAction(action: string) {
     switch (action) {
-
       case listMenu.LIST_ACTION_REFRESH.id:
         this.listStore.allItems.fetch(true);
         break;
@@ -102,14 +121,6 @@ export class ListPageComponent implements OnInit, OnDestroy {
         });
         break;
       }
-
-      // case listMenu.LIST_ACTION_REMOVE.id: {
-      //   this.confirmPrompt(LIST_REMOVE_PROMPT).subscribe({
-      //     error: () => console.log('Canceled'),
-      //     next: () => this.listStore.allItems.remove(),
-      //   });
-      //   break;
-      // }
     }
   }
 
@@ -117,7 +128,6 @@ export class ListPageComponent implements OnInit, OnDestroy {
     const categoryName = category;
 
     switch (action) {
-
       case categoryMenu.CATEGORY_ACTION_CREATE_ITEM.id:
         this.showCreateItemByCategoryModal(category);
         break;
@@ -131,11 +141,12 @@ export class ListPageComponent implements OnInit, OnDestroy {
         break;
 
       case categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id: {
-        this.confirmPrompt(CATEGORY_REMOVE_COMPLETED_PROMPT, { categoryName })
-          .subscribe({
-            error: () => console.log('Canceled'),
-            next: () => this.listStore.categoryItems.removeCompleted(category),
-          });
+        this.confirmPrompt(CATEGORY_REMOVE_COMPLETED_PROMPT, {
+          categoryName,
+        }).subscribe({
+          error: () => console.log('Canceled'),
+          next: () => this.listStore.categoryItems.removeCompleted(category),
+        });
         break;
       }
 
@@ -150,8 +161,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   onItemAction({ itemId, action }: ItemActionOutput) {
-    switch(action) {
-
+    switch (action) {
       case itemMenu.ITEM_ACTION_COMPLETE.id:
         this.listStore.item.complete(itemId);
         break;
@@ -178,7 +188,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
       case itemMenu.ITEM_ACTION_REMOVE.id: {
         const item = this.listStore.getItemById(itemId)()!;
-        this.confirmPrompt(ITEM_REMOVE_PROMPT, { itemName: item.name }).subscribe({
+        this.confirmPrompt(ITEM_REMOVE_PROMPT, {
+          itemName: item.name,
+        }).subscribe({
           error: () => console.log('Canceled'),
           next: () => this.listStore.item.remove(itemId),
         });
@@ -224,7 +236,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
       return null;
     }
 
-    return filtersList.map(filter => {
+    return filtersList.map((filter) => {
       if (filter.label === DEFAULT_CATEGORY) {
         return { ...filter, label: 'common.uncategorized' };
       }
@@ -232,9 +244,11 @@ export class ListPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getTranslatedItemContextualMenuFn(): (item: ListItem) => ActionsMenuItem[] {
+  private getTranslatedItemContextualMenuFn(): (
+    item: ListItem
+  ) => ActionsMenuItem[] {
     return (item: ListItem) => {
-      return itemMenu.getItemContextualMenu(item).map(action => {
+      return itemMenu.getItemContextualMenu(item).map((action) => {
         const label = this.transloco.translate(action.label);
         return { ...action, label };
       });
@@ -252,12 +266,15 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   private confirmPrompt(
     prompt: ConfirmPromptModalInput,
-    messageParams?: HashMap,
+    messageParams?: HashMap
   ) {
     const title = this.transloco.translate(prompt.title);
     const message = this.transloco.translate(prompt.message, messageParams);
     const translatedPrompt = { ...prompt, title, message };
-    const modal$ = this.modal.open(ConfirmPromptModalComponent, translatedPrompt);
+    const modal$ = this.modal.open(
+      ConfirmPromptModalComponent,
+      translatedPrompt
+    );
     return modal$.closed().pipe(take(1));
   }
 
@@ -293,10 +310,12 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   private initListContextualMenu(): void {
     const isDoneFilter = this.listStore.isDoneFilter();
-    const actions = listMenu.getListContextualMenu(isDoneFilter).map(action => {
-      const label = this.transloco.translate(action.label);
-      return { ...action, label };
-    });
+    const actions = listMenu
+      .getListContextualMenu(isDoneFilter)
+      .map((action) => {
+        const label = this.transloco.translate(action.label);
+        return { ...action, label };
+      });
     this.layout.headerActions.set(actions);
 
     this.layout.headerActions.confirmed
@@ -305,16 +324,18 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   private initCategoryContextualMenu(): void {
-    this.categoryContextualMenu = categoryMenu.CATEGORY_CONTEXTUAL_MENU.map(item => {
-      const label = this.transloco.translate(item.label);
-      return { ...item, label };
-    })
+    this.categoryContextualMenu = categoryMenu.CATEGORY_CONTEXTUAL_MENU.map(
+      (item) => {
+        const label = this.transloco.translate(item.label);
+        return { ...item, label };
+      }
+    );
   }
 
   private initSearchFeature(): void {
     this.layout.search.enable();
 
-    this.layout.search.searched.subscribe(searchQuery => {
+    this.layout.search.searched.subscribe((searchQuery) => {
       if (!searchQuery) {
         this.listStore.searchFilters.clearSearchQuery();
         return;
@@ -329,8 +350,9 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   private showMoveToCategoryModal(itemId: string): void {
-
-    const translatedUncategorized = this.transloco.translate('common.uncategorized');
+    const translatedUncategorized = this.transloco.translate(
+      'common.uncategorized'
+    );
 
     const translateCategory = (category: string): string => {
       if (category !== DEFAULT_CATEGORY) return category;
@@ -339,9 +361,10 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
     const item = this.listStore.getItemById(itemId)()!;
     const title = this.transloco.translate('common.menu.moveToCategory');
-    const categories = this.listStore.categories()
-      .filter(category => category !== item.category)
-      .map(category => translateCategory(category));
+    const categories = this.listStore
+      .categories()
+      .filter((category) => category !== item.category)
+      .map((category) => translateCategory(category));
 
     if (!categories.length) {
       this.uiStore.notifications.error('common.error.onlyOneCategory');
@@ -354,14 +377,14 @@ export class ListPageComponent implements OnInit, OnDestroy {
       .pipe(
         catchError(() => of(null)),
         take(1),
-        filterNull(),
+        filterNull()
       );
 
-    selectedCategory$.subscribe(payload => {
-
-      const category = (payload.category === translatedUncategorized)
-        ? DEFAULT_CATEGORY
-        : payload.category;
+    selectedCategory$.subscribe((payload) => {
+      const category =
+        payload.category === translatedUncategorized
+          ? DEFAULT_CATEGORY
+          : payload.category;
 
       this.listStore.item.edit({ ...item, category });
     });

@@ -11,19 +11,13 @@ type SwatchesCollection = {
   swatches: Swatch[];
 };
 
-const imports = [
-  NgClass,
-];
-
 @Component({
   selector: 'app-demo-color-swatches',
-  standalone: true,
-  imports,
+  imports: [NgClass],
   templateUrl: './color-swatches.component.html',
   styleUrl: './color-swatches.component.scss',
 })
 export class ColorSwatchesDemoPageComponent {
-
   swatchesCollections: SwatchesCollection[] = [];
 
   ngOnInit() {
@@ -34,14 +28,14 @@ export class ColorSwatchesDemoPageComponent {
     this.swatchesCollections = [
       {
         name: 'utils',
-        swatches: UTIL_COLORS.map(color => ({
+        swatches: UTIL_COLORS.map((color) => ({
           name: color,
           cssClass: `-${color}`,
         })),
       },
-      ...COLORS.map(color => ({
+      ...COLORS.map((color) => ({
         name: color,
-        swatches: WEIGHTS.map(weight => ({
+        swatches: WEIGHTS.map((weight) => ({
           name: weight.toString(),
           cssClass: `-${color}-${weight}`,
         })),
