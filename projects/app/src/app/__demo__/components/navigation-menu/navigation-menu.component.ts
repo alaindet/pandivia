@@ -3,41 +3,38 @@ import { RouterModule } from '@angular/router';
 
 import { DemoRoute } from '@app/__demo__/types';
 
-const imports = [
-  RouterModule,
-];
-
 @Component({
   selector: 'app-demo-navigation-menu',
-  standalone: true,
-  imports,
+  imports: [RouterModule],
   template: `
     <ul>
       @for (route of routes(); track route.path) {
-        <li>
-          <a [routerLink]="[routePrefix(), route.path]">{{ route.label }}</a>
-        </li>
+      <li>
+        <a [routerLink]="[routePrefix(), route.path]">{{ route.label }}</a>
+      </li>
       }
     </ul>
   `,
-  styles: [`
-    @import 'scoped';
+  styles: [
+    `
+      @import 'scoped';
 
-    :host {
-      display: block;
-      white-space: nowrap;
-      width: $app-width-demo-navigation;
-    }
+      :host {
+        display: block;
+        white-space: nowrap;
+        width: $app-width-demo-navigation;
+      }
 
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  `],
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    `,
+  ],
 })
 export class DemoNavigationMenuComponent {
   routePrefix = input('');

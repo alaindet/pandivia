@@ -4,18 +4,12 @@ import { ButtonComponent } from '@app/common/components';
 
 import { UiStore } from '@app/core/ui';
 
-const imports = [
-  ButtonComponent,
-];
-
 @Component({
   selector: 'app-demo-notification',
-  standalone: true,
-  imports,
+  imports: [ButtonComponent],
   templateUrl: './notification.component.html',
 })
 export class NotificationDemoPageComponent {
-
   private uiStore = inject(UiStore);
 
   onAddSuccess() {

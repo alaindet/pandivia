@@ -5,7 +5,6 @@ import { TemplateImplicitContext } from '@app/common/types';
 
 @Directive({
   selector: '[appActionsMenuItem]',
-  standalone: true,
   host: { class: 'app-actions-menu-button' },
 })
 export class ActionsMenuItemDirective {

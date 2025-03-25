@@ -1,4 +1,18 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  Provider,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { Subscription, filter, fromEvent, merge } from 'rxjs';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -8,14 +22,13 @@ import { CheckboxColor } from './types';
 
 const CHECKBOX_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
-	useExisting: forwardRef(() => CheckboxComponent),
-	multi: true,
+  useExisting: forwardRef(() => CheckboxComponent),
+  multi: true,
 };
 
 @Component({
   selector: 'app-checkbox',
   exportAs: 'app-checkbox',
-  standalone: true,
   template: `
     <span class="_checkmark"></span>
     <span class="_content"><ng-content></ng-content></span>
@@ -30,7 +43,6 @@ const CHECKBOX_FORM_PROVIDER: Provider = {
   providers: [CHECKBOX_FORM_PROVIDER],
 })
 export class CheckboxComponent implements ControlValueAccessor {
-
   private host = inject(ElementRef);
 
   _id = input('', { alias: 'id' });
@@ -91,16 +103,14 @@ export class CheckboxComponent implements ControlValueAccessor {
   }
 
   private onChange!: (val: any) => void;
-	private onTouched!: () => void;
+  private onTouched!: () => void;
   private interactiveSub: Subscription | null = null;
 
   id = computed(() => uniqueId(this._id(), 'app-select'));
   isDisabled = signal(false);
   isChecked = signal(false);
-  tabIndex = computed(() => this.isDisabled() ? '-1' : '0');
-  cssClass = computed(() => cssClassesList([
-    `-color-${this.color()}`,
-  ]));
+  tabIndex = computed(() => (this.isDisabled() ? '-1' : '0'));
+  cssClass = computed(() => cssClassesList([`-color-${this.color()}`]));
 
   checkedEffect = effect(() => this.isChecked.set(this._isChecked()), {
     allowSignalWrites: true,
@@ -110,8 +120,7 @@ export class CheckboxComponent implements ControlValueAccessor {
     allowSignalWrites: true,
   });
 
-  interactivityEffect = effect(onCleanup => {
-
+  interactivityEffect = effect((onCleanup) => {
     if (!this.isInteractable() || this.isDisabled()) {
       return;
     }
@@ -120,8 +129,9 @@ export class CheckboxComponent implements ControlValueAccessor {
 
     const clicked$ = fromEvent<MouseEvent>(el, 'click');
 
-    const spaceOrEnterPressed$ = fromEvent<KeyboardEvent>(el, 'keydown')
-      .pipe(filter(e => e.key === KB.SPACE || e.key === KB.ENTER));
+    const spaceOrEnterPressed$ = fromEvent<KeyboardEvent>(el, 'keydown').pipe(
+      filter((e) => e.key === KB.SPACE || e.key === KB.ENTER)
+    );
 
     const toggledCheckbox$ = merge(clicked$, spaceOrEnterPressed$);
 
@@ -152,19 +162,19 @@ export class CheckboxComponent implements ControlValueAccessor {
   }
 
   // From ControlValueAccessor
-	writeValue(value: boolean): void {
+  writeValue(value: boolean): void {
     this.isChecked.set(value);
-	}
+  }
 
-	// From ControlValueAccessor
-	registerOnChange(fn: (val: any) => {}): void {
-		this.onChange = fn;
-	}
+  // From ControlValueAccessor
+  registerOnChange(fn: (val: any) => {}): void {
+    this.onChange = fn;
+  }
 
-	// From ControlValueAccessor
-	registerOnTouched(fn: () => {}): void {
-		this.onTouched = fn;
-	}
+  // From ControlValueAccessor
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
+  }
 
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {

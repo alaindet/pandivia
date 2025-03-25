@@ -6,12 +6,12 @@ import { TemplateImplicitContext } from '@app/common/types';
 
 @Directive({
   selector: '[appAutocompleteOption]',
-  standalone: true,
 })
 export class AutocompleteOptionDirective implements OnInit {
-
   private svc = inject(AutocompleteService);
-  private template = inject(TemplateRef<TemplateImplicitContext<AutocompleteOption>>);
+  private template = inject(
+    TemplateRef<TemplateImplicitContext<AutocompleteOption>>
+  );
 
   ngOnInit() {
     this.svc.setOptionTemplate(this.template);

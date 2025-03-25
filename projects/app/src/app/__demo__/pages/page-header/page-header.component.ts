@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ACTIONS_MENU_EXPORTS, ActionsMenuItem, ButtonComponent, PageHeaderComponent } from '@app/common/components';
-
-const imports = [
-  PageHeaderComponent,
-  ...ACTIONS_MENU_EXPORTS,
-  MatIconModule,
+import {
+  ACTIONS_MENU_EXPORTS,
+  ActionsMenuItem,
   ButtonComponent,
-];
+  PageHeaderComponent,
+} from '@app/common/components';
 
 @Component({
   selector: 'app-demo-page-header',
-  standalone: true,
-  imports,
+  imports: [
+    PageHeaderComponent,
+    ...ACTIONS_MENU_EXPORTS,
+    MatIconModule,
+    ButtonComponent,
+  ],
   templateUrl: './page-header.component.html',
 })
 export class PageHeaderDemoPageComponent {

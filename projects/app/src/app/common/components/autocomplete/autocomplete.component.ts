@@ -1,21 +1,38 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnInit, ViewEncapsulation, computed, effect, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  OnInit,
+  ViewEncapsulation,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 
 import { NgTemplateOutlet } from '@angular/common';
 import { TextInputComponent } from '../text-input';
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
 import { createClickOutController } from './click-out.controller';
-import { AUTOCOMPLETE_CURRENT_TEMPLATE, AUTOCOMPLETE_ITEMS_TEMPLATE, AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteComponentLabels, AutocompleteCurrentTemplate, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
-
-const imports = [
-  NgTemplateOutlet,
-  AutocompleteOptionComponent,
-];
+import {
+  AUTOCOMPLETE_CURRENT_TEMPLATE,
+  AUTOCOMPLETE_ITEMS_TEMPLATE,
+  AUTOCOMPLETE_SOURCE_TYPE,
+  AutocompleteAsyncOptionsFn,
+  AutocompleteComponentLabels,
+  AutocompleteCurrentTemplate,
+  AutocompleteOption,
+  AutocompleteOptionValuePicker,
+  AutocompleteSourceType,
+} from './types';
 
 @Component({
   selector: 'app-autocomplete',
-  standalone: true,
-  imports,
+  imports: [NgTemplateOutlet, AutocompleteOptionComponent],
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.scss',
   host: { class: 'app-autocomplete' },
@@ -24,7 +41,6 @@ const imports = [
   providers: [AutocompleteService],
 })
 export class AutocompleteComponent implements OnInit {
-
   private svc = inject(AutocompleteService);
   private host = inject(ElementRef);
 
@@ -78,7 +94,7 @@ export class AutocompleteComponent implements OnInit {
   private clickOut = createClickOutController(
     this.host.nativeElement,
     () => this.onClickOut(),
-    'mousedown',
+    'mousedown'
   );
 
   onStaticOptionsChangeEffect = effect(() => {
@@ -117,13 +133,12 @@ export class AutocompleteComponent implements OnInit {
       this.nativeInput,
       this.filteringDelay(),
       this.searchOnEmpty(),
-      this.minChars(),
+      this.minChars()
     );
   }
 
   private initSource(): void {
     switch (this.sourceType()) {
-
       case AUTOCOMPLETE_SOURCE_TYPE.STATIC:
         if (!this.staticOptions()?.length) {
           throw new Error('Missing static options');
@@ -144,7 +159,7 @@ export class AutocompleteComponent implements OnInit {
 
   private listenToConfirmOptionEvent(): void {
     const valuePicker = this.svc.getValuePicker();
-    this.svc.confirmedEvent.subscribe(option => {
+    this.svc.confirmedEvent.subscribe((option) => {
       const value = valuePicker(option);
       this.inputComponent().setValue(value);
       this.confirmed.emit(option);
@@ -183,7 +198,6 @@ export class AutocompleteComponent implements OnInit {
   }
 
   private computeCurrentOptionsTemplate(): AutocompleteCurrentTemplate | null {
-
     if (this.isLoading()) {
       return AUTOCOMPLETE_CURRENT_TEMPLATE.LOADING;
     }

@@ -6,20 +6,13 @@ import { filter } from 'rxjs';
 import { ButtonComponent } from '@app/common/components';
 import { MediaQueryService } from '@app/common/services';
 
-const imports = [
-  MatIconModule,
-  ButtonComponent,
-];
-
 @Component({
   selector: 'app-demo-layout',
-  standalone: true,
-  imports,
+  imports: [MatIconModule, ButtonComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
 export class DemoLayoutComponent implements OnInit {
-
   private router = inject(Router);
 
   @HostBinding('class.-mobile')
@@ -36,7 +29,9 @@ export class DemoLayoutComponent implements OnInit {
   isOpen = signal(false);
 
   ngOnInit() {
-    const navigated$ = this.router.events.pipe(filter(e => e instanceof NavigationEnd));
+    const navigated$ = this.router.events.pipe(
+      filter((e) => e instanceof NavigationEnd)
+    );
     navigated$.subscribe(() => this.closeMenu());
   }
 

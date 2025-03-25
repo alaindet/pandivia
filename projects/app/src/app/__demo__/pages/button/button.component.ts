@@ -3,20 +3,13 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '@app/common/components';
 
-const imports = [
-  ButtonComponent,
-  MatIconModule,
-];
-
 @Component({
   selector: 'app-demo-button',
-  standalone: true,
-  imports,
+  imports: [ButtonComponent, MatIconModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
 })
 export class ButtonDemoPageComponent {
-
   fabContainer = false;
   fabFixed = false;
 

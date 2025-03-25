@@ -1,28 +1,40 @@
-import { Component, ElementRef, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  Provider,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FormFieldStatus } from '@app/common/types';
-import { ElementAttributes, cssClassesList, uniqueId, useHtmlAttributes } from '@app/common/utils';
+import {
+  ElementAttributes,
+  cssClassesList,
+  uniqueId,
+  useHtmlAttributes,
+} from '@app/common/utils';
 import { ButtonComponent } from '../button';
 import { TextInputType } from './types';
 
 const TEXT_INPUT_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
-	useExisting: forwardRef(() => TextInputComponent),
-	multi: true,
+  useExisting: forwardRef(() => TextInputComponent),
+  multi: true,
 };
-
-const imports = [
-  MatIconModule,
-  ButtonComponent,
-];
 
 @Component({
   selector: 'app-text-input',
   exportAs: 'app-text-input',
-  standalone: true,
-  imports,
+  imports: [MatIconModule, ButtonComponent],
   templateUrl: './text-input.component.html',
   styleUrl: './text-input.component.scss',
   host: { class: 'app-text-input' },
@@ -30,7 +42,6 @@ const imports = [
   providers: [TEXT_INPUT_FORM_PROVIDER],
 })
 export class TextInputComponent implements ControlValueAccessor {
-
   _id = input<string>('', { alias: 'id' });
   type = input<TextInputType>('text');
   value = input<string>();
@@ -49,7 +60,8 @@ export class TextInputComponent implements ControlValueAccessor {
   inputChanged = output<string>();
   cleared = output<void>();
 
-  private inputRef = viewChild.required<ElementRef<HTMLInputElement>>('inputRef');
+  private inputRef =
+    viewChild.required<ElementRef<HTMLInputElement>>('inputRef');
 
   @HostBinding('class')
   get getCssClass() {
@@ -79,10 +91,12 @@ export class TextInputComponent implements ControlValueAccessor {
   id = computed(() => uniqueId(this._id(), 'app-text-input'));
   isDisabled = signal(false);
   nativeInput = computed(() => this.inputRef().nativeElement);
-  cssClass = computed(() => cssClassesList([
-    this.status() ? `-status-${this.status()}` : null,
-    this.width() ? '-with-custom-width' : null,
-  ]));
+  cssClass = computed(() =>
+    cssClassesList([
+      this.status() ? `-status-${this.status()}` : null,
+      this.width() ? '-with-custom-width' : null,
+    ])
+  );
   cssWidth = computed(() => this.width() ?? 'fit-content');
 
   disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
@@ -102,7 +116,7 @@ export class TextInputComponent implements ControlValueAccessor {
   });
 
   private onChange!: (val: any) => {};
-	private onTouched!: () => {};
+  private onTouched!: () => {};
   private htmlAttrs = useHtmlAttributes();
 
   // @publicApi
@@ -159,19 +173,19 @@ export class TextInputComponent implements ControlValueAccessor {
   }
 
   // From ControlValueAccessor
-	writeValue(value: any): void {
+  writeValue(value: any): void {
     this.inputRef().nativeElement.value = value ?? '';
-	}
+  }
 
-	// From ControlValueAccessor
-	registerOnChange(fn: (val: any) => {}): void {
-		this.onChange = fn;
-	}
+  // From ControlValueAccessor
+  registerOnChange(fn: (val: any) => {}): void {
+    this.onChange = fn;
+  }
 
-	// From ControlValueAccessor
-	registerOnTouched(fn: () => {}): void {
-		this.onTouched = fn;
-	}
+  // From ControlValueAccessor
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
+  }
 
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {

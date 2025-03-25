@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
 
 export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 
@@ -6,15 +12,13 @@ export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 // https://github.com/angular/angular/issues/53888#issuecomment-1888071170
 @Component({
   selector: 'app-linear-spinner',
-  standalone: true,
-  template: `<div class="_bar"><div>`,
+  template: `<div class="_bar"><div></div></div>`,
   styleUrl: './linear-spinner.component.scss',
   host: { class: 'app-linear-spinner' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinearSpinnerComponent {
-
   fixed = input(false);
   color = input<LinearSpinnerColor>('primary');
 

@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
-import { BaseModalComponent, ButtonComponent, ModalFooterDirective, ModalHeaderDirective } from '@app/common/components';
-import { ModalOneInput, ModalOneOutput } from './types';
-
-const imports = [
+import {
+  FormControl,
+  FormGroup,
   ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
+import {
+  BaseModalComponent,
   ModalHeaderDirective,
-  ModalFooterDirective,
-  ButtonComponent,
-];
+} from '@app/common/components';
+import { ModalOneInput, ModalOneOutput } from './types';
 
 @Component({
   selector: 'app-demo-modal-one',
-  standalone: true,
-  imports,
+  imports: [ReactiveFormsModule, ModalHeaderDirective],
   templateUrl: './modal-one.component.html',
 })
-export class ModalOneComponent extends BaseModalComponent<
-  ModalOneInput,
-  ModalOneOutput
-> implements OnInit {
-
+export class ModalOneComponent
+  extends BaseModalComponent<ModalOneInput, ModalOneOutput>
+  implements OnInit
+{
   myForm!: FormGroup;
 
   ngOnInit() {

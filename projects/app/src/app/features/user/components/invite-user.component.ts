@@ -5,30 +5,33 @@ import { finalize } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
 import { UiStore } from '@app/core/ui';
-import { ButtonComponent, FORM_FIELD_EXPORTS, TextInputComponent } from '@app/common/components';
-import { copyToClipboard, getFieldDescriptor as fDescribe } from '@app/common/utils';
+import {
+  ButtonComponent,
+  FORM_FIELD_EXPORTS,
+  TextInputComponent,
+} from '@app/common/components';
+import {
+  copyToClipboard,
+  getFieldDescriptor as fDescribe,
+} from '@app/common/utils';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { InvitesService } from '../services';
 
-const imports = [
-  ReactiveFormsModule,
-  TranslocoModule,
-  MatIconModule,
-  TextInputComponent,
-  ButtonComponent,
-  ...FORM_FIELD_EXPORTS,
-  ...FIELD_PIPES_EXPORTS,
-];
-
 @Component({
   selector: 'app-invite-user',
-  standalone: true,
-  imports,
+  imports: [
+    ReactiveFormsModule,
+    TranslocoModule,
+    MatIconModule,
+    TextInputComponent,
+    ButtonComponent,
+    ...FORM_FIELD_EXPORTS,
+    ...FIELD_PIPES_EXPORTS,
+  ],
   templateUrl: './invite-user.component.html',
   styleUrl: './invite-user.component.scss',
 })
 export class InviteUserComponent {
-
   private formBuilder = inject(FormBuilder);
   private uiStore = inject(UiStore);
   private invitesService = inject(InvitesService);
@@ -38,10 +41,11 @@ export class InviteUserComponent {
     email: ['', [Validators.email]],
   });
 
-  get fEmail() { return fDescribe(this.theForm, 'email') }
+  get fEmail() {
+    return fDescribe(this.theForm, 'email');
+  }
 
   onGenerateLink() {
-
     if (this.theForm.invalid) {
       return;
     }
@@ -50,14 +54,15 @@ export class InviteUserComponent {
 
     this.uiStore.loader.start();
 
-    this.invitesService.createInvite(email!)
+    this.invitesService
+      .createInvite(email!)
       .pipe(finalize(() => this.uiStore.loader.stop()))
       .subscribe({
-        error: err => {
+        error: (err) => {
           console.error(err);
           this.uiStore.notifications.error('inviteUser.generationError');
         },
-        next: url => {
+        next: (url) => {
           this.uiStore.notifications.success('inviteUser.generationSuccess');
           this.inviteUrl = url;
           copyToClipboard(url);

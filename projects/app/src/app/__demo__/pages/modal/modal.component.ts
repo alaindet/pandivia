@@ -4,18 +4,12 @@ import { ButtonComponent } from '@app/common/components';
 import { ModalService } from '@app/common/components/modal';
 import { ModalOneComponent, ModalOneInput, ModalOneOutput } from './modal-one';
 
-const imports = [
-  ButtonComponent,
-];
-
 @Component({
   selector: 'app-demo-modal',
-  standalone: true,
-  imports,
+  imports: [ButtonComponent],
   templateUrl: './modal.component.html',
 })
 export class ModalDemoPageComponent {
-
   modal = inject(ModalService);
 
   onOpenModal() {
@@ -38,11 +32,11 @@ export class ModalDemoPageComponent {
     const ref = this.modal.open<ModalOneInput, ModalOneOutput>(
       ModalOneComponent,
       data,
-      { fullPage },
+      { fullPage }
     );
 
     ref.canceled().subscribe(() => console.log('canceled'));
-    ref.confirmed().subscribe(data => console.log('confirmed', data));
-    ref.closed().subscribe(output => console.log('closed', output));
+    ref.confirmed().subscribe((data) => console.log('confirmed', data));
+    ref.closed().subscribe((output) => console.log('closed', output));
   }
 }

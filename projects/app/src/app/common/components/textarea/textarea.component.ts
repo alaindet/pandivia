@@ -1,28 +1,38 @@
-import { Component, ElementRef, HostBinding, Provider, ViewEncapsulation, computed, effect, forwardRef, input, output, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  Provider,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
-import { HTMLAttributes, createAttributesController } from '@app/common/controllers';
+import {
+  HTMLAttributes,
+  createAttributesController,
+} from '@app/common/controllers';
 import { FormFieldStatus } from '@app/common/types';
 import { cssClassesList, uniqueId } from '@app/common/utils';
 import { ButtonComponent } from '../button';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
-	useExisting: forwardRef(() => TextareaComponent),
-	multi: true,
+  useExisting: forwardRef(() => TextareaComponent),
+  multi: true,
 };
-
-const imports = [
-  MatIconModule,
-  ButtonComponent,
-];
 
 @Component({
   selector: 'app-textarea',
   exportAs: 'app-textarea',
-  standalone: true,
-  imports,
+  imports: [MatIconModule, ButtonComponent],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss',
   host: { class: 'app-textarea' },
@@ -30,7 +40,6 @@ const imports = [
   providers: [TEXTAREA_FORM_PROVIDER],
 })
 export class TextareaComponent implements ControlValueAccessor {
-
   _id = input<string>('', { alias: 'id' });
   value = input<string>();
   status = input<FormFieldStatus>();
@@ -68,7 +77,8 @@ export class TextareaComponent implements ControlValueAccessor {
     return this.isDisabled();
   }
 
-  private textareaRef = viewChild.required<ElementRef<HTMLTextAreaElement>>('textareaRef');
+  private textareaRef =
+    viewChild.required<ElementRef<HTMLTextAreaElement>>('textareaRef');
 
   id = computed(() => uniqueId(this._id(), 'app-textarea'));
   isDisabled = signal(false);
@@ -76,9 +86,9 @@ export class TextareaComponent implements ControlValueAccessor {
   charsCounter = computed(() => this.inputValue().length);
   nativeInput = computed(() => this.textareaRef().nativeElement);
   attrsController = createAttributesController();
-  cssClass = computed(() => cssClassesList([
-    this.status() ? `-status-${this.status()}` : null,
-  ]));
+  cssClass = computed(() =>
+    cssClassesList([this.status() ? `-status-${this.status()}` : null])
+  );
 
   disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
     allowSignalWrites: true,
@@ -88,17 +98,20 @@ export class TextareaComponent implements ControlValueAccessor {
     this.attrsController.apply(this.nativeInput(), this.attrs());
   });
 
-  valueEffect = effect(() => {
-    const value = this.value();
-    if (value === undefined) {
-      return;
-    }
-    this.inputValue.set(value);
-    this.nativeInput().value = value;
-  }, { allowSignalWrites: true });
+  valueEffect = effect(
+    () => {
+      const value = this.value();
+      if (value === undefined) {
+        return;
+      }
+      this.inputValue.set(value);
+      this.nativeInput().value = value;
+    },
+    { allowSignalWrites: true }
+  );
 
   private onChange!: (val: any) => {};
-	private onTouched!: () => {};
+  private onTouched!: () => {};
 
   // @publicApi
   setValue(val: string | null, triggerEvents = false): void {
@@ -114,7 +127,7 @@ export class TextareaComponent implements ControlValueAccessor {
 
   // @publicApi
   clear(triggerEvents = false): void {
-    const value = '' ;
+    const value = '';
     this.nativeInput().value = value;
     this.inputValue.set(value);
 
@@ -154,21 +167,21 @@ export class TextareaComponent implements ControlValueAccessor {
   }
 
   // From ControlValueAccessor
-	writeValue(val: any): void {
+  writeValue(val: any): void {
     const value = val ?? '';
     this.nativeInput().value = value;
     this.inputValue.set(value);
-	}
+  }
 
-	// From ControlValueAccessor
-	registerOnChange(fn: (val: any) => {}): void {
-		this.onChange = fn;
-	}
+  // From ControlValueAccessor
+  registerOnChange(fn: (val: any) => {}): void {
+    this.onChange = fn;
+  }
 
-	// From ControlValueAccessor
-	registerOnTouched(fn: () => {}): void {
-		this.onTouched = fn;
-	}
+  // From ControlValueAccessor
+  registerOnTouched(fn: () => {}): void {
+    this.onTouched = fn;
+  }
 
   // From ControlValueAccessor
   setDisabledState(isDisabled: boolean): void {

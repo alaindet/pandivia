@@ -1,32 +1,28 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { BottomMenuItem } from '@app/common/components';
-import { StackedLayoutComponent, StackedLayoutService } from '@app/common/layouts';
-import { NAVIGATION_ROUTES, UiStore } from '@app/core/ui';
-
-const imports = [
-  AsyncPipe,
-  RouterOutlet,
+import {
   StackedLayoutComponent,
-];
+  StackedLayoutService,
+} from '@app/common/layouts';
+import { NAVIGATION_ROUTES, UiStore } from '@app/core/ui';
 
 @Component({
   selector: 'app-logged-page-collection',
-  standalone: true,
-  imports,
+  imports: [RouterOutlet, StackedLayoutComponent],
   templateUrl: './logged.component.html',
 })
 export class LoggedPageCollectionComponent {
-
   private layout = inject(StackedLayoutService);
   private router = inject(Router);
   private uiStore = inject(UiStore);
   private transloco = inject(TranslocoService);
 
-  private bottomNavigation = computed(() => this.computeBottomNavigationItems());
+  private bottomNavigation = computed(() =>
+    this.computeBottomNavigationItems()
+  );
   bottomNavigationItems = computed(() => this.bottomNavigation().items);
   bottomNavigationCurrent = computed(() => this.bottomNavigation().current);
   search = this.layout.search;
@@ -58,12 +54,11 @@ export class LoggedPageCollectionComponent {
   }
 
   private computeBottomNavigationItems() {
-
     const nav = this.uiStore.navigation.navigation();
 
     return {
       ...nav,
-      items: nav.items.map(item => {
+      items: nav.items.map((item) => {
         const label = this.transloco.translate(item.label);
         return { ...item, label };
       }),

@@ -1,18 +1,19 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ButtonComponent } from '../button';
 
-const imports = [
-  ButtonComponent,
-  MatIconModule,
-];
-
 @Component({
   selector: 'app-page-header',
-  standalone: true,
-  imports,
+  imports: [ButtonComponent, MatIconModule],
   templateUrl: './page-header.component.html',
   styleUrl: './page-header.component.scss',
   host: { class: 'app-page-header' },
@@ -20,7 +21,6 @@ const imports = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageHeaderComponent {
-
   private location = inject(Location);
 
   withBackButton = input(false);
@@ -29,7 +29,6 @@ export class PageHeaderComponent {
   backClicked = output<void>();
 
   onBackClicked() {
-
     if (this.withControlledBackButton()) {
       this.backClicked.emit();
       return;

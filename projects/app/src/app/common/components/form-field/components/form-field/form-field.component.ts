@@ -1,10 +1,15 @@
-import { Component, ViewEncapsulation, effect, inject, input } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 
 import { FormFieldContextService } from '../../context.service';
 
 @Component({
   selector: 'app-form-field',
-  standalone: true,
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.scss',
   host: { class: 'app-form-field' },
@@ -12,7 +17,6 @@ import { FormFieldContextService } from '../../context.service';
   providers: [FormFieldContextService],
 })
 export class FormFieldComponent {
-
   private context = inject(FormFieldContextService);
 
   id = input<string>('');

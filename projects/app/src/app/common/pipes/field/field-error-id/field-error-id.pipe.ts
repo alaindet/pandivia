@@ -10,15 +10,13 @@ import { fieldDescriptorHasError } from '@app/common/utils';
 // }
 @Pipe({
   name: 'appFieldErrorId',
-  standalone: true,
   pure: true,
 })
 export class FieldErrorIdPipe implements PipeTransform {
   transform(
     field: FormControlDescriptor,
-    spec: { [errorNames: string]: string },
+    spec: { [errorNames: string]: string }
   ): string | null {
-
     if (!field.touched || !field.errors) {
       return null;
     }
