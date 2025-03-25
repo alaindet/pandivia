@@ -7,9 +7,9 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 
 import {
   ACTIONS_MENU_EXPORTS,
@@ -21,7 +21,6 @@ import {
   ConfirmPromptModalOutput,
   ItemActionOutput,
   ModalService,
-  PageHeaderComponent,
 } from '@app/common/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { StackedLayoutService } from '@app/common/layouts';
@@ -99,18 +98,6 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
         this.inventoryStore.allItems.fetch(true);
         break;
       }
-
-      // case listMenu.LIST_ACTION_REMOVE.id: {
-      //   const title = this.transloco.translate(LIST_REMOVE_PROMPT.title);
-      //   const message = this.transloco.translate(LIST_REMOVE_PROMPT.message);
-      //   const prompt = { ...LIST_REMOVE_PROMPT, title, message };
-
-      //   this.confirmPrompt(prompt).subscribe({
-      //     error: () => console.log('Canceled'),
-      //     next: () => this.inventoryStore.allItems.remove(),
-      //   });
-      //   break;
-      // }
     }
   }
 
