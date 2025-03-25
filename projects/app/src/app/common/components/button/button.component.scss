@@ -1,6 +1,18 @@
-@import 'scoped';
+@import "scoped";
 
 // TODO: Can these variables be simplified?
+
+@mixin app-squared($size: 1rem, $font-size: 1rem) {
+  width: $size !important;
+  min-width: $size !important;
+  max-width: $size !important;
+  height: $size !important;
+  min-height: $size !important;
+  max-height: $size !important;
+
+  font-size: $font-size;
+  line-height: $font-size;
+}
 
 /**
  * Theme variables
@@ -49,7 +61,6 @@
 
   // Color --------------------------------------------------------------------
   &.-color {
-
     &-primary {
       background-color: var(--app-button-primary-background);
       color: var(--app-button-primary-foreground);
@@ -104,9 +115,8 @@
 
   // Size ---------------------------------------------------------------------
   &.-size {
-
     &-extra-small {
-      padding: 0.25rem 0.40rem;
+      padding: 0.25rem 0.4rem;
       font-size: 0.75rem;
       line-height: 0.75rem;
       height: 1.5rem;
@@ -218,7 +228,6 @@
 
   // Floating -----------------------------------------------------------------
   &.-floating {
-
     &-container {
       position: absolute;
       top: var(--_top);
@@ -239,7 +248,8 @@
   }
 
   // Disabled -----------------------------------------------------------------
-  &[disabled], &.disabled {
+  &[disabled],
+  &.disabled {
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
