@@ -51,9 +51,7 @@ export class NotificationComponent {
     this.cssDuration = `${this.dismissAfter()}ms`;
   });
 
-  notificationEffect = effect(this.effectOnNotificationType.bind(this), {
-    allowSignalWrites: true,
-  });
+  notificationEffect = effect(this.effectOnNotificationType.bind(this));
 
   notificationIdEffect = effect(() => {
     this.notificationId(); // <-- Create dependency

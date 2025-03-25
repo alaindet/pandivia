@@ -1,8 +1,34 @@
-import { computed, effect, inject, Injectable, Signal, signal } from '@angular/core';
+import {
+  computed,
+  effect,
+  inject,
+  Injectable,
+  Signal,
+  signal,
+} from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { CategorizedItems, countDoneItems, createFilters, extractCategories, filterItems, filterItemsByName, filterItemsByQuery, getItemByExactId, getItemByName, groupItemsByCategory, provideFeedback, shouldFetchCollection, sortItemsByName } from '@app/common/store';
-import { FormOption, LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@app/common/types';
+import {
+  CategorizedItems,
+  countDoneItems,
+  createFilters,
+  extractCategories,
+  filterItems,
+  filterItemsByName,
+  filterItemsByQuery,
+  getItemByExactId,
+  getItemByName,
+  groupItemsByCategory,
+  provideFeedback,
+  shouldFetchCollection,
+  sortItemsByName,
+} from '@app/common/store';
+import {
+  FormOption,
+  LOADING_STATUS,
+  LoadingStatus,
+  UnixTimestamp,
+} from '@app/common/types';
 import { UiStore } from '@app/core/ui/store';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UserStore } from '@app/features/user/store';
@@ -19,7 +45,6 @@ import { toObservable } from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class ListStore {
-
   public api = inject(ListService);
   public ui = inject(UiStore);
   private user = inject(UserStore);
@@ -50,7 +75,11 @@ export class ListStore {
   isLoading = computed(() => this.status() === LOADING_STATUS.LOADING);
   isError = computed(() => this.status() === LOADING_STATUS.ERROR);
   shouldFetch = computed(() => {
-    return shouldFetchCollection(this.items(), this.status(), this.lastUpdated());
+    return shouldFetchCollection(
+      this.items(),
+      this.status(),
+      this.lastUpdated()
+    );
   });
   categories = computed(() => extractCategories(this.items()));
   categoryOptions = computed(() => this.computeCategoryOptions());
@@ -62,7 +91,7 @@ export class ListStore {
 
   // Effects ------------------------------------------------------------------
   constructor() {
-    effect(() => this.effectOnGuest(), { allowSignalWrites: true });
+    effect(() => this.effectOnGuest());
   }
 
   // Derived state factories --------------------------------------------------
@@ -80,9 +109,11 @@ export class ListStore {
 
   filterCategoryOptions(name: string): Observable<FormOption[]> {
     const query = name.toLowerCase();
-    return of(this.categoryOptions().filter(option => {
-      return option.value.toLowerCase().includes(query);
-    }));
+    return of(
+      this.categoryOptions().filter((option) => {
+        return option.value.toLowerCase().includes(query);
+      })
+    );
   }
 
   filterItemsByName(name: string): Signal<ListItem[]> {
@@ -95,11 +126,14 @@ export class ListStore {
 
       return groupItemsByCategory(
         sortItemsByName(
-          filterItems(this.items(), createFilters(f => [
-            f.exact('isDone', filters[LIST_FILTER.IS_DONE]),
-            f.exact('category', filters[LIST_FILTER.CATEGORY]),
-            f.like('name', filters[LIST_FILTER.SEARCH_QUERY]?.toLowerCase()),
-          ])),
+          filterItems(
+            this.items(),
+            createFilters((f) => [
+              f.exact('isDone', filters[LIST_FILTER.IS_DONE]),
+              f.exact('category', filters[LIST_FILTER.CATEGORY]),
+              f.like('name', filters[LIST_FILTER.SEARCH_QUERY]?.toLowerCase()),
+            ])
+          )
         )
       );
     });
@@ -118,7 +152,7 @@ export class ListStore {
   filterItemNameOptions(name: string): Observable<FormOption[]> {
     const query = name.toLowerCase();
     const itemNamesSet = new Set<string>();
-    this.items().forEach(item => itemNamesSet.add(item.name.toLowerCase()));
+    this.items().forEach((item) => itemNamesSet.add(item.name.toLowerCase()));
     const inventoryItems = this.inventory.filterItemsByName(query)();
     const result: FormOption[] = [];
 
@@ -133,7 +167,6 @@ export class ListStore {
   }
 
   private computeFiltersList(): ListFilterToken[] | null {
-
     const filters: ListFilterToken[] = [];
     const filtersHash = this.filters();
 
@@ -147,7 +180,9 @@ export class ListStore {
     if (filtersHash[LIST_FILTER.IS_DONE] !== null) {
       const key = LIST_FILTER.IS_DONE;
       const value = filtersHash[key];
-      const label = value ? 'list.filter.onlyToDo' : 'list.filter.onlyCompleted';
+      const label = value
+        ? 'list.filter.onlyToDo'
+        : 'list.filter.onlyCompleted';
       filters.push({ key, value, label });
     }
 

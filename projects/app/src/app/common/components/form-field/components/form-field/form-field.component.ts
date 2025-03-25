@@ -21,7 +21,5 @@ export class FormFieldComponent {
 
   id = input<string>('');
 
-  idEffect = effect(() => this.context.id.set(this.id()), {
-    allowSignalWrites: true,
-  });
+  idEffect = effect(() => this.context.id.set(this.id()));
 }

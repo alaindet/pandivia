@@ -1,6 +1,11 @@
 import { computed, effect, signal } from '@angular/core';
 
-import { Notification, NOTIFICATION_TYPE, NotificationType, RuntimeNotification } from '@app/common/types';
+import {
+  Notification,
+  NOTIFICATION_TYPE,
+  NotificationType,
+  RuntimeNotification,
+} from '@app/common/types';
 import { NOTIFICATION_TIMEOUT } from '../constants';
 import { HashMap } from '@jsverse/transloco';
 
@@ -8,10 +13,14 @@ export function createUiNotificationController() {
   const notifications = signal<Notification[]>([]);
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
-  function add(notifType: NotificationType, message: string, messageParams?: HashMap) {
+  function add(
+    notifType: NotificationType,
+    message: string,
+    messageParams?: HashMap
+  ) {
     const id = Date.now() + Math.random();
     const notif = { id, type: notifType, message, messageParams };
-    notifications.update(notifs => [...notifs, notif]);
+    notifications.update((notifs) => [...notifs, notif]);
   }
 
   function success(message: string, messageParams?: HashMap) {
@@ -23,7 +32,7 @@ export function createUiNotificationController() {
   }
 
   function dismiss() {
-    notifications.update(notifs => notifs.slice(0, -1));
+    notifications.update((notifs) => notifs.slice(0, -1));
   }
 
   function init() {
@@ -39,7 +48,7 @@ export function createUiNotificationController() {
       }
 
       timeout = setTimeout(dismiss, NOTIFICATION_TIMEOUT);
-    }, { allowSignalWrites: true });
+    });
   }
 
   function computeNotification(): RuntimeNotification | null {

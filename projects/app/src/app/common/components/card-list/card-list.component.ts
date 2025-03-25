@@ -80,23 +80,17 @@ export class CardListComponent {
   isCompleted = computed(() => this.computeIsCompleted());
   isPinned = signal(true);
 
-  itemsEffect = effect(
-    () => {
-      const items = this.items();
-      this.itemActionsMap = this.updateActionsByItemMap(items);
-      if (this.withCounters()) {
-        this.updateCounters(items as ListItem[]);
-      }
-    },
-    { allowSignalWrites: true }
-  );
+  itemsEffect = effect(() => {
+    const items = this.items();
+    this.itemActionsMap = this.updateActionsByItemMap(items);
+    if (this.withCounters()) {
+      this.updateCounters(items as ListItem[]);
+    }
+  });
 
-  isPinnedEffect = effect(
-    () => {
-      this.isPinned.set(this._isPinned());
-    },
-    { allowSignalWrites: true }
-  );
+  isPinnedEffect = effect(() => {
+    this.isPinned.set(this._isPinned());
+  });
 
   onListAction(action: string) {
     this.listActionClicked.emit(action);

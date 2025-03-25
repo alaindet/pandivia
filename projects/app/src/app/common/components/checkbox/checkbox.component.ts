@@ -111,14 +111,8 @@ export class CheckboxComponent implements ControlValueAccessor {
   isChecked = signal(false);
   tabIndex = computed(() => (this.isDisabled() ? '-1' : '0'));
   cssClass = computed(() => cssClassesList([`-color-${this.color()}`]));
-
-  checkedEffect = effect(() => this.isChecked.set(this._isChecked()), {
-    allowSignalWrites: true,
-  });
-
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
-    allowSignalWrites: true,
-  });
+  checkedEffect = effect(() => this.isChecked.set(this._isChecked()));
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   interactivityEffect = effect((onCleanup) => {
     if (!this.isInteractable() || this.isDisabled()) {

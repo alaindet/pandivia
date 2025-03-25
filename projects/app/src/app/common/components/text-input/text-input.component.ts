@@ -99,9 +99,7 @@ export class TextInputComponent implements ControlValueAccessor {
   );
   cssWidth = computed(() => this.width() ?? 'fit-content');
 
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
-    allowSignalWrites: true,
-  });
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   attributesEffect = effect(() => {
     this.htmlAttrs.apply(this.inputRef().nativeElement, this.attrs());

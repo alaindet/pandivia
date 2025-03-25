@@ -79,13 +79,8 @@ export class SelectComponent implements ControlValueAccessor {
   private onChange!: (val: any) => {};
   private onTouched!: () => {};
 
-  valueEffect = effect(() => this.selectedValue.set(this.value() ?? null), {
-    allowSignalWrites: true,
-  });
-
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
-    allowSignalWrites: true,
-  });
+  valueEffect = effect(() => this.selectedValue.set(this.value() ?? null));
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   // Thanks to https://linuxhint.com/select-onchange-javascript/
   onSelectChange() {

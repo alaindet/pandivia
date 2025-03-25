@@ -90,25 +90,20 @@ export class TextareaComponent implements ControlValueAccessor {
     cssClassesList([this.status() ? `-status-${this.status()}` : null])
   );
 
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
-    allowSignalWrites: true,
-  });
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   attributesEffect = effect(() => {
     this.attrsController.apply(this.nativeInput(), this.attrs());
   });
 
-  valueEffect = effect(
-    () => {
-      const value = this.value();
-      if (value === undefined) {
-        return;
-      }
-      this.inputValue.set(value);
-      this.nativeInput().value = value;
-    },
-    { allowSignalWrites: true }
-  );
+  valueEffect = effect(() => {
+    const value = this.value();
+    if (value === undefined) {
+      return;
+    }
+    this.inputValue.set(value);
+    this.nativeInput().value = value;
+  });
 
   private onChange!: (val: any) => {};
   private onTouched!: () => {};

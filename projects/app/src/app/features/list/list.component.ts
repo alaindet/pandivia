@@ -75,11 +75,8 @@ export class ListPageComponent implements OnInit, OnDestroy {
   filters = computed(() => this.computeTranslatedFilters());
   getItemContextualMenu = this.getTranslatedItemContextualMenuFn();
   counters = this.listStore.counters;
-  pageCountersEffect = effect(
-    () => this.layout.headerCounters.set(this.counters()),
-    {
-      allowSignalWrites: true,
-    }
+  pageCountersEffect = effect(() =>
+    this.layout.headerCounters.set(this.counters())
   );
 
   ngOnInit() {

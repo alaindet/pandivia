@@ -47,12 +47,9 @@ export class ActionsMenuComponent implements OnInit {
 
   actionConfirmed = output<string>();
 
-  actionsEffect = effect(
-    () => {
-      this.svc.actions.initOrUpdate(this.actions());
-    },
-    { allowSignalWrites: true }
-  );
+  actionsEffect = effect(() => {
+    this.svc.actions.initOrUpdate(this.actions());
+  });
 
   private cssOffsetY = computed(() => {
     const offsetY = this.offsetY();
@@ -73,31 +70,22 @@ export class ActionsMenuComponent implements OnInit {
   }
 
   itemsElementRef = viewChild<ElementRef<HTMLElement>>('itemsElementRef');
-  itemsElementRefEffect = effect(
-    () => {
-      const ref = this.itemsElementRef();
-      if (ref) doOnce(() => this.svc.itemsElement.init(ref.nativeElement))();
-    },
-    { allowSignalWrites: true }
-  );
+  itemsElementRefEffect = effect(() => {
+    const ref = this.itemsElementRef();
+    if (ref) doOnce(() => this.svc.itemsElement.init(ref.nativeElement))();
+  });
 
   itemTemplateRef = contentChild(ActionsMenuItemDirective);
-  itemTemplateRefEffect = effect(
-    () => {
-      const ref = this.itemTemplateRef();
-      if (ref) doOnce(() => this.svc.templates.setItem(ref.template))();
-    },
-    { allowSignalWrites: true }
-  );
+  itemTemplateRefEffect = effect(() => {
+    const ref = this.itemTemplateRef();
+    if (ref) doOnce(() => this.svc.templates.setItem(ref.template))();
+  });
 
   buttonTemplateRef = contentChild(ActionsMenuButtonDirective);
-  buttonTemplateRefEffect = effect(
-    () => {
-      const ref = this.buttonTemplateRef();
-      if (ref) doOnce(() => this.svc.templates.setButton(ref.template))();
-    },
-    { allowSignalWrites: true }
-  );
+  buttonTemplateRefEffect = effect(() => {
+    const ref = this.buttonTemplateRef();
+    if (ref) doOnce(() => this.svc.templates.setButton(ref.template))();
+  });
 
   ngOnInit() {
     this.initButtonElement();

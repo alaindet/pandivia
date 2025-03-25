@@ -83,13 +83,8 @@ export class ToggleComponent implements ControlValueAccessor {
     ])
   );
 
-  checkedEffect = effect(() => this.isChecked.set(this._isChecked()), {
-    allowSignalWrites: true,
-  });
-
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()), {
-    allowSignalWrites: true,
-  });
+  checkedEffect = effect(() => this.isChecked.set(this._isChecked()));
+  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   private onChange!: (val: any) => {};
   private onTouched!: () => {};
