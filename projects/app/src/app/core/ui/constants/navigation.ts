@@ -1,20 +1,25 @@
 import { BottomMenuItem } from '@app/common/components';
+import {
+  matFormatListBulleted,
+  matInventory2,
+  matPerson,
+} from '@ng-icons/material-icons/baseline';
 
 export const NAVIGATION_ITEM_INVENTORY: BottomMenuItem = {
   id: 'inventory',
-  icon: 'inventory_2',
+  icon: matInventory2,
   label: 'inventory.title',
 };
 
 export const NAVIGATION_ITEM_LIST: BottomMenuItem = {
   id: 'list',
-  icon: 'format_list_bulleted',
+  icon: matFormatListBulleted,
   label: 'list.title',
 };
 
 export const NAVIGATION_ITEM_USER: BottomMenuItem = {
   id: 'user',
-  icon: 'person',
+  icon: matPerson,
   label: 'userProfile.title',
 };
 

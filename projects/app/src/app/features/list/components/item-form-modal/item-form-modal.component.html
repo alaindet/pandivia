@@ -10,9 +10,8 @@
 >
   <!-- Name -->
   <app-form-field [id]="FIELD.NAME.htmlId">
-
     <app-form-field-label isRequired>
-      {{ t('common.form.field.name') }}
+      {{ t("common.form.field.name") }}
     </app-form-field-label>
 
     <app-text-input
@@ -24,11 +23,15 @@
       [status]="fName | appFieldStatus"
       [placeholder]="t('common.form.field.name') + '...'"
       [withStatusIcon]="true"
-      [withErrorId]="fName | appFieldErrorId:{
-        'required': FIELD.NAME.errors.REQUIRED,
-        'minlength,maxlength': FIELD.NAME.errors.LENGTH,
-        'uniqueItemName': FIELD.NAME.errors.UNIQUE
-      }"
+      [withErrorId]="
+        fName
+          | appFieldErrorId
+            : {
+                required: FIELD.NAME.errors.REQUIRED,
+                'minlength,maxlength': FIELD.NAME.errors.LENGTH,
+                uniqueItemName: FIELD.NAME.errors.UNIQUE
+              }
+      "
     />
 
     <app-autocomplete
@@ -55,32 +58,30 @@
 
     <!-- Error: required -->
     @if (fName | appFieldError:'required') {
-      <app-form-field-error [errorId]="FIELD.NAME.errors.REQUIRED">
-        {{ t('common.error.required') }}
-      </app-form-field-error>
+    <app-form-field-error [errorId]="FIELD.NAME.errors.REQUIRED">
+      {{ t("common.error.required") }}
+    </app-form-field-error>
     }
 
     <!-- Error: min/max length -->
     @if (fName | appFieldError:'minlength,maxlength') {
-      <app-form-field-error [errorId]="FIELD.NAME.errors.LENGTH">
-        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-      </app-form-field-error>
+    <app-form-field-error [errorId]="FIELD.NAME.errors.LENGTH">
+      {{ t("common.error.minMaxLength", { min: 2, max: 100 }) }}
+    </app-form-field-error>
     }
 
     <!-- Error: unique name -->
     @if (fName | appFieldError:'uniqueItemName') {
-      <app-form-field-error [errorId]="FIELD.NAME.errors.UNIQUE">
-        {{ t('common.error.uniqueName') }}
-      </app-form-field-error>
+    <app-form-field-error [errorId]="FIELD.NAME.errors.UNIQUE">
+      {{ t("common.error.uniqueName") }}
+    </app-form-field-error>
     }
-
   </app-form-field>
 
   <!-- Amount -->
   <app-form-field [id]="FIELD.AMOUNT.htmlId">
-
     <app-form-field-label isRequired>
-      {{ t('common.form.field.amount') }}
+      {{ t("common.form.field.amount") }}
     </app-form-field-label>
 
     <app-quick-number
@@ -98,25 +99,23 @@
 
     <!-- Error: required -->
     @if (fAmount | appFieldError:'required') {
-      <app-form-field-error [errorId]="FIELD.AMOUNT.errors.REQUIRED">
-        {{ t('common.error.required') }}
-      </app-form-field-error>
+    <app-form-field-error [errorId]="FIELD.AMOUNT.errors.REQUIRED">
+      {{ t("common.error.required") }}
+    </app-form-field-error>
     }
 
     <!-- Error: min/max -->
     @if (fAmount | appFieldError:'min,max') {
-      <app-form-field-error [errorId]="FIELD.AMOUNT.errors.MIN_MAX">
-        {{ t('common.error.minMax', { min:1, max: 100 }) }}
-      </app-form-field-error>
+    <app-form-field-error [errorId]="FIELD.AMOUNT.errors.MIN_MAX">
+      {{ t("common.error.minMax", { min: 1, max: 100 }) }}
+    </app-form-field-error>
     }
-
   </app-form-field>
 
   <!-- Description -->
   <app-form-field [id]="FIELD.DESCRIPTION.htmlId">
-
     <app-form-field-label isOptional>
-      {{ t('common.form.field.description') }}
+      {{ t("common.form.field.description") }}
     </app-form-field-label>
 
     <app-textarea
@@ -128,25 +127,27 @@
       [withCharsCounter]="true"
       [maxChars]="100"
       [withStatusIcon]="true"
-      [withErrorId]="fDesc | appFieldErrorId:{
-        'minlength,maxlength': FIELD.DESCRIPTION.errors.LENGTH
-      }"
+      [withErrorId]="
+        fDesc
+          | appFieldErrorId
+            : {
+                'minlength,maxlength': FIELD.DESCRIPTION.errors.LENGTH
+              }
+      "
     />
 
     <!-- Error: min/max length -->
     @if (fDesc | appFieldError:'minlength,maxlength') {
-      <app-form-field-error [errorId]="FIELD.DESCRIPTION.errors.LENGTH">
-        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-      </app-form-field-error>
+    <app-form-field-error [errorId]="FIELD.DESCRIPTION.errors.LENGTH">
+      {{ t("common.error.minMaxLength", { min: 2, max: 100 }) }}
+    </app-form-field-error>
     }
-
   </app-form-field>
 
   <!-- Category -->
   <app-form-field [id]="FIELD.CATEGORY.htmlId">
-
     <app-form-field-label isOptional>
-      {{ t('common.form.field.category') }}
+      {{ t("common.form.field.category") }}
     </app-form-field-label>
 
     <app-text-input
@@ -159,9 +160,13 @@
       [status]="fCategory | appFieldStatus"
       [placeholder]="t('common.form.field.category') + '...'"
       [withStatusIcon]="true"
-      [withErrorId]="fCategory | appFieldErrorId:{
-        'minlength,maxlength': FIELD.CATEGORY.errors.LENGTH
-      }"
+      [withErrorId]="
+        fCategory
+          | appFieldErrorId
+            : {
+                'minlength,maxlength': FIELD.CATEGORY.errors.LENGTH
+              }
+      "
     />
 
     <app-autocomplete
@@ -187,123 +192,113 @@
 
     <!-- Error: min/max length -->
     @if (fCategory | appFieldError:'minlength,maxlength') {
-      <app-form-field-error [errorId]="FIELD.CATEGORY.errors.LENGTH">
-        {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-      </app-form-field-error>
+    <app-form-field-error [errorId]="FIELD.CATEGORY.errors.LENGTH">
+      {{ t("common.error.minMaxLength", { min: 2, max: 100 }) }}
+    </app-form-field-error>
     }
-
   </app-form-field>
 
   <!-- Is done (edit-only) -->
   @if (isEditing()) {
-    <app-form-field [id]="FIELD.IS_DONE.htmlId">
+  <app-form-field [id]="FIELD.IS_DONE.htmlId">
+    <app-form-field-label isOptional>
+      {{ t("common.form.field.completed") }}
+    </app-form-field-label>
 
-      <app-form-field-label isOptional>
-        {{ t('common.form.field.completed') }}
-      </app-form-field-label>
-
-      <app-toggle
-        [formControlName]="FIELD.IS_DONE.id"
-        [id]="FIELD.IS_DONE.htmlId"
-        color="primary"
-      >
-        {{ t('common.form.field.completed') }}?
-      </app-toggle>
-
-    </app-form-field>
+    <app-toggle
+      [formControlName]="FIELD.IS_DONE.id"
+      [id]="FIELD.IS_DONE.htmlId"
+      color="primary"
+    >
+      {{ t("common.form.field.completed") }}?
+    </app-toggle>
+  </app-form-field>
   }
 
   <!-- Add to inventory (create-only)-->
   @if (!isEditing()) {
-    <app-form-field [id]="FIELD.ADD_TO_INVENTORY.htmlId">
+  <app-form-field [id]="FIELD.ADD_TO_INVENTORY.htmlId">
+    <app-form-field-label isOptional>
+      {{ t("common.form.field.addToInventory") }}
+    </app-form-field-label>
 
-      <app-form-field-label isOptional>
-        {{ t('common.form.field.addToInventory') }}
-      </app-form-field-label>
+    <app-toggle
+      [formControlName]="FIELD.ADD_TO_INVENTORY.id"
+      [id]="FIELD.ADD_TO_INVENTORY.htmlId"
+      color="primary"
+      class="_add-to-inventory-toggle"
+    >
+      {{ t("common.form.field.addToInventory") }}?
+    </app-toggle>
 
-      <app-toggle
-        [formControlName]="FIELD.ADD_TO_INVENTORY.id"
-        [id]="FIELD.ADD_TO_INVENTORY.htmlId"
-        color="primary"
-        class="_add-to-inventory-toggle"
-      >
-        {{ t('common.form.field.addToInventory') }}?
-      </app-toggle>
-
-      <app-form-field-hint>
-        {{ t('list.hint.addToInventory') }}
-      </app-form-field-hint>
-
-    </app-form-field>
+    <app-form-field-hint>
+      {{ t("list.hint.addToInventory") }}
+    </app-form-field-hint>
+  </app-form-field>
   }
 </form>
 
 <ng-container *appModalFooter>
   <div *transloco="let t" class="_footer">
-
     @if (isMobile()) {
-      <!-- Cancel -->
-      <button
-        type="button"
-        appButton="outline"
-        size="small"
-        [withFullWidth]="true"
-        withIcon="left"
-        (click)="onCancel()"
-      >
-        <mat-icon>clear</mat-icon>
-        {{ t('common.close') }}
-      </button>
+    <!-- Cancel -->
+    <button
+      type="button"
+      appButton="outline"
+      size="small"
+      [withFullWidth]="true"
+      withIcon="left"
+      (click)="onCancel()"
+    >
+      <ng-icon [svg]="matClear" />
+      {{ t("common.close") }}
+    </button>
+    } @if (isEditing()) {
+    <!-- Edit -->
+    <button
+      type="button"
+      appButton="primary"
+      withIcon="left"
+      size="small"
+      [withFullWidth]="isMobile()"
+      [disabled]="isSaving()"
+      (click)="onSubmit()"
+    >
+      <ng-icon
+        [class.-rotating]="isSaving()"
+        [svg]="isSaving() ? matSync : matEdit"
+      />
+      {{ t("common.edit") }}
+    </button>
+    } @else {
+
+    <!-- Confirm and continue -->
+    <button
+      type="button"
+      appButton="secondary"
+      withIcon="left"
+      size="small"
+      [withFullWidth]="isMobile()"
+      [disabled]="isSaving()"
+      (click)="onCreateAndContinue()"
+    >
+      <ng-icon [svg]="matPlaylistAdd" />
+      {{ t("common.createAndContinue") }}
+    </button>
+
+    <!-- Confirm and close -->
+    <button
+      type="button"
+      appButton="primary"
+      withIcon="left"
+      size="small"
+      [withFullWidth]="isMobile()"
+      [disabled]="isSaving()"
+      (click)="onSubmit()"
+    >
+      <ng-icon [svg]="matAdd" />
+      {{ t("common.createAndClose") }}
+    </button>
     }
-
-    @if (isEditing()) {
-      <!-- Edit -->
-      <button
-        type="button"
-        appButton="primary"
-        withIcon="left"
-        size="small"
-        [withFullWidth]="isMobile()"
-        [disabled]="isSaving()"
-        (click)="onSubmit()"
-      >
-        <mat-icon [class.-rotating]="isSaving()">
-          {{ isSaving() ? 'sync' : 'edit' }}
-        </mat-icon>
-        {{ t('common.edit') }}
-      </button>
-    }
-
-    @else {
-
-      <!-- Confirm and continue -->
-      <button
-        type="button"
-        appButton="secondary"
-        withIcon="left"
-        size="small"
-        [withFullWidth]="isMobile()"
-        [disabled]="isSaving()"
-        (click)="onCreateAndContinue()"
-      >
-        <mat-icon>playlist_add</mat-icon>
-        {{ t('common.createAndContinue') }}
-      </button>
-
-      <!-- Confirm and close -->
-      <button
-        type="button"
-        appButton="primary"
-        withIcon="left"
-        size="small"
-        [withFullWidth]="isMobile()"
-        [disabled]="isSaving()"
-        (click)="onSubmit()"
-      >
-        <mat-icon>add</mat-icon>
-        {{ t('common.createAndClose') }}
-      </button>
-    }
-
   </div>
 </ng-container>

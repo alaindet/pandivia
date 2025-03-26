@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matPersonAdd } from '@ng-icons/material-icons/baseline';
 
 import { UiStore } from '@app/core/ui';
 import {
@@ -22,7 +23,7 @@ import { InvitesService } from '../services';
   imports: [
     ReactiveFormsModule,
     TranslocoModule,
-    MatIconModule,
+    NgIcon,
     TextInputComponent,
     ButtonComponent,
     ...FORM_FIELD_EXPORTS,
@@ -37,6 +38,7 @@ export class InviteUserComponent {
   private invitesService = inject(InvitesService);
 
   inviteUrl: string | null = null;
+  matPersonAdd = matPersonAdd;
   theForm = this.formBuilder.group({
     email: ['', [Validators.email]],
   });

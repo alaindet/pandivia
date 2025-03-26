@@ -11,7 +11,12 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import {
+  matClear,
+  matClose,
+  matCheck,
+} from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { ButtonComponent } from '../../button';
@@ -24,7 +29,7 @@ import {
 
 @Component({
   selector: 'app-modal-host',
-  imports: [NgTemplateOutlet, ButtonComponent, MatIconModule, TranslocoModule],
+  imports: [NgTemplateOutlet, ButtonComponent, NgIcon, TranslocoModule],
   templateUrl: './modal-host.component.html',
   styleUrl: './modal-host.component.scss',
   host: { class: 'app-modal-host' },
@@ -34,6 +39,10 @@ export class ModalHostComponent implements OnDestroy {
   private modalService = inject(ModalService);
 
   labels = input<ModalHostLabels>();
+
+  matCheck = matCheck;
+  matClear = matClear;
+  matClose = matClose;
 
   @HostBinding('class.-open')
   get cssClassOpen() {

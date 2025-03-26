@@ -13,7 +13,7 @@
           size="extra-small"
           (click)="onRemoveFilter(filter)"
         >
-          <mat-icon>clear</mat-icon>
+          <ng-icon [svg]="matClear" />
           {{ filter.label ? t(filter.label) : filter.value }}
         </button>
       </li>
@@ -46,7 +46,7 @@
       floatingRight="calc(50vw - 0.5 * var(--app-width-container) + 1.1rem)"
       (click)="onShowCreateItemModal()"
     >
-      <mat-icon>add</mat-icon>
+      <ng-icon [svg]="matAdd" />
     </button>
   </div>
 

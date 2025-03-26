@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { matList, matPerson, matStar } from '@ng-icons/material-icons/baseline';
 
 import { BottomMenuComponent, BottomMenuItem } from '@app/common/components';
 
@@ -10,9 +11,9 @@ import { BottomMenuComponent, BottomMenuItem } from '@app/common/components';
 })
 export class BottomMenuDemoPageComponent {
   menuItems: BottomMenuItem[] = [
-    { id: 'lists', icon: 'list', label: 'Lists' },
-    { id: 'current', icon: 'star', label: 'Items' },
-    { id: 'user', icon: 'person', label: 'User' },
+    { id: 'lists', label: 'Lists', icon: matList },
+    { id: 'current', label: 'Items', icon: matStar },
+    { id: 'user', label: 'User', icon: matPerson },
   ];
 
   currentItem: string | null = null;

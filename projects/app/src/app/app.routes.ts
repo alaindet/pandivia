@@ -48,7 +48,6 @@ let routes: Routes = [
 ];
 
 if (!environment.production) {
-
   const demoRoute = {
     path: 'demo',
     loadChildren: () => import('@app/__demo__'),

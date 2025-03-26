@@ -1,5 +1,5 @@
 <div class="_icon">
-  <mat-icon>{{ notificationIcon() }}</mat-icon>
+  <ng-icon [svg]="notificationIcon()" />
 </div>
 
 <div class="_message">
@@ -7,9 +7,11 @@
 </div>
 
 @if (more() > 0) {
-  <div class="_more">+{{ more() }}</div>
+<div class="_more">+{{ more() }}</div>
 }
 
-<button type="button" class="_dismiss" (click)="dismissed.emit()">&times;</button>
+<button type="button" class="_dismiss" (click)="dismissed.emit()">
+  &times;
+</button>
 
 <div class="_progress"></div>

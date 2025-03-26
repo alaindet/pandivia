@@ -1,16 +1,15 @@
 <div class="_left">
-
   <!-- Back button -->
   @if (withBackButton() || withControlledBackButton()) {
-    <button
-      type="button"
-      appButton="ghost"
-      isCircle
-      withIconOnly
-      (click)="onBackClicked()"
-    >
-      <mat-icon>arrow_back</mat-icon>
-    </button>
+  <button
+    type="button"
+    appButton="ghost"
+    isCircle
+    withIconOnly
+    (click)="onBackClicked()"
+  >
+    <ng-icon [svg]="matArrowBack" />
+  </button>
   }
 
   <ng-content select="[slot='left']"></ng-content>

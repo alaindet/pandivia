@@ -1,28 +1,34 @@
 import { ActionsMenuItem } from '@app/common/components';
 import { InventoryItem } from '../types';
+import {
+  matDelete,
+  matEdit,
+  matFormatListBulleted,
+  matLowPriority,
+} from '@ng-icons/material-icons/baseline';
 
 export const ITEM_ACTION_ADD_TO_LIST: ActionsMenuItem = {
   id: 'item:add-to-list',
   label: 'inventory.menu.addToList',
-  icon: 'format_list_bulleted',
+  icon: matFormatListBulleted,
 };
 
 export const ITEM_ACTION_MOVE_TO_CATEGORY: ActionsMenuItem = {
   id: 'item:move-to-category',
   label: 'common.menu.moveToCategory',
-  icon: 'low_priority',
+  icon: matLowPriority,
 };
 
 export const ITEM_ACTION_EDIT: ActionsMenuItem = {
   id: 'item:edit',
   label: 'common.menu.edit',
-  icon: 'edit',
+  icon: matEdit,
 };
 
 export const ITEM_ACTION_REMOVE: ActionsMenuItem = {
   id: 'item:remove',
   label: 'common.menu.remove',
-  icon: 'delete',
+  icon: matDelete,
 };
 
 export function getItemContextualMenu(item: InventoryItem): ActionsMenuItem[] {

@@ -7,7 +7,8 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matClear, matAdd } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 
@@ -47,7 +48,7 @@ import { InventoryFilterToken, InventoryItem } from './types';
   imports: [
     NgTemplateOutlet,
     ...ACTIONS_MENU_EXPORTS,
-    MatIconModule,
+    NgIcon,
     ButtonComponent,
     CardListComponent,
     TranslocoModule,
@@ -78,6 +79,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   pageCountersEffect = effect(() =>
     this.layout.headerCounters.set(this.counters())
   );
+
+  matClear = matClear;
+  matAdd = matAdd;
 
   ngOnInit() {
     this.initPageMetadata();

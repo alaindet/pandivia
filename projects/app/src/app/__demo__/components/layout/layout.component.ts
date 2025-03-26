@@ -1,19 +1,23 @@
 import { Component, HostBinding, inject, OnInit, signal } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { NgIcon } from '@ng-icons/core';
+import { matClose, matMenu } from '@ng-icons/material-icons/baseline';
 
 import { ButtonComponent } from '@app/common/components';
 import { MediaQueryService } from '@app/common/services';
 
 @Component({
   selector: 'app-demo-layout',
-  imports: [MatIconModule, ButtonComponent],
+  imports: [NgIcon, ButtonComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
 export class DemoLayoutComponent implements OnInit {
   private router = inject(Router);
+
+  matMenu = matMenu;
+  matClose = matClose;
 
   @HostBinding('class.-mobile')
   get cssClassMobile() {

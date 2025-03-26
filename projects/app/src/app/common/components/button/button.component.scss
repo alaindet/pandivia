@@ -42,6 +42,7 @@
   --_right: 1rem;
   --_bottom: 1rem;
   --_left: auto;
+  --_icon-size: 1.2rem;
 
   width: -moz-fit-content;
   width: fit-content;
@@ -58,6 +59,11 @@
   font-weight: 500;
   letter-spacing: 1px;
   transition: 0.15s background-color ease-out;
+
+  ng-icon {
+    width: var(--_icon-size);
+    height: var(--_icon-size);
+  }
 
   // Color --------------------------------------------------------------------
   &.-color {
@@ -116,68 +122,55 @@
   // Size ---------------------------------------------------------------------
   &.-size {
     &-extra-small {
+      --_icon-size: 1rem;
+
       padding: 0.25rem 0.4rem;
       font-size: 0.75rem;
       line-height: 0.75rem;
       height: 1.5rem;
 
-      mat-icon {
-        transform: scale(0.75);
-      }
-
       &.-with-icon-only {
         @include app-squared(1.5rem, 1.2rem);
-
-        mat-icon {
-          width: 1.2rem;
-          height: 1.2rem;
-        }
       }
     }
 
     &-small {
+      --_icon-size: 1.2rem;
+
       padding: 0.5rem 0.75rem;
       font-size: 0.85rem;
       line-height: 0.85rem;
 
       &.-with-icon-only {
+        --_icon-size: 1.4rem;
         @include app-squared(2rem, 1.4rem);
-
-        mat-icon {
-          width: 1.4rem;
-          height: 1.4rem;
-        }
       }
     }
 
     &-medium {
+      --_icon-size: 1.25rem;
+
       padding: 0.75rem 1rem;
       font-size: 1rem;
       line-height: 1rem;
 
       &.-with-icon-only {
+        --_icon-size: 1.85rem;
         @include app-squared(3rem, 1.85rem);
-
-        mat-icon {
-          width: 1.85rem;
-          height: 1.85rem;
-        }
       }
     }
 
     &-large {
+      --_icon-size: 1.5rem;
+
       padding: 1.25rem 1.75rem;
       font-size: 1.1rem;
       line-height: 1.1rem;
       min-width: 130px;
 
       &.-with-icon-only {
+        --_icon-size: 2.5rem;
         @include app-squared(4rem, 2.5rem);
-
-        mat-icon {
-          width: 2.5rem;
-          height: 2.5rem;
-        }
       }
     }
   }
@@ -201,13 +194,13 @@
     white-space: nowrap;
 
     &.-left {
-      mat-icon {
+      ng-icon {
         margin-right: 0.33rem;
       }
     }
 
     &.-right {
-      mat-icon {
+      ng-icon {
         margin-left: 0.33rem;
       }
     }
@@ -220,7 +213,7 @@
     align-items: center;
     position: relative;
 
-    mat-icon {
+    ng-icon {
       position: absolute;
       font-size: inherit;
     }

@@ -9,9 +9,9 @@
   <!-- Header -->
   <header id="modal-header">
     @if (headerTemplate(); as headerTemplate) {
-      <ng-container [ngTemplateOutlet]="headerTemplate" />
+    <ng-container [ngTemplateOutlet]="headerTemplate" />
     } @else {
-      <h2>&nbsp;</h2>
+    <h2>&nbsp;</h2>
     }
   </header>
 
@@ -25,7 +25,7 @@
       size="small"
       (click)="onDismiss()"
     >
-      <mat-icon>clear</mat-icon>
+      <ng-icon [svg]="matClear" />
     </button>
   </div>
 
@@ -37,37 +37,34 @@
   <!-- Footer -->
   <footer>
     @if (footerTemplate(); as footerTemplate) {
-      <ng-container [ngTemplateOutlet]="footerTemplate" />
+    <ng-container [ngTemplateOutlet]="footerTemplate" />
     } @else {
-      <div class="default-footer">
+    <div class="default-footer">
+      <!-- Cancel -->
+      <button
+        type="button"
+        appButton="outline"
+        size="small"
+        withIcon="left"
+        (click)="onDismiss()"
+      >
+        <ng-icon [svg]="matClose" />
+        {{ labels()?.cancel ?? "Cancel" }}
+      </button>
 
-        <!-- Cancel -->
-        <button
-          type="button"
-          appButton="outline"
-          size="small"
-          withIcon="left"
-          (click)="onDismiss()"
-        >
-          <mat-icon>close</mat-icon>
-          {{ labels()?.cancel ?? 'Cancel' }}
-        </button>
-
-        <!-- Confirm -->
-        <button
-          type="button"
-          appButton="primary"
-          withIcon="left"
-          size="small"
-          (click)="onConfirm()"
-        >
-          <mat-icon>check</mat-icon>
-          {{ labels()?.confirm ?? 'Confirm' }}
-        </button>
-
-      </div>
+      <!-- Confirm -->
+      <button
+        type="button"
+        appButton="primary"
+        withIcon="left"
+        size="small"
+        (click)="onConfirm()"
+      >
+        <ng-icon [svg]="matCheck" />
+        {{ labels()?.confirm ?? "Confirm" }}
+      </button>
+    </div>
     }
-
   </footer>
 </div>
 

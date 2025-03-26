@@ -16,8 +16,9 @@ import {
   runInInjectionContext,
   viewChild,
 } from '@angular/core';
+import { NgIcon } from '@ng-icons/core';
+import { matMoreHoriz } from '@ng-icons/material-icons/baseline';
 
-import { MatIconModule } from '@angular/material/icon';
 import { doOnce } from '@app/common/utils';
 import { ButtonComponent } from '../../button';
 import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
@@ -27,7 +28,7 @@ import { ActionsMenuItem } from './types';
 
 @Component({
   selector: 'app-actions-menu',
-  imports: [NgTemplateOutlet, ButtonComponent, MatIconModule],
+  imports: [NgTemplateOutlet, ButtonComponent, NgIcon],
   templateUrl: './actions-menu.component.html',
   styleUrl: './actions-menu.component.scss',
   host: { class: 'app-actions-menu' },
@@ -44,6 +45,7 @@ export class ActionsMenuComponent implements OnInit {
   actions = input.required<ActionsMenuItem[]>();
   position = input<'left' | 'right'>('left');
   offsetY = input('0');
+  matMoreHoriz = matMoreHoriz;
 
   actionConfirmed = output<string>();
 

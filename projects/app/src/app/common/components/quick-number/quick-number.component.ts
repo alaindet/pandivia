@@ -15,7 +15,8 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matRemove, matAdd } from '@ng-icons/material-icons/baseline';
 
 import { uniqueId } from '@app/common/utils';
 import { ButtonColor, ButtonComponent } from '../button';
@@ -28,7 +29,7 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
 
 @Component({
   selector: 'app-quick-number',
-  imports: [MatIconModule, ReactiveFormsModule, ButtonComponent],
+  imports: [NgIcon, ReactiveFormsModule, ButtonComponent],
   templateUrl: './quick-number.component.html',
   styleUrl: './quick-number.component.scss',
   host: { class: 'app-quick-number' },
@@ -46,6 +47,9 @@ export class QuickNumberComponent implements ControlValueAccessor {
   withFullWidth = input(false);
 
   changed = output<number>();
+
+  matAdd = matAdd;
+  matRemove = matRemove;
 
   @HostBinding('attr.aria-errormessage')
   get attrAriaErrorMessage() {

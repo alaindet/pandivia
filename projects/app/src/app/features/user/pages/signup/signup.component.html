@@ -1,118 +1,107 @@
 <ng-container *transloco="let t">
   <header>
     <app-page-header>
-      <h1>{{ t('auth.signUp') }}</h1>
+      <h1>{{ t("auth.signUp") }}</h1>
     </app-page-header>
   </header>
 
   <main>
     @if (theForm) {
-      <form [formGroup]="theForm" (ngSubmit)="onSignUp()">
+    <form [formGroup]="theForm" (ngSubmit)="onSignUp()">
+      <!-- Name -->
+      <app-form-field [id]="FIELD.NAME.htmlId">
+        <app-form-field-label>
+          {{ t("common.form.field.name") }}
+        </app-form-field-label>
 
-        <!-- Name -->
-        <app-form-field [id]="FIELD.NAME.htmlId">
-
-          <app-form-field-label>
-            {{ t('common.form.field.name') }}
-          </app-form-field-label>
-
-          <app-text-input
-            #nameRef
-            [id]="FIELD.NAME.htmlId"
-            type="text"
-            [formControlName]="FIELD.NAME.id"
-            [status]="fName | appFieldStatus"
-            [placeholder]="t('common.form.field.name') + '...'"
-            [withFullWidth]="true"
-            [withStatusIcon]="true"
-            [withErrorId]="fName | appFieldErrorId:{
+        <app-text-input
+          #nameRef
+          [id]="FIELD.NAME.htmlId"
+          type="text"
+          [formControlName]="FIELD.NAME.id"
+          [status]="fName | appFieldStatus"
+          [placeholder]="t('common.form.field.name') + '...'"
+          [withFullWidth]="true"
+          [withStatusIcon]="true"
+          [withErrorId]="fName | appFieldErrorId:{
               'required': FIELD.NAME.errors.REQUIRED,
               'minlength,maxlength': FIELD.NAME.errors.LENGTH,
             }"
-          />
+        />
 
-          <!-- Error: required -->
-          @if (fName | appFieldError:'required') {
-            <app-form-field-error [errorId]="FIELD.EMAIL.errors.REQUIRED">
-              {{ t('common.error.required') }}
-            </app-form-field-error>
-          }
+        <!-- Error: required -->
+        @if (fName | appFieldError:'required') {
+        <app-form-field-error [errorId]="FIELD.EMAIL.errors.REQUIRED">
+          {{ t("common.error.required") }}
+        </app-form-field-error>
+        }
 
-          <!-- Error: min/max length -->
-          @if (fName | appFieldError:'minlength,maxlength') {
-            <app-form-field-error [errorId]="FIELD.NAME.errors.LENGTH">
-              {{ t('common.error.minMaxLength', { min: 2, max: 100 }) }}
-            </app-form-field-error>
-          }
+        <!-- Error: min/max length -->
+        @if (fName | appFieldError:'minlength,maxlength') {
+        <app-form-field-error [errorId]="FIELD.NAME.errors.LENGTH">
+          {{ t("common.error.minMaxLength", { min: 2, max: 100 }) }}
+        </app-form-field-error>
+        }
+      </app-form-field>
 
-        </app-form-field>
+      <!-- Email -->
+      <app-form-field [id]="FIELD.EMAIL.htmlId">
+        <app-form-field-label> Email </app-form-field-label>
 
-        <!-- Email -->
-        <app-form-field [id]="FIELD.EMAIL.htmlId">
-
-          <app-form-field-label>
-            Email
-          </app-form-field-label>
-
-          <app-text-input
-            #emailRef
-            [id]="FIELD.EMAIL.htmlId"
-            type="email"
-            [formControlName]="FIELD.EMAIL.id"
-            [status]="fEmail | appFieldStatus"
-            placeholder="Email..."
-            [withFullWidth]="true"
-            [withStatusIcon]="true"
-            [withErrorId]="fEmail | appFieldErrorId:{
+        <app-text-input
+          #emailRef
+          [id]="FIELD.EMAIL.htmlId"
+          type="email"
+          [formControlName]="FIELD.EMAIL.id"
+          [status]="fEmail | appFieldStatus"
+          placeholder="Email..."
+          [withFullWidth]="true"
+          [withStatusIcon]="true"
+          [withErrorId]="fEmail | appFieldErrorId:{
               'required': FIELD.EMAIL.errors.REQUIRED,
               'email': FIELD.EMAIL.errors.EMAIL,
             }"
-          />
+        />
 
-          <!-- Error: required -->
-          @if (fEmail | appFieldError:'required') {
-            <app-form-field-error [errorId]="FIELD.EMAIL.errors.REQUIRED">
-              {{ t('common.error.required') }}
-            </app-form-field-error>
-          }
+        <!-- Error: required -->
+        @if (fEmail | appFieldError:'required') {
+        <app-form-field-error [errorId]="FIELD.EMAIL.errors.REQUIRED">
+          {{ t("common.error.required") }}
+        </app-form-field-error>
+        }
 
-          <!-- Error: email -->
-          @if (fEmail | appFieldError:'email') {
-            <app-form-field-error [errorId]="FIELD.EMAIL.errors.EMAIL">
-              {{ t('common.error.email') }}
-            </app-form-field-error>
-          }
+        <!-- Error: email -->
+        @if (fEmail | appFieldError:'email') {
+        <app-form-field-error [errorId]="FIELD.EMAIL.errors.EMAIL">
+          {{ t("common.error.email") }}
+        </app-form-field-error>
+        }
+      </app-form-field>
 
-        </app-form-field>
+      <!-- Password -->
+      <app-form-field [id]="FIELD.PASSWORD.htmlId">
+        <app-form-field-label> Password </app-form-field-label>
 
-        <!-- Password -->
-        <app-form-field [id]="FIELD.PASSWORD.htmlId">
-
-          <app-form-field-label>
-            Password
-          </app-form-field-label>
-
-          <app-text-input
-            [id]="FIELD.PASSWORD.htmlId"
-            type="password"
-            [formControlName]="FIELD.PASSWORD.id"
-            [status]="fPassword | appFieldStatus"
-            placeholder="Password..."
-            [withFullWidth]="true"
-            [withStatusIcon]="true"
-            [withErrorId]="fPassword | appFieldErrorId:{
+        <app-text-input
+          [id]="FIELD.PASSWORD.htmlId"
+          type="password"
+          [formControlName]="FIELD.PASSWORD.id"
+          [status]="fPassword | appFieldStatus"
+          placeholder="Password..."
+          [withFullWidth]="true"
+          [withStatusIcon]="true"
+          [withErrorId]="fPassword | appFieldErrorId:{
               'required': FIELD.PASSWORD.errors.REQUIRED,
             }"
-          />
+        />
 
-          <!-- Error: required -->
-          @if (fPassword | appFieldError:'required') {
-            <app-form-field-error [errorId]="FIELD.PASSWORD.errors.REQUIRED">
-              {{ t('common.error.required') }}
-            </app-form-field-error>
-          }
-
-        </app-form-field>
+        <!-- Error: required -->
+        @if (fPassword | appFieldError:'required') {
+        <app-form-field-error [errorId]="FIELD.PASSWORD.errors.REQUIRED">
+          {{ t("common.error.required") }}
+        </app-form-field-error>
+        }
+      </app-form-field>
 
       <!-- Submit -->
       <div class="form-footer">
@@ -123,12 +112,11 @@
           size="medium"
           [disabled]="theForm.invalid"
         >
-          <mat-icon>person</mat-icon>
-          {{ t('auth.signUp') }}
+          <ng-icon [svg]="matPerson" size="1.1rem" />
+          {{ t("auth.signUp") }}
         </button>
       </div>
-
-      </form>
+    </form>
     }
   </main>
 </ng-container>

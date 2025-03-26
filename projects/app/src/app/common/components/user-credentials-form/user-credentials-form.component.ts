@@ -7,7 +7,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matLogin } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import {
@@ -24,7 +25,7 @@ import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
   selector: 'app-user-credentials-form',
   imports: [
     ReactiveFormsModule,
-    MatIconModule,
+    NgIcon,
     TranslocoModule,
     TextInputComponent,
     ButtonComponent,
@@ -42,6 +43,9 @@ export class UserCredentialsFormComponent implements AfterContentInit {
 
   confirmed = output<UserCredentials>();
 
+  emailRef = viewChild.required('emailRef', { read: TextInputComponent });
+
+  matLogin = matLogin;
   FIELD = FIELD;
   theForm = this.formBuilder.group({
     [FIELD.EMAIL.id]: [
@@ -50,8 +54,6 @@ export class UserCredentialsFormComponent implements AfterContentInit {
     ],
     [FIELD.PASSWORD.id]: ['', [Validators.required]],
   });
-
-  emailRef = viewChild.required('emailRef', { read: TextInputComponent });
 
   get fEmail() {
     return fDescribe(this.theForm, FIELD.EMAIL.id);

@@ -13,7 +13,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
 
 import { FormFieldStatus } from '@app/common/types';
 import {
@@ -34,7 +35,7 @@ const TEXT_INPUT_FORM_PROVIDER: Provider = {
 @Component({
   selector: 'app-text-input',
   exportAs: 'app-text-input',
-  imports: [MatIconModule, ButtonComponent],
+  imports: [NgIcon, ButtonComponent],
   templateUrl: './text-input.component.html',
   styleUrl: './text-input.component.scss',
   host: { class: 'app-text-input' },
@@ -59,6 +60,9 @@ export class TextInputComponent implements ControlValueAccessor {
   changed = output<string>();
   inputChanged = output<string>();
   cleared = output<void>();
+
+  matCheck = matCheck;
+  matClear = matClear;
 
   private inputRef =
     viewChild.required<ElementRef<HTMLInputElement>>('inputRef');

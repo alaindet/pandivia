@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 
@@ -16,7 +15,6 @@ import { UserStore } from '@app/features/user/store/feature';
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    MatIconModule,
     TranslocoModule,
     NotificationsHostComponent,
     ModalHostComponent,

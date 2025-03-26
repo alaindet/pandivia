@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import {
+  matClear,
+  matMoreHoriz,
+  matTaskAlt,
+  matUndo,
+} from '@ng-icons/material-icons/baseline';
 
 import {
   ACTIONS_MENU_EXPORTS,
@@ -13,16 +19,17 @@ import {
   imports: [
     PageHeaderComponent,
     ...ACTIONS_MENU_EXPORTS,
-    MatIconModule,
+    NgIcon,
     ButtonComponent,
   ],
   templateUrl: './page-header.component.html',
 })
 export class PageHeaderDemoPageComponent {
   consoleLog = console.log;
+  matMoreHoriz = matMoreHoriz;
   actions: ActionsMenuItem[] = [
-    { id: 'check', label: 'Check', icon: 'task_alt' },
-    { id: 'uncheck', label: 'Uncheck', icon: 'undo' },
-    { id: 'remove', label: 'Remove', icon: 'clear' },
+    { id: 'check', label: 'Check', icon: matTaskAlt },
+    { id: 'uncheck', label: 'Uncheck', icon: matUndo },
+    { id: 'remove', label: 'Remove', icon: matClear },
   ];
 }

@@ -1,4 +1,4 @@
-@import 'scoped';
+@import "scoped";
 
 /**
  * Theme variables
@@ -21,7 +21,7 @@
   font-family: $app-typography-body-font;
 
   // A little override
-  button > mat-icon,
+  button > ng-icon,
   button[appbutton="ghost"] {
     color: var(--app-card-list-secondary-text);
   }

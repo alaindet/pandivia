@@ -4,7 +4,6 @@
 - [ ] Refactor
   - [ ] Change demo app to use CSS Grid
   - [ ] Analyze ESBuild
-  - [ ] Remove `MatIcon`
   - [ ] Remove `toObservable` wherever possible
   - [ ] Manage your `z-index`
 - [ ] Bug

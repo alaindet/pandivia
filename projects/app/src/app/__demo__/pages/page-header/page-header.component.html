@@ -2,12 +2,14 @@
   <h1>Basic</h1>
 </app-page-header>
 
-<app-page-header [withControlledBackButton]="true" (backClicked)="consoleLog('backClicked')">
+<app-page-header
+  [withControlledBackButton]="true"
+  (backClicked)="consoleLog('backClicked')"
+>
   <h1>With controlled back button</h1>
 </app-page-header>
 
 <app-page-header [withBackButton]="true">
-  
   <h1>With contextual menu</h1>
 
   <ng-container slot="right">
@@ -18,16 +20,21 @@
       (actionConfirmed)="consoleLog($event)"
     >
       <ng-container *appActionsMenuButton>
-        <button type="button" appButton="outline" type="button" isCircle withIconOnly>
-          <mat-icon>more_horiz</mat-icon>
+        <button
+          type="button"
+          appButton="outline"
+          type="button"
+          isCircle
+          withIconOnly
+        >
+          <ng-icon [svg]="matMoreHoriz" />
         </button>
       </ng-container>
 
       <ng-container *appActionsMenuItem="let action">
-        <mat-icon>{{ action.icon }}</mat-icon>
+        <ng-icon [svg]="action.icon" />
         {{ action.label }}
       </ng-container>
     </app-actions-menu>
   </ng-container>
 </app-page-header>
-

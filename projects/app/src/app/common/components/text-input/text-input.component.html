@@ -12,34 +12,30 @@
   (change)="onInputChange($event)"
   (input)="onInput($event)"
   (blur)="onBlur()"
->
+/>
 
 <!-- Icons -->
 <div class="_icons">
-
   <!-- Clearable icon -->
   @if (clearable()) {
-    <button
-      appButton="ghost"
-      type="button"
-      isCircle
-      withIconOnly
-      size="extra-small"
-      (click)="onClearInput()"
-    >
-      &times;
-    </button>
+  <button
+    appButton="ghost"
+    type="button"
+    isCircle
+    withIconOnly
+    size="extra-small"
+    (click)="onClearInput()"
+  >
+    &times;
+  </button>
   }
 
   <!-- Status icon -->
   @if (withStatusIcon() && status()) {
-    @switch (status()) {
-      @case ('success') {
-        <mat-icon width="1rem" class="_status-icon">check</mat-icon>
-      }
-      @case ('error') {
-        <mat-icon width="1rem" class="_status-icon">clear</mat-icon>
-      }
-    }
+  <ng-icon
+    [svg]="status() === 'success' ? matCheck : matClear"
+    width="1rem"
+    class="_status-icon"
+  />
   }
 </div>
