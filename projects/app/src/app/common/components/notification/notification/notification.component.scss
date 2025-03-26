@@ -1,35 +1,34 @@
-@import 'scoped';
-
 app-notification {
   --_transition-width: 0;
   --_transition-duration: 3000ms;
   --_background: black;
+  --_min-width: 350px;
+  --_max-width: 450px;
+  --_more-width: 1.2rem;
+  --_dismiss-width: 1.75rem;
 }
 
 .app-notification {
-  $app-notification-more-size: 1.2rem;
-  $app-notification-dismiss-size: 1.75rem;
-
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: min(#{$app-width-notification-min}, 95vw);
-  max-width: max(#{$app-width-notification-max}, 95vw);
+  min-width: min(var(--_min-width), 95vw);
+  max-width: max(var(--_max-width), 95vw);
   font-size: 1rem;
   padding: 0.25rem 1rem;
-  padding-bottom: calc(0.25rem + #{$app-height-notification-progress});
+  padding-bottom: calc(0.25rem + var(--app-height-notification-progress));
   background-color: var(--_background);
-  color: $app-color-white;
+  color: var(--app-color-white);
   font-size: 0.85rem;
   border-radius: 0.33rem;
 
   &.-type-success {
-    --_background: #{$app-color-success};
+    --_background: var(--app-color-success);
   }
 
   &.-type-error {
-    --_background: #{$app-color-error};
+    --_background: var(--app-color-error);
   }
 
   &.-animating {
@@ -56,17 +55,17 @@ app-notification {
   }
 
   > ._more {
-    font-size: $app-notification-more-size;
-    line-height: $app-notification-more-size;
-    width: $app-notification-more-size;
-    height: $app-notification-more-size;
+    font-size: var(--_more-width);
+    line-height: var(--_more-width);
+    width: var(--_more-width);
+    height: var(--_more-width);
     position: absolute;
-    font-size: 0.6 * $app-notification-more-size;
-    line-height: 0.6 * $app-notification-more-size;
-    right: -0.5 * $app-notification-more-size;
+    font-size: calc(0.6 * var(--_more-width));
+    line-height: calc(0.6 * var(--_more-width));
+    right: calc(-0.5 * var(--_more-width));
     border-radius: 100px;
-    background-color: $app-color-white;
-    color: $app-color-black;
+    background-color: var(--app-color-white);
+    color: var(--app-color-black);
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -74,10 +73,10 @@ app-notification {
   }
 
   > ._dismiss {
-    font-size: $app-notification-dismiss-size;
-    line-height: $app-notification-dismiss-size;
-    width: $app-notification-dismiss-size;
-    height: $app-notification-dismiss-size;
+    font-size: var(--_dismiss-width);
+    line-height: var(--_dismiss-width);
+    width: var(--_dismiss-width);
+    height: var(--_dismiss-width);
     font-weight: lighter;
     cursor: pointer;
     border: 0;
@@ -90,7 +89,7 @@ app-notification {
     z-index: 1;
 
     &:hover {
-      background-color: rgba(0,0,0,0.2);
+      background-color: rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -99,8 +98,8 @@ app-notification {
     right: 0;
     left: 0;
     bottom: 0;
-    height: $app-height-notification-progress;
-    background-color: rgba(255,255,255,0.5);
+    height: var(--app-height-notification-progress);
+    background-color: rgba(255, 255, 255, 0.5);
     transform-origin: left;
     transition: transform var(--_transition-duration) linear;
     transform: scaleX(var(--_transition-width));

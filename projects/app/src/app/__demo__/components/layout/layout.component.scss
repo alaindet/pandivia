@@ -1,9 +1,6 @@
-@import 'scoped';
-
-$app-demo-content-height: $app-height-demo-header + $app-height-demo-header-margin;
-$app-demo-border: #aaa;
-
 :host {
+  --app-demo-border: #aaa;
+
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -22,7 +19,7 @@ $app-demo-border: #aaa;
     ._menu-button-nav {
       margin-bottom: 1.5rem;
       padding-bottom: 1.5rem;
-      border-bottom: 2px solid $app-demo-border;
+      border-bottom: 2px solid var(--app-demo-border);
     }
 
     aside {
@@ -48,22 +45,24 @@ $app-demo-border: #aaa;
 }
 
 header {
-  border-bottom: 2px solid $app-demo-border;
+  border-bottom: 2px solid var(--app-demo-border);
   padding: 1rem 0;
-  height: $app-height-demo-header;
-  margin: $app-height-demo-header-margin;
+  height: var(--app-height-demo-header);
+  margin: var(--app-height-demo-header-margin);
   margin-top: 0;
 }
 
 .content {
   display: flex;
-  height: calc(100vh - #{$app-demo-content-height});
+  height: calc(
+    100vh - var(--app-height-demo-header) - var(--app-height-demo-header-margin)
+  );
 }
 
 aside {
   order: 1;
   overflow-y: auto;
-  border-right: 2px solid $app-demo-border;
+  border-right: 2px solid var(--app-demo-border);
   margin-bottom: 1rem;
   padding: 1rem;
   z-index: 2;
@@ -78,11 +77,11 @@ main {
 }
 
 ._backdrop {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0, 0, 0, 0.2);
 }

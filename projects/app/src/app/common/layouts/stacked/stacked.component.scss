@@ -1,7 +1,4 @@
-@import 'scoped';
-
 .app-layout-stacked {
-
   ._title {
     &.-with-counters {
       display: flex;
@@ -12,7 +9,6 @@
   ._counters {
     margin-left: 0.5rem;
     font-size: 1rem;
-    font-family: $app-typography-body-font;
   }
 
   ._header-right {
@@ -23,7 +19,6 @@
 
   ._search-bar {
     margin-top: 1rem;
-    // margin-bottom: 0.25rem;
   }
 
   main {

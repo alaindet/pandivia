@@ -1,5 +1,3 @@
-@import 'scoped';
-
 /**
  * Theme variables
  *
@@ -8,24 +6,11 @@
  * --app-checkbox-hover-foreground
  */
 
-@mixin app-checkbox-color(
-  $color-checked: black,
-  $color-hover-checked: #444,
-) {
-  &.-checked ._checkmark {
-    background-color: $color-checked;
-    border-color: $color-checked;
-  }
-
-  &.-interactable.-checked:hover ._checkmark {
-    background-color: $color-hover-checked;
-    border-color: $color-hover-checked;
-  }
-}
-
 app-checkbox {
   --_size: 20px;
   --_border-size: clamp(2px, calc(0.1 * var(--_size)), 10px);
+  --_checkmark-color: black;
+  --_checkmark-color-hover: #444;
 }
 
 .app-checkbox {
@@ -59,10 +44,10 @@ app-checkbox {
 
     &::after {
       position: absolute;
-      content: '';
+      content: "";
       width: calc(0.65 * var(--_size));
       height: calc(0.35 * var(--_size));
-      border: var(--_border-size) solid $app-color-white;
+      border: var(--_border-size) solid var(--app-color-white);
       border-top: 0;
       border-right: 0;
       z-index: 2;
@@ -89,36 +74,38 @@ app-checkbox {
   }
 
   &.-checked {
-    ._checkmark::after {
-      opacity: 1;
+    ._checkmark {
+      background-color: var(--_checkmark-color);
+      border-color: var(--_checkmark-color);
+
+      &::after {
+        opacity: 1;
+      }
     }
   }
 
+  &.-checked.-interactable:hover ._checkmark {
+    background-color: var(--_checkmark-color-hover);
+    border-color: var(--_checkmark-color-hover);
+  }
+
   &.-color-primary {
-    @include app-checkbox-color(
-      var(--app-color-primary-500),
-      var(--app-color-primary-600),
-    );
+    --_checkmark-color: var(--app-color-primary-500);
+    --_checkmark-color-hover: var(--app-color-primary-600);
   }
 
   &.-color-secondary {
-    @include app-checkbox-color(
-      var(--app-color-secondary-500),
-      var(--app-color-secondary-600),
-    );
+    --_checkmark-color: var(--app-color-secondary-500);
+    --_checkmark-color-hover: var(--app-color-secondary-600);
   }
 
   &.-color-tertiary {
-    @include app-checkbox-color(
-      var(--app-color-tertiary-500),
-      var(--app-color-tertiary-600),
-    );
+    --_checkmark-color: var(--app-color-tertiary-500);
+    --_checkmark-color-hover: var(--app-color-tertiary-600);
   }
 
   &.-color-black {
-    @include app-checkbox-color(
-      $app-color-black,
-      scale_color($app-color-black, $lightness: 10%),
-    );
+    --_checkmark-color: var(--app-color-black);
+    --_checkmark-color-hover: var(--app-color-black-lighter);
   }
 }

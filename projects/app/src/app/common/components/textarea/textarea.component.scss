@@ -1,5 +1,3 @@
-@import 'scoped';
-
 /**
  * Theme variables
  *
@@ -12,7 +10,6 @@
  */
 
 .app-textarea {
-
   position: relative;
   display: inline-flex;
   flex-wrap: wrap;
@@ -22,7 +19,7 @@
   max-width: 100% !important;
 
   > textarea {
-    min-width: 0!important;
+    min-width: 0 !important;
   }
 
   > textarea::placeholder {
@@ -92,7 +89,7 @@
       font-weight: bold;
 
       &.-error {
-        color: $app-color-error;
+        color: var(--app-color-error);
       }
     }
 
@@ -104,18 +101,28 @@
   // Status -------------------------------------------------------------------
   &.-status {
     &-success {
-      ._textarea { border-color: $app-color-success }
-      ._status-icon { color: $app-color-success }
+      ._textarea {
+        border-color: var(--app-color-success);
+      }
+      ._status-icon {
+        color: var(--app-color-success);
+      }
     }
 
     &-error {
-      ._textarea { border-color: $app-color-error }
-      ._status-icon { color: $app-color-error }
+      ._textarea {
+        border-color: var(--app-color-error);
+      }
+      ._status-icon {
+        color: var(--app-color-error);
+      }
     }
   }
 
   // Disabled -----------------------------------------------------------------
-  &.-disabled ._textarea, & textarea[readonly], & textarea[disabled] {
+  &.-disabled ._textarea,
+  & textarea[readonly],
+  & textarea[disabled] {
     opacity: 0.5;
     pointer-events: none;
   }
@@ -130,6 +137,6 @@
   & textarea::-webkit-search-cancel-button,
   & textarea::-webkit-search-results-button,
   & textarea::-webkit-search-results-decoration {
-    -webkit-appearance:none;
+    -webkit-appearance: none;
   }
 }

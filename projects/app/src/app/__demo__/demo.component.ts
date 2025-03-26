@@ -5,6 +5,7 @@ import {
   Router,
   RouterModule,
 } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { filter, map, startWith } from 'rxjs';
 
@@ -51,19 +52,25 @@ export class DemoPageComponent {
   route = inject(ActivatedRoute);
   router = inject(Router);
   titleService = inject(Title);
+  document = inject(DOCUMENT);
 
   pages = DEMO_PAGES;
   version = packageJson.version;
   title = 'Demo';
 
   ngOnInit() {
+    this.onPageChanged(this.updateTitle.bind(this));
+    this.forceAppWidthToFullScreen();
+  }
+
+  private onPageChanged(fn: (url: string) => void): void {
     this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),
         map(() => this.router.url),
         startWith(this.router.url)
       )
-      .subscribe((url) => this.updateTitle(url));
+      .subscribe(fn);
   }
 
   private updateTitle(url: string): void {
@@ -72,5 +79,12 @@ export class DemoPageComponent {
     const label = page?.label ?? 'Demo';
     this.titleService.setTitle(`Pandivia Demo: ${label}`);
     this.title = label;
+  }
+
+  private forceAppWidthToFullScreen(): void {
+    this.document.documentElement.style.setProperty(
+      '--app-width-container',
+      '100vw'
+    );
   }
 }

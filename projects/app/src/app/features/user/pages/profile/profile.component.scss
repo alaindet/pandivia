@@ -1,5 +1,3 @@
-@import 'scoped';
-
 .user-info {
   list-style: none;
   margin: 0;
@@ -10,13 +8,13 @@
 }
 
 .-admin {
-  color: $app-color-error;
+  color: var(--app-color-error);
 }
 
 section {
   padding-bottom: 2.5rem;
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid $app-color-grey-600;
+  border-bottom: 1px solid var(--app-color-grey-600);
 
   &.-last {
     border-bottom: 0;

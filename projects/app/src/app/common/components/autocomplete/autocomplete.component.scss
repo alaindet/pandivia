@@ -1,5 +1,3 @@
-@import 'scoped';
-
 /**
  * Theme variables
  *
@@ -30,7 +28,7 @@
     color: var(--app-autocomplete-item-foreground);
     transform: scaleY(0);
     transform-origin: top center;
-    max-height: $app-height-autocomplete-options;
+    max-height: var(--app-height-autocomplete-options);
     overflow-y: auto;
     width: var(--_width);
     top: var(--_offset-y);

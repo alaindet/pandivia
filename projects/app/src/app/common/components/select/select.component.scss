@@ -1,5 +1,3 @@
-@import 'scoped';
-
 /**
  * Theme variables
  *
@@ -37,16 +35,16 @@ app-select {
   }
 
   ._select {
-    -moz-appearance:none; /* Firefox */
-    -webkit-appearance:none; /* Safari and Chrome */
-    appearance:none;
+    -moz-appearance: none; /* Firefox */
+    -webkit-appearance: none; /* Safari and Chrome */
+    appearance: none;
     border: 2px solid var(--app-form-control-border-color);
     background-color: var(--app-form-control-background);
     color: var(--app-form-control-foreground);
     border-radius: 0.25rem;
     font-size: 1rem;
     line-height: 1rem;
-    min-width: 0!important;
+    min-width: 0 !important;
     width: 19.25rem;
     height: 2.8rem;
     padding: 0 1rem;
@@ -72,7 +70,7 @@ app-select {
   // https://stackoverflow.com/a/3533807
   &::after {
     position: absolute;
-    content: '';
+    content: "";
     width: var(--_caret-size);
     height: var(--_caret-size);
     transform: rotate(-45deg);
@@ -83,8 +81,12 @@ app-select {
   }
 
   &.-status {
-    &-success ._select { border-color: $app-color-success }
-    &-error ._select { border-color: $app-color-error }
+    &-success ._select {
+      border-color: var(--app-color-success);
+    }
+    &-error ._select {
+      border-color: var(--app-color-error);
+    }
   }
 
   &.-disabled::after,

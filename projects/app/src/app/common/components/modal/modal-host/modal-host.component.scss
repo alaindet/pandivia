@@ -1,5 +1,3 @@
-@import 'scoped';
-
 /**
  * Theme variables
  *
@@ -31,7 +29,7 @@
   ._modal {
     position: relative;
     z-index: 2;
-    width: min($app-width-modal, 90vw);
+    width: min(--app-width-modal, 90vw);
     max-width: 100vw;
     max-height: 80vh;
     overflow-y: auto;
@@ -69,7 +67,7 @@
   }
 
   ._backdrop {
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     filter: blur(10px);
     position: absolute;
     inset: 0;

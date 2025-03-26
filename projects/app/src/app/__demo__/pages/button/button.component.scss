@@ -1,5 +1,3 @@
-@import 'scoped';
-
 .buttons {
   display: flex;
   flex-direction: column;
@@ -9,5 +7,5 @@
 .fab-container {
   position: relative;
   padding: 1rem;
-  border: 2px solid $app-color-black;
+  border: 2px solid var(--app-color-black);
 }

@@ -1,5 +1,3 @@
-@import "scoped";
-
 /**
  * Theme variables
  * --app-actions-menu-item-background
@@ -22,10 +20,16 @@ app-actions-menu {
     position: absolute;
     z-index: 4;
     isolation: isolate;
-    background-color: var(--app-actions-menu-item-background, $app-color-white);
-    color: var(--app-actions-menu-item-foreground, $app-color-black) !important;
+    background-color: var(
+      --app-actions-menu-item-background,
+      var(--app-color-white)
+    );
+    color: var(
+      --app-actions-menu-item-foreground,
+      var(--app-color-black)
+    ) !important;
     border: 2px solid
-      var(--app-actions-menu-item-border-color, $app-color-grey-600);
+      var(--app-actions-menu-item-border-color, var(--app-color-grey-600));
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 0.5rem;
     list-style-type: none;
@@ -66,11 +70,11 @@ app-actions-menu {
     &.-focused {
       background-color: var(
         --app-actions-menu-item-active-background,
-        $app-color-primary-500
+        var(--app-color-primary-500)
       );
       color: var(
         --app-actions-menu-item-active-foreground,
-        $app-color-black
+        var(--app-color-black)
       ) !important;
     }
 

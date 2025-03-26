@@ -1,5 +1,3 @@
-@import 'scoped';
-
 /**
  * Theme variables
  *
@@ -11,9 +9,9 @@
  * --app-form-control-placeholder
  */
 
- app-text-input {
-   --_width: fit-content;
- }
+app-text-input {
+  --_width: fit-content;
+}
 
 .app-text-input {
   position: relative;
@@ -24,7 +22,7 @@
   max-width: 100% !important;
 
   > input {
-    min-width: 0!important;
+    min-width: 0 !important;
   }
 
   > input::placeholder {
@@ -88,18 +86,28 @@
   // Status -------------------------------------------------------------------
   &.-status {
     &-success {
-      ._input { border-color: $app-color-success }
-      ._status-icon { color: $app-color-success }
+      ._input {
+        border-color: var(--app-color-success);
+      }
+      ._status-icon {
+        color: var(--app-color-success);
+      }
     }
 
     &-error {
-      ._input { border-color: $app-color-error }
-      ._status-icon { color: $app-color-error }
+      ._input {
+        border-color: var(--app-color-error);
+      }
+      ._status-icon {
+        color: var(--app-color-error);
+      }
     }
   }
 
   // Disabled -----------------------------------------------------------------
-  &.-disabled ._input, & input[readonly], & input[disabled] {
+  &.-disabled ._input,
+  & input[readonly],
+  & input[disabled] {
     opacity: 0.5;
     pointer-events: none;
   }
@@ -114,6 +122,6 @@
   & input[type="search"]::-webkit-search-cancel-button,
   & input[type="search"]::-webkit-search-results-button,
   & input[type="search"]::-webkit-search-results-decoration {
-    -webkit-appearance:none;
+    -webkit-appearance: none;
   }
 }

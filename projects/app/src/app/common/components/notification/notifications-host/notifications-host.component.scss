@@ -1,5 +1,3 @@
-@import 'scoped';
-
 .app-notifications-host {
   position: fixed;
   transition: 0.3s all ease-out;
@@ -19,9 +17,9 @@
 
   // TODO: Make it mobile-first
   @media (max-width: 768px) {
-    top: $app-pos-notification-mobile-top !important;
-    right: $app-pos-notification-mobile-right !important;
-    bottom: $app-pos-notification-mobile-bottom !important;
-    left: $app-pos-notification-mobile-left !important;
+    top: var(--app-pos-notification-mobile-top) !important;
+    right: var(--app-pos-notification-mobile-right) !important;
+    bottom: var(--app-pos-notification-mobile-bottom) !important;
+    left: var(--app-pos-notification-mobile-left) !important;
   }
 }
