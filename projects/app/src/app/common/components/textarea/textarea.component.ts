@@ -13,7 +13,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
+import { NgIcon } from '@ng-icons/core';
+import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
 
 import {
   HTMLAttributes,
@@ -32,7 +33,7 @@ const TEXTAREA_FORM_PROVIDER: Provider = {
 @Component({
   selector: 'app-textarea',
   exportAs: 'app-textarea',
-  imports: [MatIconModule, ButtonComponent],
+  imports: [NgIcon, ButtonComponent],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss',
   host: { class: 'app-textarea' },
@@ -56,6 +57,9 @@ export class TextareaComponent implements ControlValueAccessor {
 
   changed = output<string>();
   inputChanged = output<string>();
+
+  matCheck = matCheck;
+  matClear = matClear;
 
   @HostBinding('class')
   get getCssClass() {
