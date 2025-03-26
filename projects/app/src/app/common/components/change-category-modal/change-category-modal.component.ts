@@ -21,7 +21,7 @@ import { ButtonComponent } from '../button';
     ModalFooterDirective,
   ],
   templateUrl: './change-category-modal.component.html',
-  styleUrl: './change-category-modal.component.scss',
+  styleUrl: './change-category-modal.component.css',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-change-category-modal' },
 })

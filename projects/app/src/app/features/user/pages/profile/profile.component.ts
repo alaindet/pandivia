@@ -21,7 +21,7 @@ import { UserStore } from '../../store';
     InviteUserComponent,
   ],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss',
+  styleUrl: './profile.component.css',
 })
 export class ProfilePageComponent implements OnInit {
   private uiStore = inject(UiStore);

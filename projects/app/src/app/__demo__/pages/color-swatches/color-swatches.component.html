@@ -1,12 +1,16 @@
 @for (collection of swatchesCollections; track collection.name) {
-  <div class="swatches-collection" [class.-last]="$last">
-    <h2>{{ collection.name }}</h2>
-    <div class="swatches">
-      @for (swatch of collection.swatches; track swatch.name) {
-        <div class="swatch" [ngClass]="swatch.cssClass">
-          {{ swatch.name }}
-        </div>
-      }
+<div class="swatches-collection" [class.-last]="$last">
+  <h2>{{ collection.name }}</h2>
+  <div class="swatches">
+    @for (swatch of collection.swatches; track swatch.name) {
+    <div
+      class="swatch"
+      [style.backgroundColor]="swatch.backgroundColor"
+      [style.color]="swatch.textColor"
+    >
+      {{ swatch.name }}
     </div>
+    }
   </div>
+</div>
 }

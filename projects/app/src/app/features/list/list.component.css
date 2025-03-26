@@ -1,0 +1,23 @@
+:host ._filters {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+:host ._cards {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* TODO: Move up? */
+:host .fab-large-container {
+  padding-bottom: 4rem;
+}

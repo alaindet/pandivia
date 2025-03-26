@@ -43,7 +43,7 @@ import {
     ...ACTIONS_MENU_EXPORTS,
   ],
   templateUrl: './card-list.component.html',
-  styleUrl: './card-list.component.scss',
+  styleUrl: './card-list.component.css',
   host: { class: 'app-card-list' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

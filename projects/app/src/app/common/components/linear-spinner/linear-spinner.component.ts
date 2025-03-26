@@ -13,7 +13,7 @@ export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 @Component({
   selector: 'app-linear-spinner',
   template: `<div class="_bar"><div></div></div>`,
-  styleUrl: './linear-spinner.component.scss',
+  styleUrl: './linear-spinner.component.css',
   host: { class: 'app-linear-spinner' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

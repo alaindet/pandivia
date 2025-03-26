@@ -1,0 +1,119 @@
+/**
+ * Theme variables
+ *
+ * --app-form-control-border-color
+ * --app-form-control-hover-border-color
+ * --app-form-control-focus-border-color
+ * --app-form-control-background
+ * --app-form-control-foreground
+ * --app-form-control-placeholder
+ */
+
+app-text-input {
+  --_width: fit-content;
+}
+
+.app-text-input {
+  position: relative;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  max-width: 100% !important;
+}
+
+.app-text-input > input {
+  min-width: 0 !important;
+}
+
+.app-text-input > input::placeholder {
+  color: var(--app-form-control-placeholder);
+}
+
+.app-text-input.-with-custom-width {
+  width: var(--_width);
+}
+
+.app-text-input.-full-width {
+  width: 100% !important;
+}
+
+.app-text-input.-full-width ._input {
+  min-width: auto;
+  width: 100% !important;
+}
+
+.app-text-input.-clearable ._input {
+  padding-right: 0.75rem;
+}
+
+.app-text-input ._icons {
+  right: 0.75rem;
+}
+
+.app-text-input ._input {
+  border: 2px solid var(--app-form-control-border-color);
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  min-width: 19.25rem;
+  height: 2.8rem;
+  padding: 0 1rem;
+  background-color: var(--app-form-control-background);
+  color: var(--app-form-control-foreground);
+  transition: 0.15s border-color ease-in-out;
+}
+
+.app-text-input ._input:hover {
+  border-color: var(--app-form-control-hover-border-color);
+}
+
+.app-text-input ._input:focus {
+  outline: 0;
+  border-color: var(--app-form-control-focus-border-color);
+  box-shadow: 0 2px 5px #0e141a1a;
+}
+
+.app-text-input ._icons {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  right: 1rem;
+}
+
+.app-text-input.-status-success ._input {
+  border-color: var(--app-color-success);
+}
+
+.app-text-input.-status-success ._status-icon {
+  color: var(--app-color-success);
+}
+
+.app-text-input.-status-error ._input {
+  border-color: var(--app-color-error);
+}
+
+.app-text-input.-status-error ._status-icon {
+  color: var(--app-color-error);
+}
+
+.app-text-input.-disabled ._input,
+.app-text-input input[readonly],
+.app-text-input input[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Hide native icons */
+.app-text-input input::-ms-clear,
+.app-text-input input::-ms-reveal {
+  display: none;
+}
+
+.app-text-input input[type="search"]::-webkit-search-decoration,
+.app-text-input input[type="search"]::-webkit-search-cancel-button,
+.app-text-input input[type="search"]::-webkit-search-results-button,
+.app-text-input input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}

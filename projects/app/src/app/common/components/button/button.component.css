@@ -1,0 +1,212 @@
+/**
+ * Theme variables
+ *
+ * --app-button-primary-background
+ * --app-button-primary-foreground
+ * --app-button-primary-hover-background
+ *
+ * --app-button-secondary-background
+ * --app-button-secondary-foreground
+ * --app-button-secondary-hover-background
+ *
+ * --app-button-tertiary-background
+ * --app-button-tertiary-foreground
+ *
+ * --app-button-tertiary-hover-background
+ * --app-button-outline-border-color
+ * --app-button-outline-hover-background
+ * --app-button-outline-hover-foreground
+ *
+ * --app-button-ghost-foreground
+ * --app-button-ghost-hover-background
+ */
+.app-button {
+  --_top: auto;
+  --_right: 1rem;
+  --_bottom: 1rem;
+  --_left: auto;
+  --_icon-size: 1.2rem;
+  --_width: fit-content;
+  --_min-width: auto;
+  --_max-width: auto;
+  --_height: auto;
+  --_min-height: auto;
+  --_max-height: auto;
+  --_font-size: 1rem;
+  --_line-height: 1;
+  --_background-color: black;
+  --_text-color: white;
+  --_hover-background-color: var(--_background-color);
+  --_hover-text-color: var(--_text-color);
+  --_icon-only-size: 1rem;
+  --_icon-only-font-size: 0.9rem;
+
+  width: var(--_width);
+  min-width: var(--_min-width);
+  max-width: var(--_max-width);
+  height: var(--_height);
+  min-height: var(--_min-height);
+  max-height: var(--_max-height);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: var(--_font-size);
+  line-height: var(--_line-height);
+  border-radius: 0.25rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  letter-spacing: 1px;
+  transition: 0.15s background-color ease-out;
+  background-color: var(--_background-color);
+  color: var(--_text-color);
+}
+
+.app-button:hover {
+  background-color: var(--_hover-background-color);
+  color: var(--_hover-text-color);
+}
+
+/* Color variants ---------------------------------------------------------- */
+.app-button.-color-primary {
+  --_background-color: var(--app-button-primary-background);
+  --_text-color: var(--app-button-primary-foreground);
+  --_hover-background-color: var(--app-button-primary-hover-background);
+}
+
+.app-button.-color-secondary {
+  --_background-color: var(--app-button-secondary-background);
+  --_text-color: var(--app-button-secondary-foreground);
+  --_hover-background-color: var(--app-button-secondary-hover-background);
+}
+
+.app-button.-color-tertiary {
+  --_background-color: var(--app-button-tertiary-background);
+  --_text-color: var(--app-button-tertiary-foreground);
+  --_hover-background-color: var(--app-button-tertiary-hover-background);
+}
+
+.app-button.-color-outline {
+  --_background-color: transparent;
+  --_text-color: var(--app-button-primary-foreground);
+  border-color: var(--app-button-outline-border-color);
+  --_hover-background-color: var(--app-button-outline-hover-background);
+  --_hover-text-color: var(--app-button-outline-hover-foreground);
+}
+
+.app-button.-color-outline ng-icon {
+  color: inherit;
+}
+
+.app-button.-color-ghost {
+  --_background-color: transparent;
+  --_text-color: var(--app-button-ghost-foreground);
+  --_hover-background-color: var(--app-button-ghost-hover-background);
+  border-color: transparent;
+}
+
+/* Size variants ----------------------------------------------------------- */
+.app-button.-size-extra-small {
+  --_icon-size: 1rem;
+  --_icon-only-size: 1.5rem;
+  --_icon-only-font-size: 1.2rem;
+  --_font-size: 0.75rem;
+  --_height: 1.5rem;
+
+  padding: 0.25rem 0.4rem;
+}
+
+.app-button.-size-small {
+  --_icon-size: 1.2rem;
+  --_icon-only-size: 2rem;
+  --_icon-only-font-size: 1.4rem;
+  --_font-size: 0.85rem;
+
+  padding: 0.5rem 0.75rem;
+}
+
+.app-button.-size-medium {
+  --_icon-size: 1.25rem;
+  --_icon-only-size: 3rem;
+  --_icon-only-font-size: 1.85rem;
+  --_font-size: 1rem;
+
+  padding: 0.75rem 1rem;
+}
+
+.app-button.-size-large {
+  --_icon-size: 1.5rem;
+  --_icon-only-size: 4rem;
+  --_icon-only-font-size: 2.5rem;
+  --_font-size: 1.1rem;
+  --_min-width: 130px;
+
+  padding: 1.25rem 1.75rem;
+}
+
+.app-button.-full-width {
+  width: 100% !important;
+  justify-content: center !important;
+}
+
+.app-button.-circle {
+  border-radius: 500px;
+}
+
+/* Icons variants ---------------------------------------------------------- */
+.app-button ng-icon {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+
+.app-button.-with-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  gap: 0.33rem;
+}
+
+.app-button.-with-icon-only {
+  width: var(--_icon-only-size);
+  min-width: var(--_icon-only-size) !important;
+  max-width: var(--_icon-only-size) !important;
+  height: var(--_icon-only-size) !important;
+  min-height: var(--_icon-only-size) !important;
+  max-height: var(--_icon-only-size) !important;
+  font-size: var(--_icon-only-font-size);
+  line-height: var(--_icon-only-font-size);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Floating variants ------------------------------------------------------- */
+.app-button.-floating {
+  top: var(--_top);
+  right: var(--_right);
+  bottom: var(--_bottom);
+  left: var(--_left);
+}
+
+.app-button.-floating.-container {
+  position: absolute;
+  z-index: 2;
+}
+
+.app-button.-floating.-fixed {
+  position: fixed;
+  z-index: 3;
+}
+
+/* Disabled ---------------------------------------------------------------- */
+.app-button[disabled],
+.app-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

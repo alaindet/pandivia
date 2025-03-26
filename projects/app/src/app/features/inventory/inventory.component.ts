@@ -54,7 +54,7 @@ import { InventoryFilterToken, InventoryItem } from './types';
     TranslocoModule,
   ],
   templateUrl: './inventory.component.html',
-  styleUrl: './inventory.component.scss',
+  styleUrl: './inventory.component.css',
 })
 export class InventoryPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

@@ -31,7 +31,7 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   selector: 'app-quick-number',
   imports: [NgIcon, ReactiveFormsModule, ButtonComponent],
   templateUrl: './quick-number.component.html',
-  styleUrl: './quick-number.component.scss',
+  styleUrl: './quick-number.component.css',
   host: { class: 'app-quick-number' },
   encapsulation: ViewEncapsulation.None,
   providers: [QUICK_NUMBER_FORM_PROVIDER],

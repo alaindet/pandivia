@@ -16,7 +16,7 @@ import { ButtonComponent } from '../button';
   selector: 'app-page-header',
   imports: [ButtonComponent, NgIcon],
   templateUrl: './page-header.component.html',
-  styleUrl: './page-header.component.scss',
+  styleUrl: './page-header.component.css',
   host: { class: 'app-page-header' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

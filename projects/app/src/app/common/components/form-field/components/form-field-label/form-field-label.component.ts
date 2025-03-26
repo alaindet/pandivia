@@ -14,7 +14,7 @@ import { FormFieldContextService } from '../../context.service';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-form-field-label' },
   templateUrl: './form-field-label.component.html',
-  styleUrl: './form-field-label.scss',
+  styleUrl: './form-field-label.component.css',
 })
 export class FormFieldLabelComponent {
   context = inject(FormFieldContextService);

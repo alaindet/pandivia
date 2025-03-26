@@ -29,7 +29,7 @@ const SELECT_FORM_PROVIDER: Provider = {
   selector: 'app-select',
   imports: [TranslocoModule],
   templateUrl: './select.component.html',
-  styleUrl: './select.component.scss',
+  styleUrl: './select.component.css',
   host: { class: 'app-select' },
   encapsulation: ViewEncapsulation.None,
   providers: [SELECT_FORM_PROVIDER],

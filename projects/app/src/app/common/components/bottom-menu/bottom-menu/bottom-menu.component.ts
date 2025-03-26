@@ -13,7 +13,7 @@ import { BottomMenuItem } from '../types';
   selector: 'app-bottom-menu',
   imports: [BottomMenuItemComponent],
   templateUrl: './bottom-menu.component.html',
-  styleUrl: './bottom-menu.component.scss',
+  styleUrl: './bottom-menu.component.css',
   host: { class: 'app-bottom-menu' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

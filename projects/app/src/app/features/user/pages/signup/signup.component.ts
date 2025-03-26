@@ -38,7 +38,7 @@ import { SIGNUP_FIELD as FIELD } from './fields';
     ...FIELD_PIPES_EXPORTS,
   ],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss',
+  styleUrl: './signup.component.css',
 })
 export default class SignUpPageComponent implements OnInit {
   private formBuilder = inject(FormBuilder);

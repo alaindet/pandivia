@@ -28,7 +28,7 @@ const TOGGLE_FORM_PROVIDER: Provider = {
 @Component({
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
-  styleUrl: './toggle.component.scss',
+  styleUrl: './toggle.component.css',
   host: { class: 'app-toggle' },
   encapsulation: ViewEncapsulation.None,
   providers: [TOGGLE_FORM_PROVIDER],

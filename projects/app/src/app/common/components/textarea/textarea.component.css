@@ -1,0 +1,132 @@
+/**
+ * Theme variables
+ *
+ * --app-form-control-border-color
+ * --app-form-control-hover-border-color
+ * --app-form-control-focus-border-color
+ * --app-form-control-background
+ * --app-form-control-foreground
+ * --app-form-control-placeholder
+ */
+
+.app-textarea {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: fit-content;
+  max-width: 100% !important;
+}
+
+.app-textarea > textarea {
+  min-width: 0 !important;
+}
+
+.app-textarea > textarea::placeholder {
+  color: var(--app-form-control-placeholder);
+}
+
+.app-textarea.-full-width {
+  width: 100% !important;
+}
+
+.app-textarea.-full-width ._textarea {
+  min-width: auto;
+  width: 100% !important;
+}
+
+.app-textarea.-clearable ._textarea {
+  padding-right: 0.75rem;
+}
+
+.app-textarea.-clearable ._icons {
+  right: 0.75rem;
+}
+
+.app-textarea ._textarea-container {
+  width: 100%;
+  height: 100%;
+}
+
+.app-textarea ._textarea {
+  border: 2px solid var(--app-form-control-border-color);
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  min-width: 19.25rem;
+  padding: 0.5rem;
+  background-color: var(--app-form-control-background);
+  color: var(--app-form-control-foreground);
+  transition: 0.15s border-color ease-in-out;
+}
+
+.app-textarea ._textarea:hover {
+  border-color: var(--app-form-control-hover-border-color);
+}
+
+.app-textarea ._textarea:focus {
+  outline: 0;
+  border-color: var(--app-form-control-focus-border-color);
+  box-shadow: 0 2px 5px #0e141a1a;
+}
+
+.app-textarea ._icons {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0.66rem;
+  right: 0.66rem;
+}
+
+.app-textarea ._char-counter {
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.app-textarea ._char-counter ._counter {
+  font-weight: bold;
+}
+
+.app-textarea ._char-counter ._counter.-error {
+  color: var(--app-color-error);
+}
+
+.app-textarea ._char-counter ._separator {
+  margin: 0 0.2rem;
+}
+
+.app-textarea.-status-success ._textarea {
+  border-color: var(--app-color-success);
+}
+.app-textarea.-status-success ._status-icon {
+  color: var(--app-color-success);
+}
+
+.app-textarea.-status-error ._textarea {
+  border-color: var(--app-color-error);
+}
+.app-textarea.-status-error ._status-icon {
+  color: var(--app-color-error);
+}
+
+.app-textarea.-disabled ._textarea,
+.app-textarea textarea[readonly],
+.app-textarea textarea[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Hide native icons */
+.app-textarea textarea::-ms-clear,
+.app-textarea textarea::-ms-reveal {
+  display: none;
+}
+
+.app-textarea textarea::-webkit-search-decoration,
+.app-textarea textarea::-webkit-search-cancel-button,
+.app-textarea textarea::-webkit-search-results-button,
+.app-textarea textarea::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}

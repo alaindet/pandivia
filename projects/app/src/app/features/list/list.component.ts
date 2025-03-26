@@ -55,7 +55,7 @@ import { LIST_FILTER, ListFilterToken, ListItem } from './types';
     NgIcon,
   ],
   templateUrl: './list.component.html',
-  styleUrl: './list.component.scss',
+  styleUrl: './list.component.css',
 })
 export class ListPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

@@ -1,0 +1,19 @@
+/**
+ * Theme variables
+ *
+ * --app-autocomplete-item-active-background
+ * --app-autocomplete-item-active-foreground
+ */
+
+.app-autocomplete-option {
+  padding: 0.5rem;
+  display: block;
+}
+
+.app-autocomplete-option:hover,
+.app-autocomplete-option:focus,
+.app-autocomplete-option.-focused {
+  outline: 0;
+  background-color: var(--app-autocomplete-item-active-background) !important;
+  color: var(--app-autocomplete-item-active-foreground);
+}

@@ -34,7 +34,7 @@ import {
   selector: 'app-autocomplete',
   imports: [NgTemplateOutlet, AutocompleteOptionComponent],
   templateUrl: './autocomplete.component.html',
-  styleUrl: './autocomplete.component.scss',
+  styleUrl: './autocomplete.component.css',
   host: { class: 'app-autocomplete' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

@@ -33,7 +33,7 @@ import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
     ...FIELD_PIPES_EXPORTS,
   ],
   templateUrl: './user-credentials-form.component.html',
-  styleUrl: './user-credentials-form.component.scss',
+  styleUrl: './user-credentials-form.component.css',
 })
 export class UserCredentialsFormComponent implements AfterContentInit {
   private formBuilder = inject(FormBuilder);

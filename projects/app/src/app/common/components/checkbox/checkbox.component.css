@@ -1,0 +1,107 @@
+/**
+ * Theme variables
+ *
+ * --app-checkbox-background
+ * --app-checkbox-border-color
+ * --app-checkbox-hover-foreground
+ */
+
+app-checkbox {
+  --_size: 20px;
+  --_border-size: clamp(2px, calc(0.1 * var(--_size)), 10px);
+  --_checkmark-color: black;
+  --_checkmark-color-hover: #444;
+
+  display: flex;
+  align-items: center;
+  border-radius: 0.25rem;
+}
+
+.app-checkbox:focus {
+  outline-offset: 4px;
+}
+
+.app-checkbox.-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.app-checkbox ._checkmark {
+  position: relative;
+  background-color: var(--app-checkbox-background);
+  border: 2px solid var(--app-checkbox-border-color);
+  min-width: var(--_size);
+  max-width: var(--_size);
+  width: var(--_size);
+  min-height: var(--_size);
+  max-height: var(--_size);
+  height: var(--_size);
+  border-radius: calc(0.2 * var(--_size));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-checkbox ._checkmark::after {
+  position: absolute;
+  content: "";
+  width: calc(0.65 * var(--_size));
+  height: calc(0.35 * var(--_size));
+  border: var(--_border-size) solid var(--app-color-white);
+  border-top: 0;
+  border-right: 0;
+  z-index: 2;
+  transition: 0.1s opacity ease-in;
+  transform-origin: left bottom;
+  transform: translate(35%, 10%) rotate(-45deg);
+  opacity: 0;
+}
+
+.app-checkbox.-interactable {
+  cursor: pointer;
+}
+
+._content:not(:empty) {
+  margin-left: 0.5rem;
+}
+
+.app-checkbox.-interactable:hover,
+.app-checkbox.-interactable:focus {
+  ._content {
+    color: var(--app-checkbox-hover-foreground);
+  }
+}
+
+.app-checkbox.-checked ._checkmark {
+  background-color: var(--_checkmark-color);
+  border-color: var(--_checkmark-color);
+}
+
+.app-checkbox.-checked ._checkmark::after {
+  opacity: 1;
+}
+
+.app-checkbox.-checked.-interactable:hover ._checkmark {
+  background-color: var(--_checkmark-color-hover);
+  border-color: var(--_checkmark-color-hover);
+}
+
+.app-checkbox.-color-primary {
+  --_checkmark-color: var(--app-color-primary-500);
+  --_checkmark-color-hover: var(--app-color-primary-600);
+}
+
+.app-checkbox.-color-secondary {
+  --_checkmark-color: var(--app-color-secondary-500);
+  --_checkmark-color-hover: var(--app-color-secondary-600);
+}
+
+.app-checkbox.-color-tertiary {
+  --_checkmark-color: var(--app-color-tertiary-500);
+  --_checkmark-color-hover: var(--app-color-tertiary-600);
+}
+
+.app-checkbox.-color-black {
+  --_checkmark-color: var(--app-color-black);
+  --_checkmark-color-hover: var(--app-color-black-lighter);
+}

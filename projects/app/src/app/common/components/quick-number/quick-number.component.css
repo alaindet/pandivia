@@ -1,0 +1,33 @@
+/**
+ * Theme variables
+ * --app-quick-number-background
+ * --app-quick-number-border-color
+ */
+
+.app-quick-number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--app-quick-number-background);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  border: 2px solid var(--app-quick-number-border-color);
+  min-width: 150px;
+}
+
+.app-quick-number.-full-width {
+  min-width: 100%;
+  width: 100%;
+}
+
+.app-quick-number ._value {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  -webkit-user-select: none;
+  user-select: none;
+  flex-grow: 1;
+}

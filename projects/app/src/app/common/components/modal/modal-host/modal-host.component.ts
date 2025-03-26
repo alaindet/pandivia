@@ -31,7 +31,7 @@ import {
   selector: 'app-modal-host',
   imports: [NgTemplateOutlet, ButtonComponent, NgIcon, TranslocoModule],
   templateUrl: './modal-host.component.html',
-  styleUrl: './modal-host.component.scss',
+  styleUrl: './modal-host.component.css',
   host: { class: 'app-modal-host' },
   encapsulation: ViewEncapsulation.None,
 })

@@ -35,7 +35,7 @@ import { Counters } from '../../types';
     TranslocoModule,
   ],
   templateUrl: './stacked.component.html',
-  styleUrl: './stacked.component.scss',
+  styleUrl: './stacked.component.css',
   host: { class: 'app-layout-stacked' },
   encapsulation: ViewEncapsulation.None,
 })

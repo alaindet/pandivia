@@ -35,7 +35,7 @@ const TEXTAREA_FORM_PROVIDER: Provider = {
   exportAs: 'app-textarea',
   imports: [NgIcon, ButtonComponent],
   templateUrl: './textarea.component.html',
-  styleUrl: './textarea.component.scss',
+  styleUrl: './textarea.component.css',
   host: { class: 'app-textarea' },
   encapsulation: ViewEncapsulation.None,
   providers: [TEXTAREA_FORM_PROVIDER],

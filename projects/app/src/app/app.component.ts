@@ -21,7 +21,7 @@ import { UserStore } from '@app/features/user/store/feature';
     LinearSpinnerComponent,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   private uiStore = inject(UiStore);

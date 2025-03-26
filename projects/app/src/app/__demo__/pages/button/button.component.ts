@@ -11,9 +11,9 @@ import { ButtonComponent } from '@app/common/components';
 
 @Component({
   selector: 'app-demo-button',
-  imports: [ButtonComponent, NgIcon],
+  imports: [NgIcon, ButtonComponent],
   templateUrl: './button.component.html',
-  styleUrl: './button.component.scss',
+  styleUrl: './button.component.css',
 })
 export class ButtonDemoPageComponent {
   fabContainer = false;

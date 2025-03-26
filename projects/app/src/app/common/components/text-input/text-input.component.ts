@@ -37,7 +37,7 @@ const TEXT_INPUT_FORM_PROVIDER: Provider = {
   exportAs: 'app-text-input',
   imports: [NgIcon, ButtonComponent],
   templateUrl: './text-input.component.html',
-  styleUrl: './text-input.component.scss',
+  styleUrl: './text-input.component.css',
   host: { class: 'app-text-input' },
   encapsulation: ViewEncapsulation.None,
   providers: [TEXT_INPUT_FORM_PROVIDER],

@@ -30,7 +30,7 @@ const NOTIFICATION_ICON: Record<NotificationType, string> = {
   selector: 'app-notification',
   imports: [NgIcon],
   templateUrl: './notification.component.html',
-  styleUrl: './notification.component.scss',
+  styleUrl: './notification.component.css',
   host: { class: 'app-notification' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
