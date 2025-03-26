@@ -5,42 +5,40 @@
   display: flex;
   flex-direction: column;
   inset: 0;
+}
 
-  &.-mobile {
-    header {
-      display: flex;
-      align-items: center;
-    }
+:host.-mobile header {
+  display: flex;
+  align-items: center;
+}
 
-    ._menu-button-header {
-      margin-right: 0.5rem;
-    }
+:host.-mobile ._menu-button-header {
+  margin-right: 0.5rem;
+}
 
-    ._menu-button-nav {
-      margin-bottom: 1.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 2px solid var(--app-demo-border);
-    }
+:host.-mobile ._menu-button-nav {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--app-demo-border);
+}
 
-    aside {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      overflow-y: auto;
-      background-color: var(--app-actions-menu-item-background);
-      margin-bottom: 0;
-      transform: translateX(-100%);
-      transition: 0.15s transform ease-in;
-      border-right: 0;
-    }
+:host.-mobile aside {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  background-color: var(--app-actions-menu-item-background);
+  margin-bottom: 0;
+  transform: translateX(-100%);
+  transition: 0.15s transform ease-in;
+  border-right: 0;
+}
 
-    &.-open {
-      aside {
-        transform: translateX(0);
-      }
-    }
+:host.-mobile.-open {
+  aside {
+    transform: translateX(0);
   }
 }
 

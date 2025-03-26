@@ -1,4 +1,26 @@
-@mixin app-vars-colors() {
+:root {
+  /* Widths */
+  --app-width-container: 100vw;
+  --app-width-demo-navigation: 200px;
+  --app-width-modal: 500px;
+
+  /* Heights */
+  --app-height-notification-progress: 3px;
+  --app-height-card-list-item: 2.5rem;
+  --app-height-demo-header: 5rem;
+  --app-height-demo-header-margin: 1rem;
+  --app-height-autocomplete-options: 320px;
+
+  /* Position */
+  --app-pos-notification-mobile-top: 6vh;
+  --app-pos-notification-mobile-right: 2.5vw;
+  --app-pos-notification-mobile-bottom: auto;
+  --app-pos-notification-mobile-left: 2.5vw;
+
+  /* Typography */
+  --app-typography-body-font: "Trebuchet MS", sans-serif;
+  --app-typography-headings-font: "Yeseva One", cursive;
+
   --app-color-beige-50: #fffefe;
   --app-color-beige-100: #fffefc;
   --app-color-beige-200: #fefcf8;
@@ -43,7 +65,7 @@
   --app-color-green-800: #294a38;
   --app-color-green-900: #1c3125;
 
-  // Aliases --------------------------------------------------------------------
+  /* Aliases */
   --app-color-grey-50: #fffefe;
   --app-color-grey-100: #fffefc;
   --app-color-grey-200: #fefcf8;
@@ -88,7 +110,7 @@
   --app-color-tertiary-800: #294a38;
   --app-color-tertiary-900: #1c3125;
 
-  // Utilities ------------------------------------------------------------------
+  /* Utilities */
   --app-color-white: #fefcf8;
   --app-color-black: rgb(18, 52, 86);
   --app-color-black-lighter: hsl(210, 65%, 30%);
@@ -96,66 +118,42 @@
   --app-color-success: #5ca47c;
 }
 
-@mixin app-root() {
+@media (min-width: 1024px) {
   :root {
-    // Widths
-    --app-width-container: 100vw;
-    --app-width-demo-navigation: 200px;
-    --app-width-modal: 500px;
-
-    // Heights
-    --app-height-notification-progress: 3px;
-    --app-height-card-list-item: 2.5rem;
-    --app-height-demo-header: 5rem;
-    --app-height-demo-header-margin: 1rem;
-    --app-height-autocomplete-options: 320px;
-
-    // Position
-    --app-pos-notification-mobile-top: 6vh;
-    --app-pos-notification-mobile-right: 2.5vw;
-    --app-pos-notification-mobile-bottom: auto;
-    --app-pos-notification-mobile-left: 2.5vw;
-
-    // Typography
-    --app-typography-body-font: "Trebuchet MS", sans-serif;
-    --app-typography-headings-font: "Yeseva One", cursive;
-
-    @include app-vars-colors();
-
-    @media (min-width: 1024px) {
-      --app-width-container: 800px;
-    }
+    --app-width-container: 800px;
   }
+}
 
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: var(
-      --app-root-color-background,
-      var(--app-color-grey-400)
-    );
-    color: var(--app-root-color-foreground, var(--app-color-black));
-  }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--app-root-color-background, var(--app-color-grey-400));
+  color: var(--app-root-color-foreground, var(--app-color-black));
+}
 
-  body,
-  input,
-  textarea,
-  button {
-    font-family: var(--app-typography-body-font);
-  }
+body,
+input,
+textarea,
+button {
+  font-family: var(--app-typography-body-font);
+}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--app-typography-headings-font);
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--app-typography-headings-font);
+}
+
+/* Hide Firebase warning in emulator mode while developing */
+.firebase-emulator-warning {
+  display: none;
 }

@@ -14,12 +14,12 @@ import { MediaQueryService } from '@app/common/services';
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
+      }
 
-        &.-mobile {
-          align-items: flex-start;
-          flex-direction: column;
-          gap: 0.3rem;
-        }
+      :host.-mobile {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.3rem;
       }
 
       h1 {

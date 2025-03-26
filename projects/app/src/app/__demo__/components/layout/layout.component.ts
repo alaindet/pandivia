@@ -11,7 +11,7 @@ import { MediaQueryService } from '@app/common/services';
   selector: 'app-demo-layout',
   imports: [NgIcon, ButtonComponent],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.scss',
+  styleUrl: './layout.component.css',
 })
 export class DemoLayoutComponent implements OnInit {
   private router = inject(Router);
