@@ -10,7 +10,7 @@ import {
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
-  ButtonComponent,
+  IconButtonComponent,
   PageHeaderComponent,
 } from '@app/common/components';
 
@@ -20,7 +20,7 @@ import {
     PageHeaderComponent,
     ...ACTIONS_MENU_EXPORTS,
     NgIcon,
-    ButtonComponent,
+    IconButtonComponent,
   ],
   templateUrl: './page-header.component.html',
 })

@@ -4,6 +4,7 @@ import {
   HostBinding,
   Provider,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
@@ -23,7 +24,7 @@ import {
   uniqueId,
   useHtmlAttributes,
 } from '@app/common/utils';
-import { ButtonComponent } from '../button';
+import { IconButtonComponent } from '../icon-button';
 import { TextInputType } from './types';
 
 const TEXT_INPUT_FORM_PROVIDER: Provider = {
@@ -35,7 +36,7 @@ const TEXT_INPUT_FORM_PROVIDER: Provider = {
 @Component({
   selector: 'app-text-input',
   exportAs: 'app-text-input',
-  imports: [NgIcon, ButtonComponent],
+  imports: [NgIcon, IconButtonComponent],
   templateUrl: './text-input.component.html',
   styleUrl: './text-input.component.css',
   host: { class: 'app-text-input' },
@@ -47,13 +48,17 @@ export class TextInputComponent implements ControlValueAccessor {
   type = input<TextInputType>('text');
   value = input<string>();
   status = input<FormFieldStatus>();
-  clearable = input(false);
+  clearable = input(false, { transform: booleanAttribute });
+  clearLabel = input('Clear content');
   placeholder = input('');
   autocomplete = input<string>();
-  withStatusIcon = input(true);
+  withStatusIcon = input(true, { transform: booleanAttribute });
   withErrorId = input<string | null>(null);
-  withFullWidth = input(false);
-  _isDisabled = input(false, { alias: 'isDisabled' });
+  withFullWidth = input(false, { transform: booleanAttribute });
+  _isDisabled = input(false, {
+    alias: 'isDisabled',
+    transform: booleanAttribute,
+  });
   width = input<string>();
   attrs = input<ElementAttributes | null>(null);
 

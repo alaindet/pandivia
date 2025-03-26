@@ -1,6 +1,14 @@
+<h2>Default button</h2>
+<app-actions-menu
+  id="my-demo-default-button"
+  [actions]="actions"
+  position="right"
+  (actionConfirmed)="consoleLog($event)"
+/>
+
 <h2>Position</h2>
 <app-actions-menu
-  style="margin-left: 5rem;"
+  style="margin-left: 5rem"
   id="my-demo-menu-left"
   [actions]="actions"
   position="left"
@@ -11,7 +19,7 @@
   </button>
 </app-actions-menu>
 
-<hr>
+<hr />
 
 <app-actions-menu
   id="my-demo-menu-right"
@@ -76,6 +84,6 @@
     [color]="open ? 'primary' : 'secondary'"
     size="small"
   >
-    {{ open ? 'OPEN!' : 'This is closed.' }}
+    {{ open ? "OPEN!" : "This is closed." }}
   </button>
 </app-actions-menu>

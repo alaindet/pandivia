@@ -15,7 +15,6 @@
     <div class="_pin">
       <button
         appButton="ghost"
-        isCircle
         withIcon="left"
         size="extra-small"
         (click)="onTogglePin()"
@@ -35,14 +34,9 @@
       (actionConfirmed)="onListAction($event)"
     >
       <ng-container *appActionsMenuButton>
-        <button
-          type="button"
-          appButton="ghost"
-          withIconOnly
-          isCircle
-          size="small"
-        >
+        <button appIconButton="ghost" size="small" circled>
           <ng-icon [svg]="matMoreHoriz" />
+          <!-- TODO: Add translated aria-label -->
         </button>
       </ng-container>
     </app-actions-menu>
@@ -83,10 +77,8 @@
         @if (!!item.description) {
         <div class="_toggle-description">
           <button
-            type="button"
-            appButton="ghost"
-            withIconOnly
-            isCircle
+            appIconButton="ghost"
+            circled
             size="small"
             (click)="onToggleDescription(item.id)"
           >
@@ -97,6 +89,7 @@
                   : matExpandMore
               "
             />
+            <!-- TODO: Add translated aria-label -->
           </button>
         </div>
         }
@@ -110,14 +103,13 @@
         >
           <ng-container *appActionsMenuButton="let open">
             <button
-              type="button"
-              appButton
+              appIconButton
               [color]="open ? 'primary' : 'ghost'"
-              withIconOnly
-              isCircle
+              circled
               size="small"
             >
               <ng-icon [svg]="open ? matClose : matMoreHoriz" />
+              <!-- TODO: Add translated aria-label -->
             </button>
           </ng-container>
         </app-actions-menu>

@@ -15,7 +15,7 @@ import {
   ActionsMenuItem,
   BottomMenuComponent,
   BottomMenuItem,
-  ButtonComponent,
+  IconButtonComponent,
   PageHeaderComponent,
   TextInputComponent,
 } from '@app/common/components';
@@ -29,7 +29,7 @@ import { Counters } from '../../types';
     NgIcon,
     ...ACTIONS_MENU_EXPORTS,
     PageHeaderComponent,
-    ButtonComponent,
+    IconButtonComponent,
     BottomMenuComponent,
     TextInputComponent,
     TranslocoModule,
@@ -48,6 +48,8 @@ export class StackedLayoutComponent {
   withSearch = input(false);
   withVisibleSearch = input(false);
   searchQuery = input('');
+  searchBarButtonLabel = input('Toggle search bar');
+  actionsToggleLabel = input('Toggle actions menu');
 
   headerActionClicked = output<string>();
   footerActionClicked = output<string>();

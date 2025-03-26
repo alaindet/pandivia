@@ -10,11 +10,11 @@ import {
 import { NgIcon } from '@ng-icons/core';
 import { matArrowBack } from '@ng-icons/material-icons/baseline';
 
-import { ButtonComponent } from '../button';
+import { IconButtonComponent } from '../icon-button';
 
 @Component({
   selector: 'app-page-header',
-  imports: [ButtonComponent, NgIcon],
+  imports: [IconButtonComponent, NgIcon],
   templateUrl: './page-header.component.html',
   styleUrl: './page-header.component.css',
   host: { class: 'app-page-header' },
@@ -26,6 +26,7 @@ export class PageHeaderComponent {
 
   withBackButton = input(false);
   withControlledBackButton = input(false);
+  backLabel = input('Go back');
 
   backClicked = output<void>();
 

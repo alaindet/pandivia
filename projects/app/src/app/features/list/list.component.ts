@@ -15,6 +15,7 @@ import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 import {
   ActionsMenuItem,
   ButtonComponent,
+  IconButtonComponent,
   CardListComponent,
   ChangeCategoryModalComponent,
   ConfirmPromptModalComponent,
@@ -51,6 +52,7 @@ import { LIST_FILTER, ListFilterToken, ListItem } from './types';
     NgTemplateOutlet,
     CardListComponent,
     ButtonComponent,
+    IconButtonComponent,
     TranslocoModule,
     NgIcon,
   ],

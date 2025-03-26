@@ -20,6 +20,7 @@ import {
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { ButtonComponent } from '../../button';
+import { IconButtonComponent } from '../../icon-button';
 import { ModalService } from '../modal.service';
 import { ModalHostLabels } from '../types';
 import {
@@ -29,7 +30,13 @@ import {
 
 @Component({
   selector: 'app-modal-host',
-  imports: [NgTemplateOutlet, ButtonComponent, NgIcon, TranslocoModule],
+  imports: [
+    NgTemplateOutlet,
+    ButtonComponent,
+    IconButtonComponent,
+    NgIcon,
+    TranslocoModule,
+  ],
   templateUrl: './modal-host.component.html',
   styleUrl: './modal-host.component.css',
   host: { class: 'app-modal-host' },

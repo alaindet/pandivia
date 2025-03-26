@@ -15,10 +15,9 @@
       <!-- Search toggle -->
       @if (withSearch()) {
       <button
-        type="button"
-        appButton="ghost"
-        isCircle
-        withIconOnly
+        appIconButton="ghost"
+        [attr.aria-label]="searchBarButtonLabel()"
+        circled
         (click)="onToggleSearchBar()"
       >
         <ng-icon [svg]="matSearch" />
@@ -35,10 +34,9 @@
       >
         <button
           *appActionsMenuButton
-          type="button"
-          appButton="outline"
-          isCircle
-          withIconOnly
+          appIconButton="outline"
+          circled
+          [attr.aria-label]="actionsToggleLabel()"
         >
           <ng-icon [svg]="matMoreHoriz" />
         </button>

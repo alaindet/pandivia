@@ -24,6 +24,7 @@ import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryItem } from '@app/features/inventory';
 import { ListItem } from '@app/features/list';
 import { ButtonComponent } from '../button';
+import { IconButtonComponent } from '../icon-button';
 import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import {
@@ -40,6 +41,7 @@ import {
     NgIcon,
     CheckboxComponent,
     ButtonComponent,
+    IconButtonComponent,
     ...ACTIONS_MENU_EXPORTS,
   ],
   templateUrl: './card-list.component.html',

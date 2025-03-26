@@ -24,6 +24,7 @@ export class ButtonComponent {
   private host = inject(ElementRef<HTMLButtonElement>);
 
   mainInput = input<ButtonColor | null | ''>(null, { alias: 'appButton' });
+  type = input<'button' | 'submit' | 'reset'>('button');
   color = input<ButtonColor>('primary');
   size = input<ButtonSize>('medium');
   withFullWidth = input(false);
@@ -35,6 +36,11 @@ export class ButtonComponent {
   floatingRight = input('1rem');
   floatingBottom = input('1rem');
   floatingLeft = input('auto');
+
+  @HostBinding('attr.type')
+  get attributeType() {
+    return this.type();
+  }
 
   @HostBinding('style.--_top')
   get styleTop() {

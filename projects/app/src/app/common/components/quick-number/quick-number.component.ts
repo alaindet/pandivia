@@ -19,7 +19,7 @@ import { NgIcon } from '@ng-icons/core';
 import { matRemove, matAdd } from '@ng-icons/material-icons/baseline';
 
 import { uniqueId } from '@app/common/utils';
-import { ButtonColor, ButtonComponent } from '../button';
+import { IconButtonColor, IconButtonComponent } from '../icon-button';
 
 const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -29,7 +29,7 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
 
 @Component({
   selector: 'app-quick-number',
-  imports: [NgIcon, ReactiveFormsModule, ButtonComponent],
+  imports: [NgIcon, ReactiveFormsModule, IconButtonComponent],
   templateUrl: './quick-number.component.html',
   styleUrl: './quick-number.component.css',
   host: { class: 'app-quick-number' },
@@ -39,12 +39,14 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
 export class QuickNumberComponent implements ControlValueAccessor {
   _id = input<string>('', { alias: 'id' });
   _value = input<number>(1, { alias: 'value' });
-  color = input<ButtonColor>('primary');
+  color = input<IconButtonColor>('primary');
   min = input<number>(0);
   max = input<number>(100);
   _isDisabled = input(false, { alias: 'isDisabled' });
   withErrorId = input<string | null>(null);
   withFullWidth = input(false);
+  decrementLabel = input('Decrement by one');
+  incrementLabel = input('Increment by one');
 
   changed = output<number>();
 

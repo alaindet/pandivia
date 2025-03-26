@@ -4,10 +4,12 @@ import {
   HostBinding,
   Provider,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
   input,
+  numberAttribute,
   output,
   signal,
   viewChild,
@@ -22,7 +24,7 @@ import {
 } from '@app/common/controllers';
 import { FormFieldStatus } from '@app/common/types';
 import { cssClassesList, uniqueId } from '@app/common/utils';
-import { ButtonComponent } from '../button';
+import { IconButtonComponent } from '../icon-button';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -33,7 +35,7 @@ const TEXTAREA_FORM_PROVIDER: Provider = {
 @Component({
   selector: 'app-textarea',
   exportAs: 'app-textarea',
-  imports: [NgIcon, ButtonComponent],
+  imports: [NgIcon, IconButtonComponent],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.css',
   host: { class: 'app-textarea' },
@@ -44,15 +46,19 @@ export class TextareaComponent implements ControlValueAccessor {
   _id = input<string>('', { alias: 'id' });
   value = input<string>();
   status = input<FormFieldStatus>();
-  withStatusIcon = input(true);
-  rows = input(7);
-  clearable = input(false);
+  withStatusIcon = input(true, { transform: booleanAttribute });
+  rows = input(7, { transform: numberAttribute });
+  clearable = input(false, { transform: booleanAttribute });
+  clearLabel = input('Clear content');
   placeholder = input('');
-  maxChars = input(500);
-  withCharsCounter = input(false);
+  maxChars = input(500, { transform: numberAttribute });
+  withCharsCounter = input(false, { transform: booleanAttribute });
   withErrorId = input<string | null>(null);
-  withFullWidth = input(true);
-  _isDisabled = input(false, { alias: 'isDisabled' });
+  withFullWidth = input(true, { transform: booleanAttribute });
+  _isDisabled = input(false, {
+    alias: 'isDisabled',
+    transform: booleanAttribute,
+  });
   attrs = input<HTMLAttributes | null>(null);
 
   changed = output<string>();

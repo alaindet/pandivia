@@ -2,11 +2,10 @@
   <!-- Back button -->
   @if (withBackButton() || withControlledBackButton()) {
   <button
-    type="button"
-    appButton="ghost"
-    isCircle
-    withIconOnly
+    appIconButton="ghost"
+    circled
     (click)="onBackClicked()"
+    [attr.aria-label]="backLabel()"
   >
     <ng-icon [svg]="matArrowBack" />
   </button>

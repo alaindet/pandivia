@@ -74,8 +74,8 @@ export class DemoPageComponent {
   }
 
   private updateTitle(url: string): void {
-    const query = url.replace('/demo', '');
-    const page = this.pages.find((p) => query.includes(p.path));
+    const query = url.replace('/demo', '').slice(1); // Ex.: 'linear-spinner'
+    const page = this.pages.find((p) => query === p.path);
     const label = page?.label ?? 'Demo';
     this.titleService.setTitle(`Pandivia Demo: ${label}`);
     this.title = label;

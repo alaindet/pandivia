@@ -4,12 +4,12 @@ import { filter } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matClose, matMenu } from '@ng-icons/material-icons/baseline';
 
-import { ButtonComponent } from '@app/common/components';
+import { ButtonComponent, IconButtonComponent } from '@app/common/components';
 import { MediaQueryService } from '@app/common/services';
 
 @Component({
   selector: 'app-demo-layout',
-  imports: [NgIcon, ButtonComponent],
+  imports: [NgIcon, ButtonComponent, IconButtonComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',
 })

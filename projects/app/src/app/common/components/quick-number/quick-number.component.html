@@ -1,13 +1,13 @@
 <button
   type="button"
-  appButton
+  appIconButton
   [color]="color()"
   size="small"
-  withIconOnly
-  isCircle
+  circled
   [disabled]="isDecrementDisabled()"
   class="-decrement"
   title="Decrement value"
+  [attr.aria-label]="decrementLabel()"
   (click)="onDecrement()"
 >
   <ng-icon [svg]="matRemove" />
@@ -17,12 +17,12 @@
 
 <button
   type="button"
-  appButton
+  appIconButton
   [color]="color()"
   size="small"
-  withIconOnly
-  isCircle
+  circled
   [disabled]="isIncrementDisabled()"
+  [attr.aria-label]="incrementLabel()"
   class="-increment"
   title="Increment value"
   (click)="onIncrement()"

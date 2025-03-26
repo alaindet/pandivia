@@ -36,14 +36,14 @@
 
     <!-- Add new item -->
     <button
-      appButton
+      appIconButton
       [color]="themeConfig().fabColor"
-      isCircle
-      withIconOnly
+      circled
       size="large"
       floating="fixed"
       floatingBottom="4.7rem"
       floatingRight="calc(50vw - 0.5 * var(--app-width-container) + 1.1rem)"
+      [attr.aria-label]="t('list.fab')"
       (click)="onShowCreateItemModal()"
     >
       <ng-icon [svg]="matAdd" />

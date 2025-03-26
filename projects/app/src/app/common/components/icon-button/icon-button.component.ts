@@ -19,7 +19,7 @@ import {
 @Component({
   selector: 'button[appIconButton]',
   template: '<ng-content />',
-  styleUrl: './icon-button.component.scss',
+  styleUrl: './icon-button.component.css',
   host: { class: 'app-icon-button' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,14 +30,20 @@ export class IconButtonComponent {
   mainInput = input<IconButtonColor | null | ''>(null, {
     alias: 'appIconButton',
   });
+  type = input<'button' | 'submit' | 'reset'>('button');
   color = input<IconButtonColor>('primary');
   size = input<IconButtonSize>('medium');
   circled = input<'' | boolean>(false);
   floating = input<IconButtonFloatingType | null>(null);
   floatingTop = input('auto');
-  floatingRight = input('1rem');
-  floatingBottom = input('1rem');
+  floatingRight = input('auto');
+  floatingBottom = input('auto');
   floatingLeft = input('auto');
+
+  @HostBinding('attr.type')
+  get attributeType() {
+    return this.type();
+  }
 
   @HostBinding('style.--_top')
   get styleTop() {

@@ -23,8 +23,8 @@
 
 .app-icon-button {
   --_top: auto;
-  --_right: 1rem;
-  --_bottom: 1rem;
+  --_right: auto;
+  --_bottom: auto;
   --_left: auto;
   --_size: 1rem;
   --_icon-size: calc(0.8 * var(--_size));

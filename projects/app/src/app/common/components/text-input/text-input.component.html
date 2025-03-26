@@ -19,14 +19,13 @@
   <!-- Clearable icon -->
   @if (clearable()) {
   <button
-    appButton="ghost"
-    type="button"
-    isCircle
-    withIconOnly
+    appIconButton="ghost"
+    circled
     size="extra-small"
+    [attr.aria-label]="clearLabel()"
     (click)="onClearInput()"
   >
-    &times;
+    <ng-icon [svg]="matClear" />
   </button>
   }
 
