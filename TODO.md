@@ -1,6 +1,9 @@
 # To Do
 
 - [ ] Create `common` package
+- [ ] Split appButton and appIconButton
+- [ ] Remove *.scss files
+- [ ] Remove preprocessing scss files from angular.json
 - [ ] Refactor
   - [ ] Change demo app to use CSS Grid
   - [ ] Analyze ESBuild
