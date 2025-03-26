@@ -3,9 +3,3 @@
   flex-direction: column;
   gap: 0.5rem;
 }
-
-.fab-container {
-  position: relative;
-  padding: 1rem;
-  border: 2px solid var(--app-color-black);
-}

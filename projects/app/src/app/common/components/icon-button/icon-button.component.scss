@@ -1,0 +1,157 @@
+/**
+ * Theme variables
+ *
+ * --app-button-primary-background
+ * --app-button-primary-foreground
+ * --app-button-primary-hover-background
+ *
+ * --app-button-secondary-background
+ * --app-button-secondary-foreground
+ * --app-button-secondary-hover-background
+ *
+ * --app-button-tertiary-background
+ * --app-button-tertiary-foreground
+ *
+ * --app-button-tertiary-hover-background
+ * --app-button-outline-border-color
+ * --app-button-outline-hover-background
+ * --app-button-outline-hover-foreground
+ *
+ * --app-button-ghost-foreground
+ * --app-button-ghost-hover-background
+ */
+
+.app-icon-button {
+  --_top: auto;
+  --_right: 1rem;
+  --_bottom: 1rem;
+  --_left: auto;
+  --_size: 1rem;
+  --_icon-size: calc(0.8 * var(--_size));
+  --_background-color: black;
+  --_icon-color: white;
+  --_hover-background-color: var(--_background-color);
+  --_hover-icon-color: var(--_icon-color);
+
+  width: var(--_size);
+  min-width: var(--_size);
+  max-width: var(--_size);
+  height: var(--_size);
+  min-height: var(--_size);
+  max-height: var(--_size);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 2px solid transparent;
+  font-family: inherit;
+  font-weight: 500;
+  transition: 0.15s background-color ease-out;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: var(--_background-color);
+  color: var(--_icon-color);
+}
+
+.app-icon-button:hover {
+  background-color: var(--_hover-background-color);
+  color: var(--_hover-icon-color);
+}
+
+.app-icon-button ng-icon {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  position: absolute;
+  font-size: inherit;
+}
+
+/* Color */
+.app-icon-button.-color-primary {
+  --_background-color: var(--app-button-primary-background);
+  --_icon-color: var(--app-button-primary-foreground);
+  --_hover-background-color: var(--app-button-primary-hover-background);
+}
+
+.app-icon-button.-color-secondary {
+  --_background-color: var(--app-button-secondary-background);
+  --_icon-color: var(--app-button-secondary-foreground);
+  --_hover-background-color: var(--app-button-secondary-hover-background);
+}
+
+.app-icon-button.-color-tertiary {
+  --_background-color: var(--app-button-tertiary-background);
+  --_icon-color: var(--app-button-tertiary-foreground);
+  --_hover-background-color: var(--app-button-tertiary-hover-background);
+}
+
+.app-icon-button.-color-outline {
+  --_background-color: transparent;
+  --_icon-color: var(--app-color-black);
+  border-color: var(--app-button-outline-border-color);
+  --_hover-background-color: var(--app-button-outline-hover-background);
+  --_hover-icon-color: var(--app-button-outline-hover-foreground);
+}
+
+.app-icon-button.-color-ghost {
+  --_background-color: transparent;
+  --_icon-color: var(--app-button-ghost-foreground);
+  border-color: transparent;
+  --_hover-background-color: var(--app-button-ghost-hover-background);
+}
+
+/* Size */
+.app-icon-button.-size-extra-small {
+  --_size: 1.5rem;
+  --_icon-size: 1.2rem;
+}
+
+.app-icon-button.-size-small {
+  --_size: 2rem;
+  --_icon-size: 1.4rem;
+}
+
+.app-icon-button.-size-medium {
+  --_size: 3rem;
+  --_icon-size: 1.85rem;
+}
+
+.app-icon-button.-size-large {
+  --_size: 4rem;
+  --_icon-size: 2.5rem;
+}
+
+/* Circle */
+.app-icon-button.-circled {
+  border-radius: 500px;
+}
+
+/* Floating */
+.app-icon-button.-floating {
+  top: var(--_top);
+  right: var(--_right);
+  bottom: var(--_bottom);
+  left: var(--_left);
+}
+
+.app-icon-button.-floating.-container {
+  position: absolute;
+  z-index: 2;
+}
+
+.app-icon-button.-floating.-fixed {
+  position: fixed;
+  z-index: 3;
+}
+
+/* Disabled */
+.app-icon-button[disabled],
+.app-icon-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

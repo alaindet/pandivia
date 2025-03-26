@@ -13,6 +13,7 @@ import { CardListDemoPageComponent } from './pages/card-list/card-list.component
 import { CheckboxDemoPageComponent } from './pages/checkbox/checkbox.component';
 import { ColorSwatchesDemoPageComponent } from './pages/color-swatches/color-swatches.component';
 import { FormFieldDemoPageComponent } from './pages/form-field/form-field.component';
+import { IconButtonDemoPageComponent } from './pages/icon-button/icon-button.component';
 import { LinearSpinnerDemoPageComponent } from './pages/linear-spinner/linear-spinner.component';
 import { ModalDemoPageComponent } from './pages/modal/modal.component';
 import { NotificationDemoPageComponent } from './pages/notification/notification.component';
@@ -33,6 +34,7 @@ export const DEMO_PAGES: DemoRoute[] = [
   demoRoute('checkbox', 'Checkbox', CheckboxDemoPageComponent),
   demoRoute('color-swatches', 'Color Swatches', ColorSwatchesDemoPageComponent),
   demoRoute('form-field', 'Form Field', FormFieldDemoPageComponent),
+  demoRoute('icon-button', 'Icon Button', IconButtonDemoPageComponent),
   demoRoute('linear-spinner', 'Linear Spinner', LinearSpinnerDemoPageComponent),
   demoRoute('modal', 'Modal', ModalDemoPageComponent),
   demoRoute('notification', 'Notification', NotificationDemoPageComponent),
@@ -54,7 +56,7 @@ export const DEMO_ROUTES: Routes = [
         path: '',
         component: IndexDemoPageComponent,
       },
-      ...DEMO_PAGES.map(p => ({
+      ...DEMO_PAGES.map((p) => ({
         path: p.path,
         component: p.component,
       })),

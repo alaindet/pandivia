@@ -10,27 +10,30 @@ import {
 } from '@angular/core';
 
 import { asBoolean, cssClassesList } from '@app/common/utils';
-import { ButtonColor, ButtonFloatingType, ButtonSize } from './types';
+import {
+  IconButtonColor,
+  IconButtonFloatingType,
+  IconButtonSize,
+} from './types';
 
 @Component({
-  selector: 'button[appButton]',
+  selector: 'button[appIconButton]',
   template: '<ng-content />',
-  styleUrl: './button.component.scss',
-  host: { class: 'app-button' },
+  styleUrl: './icon-button.component.scss',
+  host: { class: 'app-icon-button' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ButtonComponent {
+export class IconButtonComponent {
   private host = inject(ElementRef<HTMLButtonElement>);
 
-  mainInput = input<ButtonColor | null | ''>(null, { alias: 'appButton' });
-  color = input<ButtonColor>('primary');
-  size = input<ButtonSize>('medium');
-  withFullWidth = input(false);
-  isCircle = input<'' | boolean>(false);
-  withIcon = input<'' | 'left' | 'right' | boolean>(false);
-  withIconOnly = input<'' | boolean>(false);
-  floating = input<ButtonFloatingType | null>(null);
+  mainInput = input<IconButtonColor | null | ''>(null, {
+    alias: 'appIconButton',
+  });
+  color = input<IconButtonColor>('primary');
+  size = input<IconButtonSize>('medium');
+  circled = input<'' | boolean>(false);
+  floating = input<IconButtonFloatingType | null>(null);
   floatingTop = input('auto');
   floatingRight = input('1rem');
   floatingBottom = input('1rem');
@@ -64,34 +67,15 @@ export class ButtonComponent {
   private cssColorClass = computed(() => {
     const main = this.mainInput();
     const color = this.color();
-    return cssClassesList([
-      `-color-${!!main ? main : color}`,
-      this.withFullWidth() ? '-full-width' : null,
-    ]);
-  });
-
-  private cssIconColorClass = computed(() => {
-    switch (this.withIcon()) {
-      case 'left':
-      case 'right':
-        return `-with-icon -${this.withIcon()}`;
-      case true:
-      case '':
-        return '-with-icon';
-      case false:
-      default:
-        return null;
-    }
+    return cssClassesList([`-color-${!!main ? main : color}`]);
   });
 
   private cssClasses = computed(() =>
     cssClassesList([
       this.cssColorClass(),
       `-size-${this.size()}`,
-      this.cssIconColorClass(),
-      asBoolean(this.withIconOnly()) ? '-with-icon-only' : null,
-      asBoolean(this.isCircle()) ? '-circle' : null,
-      !!this.floating ? `-floating-${this.floating()}` : null,
+      asBoolean(this.circled()) ? '-circled' : null,
+      !!this.floating ? `-floating -${this.floating()}` : null,
     ])
   );
 
