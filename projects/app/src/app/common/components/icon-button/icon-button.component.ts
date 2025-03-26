@@ -4,12 +4,13 @@ import {
   ElementRef,
   HostBinding,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   inject,
   input,
 } from '@angular/core';
 
-import { asBoolean, cssClassesList } from '@app/common/utils';
+import { cssClassesList } from '@app/common/utils';
 import {
   IconButtonColor,
   IconButtonFloatingType,
@@ -33,7 +34,7 @@ export class IconButtonComponent {
   type = input<'button' | 'submit' | 'reset'>('button');
   color = input<IconButtonColor>('primary');
   size = input<IconButtonSize>('medium');
-  circled = input<'' | boolean>(false);
+  circled = input(false, { transform: booleanAttribute });
   floating = input<IconButtonFloatingType | null>(null);
   floatingTop = input('auto');
   floatingRight = input('auto');
@@ -80,7 +81,7 @@ export class IconButtonComponent {
     cssClassesList([
       this.cssColorClass(),
       `-size-${this.size()}`,
-      asBoolean(this.circled()) ? '-circled' : null,
+      this.circled() ? '-circled' : null,
       !!this.floating ? `-floating -${this.floating()}` : null,
     ])
   );

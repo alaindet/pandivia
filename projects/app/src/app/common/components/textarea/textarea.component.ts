@@ -54,7 +54,7 @@ export class TextareaComponent implements ControlValueAccessor {
   maxChars = input(500, { transform: numberAttribute });
   withCharsCounter = input(false, { transform: booleanAttribute });
   withErrorId = input<string | null>(null);
-  withFullWidth = input(true, { transform: booleanAttribute });
+  fullWidth = input(true, { transform: booleanAttribute });
   _isDisabled = input(false, {
     alias: 'isDisabled',
     transform: booleanAttribute,
@@ -79,7 +79,7 @@ export class TextareaComponent implements ControlValueAccessor {
 
   @HostBinding('class.-full-width')
   get cssClassFullWidth() {
-    return this.withFullWidth();
+    return this.fullWidth();
   }
 
   @HostBinding('class.-disabled')

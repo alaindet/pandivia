@@ -55,7 +55,7 @@
       [placeholder]="('common.searchItems' | transloco) + '...'"
       [clearable]="true"
       autocomplete="on"
-      [withFullWidth]="true"
+      fullWidth
       (inputChanged)="searched.emit($event)"
       (cleared)="searchCleared.emit()"
     />

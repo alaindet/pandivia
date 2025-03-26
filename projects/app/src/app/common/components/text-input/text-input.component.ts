@@ -54,7 +54,7 @@ export class TextInputComponent implements ControlValueAccessor {
   autocomplete = input<string>();
   withStatusIcon = input(true, { transform: booleanAttribute });
   withErrorId = input<string | null>(null);
-  withFullWidth = input(false, { transform: booleanAttribute });
+  fullWidth = input(false, { transform: booleanAttribute });
   _isDisabled = input(false, {
     alias: 'isDisabled',
     transform: booleanAttribute,
@@ -89,7 +89,7 @@ export class TextInputComponent implements ControlValueAccessor {
 
   @HostBinding('class.-full-width')
   get cssClassFullWidth() {
-    return this.withFullWidth();
+    return this.fullWidth();
   }
 
   @HostBinding('class.-disabled')

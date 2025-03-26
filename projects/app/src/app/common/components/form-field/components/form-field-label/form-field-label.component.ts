@@ -1,12 +1,11 @@
 import {
   Component,
   ViewEncapsulation,
-  computed,
+  booleanAttribute,
   inject,
   input,
 } from '@angular/core';
 
-import { asBoolean } from '@app/common/utils';
 import { FormFieldContextService } from '../../context.service';
 
 @Component({
@@ -19,9 +18,6 @@ import { FormFieldContextService } from '../../context.service';
 export class FormFieldLabelComponent {
   context = inject(FormFieldContextService);
 
-  _isRequired = input<boolean | string>(false, { alias: 'isRequired' });
-  isRequired = computed(() => asBoolean(this._isRequired()));
-
-  _isOptional = input<boolean | string>(false, { alias: 'isOptional' });
-  isOptional = computed(() => asBoolean(this._isOptional()));
+  isRequired = input(false, { transform: booleanAttribute });
+  isOptional = input(false, { transform: booleanAttribute });
 }

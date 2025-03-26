@@ -19,7 +19,7 @@
       [id]="FIELD.NAME.htmlId"
       type="text"
       [formControlName]="FIELD.NAME.id"
-      [withFullWidth]="true"
+      fullWidth
       [status]="fName | appFieldStatus"
       [placeholder]="t('common.form.field.name') + '...'"
       [withStatusIcon]="true"
@@ -90,7 +90,7 @@
       [min]="1"
       [max]="100"
       [color]="themeConfig().quickNumberColor"
-      [withFullWidth]="true"
+      fullWidth
       [withErrorId]="fAmount | appFieldErrorId:{
         'required': FIELD.AMOUNT.errors.REQUIRED,
         'min,max': FIELD.AMOUNT.errors.MIN_MAX,
@@ -155,7 +155,7 @@
       [id]="FIELD.CATEGORY.htmlId"
       [formControlName]="FIELD.CATEGORY.id"
       type="text"
-      [withFullWidth]="true"
+      fullWidth
       [id]="FIELD.CATEGORY.htmlId"
       [status]="fCategory | appFieldStatus"
       [placeholder]="t('common.form.field.category') + '...'"
@@ -246,7 +246,7 @@
       type="button"
       appButton="outline"
       size="small"
-      [withFullWidth]="true"
+      fullWidth
       withIcon="left"
       (click)="onCancel()"
     >
@@ -260,7 +260,7 @@
       appButton="primary"
       withIcon="left"
       size="small"
-      [withFullWidth]="isMobile()"
+      [fullWidth]="isMobile()"
       [disabled]="isSaving()"
       (click)="onSubmit()"
     >
@@ -278,7 +278,7 @@
       appButton="secondary"
       withIcon="left"
       size="small"
-      [withFullWidth]="isMobile()"
+      [fullWidth]="isMobile()"
       [disabled]="isSaving()"
       (click)="onCreateAndContinue()"
     >
@@ -292,7 +292,7 @@
       appButton="primary"
       withIcon="left"
       size="small"
-      [withFullWidth]="isMobile()"
+      [fullWidth]="isMobile()"
       [disabled]="isSaving()"
       (click)="onSubmit()"
     >

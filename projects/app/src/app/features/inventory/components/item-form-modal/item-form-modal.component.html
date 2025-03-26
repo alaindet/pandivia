@@ -21,7 +21,7 @@
       [formControlName]="FIELD.NAME.id"
       [status]="fName | appFieldStatus"
       [placeholder]="t('common.form.field.name') + '...'"
-      [withFullWidth]="true"
+      fullWidth
       [withStatusIcon]="true"
       [withErrorId]="
         fName
@@ -98,7 +98,7 @@
       [id]="FIELD.CATEGORY.htmlId"
       type="text"
       [formControlName]="FIELD.CATEGORY.id"
-      [withFullWidth]="true"
+      fullWidth
       [status]="fCategory | appFieldStatus"
       [placeholder]="t('common.form.field.category') + '...'"
       [withStatusIcon]="true"
@@ -145,7 +145,7 @@
       type="button"
       appButton="outline"
       size="small"
-      [withFullWidth]="true"
+      fullWidth
       withIcon="left"
       (click)="onCancel()"
     >
@@ -159,7 +159,7 @@
       appButton="primary"
       withIcon="left"
       size="small"
-      [withFullWidth]="isMobile()"
+      [fullWidth]="isMobile()"
       [disabled]="isSaving()"
       (click)="onSubmit()"
     >
@@ -177,7 +177,7 @@
       type="button"
       appButton="secondary"
       withIcon="left"
-      [withFullWidth]="isMobile()"
+      [fullWidth]="isMobile()"
       [disabled]="isSaving()"
       (click)="onCreateAndContinue()"
     >
@@ -190,7 +190,7 @@
       type="button"
       appButton="primary"
       withIcon="left"
-      [withFullWidth]="isMobile()"
+      [fullWidth]="isMobile()"
       [disabled]="isSaving()"
       (click)="onSubmit()"
     >

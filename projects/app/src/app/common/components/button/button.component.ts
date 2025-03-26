@@ -4,18 +4,19 @@ import {
   ElementRef,
   HostBinding,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   inject,
   input,
 } from '@angular/core';
 
-import { asBoolean, cssClassesList } from '@app/common/utils';
-import { ButtonColor, ButtonFloatingType, ButtonSize } from './types';
+import { cssClassesList } from '@app/common/utils';
+import { ButtonColor, ButtonSize } from './types';
 
 @Component({
   selector: 'button[appButton]',
   template: '<ng-content />',
-  styleUrl: './button.component.scss',
+  styleUrl: './button.component.css',
   host: { class: 'app-button' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,54 +28,18 @@ export class ButtonComponent {
   type = input<'button' | 'submit' | 'reset'>('button');
   color = input<ButtonColor>('primary');
   size = input<ButtonSize>('medium');
-  withFullWidth = input(false);
-  isCircle = input<'' | boolean>(false);
+  fullWidth = input(false, { transform: booleanAttribute });
   withIcon = input<'' | 'left' | 'right' | boolean>(false);
-  withIconOnly = input<'' | boolean>(false);
-  floating = input<ButtonFloatingType | null>(null);
-  floatingTop = input('auto');
-  floatingRight = input('1rem');
-  floatingBottom = input('1rem');
-  floatingLeft = input('auto');
 
   @HostBinding('attr.type')
   get attributeType() {
     return this.type();
   }
 
-  @HostBinding('style.--_top')
-  get styleTop() {
-    return this.floatingTop();
-  }
-
-  @HostBinding('style.--_right')
-  get styleRight() {
-    return this.floatingRight();
-  }
-
-  @HostBinding('style.--_bottom')
-  get styleBottom() {
-    return this.floatingBottom();
-  }
-
-  @HostBinding('style.--_left')
-  get styleLeft() {
-    return this.floatingLeft();
-  }
-
   @HostBinding('class')
   get cssClass() {
     return this.cssClasses();
   }
-
-  private cssColorClass = computed(() => {
-    const main = this.mainInput();
-    const color = this.color();
-    return cssClassesList([
-      `-color-${!!main ? main : color}`,
-      this.withFullWidth() ? '-full-width' : null,
-    ]);
-  });
 
   private cssIconColorClass = computed(() => {
     switch (this.withIcon()) {
@@ -90,16 +55,17 @@ export class ButtonComponent {
     }
   });
 
-  private cssClasses = computed(() =>
-    cssClassesList([
-      this.cssColorClass(),
+  private cssClasses = computed(() => {
+    const main = this.mainInput();
+    const color = this.color();
+
+    return cssClassesList([
+      `-color-${!!main ? main : color}`,
+      this.fullWidth() ? '-full-width' : null,
       `-size-${this.size()}`,
       this.cssIconColorClass(),
-      asBoolean(this.withIconOnly()) ? '-with-icon-only' : null,
-      asBoolean(this.isCircle()) ? '-circle' : null,
-      !!this.floating ? `-floating-${this.floating()}` : null,
-    ])
-  );
+    ]);
+  });
 
   // @publicApi
   getNativeElement(): HTMLButtonElement {

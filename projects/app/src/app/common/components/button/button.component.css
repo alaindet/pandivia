@@ -1,0 +1,160 @@
+/**
+ * Theme variables
+ *
+ * --app-button-primary-background
+ * --app-button-primary-foreground
+ * --app-button-primary-hover-background
+ *
+ * --app-button-secondary-background
+ * --app-button-secondary-foreground
+ * --app-button-secondary-hover-background
+ *
+ * --app-button-tertiary-background
+ * --app-button-tertiary-foreground
+ *
+ * --app-button-tertiary-hover-background
+ * --app-button-outline-border-color
+ * --app-button-outline-hover-background
+ * --app-button-outline-hover-foreground
+ *
+ * --app-button-ghost-foreground
+ * --app-button-ghost-hover-background
+ */
+
+.app-button {
+  --_icon-size: 1.2rem;
+  --_background-color: initial;
+  --_text-color: initial;
+  --_hover-background-color: var(--_background-color);
+  --_hover-text-color: var(--_text-color);
+
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1;
+  font-family: inherit;
+  border: 2px solid transparent;
+  font-weight: 500;
+  letter-spacing: 1px;
+  transition: 0.15s background-color ease-out;
+  background-color: var(--_background-color);
+  color: var(--_text-color);
+}
+
+.app-button:hover {
+  background-color: var(--_hover-background-color);
+  color: var(--_hover-text-color);
+}
+
+.app-button ng-icon {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+
+/* Color ------------------------------------------------------------------- */
+.app-button.-color-primary {
+  --_background-color: var(--app-button-primary-background);
+  --_text-color: var(--app-button-primary-foreground);
+  --_hover-background-color: var(--app-button-primary-hover-background);
+}
+
+.app-button.-color-secondary {
+  --_background-color: var(--app-button-secondary-background);
+  --_text-color: var(--app-button-secondary-foreground);
+  --_hover-background-color: var(--app-button-secondary-hover-background);
+}
+
+.app-button.-color-tertiary {
+  --_background-color: var(--app-button-tertiary-background);
+  --_text-color: var(--app-button-tertiary-foreground);
+  --_hover-background-color: var(--app-button-tertiary-hover-background);
+}
+
+.app-button.-color-outline {
+  --_background-color: transparent;
+  border-color: var(--app-button-outline-border-color);
+  --_hover-background-color: var(--app-button-outline-hover-background);
+  --_hover-text-color: var(--app-button-outline-hover-foreground);
+}
+
+.app-button.-color-outline i {
+  color: inherit;
+}
+
+.app-button.-color-ghost {
+  --_background-color: transparent;
+  --_text-color: var(--app-button-ghost-foreground);
+  border-color: transparent;
+  --_hover-background-color: var(--app-button-ghost-hover-background);
+}
+
+/* Size -------------------------------------------------------------------- */
+.app-button.-size-extra-small {
+  --_icon-size: 1rem;
+
+  padding: 0.25rem 0.4rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  height: 1.5rem;
+}
+
+.app-button.-size-small {
+  --_icon-size: 1.2rem;
+
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  line-height: 0.85rem;
+}
+
+.app-button.-size-medium {
+  --_icon-size: 1.25rem;
+
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
+.app-button.-size-large {
+  --_icon-size: 1.5rem;
+
+  padding: 1.25rem 1.75rem;
+  font-size: 1.1rem;
+  line-height: 1.1rem;
+  min-width: 130px;
+}
+
+/* Full width -------------------------------------------------------------- */
+.app-button.-full-width {
+  width: 100% !important;
+  justify-content: center !important;
+}
+
+/* With icon --------------------------------------------------------------- */
+.app-button.-with-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.app-button.-with-icon.-left ng-icon {
+  margin-right: 0.33rem;
+}
+
+.app-button.-with-icon.-right ng-icon {
+  margin-left: 0.33rem;
+}
+
+/* Disabled ---------------------------------------------------------------- */
+.app-button[disabled],
+.app-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

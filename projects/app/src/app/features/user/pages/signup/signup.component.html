@@ -21,7 +21,7 @@
           [formControlName]="FIELD.NAME.id"
           [status]="fName | appFieldStatus"
           [placeholder]="t('common.form.field.name') + '...'"
-          [withFullWidth]="true"
+          fullWidth
           [withStatusIcon]="true"
           [withErrorId]="fName | appFieldErrorId:{
               'required': FIELD.NAME.errors.REQUIRED,
@@ -55,7 +55,7 @@
           [formControlName]="FIELD.EMAIL.id"
           [status]="fEmail | appFieldStatus"
           placeholder="Email..."
-          [withFullWidth]="true"
+          fullWidth
           [withStatusIcon]="true"
           [withErrorId]="fEmail | appFieldErrorId:{
               'required': FIELD.EMAIL.errors.REQUIRED,
@@ -88,7 +88,7 @@
           [formControlName]="FIELD.PASSWORD.id"
           [status]="fPassword | appFieldStatus"
           placeholder="Password..."
-          [withFullWidth]="true"
+          fullWidth
           [withStatusIcon]="true"
           [withErrorId]="fPassword | appFieldErrorId:{
               'required': FIELD.PASSWORD.errors.REQUIRED,

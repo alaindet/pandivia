@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss",
+          "style": "css",
           "standalone": true
         },
         "@schematics/angular:directive": {
@@ -24,12 +24,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "allowedCommonJsDependencies": ["flat"],
+            "allowedCommonJsDependencies": [
+              "flat"
+            ],
             "outputPath": {
               "base": "dist/app"
             },
             "index": "projects/app/src/index.html",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "projects/app/tsconfig.app.json",
             "inlineStyleLanguage": "css",
             "assets": [
@@ -98,7 +102,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "projects/app/tsconfig.spec.json",
             "inlineStyleLanguage": "css",
             "assets": [

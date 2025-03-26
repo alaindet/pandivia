@@ -3,6 +3,7 @@ import {
   HostBinding,
   Provider,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
@@ -44,7 +45,7 @@ export class QuickNumberComponent implements ControlValueAccessor {
   max = input<number>(100);
   _isDisabled = input(false, { alias: 'isDisabled' });
   withErrorId = input<string | null>(null);
-  withFullWidth = input(false);
+  fullWidth = input(false, { transform: booleanAttribute });
   decrementLabel = input('Decrement by one');
   incrementLabel = input('Increment by one');
 
@@ -65,7 +66,7 @@ export class QuickNumberComponent implements ControlValueAccessor {
 
   @HostBinding('class.-full-width')
   get cssClassFullWidth() {
-    return this.withFullWidth();
+    return this.fullWidth();
   }
 
   value = signal<number>(1);
