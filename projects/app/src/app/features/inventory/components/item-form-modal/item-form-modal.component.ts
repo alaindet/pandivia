@@ -31,7 +31,7 @@ import {
   TextInputComponent,
   TextareaComponent,
 } from '@app/common/components';
-import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryStore } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';

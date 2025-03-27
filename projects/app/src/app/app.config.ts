@@ -22,6 +22,6 @@ export const appConfig: ApplicationConfig = {
     ...CORE_PROVIDERS,
     ...TRANSLOCO_PROVIDERS,
     ...FIREBASE_PROVIDERS,
-    MediaQueryService, // TODO: ?
+    MediaQueryService,
   ],
 };

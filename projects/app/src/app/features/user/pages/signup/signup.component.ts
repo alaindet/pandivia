@@ -19,7 +19,7 @@ import {
   PageHeaderComponent,
   TextInputComponent,
 } from '@app/common/components';
-import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { InvitesService } from '../../services';
 import { SignUpUserDto, UserInvite } from '../../types';

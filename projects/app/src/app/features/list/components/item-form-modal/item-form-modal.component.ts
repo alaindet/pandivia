@@ -39,7 +39,7 @@ import {
   TextareaComponent,
   ToggleComponent,
 } from '@app/common/components';
-import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UiStore } from '@app/core/ui';

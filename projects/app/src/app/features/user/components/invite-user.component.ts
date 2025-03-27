@@ -15,7 +15,7 @@ import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
 } from '@common/utils';
-import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { InvitesService } from '../services';
 
 @Component({
