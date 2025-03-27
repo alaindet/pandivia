@@ -4,7 +4,6 @@ export * from './card-list';
 export * from './change-category-modal';
 export * from './confirm-prompt-modal';
 export * from './form-field';
-export * from './linear-spinner';
 export * from './menu/actions-menu';
 export * from './modal';
 export * from './notification';

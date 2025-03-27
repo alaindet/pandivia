@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
+import { LinearSpinnerComponent } from '@ui/components/linear-spinner';
 
 import {
-  LinearSpinnerComponent,
   ModalHostComponent,
   NotificationsHostComponent,
 } from '@app/common/components';

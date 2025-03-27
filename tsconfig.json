@@ -45,6 +45,9 @@
       ],
       "@ui/components/icon-button": [
         "projects/ui/src/components/icon-button/public-api.ts"
+      ],
+      "@ui/components/linear-spinner": [
+        "projects/ui/src/components/linear-spinner/public-api.ts"
       ]
     }
   },
