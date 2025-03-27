@@ -6,8 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ToggleComponent } from '@ui/components/toggle';
 
-import { FORM_FIELD_EXPORTS, ToggleComponent } from '@app/common/components';
+import { FORM_FIELD_EXPORTS } from '@app/common/components';
 
 @Component({
   selector: 'app-demo-toggle',

@@ -20,6 +20,7 @@ import { MediaQueryService } from '@ui/services';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { ButtonComponent } from '@ui/components/button';
+import { ToggleComponent } from '@ui/components/toggle';
 
 import {
   AUTOCOMPLETE_EXPORTS,
@@ -32,7 +33,6 @@ import {
   QuickNumberComponent,
   TextInputComponent,
   TextareaComponent,
-  ToggleComponent,
 } from '@app/common/components';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UiStore } from '@app/core/ui';

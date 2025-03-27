@@ -48,6 +48,9 @@
       ],
       "@ui/components/linear-spinner": [
         "projects/ui/src/components/linear-spinner/public-api.ts"
+      ],
+      "@ui/components/toggle": [
+        "projects/ui/src/components/toggle/public-api.ts"
       ]
     }
   },
