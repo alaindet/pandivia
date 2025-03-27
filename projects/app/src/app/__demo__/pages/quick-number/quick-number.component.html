@@ -11,11 +11,11 @@
   [min]="min"
   [max]="max"
   (changed)="consoleLog('changed', $event)"
-  />
+/>
 
 <h2>With full width</h2>
 <app-quick-number
   [value]="value"
-  [withFullWidth]="true"
+  fullWidth
   (changed)="consoleLog('changed', $event)"
 />

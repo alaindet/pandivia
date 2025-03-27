@@ -4,10 +4,7 @@
 
 <form [formGroup]="myForm">
   <app-form-field>
-
-    <app-form-field-label isRequired>
-      My textarea
-    </app-form-field-label>
+    <app-form-field-label isRequired> My textarea </app-form-field-label>
 
     <app-textarea
       formControlName="myTextarea"
@@ -16,11 +13,8 @@
     />
 
     @if (fMyTextarea | appFieldError:'required') {
-      <app-form-field-error>
-        Required field
-      </app-form-field-error>
+    <app-form-field-error> Required field </app-form-field-error>
     }
-
   </app-form-field>
 </form>
 
@@ -38,10 +32,17 @@
   }"
 />
 
+<h2>Clearable</h2>
+<app-textarea
+  value="This is clearable"
+  clearable
+  (changed)="consoleLog('changed', $event)"
+/>
+
 <h2>Disabled</h2>
 <app-textarea
   value="This is disabled"
-  [isDisabled]="true"
+  isDisabled
   (changed)="consoleLog('changed', $event)"
 />
 
@@ -52,16 +53,14 @@
   <app-textarea
     value="Full width"
     placeholder="Full width"
-    [withFullWidth]="true"
+    fullWidth
     (changed)="consoleLog('changed', $event)"
   />
 </p>
 
 <h2>With characters counter</h2>
 <app-form-field>
-  <app-form-field-label>
-    With characters counter
-  </app-form-field-label>
+  <app-form-field-label> With characters counter </app-form-field-label>
   <app-textarea
     [withCharsCounter]="true"
     [maxChars]="123"

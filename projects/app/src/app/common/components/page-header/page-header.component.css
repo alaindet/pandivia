@@ -1,0 +1,44 @@
+/**
+ * Theme variables
+ *
+ * --app-page-header-bottom-line
+ */
+
+.app-page-header {
+  padding: 1rem 0;
+  padding-top: 0;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--app-page-header-bottom-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.app-page-header ._left:not(:empty) {
+  margin-right: 1rem;
+}
+
+.app-page-header ._main:not(:empty) {
+  flex-grow: 1;
+  position: relative;
+  top: -2px; /* Terrible terrible hack */
+}
+
+.app-page-header ._main:not(:empty) > h1,
+.app-page-header ._main:not(:empty) > h2,
+.app-page-header ._main:not(:empty) > h3,
+.app-page-header ._main:not(:empty) > h4,
+.app-page-header ._main:not(:empty) > h5,
+.app-page-header ._main:not(:empty) > h6 {
+  margin: 0;
+}
+
+.app-page-header ._right:not(:empty) {
+  margin-left: 1rem;
+}
+
+.app-page-header ._sub-header:not(:empty) {
+  flex-basis: 100%;
+  width: 100%;
+}

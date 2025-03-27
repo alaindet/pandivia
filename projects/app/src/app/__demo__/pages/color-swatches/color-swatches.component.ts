@@ -1,9 +1,9 @@
-import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 
 type Swatch = {
   name: string;
-  cssClass: string;
+  backgroundColor: string;
+  textColor: string;
 };
 
 type SwatchesCollection = {
@@ -13,9 +13,8 @@ type SwatchesCollection = {
 
 @Component({
   selector: 'app-demo-color-swatches',
-  imports: [NgClass],
   templateUrl: './color-swatches.component.html',
-  styleUrl: './color-swatches.component.scss',
+  styleUrl: './color-swatches.component.css',
 })
 export class ColorSwatchesDemoPageComponent {
   swatchesCollections: SwatchesCollection[] = [];
@@ -30,14 +29,16 @@ export class ColorSwatchesDemoPageComponent {
         name: 'utils',
         swatches: UTIL_COLORS.map((color) => ({
           name: color,
-          cssClass: `-${color}`,
+          backgroundColor: `var(--app-color-${color})`,
+          textColor: color === 'black' ? 'white' : 'black',
         })),
       },
       ...COLORS.map((color) => ({
         name: color,
         swatches: WEIGHTS.map((weight) => ({
           name: weight.toString(),
-          cssClass: `-${color}-${weight}`,
+          backgroundColor: `var(--app-color-${color}-${weight})`,
+          textColor: weight > 600 ? 'white' : 'black',
         })),
       })),
     ];

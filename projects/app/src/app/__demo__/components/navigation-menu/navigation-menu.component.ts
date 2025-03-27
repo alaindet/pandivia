@@ -17,12 +17,10 @@ import { DemoRoute } from '@app/__demo__/types';
   `,
   styles: [
     `
-      @import 'scoped';
-
       :host {
         display: block;
         white-space: nowrap;
-        width: $app-width-demo-navigation;
+        width: var(--app-width-demo-navigation);
       }
 
       ul {

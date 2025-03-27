@@ -7,6 +7,7 @@ import {
   Injector,
   OnInit,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   contentChild,
   effect,
@@ -20,7 +21,7 @@ import { NgIcon } from '@ng-icons/core';
 import { matMoreHoriz } from '@ng-icons/material-icons/baseline';
 
 import { doOnce } from '@app/common/utils';
-import { ButtonComponent } from '../../button';
+import { IconButtonComponent } from '../../icon-button';
 import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
 import { ActionsMenuItemDirective } from './directives/actions-menu-item.directive';
 import { ActionsMenuService } from './services/actions-menu.service';
@@ -28,9 +29,9 @@ import { ActionsMenuItem } from './types';
 
 @Component({
   selector: 'app-actions-menu',
-  imports: [NgTemplateOutlet, ButtonComponent, NgIcon],
+  imports: [NgTemplateOutlet, IconButtonComponent, NgIcon],
   templateUrl: './actions-menu.component.html',
-  styleUrl: './actions-menu.component.scss',
+  styleUrl: './actions-menu.component.css',
   host: { class: 'app-actions-menu' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

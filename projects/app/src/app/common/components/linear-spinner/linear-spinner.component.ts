@@ -3,6 +3,7 @@ import {
   Component,
   HostBinding,
   ViewEncapsulation,
+  booleanAttribute,
   input,
 } from '@angular/core';
 
@@ -13,13 +14,13 @@ export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 @Component({
   selector: 'app-linear-spinner',
   template: `<div class="_bar"><div></div></div>`,
-  styleUrl: './linear-spinner.component.scss',
+  styleUrl: './linear-spinner.component.css',
   host: { class: 'app-linear-spinner' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinearSpinnerComponent {
-  fixed = input(false);
+  fixed = input(false, { transform: booleanAttribute });
   color = input<LinearSpinnerColor>('primary');
 
   @HostBinding('class.-fixed')

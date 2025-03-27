@@ -1,4 +1,11 @@
-import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  booleanAttribute,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -66,7 +73,7 @@ import {
     ...FIELD_PIPES_EXPORTS,
   ],
   templateUrl: './item-form-modal.component.html',
-  styleUrl: './item-form-modal.component.scss',
+  styleUrl: './item-form-modal.component.css',
 })
 export class ListItemFormModalComponent
   extends BaseModalComponent<ListItemFormModalInput, ListItemFormModalOutput>

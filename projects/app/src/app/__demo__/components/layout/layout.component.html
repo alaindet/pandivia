@@ -1,11 +1,10 @@
 <header>
   @if (isMobile()) {
   <button
-    type="button"
     class="_menu-button-header"
-    appButton="ghost"
-    isCircle
-    withIconOnly
+    appIconButton="ghost"
+    aria-label="Open menu"
+    circled
     (click)="openMenu()"
   >
     <ng-icon [svg]="matMenu" />
@@ -31,7 +30,7 @@
         (click)="closeMenu()"
       >
         <ng-icon [svg]="matClose" />
-        Close
+        Close Menu
       </button>
       }
     </div>

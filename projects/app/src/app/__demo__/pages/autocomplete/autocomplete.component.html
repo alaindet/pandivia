@@ -1,13 +1,9 @@
 <pre>{{ theForm.value | json }}</pre>
 
 <form [formGroup]="theForm">
-
   <!-- Static options -->
   <app-form-field id="autocomplete-static">
-
-    <app-form-field-label>
-      Static options
-    </app-form-field-label>
+    <app-form-field-label> Static options </app-form-field-label>
 
     <app-text-input
       [id]="'autocomplete-static'"
@@ -23,6 +19,7 @@
       [filteringDelay]="100"
       trackKey="id"
       pickKey="word"
+      width="30rem"
       [staticOptions]="options"
       [staticSearchableFields]="['word']"
       [labels]="{
@@ -33,14 +30,13 @@
     >
       <ng-container *appAutocompleteOption="let option">
         <strong>{{ option.word }}</strong>
-        <br>
-        (id: "{{ option.id }}")
+        <br />
+        <code>{{ option | json }}</code>
       </ng-container>
     </app-autocomplete>
-
   </app-form-field>
 
-  <br><br>
+  <br /><br />
 
   <!-- Async options -->
   <!-- <app-form-field id="autocomplete-async">

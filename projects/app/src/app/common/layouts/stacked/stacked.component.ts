@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ViewEncapsulation,
+  booleanAttribute,
   effect,
   input,
   output,
@@ -15,7 +16,7 @@ import {
   ActionsMenuItem,
   BottomMenuComponent,
   BottomMenuItem,
-  ButtonComponent,
+  IconButtonComponent,
   PageHeaderComponent,
   TextInputComponent,
 } from '@app/common/components';
@@ -29,13 +30,13 @@ import { Counters } from '../../types';
     NgIcon,
     ...ACTIONS_MENU_EXPORTS,
     PageHeaderComponent,
-    ButtonComponent,
+    IconButtonComponent,
     BottomMenuComponent,
     TextInputComponent,
     TranslocoModule,
   ],
   templateUrl: './stacked.component.html',
-  styleUrl: './stacked.component.scss',
+  styleUrl: './stacked.component.css',
   host: { class: 'app-layout-stacked' },
   encapsulation: ViewEncapsulation.None,
 })
@@ -45,9 +46,11 @@ export class StackedLayoutComponent {
   headerCounters = input<Counters | null>(null);
   footerActions = input.required<BottomMenuItem[]>();
   footerCurrentAction = input<string | null>(null);
-  withSearch = input(false);
-  withVisibleSearch = input(false);
+  withSearch = input(false, { transform: booleanAttribute });
+  withVisibleSearch = input(false, { transform: booleanAttribute });
   searchQuery = input('');
+  searchBarButtonLabel = input('Toggle search bar');
+  actionsToggleLabel = input('Toggle actions menu');
 
   headerActionClicked = output<string>();
   footerActionClicked = output<string>();

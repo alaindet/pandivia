@@ -3,10 +3,12 @@ import {
   HostBinding,
   Provider,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
   input,
+  numberAttribute,
   output,
   signal,
 } from '@angular/core';
@@ -19,7 +21,7 @@ import { NgIcon } from '@ng-icons/core';
 import { matRemove, matAdd } from '@ng-icons/material-icons/baseline';
 
 import { uniqueId } from '@app/common/utils';
-import { ButtonColor, ButtonComponent } from '../button';
+import { IconButtonColor, IconButtonComponent } from '../icon-button';
 
 const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -29,22 +31,27 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
 
 @Component({
   selector: 'app-quick-number',
-  imports: [NgIcon, ReactiveFormsModule, ButtonComponent],
+  imports: [NgIcon, ReactiveFormsModule, IconButtonComponent],
   templateUrl: './quick-number.component.html',
-  styleUrl: './quick-number.component.scss',
+  styleUrl: './quick-number.component.css',
   host: { class: 'app-quick-number' },
   encapsulation: ViewEncapsulation.None,
   providers: [QUICK_NUMBER_FORM_PROVIDER],
 })
 export class QuickNumberComponent implements ControlValueAccessor {
   _id = input<string>('', { alias: 'id' });
-  _value = input<number>(1, { alias: 'value' });
-  color = input<ButtonColor>('primary');
-  min = input<number>(0);
-  max = input<number>(100);
-  _isDisabled = input(false, { alias: 'isDisabled' });
+  _value = input(1, { alias: 'value', transform: numberAttribute });
+  color = input<IconButtonColor>('primary');
+  min = input(0, { transform: numberAttribute });
+  max = input(100, { transform: numberAttribute });
+  _isDisabled = input(false, {
+    alias: 'isDisabled',
+    transform: booleanAttribute,
+  });
   withErrorId = input<string | null>(null);
-  withFullWidth = input(false);
+  fullWidth = input(false, { transform: booleanAttribute });
+  decrementLabel = input('Decrement by one');
+  incrementLabel = input('Increment by one');
 
   changed = output<number>();
 
@@ -63,7 +70,7 @@ export class QuickNumberComponent implements ControlValueAccessor {
 
   @HostBinding('class.-full-width')
   get cssClassFullWidth() {
-    return this.withFullWidth();
+    return this.fullWidth();
   }
 
   value = signal<number>(1);

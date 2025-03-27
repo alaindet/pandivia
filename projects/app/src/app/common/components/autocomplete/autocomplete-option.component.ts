@@ -4,6 +4,7 @@ import {
   ElementRef,
   HostBinding,
   ViewEncapsulation,
+  booleanAttribute,
   effect,
   inject,
   input,
@@ -13,7 +14,7 @@ import {
 @Component({
   selector: 'app-autocomplete-option',
   template: '<ng-content></ng-content>',
-  styleUrl: './autocomplete-option.component.scss',
+  styleUrl: './autocomplete-option.component.css',
   host: { class: 'app-autocomplete-option' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -21,8 +22,8 @@ import {
 export class AutocompleteOptionComponent {
   private host = inject(ElementRef);
 
-  isDropdownOpen = input(false);
-  isFocused = input(false);
+  isDropdownOpen = input(false, { transform: booleanAttribute });
+  isFocused = input(false, { transform: booleanAttribute });
 
   confirmed = output<void>();
 

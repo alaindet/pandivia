@@ -1,0 +1,58 @@
+/**
+ * Theme variables
+ *
+ * --app-bottom-menu-item-background
+ * --app-bottom-menu-item-foreground
+ * --app-bottom-menu-item-indicator-color
+ * --app-bottom-menu-item-indicator-hover-color
+ */
+
+.app-bottom-menu-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.33rem 0.5rem;
+  padding-bottom: 0.5rem;
+  cursor: pointer;
+  transition: 0.15s all ease-out;
+  background-color: var(--app-bottom-menu-item-background);
+  color: var(--app-bottom-menu-item-foreground);
+  flex: 1 1 0;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app-bottom-menu-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background-color: var(--app-bottom-menu-item-indicator-color);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: 0.15s all ease-in-out;
+}
+
+.app-bottom-menu-item:hover::after {
+  transform: scaleY(1.5) !important;
+  background-color: var(--app-bottom-menu-item-indicator-color) !important;
+}
+
+.app-bottom-menu-item:focus::after,
+.app-bottom-menu-item.-selected::after {
+  transform: scaleY(1);
+  background-color: var(--app-bottom-menu-item-indicator-hover-color);
+}
+
+.app-bottom-menu-item > ._icon ng-icon {
+  color: var(--app-bottom-menu-item-foreground);
+}
+
+.app-bottom-menu-item > ._label {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}

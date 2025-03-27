@@ -7,7 +7,7 @@ import { BottomMenuComponent, BottomMenuItem } from '@app/common/components';
   selector: 'app-demo-bottom-navigation',
   imports: [BottomMenuComponent],
   templateUrl: './bottom-menu.component.html',
-  styleUrl: './bottom-menu.component.scss',
+  styleUrl: './bottom-menu.component.css',
 })
 export class BottomMenuDemoPageComponent {
   menuItems: BottomMenuItem[] = [

@@ -1,0 +1,89 @@
+/**
+ * Theme variables
+ * --app-actions-menu-item-background
+ * --app-actions-menu-item-foreground
+ * --app-actions-menu-item-border-color
+ * --app-actions-menu-item-active-background
+ * --app-actions-menu-item-active-foreground
+ */
+
+app-actions-menu {
+  --_offset-y: 0;
+
+  position: relative;
+  display: inline-block;
+}
+
+.app-actions-menu-items {
+  transform: translateY(var(--_offset-y));
+  position: absolute;
+  z-index: 4;
+  isolation: isolate;
+  background-color: var(
+    --app-actions-menu-item-background,
+    var(--app-color-white)
+  );
+  color: var(
+    --app-actions-menu-item-foreground,
+    var(--app-color-black)
+  ) !important;
+  border: 2px solid
+    var(--app-actions-menu-item-border-color, var(--app-color-grey-600));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  width: max-content;
+}
+
+.app-actions-menu-items.-open {
+  display: block;
+}
+
+.app-actions-menu-items.-position-left {
+  left: auto;
+  right: 0;
+}
+
+.app-actions-menu-items.-position-right {
+  left: 0;
+  right: auto;
+}
+
+.app-actions-menu-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.app-actions-menu-item ng-icon {
+  font-size: 1.3rem;
+}
+
+.app-actions-menu-item:hover,
+.app-actions-menu-item:focus,
+.app-actions-menu-item.-focused {
+  background-color: var(
+    --app-actions-menu-item-active-background,
+    var(--app-color-primary-500)
+  );
+  color: var(
+    --app-actions-menu-item-active-foreground,
+    var(--app-color-black)
+  ) !important;
+}
+
+.app-actions-menu-item.-last {
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.app-actions-menu-item.-first {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}

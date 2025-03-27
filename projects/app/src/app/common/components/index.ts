@@ -6,6 +6,7 @@ export * from './change-category-modal';
 export * from './checkbox';
 export * from './confirm-prompt-modal';
 export * from './form-field';
+export * from './icon-button';
 export * from './linear-spinner';
 export * from './menu/actions-menu';
 export * from './modal';

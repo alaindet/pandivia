@@ -5,6 +5,7 @@ export const THEME_STORAGE_KEY = 'pandivia:theme';
 
 export const DEFAULT_THEME = THEME.GOLDEN;
 
+// TODO: Export this into a JSON file?
 export const THEME_CONFIG = {
   [THEME.GOLDEN]: {
     id: THEME.GOLDEN,
@@ -28,5 +29,6 @@ export const THEME_CONFIG = {
   },
 } as const;
 
-export const THEME_OPTIONS: FormOption[] = Object.values(THEME_CONFIG)
-  .map(({ id: value, label }) => ({ value, label }));
+export const THEME_OPTIONS: FormOption[] = Object.values(THEME_CONFIG).map(
+  ({ id: value, label }) => ({ value, label })
+);

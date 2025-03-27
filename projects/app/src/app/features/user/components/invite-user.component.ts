@@ -30,7 +30,7 @@ import { InvitesService } from '../services';
     ...FIELD_PIPES_EXPORTS,
   ],
   templateUrl: './invite-user.component.html',
-  styleUrl: './invite-user.component.scss',
+  styleUrl: './invite-user.component.css',
 })
 export class InviteUserComponent {
   private formBuilder = inject(FormBuilder);

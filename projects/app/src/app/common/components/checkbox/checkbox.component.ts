@@ -3,14 +3,18 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  Injector,
   Provider,
   ViewEncapsulation,
+  afterNextRender,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
   inject,
   input,
   output,
+  runInInjectionContext,
   signal,
 } from '@angular/core';
 import { Subscription, filter, fromEvent, merge } from 'rxjs';
@@ -33,24 +37,31 @@ const CHECKBOX_FORM_PROVIDER: Provider = {
     <span class="_checkmark"></span>
     <span class="_content"><ng-content></ng-content></span>
   `,
-  styleUrl: './checkbox.component.scss',
+  styleUrl: './checkbox.component.css',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CHECKBOX_FORM_PROVIDER],
   host: {
     class: 'app-checkbox',
     role: 'checkbox',
   },
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CHECKBOX_FORM_PROVIDER],
 })
 export class CheckboxComponent implements ControlValueAccessor {
   private host = inject(ElementRef);
+  private injector = inject(Injector);
 
   _id = input('', { alias: 'id' });
-  _isChecked = input(false, { alias: 'isChecked' });
+  _isChecked = input(false, {
+    alias: 'isChecked',
+    transform: booleanAttribute,
+  });
   size = input('20px');
-  _isDisabled = input(false, { alias: 'isDisabled' });
+  _isDisabled = input(false, {
+    alias: 'isDisabled',
+    transform: booleanAttribute,
+  });
   color = input<CheckboxColor>('primary');
-  isInteractable = input(true);
+  isInteractable = input(true, { transform: booleanAttribute });
   ariaLabelledBy = input<string>();
   withErrorId = input<string | null>(null);
 
@@ -157,7 +168,9 @@ export class CheckboxComponent implements ControlValueAccessor {
 
   // From ControlValueAccessor
   writeValue(value: boolean): void {
-    this.isChecked.set(value);
+    runInInjectionContext(this.injector, () => {
+      afterNextRender(() => this.isChecked.set(value));
+    });
   }
 
   // From ControlValueAccessor

@@ -22,7 +22,7 @@ import { NotificationComponent } from '../notification/notification.component';
   selector: 'app-notifications-host',
   imports: [TranslocoModule, NotificationComponent],
   templateUrl: './notifications-host.component.html',
-  styleUrl: './notifications-host.component.scss',
+  styleUrl: './notifications-host.component.css',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-notifications-host' },

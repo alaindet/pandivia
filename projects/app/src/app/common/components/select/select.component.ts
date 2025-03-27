@@ -4,6 +4,7 @@ import {
   HostBinding,
   Provider,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
@@ -29,7 +30,7 @@ const SELECT_FORM_PROVIDER: Provider = {
   selector: 'app-select',
   imports: [TranslocoModule],
   templateUrl: './select.component.html',
-  styleUrl: './select.component.scss',
+  styleUrl: './select.component.css',
   host: { class: 'app-select' },
   encapsulation: ViewEncapsulation.None,
   providers: [SELECT_FORM_PROVIDER],
@@ -38,10 +39,13 @@ export class SelectComponent implements ControlValueAccessor {
   _id = input<string>('', { alias: 'id' });
   value = input<string>();
   status = input<FormFieldStatus>();
-  _isDisabled = input(false, { alias: 'isDisabled' });
+  _isDisabled = input(false, {
+    alias: 'isDisabled',
+    transform: booleanAttribute,
+  });
   options = input<FormOption[]>([]);
   width = input<string>();
-  withDefaultOption = input(true);
+  withDefaultOption = input(true, { transform: booleanAttribute });
   labels = input<SelectComponentLabels>();
 
   selected = output<string | null>();

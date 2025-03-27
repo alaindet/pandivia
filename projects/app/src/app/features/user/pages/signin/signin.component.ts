@@ -12,7 +12,7 @@ import { UserCredentials } from '../../types';
   selector: 'app-signin-page',
   imports: [TranslocoModule, PageHeaderComponent, UserCredentialsFormComponent],
   templateUrl: './signin.component.html',
-  styleUrl: './signin.component.scss',
+  styleUrl: './signin.component.css',
 })
 export default class SignInPageComponent {
   private userStore = inject(UserStore);

@@ -15,6 +15,7 @@ import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 import {
   ActionsMenuItem,
   ButtonComponent,
+  IconButtonComponent,
   CardListComponent,
   ChangeCategoryModalComponent,
   ConfirmPromptModalComponent,
@@ -51,11 +52,12 @@ import { LIST_FILTER, ListFilterToken, ListItem } from './types';
     NgTemplateOutlet,
     CardListComponent,
     ButtonComponent,
+    IconButtonComponent,
     TranslocoModule,
     NgIcon,
   ],
   templateUrl: './list.component.html',
-  styleUrl: './list.component.scss',
+  styleUrl: './list.component.css',
 })
 export class ListPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

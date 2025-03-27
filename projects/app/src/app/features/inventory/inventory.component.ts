@@ -16,6 +16,7 @@ import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
   ButtonComponent,
+  IconButtonComponent,
   CardListComponent,
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
@@ -50,11 +51,12 @@ import { InventoryFilterToken, InventoryItem } from './types';
     ...ACTIONS_MENU_EXPORTS,
     NgIcon,
     ButtonComponent,
+    IconButtonComponent,
     CardListComponent,
     TranslocoModule,
   ],
   templateUrl: './inventory.component.html',
-  styleUrl: './inventory.component.scss',
+  styleUrl: './inventory.component.css',
 })
 export class InventoryPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

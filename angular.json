@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss",
+          "style": "css",
           "standalone": true
         },
         "@schematics/angular:directive": {
@@ -35,20 +35,17 @@
               "zone.js"
             ],
             "tsConfig": "projects/app/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
+            "inlineStyleLanguage": "css",
             "assets": [
               "projects/app/src/favicon.ico",
               "projects/app/src/assets",
               "projects/app/src/manifest.webmanifest"
             ],
             "styles": [
-              "projects/app/src/styles.scss"
+              "projects/app/src/app/style/themes/golden.css",
+              "projects/app/src/app/style/themes/fairy.css",
+              "projects/app/src/styles.css"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/app/src/app/style"
-              ]
-            },
             "scripts": [],
             "serviceWorker": "projects/app/ngsw-config.json",
             "browser": "projects/app/src/main.ts"
@@ -110,14 +107,16 @@
               "zone.js/testing"
             ],
             "tsConfig": "projects/app/tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
+            "inlineStyleLanguage": "css",
             "assets": [
               "projects/app/src/favicon.ico",
               "projects/app/src/assets",
               "projects/app/src/manifest.webmanifest"
             ],
             "styles": [
-              "projects/app/src/styles.scss"
+              "projects/app/src/app/style/themes/golden.css",
+              "projects/app/src/app/style/themes/fairy.css",
+              "projects/app/src/styles.css"
             ],
             "scripts": []
           }

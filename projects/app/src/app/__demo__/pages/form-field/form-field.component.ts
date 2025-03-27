@@ -16,10 +16,11 @@ import { FORM_FIELD_EXPORTS } from '@app/common/components/form-field';
   styles: [
     `
       :host > h2 {
-        &:first-of-type {
-          margin-top: 0;
-        }
         margin-top: 3rem;
+      }
+
+      :host > h2:first-of-type {
+        margin-top: 0;
       }
     `,
   ],

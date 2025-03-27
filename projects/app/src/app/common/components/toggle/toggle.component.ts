@@ -3,6 +3,7 @@ import {
   HostBinding,
   Provider,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
@@ -28,7 +29,7 @@ const TOGGLE_FORM_PROVIDER: Provider = {
 @Component({
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
-  styleUrl: './toggle.component.scss',
+  styleUrl: './toggle.component.css',
   host: { class: 'app-toggle' },
   encapsulation: ViewEncapsulation.None,
   providers: [TOGGLE_FORM_PROVIDER],
@@ -37,8 +38,14 @@ export class ToggleComponent implements ControlValueAccessor {
   _id = input('', { alias: 'id' });
   title = input<string>();
   color = input<ToggleColor>('primary');
-  _isChecked = input(false, { alias: 'isChecked' });
-  _isDisabled = input(false, { alias: 'isDisabled' });
+  _isChecked = input(false, {
+    alias: 'isChecked',
+    transform: booleanAttribute,
+  });
+  _isDisabled = input(false, {
+    alias: 'isDisabled',
+    transform: booleanAttribute,
+  });
   size = input('24px');
   withLabel = input<ToggleLabelPosition>(TOGGLE_LABEL_POSITION.RIGHT);
   withErrorId = input<string | null>(null);

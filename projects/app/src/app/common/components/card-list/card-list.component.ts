@@ -3,6 +3,7 @@ import {
   Component,
   HostBinding,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   input,
@@ -24,6 +25,7 @@ import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryItem } from '@app/features/inventory';
 import { ListItem } from '@app/features/list';
 import { ButtonComponent } from '../button';
+import { IconButtonComponent } from '../icon-button';
 import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import {
@@ -40,10 +42,11 @@ import {
     NgIcon,
     CheckboxComponent,
     ButtonComponent,
+    IconButtonComponent,
     ...ACTIONS_MENU_EXPORTS,
   ],
   templateUrl: './card-list.component.html',
-  styleUrl: './card-list.component.scss',
+  styleUrl: './card-list.component.css',
   host: { class: 'app-card-list' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,10 +57,10 @@ export class CardListComponent {
   items = input.required<any[]>();
   itemActionsFn = input.required<ItemActionsFn>();
   labels = input<CardListComponentLabels>();
-  withMutedTitle = input(false);
-  isSelectable = input(true);
-  _isPinned = input(true, { alias: 'isPinned' });
-  withCounters = input(true);
+  withMutedTitle = input(false, { transform: booleanAttribute });
+  isSelectable = input(true, { transform: booleanAttribute });
+  _isPinned = input(true, { alias: 'isPinned', transform: booleanAttribute });
+  withCounters = input(true, { transform: booleanAttribute });
   checkboxColor = input<CheckboxColor>('black');
 
   listActionClicked = output<string>();
