@@ -3,14 +3,14 @@ import { LOADING_STATUS, LoadingStatus } from '@common/types';
 import { Router } from '@angular/router';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { firstTruthy } from '@common/rxjs';
+import { provideFeedback, updateStore } from '@common/store';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
-import { provideFeedback, updateStore } from '@app/common/store';
 import { UiStore } from '@app/core/ui/store';
 import { AuthenticationService } from '../services';
 import { UserCredentials, UserData, UserDisplayData } from '../types';
 import { createUserLanguageController } from './language';
-import { firstTruthy } from '../../../common/rxjs';
 
 @Injectable({
   providedIn: 'root',

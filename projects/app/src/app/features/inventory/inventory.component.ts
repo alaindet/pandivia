@@ -26,7 +26,7 @@ import {
 } from '@app/common/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { StackedLayoutService } from '@app/common/layouts';
-import { filterNull } from '@app/common/rxjs';
+import { filterNull } from '@common/rxjs';
 import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY, UiStore } from '@app/core/ui';

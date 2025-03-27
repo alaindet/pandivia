@@ -1,15 +1,14 @@
 import { Subscription } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
-import { removeItem, updateStore, updateItem } from '@app/common/store';
+import { removeItem, updateStore, updateItem } from '@common/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
 import { InventoryStore } from './feature';
 
 export class InventoryItemSubstore {
-
   constructor(
     private parent: InventoryStore,
-    private transloco: TranslocoService,
+    private transloco: TranslocoService
   ) {}
 
   create(dto: CreateInventoryItemDto) {
@@ -17,11 +16,11 @@ export class InventoryItemSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.createItemSuccess',
-        'common.async.createItemError',
+        'common.async.createItemError'
       )
-      .onSuccess(item => {
-        this.parent.itemModalSuccessCounter.update(counter => counter + 1);
-        this.parent.items.update(items => [...items, item]);
+      .onSuccess((item) => {
+        this.parent.itemModalSuccessCounter.update((counter) => counter + 1);
+        this.parent.items.update((items) => [...items, item]);
       })
       .update();
   }
@@ -31,10 +30,10 @@ export class InventoryItemSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.editItemSuccess',
-        'common.async.editItemError',
+        'common.async.editItemError'
       )
-      .onSuccess(updated => {
-        this.parent.itemModalSuccessCounter.update(counter => counter + 1);
+      .onSuccess((updated) => {
+        this.parent.itemModalSuccessCounter.update((counter) => counter + 1);
         updateItem(this.parent.items, updated.id, updated);
       })
       .update();
@@ -43,18 +42,19 @@ export class InventoryItemSubstore {
   remove(itemId: InventoryItem['id']) {
     return updateStore(this.parent.api.removeItem(itemId))
       .withFeedback(this.parent.feedback)
-      .onSuccess(removed => {
+      .onSuccess((removed) => {
         removeItem(this.parent.items, removed.id);
       })
       .update();
   }
 
   cloneFromListItem(dto: CreateInventoryItemDto): Subscription | undefined {
-
     // Check for duplicates
     if (this.parent.itemExistsWithExactName(dto.name)()) {
       // Element already exists in the Inventory, notify in the console only
-      console.log(`ERROR: Element "${dto.name}" already exists in the Inventory`);
+      console.log(
+        `ERROR: Element "${dto.name}" already exists in the Inventory`
+      );
       return;
     }
 
@@ -62,10 +62,10 @@ export class InventoryItemSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'inventory.cloneFromList.success',
-        'inventory.cloneFromList.error',
+        'inventory.cloneFromList.error'
       )
-      .onSuccess(item => {
-        this.parent.items.update(items => [...items, item]);
+      .onSuccess((item) => {
+        this.parent.items.update((items) => [...items, item]);
       })
       .update();
   }

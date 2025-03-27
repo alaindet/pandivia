@@ -22,7 +22,7 @@ import {
   provideFeedback,
   shouldFetchCollection,
   sortItemsByName,
-} from '@app/common/store';
+} from '@common/store';
 import {
   FormOption,
   LOADING_STATUS,

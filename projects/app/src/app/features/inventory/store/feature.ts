@@ -29,8 +29,8 @@ import {
   groupItemsByCategory,
   shouldFetchCollection,
   sortItemsByName,
-} from '@app/common/store';
-import { provideFeedback } from '@app/common/store';
+} from '@common/store';
+import { provideFeedback } from '@common/store';
 import { UserStore } from '@app/features/user/store';
 import { UiStore } from '@app/core/ui/store';
 import { InventoryService } from '../services';
