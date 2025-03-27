@@ -12,12 +12,12 @@ import { matClear, matAdd } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components/button';
+import { IconButtonComponent } from '@ui/components/icon-button';
 
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
-  ButtonComponent,
-  IconButtonComponent,
   CardListComponent,
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,

@@ -23,8 +23,8 @@ import {
   uniqueId,
   useHtmlAttributes,
 } from '@common/utils';
+import { IconButtonComponent } from '@ui/components/icon-button';
 
-import { IconButtonComponent } from '../icon-button';
 import { TextInputType } from './types';
 
 const TEXT_INPUT_FORM_PROVIDER: Provider = {

@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  booleanAttribute,
-  inject,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -24,13 +17,15 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
 import { MediaQueryService } from '@ui/services';
+import { getFieldDescriptor as fDescribe } from '@common/utils';
+import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
+import { ButtonComponent } from '@ui/components/button';
 
 import {
   AUTOCOMPLETE_EXPORTS,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
   BaseModalComponent,
-  ButtonComponent,
   FORM_FIELD_EXPORTS,
   ModalFooterDirective,
   ModalHeaderDirective,
@@ -39,8 +34,6 @@ import {
   TextareaComponent,
   ToggleComponent,
 } from '@app/common/components';
-import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
-import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UiStore } from '@app/core/ui';
 import { InventoryStore } from '@app/features/inventory/store';
@@ -65,9 +58,9 @@ import {
     ModalFooterDirective,
     TextInputComponent,
     QuickNumberComponent,
+    ButtonComponent,
     ToggleComponent,
     TextareaComponent,
-    ButtonComponent,
     ...FORM_FIELD_EXPORTS,
     ...AUTOCOMPLETE_EXPORTS,
     ...FIELD_PIPES_EXPORTS,

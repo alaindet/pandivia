@@ -6,11 +6,11 @@ import {
   matTaskAlt,
   matUndo,
 } from '@ng-icons/material-icons/baseline';
+import { IconButtonComponent } from '@ui/components/icon-button';
 
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
-  IconButtonComponent,
   PageHeaderComponent,
 } from '@app/common/components';
 

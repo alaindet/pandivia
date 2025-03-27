@@ -10,8 +10,7 @@ import {
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matArrowBack } from '@ng-icons/material-icons/baseline';
-
-import { IconButtonComponent } from '../icon-button';
+import { IconButtonComponent } from '@ui/components/icon-button';
 
 @Component({
   selector: 'app-page-header',

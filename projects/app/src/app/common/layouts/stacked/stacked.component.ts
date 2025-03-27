@@ -10,13 +10,13 @@ import {
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matSearch, matMoreHoriz } from '@ng-icons/material-icons/baseline';
+import { IconButtonComponent } from '@ui/components/icon-button';
 
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
   BottomMenuComponent,
   BottomMenuItem,
-  IconButtonComponent,
   PageHeaderComponent,
   TextInputComponent,
 } from '@app/common/components';

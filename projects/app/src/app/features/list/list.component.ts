@@ -13,11 +13,11 @@ import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 import { filterNull } from '@common/rxjs';
 import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components/button';
+import { IconButtonComponent } from '@ui/components/icon-button';
 
 import {
   ActionsMenuItem,
-  ButtonComponent,
-  IconButtonComponent,
   CardListComponent,
   ChangeCategoryModalComponent,
   ConfirmPromptModalComponent,

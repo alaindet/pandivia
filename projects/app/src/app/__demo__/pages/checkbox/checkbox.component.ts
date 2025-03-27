@@ -7,8 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CheckboxComponent } from '@ui/components/checkbox';
-
-import { ButtonComponent } from '@app/common/components';
+import { ButtonComponent } from '@ui/components/button';
 
 @Component({
   selector: 'app-demo-checkbox',

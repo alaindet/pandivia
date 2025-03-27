@@ -21,12 +21,12 @@ import {
   matPushPin,
 } from '@ng-icons/material-icons/baseline';
 import { CheckboxComponent, CheckboxColor } from '@ui/components/checkbox';
+import { ButtonComponent } from '@ui/components/button';
+import { IconButtonComponent } from '@ui/components/icon-button';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryItem } from '@app/features/inventory';
 import { ListItem } from '@app/features/list';
-import { ButtonComponent } from '../button';
-import { IconButtonComponent } from '../icon-button';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import {
   CardListComponentLabels,

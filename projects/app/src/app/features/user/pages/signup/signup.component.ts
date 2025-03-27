@@ -10,11 +10,11 @@ import { matPerson } from '@ng-icons/material-icons/baseline';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
+import { ButtonComponent } from '@ui/components/button';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
 import { UiStore } from '@app/core/ui';
 import {
-  ButtonComponent,
   FORM_FIELD_EXPORTS,
   PageHeaderComponent,
   TextInputComponent,

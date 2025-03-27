@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matClose } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
+import { ButtonComponent } from '@ui/components/button';
 
 import {
   BaseModalComponent,
@@ -9,7 +10,6 @@ import {
   ModalHeaderDirective,
 } from '../modal';
 import { ChangeCategoryModalInput, ChangeCategoryModalOutput } from './types';
-import { ButtonComponent } from '../button';
 
 @Component({
   selector: 'app-change-category-modal',

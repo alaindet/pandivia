@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
+import { ButtonComponent } from '@ui/components/button';
 
-import {
-  ButtonComponent,
-  LinearSpinnerComponent,
-} from '@app/common/components';
+import { LinearSpinnerComponent } from '@app/common/components';
 
 @Component({
   selector: 'app-demo-linear-spinner',

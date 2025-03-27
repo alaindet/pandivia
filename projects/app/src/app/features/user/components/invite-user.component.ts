@@ -4,13 +4,10 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matPersonAdd } from '@ng-icons/material-icons/baseline';
+import { ButtonComponent } from '@ui/components/button';
 
 import { UiStore } from '@app/core/ui';
-import {
-  ButtonComponent,
-  FORM_FIELD_EXPORTS,
-  TextInputComponent,
-} from '@app/common/components';
+import { FORM_FIELD_EXPORTS, TextInputComponent } from '@app/common/components';
 import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
@@ -40,7 +37,7 @@ export class InviteUserComponent {
   inviteUrl: string | null = null;
   matPersonAdd = matPersonAdd;
   theForm = this.formBuilder.group({
-    email: ['', [Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
   });
 
   get fEmail() {

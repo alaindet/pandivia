@@ -39,6 +39,12 @@
       "@ui/pipes": ["projects/ui/src/pipes/public-api.ts"],
       "@ui/components/checkbox": [
         "projects/ui/src/components/checkbox/public-api.ts"
+      ],
+      "@ui/components/button": [
+        "projects/ui/src/components/button/public-api.ts"
+      ],
+      "@ui/components/icon-button": [
+        "projects/ui/src/components/icon-button/public-api.ts"
       ]
     }
   },
