@@ -7,9 +7,7 @@ import {
   MediaQueryOperator,
 } from '@common/types';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MediaQueryService {
   private mediaQuerySubjects: Record<string, Signal<boolean>> = {};
   private mediaQueriesLists: Record<string, MediaQueryList> = {};

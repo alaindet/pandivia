@@ -31,7 +31,9 @@
       "@common/rxjs": ["projects/common/src/rxjs/public-api.ts"],
       "@common/store": ["projects/common/src/store/public-api.ts"],
       "@common/types": ["projects/common/src/types/public-api.ts"],
-      "@common/utils": ["projects/common/src/utils/public-api.ts"]
+      "@common/utils": ["projects/common/src/utils/public-api.ts"],
+      "@ui": ["projects/ui/src/public-api.ts"],
+      "@ui/services": ["projects/ui/src/services/public-api.ts"]
     }
   },
   "angularCompilerOptions": {

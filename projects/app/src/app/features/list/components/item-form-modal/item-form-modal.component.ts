@@ -23,6 +23,7 @@ import {
 import { TranslocoModule } from '@jsverse/transloco';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
+import { MediaQueryService } from '@ui/services';
 
 import {
   AUTOCOMPLETE_EXPORTS,
@@ -39,7 +40,6 @@ import {
   ToggleComponent,
 } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
-import { MediaQueryService } from '@app/common/services';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UiStore } from '@app/core/ui';

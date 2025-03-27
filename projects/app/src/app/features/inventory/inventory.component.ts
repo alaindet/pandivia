@@ -11,6 +11,7 @@ import { NgIcon } from '@ng-icons/core';
 import { matClear, matAdd } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
+import { MediaQueryService } from '@ui/services';
 
 import {
   ACTIONS_MENU_EXPORTS,
@@ -27,7 +28,6 @@ import {
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { StackedLayoutService } from '@app/common/layouts';
 import { filterNull } from '@common/rxjs';
-import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';

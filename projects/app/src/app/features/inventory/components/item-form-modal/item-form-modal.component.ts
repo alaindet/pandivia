@@ -17,6 +17,7 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
+import { MediaQueryService } from '@ui/services';
 
 import {
   AUTOCOMPLETE_EXPORTS,
@@ -31,7 +32,6 @@ import {
   TextareaComponent,
 } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
-import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryStore } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
