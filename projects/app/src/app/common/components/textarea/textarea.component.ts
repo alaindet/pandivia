@@ -23,7 +23,7 @@ import { cssClassesList, uniqueId } from '@common/utils';
 import {
   HTMLAttributes,
   createAttributesController,
-} from '@app/common/controllers';
+} from '@common/controllers';
 import { IconButtonComponent } from '../icon-button';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {

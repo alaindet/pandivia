@@ -1,4 +1,4 @@
-export * from './collection';
+export * from './collection/collection';
 export * from './feedback';
 export * from './filters';
 export * from './update-store';

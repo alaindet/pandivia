@@ -8,6 +8,7 @@
   - [ ] Analyze ESBuild
   - [ ] Remove `toObservable` wherever possible
   - [ ] Manage your `z-index`
+  - [ ] Most controllers as classes
 - [ ] Bug
   - [ ] Setting a search query from the top search bar persists between pages and should not
 - [ ] Declare global injectable config for simple i18n a11y labels
