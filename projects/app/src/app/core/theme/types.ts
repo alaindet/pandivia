@@ -1,10 +1,7 @@
 import { EnumLike } from '@common/types';
+import { CheckboxColor } from '@ui/components/checkbox';
 
-import {
-  ButtonColor,
-  CheckboxColor,
-  LinearSpinnerColor,
-} from '@app/common/components';
+import { ButtonColor, LinearSpinnerColor } from '@app/common/components';
 
 export const THEME = {
   GOLDEN: 'golden',

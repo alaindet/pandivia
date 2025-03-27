@@ -20,13 +20,13 @@ import {
   matMoreHoriz,
   matPushPin,
 } from '@ng-icons/material-icons/baseline';
+import { CheckboxComponent, CheckboxColor } from '@ui/components/checkbox';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryItem } from '@app/features/inventory';
 import { ListItem } from '@app/features/list';
 import { ButtonComponent } from '../button';
 import { IconButtonComponent } from '../icon-button';
-import { CheckboxColor, CheckboxComponent } from '../checkbox';
 import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '../menu/actions-menu';
 import {
   CardListComponentLabels,

@@ -3,7 +3,6 @@ export * from './bottom-menu';
 export * from './button';
 export * from './card-list';
 export * from './change-category-modal';
-export * from './checkbox';
 export * from './confirm-prompt-modal';
 export * from './form-field';
 export * from './icon-button';

@@ -36,7 +36,10 @@
 
       "@ui": ["projects/ui/src/public-api.ts"],
       "@ui/services": ["projects/ui/src/services/public-api.ts"],
-      "@ui/pipes": ["projects/ui/src/pipes/public-api.ts"]
+      "@ui/pipes": ["projects/ui/src/pipes/public-api.ts"],
+      "@ui/components/checkbox": [
+        "projects/ui/src/components/checkbox/public-api.ts"
+      ]
     }
   },
   "angularCompilerOptions": {
