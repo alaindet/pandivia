@@ -8,6 +8,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { filter, map, startWith } from 'rxjs';
+import { getRandomInteger } from '@common';
 
 import { DemoHeaderComponent } from './components/header/header.component';
 import { DemoLayoutComponent } from './components/layout/layout.component';
@@ -61,6 +62,11 @@ export class DemoPageComponent {
   ngOnInit() {
     this.onPageChanged(this.updateTitle.bind(this));
     this.forceAppWidthToFullScreen();
+
+    // TODO: Remove
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((_) => {
+      console.log('A random integer between 0 and 10', getRandomInteger(0, 10));
+    });
   }
 
   private onPageChanged(fn: (url: string) => void): void {
