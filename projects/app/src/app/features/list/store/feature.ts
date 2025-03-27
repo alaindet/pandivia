@@ -6,8 +6,8 @@ import {
   Signal,
   signal,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable, of } from 'rxjs';
-
 import {
   CategorizedItems,
   countDoneItems,
@@ -28,7 +28,8 @@ import {
   LOADING_STATUS,
   LoadingStatus,
   UnixTimestamp,
-} from '@app/common/types';
+} from '@common/types';
+
 import { UiStore } from '@app/core/ui/store';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UserStore } from '@app/features/user/store';
@@ -39,7 +40,6 @@ import { ListAllItemsSubstore } from './all';
 import { ListCategoryItemsSubstore } from './category';
 import { ListSearchFiltersSubstore } from './search-filters';
 import { ListItemSubstore } from './item';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',

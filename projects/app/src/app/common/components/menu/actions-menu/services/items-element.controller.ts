@@ -1,12 +1,11 @@
-import { Subject, takeUntil } from 'rxjs';
-
-import { isPrintableChar, onKeydown } from '@app/common/utils';
-import { KEYBOARD_KEY as KB } from '@app/common/types';
-import { ActionsMenuService } from './actions-menu.service';
 import { signal } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { isPrintableChar, onKeydown } from '@common/utils';
+import { KEYBOARD_KEY as KB } from '@common/types';
+
+import { ActionsMenuService } from './actions-menu.service';
 
 export function createItemsElementController(parent: ActionsMenuService) {
-
   const el = signal<HTMLElement | null>(null);
 
   const destroy$ = new Subject<void>();
@@ -17,7 +16,6 @@ export function createItemsElementController(parent: ActionsMenuService) {
   }
 
   function listenToKeyboard(el: HTMLElement) {
-
     const confirmItem = {
       on: [KB.SPACE, KB.ENTER],
       handler: () => {
@@ -69,7 +67,9 @@ export function createItemsElementController(parent: ActionsMenuService) {
       focusFirstItem,
       focusLastItem,
       searchItems,
-    ]).pipe(takeUntil(destroy$)).subscribe();
+    ])
+      .pipe(takeUntil(destroy$))
+      .subscribe();
   }
 
   function destroy() {
@@ -81,4 +81,4 @@ export function createItemsElementController(parent: ActionsMenuService) {
     init,
     destroy,
   };
-};
+}

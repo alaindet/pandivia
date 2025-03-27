@@ -18,8 +18,8 @@ import {
   matCheckCircle,
   matReportProblem,
 } from '@ng-icons/material-icons/baseline';
+import { NOTIFICATION_TYPE, NotificationType } from '@common/types';
 
-import { NOTIFICATION_TYPE, NotificationType } from '@app/common/types';
 import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
 
 const NOTIFICATION_ICON: Record<NotificationType, string> = {

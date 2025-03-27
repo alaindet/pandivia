@@ -1,6 +1,5 @@
 import { fromEvent, tap, Observable, takeUntil } from 'rxjs';
-
-import { KeyboardKey } from '@app/common/types';
+import { KeyboardKey } from '@common/types';
 
 export type KeydownHandler = (event: KeyboardEvent) => boolean | void;
 
@@ -20,9 +19,8 @@ type KeydownShortcutBindings = KeydownShortcutBinding[];
 export function onKeydown(
   el: HTMLElement,
   destroy$: Observable<void>,
-  rawBindings: KeydownBindings | KeydownShortcutBindings,
+  rawBindings: KeydownBindings | KeydownShortcutBindings
 ): Observable<KeyboardEvent> {
-
   if (!rawBindings.length) {
     throw new Error('No keydown bindings provided');
   }
@@ -34,14 +32,13 @@ export function onKeydown(
 
   // Shortcut bindings?
   if (!(rawBindings[0] as KeydownBinding)?.on) {
-    const shortcuts = (rawBindings as KeydownShortcutBindings);
+    const shortcuts = rawBindings as KeydownShortcutBindings;
     bindings = shortcuts.map(([on, handler]) => ({ on, handler }));
   } else {
     bindings = rawBindings as KeydownBindings;
   }
 
   for (const { on, handler } of bindings) {
-
     if (typeof on === 'function') {
       dynamicHandlers.push([on, handler]);
       continue;
@@ -54,8 +51,7 @@ export function onKeydown(
 
   return fromEvent<KeyboardEvent>(el, 'keydown').pipe(
     takeUntil(destroy$),
-    tap(event => {
-
+    tap((event) => {
       const onStopped = () => {
         event.stopImmediatePropagation();
         event.preventDefault();
@@ -82,5 +78,6 @@ export function onKeydown(
           }
         }
       }
-    }));
+    })
+  );
 }

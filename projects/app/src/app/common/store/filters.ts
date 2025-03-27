@@ -1,4 +1,4 @@
-import { EnumLike } from '../types';
+import { EnumLike } from '@common/types';
 
 const FILTER_TYPE = {
   EXACT: 'exact',
@@ -13,9 +13,10 @@ type Filter<T = string | number | boolean> = {
   type: FilterType;
 };
 
-type FilterCreator = <
-  T extends string | number | boolean | null | undefined
->(name: string, value: T) => Filter | null;
+type FilterCreator = <T extends string | number | boolean | null | undefined>(
+  name: string,
+  value: T
+) => Filter | null;
 
 type FilterCreators = {
   exact: FilterCreator;
@@ -23,14 +24,12 @@ type FilterCreators = {
 };
 
 export function createFilters(
-  fn: (f: FilterCreators) => (Filter | null)[],
+  fn: (f: FilterCreators) => (Filter | null)[]
 ): Filter[] {
-
   function exact<T extends string | number | boolean>(
     name: string,
-    value: T | null | undefined,
+    value: T | null | undefined
   ): Filter<T> | null {
-
     if (value === null || value === undefined) {
       return null;
     }
@@ -40,9 +39,8 @@ export function createFilters(
 
   function like<T extends string | number | boolean>(
     name: string,
-    value: T | null | undefined,
+    value: T | null | undefined
   ): Filter<T> | null {
-
     if (value === null || value === undefined) {
       return null;
     }
@@ -51,28 +49,25 @@ export function createFilters(
   }
 
   const rawFilters = fn({ exact, like });
-  return rawFilters.filter(f => f !== null) as Filter[];
+  return rawFilters.filter((f) => f !== null) as Filter[];
 }
 
 export function filterItems<T extends Record<string, any>>(
   items: T[],
-  _filters: Filter[],
+  _filters: Filter[]
 ): T[] {
-
-  const filters = _filters.map(filter => {
+  const filters = _filters.map((filter) => {
     if (filter.type === FILTER_TYPE.LIKE) {
       return { ...filter, value: (filter.value as string).toLowerCase() };
     }
     return filter;
   });
 
-  return items.filter(item => {
+  return items.filter((item) => {
     for (const filter of filters) {
-
       const itemValue = item[filter.name] ?? '';
 
       switch (filter.type) {
-
         case FILTER_TYPE.EXACT:
           if (itemValue !== filter.value) {
             return false;

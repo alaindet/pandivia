@@ -1,17 +1,13 @@
 import { Subscription } from 'rxjs';
-
 import { updateStore } from '@app/common/store';
-import { LOADING_STATUS } from '@app/common/types';
+import { LOADING_STATUS } from '@common/types';
+
 import { InventoryStore } from './feature';
 
 export class InventoryAllItemsSubstore {
-
-  constructor(
-    private parent: InventoryStore,
-  ) {}
+  constructor(private parent: InventoryStore) {}
 
   fetch(force = false): Subscription | undefined {
-
     if (!force && !this.parent.shouldFetch()) {
       this.parent.status.set(LOADING_STATUS.IDLE);
       this.parent.ui.loader.stop();
@@ -22,9 +18,9 @@ export class InventoryAllItemsSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.fetchItemsSuccess',
-        'common.async.fetchItemsError',
+        'common.async.fetchItemsError'
       )
-      .onSuccess(items => {
+      .onSuccess((items) => {
         this.parent.lastUpdated.set(Date.now());
         this.parent.items.set(items);
       })
@@ -36,7 +32,7 @@ export class InventoryAllItemsSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.removeItemsSuccess',
-        'common.async.removeItemsError',
+        'common.async.removeItemsError'
       )
       .onSuccess(() => {
         this.parent.lastUpdated.set(Date.now());

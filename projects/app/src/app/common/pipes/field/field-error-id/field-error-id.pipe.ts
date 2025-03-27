@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-import { FormControlDescriptor } from '@app/common/types';
-import { fieldDescriptorHasError } from '@app/common/utils';
+import { FormControlDescriptor } from '@common/types';
+import { fieldDescriptorHasError } from '@common/utils';
 
 // myFormControl | appFieldErrorId:{
 //   'required': 'item-name-required',

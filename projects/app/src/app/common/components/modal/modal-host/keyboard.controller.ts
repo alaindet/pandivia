@@ -1,8 +1,7 @@
-import { Observable, Subject, filter, first, fromEvent, takeUntil } from 'rxjs';
-
-import { FOCUSABLE_SELECTORS } from '@app/common/utils';
-import { KEYBOARD_KEY as KB } from '@app/common/types';
 import { signal } from '@angular/core';
+import { Observable, Subject, filter, fromEvent, takeUntil } from 'rxjs';
+import { FOCUSABLE_SELECTORS } from '@common/utils';
+import { KEYBOARD_KEY as KB } from '@common/types';
 
 export type ModalKeyboardController = {
   enable: () => void;
@@ -12,9 +11,8 @@ export type ModalKeyboardController = {
 };
 
 export function createModalKeyboardController(
-  element: HTMLElement,
+  element: HTMLElement
 ): ModalKeyboardController {
-
   const isEnabled = signal(false);
   const stop$ = new Subject<void>();
   const canceled$ = new Subject<void>();
@@ -31,7 +29,6 @@ export function createModalKeyboardController(
   }
 
   function handleFocusTrap(modal: HTMLElement): HTMLElement | null {
-
     const focusables = modal.querySelectorAll(FOCUSABLE_SELECTORS);
 
     if (!focusables.length) {
@@ -43,15 +40,15 @@ export function createModalKeyboardController(
     const lastFocusable = focusables.item(focusables.length - 1) as HTMLElement;
 
     onKeydown(firstFocusable)
-      .pipe(filter(event => event.key === KB.TAB && event.shiftKey))
-      .subscribe(event => {
+      .pipe(filter((event) => event.key === KB.TAB && event.shiftKey))
+      .subscribe((event) => {
         stopEvent(event);
         lastFocusable?.focus();
       });
 
     onKeydown(lastFocusable)
-      .pipe(filter(event => event.key === KB.TAB && !event.shiftKey))
-      .subscribe(event => {
+      .pipe(filter((event) => event.key === KB.TAB && !event.shiftKey))
+      .subscribe((event) => {
         stopEvent(event);
         firstFocusable?.focus();
       });
@@ -61,8 +58,8 @@ export function createModalKeyboardController(
 
   function handleCancelByEscape(modal: HTMLElement) {
     onKeydown(modal)
-      .pipe(filter(event => event.key === KB.ESC || event.key === KB.ESCAPE))
-      .subscribe(event => {
+      .pipe(filter((event) => event.key === KB.ESC || event.key === KB.ESCAPE))
+      .subscribe((event) => {
         stopEvent(event);
         canceled$.next();
       });

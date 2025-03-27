@@ -1,7 +1,7 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
+import { TemplateImplicitContext } from '@common/types';
 
 import { ActionsMenuItem } from '../types';
-import { TemplateImplicitContext } from '@app/common/types';
 
 @Directive({
   selector: '[appActionsMenuItem]',

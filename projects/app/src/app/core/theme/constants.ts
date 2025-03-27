@@ -1,4 +1,5 @@
-import { FormOption } from '@app/common/types';
+import { FormOption } from '@common/types';
+
 import { THEME } from './types';
 
 export const THEME_STORAGE_KEY = 'pandivia:theme';

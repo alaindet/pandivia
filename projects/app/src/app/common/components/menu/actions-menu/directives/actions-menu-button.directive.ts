@@ -1,6 +1,5 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
-
-import { TemplateImplicitContext } from '@app/common/types';
+import { TemplateImplicitContext } from '@common/types';
 
 @Directive({
   selector: '[appActionsMenuButton]',

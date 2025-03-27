@@ -1,13 +1,13 @@
 import { WritableSignal } from '@angular/core';
-
 import { StoreFeedback } from '@app/common/store';
-import { UiStore } from '@app/core/ui/store';
-import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
+import { LOADING_STATUS, LoadingStatus } from '@common/types';
 import { HashMap } from '@jsverse/transloco';
+
+import { UiStore } from '@app/core/ui/store';
 
 export function provideFeedback(
   uiStore: UiStore,
-  status: WritableSignal<LoadingStatus>,
+  status: WritableSignal<LoadingStatus>
 ): StoreFeedback {
   return {
     loader: {

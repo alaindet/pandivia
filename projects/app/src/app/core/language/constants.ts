@@ -1,4 +1,5 @@
-import { FormOption } from '@app/common/types';
+import { FormOption } from '@common/types';
+
 import { LANGUAGE } from './types';
 
 export const DEFAULT_LANGUAGE = LANGUAGE.ITALIANO;

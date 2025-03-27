@@ -20,7 +20,7 @@ import {
 import { NgIcon } from '@ng-icons/core';
 import { matRemove, matAdd } from '@ng-icons/material-icons/baseline';
 
-import { uniqueId } from '@app/common/utils';
+import { uniqueId } from '@common/utils';
 import { IconButtonColor, IconButtonComponent } from '../icon-button';
 
 const QUICK_NUMBER_FORM_PROVIDER: Provider = {

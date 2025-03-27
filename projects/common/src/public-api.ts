@@ -1,7 +1,5 @@
 /*
  * Public API Surface of common
  */
-
-export * from './lib/common.service';
-export * from './lib/common.component';
-export * from './lib/get-random-integer';
+export * from './types/public-api';
+export * from './utils/public-api';

@@ -1,6 +1,6 @@
-import { capitalize } from "@app/common/utils";
+import { capitalize } from '@common/utils';
 
-export const OPTIONS: { id: string; word: string; }[] = [
+export const OPTIONS: { id: string; word: string }[] = [
   'accessories',
   'accessory',
   'accident',
@@ -1671,5 +1671,5 @@ export const OPTIONS: { id: string; word: string; }[] = [
   'zum',
   'zus',
 ]
-.filter(word => word.length > 2)
-.map(word => ({ id: word, word: capitalize(word) }));
+  .filter((word) => word.length > 2)
+  .map((word) => ({ id: word, word: capitalize(word) }));

@@ -1,17 +1,13 @@
 import { Subscription } from 'rxjs';
-
 import { updateStore } from '@app/common/store';
-import { LOADING_STATUS } from '@app/common/types';
+import { LOADING_STATUS } from '@common/types';
+
 import { ListStore } from './feature';
 
 export class ListAllItemsSubstore {
-
-  constructor(
-    private parent: ListStore,
-  ) {}
+  constructor(private parent: ListStore) {}
 
   fetch(force = false): Subscription | undefined {
-
     if (!force && !this.parent.shouldFetch()) {
       this.parent.status.set(LOADING_STATUS.IDLE);
       this.parent.ui.loader.stop();
@@ -22,9 +18,9 @@ export class ListAllItemsSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.fetchItemsSuccess',
-        'common.async.fetchItemsError',
+        'common.async.fetchItemsError'
       )
-      .onSuccess(items => {
+      .onSuccess((items) => {
         this.parent.lastUpdated.set(Date.now());
         this.parent.items.set(items);
       })
@@ -36,11 +32,11 @@ export class ListAllItemsSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.editItemsSuccess',
-        'common.async.editItemsError',
+        'common.async.editItemsError'
       )
       .onSuccess(() => {
-        this.parent.items.update(items => {
-          return items.map(item => ({ ...item, isDone: true }));
+        this.parent.items.update((items) => {
+          return items.map((item) => ({ ...item, isDone: true }));
         });
       })
       .update();
@@ -51,11 +47,11 @@ export class ListAllItemsSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.editItemsSuccess',
-        'common.async.editItemsError',
+        'common.async.editItemsError'
       )
       .onSuccess(() => {
-        this.parent.items.update(items => {
-          return items.map(item => ({ ...item, isDone: false }));
+        this.parent.items.update((items) => {
+          return items.map((item) => ({ ...item, isDone: false }));
         });
       })
       .update();
@@ -66,7 +62,7 @@ export class ListAllItemsSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.removeItemsSuccess',
-        'common.async.removeItemsError',
+        'common.async.removeItemsError'
       )
       .onSuccess(() => {
         this.parent.lastUpdated.set(Date.now());
@@ -80,11 +76,11 @@ export class ListAllItemsSubstore {
       .withFeedback(this.parent.feedback)
       .withNotifications(
         'common.async.removeItemsSuccess',
-        'common.async.removeItemsError',
+        'common.async.removeItemsError'
       )
       .onSuccess(() => {
-        this.parent.items.update(items => {
-          return items.filter(item => !item.isDone);
+        this.parent.items.update((items) => {
+          return items.filter((item) => !item.isDone);
         });
       })
       .update();

@@ -1,13 +1,27 @@
 import { Injectable, OnDestroy, TemplateRef, signal } from '@angular/core';
-import { Observable, Subject, filter, fromEvent, of, switchMap, take, takeUntil } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  filter,
+  fromEvent,
+  of,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 
-import { KEYBOARD_KEY as KB } from '@app/common/types';
-import { createDebouncedInputEvent } from '@app/common/utils';
-import { AUTOCOMPLETE_SOURCE_TYPE, AutocompleteAsyncOptionsFn, AutocompleteOption, AutocompleteOptionValuePicker, AutocompleteSourceType } from './types';
+import { KEYBOARD_KEY as KB } from '@common/types';
+import { createDebouncedInputEvent } from '@common/utils';
+import {
+  AUTOCOMPLETE_SOURCE_TYPE,
+  AutocompleteAsyncOptionsFn,
+  AutocompleteOption,
+  AutocompleteOptionValuePicker,
+  AutocompleteSourceType,
+} from './types';
 
 @Injectable()
 export class AutocompleteService implements OnDestroy {
-
   private destroy$ = new Subject<void>();
   private currentOptionsCount = 0;
 
@@ -57,7 +71,7 @@ export class AutocompleteService implements OnDestroy {
     element: HTMLInputElement,
     delay: number,
     searchOnEmpty: boolean,
-    minChars = 0,
+    minChars = 0
   ): void {
     element.autocomplete = 'off';
     this.listenToFocusAndBlur(element);
@@ -76,7 +90,10 @@ export class AutocompleteService implements OnDestroy {
   updateStaticOptions(options: AutocompleteOption[]): void {
     this.staticOptions = options;
     const fields = this.staticSearchableFields;
-    const searchableOptions = this.createStaticSearchableOptions(options, fields);
+    const searchableOptions = this.createStaticSearchableOptions(
+      options,
+      fields
+    );
     this.staticSearchableOptions = searchableOptions;
   }
 
@@ -93,10 +110,12 @@ export class AutocompleteService implements OnDestroy {
         this.valuePicker = _picker;
         break;
       case 'string':
-        this.valuePicker = (option: AutocompleteOption): string => option[_picker];
+        this.valuePicker = (option: AutocompleteOption): string =>
+          option[_picker];
         break;
       case 'undefined':
-        this.valuePicker = (option: AutocompleteOption): string => JSON.stringify(option);
+        this.valuePicker = (option: AutocompleteOption): string =>
+          JSON.stringify(option);
         break;
     }
   }
@@ -106,7 +125,6 @@ export class AutocompleteService implements OnDestroy {
   }
 
   private staticFilterBy(query: string): AutocompleteOption[] {
-
     const filteredOptions: AutocompleteOption[] = [];
 
     for (let i = 0, len = this.staticSearchableOptions.length; i < len; i++) {
@@ -119,11 +137,10 @@ export class AutocompleteService implements OnDestroy {
   }
 
   private listenToFocusAndBlur(element: HTMLInputElement): void {
-
     fromEvent<Event>(element, 'focus')
       .pipe(
         takeUntil(this.destroy$),
-        filter(() => !!element.value),
+        filter(() => !!element.value)
       )
       .subscribe(() => {
         this.onQuery(element.value);
@@ -136,28 +153,26 @@ export class AutocompleteService implements OnDestroy {
     element: HTMLInputElement,
     delay: number,
     searchOnEmpty: boolean,
-    minChars = 0,
+    minChars = 0
   ): void {
-
     let source$ = createDebouncedInputEvent(element, delay).pipe(
-      takeUntil(this.destroy$),
+      takeUntil(this.destroy$)
     );
 
     if (!searchOnEmpty) {
-      source$ = source$.pipe(filter(val => val !== ''));
+      source$ = source$.pipe(filter((val) => val !== ''));
     }
 
     if (minChars) {
-      source$ = source$.pipe(filter(val => val.length >= minChars));
+      source$ = source$.pipe(filter((val) => val.length >= minChars));
     }
 
     source$
-      .pipe(switchMap(val => of(val)))
-      .subscribe(query => this.onQuery(query as string));
+      .pipe(switchMap((val) => of(val)))
+      .subscribe((query) => this.onQuery(query as string));
   }
 
   private onQuery(query: string): void {
-
     let options$: Observable<AutocompleteOption[]>;
     let shouldOpenEarly = false;
 
@@ -178,7 +193,7 @@ export class AutocompleteService implements OnDestroy {
     }
 
     this.loading.set(true);
-    options$.pipe(take(1)).subscribe(options => {
+    options$.pipe(take(1)).subscribe((options) => {
       this.currentOptionsCount = options.length;
       this._options = options;
       this.options.set(options);
@@ -196,8 +211,7 @@ export class AutocompleteService implements OnDestroy {
   private listenToKeyboardControls(element: HTMLInputElement): void {
     fromEvent<KeyboardEvent>(element, 'keydown')
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
-
+      .subscribe((event) => {
         switch (event.key) {
           case KB.ARROW_UP:
             this.focusPrevious();
@@ -229,11 +243,11 @@ export class AutocompleteService implements OnDestroy {
   // on given fields, so that the search happens on those fields only
   private createStaticSearchableOptions(
     options: AutocompleteOption[],
-    fields: string[],
+    fields: string[]
   ): AutocompleteOption[] {
-    return options.map(option => {
+    return options.map((option) => {
       const data: any = [];
-      fields.forEach(field => data.push(option[field]));
+      fields.forEach((field) => data.push(option[field]));
       return JSON.stringify(data).slice(1, -1);
     });
   }

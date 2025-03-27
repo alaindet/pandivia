@@ -1,4 +1,4 @@
-import { EnumLike } from '@app/common/types';
+import { EnumLike } from '@common/types';
 
 export const INVENTORY_FILTER = {
   CATEGORY: 'category',

@@ -16,8 +16,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { FormFieldStatus, FormOption } from '@app/common/types';
-import { cssClassesList, uniqueId } from '@app/common/utils';
+import { FormFieldStatus, FormOption } from '@common/types';
+import { cssClassesList, uniqueId } from '@common/utils';
 import { SelectComponentLabels } from './types';
 
 const SELECT_FORM_PROVIDER: Provider = {

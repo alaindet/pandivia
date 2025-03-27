@@ -1,4 +1,4 @@
-import { EnumLike } from '@app/common/types';
+import { EnumLike } from '@common/types';
 
 export const TOGGLE_LABEL_POSITION = {
   LEFT: 'left',
@@ -9,8 +9,4 @@ export const TOGGLE_LABEL_POSITION = {
 
 export type ToggleLabelPosition = EnumLike<typeof TOGGLE_LABEL_POSITION>;
 
-export type ToggleColor = (
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-);
+export type ToggleColor = 'primary' | 'secondary' | 'tertiary';

@@ -1,4 +1,4 @@
-import { ValidationErrors } from "@angular/forms";
+import { ValidationErrors } from '@angular/forms';
 
 // Ex.:
 // fieldHasError({ max: '...' }, 'required') // false
@@ -6,12 +6,11 @@ import { ValidationErrors } from "@angular/forms";
 // fieldHasError({ minlength: '...' }, 'minlength,maxlength') // true
 export function fieldDescriptorHasError(
   errors: ValidationErrors,
-  errorNames: string,
+  errorNames: string
 ): boolean {
-
   if (!errorNames.indexOf(',')) {
     return !!errors[errorNames];
   }
 
-  return errorNames.split(',').some(err => errors![err]);
+  return errorNames.split(',').some((err) => errors![err]);
 }

@@ -1,4 +1,4 @@
-import { getRandomInteger } from '../numbers';
+import { getRandomInteger } from '../numbers/get-random-integer';
 
 const LETTERS = 'abcdefghijklmnopqrstuvwxyz';
 

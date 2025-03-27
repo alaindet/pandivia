@@ -25,7 +25,9 @@
       "@root/*": ["./*"],
       "@app/*": ["projects/app/src/app/*"],
       "@app/environment": ["projects/app/src/environments/environment.ts"],
-      "@common": ["./dist/common"]
+      "@common": ["projects/common/src/public-api.ts"],
+      "@common/types": ["projects/common/src/types/public-api.ts"],
+      "@common/utils": ["projects/common/src/utils/public-api.ts"]
     }
   },
   "angularCompilerOptions": {

@@ -17,7 +17,7 @@ import {
   TextInputComponent,
 } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
-import { getFieldDescriptor as fDescribe } from '@app/common/utils';
+import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { UserCredentials } from '@app/features/user';
 import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
 

@@ -7,7 +7,6 @@ import {
   Injector,
   OnInit,
   ViewEncapsulation,
-  afterNextRender,
   computed,
   contentChild,
   effect,
@@ -20,7 +19,7 @@ import {
 import { NgIcon } from '@ng-icons/core';
 import { matMoreHoriz } from '@ng-icons/material-icons/baseline';
 
-import { doOnce } from '@app/common/utils';
+import { doOnce } from '@common/utils';
 import { IconButtonComponent } from '../../icon-button';
 import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
 import { ActionsMenuItemDirective } from './directives/actions-menu-item.directive';

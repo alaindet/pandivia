@@ -5,7 +5,8 @@ import {
   NOTIFICATION_TYPE,
   NotificationType,
   RuntimeNotification,
-} from '@app/common/types';
+} from '@common/types';
+
 import { NOTIFICATION_TIMEOUT } from '../constants';
 import { HashMap } from '@jsverse/transloco';
 

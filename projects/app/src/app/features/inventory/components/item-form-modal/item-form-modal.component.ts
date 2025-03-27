@@ -15,6 +15,8 @@ import {
   matAdd,
 } from '@ng-icons/material-icons/baseline';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { FormOption } from '@common/types';
+import { getFieldDescriptor as fDescribe } from '@common/utils';
 
 import {
   AUTOCOMPLETE_EXPORTS,
@@ -30,8 +32,6 @@ import {
 } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { MediaQueryService } from '@app/common/services';
-import { FormOption } from '@app/common/types';
-import { getFieldDescriptor as fDescribe } from '@app/common/utils';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryStore } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';
