@@ -1,6 +1,5 @@
 import { Observable, take } from 'rxjs';
-
-import { EnumLike } from '@app/common/types';
+import { EnumLike } from '@common/types';
 
 export const MODAL_OUTPUT_STATUS = {
   CANCELED: 'canceled',
@@ -25,7 +24,6 @@ export type ModalRef<TInput extends any, TOutput extends any> = {
 };
 
 export class BaseModalComponent<TInput extends any, TOutput extends any> {
-
   modal!: ModalRef<TInput, TOutput>;
 
   registerOnConfirm(fn: () => void) {

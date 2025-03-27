@@ -20,21 +20,19 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "resolveJsonModule": true,
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
+    "lib": ["ES2022", "dom"],
     "paths": {
-      "@root/*": [
-        "./*"
-      ],
-      "@app/*": [
-        "projects/app/src/app/*"
-      ],
-      "@app/environment": [
-        "projects/app/src/environments/environment.ts"
-      ],
-    },
+      "@root/*": ["./*"],
+      "@app/*": ["projects/app/src/app/*"],
+      "@app/environment": ["projects/app/src/environments/environment.ts"],
+      "@common": ["projects/common/src/public-api.ts"],
+      "@common/constants": ["projects/common/src/constants/public-api.ts"],
+      "@common/controllers": ["projects/common/src/controllers/public-api.ts"],
+      "@common/rxjs": ["projects/common/src/rxjs/public-api.ts"],
+      "@common/store": ["projects/common/src/store/public-api.ts"],
+      "@common/types": ["projects/common/src/types/public-api.ts"],
+      "@common/utils": ["projects/common/src/utils/public-api.ts"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

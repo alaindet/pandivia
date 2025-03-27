@@ -21,7 +21,7 @@ import {
   TextInputComponent,
 } from '@app/common/components';
 import { TranslocoModule } from '@jsverse/transloco';
-import { Counters } from '../../types';
+import { Counters } from '@common/types';
 
 @Component({
   selector: 'app-layout-stacked',

@@ -1,20 +1,18 @@
 import { Renderer2, effect, inject, signal } from '@angular/core';
 import { Subject, fromEvent, takeUntil } from 'rxjs';
+import { KEYBOARD_KEY as KB } from '@common/types';
+import { createKeyBinding, onKeydown } from '@common/utils';
 
-import { KEYBOARD_KEY as KB } from '@app/common/types';
-import { createKeyBinding, onKeydown } from '@app/common/utils';
 import { ACTIONS_MENU_BUTTON_FOCUSED } from '../types';
 import { ActionsMenuService } from './actions-menu.service';
 
 export function createButtonElementController(parent: ActionsMenuService) {
-
   const renderer = inject(Renderer2);
 
   const el = signal<HTMLButtonElement | null>(null);
   const destroy$ = new Subject<void>();
 
   function init(inputEl: HTMLButtonElement) {
-
     if (el() !== null) {
       return;
     }
@@ -55,9 +53,8 @@ export function createButtonElementController(parent: ActionsMenuService) {
   }
 
   function listenToClick(el: HTMLButtonElement) {
-
     const clicked$ = fromEvent<MouseEvent>(el, 'click').pipe(
-      takeUntil(destroy$),
+      takeUntil(destroy$)
     );
 
     clicked$.subscribe(() => {
@@ -72,9 +69,9 @@ export function createButtonElementController(parent: ActionsMenuService) {
   }
 
   function listenToKeyboard(el: HTMLButtonElement) {
-
     const focusFirstItem = createKeyBinding(
-      [KB.SPACE, KB.ENTER, KB.ARROW_DOWN, KB.DOWN], () => {
+      [KB.SPACE, KB.ENTER, KB.ARROW_DOWN, KB.DOWN],
+      () => {
         parent.menu.open();
         parent.focus.first();
         setTimeout(() => parent.itemsElement.el()?.focus(), 20);
@@ -102,7 +99,9 @@ export function createButtonElementController(parent: ActionsMenuService) {
       focusLastItem,
       clearFocus,
       focusOut,
-    ]).pipe(takeUntil(destroy$)).subscribe();
+    ])
+      .pipe(takeUntil(destroy$))
+      .subscribe();
   }
 
   function destroy() {

@@ -14,7 +14,7 @@ import {
 import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
-} from '@app/common/utils';
+} from '@common/utils';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
 import { InvitesService } from '../services';
 

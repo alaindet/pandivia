@@ -1,22 +1,21 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { LOADING_STATUS, LoadingStatus } from '@common/types';
 import { Router } from '@angular/router';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { firstTruthy } from '@common/rxjs';
+import { provideFeedback, updateStore } from '@common/store';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
-import { provideFeedback, updateStore } from '@app/common/store';
-import { LOADING_STATUS, LoadingStatus } from '@app/common/types';
 import { UiStore } from '@app/core/ui/store';
 import { AuthenticationService } from '../services';
 import { UserCredentials, UserData, UserDisplayData } from '../types';
 import { createUserLanguageController } from './language';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { firstTruthy } from '../../../common/rxjs';
-import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserStore {
-
   private router = inject(Router);
   private authService = inject(AuthenticationService);
   private ui = inject(UiStore);
@@ -32,10 +31,11 @@ export class UserStore {
   feedback = provideFeedback(this.ui, this.status);
 
   // Derived state ------------------------------------------------------------
-  isLoaded = computed(() => (
-    this.status() === LOADING_STATUS.IDLE ||
-    this.status() === LOADING_STATUS.ERROR
-  ));
+  isLoaded = computed(
+    () =>
+      this.status() === LOADING_STATUS.IDLE ||
+      this.status() === LOADING_STATUS.ERROR
+  );
   isGuest = computed(() => this.data() === null);
   isAuthenticated = computed(() => this.data() !== null);
   isAdmin = computed(() => !!this.data()?.isAdmin);
@@ -44,7 +44,7 @@ export class UserStore {
   display = computed(() => this.computeDisplayData());
   isAppStableAndAuthenticated = toObservable(this.isLoaded).pipe(
     firstTruthy(),
-    map(() => this.isAuthenticated()),
+    map(() => this.isAuthenticated())
   );
 
   constructor() {
@@ -56,7 +56,7 @@ export class UserStore {
     updateStore(this.authService.signIn(credentials))
       .withFeedback(this.feedback)
       .withNotifications('auth.signInSuccess', 'auth.signInError')
-      .onSuccess(user => {
+      .onSuccess((user) => {
         this.data.set(user);
         this.router.navigate([DEFAULT_ROUTE]);
       })
@@ -77,7 +77,7 @@ export class UserStore {
   autoSignIn() {
     updateStore(this.authService.autoSignIn())
       .withFeedback(this.feedback)
-      .onSuccess(userData => {
+      .onSuccess((userData) => {
         this.data.set(userData);
       })
       .update();

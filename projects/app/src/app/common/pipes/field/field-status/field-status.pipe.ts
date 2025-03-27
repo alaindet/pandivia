@@ -1,10 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
 import {
   FORM_FIELD_STATUS,
   FormFieldStatus,
   FormControlDescriptor,
-} from '@app/common/types';
+} from '@common/types';
 
 // myFormControl | appFieldStatus
 @Pipe({

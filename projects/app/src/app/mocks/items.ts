@@ -1,7 +1,11 @@
-import { getRandomHash } from '@app/common/utils';
+import { getRandomHash } from '@common/utils';
 import { ListItem } from '@app/features/list';
 import { InventoryItem } from '@app/features/inventory';
-import { MOCK_CATEGORY_FOO, MOCK_CATEGORY_BAR, MOCK_CATEGORY_BAZ } from './categories';
+import {
+  MOCK_CATEGORY_FOO,
+  MOCK_CATEGORY_BAR,
+  MOCK_CATEGORY_BAZ,
+} from './categories';
 
 export const MOCK_INVENTORY_ITEMS: InventoryItem[] = [
   {
@@ -42,7 +46,8 @@ export const MOCK_LIST_ITEMS: ListItem[] = [
     name: 'Strawberries',
     amount: 1,
     isDone: false,
-    description: 'Esse irure cillum laboris velit in. Veniam dolor minim duis sit nostrud',
+    description:
+      'Esse irure cillum laboris velit in. Veniam dolor minim duis sit nostrud',
     category: MOCK_CATEGORY_FOO,
   },
   {
@@ -50,7 +55,8 @@ export const MOCK_LIST_ITEMS: ListItem[] = [
     name: 'Potato Chips',
     amount: 2,
     isDone: false,
-    description: 'Minim laborum ad commodo exercitation officia aliqua dolore proident laborum amet laborum. Quis amet sint incididunt est elit.',
+    description:
+      'Minim laborum ad commodo exercitation officia aliqua dolore proident laborum amet laborum. Quis amet sint incididunt est elit.',
     category: MOCK_CATEGORY_FOO,
   },
   {

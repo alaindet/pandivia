@@ -17,13 +17,13 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
+import { FormFieldStatus } from '@common/types';
+import { cssClassesList, uniqueId } from '@common/utils';
 
 import {
   HTMLAttributes,
   createAttributesController,
-} from '@app/common/controllers';
-import { FormFieldStatus } from '@app/common/types';
-import { cssClassesList, uniqueId } from '@app/common/utils';
+} from '@common/controllers';
 import { IconButtonComponent } from '../icon-button';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {

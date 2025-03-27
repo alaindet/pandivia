@@ -20,7 +20,7 @@ import {
   TextInputComponent,
 } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
-import { getFieldDescriptor as fDescribe } from '@app/common/utils';
+import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { InvitesService } from '../../services';
 import { SignUpUserDto, UserInvite } from '../../types';
 import { SIGNUP_FIELD as FIELD } from './fields';

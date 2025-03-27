@@ -11,6 +11,7 @@ import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Subject, catchError, of, take, takeUntil } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
+import { filterNull } from '@common/rxjs';
 
 import {
   ActionsMenuItem,
@@ -29,7 +30,6 @@ import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_LIST, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
-import { filterNull } from '../../common/rxjs';
 import {
   ListItemFormModalComponent,
   ListItemFormModalInput,

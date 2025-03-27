@@ -1,18 +1,28 @@
-import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable, debounceTime, distinctUntilChanged, first, map } from 'rxjs';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  ValidationErrors,
+} from '@angular/forms';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  first,
+  map,
+} from 'rxjs';
+import { getItemByName } from '@common/store';
 
-import { getItemByName } from '@app/common/store';
 import { InventoryStore } from '../store';
 
 export function uniqueInventoryItemNameValidator(
   inventoryStore: InventoryStore,
-  itemId: string | null,
+  itemId: string | null
 ): AsyncValidatorFn {
   return (control: AbstractControl): Observable<ValidationErrors | null> => {
     return control.valueChanges.pipe(
       debounceTime(250),
       distinctUntilChanged(),
-      map(itemName => {
+      map((itemName) => {
         const existing = getItemByName(inventoryStore.items(), itemName);
         const alreadyExists = existing !== null && existing.id !== itemId;
 
@@ -25,7 +35,7 @@ export function uniqueInventoryItemNameValidator(
 
         return null;
       }),
-      first(),
+      first()
     );
-  }
+  };
 }
