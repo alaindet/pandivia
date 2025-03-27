@@ -6,10 +6,12 @@ import {
   HostListener,
   OnInit,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   inject,
   input,
+  numberAttribute,
   output,
 } from '@angular/core';
 
@@ -48,15 +50,15 @@ export class AutocompleteComponent implements OnInit {
   inputComponent = input.required<TextInputComponent>();
   sourceType = input.required<AutocompleteSourceType>();
   labels = input<AutocompleteComponentLabels>();
-  minChars = input<number>();
-  filteringDelay = input(400);
-  searchOnEmpty = input(false);
+  minChars = input(0, { transform: numberAttribute });
+  filteringDelay = input(400, { transform: numberAttribute });
+  searchOnEmpty = input(false, { transform: booleanAttribute });
   trackKey = input<AutocompleteOptionValuePicker | string>('id');
   pickKey = input<AutocompleteOptionValuePicker | string>();
   asyncOptions = input<AutocompleteAsyncOptionsFn>();
   staticOptions = input<AutocompleteOption[]>([]);
   staticSearchableFields = input<string[]>(['id']);
-  showEmptyOptions = input(true);
+  showEmptyOptions = input(true, { transform: booleanAttribute });
   width = input('19.25rem');
   offsetY = input('0');
 

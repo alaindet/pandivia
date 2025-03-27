@@ -7,6 +7,7 @@ import {
   Provider,
   ViewEncapsulation,
   afterNextRender,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
@@ -50,11 +51,17 @@ export class CheckboxComponent implements ControlValueAccessor {
   private injector = inject(Injector);
 
   _id = input('', { alias: 'id' });
-  _isChecked = input(false, { alias: 'isChecked' });
+  _isChecked = input(false, {
+    alias: 'isChecked',
+    transform: booleanAttribute,
+  });
   size = input('20px');
-  _isDisabled = input(false, { alias: 'isDisabled' });
+  _isDisabled = input(false, {
+    alias: 'isDisabled',
+    transform: booleanAttribute,
+  });
   color = input<CheckboxColor>('primary');
-  isInteractable = input(true);
+  isInteractable = input(true, { transform: booleanAttribute });
   ariaLabelledBy = input<string>();
   withErrorId = input<string | null>(null);
 

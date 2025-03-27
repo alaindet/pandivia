@@ -3,6 +3,7 @@ import {
   Component,
   HostBinding,
   ViewEncapsulation,
+  booleanAttribute,
   computed,
   effect,
   input,
@@ -56,10 +57,10 @@ export class CardListComponent {
   items = input.required<any[]>();
   itemActionsFn = input.required<ItemActionsFn>();
   labels = input<CardListComponentLabels>();
-  withMutedTitle = input(false);
-  isSelectable = input(true);
-  _isPinned = input(true, { alias: 'isPinned' });
-  withCounters = input(true);
+  withMutedTitle = input(false, { transform: booleanAttribute });
+  isSelectable = input(true, { transform: booleanAttribute });
+  _isPinned = input(true, { alias: 'isPinned', transform: booleanAttribute });
+  withCounters = input(true, { transform: booleanAttribute });
   checkboxColor = input<CheckboxColor>('black');
 
   listActionClicked = output<string>();

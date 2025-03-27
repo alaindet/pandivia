@@ -3,6 +3,7 @@ import {
   Component,
   HostBinding,
   ViewEncapsulation,
+  booleanAttribute,
   input,
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
@@ -22,7 +23,7 @@ import { NgIcon } from '@ng-icons/core';
 export class BottomMenuItemComponent {
   id = input.required<string>();
   icon = input.required<string>();
-  isSelected = input(false);
+  isSelected = input(false, { transform: booleanAttribute });
 
   @HostBinding('class.-selected')
   get cssClassSelected() {

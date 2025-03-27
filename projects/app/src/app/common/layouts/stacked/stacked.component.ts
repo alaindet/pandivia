@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ViewEncapsulation,
+  booleanAttribute,
   effect,
   input,
   output,
@@ -45,8 +46,8 @@ export class StackedLayoutComponent {
   headerCounters = input<Counters | null>(null);
   footerActions = input.required<BottomMenuItem[]>();
   footerCurrentAction = input<string | null>(null);
-  withSearch = input(false);
-  withVisibleSearch = input(false);
+  withSearch = input(false, { transform: booleanAttribute });
+  withVisibleSearch = input(false, { transform: booleanAttribute });
   searchQuery = input('');
   searchBarButtonLabel = input('Toggle search bar');
   actionsToggleLabel = input('Toggle actions menu');

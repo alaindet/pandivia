@@ -9,6 +9,7 @@ import {
   effect,
   inject,
   input,
+  numberAttribute,
   output,
   signal,
 } from '@angular/core';
@@ -41,7 +42,7 @@ export class NotificationComponent {
 
   notificationId = input.required<number>();
   notificationType = input.required<NotificationType>();
-  more = input(0);
+  more = input(0, { transform: numberAttribute });
   dismissAfter = input(NOTIFICATION_TIMEOUT);
 
   dismissed = output<void>();

@@ -8,6 +8,7 @@ import {
   effect,
   forwardRef,
   input,
+  numberAttribute,
   output,
   signal,
 } from '@angular/core';
@@ -39,11 +40,14 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
 })
 export class QuickNumberComponent implements ControlValueAccessor {
   _id = input<string>('', { alias: 'id' });
-  _value = input<number>(1, { alias: 'value' });
+  _value = input(1, { alias: 'value', transform: numberAttribute });
   color = input<IconButtonColor>('primary');
-  min = input<number>(0);
-  max = input<number>(100);
-  _isDisabled = input(false, { alias: 'isDisabled' });
+  min = input(0, { transform: numberAttribute });
+  max = input(100, { transform: numberAttribute });
+  _isDisabled = input(false, {
+    alias: 'isDisabled',
+    transform: booleanAttribute,
+  });
   withErrorId = input<string | null>(null);
   fullWidth = input(false, { transform: booleanAttribute });
   decrementLabel = input('Decrement by one');

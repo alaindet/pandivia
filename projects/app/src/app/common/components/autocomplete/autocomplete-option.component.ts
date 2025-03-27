@@ -4,6 +4,7 @@ import {
   ElementRef,
   HostBinding,
   ViewEncapsulation,
+  booleanAttribute,
   effect,
   inject,
   input,
@@ -21,8 +22,8 @@ import {
 export class AutocompleteOptionComponent {
   private host = inject(ElementRef);
 
-  isDropdownOpen = input(false);
-  isFocused = input(false);
+  isDropdownOpen = input(false, { transform: booleanAttribute });
+  isFocused = input(false, { transform: booleanAttribute });
 
   confirmed = output<void>();
 

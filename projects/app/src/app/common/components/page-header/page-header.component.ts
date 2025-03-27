@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  booleanAttribute,
   inject,
   input,
   output,
@@ -24,8 +25,8 @@ import { IconButtonComponent } from '../icon-button';
 export class PageHeaderComponent {
   private location = inject(Location);
 
-  withBackButton = input(false);
-  withControlledBackButton = input(false);
+  withBackButton = input(false, { transform: booleanAttribute });
+  withControlledBackButton = input(false, { transform: booleanAttribute });
   backLabel = input('Go back');
 
   backClicked = output<void>();
