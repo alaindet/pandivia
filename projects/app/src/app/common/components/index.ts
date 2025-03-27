@@ -9,7 +9,6 @@ export * from './modal';
 export * from './notification';
 export * from './page-header';
 export * from './quick-number';
-export * from './select';
 export * from './text-input';
 export * from './textarea';
 export * from './user-credentials-form';

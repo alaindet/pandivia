@@ -51,6 +51,9 @@
       ],
       "@ui/components/toggle": [
         "projects/ui/src/components/toggle/public-api.ts"
+      ],
+      "@ui/components/select": [
+        "projects/ui/src/components/select/public-api.ts"
       ]
     }
   },
