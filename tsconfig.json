@@ -61,6 +61,9 @@
       "@ui/components/modal": [
         "projects/ui/src/components/modal/public-api.ts"
       ],
+      "@ui/components/page-header": [
+        "projects/ui/src/components/page-header/public-api.ts"
+      ],
       "@ui/components/quick-number": [
         "projects/ui/src/components/quick-number/public-api.ts"
       ],

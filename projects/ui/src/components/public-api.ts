@@ -6,6 +6,7 @@ export * from './checkbox/public-api';
 export * from './icon-button/public-api';
 export * from './linear-spinner/public-api';
 export * from './modal/public-api';
+export * from './page-header/public-api';
 export * from './quick-number/public-api';
 export * from './select/public-api';
 export * from './toggle/public-api';

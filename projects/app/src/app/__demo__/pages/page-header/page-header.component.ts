@@ -11,8 +11,7 @@ import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
 } from '@ui/components/actions-menu';
-
-import { PageHeaderComponent } from '@app/common/components';
+import { PageHeaderComponent } from '@ui/components/page-header';
 
 @Component({
   selector: 'app-demo-page-header',

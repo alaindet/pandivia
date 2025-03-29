@@ -11,14 +11,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
 import { ButtonComponent } from '@ui/components/button';
+import { PageHeaderComponent } from '@ui/components/page-header';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
 import { UiStore } from '@app/core/ui';
-import {
-  FORM_FIELD_EXPORTS,
-  PageHeaderComponent,
-  TextInputComponent,
-} from '@app/common/components';
+import { FORM_FIELD_EXPORTS, TextInputComponent } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { InvitesService } from '../../services';

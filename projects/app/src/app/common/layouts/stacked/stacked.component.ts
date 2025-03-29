@@ -19,10 +19,9 @@ import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
 } from '@ui/components/actions-menu';
-import {
-  PageHeaderComponent,
-  TextInputComponent,
-} from '@app/common/components';
+import { PageHeaderComponent } from '@ui/components/page-header';
+
+import { TextInputComponent } from '@app/common/components';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Counters } from '@common/types';
 
