@@ -24,13 +24,13 @@ import {
   ModalFooterDirective,
   ModalHeaderDirective,
 } from '@ui/components/modal';
+import { TextInputComponent } from '@ui/components/text-input';
 
 import {
   AUTOCOMPLETE_EXPORTS,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
   FORM_FIELD_EXPORTS,
-  TextInputComponent,
   TextareaComponent,
 } from '@app/common/components';
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';

@@ -20,13 +20,13 @@ import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
 } from '@ui/components/actions-menu';
-
 import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
   ConfirmPromptModalOutput,
-} from '@app/common/components';
+} from '@ui/components/confirm-prompt-modal';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
+
 import { StackedLayoutService } from '@app/common/layouts';
 import { filterNull } from '@common/rxjs';
 import { DEFAULT_CATEGORY } from '@app/core';

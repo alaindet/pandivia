@@ -5,7 +5,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { ModalService } from '@ui/components/modal';
 
 import { UPGRADE_APPLICATION_PROMPT } from './prompt';
-import { ConfirmPromptModalComponent } from '@app/common/components';
+import { ConfirmPromptModalComponent } from '@ui/components/confirm-prompt-modal';
 
 @Injectable({
   providedIn: 'root',

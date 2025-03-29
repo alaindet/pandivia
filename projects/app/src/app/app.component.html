@@ -4,15 +4,16 @@
 
   <!-- Stack level: 1 -->
   @if (loading()) {
-    <app-linear-spinner
-      [color]="themeConfig().linearSpinnerColor"
-      [fixed]="true"
-    />
+  <app-linear-spinner
+    [color]="themeConfig().linearSpinnerColor"
+    [fixed]="true"
+  />
   }
 
   <!-- Stack level: 2 -->
   <app-notifications-host
     [notification]="notification()"
+    [dismissAfter]="NOTIFICATION_TIMEOUT"
     (dismissed)="onDismissNotification()"
   />
 </div>

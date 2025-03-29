@@ -5,8 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { TextInputComponent } from '@ui/components/text-input';
 
-import { TextInputComponent } from '@app/common/components';
 import { FORM_FIELD_EXPORTS } from '@app/common/components/form-field';
 
 @Component({

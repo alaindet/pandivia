@@ -15,7 +15,6 @@ import {
 } from '@common/types';
 import { cssClassesList } from '@common/utils';
 
-import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
 import { NotificationComponent } from '../notification/notification.component';
 
 @Component({
@@ -30,6 +29,7 @@ import { NotificationComponent } from '../notification/notification.component';
 export class NotificationsHostComponent {
   notification = input<RuntimeNotification | null>(null);
   position = input<NotificationPosition>(NOTIFICATION_POSITION.TOP_RIGHT);
+  dismissAfter = input(3_000);
 
   dismissed = output<void>();
 
@@ -38,7 +38,6 @@ export class NotificationsHostComponent {
     return this.cssClasses();
   }
 
-  NOTIFICATION_TIMEOUT = NOTIFICATION_TIMEOUT;
   cssClasses = computed(() =>
     cssClassesList([
       this.notification() !== null ? '-open' : null,

@@ -2,7 +2,7 @@
 <app-notification
   [notificationId]="notification!.id"
   [notificationType]="notification!.type"
-  [dismissAfter]="NOTIFICATION_TIMEOUT"
+  [dismissAfter]="dismissAfter()"
   [more]="notification!.more"
   (dismissed)="dismissed.emit()"
 >

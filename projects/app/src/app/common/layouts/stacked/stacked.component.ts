@@ -20,8 +20,8 @@ import {
   ActionsMenuItem,
 } from '@ui/components/actions-menu';
 import { PageHeaderComponent } from '@ui/components/page-header';
+import { TextInputComponent } from '@ui/components/text-input';
 
-import { TextInputComponent } from '@app/common/components';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Counters } from '@common/types';
 

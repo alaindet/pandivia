@@ -1,4 +1,5 @@
-import { ConfirmPromptModalInput } from '@app/common/components';
+import { ConfirmPromptModalInput } from '@ui/components/confirm-prompt-modal';
+
 import * as listMenu from '../contextual-menus/list';
 import * as categoryMenu from '../contextual-menus/category';
 import * as itemMenu from '../contextual-menus/item';
@@ -8,12 +9,6 @@ export const LIST_REMOVE_COMPLETED_PROMPT: ConfirmPromptModalInput = {
   title: 'common.prompt.removeCompleted.title',
   message: 'common.prompt.removeCompleted.message',
 };
-
-// export const LIST_REMOVE_PROMPT: ConfirmPromptModalInput = {
-//   action: listMenu.LIST_ACTION_REMOVE.id,
-//   title: 'common.prompt.removeAll.title',
-//   message: 'common.prompt.removeAll.message',
-// };
 
 export const CATEGORY_REMOVE_COMPLETED_PROMPT: ConfirmPromptModalInput = {
   action: categoryMenu.CATEGORY_ACTION_REMOVE_COMPLETED.id,

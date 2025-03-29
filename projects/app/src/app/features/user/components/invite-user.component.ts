@@ -5,9 +5,10 @@ import { finalize } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matPersonAdd } from '@ng-icons/material-icons/baseline';
 import { ButtonComponent } from '@ui/components/button';
+import { TextInputComponent } from '@ui/components/text-input';
 
 import { UiStore } from '@app/core/ui';
-import { FORM_FIELD_EXPORTS, TextInputComponent } from '@app/common/components';
+import { FORM_FIELD_EXPORTS } from '@app/common/components';
 import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,

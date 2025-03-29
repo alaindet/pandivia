@@ -52,6 +52,9 @@
       "@ui/components/checkbox": [
         "projects/ui/src/components/checkbox/public-api.ts"
       ],
+      "@ui/components/confirm-prompt-modal": [
+        "projects/ui/src/components/confirm-prompt-modal/public-api.ts"
+      ],
       "@ui/components/icon-button": [
         "projects/ui/src/components/icon-button/public-api.ts"
       ],
@@ -61,6 +64,9 @@
       "@ui/components/modal": [
         "projects/ui/src/components/modal/public-api.ts"
       ],
+      "@ui/components/notification": [
+        "projects/ui/src/components/notification/public-api.ts"
+      ],
       "@ui/components/page-header": [
         "projects/ui/src/components/page-header/public-api.ts"
       ],
@@ -69,6 +75,9 @@
       ],
       "@ui/components/select": [
         "projects/ui/src/components/select/public-api.ts"
+      ],
+      "@ui/components/text-input": [
+        "projects/ui/src/components/text-input/public-api.ts"
       ],
       "@ui/components/toggle": [
         "projects/ui/src/components/toggle/public-api.ts"

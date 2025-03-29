@@ -14,9 +14,9 @@ import {
   numberAttribute,
   output,
 } from '@angular/core';
-
 import { NgTemplateOutlet } from '@angular/common';
-import { TextInputComponent } from '../text-input';
+import { TextInputComponent } from '@ui/components/text-input';
+
 import { AutocompleteOptionComponent } from './autocomplete-option.component';
 import { AutocompleteService } from './autocomplete.service';
 import { createClickOutController } from './click-out.controller';

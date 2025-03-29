@@ -19,12 +19,12 @@ import { CardListComponent } from '@ui/components/card-list';
 import { ActionsMenuItem } from '@ui/components/actions-menu';
 import { ItemActionOutput, ItemToggledOutput } from '@ui/components/card-list';
 import { ModalService } from '@ui/components/modal';
-
 import {
-  ChangeCategoryModalComponent,
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
-} from '@app/common/components';
+} from '@ui/components/confirm-prompt-modal';
+import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
+
 import { StackedLayoutService } from '@app/common/layouts';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_LIST, UiStore } from '@app/core/ui';

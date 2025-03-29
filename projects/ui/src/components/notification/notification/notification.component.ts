@@ -20,8 +20,6 @@ import {
 } from '@ng-icons/material-icons/baseline';
 import { NOTIFICATION_TYPE, NotificationType } from '@common/types';
 
-import { NOTIFICATION_TIMEOUT } from '@app/core/ui';
-
 const NOTIFICATION_ICON: Record<NotificationType, string> = {
   [NOTIFICATION_TYPE.SUCCESS]: matCheckCircle,
   [NOTIFICATION_TYPE.ERROR]: matReportProblem,
@@ -43,18 +41,16 @@ export class NotificationComponent {
   notificationId = input.required<number>();
   notificationType = input.required<NotificationType>();
   more = input(0, { transform: numberAttribute });
-  dismissAfter = input(NOTIFICATION_TIMEOUT);
+  dismissAfter = input(3_000);
 
   dismissed = output<void>();
 
   @HostBinding('style.--_transition-duration')
-  cssDuration = `${NOTIFICATION_TIMEOUT}ms`;
+  get cssDuration(): string {
+    return `${this.dismissAfter()}ms`;
+  }
 
   notificationIcon = signal('');
-
-  dismissEffect = effect(() => {
-    this.cssDuration = `${this.dismissAfter()}ms`;
-  });
 
   notificationEffect = effect(this.effectOnNotificationType.bind(this));
 
