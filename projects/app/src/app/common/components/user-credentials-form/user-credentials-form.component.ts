@@ -12,8 +12,7 @@ import { matLogin } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonComponent } from '@ui/components/button';
 import { TextInputComponent } from '@ui/components/text-input';
-
-import { FORM_FIELD_EXPORTS } from '@app/common/components';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { UserCredentials } from '@app/features/user';

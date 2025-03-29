@@ -7,8 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToggleComponent } from '@ui/components/toggle';
-
-import { FORM_FIELD_EXPORTS } from '@app/common/components';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 
 @Component({
   selector: 'app-demo-toggle',

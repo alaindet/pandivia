@@ -6,8 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TextInputComponent } from '@ui/components/text-input';
-
-import { FORM_FIELD_EXPORTS } from '@app/common/components/form-field';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 
 @Component({
   selector: 'app-demo-form-field',

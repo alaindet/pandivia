@@ -5,8 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-
-import { FormFieldContextService } from '../../context.service';
+import { FormFieldComponent } from '../form-field.component';
 
 @Component({
   selector: 'app-form-field-label',
@@ -16,7 +15,7 @@ import { FormFieldContextService } from '../../context.service';
   styleUrl: './form-field-label.component.css',
 })
 export class FormFieldLabelComponent {
-  context = inject(FormFieldContextService);
+  formField = inject(FormFieldComponent);
 
   isRequired = input(false, { transform: booleanAttribute });
   isOptional = input(false, { transform: booleanAttribute });

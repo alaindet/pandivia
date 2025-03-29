@@ -40,6 +40,9 @@
       "@ui/components/actions-menu": [
         "projects/ui/src/components/actions-menu/public-api.ts"
       ],
+      "@ui/components/autocomplete": [
+        "projects/ui/src/components/autocomplete/public-api.ts"
+      ],
       "@ui/components/bottom-menu": [
         "projects/ui/src/components/bottom-menu/public-api.ts"
       ],
@@ -54,6 +57,9 @@
       ],
       "@ui/components/confirm-prompt-modal": [
         "projects/ui/src/components/confirm-prompt-modal/public-api.ts"
+      ],
+      "@ui/components/form-field": [
+        "projects/ui/src/components/form-field/public-api.ts"
       ],
       "@ui/components/icon-button": [
         "projects/ui/src/components/icon-button/public-api.ts"
@@ -78,6 +84,9 @@
       ],
       "@ui/components/text-input": [
         "projects/ui/src/components/text-input/public-api.ts"
+      ],
+      "@ui/components/textarea": [
+        "projects/ui/src/components/textarea/public-api.ts"
       ],
       "@ui/components/toggle": [
         "projects/ui/src/components/toggle/public-api.ts"

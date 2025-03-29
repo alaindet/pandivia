@@ -13,11 +13,11 @@ import { finalize } from 'rxjs';
 import { ButtonComponent } from '@ui/components/button';
 import { PageHeaderComponent } from '@ui/components/page-header';
 import { TextInputComponent } from '@ui/components/text-input';
-
-import { DEFAULT_ROUTE } from '@app/app.routes';
-import { UiStore } from '@app/core/ui';
-import { FORM_FIELD_EXPORTS } from '@app/common/components';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
+
+import { UiStore } from '@app/core/ui';
+import { DEFAULT_ROUTE } from '@app/app.routes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { InvitesService } from '../../services';
 import { SignUpUserDto, UserInvite } from '../../types';

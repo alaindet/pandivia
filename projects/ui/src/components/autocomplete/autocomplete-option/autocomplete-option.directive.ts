@@ -1,8 +1,8 @@
 import { Directive, OnInit, TemplateRef, inject } from '@angular/core';
 import { TemplateImplicitContext } from '@common/types';
 
-import { AutocompleteService } from './autocomplete.service';
-import { AutocompleteOption } from './types';
+import { AutocompleteService } from '../autocomplete.service';
+import { AutocompleteOption } from '../types';
 
 @Directive({
   selector: '[appAutocompleteOption]',

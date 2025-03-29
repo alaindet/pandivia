@@ -8,14 +8,16 @@ import {
 } from '@angular/forms';
 import { Observable, delay, of } from 'rxjs';
 import { TextInputComponent } from '@ui/components/text-input';
-
 import {
   FormFieldComponent,
+  FormFieldLabelComponent,
+} from '@ui/components/form-field';
+import {
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
-  FormFieldLabelComponent,
-} from '@app/common/components';
-import { AUTOCOMPLETE_EXPORTS } from '@app/common/components/autocomplete';
+  AUTOCOMPLETE_EXPORTS,
+} from '@ui/components/autocomplete';
+
 import { OPTIONS } from './options';
 
 @Component({

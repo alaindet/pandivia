@@ -6,9 +6,9 @@ import { NgIcon } from '@ng-icons/core';
 import { matPersonAdd } from '@ng-icons/material-icons/baseline';
 import { ButtonComponent } from '@ui/components/button';
 import { TextInputComponent } from '@ui/components/text-input';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 
 import { UiStore } from '@app/core/ui';
-import { FORM_FIELD_EXPORTS } from '@app/common/components';
 import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,

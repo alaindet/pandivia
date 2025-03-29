@@ -17,9 +17,9 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import { TextInputComponent } from '@ui/components/text-input';
 
-import { AutocompleteOptionComponent } from './autocomplete-option.component';
-import { AutocompleteService } from './autocomplete.service';
-import { createClickOutController } from './click-out.controller';
+import { AutocompleteOptionComponent } from '../autocomplete-option/autocomplete-option.component';
+import { AutocompleteService } from '../autocomplete.service';
+import { createClickOutController } from '../click-out.controller';
 import {
   AUTOCOMPLETE_CURRENT_TEMPLATE,
   AUTOCOMPLETE_ITEMS_TEMPLATE,
@@ -30,7 +30,7 @@ import {
   AutocompleteOption,
   AutocompleteOptionValuePicker,
   AutocompleteSourceType,
-} from './types';
+} from '../types';
 
 @Component({
   selector: 'app-autocomplete',

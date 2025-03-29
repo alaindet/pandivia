@@ -25,14 +25,14 @@ import {
   ModalHeaderDirective,
 } from '@ui/components/modal';
 import { TextInputComponent } from '@ui/components/text-input';
-
+import { TextareaComponent } from '@ui/components/textarea';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import {
   AUTOCOMPLETE_EXPORTS,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
-  FORM_FIELD_EXPORTS,
-  TextareaComponent,
-} from '@app/common/components';
+} from '@ui/components/autocomplete';
+
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryStore } from '../../store';
