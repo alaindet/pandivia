@@ -11,12 +11,15 @@ import {
 import { NgIcon } from '@ng-icons/core';
 import { matSearch, matMoreHoriz } from '@ng-icons/material-icons/baseline';
 import { IconButtonComponent } from '@ui/components/icon-button';
-
+import {
+  BottomMenuComponent,
+  BottomMenuItem,
+} from '@ui/components/bottom-menu';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
-  BottomMenuComponent,
-  BottomMenuItem,
+} from '@ui/components/actions-menu';
+import {
   PageHeaderComponent,
   TextInputComponent,
 } from '@app/common/components';
@@ -29,9 +32,9 @@ import { Counters } from '@common/types';
     NgTemplateOutlet,
     NgIcon,
     ...ACTIONS_MENU_EXPORTS,
+    BottomMenuComponent,
     PageHeaderComponent,
     IconButtonComponent,
-    BottomMenuComponent,
     TextInputComponent,
     TranslocoModule,
   ],

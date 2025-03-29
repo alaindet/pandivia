@@ -5,8 +5,10 @@ import {
   matUndo,
 } from '@ng-icons/material-icons/baseline';
 import { ButtonComponent } from '@ui/components/button';
-
-import { ACTIONS_MENU_EXPORTS, ActionsMenuItem } from '@app/common/components';
+import {
+  ACTIONS_MENU_EXPORTS,
+  ActionsMenuItem,
+} from '@ui/components/actions-menu';
 
 @Component({
   selector: 'app-demo-actions-menu',

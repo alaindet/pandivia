@@ -14,16 +14,17 @@ import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
 import { MediaQueryService } from '@ui/services';
 import { ButtonComponent } from '@ui/components/button';
 import { IconButtonComponent } from '@ui/components/icon-button';
-
+import { CardListComponent, ItemActionOutput } from '@ui/components/card-list';
+import { ModalService } from '@ui/components/modal';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
-  CardListComponent,
+} from '@ui/components/actions-menu';
+
+import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
   ConfirmPromptModalOutput,
-  ItemActionOutput,
-  ModalService,
 } from '@app/common/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { StackedLayoutService } from '@app/common/layouts';

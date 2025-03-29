@@ -2,11 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { LinearSpinnerComponent } from '@ui/components/linear-spinner';
+import { ModalHostComponent } from '@ui/components/modal';
 
-import {
-  ModalHostComponent,
-  NotificationsHostComponent,
-} from '@app/common/components';
+import { NotificationsHostComponent } from '@app/common/components';
 import { SoftwareUpdateService } from '@app/core/sw-update';
 import { UiStore } from '@app/core/ui';
 import { UserStore } from '@app/features/user/store/feature';

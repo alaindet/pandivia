@@ -1,14 +1,25 @@
-import { Injectable, OnDestroy, TemplateRef, ViewContainerRef, effect, signal } from '@angular/core';
+import {
+  Injectable,
+  OnDestroy,
+  TemplateRef,
+  ViewContainerRef,
+  signal,
+} from '@angular/core';
 
 import { Subject, filter, map, of, switchMap, take, throwError } from 'rxjs';
-import { BaseModalComponent, MODAL_OUTPUT_STATUS, ModalOptions, ModalOutput, ModalRef } from './types';
+import {
+  BaseModalComponent,
+  MODAL_OUTPUT_STATUS,
+  ModalOptions,
+  ModalOutput,
+  ModalRef,
+} from './types';
 import { createBodyScrollingController } from './scrolling.controller';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService implements OnDestroy {
-
   private target: ViewContainerRef | null = null;
   private focusedBeforeModal: HTMLElement | null = null;
   isOpen = signal(false);
@@ -50,12 +61,15 @@ export class ModalService implements OnDestroy {
   }
 
   closed() {
-    return this._closed$.asObservable().pipe(switchMap(output => {
-      if (output.status === MODAL_OUTPUT_STATUS.CANCELED) {
-        return throwError(() =>'components.modal.canceled');
-      }
-      return of(output.data);
-    }), take(1));
+    return this._closed$.asObservable().pipe(
+      switchMap((output) => {
+        if (output.status === MODAL_OUTPUT_STATUS.CANCELED) {
+          return throwError(() => 'components.modal.canceled');
+        }
+        return of(output.data);
+      }),
+      take(1)
+    );
   }
 
   cancel() {
@@ -70,7 +84,7 @@ export class ModalService implements OnDestroy {
     return this._closed$.asObservable().pipe(
       filter(({ status }) => status === MODAL_OUTPUT_STATUS.CANCELED),
       map(({ data }) => data),
-      take(1),
+      take(1)
     );
   }
 
@@ -86,7 +100,7 @@ export class ModalService implements OnDestroy {
     return this._closed$.pipe(
       filter(({ status }) => status === MODAL_OUTPUT_STATUS.CONFIRMED),
       map(({ data }) => data),
-      take(1),
+      take(1)
     );
   }
 
@@ -98,9 +112,8 @@ export class ModalService implements OnDestroy {
   open<TInput extends any, TOutput extends any>(
     componentClass: typeof BaseModalComponent<TInput, TOutput>,
     data: TInput,
-    options?: ModalOptions,
+    options?: ModalOptions
   ): ModalRef<TInput, TOutput> {
-
     this.focusedBeforeModal = document.activeElement as HTMLElement | null;
     this.bodyScrolling.block();
 

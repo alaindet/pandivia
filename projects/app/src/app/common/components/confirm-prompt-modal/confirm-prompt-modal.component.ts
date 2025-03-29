@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BaseModalComponent, ModalHeaderDirective } from '../modal';
+import { BaseModalComponent, ModalHeaderDirective } from '@ui/components/modal';
 import { ConfirmPromptModalInput, ConfirmPromptModalOutput } from './types';
 
 @Component({

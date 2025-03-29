@@ -1,10 +1,9 @@
 import { signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { ActionsMenuItem } from '../../../components';
+import { ActionsMenuItem } from '@ui/components/actions-menu';
 
 export function createHeaderActionsController() {
-
   const actions = signal<ActionsMenuItem[]>([]);
 
   const confirmed$ = new Subject<ActionsMenuItem['id']>();

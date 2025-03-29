@@ -1,4 +1,3 @@
-import { ActionsMenuItem } from '@app/common/components';
 import {
   matCheck,
   matFilterAlt,
@@ -6,6 +5,7 @@ import {
   matRemoveDone,
   matUndo,
 } from '@ng-icons/material-icons/baseline';
+import { ActionsMenuItem } from '@ui/components/actions-menu';
 
 export const LIST_ACTION_REFRESH: ActionsMenuItem = {
   id: 'list:refresh',

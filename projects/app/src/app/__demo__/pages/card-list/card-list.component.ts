@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-
 import {
   CardListComponent,
   ItemActionOutput,
   ItemToggledOutput,
-} from '@app/common/components';
+} from '@ui/components/card-list';
+
 import { MOCK_INVENTORY_ITEMS, MOCK_LIST_ITEMS } from '@app/mocks';
 import {
   ITEM_ACTION_DELETE,

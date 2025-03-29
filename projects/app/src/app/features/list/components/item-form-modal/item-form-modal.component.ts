@@ -21,16 +21,18 @@ import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { ButtonComponent } from '@ui/components/button';
 import { ToggleComponent } from '@ui/components/toggle';
+import { QuickNumberComponent } from '@ui/components/quick-number';
+import {
+  BaseModalComponent,
+  ModalFooterDirective,
+  ModalHeaderDirective,
+} from '@ui/components/modal';
 
 import {
   AUTOCOMPLETE_EXPORTS,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
-  BaseModalComponent,
   FORM_FIELD_EXPORTS,
-  ModalFooterDirective,
-  ModalHeaderDirective,
-  QuickNumberComponent,
   TextInputComponent,
   TextareaComponent,
 } from '@app/common/components';
