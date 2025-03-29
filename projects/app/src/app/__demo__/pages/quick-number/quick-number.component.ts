@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { QuickNumberComponent } from '@app/common/components';
+import { QuickNumberComponent } from '@ui/components/quick-number';
 
 @Component({
   selector: 'app-demo-quick-number',

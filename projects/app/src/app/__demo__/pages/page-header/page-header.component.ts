@@ -6,13 +6,12 @@ import {
   matTaskAlt,
   matUndo,
 } from '@ng-icons/material-icons/baseline';
-
+import { IconButtonComponent } from '@ui/components/icon-button';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
-  IconButtonComponent,
-  PageHeaderComponent,
-} from '@app/common/components';
+} from '@ui/components/actions-menu';
+import { PageHeaderComponent } from '@ui/components/page-header';
 
 @Component({
   selector: 'app-demo-page-header',

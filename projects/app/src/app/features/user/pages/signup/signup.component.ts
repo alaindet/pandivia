@@ -10,16 +10,14 @@ import { matPerson } from '@ng-icons/material-icons/baseline';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
+import { ButtonComponent } from '@ui/components/button';
+import { PageHeaderComponent } from '@ui/components/page-header';
+import { TextInputComponent } from '@ui/components/text-input';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
+import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 
-import { DEFAULT_ROUTE } from '@app/app.routes';
 import { UiStore } from '@app/core/ui';
-import {
-  ButtonComponent,
-  FORM_FIELD_EXPORTS,
-  PageHeaderComponent,
-  TextInputComponent,
-} from '@app/common/components';
-import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { DEFAULT_ROUTE } from '@app/app.routes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { InvitesService } from '../../services';
 import { SignUpUserDto, UserInvite } from '../../types';

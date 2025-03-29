@@ -1,5 +1,5 @@
 import { ListItem } from '@app/features/list';
-import { ActionsMenuItem } from '@app/common/components';
+import { ActionsMenuItem } from '@ui/components/actions-menu';
 import { matDelete, matDone, matUndo } from '@ng-icons/material-icons/baseline';
 
 // List actions ---------------------------------------------------------------

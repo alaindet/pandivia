@@ -1,10 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { TranslocoModule } from '@jsverse/transloco';
+import { PageHeaderComponent } from '@ui/components/page-header';
 
-import {
-  PageHeaderComponent,
-  UserCredentialsFormComponent,
-} from '@app/common/components';
+import { UserCredentialsFormComponent } from '@app/common/components';
 import { UserStore } from '../../store';
 import { UserCredentials } from '../../types';
 

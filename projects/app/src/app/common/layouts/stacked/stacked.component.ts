@@ -10,16 +10,18 @@ import {
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matSearch, matMoreHoriz } from '@ng-icons/material-icons/baseline';
-
+import { IconButtonComponent } from '@ui/components/icon-button';
+import {
+  BottomMenuComponent,
+  BottomMenuItem,
+} from '@ui/components/bottom-menu';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
-  BottomMenuComponent,
-  BottomMenuItem,
-  IconButtonComponent,
-  PageHeaderComponent,
-  TextInputComponent,
-} from '@app/common/components';
+} from '@ui/components/actions-menu';
+import { PageHeaderComponent } from '@ui/components/page-header';
+import { TextInputComponent } from '@ui/components/text-input';
+
 import { TranslocoModule } from '@jsverse/transloco';
 import { Counters } from '@common/types';
 
@@ -29,9 +31,9 @@ import { Counters } from '@common/types';
     NgTemplateOutlet,
     NgIcon,
     ...ACTIONS_MENU_EXPORTS,
+    BottomMenuComponent,
     PageHeaderComponent,
     IconButtonComponent,
-    BottomMenuComponent,
     TextInputComponent,
     TranslocoModule,
   ],

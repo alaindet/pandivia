@@ -12,21 +12,20 @@ import { Subject, catchError, of, take, takeUntil } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 import { filterNull } from '@common/rxjs';
-
+import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components/button';
+import { IconButtonComponent } from '@ui/components/icon-button';
+import { CardListComponent } from '@ui/components/card-list';
+import { ActionsMenuItem } from '@ui/components/actions-menu';
+import { ItemActionOutput, ItemToggledOutput } from '@ui/components/card-list';
+import { ModalService } from '@ui/components/modal';
 import {
-  ActionsMenuItem,
-  ButtonComponent,
-  IconButtonComponent,
-  CardListComponent,
-  ChangeCategoryModalComponent,
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
-  ItemActionOutput,
-  ItemToggledOutput,
-  ModalService,
-} from '@app/common/components';
+} from '@ui/components/confirm-prompt-modal';
+import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
+
 import { StackedLayoutService } from '@app/common/layouts';
-import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_LIST, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';

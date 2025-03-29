@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-
-import { ButtonComponent } from '@app/common/components';
+import { ButtonComponent } from '@ui/components/button';
 
 import { UiStore } from '@app/core/ui';
 

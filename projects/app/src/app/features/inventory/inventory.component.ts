@@ -11,23 +11,24 @@ import { NgIcon } from '@ng-icons/core';
 import { matClear, matAdd } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
-
+import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components/button';
+import { IconButtonComponent } from '@ui/components/icon-button';
+import { CardListComponent, ItemActionOutput } from '@ui/components/card-list';
+import { ModalService } from '@ui/components/modal';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
-  ButtonComponent,
-  IconButtonComponent,
-  CardListComponent,
+} from '@ui/components/actions-menu';
+import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
   ConfirmPromptModalOutput,
-  ItemActionOutput,
-  ModalService,
-} from '@app/common/components';
+} from '@ui/components/confirm-prompt-modal';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
+
 import { StackedLayoutService } from '@app/common/layouts';
 import { filterNull } from '@common/rxjs';
-import { MediaQueryService } from '@app/common/services';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';

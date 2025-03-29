@@ -10,13 +10,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { matLogin } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
-
-import {
-  ButtonComponent,
-  FORM_FIELD_EXPORTS,
-  TextInputComponent,
-} from '@app/common/components';
-import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
+import { ButtonComponent } from '@ui/components/button';
+import { TextInputComponent } from '@ui/components/text-input';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
+import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { UserCredentials } from '@app/features/user';
 import { USER_CREDENTIALS_FIELD as FIELD } from './fields';

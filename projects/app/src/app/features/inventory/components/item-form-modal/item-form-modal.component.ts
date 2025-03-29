@@ -17,21 +17,23 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-
+import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components/button';
+import {
+  BaseModalComponent,
+  ModalFooterDirective,
+  ModalHeaderDirective,
+} from '@ui/components/modal';
+import { TextInputComponent } from '@ui/components/text-input';
+import { TextareaComponent } from '@ui/components/textarea';
+import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import {
   AUTOCOMPLETE_EXPORTS,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
-  BaseModalComponent,
-  ButtonComponent,
-  FORM_FIELD_EXPORTS,
-  ModalFooterDirective,
-  ModalHeaderDirective,
-  TextInputComponent,
-  TextareaComponent,
-} from '@app/common/components';
-import { FIELD_PIPES_EXPORTS } from '@app/common/pipes';
-import { MediaQueryService } from '@app/common/services';
+} from '@ui/components/autocomplete';
+
+import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryStore } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';

@@ -1,4 +1,4 @@
-import { ConfirmPromptModalInput } from '@app/common/components';
+import { ConfirmPromptModalInput } from '@ui/components/confirm-prompt-modal';
 
 export const UPGRADE_APPLICATION_ACTION = 'upgrade-application';
 

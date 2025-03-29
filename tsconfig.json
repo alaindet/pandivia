@@ -25,13 +25,72 @@
       "@root/*": ["./*"],
       "@app/*": ["projects/app/src/app/*"],
       "@app/environment": ["projects/app/src/environments/environment.ts"],
+
       "@common": ["projects/common/src/public-api.ts"],
       "@common/constants": ["projects/common/src/constants/public-api.ts"],
       "@common/controllers": ["projects/common/src/controllers/public-api.ts"],
       "@common/rxjs": ["projects/common/src/rxjs/public-api.ts"],
       "@common/store": ["projects/common/src/store/public-api.ts"],
       "@common/types": ["projects/common/src/types/public-api.ts"],
-      "@common/utils": ["projects/common/src/utils/public-api.ts"]
+      "@common/utils": ["projects/common/src/utils/public-api.ts"],
+
+      "@ui": ["projects/ui/src/public-api.ts"],
+      "@ui/services": ["projects/ui/src/services/public-api.ts"],
+      "@ui/pipes": ["projects/ui/src/pipes/public-api.ts"],
+      "@ui/components/actions-menu": [
+        "projects/ui/src/components/actions-menu/public-api.ts"
+      ],
+      "@ui/components/autocomplete": [
+        "projects/ui/src/components/autocomplete/public-api.ts"
+      ],
+      "@ui/components/bottom-menu": [
+        "projects/ui/src/components/bottom-menu/public-api.ts"
+      ],
+      "@ui/components/button": [
+        "projects/ui/src/components/button/public-api.ts"
+      ],
+      "@ui/components/card-list": [
+        "projects/ui/src/components/card-list/public-api.ts"
+      ],
+      "@ui/components/checkbox": [
+        "projects/ui/src/components/checkbox/public-api.ts"
+      ],
+      "@ui/components/confirm-prompt-modal": [
+        "projects/ui/src/components/confirm-prompt-modal/public-api.ts"
+      ],
+      "@ui/components/form-field": [
+        "projects/ui/src/components/form-field/public-api.ts"
+      ],
+      "@ui/components/icon-button": [
+        "projects/ui/src/components/icon-button/public-api.ts"
+      ],
+      "@ui/components/linear-spinner": [
+        "projects/ui/src/components/linear-spinner/public-api.ts"
+      ],
+      "@ui/components/modal": [
+        "projects/ui/src/components/modal/public-api.ts"
+      ],
+      "@ui/components/notification": [
+        "projects/ui/src/components/notification/public-api.ts"
+      ],
+      "@ui/components/page-header": [
+        "projects/ui/src/components/page-header/public-api.ts"
+      ],
+      "@ui/components/quick-number": [
+        "projects/ui/src/components/quick-number/public-api.ts"
+      ],
+      "@ui/components/select": [
+        "projects/ui/src/components/select/public-api.ts"
+      ],
+      "@ui/components/text-input": [
+        "projects/ui/src/components/text-input/public-api.ts"
+      ],
+      "@ui/components/textarea": [
+        "projects/ui/src/components/textarea/public-api.ts"
+      ],
+      "@ui/components/toggle": [
+        "projects/ui/src/components/toggle/public-api.ts"
+      ]
     }
   },
   "angularCompilerOptions": {

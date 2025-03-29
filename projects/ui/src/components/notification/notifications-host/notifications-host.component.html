@@ -1,0 +1,15 @@
+@if (notification(); as notification) {
+<app-notification
+  [notificationId]="notification!.id"
+  [notificationType]="notification!.type"
+  [dismissAfter]="dismissAfter()"
+  [more]="notification!.more"
+  (dismissed)="dismissed.emit()"
+>
+  @if (!!notification?.messageParams) {
+  {{ notification!.message | transloco : notification.messageParams }}
+  } @else {
+  {{ notification!.message | transloco }}
+  }
+</app-notification>
+}
