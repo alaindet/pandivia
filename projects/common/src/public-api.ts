@@ -1,9 +1,9 @@
 /*
  * Public API Surface of common
  */
-export * from './constants/public-api';
-export * from './controllers/public-api';
-export * from './rxjs/public-api';
-export * from './store/public-api';
-export * from './types/public-api';
-export * from './utils/public-api';
+export * from './constants';
+export * from './controllers';
+export * from './rxjs';
+export * from './store';
+export * from './types';
+export * from './utils';

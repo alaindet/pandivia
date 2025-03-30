@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^19.2.0",
-    "@angular/core": "^19.2.0"
+    "@angular/core": "^19.2.0",
+    "@ng-icons/core": "^31.2.0",
+    "@ng-icons/material-icons": "^31.2.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

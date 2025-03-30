@@ -1,5 +1,6 @@
 import { fromEvent, tap, Observable, takeUntil } from 'rxjs';
-import { KeyboardKey } from '@common/types';
+
+import { KeyboardKey } from '../../types';
 
 export type KeydownHandler = (event: KeyboardEvent) => boolean | void;
 

@@ -1,7 +1,8 @@
 import { WritableSignal } from '@angular/core';
-import { LOADING_STATUS, LoadingStatus } from '@common/types';
 import { HashMap } from '@jsverse/transloco';
-import { StoreFeedback } from '@common/store';
+
+import { LOADING_STATUS, LoadingStatus } from '../types';
+import { StoreFeedback } from './update-store';
 
 import { UiStore } from '@app/core/ui/store';
 

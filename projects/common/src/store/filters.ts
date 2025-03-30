@@ -1,4 +1,4 @@
-import { EnumLike } from '@common/types';
+import { EnumLike } from '../types';
 
 const FILTER_TYPE = {
   EXACT: 'exact',

@@ -1,4 +1,4 @@
-import { KeyboardKey } from '../../types/public-api';
+import { KeyboardKey } from '../../types';
 import { KeydownBinder, KeydownBinding, KeydownHandler } from './on-keydown';
 
 export function createKeyBinding(

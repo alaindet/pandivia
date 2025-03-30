@@ -4,9 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production",
-    "build:stats": "ng build --configuration production --stats-json",
-    "dist:start": "http-server -p 8080 dist/app",
+    "build": "ng build --project app --configuration production",
+    "build:stats": "ng build --project app --configuration production --stats-json",
+    "dist:start": "http-server -p 8080 dist/app/browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "firebase:dev": "firebase emulators:start --only firestore,auth --import firebase-testdata",

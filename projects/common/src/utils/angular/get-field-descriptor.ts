@@ -1,6 +1,6 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { FormControlDescriptor } from '../../types/public-api';
+import { FormControlDescriptor } from '../../types';
 
 export function getFieldDescriptor(
   form: FormGroup,
