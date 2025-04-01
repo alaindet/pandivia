@@ -1,5 +1,4 @@
 import { signal } from '@angular/core';
-
 import { Counters } from '@common/types';
 
 export function createHeaderCountersController() {

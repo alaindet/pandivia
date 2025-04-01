@@ -1,10 +1,9 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { LOADING_STATUS, LoadingStatus } from '@common/types';
-import { Router } from '@angular/router';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
-import { firstTruthy } from '@common/rxjs';
-import { provideFeedback, updateStore } from '@common/store';
+import { Router } from '@angular/router';
+import { provideFeedback, updateStore } from '@app/common/store';
+import { LOADING_STATUS, LoadingStatus } from '@common/types';
+import { filter, map, take } from 'rxjs';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';
 import { UiStore } from '@app/core/ui/store';
@@ -43,7 +42,8 @@ export class UserStore {
   userId = computed(() => this.data()?.uid ?? null);
   display = computed(() => this.computeDisplayData());
   isAppStableAndAuthenticated = toObservable(this.isLoaded).pipe(
-    firstTruthy(),
+    filter((val) => !!val),
+    take(1),
     map(() => this.isAuthenticated())
   );
 

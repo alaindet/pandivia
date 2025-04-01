@@ -10,7 +10,7 @@ import {
   first,
   map,
 } from 'rxjs';
-import { getItemByName } from '@common/store';
+import { getItemByName } from '@app/common/store';
 
 import { InventoryStore } from '../store';
 

@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
 import { FormControlDescriptor } from '@common/types';
 import { fieldDescriptorHasError } from '@common/utils';
 

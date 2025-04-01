@@ -1,7 +1,7 @@
 import { Renderer2, effect, inject, signal } from '@angular/core';
 import { Subject, fromEvent, takeUntil } from 'rxjs';
 import { KEYBOARD_KEY as KB } from '@common/types';
-import { createKeyBinding, onKeydown } from '@common/utils';
+import { onKeydown } from '@common/utils';
 
 import { ACTIONS_MENU_BUTTON_FOCUSED } from '../types';
 import { ActionsMenuService } from './actions-menu.service';
@@ -69,30 +69,39 @@ export function createButtonElementController(parent: ActionsMenuService) {
   }
 
   function listenToKeyboard(el: HTMLButtonElement) {
-    const focusFirstItem = createKeyBinding(
-      [KB.SPACE, KB.ENTER, KB.ARROW_DOWN, KB.DOWN],
-      () => {
+    const focusFirstItem = {
+      on: [KB.SPACE, KB.ENTER, KB.ARROW_DOWN, KB.DOWN],
+      handler: () => {
         parent.menu.open();
         parent.focus.first();
         setTimeout(() => parent.itemsElement.el()?.focus(), 20);
-      }
-    );
+      },
+    };
 
-    const focusLastItem = createKeyBinding([KB.ARROW_UP, KB.UP], () => {
-      parent.menu.open();
-      parent.focus.last();
-    });
+    const focusLastItem = {
+      on: [KB.ARROW_UP, KB.UP],
+      handler: () => {
+        parent.menu.open();
+        parent.focus.last();
+      },
+    };
 
-    const clearFocus = createKeyBinding([KB.ESC, KB.ESCAPE], () => {
-      parent.menu.close();
-      parent.focus.clear();
-    });
+    const clearFocus = {
+      on: [KB.ESC, KB.ESCAPE],
+      handler: () => {
+        parent.menu.close();
+        parent.focus.clear();
+      },
+    };
 
-    const focusOut = createKeyBinding([KB.TAB], () => {
-      parent.menu.close();
-      parent.focus.clear();
-      return true;
-    });
+    const focusOut = {
+      on: [KB.TAB],
+      handler: () => {
+        parent.menu.close();
+        parent.focus.clear();
+        return true;
+      },
+    };
 
     onKeydown(el, destroy$, [
       focusFirstItem,

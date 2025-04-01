@@ -1,11 +1,20 @@
 import { Injectable, Signal, signal } from '@angular/core';
+import { EnumLike } from '@common/types';
 
-import {
-  MEDIA_QUERY_BREAKPOINT,
-  MEDIA_QUERY_OPERATOR,
-  MediaQueryBreakpoint,
-  MediaQueryOperator,
-} from '@common/types';
+export const MEDIA_QUERY_BREAKPOINT = {
+  MOBILE: '600px',
+  TABLET: '768px',
+  DESKTOP: '1024px',
+} as const;
+
+export type MediaQueryBreakpoint = EnumLike<typeof MEDIA_QUERY_BREAKPOINT>;
+
+export const MEDIA_QUERY_OPERATOR = {
+  MIN_WIDTH: 'min-width',
+  MAX_WIDTH: 'max-width',
+} as const;
+
+export type MediaQueryOperator = EnumLike<typeof MEDIA_QUERY_OPERATOR>;
 
 @Injectable()
 export class MediaQueryService {

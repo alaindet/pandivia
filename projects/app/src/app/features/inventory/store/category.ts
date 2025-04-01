@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 
-import { updateStore } from '@common/store';
+import { updateStore } from '@app/common/store';
 import { InventoryStore } from './feature';
 
 export class InventoryCategoryItemsSubstore {

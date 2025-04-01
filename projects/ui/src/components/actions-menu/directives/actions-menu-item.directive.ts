@@ -1,5 +1,4 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
-import { TemplateImplicitContext } from '@common/types';
 
 import { ActionsMenuItem } from '../types';
 
@@ -8,5 +7,5 @@ import { ActionsMenuItem } from '../types';
   host: { class: 'app-actions-menu-button' },
 })
 export class ActionsMenuItemDirective {
-  template = inject(TemplateRef<TemplateImplicitContext<ActionsMenuItem>>);
+  template = inject(TemplateRef<{ $implicit: ActionsMenuItem }>);
 }
