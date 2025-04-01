@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ToggleComponent } from '@ui/components/toggle';
+import { ToggleComponent } from '@fruit/components/toggle';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 
 @Component({

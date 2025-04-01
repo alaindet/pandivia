@@ -14,7 +14,11 @@ import { ButtonComponent } from '@ui/components/button';
 import { PageHeaderComponent } from '@ui/components/page-header';
 import { TextInputComponent } from '@ui/components/text-input';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
-import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
+import {
+  FieldErrorPipe,
+  FieldErrorIdPipe,
+  FieldStatusPipe,
+} from '@fruit/pipes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 
 import { UiStore } from '@app/core/ui';
@@ -32,8 +36,10 @@ import { SIGNUP_FIELD as FIELD } from './fields';
     NgIcon,
     TextInputComponent,
     ButtonComponent,
+    FieldErrorPipe,
+    FieldErrorIdPipe,
+    FieldStatusPipe,
     ...FORM_FIELD_EXPORTS,
-    ...FIELD_PIPES_EXPORTS,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',

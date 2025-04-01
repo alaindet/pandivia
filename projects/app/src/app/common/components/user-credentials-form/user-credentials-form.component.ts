@@ -13,7 +13,11 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonComponent } from '@ui/components/button';
 import { TextInputComponent } from '@ui/components/text-input';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
-import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
+import {
+  FieldErrorPipe,
+  FieldErrorIdPipe,
+  FieldStatusPipe,
+} from '@fruit/pipes';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 
 import { UserCredentials } from '@app/features/user';
@@ -27,8 +31,10 @@ import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
     TranslocoModule,
     TextInputComponent,
     ButtonComponent,
+    FieldErrorPipe,
+    FieldErrorIdPipe,
+    FieldStatusPipe,
     ...FORM_FIELD_EXPORTS,
-    ...FIELD_PIPES_EXPORTS,
   ],
   templateUrl: './user-credentials-form.component.html',
   styleUrl: './user-credentials-form.component.css',

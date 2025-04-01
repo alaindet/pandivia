@@ -7,13 +7,17 @@ import { matPersonAdd } from '@ng-icons/material-icons/baseline';
 import { ButtonComponent } from '@ui/components/button';
 import { TextInputComponent } from '@ui/components/text-input';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
-
-import { UiStore } from '@app/core/ui';
+import {
+  FieldErrorPipe,
+  FieldErrorIdPipe,
+  FieldStatusPipe,
+} from '@fruit/pipes';
 import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
 } from '@common/utils';
-import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
+
+import { UiStore } from '@app/core/ui';
 import { InvitesService } from '../services';
 
 @Component({
@@ -24,8 +28,10 @@ import { InvitesService } from '../services';
     NgIcon,
     TextInputComponent,
     ButtonComponent,
+    FieldErrorPipe,
+    FieldErrorIdPipe,
+    FieldStatusPipe,
     ...FORM_FIELD_EXPORTS,
-    ...FIELD_PIPES_EXPORTS,
   ],
   templateUrl: './invite-user.component.html',
   styleUrl: './invite-user.component.css',

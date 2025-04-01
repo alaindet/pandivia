@@ -1,5 +1,5 @@
 import { Component, HostBinding, inject, input } from '@angular/core';
-import { MediaQueryService } from '@ui/services';
+import { MediaQueryService } from '@fruit/services';
 
 @Component({
   selector: 'app-demo-header',

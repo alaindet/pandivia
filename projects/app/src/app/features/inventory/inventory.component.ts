@@ -19,7 +19,7 @@ import {
   take,
   takeUntil,
 } from 'rxjs';
-import { MediaQueryService } from '@ui/services';
+import { MediaQueryService } from '@fruit/services';
 import { ButtonComponent } from '@ui/components/button';
 import { IconButtonComponent } from '@ui/components/icon-button';
 import { CardListComponent, ItemActionOutput } from '@ui/components/card-list';

@@ -16,11 +16,15 @@ import {
 import { TranslocoModule } from '@jsverse/transloco';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
-import { MediaQueryService } from '@ui/services';
+import { MediaQueryService } from '@fruit/services';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
+import {
+  FieldErrorPipe,
+  FieldErrorIdPipe,
+  FieldStatusPipe,
+} from '@fruit/pipes';
 import { ButtonComponent } from '@ui/components/button';
-import { ToggleComponent } from '@ui/components/toggle';
+import { ToggleComponent } from '@fruit/components/toggle';
 import { QuickNumberComponent } from '@ui/components/quick-number';
 import {
   BaseModalComponent,
@@ -63,9 +67,11 @@ import {
     ButtonComponent,
     ToggleComponent,
     TextareaComponent,
+    FieldErrorPipe,
+    FieldErrorIdPipe,
+    FieldStatusPipe,
     ...FORM_FIELD_EXPORTS,
     ...AUTOCOMPLETE_EXPORTS,
-    ...FIELD_PIPES_EXPORTS,
   ],
   templateUrl: './item-form-modal.component.html',
   styleUrl: './item-form-modal.component.css',
