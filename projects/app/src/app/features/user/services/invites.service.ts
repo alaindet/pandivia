@@ -14,7 +14,6 @@ import {
   updateProfile,
 } from '@angular/fire/auth';
 
-import { DAY_DURATION } from '@common/constants';
 import {
   CreateUserInviteDto,
   SignUpUserDto,
@@ -22,6 +21,8 @@ import {
   UserInvite,
 } from '../types';
 import { AuthenticationService } from './authentication.service';
+
+const DAY_DURATION = 1000 * 60 * 60 * 24;
 
 @Injectable({
   providedIn: 'root',

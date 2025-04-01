@@ -20,10 +20,8 @@ import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
 import { FormFieldStatus } from '@common/types';
 import { cssClassesList, uniqueId } from '@common/utils';
 import { IconButtonComponent } from '@ui/components/icon-button';
-import {
-  HTMLAttributes,
-  createAttributesController,
-} from '@common/controllers';
+import { HTMLAttributes } from '@common/controllers';
+import { HTMLAttributesController } from '@fixcommon/controllers';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -94,7 +92,7 @@ export class TextareaComponent implements ControlValueAccessor {
   inputValue = signal('');
   charsCounter = computed(() => this.inputValue().length);
   nativeInput = computed(() => this.textareaRef().nativeElement);
-  attrsController = createAttributesController();
+  attrsController = new HTMLAttributesController();
   cssClass = computed(() =>
     cssClassesList([this.status() ? `-status-${this.status()}` : null])
   );

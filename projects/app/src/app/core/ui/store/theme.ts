@@ -2,7 +2,7 @@ import { computed, effect, inject, signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 
-import { createLocalStorageItemController } from '@common/controllers';
+import { LocalStorageItemController } from '@fixcommon/controllers';
 import {
   DEFAULT_THEME,
   Theme,
@@ -17,7 +17,7 @@ export function createUiThemeController() {
 
   const theme = signal<Theme>(DEFAULT_THEME);
   const config = computed(() => THEME_CONFIG[theme()]);
-  const storage = createLocalStorageItemController<Theme>(THEME_STORAGE_KEY, {
+  const storage = new LocalStorageItemController<Theme>(THEME_STORAGE_KEY, {
     serialize: (theme) => theme as string,
     deserialize: (theme) => theme as Theme,
     default: DEFAULT_THEME,
