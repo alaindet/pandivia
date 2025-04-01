@@ -23,7 +23,7 @@ import { uniqueId } from '@common/utils';
 import {
   IconButtonColor,
   IconButtonComponent,
-} from '@ui/components/icon-button';
+} from '@fruit/components/icon-button';
 
 const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,

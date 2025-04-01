@@ -10,8 +10,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { matLogin } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
-import { ButtonComponent } from '@ui/components/button';
-import { TextInputComponent } from '@ui/components/text-input';
+import { ButtonComponent } from '@fruit/components/button';
+import { TextInputComponent } from '@fruit/components/text-input';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import {
   FieldErrorPipe,

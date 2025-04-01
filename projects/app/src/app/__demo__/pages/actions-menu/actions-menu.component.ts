@@ -4,7 +4,7 @@ import {
   matTaskAlt,
   matUndo,
 } from '@ng-icons/material-icons/baseline';
-import { ButtonComponent } from '@ui/components/button';
+import { ButtonComponent } from '@fruit/components/button';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,

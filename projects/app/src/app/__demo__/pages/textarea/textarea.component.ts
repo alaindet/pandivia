@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
 import { getFieldDescriptor as fDescriptor } from '@common/utils';
-import { TextareaComponent } from '@ui/components/textarea';
+import { TextareaComponent } from '@fruit/components/textarea';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 
 const FIELD = {

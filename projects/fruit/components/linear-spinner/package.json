@@ -1,9 +1,8 @@
 {
-  "name": "fruit-components-toggle",
+  "name": "fruit-components-linear-spinner",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/core": "^19.2.0",
-    "@angular/forms": "^19.2.0"
+    "@angular/core": "^19.2.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

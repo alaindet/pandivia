@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable, delay, of } from 'rxjs';
-import { TextInputComponent } from '@ui/components/text-input';
+import { TextInputComponent } from '@fruit/components/text-input';
 import {
   FormFieldComponent,
   FormFieldLabelComponent,

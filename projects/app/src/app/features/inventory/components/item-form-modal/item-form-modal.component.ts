@@ -18,14 +18,14 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@ui/components/button';
+import { ButtonComponent } from '@fruit/components/button';
 import {
   BaseModalComponent,
   ModalFooterDirective,
   ModalHeaderDirective,
 } from '@ui/components/modal';
-import { TextInputComponent } from '@ui/components/text-input';
-import { TextareaComponent } from '@ui/components/textarea';
+import { TextInputComponent } from '@fruit/components/text-input';
+import { TextareaComponent } from '@fruit/components/textarea';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import {
   AUTOCOMPLETE_EXPORTS,

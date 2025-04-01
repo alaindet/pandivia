@@ -19,7 +19,7 @@ import { NgIcon } from '@ng-icons/core';
 import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
 import { FormFieldStatus } from '@common/types';
 import { cssClassesList, uniqueId, HTMLAttributes } from '@common/utils';
-import { IconButtonComponent } from '@ui/components/icon-button';
+import { IconButtonComponent } from '@fruit/components/icon-button';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -59,8 +59,10 @@ export class TextareaComponent implements ControlValueAccessor {
   changed = output<string>();
   inputChanged = output<string>();
 
-  matCheck = matCheck;
-  matClear = matClear;
+  icon = {
+    matCheck,
+    matClear,
+  };
 
   @HostBinding('class')
   get getCssClass() {

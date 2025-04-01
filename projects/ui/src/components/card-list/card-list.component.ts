@@ -21,8 +21,8 @@ import {
   matPushPin,
 } from '@ng-icons/material-icons/baseline';
 import { CheckboxComponent, CheckboxColor } from '@ui/components/checkbox';
-import { ButtonComponent } from '@ui/components/button';
-import { IconButtonComponent } from '@ui/components/icon-button';
+import { ButtonComponent } from '@fruit/components/button';
+import { IconButtonComponent } from '@fruit/components/icon-button';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,

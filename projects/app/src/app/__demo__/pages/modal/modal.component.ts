@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { ButtonComponent } from '@ui/components/button';
-
+import { ButtonComponent } from '@fruit/components/button';
 import { ModalService } from '@ui/components/modal';
+
 import { ModalOneComponent, ModalOneInput, ModalOneOutput } from './modal-one';
 
 @Component({

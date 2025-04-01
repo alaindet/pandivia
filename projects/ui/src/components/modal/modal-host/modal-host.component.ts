@@ -18,8 +18,8 @@ import {
   matCheck,
 } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
-import { ButtonComponent } from '@ui/components/button';
-import { IconButtonComponent } from '@ui/components/icon-button';
+import { ButtonComponent } from '@fruit/components/button';
+import { IconButtonComponent } from '@fruit/components/icon-button';
 
 import { ModalService } from '../modal.service';
 import { ModalHostLabels } from '../types';

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matSearch, matMoreHoriz } from '@ng-icons/material-icons/baseline';
-import { IconButtonComponent } from '@ui/components/icon-button';
+import { IconButtonComponent } from '@fruit/components/icon-button';
 import {
   BottomMenuComponent,
   BottomMenuItem,
@@ -19,8 +19,8 @@ import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
 } from '@ui/components/actions-menu';
-import { PageHeaderComponent } from '@ui/components/page-header';
-import { TextInputComponent } from '@ui/components/text-input';
+import { PageHeaderComponent } from '@fruit/components/page-header';
+import { TextInputComponent } from '@fruit/components/text-input';
 
 import { TranslocoModule } from '@jsverse/transloco';
 import { Counters } from '@common/types';

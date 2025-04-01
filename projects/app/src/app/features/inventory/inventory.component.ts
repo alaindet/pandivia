@@ -20,8 +20,8 @@ import {
   takeUntil,
 } from 'rxjs';
 import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@ui/components/button';
-import { IconButtonComponent } from '@ui/components/icon-button';
+import { ButtonComponent } from '@fruit/components/button';
+import { IconButtonComponent } from '@fruit/components/icon-button';
 import { CardListComponent, ItemActionOutput } from '@ui/components/card-list';
 import { ModalService } from '@ui/components/modal';
 import {

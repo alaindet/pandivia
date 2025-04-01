@@ -10,9 +10,9 @@ import { matPerson } from '@ng-icons/material-icons/baseline';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { finalize } from 'rxjs';
-import { ButtonComponent } from '@ui/components/button';
-import { PageHeaderComponent } from '@ui/components/page-header';
-import { TextInputComponent } from '@ui/components/text-input';
+import { ButtonComponent } from '@fruit/components/button';
+import { PageHeaderComponent } from '@fruit/components/page-header';
+import { TextInputComponent } from '@fruit/components/text-input';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import {
   FieldErrorPipe,
