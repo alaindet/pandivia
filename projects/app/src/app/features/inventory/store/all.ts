@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
-import { updateStore } from '@common/store';
 import { LOADING_STATUS } from '@fixcommon/types';
 
+import { updateStore } from '@app/common/store';
 import { InventoryStore } from './feature';
 
 export class InventoryAllItemsSubstore {

@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
-import { updateStore } from '@common/store';
 import { InventoryItem } from '@app/features/inventory';
+import { updateStore } from '@app/common/store';
 import { ListStore } from './feature';
 import { CreateListItemDto } from '../types';
 

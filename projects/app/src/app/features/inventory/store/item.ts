@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
-import { removeItem, updateStore, updateItem } from '@common/store';
+import { removeItem, updateStore, updateItem } from '@app/common/store';
 import { CreateInventoryItemDto, InventoryItem } from '../types';
 import { InventoryStore } from './feature';
 
