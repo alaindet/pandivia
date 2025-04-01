@@ -26,7 +26,12 @@
       "@app/*": ["projects/app/src/app/*"],
       "@app/environment": ["projects/app/src/environments/environment.ts"],
       "@common/*": ["projects/common/src/*"],
-      "@ui/*": ["projects/ui/src/*"]
+      "@ui/*": [
+        "projects/ui/src/*"
+      ],
+      "fixcommon": [
+        "./dist/fixcommon"
+      ]
     }
   },
   "angularCompilerOptions": {
