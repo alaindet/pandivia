@@ -14,7 +14,7 @@ import {
   LOADING_STATUS,
   LoadingStatus,
   UnixTimestamp,
-} from '@common/types';
+} from '@fixcommon/types';
 
 import {
   CategorizedItems,

@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { BACK_BUTTON_MODE, BackButtonMode } from '@common/types';
+import { BACK_BUTTON_MODE, BackButtonMode } from '@fixcommon/types';
 
 export function createBackButtonController() {
   const mode = signal<BackButtonMode>(BACK_BUTTON_MODE.NONE);

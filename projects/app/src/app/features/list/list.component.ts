@@ -8,10 +8,9 @@ import {
   inject,
 } from '@angular/core';
 import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { Subject, catchError, of, take, takeUntil } from 'rxjs';
+import { Subject, catchError, filter, of, take, takeUntil } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
-import { filterNull } from '@common/rxjs';
 import { MediaQueryService } from '@ui/services';
 import { ButtonComponent } from '@ui/components/button';
 import { IconButtonComponent } from '@ui/components/icon-button';
@@ -382,7 +381,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
       .pipe(
         catchError(() => of(null)),
         take(1),
-        filterNull()
+        filter((val) => !!val)
       );
 
     selectedCategory$.subscribe((payload) => {

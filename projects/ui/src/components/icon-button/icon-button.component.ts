@@ -10,7 +10,7 @@ import {
   input,
 } from '@angular/core';
 
-import { cssClassesList } from '@common/utils';
+import { cssClassesList } from '@fixcommon/utils';
 import {
   IconButtonColor,
   IconButtonFloatingType,

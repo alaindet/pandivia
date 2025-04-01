@@ -17,11 +17,9 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
-import { FormFieldStatus } from '@common/types';
-import { cssClassesList, uniqueId } from '@common/utils';
+import { FormFieldStatus } from '@fixcommon/types';
+import { cssClassesList, uniqueId, HTMLAttributes } from '@fixcommon/utils';
 import { IconButtonComponent } from '@ui/components/icon-button';
-import { HTMLAttributes } from '@common/controllers';
-import { HTMLAttributesController } from '@fixcommon/controllers';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -56,7 +54,7 @@ export class TextareaComponent implements ControlValueAccessor {
     alias: 'isDisabled',
     transform: booleanAttribute,
   });
-  attrs = input<HTMLAttributes | null>(null);
+  attrs = input<Record<string, string | number | boolean> | null>(null);
 
   changed = output<string>();
   inputChanged = output<string>();
@@ -92,7 +90,7 @@ export class TextareaComponent implements ControlValueAccessor {
   inputValue = signal('');
   charsCounter = computed(() => this.inputValue().length);
   nativeInput = computed(() => this.textareaRef().nativeElement);
-  attrsController = new HTMLAttributesController();
+  attrsController = new HTMLAttributes();
   cssClass = computed(() =>
     cssClassesList([this.status() ? `-status-${this.status()}` : null])
   );

@@ -28,7 +28,7 @@ import {
   LOADING_STATUS,
   LoadingStatus,
   UnixTimestamp,
-} from '@common/types';
+} from '@fixcommon/types';
 
 import { UiStore } from '@app/core/ui/store';
 import { DEFAULT_CATEGORY } from '@app/core/constants';

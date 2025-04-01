@@ -1,1 +1,0 @@
-export const SIXTY_FRAMES_PER_SECOND = 1000 / 60;

@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { Observable, Subject, filter, fromEvent, takeUntil } from 'rxjs';
-import { FOCUSABLE_SELECTORS } from '@common/utils';
-import { KEYBOARD_KEY as KB } from '@common/types';
+import { FOCUSABLE_SELECTORS } from '@fixcommon/utils';
+import { KEYBOARD_KEY as KB } from '@fixcommon/types';
 
 export type ModalKeyboardController = {
   enable: () => void;

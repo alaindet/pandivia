@@ -10,7 +10,15 @@ import {
 import { NgIcon } from '@ng-icons/core';
 import { matClear, matAdd } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { Observable, Subject, catchError, of, take, takeUntil } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  catchError,
+  filter,
+  of,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { MediaQueryService } from '@ui/services';
 import { ButtonComponent } from '@ui/components/button';
 import { IconButtonComponent } from '@ui/components/icon-button';
@@ -28,7 +36,6 @@ import {
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 
 import { StackedLayoutService } from '@app/common/layouts';
-import { filterNull } from '@common/rxjs';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
@@ -331,7 +338,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
       .pipe(
         catchError(() => of(null)),
         take(1),
-        filterNull()
+        filter((val) => !!val)
       );
 
     selectedCategory$.subscribe((payload) => {

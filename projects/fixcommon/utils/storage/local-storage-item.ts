@@ -4,7 +4,7 @@ export type LocalStorageItemOptions<T = any> = {
   default: T;
 };
 
-export class LocalStorageItemController<T extends any> {
+export class LocalStorageItem<T extends any> {
   constructor(
     public key: string,
     private options: LocalStorageItemOptions<T>

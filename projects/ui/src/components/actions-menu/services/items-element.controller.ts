@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { isPrintableChar, onKeydown } from '@common/utils';
-import { KEYBOARD_KEY as KB } from '@common/types';
+import { isPrintableChar, onKeydown } from '@fixcommon/utils';
+import { KEYBOARD_KEY as KB } from '@fixcommon/types';
 
 import { ActionsMenuService } from './actions-menu.service';
 

@@ -1,4 +1,4 @@
-import { FormOption } from '@common/types';
+import { FormOption } from '@fixcommon/types';
 
 import { THEME } from './types';
 

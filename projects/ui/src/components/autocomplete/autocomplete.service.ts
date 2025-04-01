@@ -10,8 +10,8 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { KEYBOARD_KEY as KB } from '@common/types';
-import { createDebouncedInputEvent } from '@common/utils';
+import { KEYBOARD_KEY as KB } from '@fixcommon/types';
+import { createDebouncedInputEvent } from '@fixcommon/utils';
 import {
   AUTOCOMPLETE_SOURCE_TYPE,
   AutocompleteAsyncOptionsFn,

@@ -1,6 +1,5 @@
 import { signal } from '@angular/core';
-
-import { Counters } from '@common/types';
+import { Counters } from '@fixcommon/types';
 
 export function createHeaderCountersController() {
   const counters = signal<Counters | null>(null);

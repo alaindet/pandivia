@@ -1,4 +1,4 @@
-import { EnumLike } from '@common/types';
+import { EnumLike } from '@fixcommon/types';
 import { CheckboxColor } from '@ui/components/checkbox';
 import { ButtonColor } from '@ui/components/button';
 

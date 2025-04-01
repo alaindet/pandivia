@@ -23,7 +23,7 @@ import { PageHeaderComponent } from '@ui/components/page-header';
 import { TextInputComponent } from '@ui/components/text-input';
 
 import { TranslocoModule } from '@jsverse/transloco';
-import { Counters } from '@common/types';
+import { Counters } from '@fixcommon/types';
 
 @Component({
   selector: 'app-layout-stacked',

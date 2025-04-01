@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { SelectComponent } from '@ui/components/select';
 
-import { FormOption } from '@common/types';
+import { FormOption } from '@fixcommon/types';
 
 @Component({
   selector: 'app-demo-select',

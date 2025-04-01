@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { updateStore } from '@common/store';
-import { LOADING_STATUS } from '@common/types';
+import { LOADING_STATUS } from '@fixcommon/types';
 
 import { InventoryStore } from './feature';
 

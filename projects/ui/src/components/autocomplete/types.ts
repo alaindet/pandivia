@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { EnumLike } from '@common/types';
+import { EnumLike } from '@fixcommon/types';
 
 export type AutocompleteOption = any;
 

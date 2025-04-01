@@ -1,4 +1,4 @@
-import { EnumLike } from '@common/types';
+import { EnumLike } from '@fixcommon/types';
 
 export const LANGUAGE = {
   ITALIANO: 'it',

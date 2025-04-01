@@ -15,8 +15,8 @@ import {
   matAdd,
 } from '@ng-icons/material-icons/baseline';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { FormOption } from '@common/types';
-import { getFieldDescriptor as fDescribe } from '@common/utils';
+import { FormOption } from '@fixcommon/types';
+import { getFieldDescriptor as fDescribe } from '@fixcommon/utils';
 import { MediaQueryService } from '@ui/services';
 import { ButtonComponent } from '@ui/components/button';
 import {

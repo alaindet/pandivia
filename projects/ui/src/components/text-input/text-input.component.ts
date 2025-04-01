@@ -16,13 +16,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
-import { FormFieldStatus } from '@common/types';
-import {
-  ElementAttributes,
-  cssClassesList,
-  uniqueId,
-  useHtmlAttributes,
-} from '@common/utils';
+import { FormFieldStatus } from '@fixcommon/types';
+import { cssClassesList, uniqueId, HTMLAttributes } from '@fixcommon/utils';
 import { IconButtonComponent } from '@ui/components/icon-button';
 
 import { TextInputType } from './types';
@@ -60,7 +55,7 @@ export class TextInputComponent implements ControlValueAccessor {
     transform: booleanAttribute,
   });
   width = input<string>();
-  attrs = input<ElementAttributes | null>(null);
+  attrs = input<Record<string, string | number | boolean> | null>(null);
 
   changed = output<string>();
   inputChanged = output<string>();
@@ -124,7 +119,7 @@ export class TextInputComponent implements ControlValueAccessor {
 
   private onChange!: (val: any) => {};
   private onTouched!: () => {};
-  private htmlAttrs = useHtmlAttributes();
+  private htmlAttrs = new HTMLAttributes();
 
   // @publicApi
   focus(): void {

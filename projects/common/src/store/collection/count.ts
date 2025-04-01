@@ -1,4 +1,4 @@
-import { Counters } from '../../types';
+import { Counters } from '@fixcommon/types';
 
 export function countDoneItems<
   T extends Record<string, any> & { isDone?: boolean }

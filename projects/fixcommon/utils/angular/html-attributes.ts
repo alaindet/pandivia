@@ -1,11 +1,12 @@
 import { Renderer2, inject } from '@angular/core';
 
-export type HTMLAttributes = Record<string, string | number | boolean>;
-
-export class HTMLAttributesController {
+export class HTMLAttributes {
   renderer = inject(Renderer2);
 
-  apply(element: HTMLElement, attrs: HTMLAttributes | null): void {
+  apply(
+    element: HTMLElement,
+    attrs: null | Record<string, string | number | null | boolean>
+  ): void {
     if (attrs === null) {
       return;
     }
@@ -16,6 +17,7 @@ export class HTMLAttributesController {
           this.renderer.setAttribute(element, key, '');
           break;
         case false:
+        case null:
           // Do nothing
           break;
         default:
