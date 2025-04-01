@@ -1,5 +1,5 @@
 import { Injectable, Signal, signal } from '@angular/core';
-import { EnumLike } from '@fixcommon/types';
+import { EnumLike } from '@common/types';
 
 export const MEDIA_QUERY_BREAKPOINT = {
   MOBILE: '600px',

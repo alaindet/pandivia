@@ -1,5 +1,5 @@
 import { Observable, take } from 'rxjs';
-import { EnumLike } from '@fixcommon/types';
+import { EnumLike } from '@common/types';
 
 export const MODAL_OUTPUT_STATUS = {
   CANCELED: 'canceled',

@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npm run fixcommon:build && ng build --project app --configuration production",
+    "build": "npm run common:build && ng build --project app --configuration production",
     "build:stats": "ng build --project app --configuration production --stats-json",
     "dist:start": "http-server -p 8080 dist/app/browser",
     "watch": "ng build --watch --configuration development",
@@ -14,7 +14,7 @@
     "firebase:dev:export": "firebase emulators:export firebase-testdata",
     "firebase:admin:init": "node ./scripts/init-admin.js",
     "analyze": "npm run build:stats && webpack-bundle-analyzer dist/app/stats.json",
-    "fixcommon:build": "ng build --project=fixcommon"
+    "common:build": "ng build --project=common"
   },
   "private": true,
   "dependencies": {

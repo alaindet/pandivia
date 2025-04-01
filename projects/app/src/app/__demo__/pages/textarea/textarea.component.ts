@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
-import { getFieldDescriptor as fDescriptor } from '@fixcommon/utils';
+import { getFieldDescriptor as fDescriptor } from '@common/utils';
 import { TextareaComponent } from '@ui/components/textarea';
 import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 

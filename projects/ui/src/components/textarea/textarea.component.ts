@@ -17,8 +17,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
-import { FormFieldStatus } from '@fixcommon/types';
-import { cssClassesList, uniqueId, HTMLAttributes } from '@fixcommon/utils';
+import { FormFieldStatus } from '@common/types';
+import { cssClassesList, uniqueId, HTMLAttributes } from '@common/utils';
 import { IconButtonComponent } from '@ui/components/icon-button';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {

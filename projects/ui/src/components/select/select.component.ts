@@ -15,8 +15,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
-import { FormFieldStatus, FormOption } from '@fixcommon/types';
-import { cssClassesList, uniqueId } from '@fixcommon/utils';
+import { FormFieldStatus, FormOption } from '@common/types';
+import { cssClassesList, uniqueId } from '@common/utils';
 
 import { SelectComponentLabels } from './types';
 

@@ -12,8 +12,8 @@ import {
   NOTIFICATION_POSITION,
   NotificationPosition,
   RuntimeNotification,
-} from '@fixcommon/types';
-import { cssClassesList } from '@fixcommon/utils';
+} from '@common/types';
+import { cssClassesList } from '@common/utils';
 
 import { NotificationComponent } from '../notification/notification.component';
 

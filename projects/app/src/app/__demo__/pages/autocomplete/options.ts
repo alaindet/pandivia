@@ -1,4 +1,4 @@
-import { capitalize } from '@fixcommon/utils';
+import { capitalize } from '@common/utils';
 
 export const OPTIONS: { id: string; word: string }[] = [
   'accessories',

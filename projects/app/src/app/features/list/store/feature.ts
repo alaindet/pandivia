@@ -13,7 +13,7 @@ import {
   LOADING_STATUS,
   LoadingStatus,
   UnixTimestamp,
-} from '@fixcommon/types';
+} from '@common/types';
 
 import {
   CategorizedItems,

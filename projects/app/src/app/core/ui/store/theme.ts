@@ -2,7 +2,7 @@ import { computed, effect, inject, signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 
-import { LocalStorageItem } from '@fixcommon/utils';
+import { LocalStorageItem } from '@common/utils';
 import {
   DEFAULT_THEME,
   Theme,

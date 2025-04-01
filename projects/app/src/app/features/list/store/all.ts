@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { LOADING_STATUS } from '@fixcommon/types';
+import { LOADING_STATUS } from '@common/types';
 
 import { updateStore } from '@app/common/store';
 import { ListStore } from './feature';

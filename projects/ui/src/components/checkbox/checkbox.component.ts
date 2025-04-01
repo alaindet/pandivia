@@ -19,8 +19,8 @@ import {
 } from '@angular/core';
 import { Subscription, filter, fromEvent, merge } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { KEYBOARD_KEY as KB } from '@fixcommon/types';
-import { cssClassesList, uniqueId } from '@fixcommon/utils';
+import { KEYBOARD_KEY as KB } from '@common/types';
+import { cssClassesList, uniqueId } from '@common/utils';
 
 import { CheckboxColor } from './types';
 

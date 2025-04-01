@@ -1,5 +1,5 @@
 {
-  "name": "fixcommon-types",
+  "name": "common-types",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^19.2.0",

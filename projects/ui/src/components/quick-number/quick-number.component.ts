@@ -19,7 +19,7 @@ import {
 } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { matRemove, matAdd } from '@ng-icons/material-icons/baseline';
-import { uniqueId } from '@fixcommon/utils';
+import { uniqueId } from '@common/utils';
 import {
   IconButtonColor,
   IconButtonComponent,

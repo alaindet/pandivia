@@ -7,7 +7,7 @@ import {
   LANGUAGE_OPTIONS,
   LANGUAGE_STORAGE_KEY,
 } from '@app/core/language';
-import { LocalStorageItem } from '@fixcommon/utils';
+import { LocalStorageItem } from '@common/utils';
 
 export function createUserLanguageController() {
   const transloco = inject(TranslocoService);

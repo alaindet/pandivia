@@ -15,9 +15,9 @@ import {
 } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { FormOption } from '@fixcommon/types';
+import { FormOption } from '@common/types';
 import { MediaQueryService } from '@ui/services';
-import { getFieldDescriptor as fDescribe } from '@fixcommon/utils';
+import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { ButtonComponent } from '@ui/components/button';
 import { ToggleComponent } from '@ui/components/toggle';

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormControlDescriptor } from '@fixcommon/types';
-import { fieldDescriptorHasError } from '@fixcommon/utils';
+import { FormControlDescriptor } from '@common/types';
+import { fieldDescriptorHasError } from '@common/utils';
 
 // myFormControl | appFieldError:'required'
 // myFormControl | appFieldError:'minlength,maxlength'

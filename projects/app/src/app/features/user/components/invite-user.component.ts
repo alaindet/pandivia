@@ -12,7 +12,7 @@ import { UiStore } from '@app/core/ui';
 import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
-} from '@fixcommon/utils';
+} from '@common/utils';
 import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
 import { InvitesService } from '../services';
 

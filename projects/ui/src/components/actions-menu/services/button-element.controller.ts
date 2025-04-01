@@ -1,7 +1,7 @@
 import { Renderer2, effect, inject, signal } from '@angular/core';
 import { Subject, fromEvent, takeUntil } from 'rxjs';
-import { KEYBOARD_KEY as KB } from '@fixcommon/types';
-import { onKeydown } from '@fixcommon/utils';
+import { KEYBOARD_KEY as KB } from '@common/types';
+import { onKeydown } from '@common/utils';
 
 import { ACTIONS_MENU_BUTTON_FOCUSED } from '../types';
 import { ActionsMenuService } from './actions-menu.service';

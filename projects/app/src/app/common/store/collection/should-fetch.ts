@@ -1,4 +1,4 @@
-import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@fixcommon/types';
+import { LOADING_STATUS, LoadingStatus, UnixTimestamp } from '@common/types';
 
 export function shouldFetchCollection<T extends Record<string, any>>(
   items: T[],

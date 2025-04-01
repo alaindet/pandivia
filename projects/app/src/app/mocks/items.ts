@@ -1,4 +1,4 @@
-import { getRandomHash } from '@fixcommon/utils';
+import { getRandomHash } from '@common/utils';
 
 import { ListItem } from '@app/features/list';
 import { InventoryItem } from '@app/features/inventory';

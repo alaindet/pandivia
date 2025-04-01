@@ -18,7 +18,7 @@ import {
   matCheckCircle,
   matReportProblem,
 } from '@ng-icons/material-icons/baseline';
-import { NOTIFICATION_TYPE, NotificationType } from '@fixcommon/types';
+import { NOTIFICATION_TYPE, NotificationType } from '@common/types';
 
 const NOTIFICATION_ICON: Record<NotificationType, string> = {
   [NOTIFICATION_TYPE.SUCCESS]: matCheckCircle,

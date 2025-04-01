@@ -2,7 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { provideFeedback, updateStore } from '@app/common/store';
-import { LOADING_STATUS, LoadingStatus } from '@fixcommon/types';
+import { LOADING_STATUS, LoadingStatus } from '@common/types';
 import { filter, map, take } from 'rxjs';
 
 import { DEFAULT_ROUTE } from '@app/app.routes';

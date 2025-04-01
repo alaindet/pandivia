@@ -14,7 +14,7 @@ import {
   LOADING_STATUS,
   LoadingStatus,
   UnixTimestamp,
-} from '@fixcommon/types';
+} from '@common/types';
 import { UserStore } from '@app/features/user/store';
 import { UiStore } from '@app/core/ui/store';
 import { InventoryService } from '../services';

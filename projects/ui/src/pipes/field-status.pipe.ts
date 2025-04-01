@@ -3,7 +3,7 @@ import {
   FORM_FIELD_STATUS,
   FormFieldStatus,
   FormControlDescriptor,
-} from '@fixcommon/types';
+} from '@common/types';
 
 // myFormControl | appFieldStatus
 @Pipe({

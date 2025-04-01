@@ -1,4 +1,4 @@
-import { EnumLike } from '@fixcommon/types';
+import { EnumLike } from '@common/types';
 
 export const LIST_FILTER = {
   CATEGORY: 'category',
