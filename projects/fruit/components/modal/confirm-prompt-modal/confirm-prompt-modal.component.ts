@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BaseModalComponent, ModalHeaderDirective } from '@ui/components/modal';
 import { ConfirmPromptModalInput, ConfirmPromptModalOutput } from './types';
+import { ModalHeaderDirective } from '../modal-header.directive';
+import { BaseModalComponent } from '../types';
 
 @Component({
   selector: 'app-confirm-prompt-modal',

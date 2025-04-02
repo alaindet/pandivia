@@ -6,7 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { BaseModalComponent, ModalHeaderDirective } from '@ui/components/modal';
+import {
+  BaseModalComponent,
+  ModalHeaderDirective,
+} from '@fruit/components/modal';
 import { ModalOneInput, ModalOneOutput } from './types';
 
 @Component({

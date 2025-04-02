@@ -5,12 +5,24 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import {
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldHintComponent,
+  FormFieldLabelComponent,
+} from '@fruit/components/form-field';
 import { TextInputComponent } from '@fruit/components/text-input';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 
 @Component({
   selector: 'app-demo-form-field',
-  imports: [...FORM_FIELD_EXPORTS, ReactiveFormsModule, TextInputComponent],
+  imports: [
+    FormFieldComponent,
+    FormFieldErrorComponent,
+    FormFieldHintComponent,
+    FormFieldLabelComponent,
+    ReactiveFormsModule,
+    TextInputComponent,
+  ],
   templateUrl: './form-field.component.html',
   styles: [
     `

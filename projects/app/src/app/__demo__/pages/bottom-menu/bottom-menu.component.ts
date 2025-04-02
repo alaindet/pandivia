@@ -4,7 +4,7 @@ import { matList, matPerson, matStar } from '@ng-icons/material-icons/baseline';
 import {
   BottomMenuComponent,
   BottomMenuItem,
-} from '@ui/components/bottom-menu';
+} from '@fruit/components/bottom-menu';
 
 @Component({
   selector: 'app-demo-bottom-navigation',

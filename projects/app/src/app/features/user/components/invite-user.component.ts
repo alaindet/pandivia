@@ -1,21 +1,24 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoModule } from '@jsverse/transloco';
-import { finalize } from 'rxjs';
-import { NgIcon } from '@ng-icons/core';
-import { matPersonAdd } from '@ng-icons/material-icons/baseline';
-import { ButtonComponent } from '@fruit/components/button';
-import { TextInputComponent } from '@fruit/components/text-input';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
-import {
-  FieldErrorPipe,
-  FieldErrorIdPipe,
-  FieldStatusPipe,
-} from '@fruit/pipes';
 import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
 } from '@common/utils';
+import { ButtonComponent } from '@fruit/components/button';
+import {
+  FormFieldComponent,
+  FormFieldErrorComponent,
+} from '@fruit/components/form-field';
+import { TextInputComponent } from '@fruit/components/text-input';
+import {
+  FieldErrorIdPipe,
+  FieldErrorPipe,
+  FieldStatusPipe,
+} from '@fruit/pipes';
+import { TranslocoModule } from '@jsverse/transloco';
+import { NgIcon } from '@ng-icons/core';
+import { matPersonAdd } from '@ng-icons/material-icons/baseline';
+import { finalize } from 'rxjs';
 
 import { UiStore } from '@app/core/ui';
 import { InvitesService } from '../services';
@@ -31,7 +34,8 @@ import { InvitesService } from '../services';
     FieldErrorPipe,
     FieldErrorIdPipe,
     FieldStatusPipe,
-    ...FORM_FIELD_EXPORTS,
+    FormFieldComponent,
+    FormFieldErrorComponent,
   ],
   templateUrl: './invite-user.component.html',
   styleUrl: './invite-user.component.css',

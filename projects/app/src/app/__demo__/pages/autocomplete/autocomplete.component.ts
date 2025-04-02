@@ -1,22 +1,23 @@
-import { Component } from '@angular/core';
 import { JsonPipe } from '@angular/common';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, delay, of } from 'rxjs';
-import { TextInputComponent } from '@fruit/components/text-input';
+import {
+  AutocompleteComponent,
+  AutocompleteOptionDirective,
+  AutocompleteAsyncOptionsFn,
+  AutocompleteOption,
+} from '@fruit/components/autocomplete';
 import {
   FormFieldComponent,
   FormFieldLabelComponent,
-} from '@ui/components/form-field';
-import {
-  AutocompleteAsyncOptionsFn,
-  AutocompleteOption,
-  AUTOCOMPLETE_EXPORTS,
-} from '@ui/components/autocomplete';
+} from '@fruit/components/form-field';
+import { TextInputComponent } from '@fruit/components/text-input';
+import { Observable, delay, of } from 'rxjs';
 
 import { OPTIONS } from './options';
 
@@ -26,7 +27,8 @@ import { OPTIONS } from './options';
     ReactiveFormsModule,
     JsonPipe,
     TextInputComponent,
-    ...AUTOCOMPLETE_EXPORTS,
+    AutocompleteComponent,
+    AutocompleteOptionDirective,
     FormFieldComponent,
     FormFieldLabelComponent,
   ],

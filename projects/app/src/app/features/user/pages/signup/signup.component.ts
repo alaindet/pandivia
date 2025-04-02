@@ -5,24 +5,28 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgIcon } from '@ng-icons/core';
-import { matPerson } from '@ng-icons/material-icons/baseline';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoModule } from '@jsverse/transloco';
-import { finalize } from 'rxjs';
+import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { ButtonComponent } from '@fruit/components/button';
+import {
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldLabelComponent,
+} from '@fruit/components/form-field';
 import { PageHeaderComponent } from '@fruit/components/page-header';
 import { TextInputComponent } from '@fruit/components/text-input';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import {
-  FieldErrorPipe,
   FieldErrorIdPipe,
+  FieldErrorPipe,
   FieldStatusPipe,
 } from '@fruit/pipes';
-import { getFieldDescriptor as fDescribe } from '@common/utils';
+import { TranslocoModule } from '@jsverse/transloco';
+import { NgIcon } from '@ng-icons/core';
+import { matPerson } from '@ng-icons/material-icons/baseline';
+import { finalize } from 'rxjs';
 
-import { UiStore } from '@app/core/ui';
 import { DEFAULT_ROUTE } from '@app/app.routes';
+import { UiStore } from '@app/core/ui';
 import { InvitesService } from '../../services';
 import { SignUpUserDto, UserInvite } from '../../types';
 import { SIGNUP_FIELD as FIELD } from './fields';
@@ -39,7 +43,9 @@ import { SIGNUP_FIELD as FIELD } from './fields';
     FieldErrorPipe,
     FieldErrorIdPipe,
     FieldStatusPipe,
-    ...FORM_FIELD_EXPORTS,
+    FormFieldComponent,
+    FormFieldErrorComponent,
+    FormFieldLabelComponent,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',

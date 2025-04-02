@@ -22,8 +22,11 @@ import {
 import { MediaQueryService } from '@fruit/services';
 import { ButtonComponent } from '@fruit/components/button';
 import { IconButtonComponent } from '@fruit/components/icon-button';
-import { CardListComponent, ItemActionOutput } from '@ui/components/card-list';
-import { ModalService } from '@ui/components/modal';
+import {
+  CardListComponent,
+  ItemActionOutput,
+} from '@fruit/components/card-list';
+import { ModalService } from '@fruit/components/modal';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
@@ -32,7 +35,7 @@ import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
   ConfirmPromptModalOutput,
-} from '@ui/components/confirm-prompt-modal';
+} from '@fruit/components/modal';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 
 import { StackedLayoutService } from '@app/common/layouts';

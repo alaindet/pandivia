@@ -7,18 +7,22 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgIcon } from '@ng-icons/core';
-import { matLogin } from '@ng-icons/material-icons/baseline';
-import { TranslocoModule } from '@jsverse/transloco';
+import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { ButtonComponent } from '@fruit/components/button';
-import { TextInputComponent } from '@fruit/components/text-input';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import {
-  FieldErrorPipe,
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldLabelComponent,
+} from '@fruit/components/form-field';
+import { TextInputComponent } from '@fruit/components/text-input';
+import {
   FieldErrorIdPipe,
+  FieldErrorPipe,
   FieldStatusPipe,
 } from '@fruit/pipes';
-import { getFieldDescriptor as fDescribe } from '@common/utils';
+import { TranslocoModule } from '@jsverse/transloco';
+import { NgIcon } from '@ng-icons/core';
+import { matLogin } from '@ng-icons/material-icons/baseline';
 
 import { UserCredentials } from '@app/features/user';
 import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
@@ -34,7 +38,9 @@ import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
     FieldErrorPipe,
     FieldErrorIdPipe,
     FieldStatusPipe,
-    ...FORM_FIELD_EXPORTS,
+    FormFieldComponent,
+    FormFieldErrorComponent,
+    FormFieldLabelComponent,
   ],
   templateUrl: './user-credentials-form.component.html',
   styleUrl: './user-credentials-form.component.css',

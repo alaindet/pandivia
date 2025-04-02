@@ -5,40 +5,46 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgIcon } from '@ng-icons/core';
-import {
-  matClear,
-  matSync,
-  matEdit,
-  matPlaylistAdd,
-  matAdd,
-} from '@ng-icons/material-icons/baseline';
-import { TranslocoModule } from '@jsverse/transloco';
-import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
-import { MediaQueryService } from '@fruit/services';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import {
-  FieldErrorPipe,
-  FieldErrorIdPipe,
-  FieldStatusPipe,
-} from '@fruit/pipes';
+  AutocompleteComponent,
+  AutocompleteOptionDirective,
+  AutocompleteAsyncOptionsFn,
+  AutocompleteOption,
+} from '@fruit/components/autocomplete';
 import { ButtonComponent } from '@fruit/components/button';
-import { ToggleComponent } from '@fruit/components/toggle';
-import { QuickNumberComponent } from '@fruit/components/quick-number';
+import {
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldHintComponent,
+  FormFieldLabelComponent,
+} from '@fruit/components/form-field';
 import {
   BaseModalComponent,
   ModalFooterDirective,
   ModalHeaderDirective,
-} from '@ui/components/modal';
+} from '@fruit/components/modal';
+import { QuickNumberComponent } from '@fruit/components/quick-number';
 import { TextInputComponent } from '@fruit/components/text-input';
 import { TextareaComponent } from '@fruit/components/textarea';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
+import { ToggleComponent } from '@fruit/components/toggle';
 import {
-  AUTOCOMPLETE_EXPORTS,
-  AutocompleteAsyncOptionsFn,
-  AutocompleteOption,
-} from '@ui/components/autocomplete';
+  FieldErrorIdPipe,
+  FieldErrorPipe,
+  FieldStatusPipe,
+} from '@fruit/pipes';
+import { MediaQueryService } from '@fruit/services';
+import { TranslocoModule } from '@jsverse/transloco';
+import { NgIcon } from '@ng-icons/core';
+import {
+  matAdd,
+  matClear,
+  matEdit,
+  matPlaylistAdd,
+  matSync,
+} from '@ng-icons/material-icons/baseline';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UiStore } from '@app/core/ui';
@@ -70,8 +76,12 @@ import {
     FieldErrorPipe,
     FieldErrorIdPipe,
     FieldStatusPipe,
-    ...FORM_FIELD_EXPORTS,
-    ...AUTOCOMPLETE_EXPORTS,
+    FormFieldComponent,
+    FormFieldErrorComponent,
+    FormFieldHintComponent,
+    FormFieldLabelComponent,
+    AutocompleteComponent,
+    AutocompleteOptionDirective,
   ],
   templateUrl: './item-form-modal.component.html',
   styleUrl: './item-form-modal.component.css',

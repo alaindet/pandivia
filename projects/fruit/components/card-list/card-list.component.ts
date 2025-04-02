@@ -20,7 +20,7 @@ import {
   matMoreHoriz,
   matPushPin,
 } from '@ng-icons/material-icons/baseline';
-import { CheckboxComponent, CheckboxColor } from '@ui/components/checkbox';
+import { CheckboxComponent, CheckboxColor } from '@fruit/components/checkbox';
 import { ButtonComponent } from '@fruit/components/button';
 import { IconButtonComponent } from '@fruit/components/icon-button';
 import {

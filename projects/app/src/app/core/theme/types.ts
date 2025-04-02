@@ -1,6 +1,6 @@
 import { EnumLike } from '@common/types';
-import { CheckboxColor } from '@ui/components/checkbox';
-import { ButtonColor } from '@root/projects/fruit/components/button';
+import { CheckboxColor } from '@fruit/components/checkbox';
+import { ButtonColor } from '@fruit/components/button';
 
 import { LinearSpinnerColor } from '@fruit/components/linear-spinner';
 

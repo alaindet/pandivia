@@ -1,8 +1,9 @@
 {
-  "name": "fruit-components-page-header",
+  "name": "fruit-components-card-list",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0",
     "@ng-icons/core": "^31.2.0",
     "@ng-icons/material-icons": "^31.2.0"
   },

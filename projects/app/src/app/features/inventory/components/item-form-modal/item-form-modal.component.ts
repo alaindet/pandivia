@@ -23,15 +23,20 @@ import {
   BaseModalComponent,
   ModalFooterDirective,
   ModalHeaderDirective,
-} from '@ui/components/modal';
+} from '@fruit/components/modal';
 import { TextInputComponent } from '@fruit/components/text-input';
 import { TextareaComponent } from '@fruit/components/textarea';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
 import {
-  AUTOCOMPLETE_EXPORTS,
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldLabelComponent,
+} from '@fruit/components/form-field';
+import {
+  AutocompleteComponent,
+  AutocompleteOptionDirective,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
-} from '@ui/components/autocomplete';
+} from '@fruit/components/autocomplete';
 
 import {
   FieldErrorPipe,
@@ -64,8 +69,11 @@ import {
     FieldErrorPipe,
     FieldErrorIdPipe,
     FieldStatusPipe,
-    ...FORM_FIELD_EXPORTS,
-    ...AUTOCOMPLETE_EXPORTS,
+    FormFieldComponent,
+    FormFieldErrorComponent,
+    FormFieldLabelComponent,
+    AutocompleteComponent,
+    AutocompleteOptionDirective,
   ],
   templateUrl: './item-form-modal.component.html',
   styleUrl: './item-form-modal.component.css',

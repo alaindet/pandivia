@@ -14,14 +14,17 @@ import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 import { MediaQueryService } from '@fruit/services';
 import { ButtonComponent } from '@fruit/components/button';
 import { IconButtonComponent } from '@fruit/components/icon-button';
-import { CardListComponent } from '@ui/components/card-list';
+import { CardListComponent } from '@fruit/components/card-list';
 import { ActionsMenuItem } from '@ui/components/actions-menu';
-import { ItemActionOutput, ItemToggledOutput } from '@ui/components/card-list';
-import { ModalService } from '@ui/components/modal';
+import {
+  ItemActionOutput,
+  ItemToggledOutput,
+} from '@fruit/components/card-list';
+import { ModalService } from '@fruit/components/modal';
 import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
-} from '@ui/components/confirm-prompt-modal';
+} from '@fruit/components/modal';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 
 import { StackedLayoutService } from '@app/common/layouts';

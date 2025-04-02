@@ -7,7 +7,7 @@ import {
   BaseModalComponent,
   ModalFooterDirective,
   ModalHeaderDirective,
-} from '@ui/components/modal';
+} from '@fruit/components/modal';
 
 import { ChangeCategoryModalInput, ChangeCategoryModalOutput } from './types';
 

@@ -14,7 +14,7 @@ import { IconButtonComponent } from '@fruit/components/icon-button';
 import {
   BottomMenuComponent,
   BottomMenuItem,
-} from '@ui/components/bottom-menu';
+} from '@fruit/components/bottom-menu';
 import {
   ACTIONS_MENU_EXPORTS,
   ActionsMenuItem,
