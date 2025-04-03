@@ -1,5 +1,9 @@
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore, connectFirestoreEmulator } from '@angular/fire/firestore';
+import {
+  getFirestore,
+  provideFirestore,
+  connectFirestoreEmulator,
+} from '@angular/fire/firestore';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 
 import { environment } from '@app/environment';

@@ -55,7 +55,7 @@ export class InventoryStore {
   private user = inject(UserStore);
   private transloco = inject(TranslocoService);
 
-  // Substores --------------------------------------------------------------
+  // Substores ----------------------------------------------------------------
   allItems = new InventoryAllItemsSubstore(this);
   categoryItems = new InventoryCategoryItemsSubstore(this);
   searchFilters = new InventorySearchFiltersSubstore(this);

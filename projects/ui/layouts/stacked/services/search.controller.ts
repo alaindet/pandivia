@@ -16,6 +16,12 @@ export function createSearchController() {
     enabled.set(true);
   }
 
+  function reset() {
+    enabled.set(false);
+    visible.set(false);
+    query.set('');
+  }
+
   function disable() {
     enabled.set(false);
   }
@@ -67,6 +73,7 @@ export function createSearchController() {
 
     enable,
     disable,
+    reset,
     show,
     hide,
     toggle,
