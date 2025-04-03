@@ -25,14 +25,14 @@
     [attr.aria-label]="clearLabel()"
     (click)="onClearInput()"
   >
-    <ng-icon [svg]="matClear" />
+    <ng-icon [svg]="icon.matClear" />
   </button>
   }
 
   <!-- Status icon -->
   @if (withStatusIcon() && status()) {
   <ng-icon
-    [svg]="status() === 'success' ? matCheck : matClear"
+    [svg]="status() === 'success' ? icon.matCheck : icon.matClear"
     width="1rem"
     class="_status-icon"
   />

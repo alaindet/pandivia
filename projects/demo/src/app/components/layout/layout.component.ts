@@ -16,8 +16,7 @@ import { IconButtonComponent } from '@ui/components';
 export class DemoLayoutComponent implements OnInit {
   private router = inject(Router);
 
-  matMenu = matMenu;
-  matClose = matClose;
+  icon = { matClose, matMenu };
 
   @HostBinding('class.-mobile')
   get cssClassMobile() {

@@ -72,14 +72,15 @@ export class CardListComponent {
   pinned = output<boolean>();
   pinnedLabel = computed(() => this.labels()?.pinned);
   unpinnedLabel = computed(() => this.labels()?.unpinned);
-
-  matCheck = matCheck;
-  matClear = matClear;
-  matClose = matClose;
-  matExpandLess = matExpandLess;
-  matExpandMore = matExpandMore;
-  matMoreHoriz = matMoreHoriz;
-  matPushPin = matPushPin;
+  icon = {
+    matCheck,
+    matClear,
+    matClose,
+    matExpandLess,
+    matExpandMore,
+    matMoreHoriz,
+    matPushPin,
+  };
 
   @HostBinding('class.-muted-title')
   get cssClassMutedTitle() {

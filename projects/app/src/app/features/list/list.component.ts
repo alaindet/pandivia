@@ -77,12 +77,11 @@ export class ListPageComponent implements OnInit, OnDestroy {
   filters = computed(() => this.computeTranslatedFilters());
   getItemContextualMenu = this.getTranslatedItemContextualMenuFn();
   counters = this.listStore.counters;
+  icon = { matAdd, matClear };
+
   pageCountersEffect = effect(() =>
     this.layout.headerCounters.set(this.counters())
   );
-
-  matClear = matClear;
-  matAdd = matAdd;
 
   ngOnInit() {
     this.initPageMetadata();

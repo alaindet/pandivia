@@ -10,5 +10,5 @@ import { ButtonComponent } from '@ui/components';
   styleUrl: './button.component.css',
 })
 export class ButtonDemoPageComponent {
-  matSearch = matSearch;
+  icon = { matSearch };
 }

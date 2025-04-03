@@ -83,12 +83,11 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   filters = computed(() => this.computeTranslatedFilters());
   pinnedCategory = this.inventoryStore.categoryFilter;
   counters = this.inventoryStore.counters;
+  icon = { matAdd, matClear };
+
   pageCountersEffect = effect(() =>
     this.layout.headerCounters.set(this.counters())
   );
-
-  matClear = matClear;
-  matAdd = matAdd;
 
   ngOnInit() {
     this.initPageMetadata();

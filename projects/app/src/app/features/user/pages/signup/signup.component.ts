@@ -59,7 +59,7 @@ export default class SignUpPageComponent implements OnInit {
   invite?: UserInvite;
   theForm!: FormGroup;
   FIELD = FIELD;
-  matPerson = matPerson;
+  icon = { matPerson };
 
   get fName() {
     return fDescribe(this.theForm, FIELD.NAME.id);

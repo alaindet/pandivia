@@ -22,7 +22,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
-import { matRemove, matAdd } from '@ng-icons/material-icons/baseline';
+import { matAdd, matRemove } from '@ng-icons/material-icons/baseline';
 import { uniqueId } from '@common/utils';
 
 import { IconButtonColor, IconButtonComponent } from '../icon-button';
@@ -61,8 +61,7 @@ export class QuickNumberComponent implements ControlValueAccessor {
 
   changed = output<number>();
 
-  matAdd = matAdd;
-  matRemove = matRemove;
+  icon = { matAdd, matRemove };
 
   @HostBinding('attr.aria-errormessage')
   get attrAriaErrorMessage() {

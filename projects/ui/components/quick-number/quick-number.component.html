@@ -10,7 +10,7 @@
   [attr.aria-label]="decrementLabel()"
   (click)="onDecrement()"
 >
-  <ng-icon [svg]="matRemove" />
+  <ng-icon [svg]="icon.matRemove" />
 </button>
 
 <span class="_value">{{ value() }}</span>
@@ -27,5 +27,5 @@
   title="Increment value"
   (click)="onIncrement()"
 >
-  <ng-icon [svg]="matAdd" />
+  <ng-icon [svg]="icon.matAdd" />
 </button>

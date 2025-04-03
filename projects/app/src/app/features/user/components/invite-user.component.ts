@@ -1,10 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
 } from '@common/utils';
-import { ButtonComponent } from '@ui/components';
+import { ButtonComponent, FormControlDescriptor } from '@ui/components';
 import { FormFieldComponent, FormFieldErrorComponent } from '@ui/components';
 import { TextInputComponent } from '@ui/components';
 import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
@@ -33,19 +38,21 @@ import { InvitesService } from '../services';
   templateUrl: './invite-user.component.html',
   styleUrl: './invite-user.component.css',
 })
-export class InviteUserComponent {
+export class InviteUserComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private uiStore = inject(UiStore);
   private invitesService = inject(InvitesService);
 
   inviteUrl: string | null = null;
-  matPersonAdd = matPersonAdd;
-  theForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-  });
+  icon = { matPersonAdd };
+  theForm!: FormGroup;
 
-  get fEmail() {
+  get fEmail(): FormControlDescriptor {
     return fDescribe(this.theForm, 'email');
+  }
+
+  ngOnInit() {
+    this.initForm();
   }
 
   onGenerateLink() {
@@ -71,5 +78,11 @@ export class InviteUserComponent {
           copyToClipboard(url);
         },
       });
+  }
+
+  private initForm(): void {
+    this.theForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
   }
 }

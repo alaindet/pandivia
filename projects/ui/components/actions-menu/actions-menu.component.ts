@@ -45,7 +45,6 @@ export class ActionsMenuComponent implements OnInit {
   actions = input.required<ActionsMenuItem[]>();
   position = input<'left' | 'right'>('left');
   offsetY = input('0');
-  matMoreHoriz = matMoreHoriz;
 
   actionConfirmed = output<string>();
 
@@ -58,6 +57,7 @@ export class ActionsMenuComponent implements OnInit {
     return typeof offsetY === 'number' ? `${offsetY}px` : offsetY;
   });
 
+  icon = { matMoreHoriz };
   buttonTemplate = this.svc.templates.button;
   itemTemplate = this.svc.templates.item;
   isOpen = this.svc.menu.isOpen;

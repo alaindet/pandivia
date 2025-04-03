@@ -90,12 +90,13 @@ export class InventoryItemFormModalComponent
   isEditing = signal(false);
   isSaving = this.inventoryStore.isLoading;
   shouldContinue = false;
-
-  matClear = matClear;
-  matSync = matSync;
-  matEdit = matEdit;
-  matPlaylistAdd = matPlaylistAdd;
-  matAdd = matAdd;
+  icon = {
+    matClear,
+    matSync,
+    matEdit,
+    matPlaylistAdd,
+    matAdd,
+  };
 
   get fName() {
     return fDescribe(this.theForm, FIELD.NAME.id);
