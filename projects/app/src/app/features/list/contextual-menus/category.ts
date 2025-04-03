@@ -1,4 +1,4 @@
-import { ActionsMenuItem } from '@fruit/components';
+import { ActionsMenuItem } from '@ui/components';
 import {
   matAddCircle,
   matCheck,

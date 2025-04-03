@@ -7,7 +7,7 @@ import {
   matSearch,
   matPhone,
 } from '@ng-icons/material-icons/baseline';
-import { IconButtonComponent } from '@fruit/components';
+import { IconButtonComponent } from '@ui/components';
 
 @Component({
   selector: 'app-demo-icon-button',

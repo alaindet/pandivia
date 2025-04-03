@@ -1,4 +1,4 @@
-import { ConfirmPromptModalInput } from '@fruit/components';
+import { ConfirmPromptModalInput } from '@ui/components';
 
 export const UPGRADE_APPLICATION_ACTION = 'upgrade-application';
 

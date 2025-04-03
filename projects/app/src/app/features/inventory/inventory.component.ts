@@ -19,17 +19,17 @@ import {
   take,
   takeUntil,
 } from 'rxjs';
-import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@fruit/components';
-import { IconButtonComponent } from '@fruit/components';
-import { CardListComponent, CardListItemActionOutput } from '@fruit/components';
-import { ModalService } from '@fruit/components';
-import { ActionsMenuItem } from '@fruit/components';
+import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components';
+import { IconButtonComponent } from '@ui/components';
+import { CardListComponent, CardListItemActionOutput } from '@ui/components';
+import { ModalService } from '@ui/components';
+import { ActionsMenuItem } from '@ui/components';
 import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
   ConfirmPromptModalOutput,
-} from '@fruit/components';
+} from '@ui/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 
 import { StackedLayoutService } from '@app/common/layouts';

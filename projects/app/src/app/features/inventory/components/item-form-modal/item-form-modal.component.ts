@@ -17,32 +17,28 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@fruit/components';
+import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components';
 import {
   BaseModalComponent,
   ModalFooterDirective,
   ModalHeaderDirective,
-} from '@fruit/components';
-import { TextInputComponent } from '@fruit/components';
-import { TextareaComponent } from '@fruit/components';
+} from '@ui/components';
+import { TextInputComponent } from '@ui/components';
+import { TextareaComponent } from '@ui/components';
 import {
   FormFieldComponent,
   FormFieldErrorComponent,
   FormFieldLabelComponent,
-} from '@fruit/components';
+} from '@ui/components';
 import {
   AutocompleteComponent,
   AutocompleteOptionDirective,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
-} from '@fruit/components';
+} from '@ui/components';
 
-import {
-  FieldErrorPipe,
-  FieldErrorIdPipe,
-  FieldStatusPipe,
-} from '@fruit/pipes';
+import { FieldErrorPipe, FieldErrorIdPipe, FieldStatusPipe } from '@ui/pipes';
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { InventoryStore } from '../../store';
 import { CreateInventoryItemDto, InventoryItem } from '../../types';

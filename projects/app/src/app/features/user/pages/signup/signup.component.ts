@@ -7,19 +7,15 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-import { ButtonComponent } from '@fruit/components';
+import { ButtonComponent } from '@ui/components';
 import {
   FormFieldComponent,
   FormFieldErrorComponent,
   FormFieldLabelComponent,
-} from '@fruit/components';
-import { PageHeaderComponent } from '@fruit/components';
-import { TextInputComponent } from '@fruit/components';
-import {
-  FieldErrorIdPipe,
-  FieldErrorPipe,
-  FieldStatusPipe,
-} from '@fruit/pipes';
+} from '@ui/components';
+import { PageHeaderComponent } from '@ui/components';
+import { TextInputComponent } from '@ui/components';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NgIcon } from '@ng-icons/core';
 import { matPerson } from '@ng-icons/material-icons/baseline';

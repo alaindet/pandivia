@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
-import { MediaQueryService } from '@fruit/services';
+import { MediaQueryService } from '@ui/services';
 
 import { APP_ROUTES } from './app.routes';
 import { TRANSLOCO_PROVIDERS } from './core/config/transloco';

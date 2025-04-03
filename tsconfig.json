@@ -26,7 +26,7 @@
       "@app/*": ["projects/app/src/app/*"],
       "@app/environment": ["projects/app/src/environments/environment.ts"],
       "@common/*": ["./dist/common/*"],
-      "@fruit/*": ["./dist/fruit/*"]
+      "@ui/*": ["./dist/ui/*"]
     }
   },
   "angularCompilerOptions": {

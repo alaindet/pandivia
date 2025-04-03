@@ -3,7 +3,7 @@ import {
   CardListComponent,
   CardListItemActionOutput,
   CardListItemToggledOutput,
-} from '@fruit/components';
+} from '@ui/components';
 
 import { MOCK_INVENTORY_ITEMS, MOCK_LIST_ITEMS } from '@app/mocks';
 import {

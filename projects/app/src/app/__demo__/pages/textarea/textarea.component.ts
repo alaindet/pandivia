@@ -12,9 +12,9 @@ import {
   FormFieldErrorComponent,
   FormFieldHintComponent,
   FormFieldLabelComponent,
-} from '@fruit/components';
-import { TextareaComponent } from '@fruit/components';
-import { FieldErrorPipe, FieldStatusPipe } from '@fruit/pipes';
+} from '@ui/components';
+import { TextareaComponent } from '@ui/components';
+import { FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
 
 const FIELD = {
   MY_TEXTAREA: 'myTextarea',

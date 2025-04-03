@@ -4,13 +4,13 @@ import {
   matTaskAlt,
   matUndo,
 } from '@ng-icons/material-icons/baseline';
-import { ButtonComponent } from '@fruit/components';
+import { ButtonComponent } from '@ui/components';
 import {
   ActionsMenuComponent,
   ActionsMenuButtonDirective,
   ActionsMenuItemDirective,
   ActionsMenuItem,
-} from '@fruit/components';
+} from '@ui/components';
 
 @Component({
   selector: 'app-demo-actions-menu',

@@ -2,10 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { filter, take } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
-import { ModalService } from '@fruit/components';
+import { ModalService } from '@ui/components';
 
 import { UPGRADE_APPLICATION_PROMPT } from './prompt';
-import { ConfirmPromptModalComponent } from '@fruit/components';
+import { ConfirmPromptModalComponent } from '@ui/components';
 
 @Injectable({
   providedIn: 'root',

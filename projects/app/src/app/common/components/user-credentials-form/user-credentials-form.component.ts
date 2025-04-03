@@ -8,18 +8,14 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-import { ButtonComponent } from '@fruit/components';
+import { ButtonComponent } from '@ui/components';
 import {
   FormFieldComponent,
   FormFieldErrorComponent,
   FormFieldLabelComponent,
-} from '@fruit/components';
-import { TextInputComponent } from '@fruit/components';
-import {
-  FieldErrorIdPipe,
-  FieldErrorPipe,
-  FieldStatusPipe,
-} from '@fruit/pipes';
+} from '@ui/components';
+import { TextInputComponent } from '@ui/components';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NgIcon } from '@ng-icons/core';
 import { matLogin } from '@ng-icons/material-icons/baseline';

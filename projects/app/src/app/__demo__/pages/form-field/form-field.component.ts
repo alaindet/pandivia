@@ -10,8 +10,8 @@ import {
   FormFieldErrorComponent,
   FormFieldHintComponent,
   FormFieldLabelComponent,
-} from '@fruit/components';
-import { TextInputComponent } from '@fruit/components';
+} from '@ui/components';
+import { TextInputComponent } from '@ui/components';
 
 @Component({
   selector: 'app-demo-form-field',

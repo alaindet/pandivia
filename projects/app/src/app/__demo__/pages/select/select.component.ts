@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { SelectComponent } from '@fruit/components';
+import { SelectComponent } from '@ui/components';
 
 import { FormOption } from '@common/types';
 

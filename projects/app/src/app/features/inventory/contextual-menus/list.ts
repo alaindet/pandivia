@@ -1,4 +1,4 @@
-import { ActionsMenuItem } from '@fruit/components';
+import { ActionsMenuItem } from '@ui/components';
 import { matRefresh } from '@ng-icons/material-icons/baseline';
 
 export const LIST_ACTION_REFRESH: ActionsMenuItem = {

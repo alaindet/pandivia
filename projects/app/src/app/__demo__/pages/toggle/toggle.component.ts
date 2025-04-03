@@ -10,8 +10,8 @@ import {
   FormFieldComponent,
   FormFieldHintComponent,
   FormFieldLabelComponent,
-} from '@fruit/components';
-import { ToggleComponent } from '@fruit/components';
+} from '@ui/components';
+import { ToggleComponent } from '@ui/components';
 
 @Component({
   selector: 'app-demo-toggle',

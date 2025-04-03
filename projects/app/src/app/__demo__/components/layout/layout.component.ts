@@ -3,9 +3,9 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matClose, matMenu } from '@ng-icons/material-icons/baseline';
-import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@fruit/components';
-import { IconButtonComponent } from '@fruit/components';
+import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components';
+import { IconButtonComponent } from '@ui/components';
 
 @Component({
   selector: 'app-demo-layout',

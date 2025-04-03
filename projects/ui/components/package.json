@@ -1,5 +1,5 @@
 {
-  "name": "fruit-components",
+  "name": "ui-components",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^19.2.3",

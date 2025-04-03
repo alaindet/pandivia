@@ -4,14 +4,10 @@ import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
 } from '@common/utils';
-import { ButtonComponent } from '@fruit/components';
-import { FormFieldComponent, FormFieldErrorComponent } from '@fruit/components';
-import { TextInputComponent } from '@fruit/components';
-import {
-  FieldErrorIdPipe,
-  FieldErrorPipe,
-  FieldStatusPipe,
-} from '@fruit/pipes';
+import { ButtonComponent } from '@ui/components';
+import { FormFieldComponent, FormFieldErrorComponent } from '@ui/components';
+import { TextInputComponent } from '@ui/components';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NgIcon } from '@ng-icons/core';
 import { matPersonAdd } from '@ng-icons/material-icons/baseline';

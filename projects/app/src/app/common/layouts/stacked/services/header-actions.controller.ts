@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { ActionsMenuItem } from '@fruit/components';
+import { ActionsMenuItem } from '@ui/components';
 
 export function createHeaderActionsController() {
   const actions = signal<ActionsMenuItem[]>([]);

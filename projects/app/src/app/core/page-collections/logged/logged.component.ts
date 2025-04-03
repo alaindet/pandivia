@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
-import { BottomMenuItem } from '@fruit/components';
+import { BottomMenuItem } from '@ui/components';
 
 import {
   StackedLayoutComponent,

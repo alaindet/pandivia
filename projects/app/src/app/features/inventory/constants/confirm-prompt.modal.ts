@@ -1,4 +1,4 @@
-import { ConfirmPromptModalInput } from '@fruit/components';
+import { ConfirmPromptModalInput } from '@ui/components';
 
 import * as categoryMenu from '../contextual-menus/category';
 import * as itemMenu from '../contextual-menus/item';

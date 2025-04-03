@@ -1,4 +1,4 @@
-import { ActionsMenuItem } from '@fruit/components';
+import { ActionsMenuItem } from '@ui/components';
 import { matDelete, matDone, matUndo } from '@ng-icons/material-icons/baseline';
 
 import { ListItem } from '@app/features/list';

@@ -10,16 +10,16 @@ import {
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matSearch, matMoreHoriz } from '@ng-icons/material-icons/baseline';
-import { IconButtonComponent } from '@fruit/components';
-import { BottomMenuComponent, BottomMenuItem } from '@fruit/components';
+import { IconButtonComponent } from '@ui/components';
+import { BottomMenuComponent, BottomMenuItem } from '@ui/components';
 import {
   ActionsMenuComponent,
   ActionsMenuButtonDirective,
   ActionsMenuItemDirective,
   ActionsMenuItem,
-} from '@fruit/components';
-import { PageHeaderComponent } from '@fruit/components';
-import { TextInputComponent } from '@fruit/components';
+} from '@ui/components';
+import { PageHeaderComponent } from '@ui/components';
+import { TextInputComponent } from '@ui/components';
 
 import { TranslocoModule } from '@jsverse/transloco';
 import { Counters } from '@common/types';

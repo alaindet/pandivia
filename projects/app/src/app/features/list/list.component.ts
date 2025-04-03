@@ -11,20 +11,20 @@ import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { Subject, catchError, filter, of, take, takeUntil } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
-import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@fruit/components';
-import { IconButtonComponent } from '@fruit/components';
-import { CardListComponent } from '@fruit/components';
-import { ActionsMenuItem } from '@fruit/components';
+import { MediaQueryService } from '@ui/services';
+import { ButtonComponent } from '@ui/components';
+import { IconButtonComponent } from '@ui/components';
+import { CardListComponent } from '@ui/components';
+import { ActionsMenuItem } from '@ui/components';
 import {
   CardListItemActionOutput,
   CardListItemToggledOutput,
-} from '@fruit/components';
-import { ModalService } from '@fruit/components';
+} from '@ui/components';
+import { ModalService } from '@ui/components';
 import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
-} from '@fruit/components';
+} from '@ui/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 
 import { StackedLayoutService } from '@app/common/layouts';
