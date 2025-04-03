@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { ButtonComponent } from '@ui/components/button';
-import { SelectComponent } from '@ui/components/select';
+import { ButtonComponent } from '@ui/components';
+import { SelectComponent } from '@ui/components';
+import { StackedLayoutService } from '@ui/layouts';
 
-import { StackedLayoutService } from '@app/common/layouts';
 import { Language } from '@app/core/language';
 import { Theme } from '@app/core/theme';
 import { NAVIGATION_ITEM_USER, UiStore } from '@app/core/ui';

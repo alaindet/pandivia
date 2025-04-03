@@ -1,0 +1,52 @@
+<!-- The input -->
+<div class="_textarea-container">
+  <textarea
+    #textareaRef
+    [rows]="rows()"
+    [attr.id]="id()"
+    [attr.placeholder]="placeholder()"
+    [attr.aria-invalid]="withErrorId() !== null ? 'true' : 'false'"
+    [attr.aria-errormessage]="withErrorId()"
+    [disabled]="isDisabled()"
+    class="_textarea"
+    (change)="onInputChange($event)"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  ></textarea>
+</div>
+
+<!-- Icons -->
+<div class="_icons">
+  <!-- Clearable icon -->
+  @if (clearable()) {
+  <button
+    appIconButton="ghost"
+    circled
+    size="extra-small"
+    [attr.aria-label]="clearLabel()"
+    (click)="onClearInput()"
+  >
+    &times;
+  </button>
+  }
+
+  <!-- Status icon -->
+  @if (withStatusIcon() && status()) {
+  <ng-icon
+    [svg]="status() === 'success' ? icon.matCheck : icon.matClear"
+    width="1rem"
+    class="_status-icon"
+  />
+  }
+</div>
+
+<!-- Characters counters -->
+@if (withCharsCounter()) {
+<div class="_char-counter">
+  <span class="_counter" [class.-error]="charsCounter() > maxChars()">
+    {{ charsCounter() }}
+  </span>
+  <span class="_separator">/</span>
+  <span class="_total">{{ maxChars() }}</span>
+</div>
+}

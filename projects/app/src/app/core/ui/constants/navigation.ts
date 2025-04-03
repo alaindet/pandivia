@@ -1,4 +1,4 @@
-import { BottomMenuItem } from '@ui/components/bottom-menu';
+import { BottomMenuItem } from '@ui/components';
 import {
   matFormatListBulleted,
   matInventory2,

@@ -4,15 +4,17 @@ import {
   matTaskAlt,
   matUndo,
 } from '@ng-icons/material-icons/baseline';
-import { ButtonComponent } from '@ui/components/button';
+import { ButtonComponent } from '@ui/components';
 import {
-  ACTIONS_MENU_EXPORTS,
+  ActionsMenuComponent,
+  ActionsMenuButtonDirective,
+  ActionsMenuItemDirective,
   ActionsMenuItem,
-} from '@ui/components/actions-menu';
+} from '@ui/components';
 
 @Component({
   selector: 'app-demo-actions-menu',
-  imports: [...ACTIONS_MENU_EXPORTS, ButtonComponent],
+  imports: [ActionsMenuComponent, ActionsMenuButtonDirective, ButtonComponent],
   templateUrl: './actions-menu.component.html',
 })
 export class ActionsMenuDemoPageComponent {

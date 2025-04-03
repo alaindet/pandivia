@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {
   CardListComponent,
-  ItemActionOutput,
-  ItemToggledOutput,
-} from '@ui/components/card-list';
+  CardListItemActionOutput,
+  CardListItemToggledOutput,
+} from '@ui/components';
 
 import { MOCK_INVENTORY_ITEMS, MOCK_LIST_ITEMS } from '@app/mocks';
 import {
@@ -41,13 +41,13 @@ export class CardListDemoPageComponent {
     }
   }
 
-  onItemToggle({ itemId, isDone }: ItemToggledOutput) {
+  onItemToggle({ itemId, isDone }: CardListItemToggledOutput) {
     this.items = this.items.map((item) => {
       return item.id !== itemId ? item : { ...item, isDone };
     });
   }
 
-  onItemAction({ itemId, action }: ItemActionOutput) {
+  onItemAction({ itemId, action }: CardListItemActionOutput) {
     switch (action) {
       case ITEM_ACTION_TICK.id:
         this.items = this.items.map((item) => {

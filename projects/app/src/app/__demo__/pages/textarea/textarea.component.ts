@@ -6,10 +6,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
 import { getFieldDescriptor as fDescriptor } from '@common/utils';
-import { TextareaComponent } from '@ui/components/textarea';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
+import {
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldHintComponent,
+  FormFieldLabelComponent,
+} from '@ui/components';
+import { TextareaComponent } from '@ui/components';
+import { FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
 
 const FIELD = {
   MY_TEXTAREA: 'myTextarea',
@@ -21,7 +26,10 @@ const FIELD = {
     ReactiveFormsModule,
     JsonPipe,
     TextareaComponent,
-    ...FORM_FIELD_EXPORTS,
+    FormFieldComponent,
+    FormFieldErrorComponent,
+    FormFieldHintComponent,
+    FormFieldLabelComponent,
     FieldStatusPipe,
     FieldErrorPipe,
   ],

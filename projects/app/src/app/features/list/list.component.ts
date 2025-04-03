@@ -12,19 +12,22 @@ import { Subject, catchError, filter, of, take, takeUntil } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 import { MediaQueryService } from '@ui/services';
-import { ButtonComponent } from '@ui/components/button';
-import { IconButtonComponent } from '@ui/components/icon-button';
-import { CardListComponent } from '@ui/components/card-list';
-import { ActionsMenuItem } from '@ui/components/actions-menu';
-import { ItemActionOutput, ItemToggledOutput } from '@ui/components/card-list';
-import { ModalService } from '@ui/components/modal';
+import { ButtonComponent } from '@ui/components';
+import { IconButtonComponent } from '@ui/components';
+import { CardListComponent } from '@ui/components';
+import { ActionsMenuItem } from '@ui/components';
+import {
+  CardListItemActionOutput,
+  CardListItemToggledOutput,
+} from '@ui/components';
+import { ModalService } from '@ui/components';
 import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
-} from '@ui/components/confirm-prompt-modal';
-import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
+} from '@ui/components';
+import { StackedLayoutService } from '@ui/layouts';
 
-import { StackedLayoutService } from '@app/common/layouts';
+import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_LIST, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
@@ -164,7 +167,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onItemAction({ itemId, action }: ItemActionOutput) {
+  onItemAction({ itemId, action }: CardListItemActionOutput) {
     switch (action) {
       case itemMenu.ITEM_ACTION_COMPLETE.id:
         this.listStore.item.complete(itemId);
@@ -211,7 +214,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  onItemToggle({ itemId, isDone }: ItemToggledOutput) {
+  onItemToggle({ itemId, isDone }: CardListItemToggledOutput) {
     this.listStore.item.toggle(itemId);
   }
 

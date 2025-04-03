@@ -20,22 +20,19 @@ import {
   takeUntil,
 } from 'rxjs';
 import { MediaQueryService } from '@ui/services';
-import { ButtonComponent } from '@ui/components/button';
-import { IconButtonComponent } from '@ui/components/icon-button';
-import { CardListComponent, ItemActionOutput } from '@ui/components/card-list';
-import { ModalService } from '@ui/components/modal';
-import {
-  ACTIONS_MENU_EXPORTS,
-  ActionsMenuItem,
-} from '@ui/components/actions-menu';
+import { ButtonComponent } from '@ui/components';
+import { IconButtonComponent } from '@ui/components';
+import { CardListComponent, CardListItemActionOutput } from '@ui/components';
+import { ModalService } from '@ui/components';
+import { ActionsMenuItem } from '@ui/components';
 import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
   ConfirmPromptModalOutput,
-} from '@ui/components/confirm-prompt-modal';
-import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
+} from '@ui/components';
+import { StackedLayoutService } from '@ui/layouts';
 
-import { StackedLayoutService } from '@app/common/layouts';
+import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_INVENTORY, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';
@@ -56,7 +53,6 @@ import { InventoryFilterToken, InventoryItem } from './types';
   selector: 'app-inventory-page',
   imports: [
     NgTemplateOutlet,
-    ...ACTIONS_MENU_EXPORTS,
     NgIcon,
     ButtonComponent,
     IconButtonComponent,
@@ -145,7 +141,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onItemAction({ itemId, action }: ItemActionOutput) {
+  onItemAction({ itemId, action }: CardListItemActionOutput) {
     switch (action) {
       case itemMenu.ITEM_ACTION_ADD_TO_LIST.id:
         this.cloneItemToList(itemId);

@@ -5,7 +5,11 @@ export type InventoryItem = {
   category?: string;
 };
 
-export type CreateInventoryItemDto = Omit<InventoryItem, 'id'>;
+export type CreateInventoryItemDto = {
+  name: string;
+  description?: string;
+  category?: string;
+};
 
 export type CategorizedInventoryItems = {
   category: string;

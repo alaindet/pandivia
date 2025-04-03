@@ -5,36 +5,42 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgIcon } from '@ng-icons/core';
-import {
-  matClear,
-  matSync,
-  matEdit,
-  matPlaylistAdd,
-  matAdd,
-} from '@ng-icons/material-icons/baseline';
-import { TranslocoModule } from '@jsverse/transloco';
-import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormOption } from '@common/types';
-import { MediaQueryService } from '@ui/services';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
-import { ButtonComponent } from '@ui/components/button';
-import { ToggleComponent } from '@ui/components/toggle';
-import { QuickNumberComponent } from '@ui/components/quick-number';
+import {
+  AutocompleteComponent,
+  AutocompleteOptionDirective,
+  AutocompleteAsyncOptionsFn,
+  AutocompleteOption,
+} from '@ui/components';
+import { ButtonComponent } from '@ui/components';
+import {
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldHintComponent,
+  FormFieldLabelComponent,
+} from '@ui/components';
 import {
   BaseModalComponent,
   ModalFooterDirective,
   ModalHeaderDirective,
-} from '@ui/components/modal';
-import { TextInputComponent } from '@ui/components/text-input';
-import { TextareaComponent } from '@ui/components/textarea';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
+} from '@ui/components';
+import { QuickNumberComponent } from '@ui/components';
+import { TextInputComponent } from '@ui/components';
+import { TextareaComponent } from '@ui/components';
+import { ToggleComponent } from '@ui/components';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
+import { MediaQueryService } from '@ui/services';
+import { TranslocoModule } from '@jsverse/transloco';
+import { NgIcon } from '@ng-icons/core';
 import {
-  AUTOCOMPLETE_EXPORTS,
-  AutocompleteAsyncOptionsFn,
-  AutocompleteOption,
-} from '@ui/components/autocomplete';
+  matAdd,
+  matClear,
+  matEdit,
+  matPlaylistAdd,
+  matSync,
+} from '@ng-icons/material-icons/baseline';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UiStore } from '@app/core/ui';
@@ -63,9 +69,15 @@ import {
     ButtonComponent,
     ToggleComponent,
     TextareaComponent,
-    ...FORM_FIELD_EXPORTS,
-    ...AUTOCOMPLETE_EXPORTS,
-    ...FIELD_PIPES_EXPORTS,
+    FieldErrorPipe,
+    FieldErrorIdPipe,
+    FieldStatusPipe,
+    FormFieldComponent,
+    FormFieldErrorComponent,
+    FormFieldHintComponent,
+    FormFieldLabelComponent,
+    AutocompleteComponent,
+    AutocompleteOptionDirective,
   ],
   templateUrl: './item-form-modal.component.html',
   styleUrl: './item-form-modal.component.css',

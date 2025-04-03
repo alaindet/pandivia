@@ -1,4 +1,4 @@
-import { ActionsMenuItem } from '@ui/components/actions-menu';
+import { ActionsMenuItem } from '@ui/components';
 import {
   matDelete,
   matEdit,

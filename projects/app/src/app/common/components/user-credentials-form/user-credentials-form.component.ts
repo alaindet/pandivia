@@ -7,14 +7,18 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { getFieldDescriptor as fDescribe } from '@common/utils';
+import { ButtonComponent } from '@ui/components';
+import {
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldLabelComponent,
+} from '@ui/components';
+import { TextInputComponent } from '@ui/components';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
+import { TranslocoModule } from '@jsverse/transloco';
 import { NgIcon } from '@ng-icons/core';
 import { matLogin } from '@ng-icons/material-icons/baseline';
-import { TranslocoModule } from '@jsverse/transloco';
-import { ButtonComponent } from '@ui/components/button';
-import { TextInputComponent } from '@ui/components/text-input';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
-import { FIELD_PIPES_EXPORTS } from '@ui/pipes';
-import { getFieldDescriptor as fDescribe } from '@common/utils';
 
 import { UserCredentials } from '@app/features/user';
 import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
@@ -27,8 +31,12 @@ import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
     TranslocoModule,
     TextInputComponent,
     ButtonComponent,
-    ...FORM_FIELD_EXPORTS,
-    ...FIELD_PIPES_EXPORTS,
+    FieldErrorPipe,
+    FieldErrorIdPipe,
+    FieldStatusPipe,
+    FormFieldComponent,
+    FormFieldErrorComponent,
+    FormFieldLabelComponent,
   ],
   templateUrl: './user-credentials-form.component.html',
   styleUrl: './user-credentials-form.component.css',

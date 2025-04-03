@@ -7,4 +7,9 @@ export type ListItem = {
   amount: number;
 };
 
-export type CreateListItemDto = Omit<ListItem, 'id' | 'isDone'>;
+export type CreateListItemDto = {
+  name: string;
+  description?: string;
+  category?: string;
+  amount: number;
+};

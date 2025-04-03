@@ -1,6 +1,7 @@
-import { ListItem } from '@app/features/list';
-import { ActionsMenuItem } from '@ui/components/actions-menu';
+import { ActionsMenuItem } from '@ui/components';
 import { matDelete, matDone, matUndo } from '@ng-icons/material-icons/baseline';
+
+import { ListItem } from '@app/features/list';
 
 // List actions ---------------------------------------------------------------
 export const LIST_ACTION_TICK: ActionsMenuItem = {

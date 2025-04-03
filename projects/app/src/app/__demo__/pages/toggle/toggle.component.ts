@@ -6,8 +6,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ToggleComponent } from '@ui/components/toggle';
-import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
+import {
+  FormFieldComponent,
+  FormFieldHintComponent,
+  FormFieldLabelComponent,
+} from '@ui/components';
+import { ToggleComponent } from '@ui/components';
 
 @Component({
   selector: 'app-demo-toggle',
@@ -15,7 +19,9 @@ import { FORM_FIELD_EXPORTS } from '@ui/components/form-field';
     JsonPipe,
     ReactiveFormsModule,
     ToggleComponent,
-    ...FORM_FIELD_EXPORTS,
+    FormFieldComponent,
+    FormFieldHintComponent,
+    FormFieldLabelComponent,
   ],
   templateUrl: './toggle.component.html',
   styles: [
