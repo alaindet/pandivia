@@ -18,7 +18,7 @@ export class TextInputDemoPageComponent {
   consoleLog = console.log;
 
   myForm = new FormGroup({
-    myTextInput: new FormControl('', [Validators.required]),
+    myTextInput: new FormControl('Initial value', [Validators.required]),
   });
 
   get fMyTextInput(): FormControl {

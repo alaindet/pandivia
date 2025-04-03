@@ -21,6 +21,6 @@ export class QuickNumberDemoPageComponent {
   consoleLog = console.log;
 
   myForm = new FormGroup({
-    myQuickNumber: new FormControl(1, [Validators.required]),
+    myQuickNumber: new FormControl(3, [Validators.required]),
   });
 }
