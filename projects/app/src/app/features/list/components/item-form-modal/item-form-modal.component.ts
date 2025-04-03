@@ -92,36 +92,41 @@ export class ListItemFormModalComponent
   private inventoryStore = inject(InventoryStore);
   isMobile = inject(MediaQueryService).getFromMobileDown();
 
+  nameRef = viewChild.required('nameRef', { read: TextInputComponent });
+
   isEditing = signal(false);
   FIELD = FIELD;
   theForm!: FormGroup;
   isSaving = this.uiStore.loader.loading;
   shouldContinue = false;
   themeConfig = this.uiStore.theme.config;
-
-  matClear = matClear;
-  matAdd = matAdd;
-  matSync = matSync;
-  matEdit = matEdit;
-  matPlaylistAdd = matPlaylistAdd;
+  icon = {
+    matClear,
+    matAdd,
+    matSync,
+    matEdit,
+    matPlaylistAdd,
+  };
 
   get fName() {
     return fDescribe(this.theForm, FIELD.NAME.id);
   }
+
   get fAmount() {
     return fDescribe(this.theForm, FIELD.AMOUNT.id);
   }
+
   get fDesc() {
     return fDescribe(this.theForm, FIELD.DESCRIPTION.id);
   }
+
   get fCategory() {
     return fDescribe(this.theForm, FIELD.CATEGORY.id);
   }
+
   get fDone() {
     return fDescribe(this.theForm, FIELD.IS_DONE.id);
   }
-
-  nameRef = viewChild.required('nameRef', { read: TextInputComponent });
 
   ngOnInit() {
     this.inventoryStore.allItems.fetch();

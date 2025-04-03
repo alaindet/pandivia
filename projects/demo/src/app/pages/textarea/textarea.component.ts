@@ -39,7 +39,9 @@ export class TextareaDemoPageComponent {
   consoleLog = console.log;
 
   myForm = new FormGroup({
-    [FIELD.MY_TEXTAREA]: new FormControl('', [Validators.required]),
+    [FIELD.MY_TEXTAREA]: new FormControl('Initial value', [
+      Validators.required,
+    ]),
   });
 
   get fMyTextarea() {

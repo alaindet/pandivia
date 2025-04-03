@@ -1,14 +1,19 @@
 import {
+  AfterRenderRef,
   Component,
   HostBinding,
+  Injector,
   Provider,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   computed,
   effect,
   forwardRef,
+  inject,
   input,
   output,
+  runInInjectionContext,
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -42,6 +47,8 @@ const TOGGLE_FORM_PROVIDER: Provider = {
   providers: [TOGGLE_FORM_PROVIDER],
 })
 export class ToggleComponent implements ControlValueAccessor {
+  private injector = inject(Injector);
+
   _id = input('', { alias: 'id' });
   title = input<string>();
   color = input<ToggleColor>('primary');
@@ -125,7 +132,11 @@ export class ToggleComponent implements ControlValueAccessor {
 
   // From ControlValueAccessor
   writeValue(value: any): void {
-    this.isChecked.set(!!value);
+    runInInjectionContext(this.injector, () => {
+      afterNextRender(() => {
+        this.isChecked.set(!!value);
+      });
+    });
   }
 
   // From ControlValueAccessor

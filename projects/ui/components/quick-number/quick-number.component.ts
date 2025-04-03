@@ -1,15 +1,19 @@
 import {
   Component,
   HostBinding,
+  Injector,
   Provider,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   computed,
   effect,
   forwardRef,
+  inject,
   input,
   numberAttribute,
   output,
+  runInInjectionContext,
   signal,
 } from '@angular/core';
 import {
@@ -39,6 +43,8 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   providers: [QUICK_NUMBER_FORM_PROVIDER],
 })
 export class QuickNumberComponent implements ControlValueAccessor {
+  private injector = inject(Injector);
+
   _id = input<string>('', { alias: 'id' });
   _value = input(1, { alias: 'value', transform: numberAttribute });
   color = input<IconButtonColor>('primary');
@@ -84,6 +90,10 @@ export class QuickNumberComponent implements ControlValueAccessor {
 
   valueEffect = effect(() => this.value.set(this._value()));
 
+  // TODO: Remove
+  _a = effect(() => console.log('effect on input value', this._value()));
+  _b = effect(() => console.log('effect on private value', this.value()));
+
   disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   // @publicApi
@@ -108,8 +118,13 @@ export class QuickNumberComponent implements ControlValueAccessor {
 
   // ControlValueAccessor
   writeValue(value: number | null | any): void {
-    const newValue = value === null || typeof value !== 'number' ? 1 : value;
-    this.value.set(newValue);
+    runInInjectionContext(this.injector, () => {
+      afterNextRender(() => {
+        const newValue =
+          value === null || typeof value !== 'number' ? 1 : value;
+        this.value.set(newValue);
+      });
+    });
   }
 
   // ControlValueAccessor
