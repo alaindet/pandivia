@@ -1,8 +1,8 @@
 import { Subject } from 'rxjs';
+
 import { ActionsMenuService } from './actions-menu.service';
 
 export function createCoreController(parent: ActionsMenuService) {
-
   const ready$ = new Subject<void>();
 
   function ready() {

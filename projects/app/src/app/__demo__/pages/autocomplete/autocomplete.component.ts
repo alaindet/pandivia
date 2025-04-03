@@ -11,12 +11,9 @@ import {
   AutocompleteOptionDirective,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
-} from '@fruit/components/autocomplete';
-import {
-  FormFieldComponent,
-  FormFieldLabelComponent,
-} from '@fruit/components/form-field';
-import { TextInputComponent } from '@fruit/components/text-input';
+} from '@fruit/components';
+import { FormFieldComponent, FormFieldLabelComponent } from '@fruit/components';
+import { TextInputComponent } from '@fruit/components';
 import { Observable, delay, of } from 'rxjs';
 
 import { OPTIONS } from './options';

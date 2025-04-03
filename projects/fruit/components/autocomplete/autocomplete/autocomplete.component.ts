@@ -15,7 +15,7 @@ import {
   output,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { TextInputComponent } from '@fruit/components/text-input';
+import { TextInputComponent } from '../../text-input';
 
 import { AutocompleteOptionComponent } from '../autocomplete-option/autocomplete-option.component';
 import { AutocompleteService } from '../autocomplete.service';

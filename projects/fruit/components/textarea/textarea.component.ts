@@ -19,7 +19,8 @@ import { NgIcon } from '@ng-icons/core';
 import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
 import { FormFieldStatus } from '@common/types';
 import { cssClassesList, uniqueId, HTMLAttributes } from '@common/utils';
-import { IconButtonComponent } from '@fruit/components/icon-button';
+
+import { IconButtonComponent } from '../icon-button';
 
 const TEXTAREA_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,

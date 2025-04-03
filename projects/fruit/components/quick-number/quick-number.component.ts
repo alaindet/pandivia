@@ -20,10 +20,8 @@ import {
 import { NgIcon } from '@ng-icons/core';
 import { matRemove, matAdd } from '@ng-icons/material-icons/baseline';
 import { uniqueId } from '@common/utils';
-import {
-  IconButtonColor,
-  IconButtonComponent,
-} from '@fruit/components/icon-button';
+
+import { IconButtonColor, IconButtonComponent } from '../icon-button';
 
 const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,

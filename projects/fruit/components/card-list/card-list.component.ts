@@ -20,23 +20,22 @@ import {
   matMoreHoriz,
   matPushPin,
 } from '@ng-icons/material-icons/baseline';
-import { CheckboxComponent, CheckboxColor } from '@fruit/components/checkbox';
-import { ButtonComponent } from '@fruit/components/button';
-import { IconButtonComponent } from '@fruit/components/icon-button';
-import {
-  ACTIONS_MENU_EXPORTS,
-  ActionsMenuItem,
-} from '@ui/components/actions-menu';
 
-import { DEFAULT_CATEGORY } from '@app/core/constants';
-import { InventoryItem } from '@app/features/inventory';
-import { ListItem } from '@app/features/list';
+import { CheckboxComponent, CheckboxColor } from '../checkbox';
+import { ButtonComponent } from '../button';
+import { IconButtonComponent } from '../icon-button';
+import {
+  ActionsMenuComponent,
+  ActionsMenuButtonDirective,
+  ActionsMenuItem,
+} from '../actions-menu';
 import {
   CardListComponentLabels,
   CardListCounters,
-  ItemActionOutput,
-  ItemActionsFn,
-  ItemToggledOutput,
+  CardListItem,
+  CardListItemActionOutput,
+  CardListItemActionsFn,
+  CardListItemToggledOutput,
 } from './types';
 
 @Component({
@@ -46,7 +45,8 @@ import {
     CheckboxComponent,
     ButtonComponent,
     IconButtonComponent,
-    ...ACTIONS_MENU_EXPORTS,
+    ActionsMenuComponent,
+    ActionsMenuButtonDirective,
   ],
   templateUrl: './card-list.component.html',
   styleUrl: './card-list.component.css',
@@ -57,8 +57,8 @@ import {
 export class CardListComponent {
   title = input.required<string>();
   listActions = input.required<ActionsMenuItem[]>();
-  items = input.required<any[]>();
-  itemActionsFn = input.required<ItemActionsFn>();
+  items = input.required<CardListItem[]>();
+  itemActionsFn = input.required<CardListItemActionsFn>();
   labels = input<CardListComponentLabels>();
   withMutedTitle = input(false, { transform: booleanAttribute });
   isSelectable = input(true, { transform: booleanAttribute });
@@ -67,8 +67,8 @@ export class CardListComponent {
   checkboxColor = input<CheckboxColor>('black');
 
   listActionClicked = output<string>();
-  itemActionClicked = output<ItemActionOutput>();
-  itemToggled = output<ItemToggledOutput>();
+  itemActionClicked = output<CardListItemActionOutput>();
+  itemToggled = output<CardListItemToggledOutput>();
   pinned = output<boolean>();
   pinnedLabel = computed(() => this.labels()?.pinned);
   unpinnedLabel = computed(() => this.labels()?.unpinned);
@@ -96,7 +96,6 @@ export class CardListComponent {
     return this.isCompleted();
   }
 
-  DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   itemActionsMap = new Map<string, ActionsMenuItem[]>();
   itemsDescriptionMap = new Map<string, boolean>();
   counters = signal<CardListCounters | null>(null);
@@ -107,7 +106,7 @@ export class CardListComponent {
     const items = this.items();
     this.itemActionsMap = this.updateActionsByItemMap(items);
     if (this.withCounters()) {
-      this.updateCounters(items as ListItem[]);
+      this.updateCounters(items);
     }
   });
 
@@ -129,7 +128,7 @@ export class CardListComponent {
     if (!this.isSelectable()) {
       return;
     }
-    const items = this.items() as ListItem[];
+    const items = this.items();
     const isDone = !items.find((it) => it.id === itemId)?.isDone;
     this.itemToggled.emit({ itemId, isDone });
   }
@@ -157,7 +156,7 @@ export class CardListComponent {
   }
 
   private updateActionsByItemMap(
-    items: ListItem[] | InventoryItem[]
+    items: CardListItem[]
   ): Map<string, ActionsMenuItem[]> {
     const itemActionsMap = new Map<string, ActionsMenuItem[]>();
     const fn = this.itemActionsFn();
@@ -165,7 +164,7 @@ export class CardListComponent {
     return itemActionsMap;
   }
 
-  private updateCounters(items: ListItem[]) {
+  private updateCounters(items: CardListItem[]) {
     let done = 0;
     items.forEach((item) => {
       if (item.isDone) {

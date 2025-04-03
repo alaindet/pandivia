@@ -12,23 +12,23 @@ import {
   AutocompleteOptionDirective,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
-} from '@fruit/components/autocomplete';
-import { ButtonComponent } from '@fruit/components/button';
+} from '@fruit/components';
+import { ButtonComponent } from '@fruit/components';
 import {
   FormFieldComponent,
   FormFieldErrorComponent,
   FormFieldHintComponent,
   FormFieldLabelComponent,
-} from '@fruit/components/form-field';
+} from '@fruit/components';
 import {
   BaseModalComponent,
   ModalFooterDirective,
   ModalHeaderDirective,
-} from '@fruit/components/modal';
-import { QuickNumberComponent } from '@fruit/components/quick-number';
-import { TextInputComponent } from '@fruit/components/text-input';
-import { TextareaComponent } from '@fruit/components/textarea';
-import { ToggleComponent } from '@fruit/components/toggle';
+} from '@fruit/components';
+import { QuickNumberComponent } from '@fruit/components';
+import { TextInputComponent } from '@fruit/components';
+import { TextareaComponent } from '@fruit/components';
+import { ToggleComponent } from '@fruit/components';
 import {
   FieldErrorIdPipe,
   FieldErrorPipe,

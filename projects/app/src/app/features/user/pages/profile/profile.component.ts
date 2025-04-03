@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { ButtonComponent } from '@fruit/components/button';
-import { SelectComponent } from '@fruit/components/select';
+import { ButtonComponent } from '@fruit/components';
+import { SelectComponent } from '@fruit/components';
 
 import { StackedLayoutService } from '@app/common/layouts';
 import { Language } from '@app/core/language';

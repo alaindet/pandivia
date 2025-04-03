@@ -2,12 +2,12 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matClose } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule } from '@jsverse/transloco';
-import { ButtonComponent } from '@fruit/components/button';
+import { ButtonComponent } from '@fruit/components';
 import {
   BaseModalComponent,
   ModalFooterDirective,
   ModalHeaderDirective,
-} from '@fruit/components/modal';
+} from '@fruit/components';
 
 import { ChangeCategoryModalInput, ChangeCategoryModalOutput } from './types';
 

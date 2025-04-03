@@ -1,5 +1,5 @@
 import { signal } from '@angular/core';
-import { BottomMenuItem } from '@fruit/components/bottom-menu';
+import { BottomMenuItem } from '@fruit/components';
 
 import { NAVIGATION_ITEMS } from '../constants';
 

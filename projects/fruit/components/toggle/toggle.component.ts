@@ -14,11 +14,18 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { cssClassesList, uniqueId } from '@common/utils';
-import {
-  TOGGLE_LABEL_POSITION,
-  ToggleColor,
-  ToggleLabelPosition,
-} from './types';
+import { EnumLike } from '@common/types';
+
+export const TOGGLE_LABEL_POSITION = {
+  LEFT: 'left',
+  LEFT_FULLWIDTH: 'left-fullwidth',
+  RIGHT: 'right',
+  RIGHT_FULLWIDTH: 'right-fullwidth',
+} as const;
+
+export type ToggleLabelPosition = EnumLike<typeof TOGGLE_LABEL_POSITION>;
+
+export type ToggleColor = 'primary' | 'secondary' | 'tertiary';
 
 const TOGGLE_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,

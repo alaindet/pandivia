@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matSearch } from '@ng-icons/material-icons/baseline';
-import { ButtonComponent } from '@fruit/components/button';
+import { ButtonComponent } from '@fruit/components';
 
 @Component({
   selector: 'app-demo-button',

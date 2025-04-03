@@ -12,19 +12,19 @@ import { Subject, catchError, filter, of, take, takeUntil } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@fruit/components/button';
-import { IconButtonComponent } from '@fruit/components/icon-button';
-import { CardListComponent } from '@fruit/components/card-list';
-import { ActionsMenuItem } from '@ui/components/actions-menu';
+import { ButtonComponent } from '@fruit/components';
+import { IconButtonComponent } from '@fruit/components';
+import { CardListComponent } from '@fruit/components';
+import { ActionsMenuItem } from '@fruit/components';
 import {
-  ItemActionOutput,
-  ItemToggledOutput,
-} from '@fruit/components/card-list';
-import { ModalService } from '@fruit/components/modal';
+  CardListItemActionOutput,
+  CardListItemToggledOutput,
+} from '@fruit/components';
+import { ModalService } from '@fruit/components';
 import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
-} from '@fruit/components/modal';
+} from '@fruit/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 
 import { StackedLayoutService } from '@app/common/layouts';
@@ -167,7 +167,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onItemAction({ itemId, action }: ItemActionOutput) {
+  onItemAction({ itemId, action }: CardListItemActionOutput) {
     switch (action) {
       case itemMenu.ITEM_ACTION_COMPLETE.id:
         this.listStore.item.complete(itemId);
@@ -214,7 +214,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  onItemToggle({ itemId, isDone }: ItemToggledOutput) {
+  onItemToggle({ itemId, isDone }: CardListItemToggledOutput) {
     this.listStore.item.toggle(itemId);
   }
 

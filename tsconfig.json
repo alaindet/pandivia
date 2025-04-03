@@ -25,7 +25,6 @@
       "@root/*": ["./*"],
       "@app/*": ["projects/app/src/app/*"],
       "@app/environment": ["projects/app/src/environments/environment.ts"],
-      "@ui/*": ["projects/ui/src/*"],
       "@common/*": ["./dist/common/*"],
       "@fruit/*": ["./dist/fruit/*"]
     }

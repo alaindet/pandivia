@@ -7,14 +7,14 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-import { ButtonComponent } from '@fruit/components/button';
+import { ButtonComponent } from '@fruit/components';
 import {
   FormFieldComponent,
   FormFieldErrorComponent,
   FormFieldLabelComponent,
-} from '@fruit/components/form-field';
-import { PageHeaderComponent } from '@fruit/components/page-header';
-import { TextInputComponent } from '@fruit/components/text-input';
+} from '@fruit/components';
+import { PageHeaderComponent } from '@fruit/components';
+import { TextInputComponent } from '@fruit/components';
 import {
   FieldErrorIdPipe,
   FieldErrorPipe,

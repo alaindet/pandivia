@@ -4,8 +4,8 @@ import { filter } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matClose, matMenu } from '@ng-icons/material-icons/baseline';
 import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@fruit/components/button';
-import { IconButtonComponent } from '@fruit/components/icon-button';
+import { ButtonComponent } from '@fruit/components';
+import { IconButtonComponent } from '@fruit/components';
 
 @Component({
   selector: 'app-demo-layout',

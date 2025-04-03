@@ -1,4 +1,6 @@
-export type ListItem = {
+import { CardListItem } from '@fruit/components';
+
+export type ListItem = CardListItem & {
   id: string;
   name: string;
   description?: string;

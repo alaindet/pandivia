@@ -20,22 +20,16 @@ import {
   takeUntil,
 } from 'rxjs';
 import { MediaQueryService } from '@fruit/services';
-import { ButtonComponent } from '@fruit/components/button';
-import { IconButtonComponent } from '@fruit/components/icon-button';
-import {
-  CardListComponent,
-  ItemActionOutput,
-} from '@fruit/components/card-list';
-import { ModalService } from '@fruit/components/modal';
-import {
-  ACTIONS_MENU_EXPORTS,
-  ActionsMenuItem,
-} from '@ui/components/actions-menu';
+import { ButtonComponent } from '@fruit/components';
+import { IconButtonComponent } from '@fruit/components';
+import { CardListComponent, CardListItemActionOutput } from '@fruit/components';
+import { ModalService } from '@fruit/components';
+import { ActionsMenuItem } from '@fruit/components';
 import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
   ConfirmPromptModalOutput,
-} from '@fruit/components/modal';
+} from '@fruit/components';
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 
 import { StackedLayoutService } from '@app/common/layouts';
@@ -59,7 +53,6 @@ import { InventoryFilterToken, InventoryItem } from './types';
   selector: 'app-inventory-page',
   imports: [
     NgTemplateOutlet,
-    ...ACTIONS_MENU_EXPORTS,
     NgIcon,
     ButtonComponent,
     IconButtonComponent,
@@ -148,7 +141,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onItemAction({ itemId, action }: ItemActionOutput) {
+  onItemAction({ itemId, action }: CardListItemActionOutput) {
     switch (action) {
       case itemMenu.ITEM_ACTION_ADD_TO_LIST.id:
         this.cloneItemToList(itemId);

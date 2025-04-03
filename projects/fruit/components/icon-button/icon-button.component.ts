@@ -9,13 +9,18 @@ import {
   inject,
   input,
 } from '@angular/core';
-
 import { cssClassesList } from '@common/utils';
-import {
-  IconButtonColor,
-  IconButtonFloatingType,
-  IconButtonSize,
-} from './types';
+
+export type IconButtonColor =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'outline'
+  | 'ghost';
+
+export type IconButtonSize = 'extra-small' | 'small' | 'medium' | 'large';
+
+export type IconButtonFloatingType = 'container' | 'fixed';
 
 @Component({
   selector: 'button[appIconButton]',

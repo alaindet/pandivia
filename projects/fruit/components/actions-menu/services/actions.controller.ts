@@ -1,10 +1,10 @@
-import { ActionsMenuService } from './actions-menu.service';
-import { ACTIONS_MENU_BUTTON_FOCUSED, ActionsMenuItem } from '../types';
 import { signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
-export function createActionsController(parent: ActionsMenuService) {
+import { ActionsMenuService } from './actions-menu.service';
+import { ACTIONS_MENU_BUTTON_FOCUSED, ActionsMenuItem } from '../types';
 
+export function createActionsController(parent: ActionsMenuService) {
   const actions = signal<ActionsMenuItem[] | null>(null);
   const searchableActions = signal<string[] | null>(null);
 

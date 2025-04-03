@@ -6,8 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CheckboxComponent } from '@fruit/components/checkbox';
-import { ButtonComponent } from '@fruit/components/button';
+import { CheckboxComponent } from '@fruit/components';
+import { ButtonComponent } from '@fruit/components';
 
 @Component({
   selector: 'app-demo-checkbox',

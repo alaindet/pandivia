@@ -9,9 +9,16 @@ import {
   inject,
   input,
 } from '@angular/core';
-
 import { cssClassesList } from '@common/utils';
-import { ButtonColor, ButtonSize } from './types';
+
+export type ButtonColor =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'outline'
+  | 'ghost';
+
+export type ButtonSize = 'extra-small' | 'small' | 'medium' | 'large';
 
 @Component({
   selector: 'button[appButton]',

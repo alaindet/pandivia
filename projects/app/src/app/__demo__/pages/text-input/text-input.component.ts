@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { TextInputComponent } from '@fruit/components/text-input';
+import { TextInputComponent } from '@fruit/components';
 
 @Component({
   selector: 'app-demo-text-input',

@@ -4,12 +4,9 @@ import {
   copyToClipboard,
   getFieldDescriptor as fDescribe,
 } from '@common/utils';
-import { ButtonComponent } from '@fruit/components/button';
-import {
-  FormFieldComponent,
-  FormFieldErrorComponent,
-} from '@fruit/components/form-field';
-import { TextInputComponent } from '@fruit/components/text-input';
+import { ButtonComponent } from '@fruit/components';
+import { FormFieldComponent, FormFieldErrorComponent } from '@fruit/components';
+import { TextInputComponent } from '@fruit/components';
 import {
   FieldErrorIdPipe,
   FieldErrorPipe,

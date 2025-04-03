@@ -1,12 +1,19 @@
-import { ActionsMenuItem } from '@ui/components/actions-menu';
+import { ActionsMenuItem } from '../actions-menu';
 
-export type Item = { id: string } & Record<string, any>;
+export type CardListItem = {
+  id: string;
+  name: string;
+  description: string;
+  isDone?: boolean;
+  amount?: number;
+  category?: string;
+} & Record<string, any>;
 
-export type ItemActionsFn<T = any> = (item: T) => ActionsMenuItem[];
+export type CardListItemActionsFn<T = any> = (item: T) => ActionsMenuItem[];
 
-export type ItemActionOutput = { itemId: string; action: string };
+export type CardListItemActionOutput = { itemId: string; action: string };
 
-export type ItemToggledOutput = { itemId: string; isDone: boolean };
+export type CardListItemToggledOutput = { itemId: string; isDone: boolean };
 
 export type CardListComponentLabels = {
   pinned: string;

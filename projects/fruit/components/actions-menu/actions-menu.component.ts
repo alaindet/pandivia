@@ -18,9 +18,9 @@ import {
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { matMoreHoriz } from '@ng-icons/material-icons/baseline';
-import { IconButtonComponent } from '@fruit/components/icon-button';
 import { doOnce } from '@common/utils';
 
+import { IconButtonComponent } from '../icon-button';
 import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
 import { ActionsMenuItemDirective } from './directives/actions-menu-item.directive';
 import { ActionsMenuService } from './services/actions-menu.service';

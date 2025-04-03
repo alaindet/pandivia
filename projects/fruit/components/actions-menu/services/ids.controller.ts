@@ -1,4 +1,5 @@
 import { computed, signal } from '@angular/core';
+
 import { ActionsMenuService } from './actions-menu.service';
 
 function addSuffix(id: string | null, suffix: string): string {
@@ -6,7 +7,6 @@ function addSuffix(id: string | null, suffix: string): string {
 }
 
 export function createIdsController(parent: ActionsMenuService) {
-
   const id = signal<string | null>(null);
   const button = computed(() => addSuffix(id(), 'button'));
   const items = computed(() => addSuffix(id(), 'items'));

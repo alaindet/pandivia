@@ -18,9 +18,10 @@ import { NgIcon } from '@ng-icons/core';
 import { matCheck, matClear } from '@ng-icons/material-icons/baseline';
 import { FormFieldStatus } from '@common/types';
 import { cssClassesList, uniqueId, HTMLAttributes } from '@common/utils';
-import { IconButtonComponent } from '@fruit/components/icon-button';
 
-import { TextInputType } from './types';
+import { IconButtonComponent } from '../icon-button';
+
+export type TextInputType = 'text' | 'email' | 'number' | 'password' | 'search';
 
 const TEXT_INPUT_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
