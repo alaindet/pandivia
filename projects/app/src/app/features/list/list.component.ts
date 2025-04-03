@@ -8,24 +8,22 @@ import {
   inject,
 } from '@angular/core';
 import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { Subject, catchError, filter, of, take, takeUntil } from 'rxjs';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
-import { MediaQueryService } from '@ui/services';
-import { ButtonComponent } from '@ui/components';
-import { IconButtonComponent } from '@ui/components';
-import { CardListComponent } from '@ui/components';
-import { ActionsMenuItem } from '@ui/components';
 import {
+  ActionsMenuItem,
+  ButtonComponent,
+  CardListComponent,
   CardListItemActionOutput,
   CardListItemToggledOutput,
-} from '@ui/components';
-import { ModalService } from '@ui/components';
-import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
+  IconButtonComponent,
+  ModalService,
 } from '@ui/components';
 import { StackedLayoutService } from '@ui/layouts';
+import { MediaQueryService } from '@ui/services';
+import { Subject, catchError, filter, of, take, takeUntil } from 'rxjs';
 
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { DEFAULT_CATEGORY } from '@app/core';
@@ -340,6 +338,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
   }
 
   private initSearchFeature(): void {
+    this.layout.search.reset();
     this.layout.search.enable();
 
     this.layout.search.searched.subscribe((searchQuery) => {

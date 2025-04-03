@@ -7,9 +7,22 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { NgIcon } from '@ng-icons/core';
-import { matClear, matAdd } from '@ng-icons/material-icons/baseline';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { NgIcon } from '@ng-icons/core';
+import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
+import {
+  ActionsMenuItem,
+  ButtonComponent,
+  CardListComponent,
+  CardListItemActionOutput,
+  ConfirmPromptModalComponent,
+  ConfirmPromptModalInput,
+  ConfirmPromptModalOutput,
+  IconButtonComponent,
+  ModalService,
+} from '@ui/components';
+import { StackedLayoutService } from '@ui/layouts';
+import { MediaQueryService } from '@ui/services';
 import {
   Observable,
   Subject,
@@ -19,18 +32,6 @@ import {
   take,
   takeUntil,
 } from 'rxjs';
-import { MediaQueryService } from '@ui/services';
-import { ButtonComponent } from '@ui/components';
-import { IconButtonComponent } from '@ui/components';
-import { CardListComponent, CardListItemActionOutput } from '@ui/components';
-import { ModalService } from '@ui/components';
-import { ActionsMenuItem } from '@ui/components';
-import {
-  ConfirmPromptModalComponent,
-  ConfirmPromptModalInput,
-  ConfirmPromptModalOutput,
-} from '@ui/components';
-import { StackedLayoutService } from '@ui/layouts';
 
 import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { DEFAULT_CATEGORY } from '@app/core';
@@ -244,6 +245,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   }
 
   private initSearchFeature(): void {
+    this.layout.search.reset();
     this.layout.search.enable();
 
     this.layout.search.searched.subscribe((searchQuery) => {

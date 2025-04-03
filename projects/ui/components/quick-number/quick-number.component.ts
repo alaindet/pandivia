@@ -89,11 +89,6 @@ export class QuickNumberComponent implements ControlValueAccessor {
   private onTouched!: () => void;
 
   valueEffect = effect(() => this.value.set(this._value()));
-
-  // TODO: Remove
-  _a = effect(() => console.log('effect on input value', this._value()));
-  _b = effect(() => console.log('effect on private value', this.value()));
-
   disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   // @publicApi
