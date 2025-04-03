@@ -47,9 +47,11 @@ export class ModalHostComponent implements OnDestroy {
 
   labels = input<ModalHostLabels>();
 
-  matCheck = matCheck;
-  matClear = matClear;
-  matClose = matClose;
+  icon = {
+    matCheck,
+    matClear,
+    matClose,
+  };
 
   @HostBinding('class.-open')
   get cssClassOpen() {

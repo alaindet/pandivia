@@ -18,11 +18,13 @@ import { IconButtonComponent } from '@ui/components';
 export class IconButtonDemoPageComponent {
   fabContainer = false;
   fabFixed = false;
-  matSchedule = matSchedule;
-  matSearch = matSearch;
-  matAdd = matAdd;
-  matClear = matClear;
-  matPhone = matPhone;
+  icon = {
+    matAdd,
+    matClear,
+    matPhone,
+    matSchedule,
+    matSearch,
+  };
 
   onToggleFabContainer() {
     this.fabContainer = !this.fabContainer;

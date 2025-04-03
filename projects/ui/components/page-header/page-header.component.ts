@@ -31,7 +31,7 @@ export class PageHeaderComponent {
 
   backClicked = output<void>();
 
-  matArrowBack = matArrowBack;
+  icon = { matArrowBack };
 
   onBackClicked() {
     if (this.withControlledBackButton()) {

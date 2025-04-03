@@ -1,51 +1,50 @@
-<ng-container *transloco="let t">
-  <form
-    class="invite-user-form"
-    [formGroup]="theForm"
-    (ngSubmit)="onGenerateLink()"
-  >
-    <!-- Email -->
-    <app-form-field id="field-email">
-      <app-text-input
-        id="field-email"
-        type="email"
-        formControlName="email"
-        fullWidth
-        [status]="fEmail | appFieldStatus"
-        [placeholder]="t('common.form.field.email') + '...'"
-        [withStatusIcon]="true"
-        [withErrorId]="fEmail | appFieldErrorId:{
-          'email': 'field-email-err-email',
-        }"
-      />
+<form
+  *transloco="let t"
+  class="invite-user-form"
+  [formGroup]="theForm"
+  (ngSubmit)="onGenerateLink()"
+>
+  <!-- Email -->
+  <app-form-field id="field-email">
+    <app-text-input
+      id="field-email"
+      type="email"
+      formControlName="email"
+      fullWidth
+      [status]="fEmail | appFieldStatus"
+      [placeholder]="t('common.form.field.email') + '...'"
+      [withStatusIcon]="true"
+      [withErrorId]="fEmail | appFieldErrorId:{
+        'email': 'field-email-err-email',
+      }"
+    />
 
-      <!-- Error: email -->
-      @if (fEmail | appFieldError:'email') {
-      <app-form-field-error errorId="field-email-err-email">
-        {{ t("common.error.email") }}
-      </app-form-field-error>
-      }
-    </app-form-field>
-
-    <!-- Send -->
-    <button
-      type="submit"
-      appButton
-      [disabled]="theForm.invalid"
-      withIcon="left"
-      size="small"
-    >
-      <ng-icon [svg]="matPersonAdd" />
-      {{ t("inviteUser.generateLink") }}
-    </button>
-
-    <!-- Generated link -->
-    @if (inviteUrl) {
-    <div class="generated-link">
-      {{ inviteUrl }}
-    </div>
+    <!-- Error: email -->
+    @if (fEmail | appFieldError:'email') {
+    <app-form-field-error errorId="field-email-err-email">
+      {{ t("common.error.email") }}
+    </app-form-field-error>
     }
+  </app-form-field>
 
-    <p>{{ t("inviteUser.linkDescription") }}</p>
-  </form>
-</ng-container>
+  <!-- Send -->
+  <button
+    type="submit"
+    appButton
+    [disabled]="theForm.invalid"
+    withIcon="left"
+    size="small"
+  >
+    <ng-icon [svg]="icon.matPersonAdd" />
+    {{ t("inviteUser.generateLink") }}
+  </button>
+
+  <!-- Generated link -->
+  @if (inviteUrl) {
+  <div class="generated-link">
+    {{ inviteUrl }}
+  </div>
+  }
+
+  <p>{{ t("inviteUser.linkDescription") }}</p>
+</form>

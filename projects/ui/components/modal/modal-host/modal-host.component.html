@@ -18,7 +18,7 @@
   <!-- Dismiss -->
   <div class="_dismiss">
     <button appIconButton="ghost" circled size="small" (click)="onDismiss()">
-      <ng-icon [svg]="matClear" />
+      <ng-icon [svg]="icon.matClear" />
     </button>
   </div>
 
@@ -41,7 +41,7 @@
         withIcon="left"
         (click)="onDismiss()"
       >
-        <ng-icon [svg]="matClose" />
+        <ng-icon [svg]="icon.matClose" />
         {{ labels()?.cancel ?? "Cancel" }}
       </button>
 
@@ -53,7 +53,7 @@
         size="small"
         (click)="onConfirm()"
       >
-        <ng-icon [svg]="matCheck" />
+        <ng-icon [svg]="icon.matCheck" />
         {{ labels()?.confirm ?? "Confirm" }}
       </button>
     </div>

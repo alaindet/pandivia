@@ -149,7 +149,7 @@
       withIcon="left"
       (click)="onCancel()"
     >
-      <ng-icon [svg]="matClear" />
+      <ng-icon [svg]="icon.matClear" />
       {{ t("common.close") }}
     </button>
     } @if (isEditing()) {
@@ -164,7 +164,7 @@
       (click)="onSubmit()"
     >
       <ng-icon
-        [svg]="isSaving() ? matSync : matEdit"
+        [svg]="isSaving() ? icon.matSync : icon.matEdit"
         [class.-rotating]="isSaving()"
       />
       {{ t("common.edit") }}
@@ -181,7 +181,7 @@
       [disabled]="isSaving()"
       (click)="onCreateAndContinue()"
     >
-      <ng-icon [svg]="matPlaylistAdd" />
+      <ng-icon [svg]="icon.matPlaylistAdd" />
       {{ t("common.createAndContinue") }}
     </button>
 
@@ -194,7 +194,7 @@
       [disabled]="isSaving()"
       (click)="onSubmit()"
     >
-      <ng-icon [svg]="matAdd" />
+      <ng-icon [svg]="icon.matAdd" />
       {{ t("common.createAndClose") }}
     </button>
     }

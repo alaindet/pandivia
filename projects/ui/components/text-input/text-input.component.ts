@@ -62,8 +62,7 @@ export class TextInputComponent implements ControlValueAccessor {
   inputChanged = output<string>();
   cleared = output<void>();
 
-  matCheck = matCheck;
-  matClear = matClear;
+  icon = { matCheck, matClear };
 
   private inputRef =
     viewChild.required<ElementRef<HTMLInputElement>>('inputRef');

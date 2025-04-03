@@ -29,7 +29,7 @@ export class ChangeCategoryModalComponent extends BaseModalComponent<
   ChangeCategoryModalInput,
   ChangeCategoryModalOutput
 > {
-  matClose = matClose;
+  icon = { matClose };
 
   onSelectCategory(category: string) {
     this.modal.confirm({ category });

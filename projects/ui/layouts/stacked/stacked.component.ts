@@ -68,8 +68,7 @@ export class StackedLayoutComponent {
     }
   });
 
-  matSearch = matSearch;
-  matMoreHoriz = matMoreHoriz;
+  icon = { matMoreHoriz, matSearch };
 
   onHeaderAction(action: string) {
     this.headerActionClicked.emit(action);

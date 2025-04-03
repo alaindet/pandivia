@@ -13,7 +13,7 @@
           size="extra-small"
           (click)="onRemoveFilter(filter)"
         >
-          <ng-icon [svg]="matClear" size="1rem" />
+          <ng-icon [svg]="icon.matClear" size="1rem" />
           {{ filter.label ? t(filter.label) : filter.value }}
         </button>
       </li>
@@ -46,7 +46,7 @@
       [attr.aria-label]="t('list.fab')"
       (click)="onShowCreateItemModal()"
     >
-      <ng-icon [svg]="matAdd" />
+      <ng-icon [svg]="icon.matAdd" />
     </button>
   </div>
 

@@ -3,10 +3,16 @@ import {
   Component,
   inject,
   input,
+  OnInit,
   output,
   viewChild,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
 import { ButtonComponent } from '@ui/components';
 import {
@@ -41,7 +47,7 @@ import { USER_CREDENTIALS_FIELD as FIELD } from './fields';
   templateUrl: './user-credentials-form.component.html',
   styleUrl: './user-credentials-form.component.css',
 })
-export class UserCredentialsFormComponent implements AfterContentInit {
+export class UserCredentialsFormComponent implements OnInit, AfterContentInit {
   private formBuilder = inject(FormBuilder);
 
   submitLabel = input.required<string>();
@@ -51,21 +57,20 @@ export class UserCredentialsFormComponent implements AfterContentInit {
 
   emailRef = viewChild.required('emailRef', { read: TextInputComponent });
 
-  matLogin = matLogin;
+  icon = { matLogin };
   FIELD = FIELD;
-  theForm = this.formBuilder.group({
-    [FIELD.EMAIL.id]: [
-      this.email() ?? '',
-      [Validators.required, Validators.email],
-    ],
-    [FIELD.PASSWORD.id]: ['', [Validators.required]],
-  });
+  theForm!: FormGroup;
 
   get fEmail() {
     return fDescribe(this.theForm, FIELD.EMAIL.id);
   }
+
   get fPassword() {
     return fDescribe(this.theForm, FIELD.PASSWORD.id);
+  }
+
+  ngOnInit() {
+    this.initForm();
   }
 
   ngAfterContentInit() {
@@ -79,5 +84,15 @@ export class UserCredentialsFormComponent implements AfterContentInit {
 
     const credentials = this.theForm.value as UserCredentials;
     this.confirmed.emit(credentials);
+  }
+
+  private initForm(): void {
+    this.theForm = this.formBuilder.group({
+      [FIELD.EMAIL.id]: [
+        this.email() ?? '',
+        [Validators.required, Validators.email],
+      ],
+      [FIELD.PASSWORD.id]: ['', [Validators.required]],
+    });
   }
 }
