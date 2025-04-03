@@ -1,13 +1,12 @@
-import { Routes } from '@angular/router';
 import { StackedLayoutService } from '@ui/layouts';
+import { Routes } from '@angular/router';
 
-import { environment } from '@app/environment';
 import { LoggedPageCollectionComponent } from '@app/core';
 import { isAuthenticatedGuard } from './features/user/guards';
 
 export const DEFAULT_ROUTE = '/list';
 
-let routes: Routes = [
+export const APP_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -46,14 +45,3 @@ let routes: Routes = [
     redirectTo: DEFAULT_ROUTE,
   },
 ];
-
-if (!environment.production) {
-  const demoRoute = {
-    path: 'demo',
-    loadChildren: () => import('@app/__demo__'),
-  };
-
-  routes = [demoRoute, ...routes];
-}
-
-export const APP_ROUTES = routes;
