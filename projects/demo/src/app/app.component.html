@@ -1,0 +1,39 @@
+<div class="app-container">
+  <!-- Stack level: 0 -->
+  <demo-layout>
+    <ng-container slot="header">
+      <demo-header [version]="version">{{ title() }}</demo-header>
+    </ng-container>
+
+    <ng-container slot="main">
+      <router-outlet />
+    </ng-container>
+
+    <ng-container slot="aside">
+      <demo-navigation-menu routePrefix="/" [routes]="pages" />
+    </ng-container>
+  </demo-layout>
+
+  <!-- Stack level: 1 -->
+  @if (loading()) {
+  <app-linear-spinner
+    [color]="themeConfig().linearSpinnerColor"
+    [fixed]="true"
+  />
+  }
+
+  <!-- Stack level: 2 -->
+  <app-notifications-host
+    [notification]="notification()"
+    [dismissAfter]="NOTIFICATION_TIMEOUT"
+    (dismissed)="onDismissNotification()"
+  />
+</div>
+
+<!-- Stack level: 3 -->
+<app-modal-host
+  [labels]="{
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+  }"
+/>

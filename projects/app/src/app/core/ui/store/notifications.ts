@@ -1,16 +1,18 @@
-import { computed, effect, signal } from '@angular/core';
+import { computed, effect, inject, signal } from '@angular/core';
 
 import {
   Notification,
   NOTIFICATION_TYPE,
   NotificationType,
   RuntimeNotification,
-} from '@common/types';
+} from '@ui/components';
 
 import { NOTIFICATION_TIMEOUT } from '../constants';
-import { HashMap } from '@jsverse/transloco';
+import { HashMap, TranslocoService } from '@jsverse/transloco';
 
 export function createUiNotificationController() {
+  const transloco = inject(TranslocoService);
+
   const notifications = signal<Notification[]>([]);
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -20,7 +22,11 @@ export function createUiNotificationController() {
     messageParams?: HashMap
   ) {
     const id = Date.now() + Math.random();
-    const notif = { id, type: notifType, message, messageParams };
+    const notif = {
+      id,
+      type: notifType,
+      message: transloco.translate(message, messageParams),
+    };
     notifications.update((notifs) => [...notifs, notif]);
   }
 

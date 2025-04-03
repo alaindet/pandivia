@@ -1,0 +1,77 @@
+<pre>{{ theForm.value | json }}</pre>
+
+<form [formGroup]="theForm">
+  <!-- Static options -->
+  <app-form-field id="autocomplete-static">
+    <app-form-field-label> Static options </app-form-field-label>
+
+    <app-text-input
+      [id]="'autocomplete-static'"
+      #staticInput="app-text-input"
+      type="search"
+      formControlName="staticField"
+      placeholder="Enter some text here..."
+    ></app-text-input>
+
+    <app-autocomplete
+      [inputComponent]="staticInput"
+      sourceType="static"
+      [filteringDelay]="100"
+      trackKey="id"
+      pickKey="word"
+      width="30rem"
+      [staticOptions]="options"
+      [staticSearchableFields]="['word']"
+      [labels]="{
+        loading: 'Loading...',
+        nothingFound: 'Nothing found'
+      }"
+      (confirmed)="consoleLog('confirmed', $event)"
+    >
+      <ng-container *appAutocompleteOption="let option">
+        <strong>{{ option.word }}</strong>
+        <br />
+        <code>{{ option | json }}</code>
+      </ng-container>
+    </app-autocomplete>
+  </app-form-field>
+
+  <br /><br />
+
+  <!-- Async options -->
+  <!-- <app-form-field id="autocomplete-async">
+
+    <app-form-field-label>
+      Async options
+    </app-form-field-label>
+
+    <app-text-input
+      [id]="'autocomplete-async'"
+      #asyncInput="app-text-input"
+      type="search"
+      formControlName="asyncField"
+      placeholder="Enter some text here..."
+    ></app-text-input>
+
+    <app-autocomplete
+      [inputComponent]="asyncInput"
+      sourceType="async"
+      [filteringDelay]="400"
+      trackKey="id"
+      pickKey="word"
+      [asyncOptions]="asyncOptions"
+      [minChars]="3"
+      [labels]="{
+        loading: 'Loading...',
+        nothingFound: 'Nothing found'
+      }"
+      (confirmed)="consoleLog('confirmed', $event)"
+    >
+      <ng-container *appAutocompleteOption="let option">
+        <strong>{{ option.word }}</strong>
+        <br>
+        (id: "{{ option.id }}")
+      </ng-container>
+    </app-autocomplete>
+  </app-form-field> -->
+</form>

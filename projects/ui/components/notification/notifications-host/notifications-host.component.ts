@@ -12,7 +12,7 @@ import {
   NOTIFICATION_POSITION,
   NotificationPosition,
   RuntimeNotification,
-} from '@common/types';
+} from '../types';
 import { cssClassesList } from '@common/utils';
 
 import { NotificationComponent } from '../notification/notification.component';

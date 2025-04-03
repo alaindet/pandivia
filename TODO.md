@@ -10,3 +10,4 @@
   - [ ] Most controllers should be classes
 - [ ] Declare global injectable config for simple i18n a11y labels
   - [ ] Search for "Label = input('" to replace
+- [ ] Remove `@jsverse/transloco` from `app-notifications-host`

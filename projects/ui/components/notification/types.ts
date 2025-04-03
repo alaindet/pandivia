@@ -1,6 +1,4 @@
-import { HashMap } from '@jsverse/transloco';
-
-import { EnumLike } from './enum-like';
+import { EnumLike } from '@common/types';
 
 export const NOTIFICATION_TYPE = {
   SUCCESS: 'success',
@@ -13,7 +11,6 @@ export type Notification = {
   id: number;
   type: NotificationType;
   message: string;
-  messageParams?: HashMap;
 };
 
 export type RuntimeNotification = Notification & {
