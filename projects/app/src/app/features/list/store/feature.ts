@@ -181,8 +181,8 @@ export class ListStore {
       const key = LIST_FILTER.IS_DONE;
       const value = filtersHash[key];
       const label = value
-        ? 'list.filter.onlyToDo'
-        : 'list.filter.onlyCompleted';
+        ? 'list.filter.onlyCompleted'
+        : 'list.filter.onlyToDo';
       filters.push({ key, value, label });
     }
 
