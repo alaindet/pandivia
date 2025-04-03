@@ -1,13 +1,15 @@
-import { CardListItem } from '@fruit/components';
-
-export type InventoryItem = CardListItem & {
+export type InventoryItem = {
   id: string;
   name: string;
   description?: string;
   category?: string;
 };
 
-export type CreateInventoryItemDto = Omit<InventoryItem, 'id'>;
+export type CreateInventoryItemDto = {
+  name: string;
+  description?: string;
+  category?: string;
+};
 
 export type CategorizedInventoryItems = {
   category: string;

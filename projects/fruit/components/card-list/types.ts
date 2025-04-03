@@ -3,7 +3,7 @@ import { ActionsMenuItem } from '../actions-menu';
 export type CardListItem = {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   isDone?: boolean;
   amount?: number;
   category?: string;
@@ -11,9 +11,15 @@ export type CardListItem = {
 
 export type CardListItemActionsFn<T = any> = (item: T) => ActionsMenuItem[];
 
-export type CardListItemActionOutput = { itemId: string; action: string };
+export type CardListItemActionOutput = {
+  itemId: string;
+  action: string;
+};
 
-export type CardListItemToggledOutput = { itemId: string; isDone: boolean };
+export type CardListItemToggledOutput = {
+  itemId: string;
+  isDone: boolean;
+};
 
 export type CardListComponentLabels = {
   pinned: string;

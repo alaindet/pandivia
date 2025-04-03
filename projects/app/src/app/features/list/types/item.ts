@@ -1,6 +1,4 @@
-import { CardListItem } from '@fruit/components';
-
-export type ListItem = CardListItem & {
+export type ListItem = {
   id: string;
   name: string;
   description?: string;
@@ -9,4 +7,9 @@ export type ListItem = CardListItem & {
   amount: number;
 };
 
-export type CreateListItemDto = Omit<ListItem, 'id' | 'isDone'>;
+export type CreateListItemDto = {
+  name: string;
+  description?: string;
+  category?: string;
+  amount: number;
+};
