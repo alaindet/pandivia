@@ -6,10 +6,6 @@
   [more]="notification!.more"
   (dismissed)="dismissed.emit()"
 >
-  @if (!!notification?.messageParams) {
-  {{ notification!.message | transloco : notification.messageParams }}
-  } @else {
-  {{ notification!.message | transloco }}
-  }
+  {{ notification!.message }}
 </app-notification>
 }

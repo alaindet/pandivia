@@ -1,0 +1,56 @@
+<h2>Color</h2>
+<div class="buttons">
+  <div><button appButton="primary">Primary (default)</button></div>
+  <button appButton="secondary">Secondary</button>
+  <button appButton="tertiary">Tertiary</button>
+  <button appButton="outline">Outline</button>
+  <button appButton="ghost">Ghost</button>
+</div>
+
+<h2>Size</h2>
+<div class="buttons">
+  <button appButton size="extra-small">Extra small</button>
+  <button appButton size="small">Small</button>
+  <button appButton size="medium">Medium (default)</button>
+  <button appButton size="large">Large</button>
+</div>
+
+<h2>Full width</h2>
+<div class="buttons">
+  <button appButton size="extra-small" fullWidth>Extra small</button>
+  <button appButton size="small" fullWidth>Small</button>
+  <button appButton size="medium" fullWidth>Medium (default)</button>
+  <button appButton size="large" fullWidth>Large</button>
+</div>
+
+<h2>Disabled</h2>
+<button appButton [disabled]="true">Disabled</button>
+
+<h2>With icon</h2>
+<div class="buttons">
+  <button appButton withIcon="right">
+    Search <ng-icon [svg]="matSearch" />
+  </button>
+  <button appButton withIcon="left">
+    <ng-icon [svg]="matSearch" /> Search
+  </button>
+</div>
+
+<h2>With icon (various sizes)</h2>
+<div class="buttons">
+  <button appButton withIcon="left" size="large">
+    <ng-icon [svg]="matSearch" /> Large
+  </button>
+
+  <button appButton withIcon="left" size="medium">
+    <ng-icon [svg]="matSearch" /> Medium
+  </button>
+
+  <button appButton withIcon="left" size="small">
+    <ng-icon [svg]="matSearch" /> Small
+  </button>
+
+  <button appButton withIcon="left" size="extra-small">
+    <ng-icon [svg]="matSearch" /> Extra small
+  </button>
+</div>

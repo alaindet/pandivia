@@ -1,0 +1,68 @@
+<h2>In a form</h2>
+<form [formGroup]="myForm">
+  <pre>{{ myForm.value | json }}</pre>
+
+  <app-form-field id="myToggle1">
+    <app-form-field-label>
+      My toggle 1?
+    </app-form-field-label>
+    <app-toggle formControlName="myToggle1" id="myToggle1">My toggle 1</app-toggle>
+    <app-form-field-hint>This should be OFF by default</app-form-field-hint>
+  </app-form-field>
+
+  &nbsp;
+
+  <app-form-field id="myToggle2">
+    <app-form-field-label>
+      My toggle 2?
+    </app-form-field-label>
+    <app-toggle formControlName="myToggle2" [id]="'myToggle2'">My toggle 2</app-toggle>
+    <app-form-field-hint>This should be ON by default</app-form-field-hint>
+  </app-form-field>
+</form>
+
+<h2>Outside of form</h2>
+<app-form-field id="outside-form">
+  <app-form-field-label>
+    Health check
+  </app-form-field-label>
+  <app-toggle
+    [id]="'outside-form'"
+    [isChecked]="outsideForm"
+    (changed)="onOutsideFormChanged($event)"
+  >
+    Are you ok?
+  </app-toggle>
+</app-form-field>
+
+<h2>Color</h2>
+<div class="demo-cases">
+  <app-toggle color="primary" [isChecked]="true">Primary (default)</app-toggle>
+  <app-toggle color="secondary" [isChecked]="true">Secondary</app-toggle>
+  <app-toggle color="tertiary" [isChecked]="true">Tertiary</app-toggle>
+</div>
+
+<h2>Custom size</h2>
+<div class="demo-cases">
+  <app-toggle size="16px">Custom size: 16px</app-toggle>
+  <app-toggle size="32px">Custom size: 32px</app-toggle>
+  <app-toggle size="64px">Custom size: 64px</app-toggle>
+</div>
+
+<h2>Disabled</h2>
+<div class="demo-cases">
+  <app-toggle [isDisabled]="true" [isChecked]="true">Disabled</app-toggle>
+  <app-toggle [isDisabled]="true" [isChecked]="false">Disabled</app-toggle>
+</div>
+
+<h2>Label position</h2>
+<div class="demo-cases">
+  <app-toggle withLabel="right">Right (default)</app-toggle>
+  <div class="demo-cage">
+    <app-toggle withLabel="right-fullwidth">Right fullwidth</app-toggle>
+  </div>
+  <app-toggle withLabel="left">Left</app-toggle>
+  <div class="demo-cage">
+    <app-toggle withLabel="left-fullwidth">Left fullwidth</app-toggle>
+  </div>
+</div>

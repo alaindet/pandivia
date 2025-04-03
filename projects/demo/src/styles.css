@@ -1,0 +1,174 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Widths */
+  --app-width-container: 100vw;
+  --app-width-demo-navigation: 200px;
+  --app-width-modal: 500px;
+
+  /* Heights */
+  --app-height-notification-progress: 3px;
+  --app-height-card-list-item: 2.5rem;
+  --app-height-demo-header: 5rem;
+  --app-height-demo-header-margin: 1rem;
+  --app-height-autocomplete-options: 320px;
+
+  /* Position */
+  --app-pos-notification-mobile-top: 6vh;
+  --app-pos-notification-mobile-right: 2.5vw;
+  --app-pos-notification-mobile-bottom: auto;
+  --app-pos-notification-mobile-left: 2.5vw;
+
+  /* Typography */
+  --app-typography-body-font: "Trebuchet MS", sans-serif;
+  --app-typography-headings-font: "Yeseva One", cursive;
+
+  --app-color-beige-50: #fffefe;
+  --app-color-beige-100: #fffefc;
+  --app-color-beige-200: #fefcf8;
+  --app-color-beige-300: #fefbf4;
+  --app-color-beige-400: #fdf7ec;
+  --app-color-beige-500: #fcf4e4;
+  --app-color-beige-600: #e3dccd;
+  --app-color-beige-700: #979289;
+  --app-color-beige-800: #716e67;
+  --app-color-beige-900: #4c4944;
+
+  --app-color-yellow-50: #fdfbf4;
+  --app-color-yellow-100: #fcf8e8;
+  --app-color-yellow-200: #f6ecc6;
+  --app-color-yellow-300: #f1e1a4;
+  --app-color-yellow-400: #e7cb60;
+  --app-color-yellow-500: #dcb41c;
+  --app-color-yellow-600: #c6a219;
+  --app-color-yellow-700: #846c11;
+  --app-color-yellow-800: #63510d;
+  --app-color-yellow-900: #423608;
+
+  --app-color-malva-50: #fbf8fa;
+  --app-color-malva-100: #f8f1f4;
+  --app-color-malva-200: #ecdce4;
+  --app-color-malva-300: #e1c7d4;
+  --app-color-malva-400: #cb9eb4;
+  --app-color-malva-500: #b47494;
+  --app-color-malva-600: #a26885;
+  --app-color-malva-700: #6c4659;
+  --app-color-malva-800: #513443;
+  --app-color-malva-900: #36232c;
+
+  --app-color-green-50: #f7faf8;
+  --app-color-green-100: #eff6f2;
+  --app-color-green-200: #d6e8de;
+  --app-color-green-300: #bedbcb;
+  --app-color-green-400: #8dbfa3;
+  --app-color-green-500: #5ca47c;
+  --app-color-green-600: #539470;
+  --app-color-green-700: #37624a;
+  --app-color-green-800: #294a38;
+  --app-color-green-900: #1c3125;
+
+  /* Aliases */
+  --app-color-grey-50: #fffefe;
+  --app-color-grey-100: #fffefc;
+  --app-color-grey-200: #fefcf8;
+  --app-color-grey-300: #fefbf4;
+  --app-color-grey-400: #fdf7ec;
+  --app-color-grey-500: #fcf4e4;
+  --app-color-grey-600: #e3dccd;
+  --app-color-grey-700: #979289;
+  --app-color-grey-800: #716e67;
+  --app-color-grey-900: #4c4944;
+
+  --app-color-primary-50: #fdfbf4;
+  --app-color-primary-100: #fcf8e8;
+  --app-color-primary-200: #f6ecc6;
+  --app-color-primary-300: #f1e1a4;
+  --app-color-primary-400: #e7cb60;
+  --app-color-primary-500: #dcb41c;
+  --app-color-primary-600: #c6a219;
+  --app-color-primary-700: #846c11;
+  --app-color-primary-800: #63510d;
+  --app-color-primary-900: #423608;
+
+  --app-color-secondary-50: #fbf8fa;
+  --app-color-secondary-100: #f8f1f4;
+  --app-color-secondary-200: #ecdce4;
+  --app-color-secondary-300: #e1c7d4;
+  --app-color-secondary-400: #cb9eb4;
+  --app-color-secondary-500: #b47494;
+  --app-color-secondary-600: #a26885;
+  --app-color-secondary-700: #6c4659;
+  --app-color-secondary-800: #513443;
+  --app-color-secondary-900: #36232c;
+
+  --app-color-tertiary-50: #f7faf8;
+  --app-color-tertiary-100: #eff6f2;
+  --app-color-tertiary-200: #d6e8de;
+  --app-color-tertiary-300: #bedbcb;
+  --app-color-tertiary-400: #8dbfa3;
+  --app-color-tertiary-500: #5ca47c;
+  --app-color-tertiary-600: #539470;
+  --app-color-tertiary-700: #37624a;
+  --app-color-tertiary-800: #294a38;
+  --app-color-tertiary-900: #1c3125;
+
+  /* Utilities */
+  --app-color-white: #fefcf8;
+  --app-color-black: rgb(18, 52, 86);
+  --app-color-black-lighter: hsl(210, 65%, 30%);
+  --app-color-error: #da452e;
+  --app-color-success: #5ca47c;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --app-width-container: 800px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--app-root-color-background, var(--app-color-grey-400));
+  color: var(--app-root-color-foreground, var(--app-color-black));
+}
+
+body,
+input,
+textarea,
+button {
+  font-family: var(--app-typography-body-font);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--app-typography-headings-font);
+}
+
+/* Hide Firebase warning in emulator mode while developing */
+.firebase-emulator-warning {
+  display: none;
+}
+
+/*
+ * Utility class to hide content visually while keeping it screen reader-accessible.
+ * Source: https://www.scottohara.me/blog/2017/04/14/inclusively-hidden.html
+ */
+.visually-hidden:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
