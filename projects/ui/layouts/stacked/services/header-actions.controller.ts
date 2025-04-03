@@ -1,6 +1,5 @@
 import { signal } from '@angular/core';
 import { Subject } from 'rxjs';
-
 import { ActionsMenuItem } from '@ui/components';
 
 export function createHeaderActionsController() {

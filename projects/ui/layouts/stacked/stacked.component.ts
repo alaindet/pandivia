@@ -9,20 +9,19 @@ import {
   viewChild,
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
-import { matSearch, matMoreHoriz } from '@ng-icons/material-icons/baseline';
-import { IconButtonComponent } from '@ui/components';
-import { BottomMenuComponent, BottomMenuItem } from '@ui/components';
+import { matMoreHoriz, matSearch } from '@ng-icons/material-icons/baseline';
 import {
-  ActionsMenuComponent,
   ActionsMenuButtonDirective,
-  ActionsMenuItemDirective,
+  ActionsMenuComponent,
   ActionsMenuItem,
+  BottomMenuComponent,
+  BottomMenuItem,
+  IconButtonComponent,
+  PageHeaderComponent,
+  TextInputComponent,
 } from '@ui/components';
-import { PageHeaderComponent } from '@ui/components';
-import { TextInputComponent } from '@ui/components';
-
-import { TranslocoModule } from '@jsverse/transloco';
 import { Counters } from '@common/types';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-layout-stacked',
@@ -64,6 +63,7 @@ export class StackedLayoutComponent {
 
   visibleSearchEffect = effect(() => {
     if (this.withVisibleSearch()) {
+      // TODO: use afterNextRender()
       queueMicrotask(() => this.inputRef()?.focus());
     }
   });

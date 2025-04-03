@@ -25,9 +25,9 @@ import {
   ConfirmPromptModalComponent,
   ConfirmPromptModalInput,
 } from '@ui/components';
-import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
+import { StackedLayoutService } from '@ui/layouts';
 
-import { StackedLayoutService } from '@app/common/layouts';
+import { ChangeCategoryModalComponent } from '@app/common/components/change-category-modal';
 import { DEFAULT_CATEGORY } from '@app/core';
 import { NAVIGATION_ITEM_LIST, UiStore } from '@app/core/ui';
 import { environment } from '@app/environment';

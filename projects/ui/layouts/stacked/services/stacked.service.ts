@@ -6,10 +6,8 @@ import { createHeaderCountersController } from './header-counters.controller';
 import { createSearchController } from './search.controller';
 import { createTitleController } from './title.controller';
 
-
 @Injectable()
 export class StackedLayoutService implements OnDestroy {
-
   search = createSearchController();
   title = createTitleController();
   headerActions = createHeaderActionsController();

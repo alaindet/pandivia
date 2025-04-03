@@ -1,9 +1,7 @@
+import { signal } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { signal } from '@angular/core';
-
 export function createSearchController() {
-
   const enabled = signal(false);
   const visible = signal(false);
   const query = signal('');
@@ -31,11 +29,10 @@ export function createSearchController() {
   }
 
   function toggle() {
-    visible.update(prev => !prev);
+    visible.update((prev) => !prev);
   }
 
   function search(_query: string) {
-
     if (searchTimer !== null) {
       clearTimeout(searchTimer);
     }
@@ -45,7 +42,7 @@ export function createSearchController() {
       searched$.next(_query);
     };
 
-    searchTimer = setTimeout(fn,  thresholdMilliseconds);
+    searchTimer = setTimeout(fn, thresholdMilliseconds);
   }
 
   function clear(triggerEvents = true) {
