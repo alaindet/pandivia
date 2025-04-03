@@ -2,14 +2,18 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  Injector,
   Provider,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   computed,
   effect,
   forwardRef,
+  inject,
   input,
   output,
+  runInInjectionContext,
   signal,
   viewChild,
 } from '@angular/core';
@@ -37,6 +41,8 @@ const SELECT_FORM_PROVIDER: Provider = {
   providers: [SELECT_FORM_PROVIDER],
 })
 export class SelectComponent implements ControlValueAccessor {
+  private injector = inject(Injector);
+
   _id = input<string>('', { alias: 'id' });
   value = input<string>();
   status = input<FormFieldStatus>();
@@ -113,7 +119,9 @@ export class SelectComponent implements ControlValueAccessor {
 
   // From ControlValueAccessor
   writeValue(value: string | null): void {
-    this.selectedValue.set(value);
+    runInInjectionContext(this.injector, () => {
+      afterNextRender(() => this.selectedValue.set(value));
+    });
   }
 
   // From ControlValueAccessor
