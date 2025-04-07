@@ -1,13 +1,13 @@
 @switch (currentOptionsTemplate()) { @case (CURRENT_TEMPLATE.LOADING) {
 <ul class="_options" id="{{ inputId }}-menu" [attr.aria-labelledby]="inputId">
   <li role="status" class="_missing-option">
-    {{ labels()?.loading ?? "Loading..." }}
+    {{ i18nLoading() }}
   </li>
 </ul>
 } @case (CURRENT_TEMPLATE.EMPTY) {
 <ul class="_options" id="{{ inputId }}-menu" [attr.aria-labelledby]="inputId">
   <li role="status" class="_missing-option">
-    {{ labels()?.nothingFound ?? "Nothing found" }}
+    {{ i18nNothingFound() }}
   </li>
 </ul>
 } @case (CURRENT_TEMPLATE.OPTIONS) {

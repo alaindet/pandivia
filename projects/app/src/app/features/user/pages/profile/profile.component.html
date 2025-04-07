@@ -38,6 +38,7 @@
       id="theme-switcher"
       [options]="theme.options"
       [value]="theme.config().id"
+      [i18nDefaultOption]="t('components.select.defaultLabel')"
       (selected)="onSelectTheme($event)"
     />
 
@@ -47,9 +48,7 @@
       id="language-switcher"
       [options]="language.options"
       [value]="language.language()"
-      [labels]="{
-        defaultOption: t('components.select.defaultLabel')
-      }"
+      [i18nDefaultOption]="t('components.select.defaultLabel')"
       (selected)="onSelectLanguage($event)"
     />
   </section>

@@ -22,6 +22,7 @@
       fullWidth
       [status]="fName | appFieldStatus"
       [placeholder]="t('common.form.field.name') + '...'"
+      [i18nClearContent]="t('common.clearContent')"
       [withStatusIcon]="true"
       [withErrorId]="
         fName
@@ -42,11 +43,10 @@
       pickKey="label"
       trackKey="value"
       [showEmptyOptions]="false"
-      [minChars]="1"
-      [labels]="{
-        loading: t('components.autocomplete.loading'),
-        nothingFound: t('components.autocomplete.nothingFound')
-      }"
+      minChars="1"
+      searchOnEmpty
+      [i18nLoading]="t('components.autocomplete.loading')"
+      [i18nNothingFound]="t('components.autocomplete.nothingFound')"
       width="16rem"
       offsetY="0.5rem"
       (confirmed)="onConfirmName($event)"
@@ -66,7 +66,7 @@
     <!-- Error: min/max length -->
     @if (fName | appFieldError:'minlength,maxlength') {
     <app-form-field-error [errorId]="FIELD.NAME.errors.LENGTH">
-      {{ t("common.error.minMaxLength", { min: 2, max: 100 }) }}
+      {{ t("common.error.minMaxLength", { min: 1, max: 100 }) }}
     </app-form-field-error>
     }
 
@@ -90,6 +90,8 @@
       [min]="1"
       [max]="100"
       [color]="themeConfig().quickNumberColor"
+      [i18nIncrement]="t('common.menu.increment')"
+      [i18nDecrement]="t('common.menu.decrement')"
       fullWidth
       [withErrorId]="fAmount | appFieldErrorId:{
         'required': FIELD.AMOUNT.errors.REQUIRED,
@@ -124,6 +126,7 @@
       [formControlName]="FIELD.DESCRIPTION.id"
       [status]="fDesc | appFieldStatus"
       [placeholder]="t('common.form.field.description') + '...'"
+      [i18nClearContent]="t('common.clearContent')"
       [withCharsCounter]="true"
       [maxChars]="100"
       [withStatusIcon]="true"
@@ -176,11 +179,10 @@
       pickKey="label"
       [showEmptyOptions]="false"
       [asyncOptions]="categoryFieldOptions"
-      [minChars]="1"
-      [labels]="{
-        loading: t('components.autocomplete.loading'),
-        nothingFound: t('components.autocomplete.nothingFound')
-      }"
+      minChars="0"
+      searchOnEmpty
+      [i18nLoading]="t('components.autocomplete.loading')"
+      [i18nNothingFound]="t('components.autocomplete.nothingFound')"
       width="16rem"
       offsetY="0.5rem"
       (confirmed)="onConfirmCategory($event)"

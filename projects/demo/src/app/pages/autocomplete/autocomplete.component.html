@@ -11,21 +11,19 @@
       type="search"
       formControlName="staticField"
       placeholder="Enter some text here..."
-    ></app-text-input>
+    />
 
     <app-autocomplete
       [inputComponent]="staticInput"
       sourceType="static"
       [filteringDelay]="100"
       trackKey="id"
+      minChars="0"
       pickKey="word"
+      searchOnEmpty="true"
       width="30rem"
       [staticOptions]="options"
       [staticSearchableFields]="['word']"
-      [labels]="{
-        loading: 'Loading...',
-        nothingFound: 'Nothing found'
-      }"
       (confirmed)="consoleLog('confirmed', $event)"
     >
       <ng-container *appAutocompleteOption="let option">
@@ -39,11 +37,8 @@
   <br /><br />
 
   <!-- Async options -->
-  <!-- <app-form-field id="autocomplete-async">
-
-    <app-form-field-label>
-      Async options
-    </app-form-field-label>
+  <app-form-field id="autocomplete-async">
+    <app-form-field-label> Async options </app-form-field-label>
 
     <app-text-input
       [id]="'autocomplete-async'"
@@ -59,19 +54,16 @@
       [filteringDelay]="400"
       trackKey="id"
       pickKey="word"
+      searchOnEmpty="true"
       [asyncOptions]="asyncOptions"
-      [minChars]="3"
-      [labels]="{
-        loading: 'Loading...',
-        nothingFound: 'Nothing found'
-      }"
+      minChars="0"
       (confirmed)="consoleLog('confirmed', $event)"
     >
       <ng-container *appAutocompleteOption="let option">
         <strong>{{ option.word }}</strong>
-        <br>
+        <br />
         (id: "{{ option.id }}")
       </ng-container>
     </app-autocomplete>
-  </app-form-field> -->
+  </app-form-field>
 </form>

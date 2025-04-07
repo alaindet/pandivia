@@ -15,7 +15,9 @@
     "firebase:admin:init": "node ./scripts/init-admin.js",
     "analyze": "npm run build:stats && webpack-bundle-analyzer dist/app/stats.json",
     "common:build": "ng build --project=common",
+    "common:watch": "ng build --watch --project=common",
     "ui:build": "ng build --project=ui",
+    "ui:watch": "ng build --watch --project=ui",
     "demo": "ng serve --project demo"
   },
   "private": true,

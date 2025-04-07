@@ -12,6 +12,7 @@
       formControlName="email"
       fullWidth
       [status]="fEmail | appFieldStatus"
+      [i18nClearContent]="t('common.clearContent')"
       [placeholder]="t('common.form.field.email') + '...'"
       [withStatusIcon]="true"
       [withErrorId]="fEmail | appFieldErrorId:{

@@ -6,8 +6,8 @@
   circled
   [disabled]="isDecrementDisabled()"
   class="-decrement"
-  title="Decrement value"
-  [attr.aria-label]="decrementLabel()"
+  [title]="i18nDecrement()"
+  [attr.aria-label]="i18nDecrement()"
   (click)="onDecrement()"
 >
   <ng-icon [svg]="icon.matRemove" />
@@ -22,9 +22,9 @@
   size="small"
   circled
   [disabled]="isIncrementDisabled()"
-  [attr.aria-label]="incrementLabel()"
+  [title]="i18nIncrement()"
+  [attr.aria-label]="i18nIncrement()"
   class="-increment"
-  title="Increment value"
   (click)="onIncrement()"
 >
   <ng-icon [svg]="icon.matAdd" />

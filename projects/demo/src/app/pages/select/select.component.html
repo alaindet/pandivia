@@ -6,15 +6,15 @@
     id="inside-form"
     formControlName="mySelected"
     [options]="options"
-  ></app-select>
+  />
 
-  <br><br>
+  <br /><br />
 
   <app-select
     id="inside-form"
     formControlName="myNotSelected"
     [options]="options"
-  ></app-select>
+  />
 </form>
 
 <h2>Outside a form</h2>
@@ -22,7 +22,7 @@
   id="outside-form"
   [options]="options"
   (selected)="consoleLog('selected', $event)"
-></app-select>
+/>
 
 <h2>With status</h2>
 <app-select
@@ -30,16 +30,16 @@
   [options]="options"
   status="success"
   (selected)="consoleLog('selected', $event)"
-></app-select>
+/>
 
-<br><br>
+<br /><br />
 
 <app-select
   id="status-error"
   [options]="options"
   status="error"
   (selected)="consoleLog('selected', $event)"
-></app-select>
+/>
 
 <h2>Custom width</h2>
 <app-select
@@ -47,7 +47,7 @@
   [options]="options"
   width="10rem"
   (selected)="consoleLog('selected', $event)"
-></app-select>
+/>
 
 <h2>Without default option</h2>
 <app-select
@@ -55,11 +55,15 @@
   [options]="options"
   [withDefaultOption]="false"
   (selected)="consoleLog('selected', $event)"
-></app-select>
+/>
 
 <h2>Disabled</h2>
+<app-select id="disabled" [options]="options" [isDisabled]="true" />
+
+<h2>i18n</h2>
 <app-select
-  id="disabled"
+  id="translated"
+  i18nDefaultOption="Seleziona opzione..."
   [options]="options"
-  [isDisabled]="true"
-></app-select>
+  (selected)="consoleLog('selected', $event)"
+/>

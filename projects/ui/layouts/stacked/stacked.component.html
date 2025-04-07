@@ -1,5 +1,5 @@
 <header>
-  <app-page-header>
+  <app-page-header [i18nGoToPreviousPage]="i18nGoToPreviousPage()">
     <!-- Title with optional counters -->
     <ng-container
       [ngTemplateOutlet]="
@@ -16,7 +16,7 @@
       @if (withSearch()) {
       <button
         appIconButton="ghost"
-        [attr.aria-label]="searchBarButtonLabel()"
+        [attr.aria-label]="i18nToggleSearchBar()"
         circled
         (click)="onToggleSearchBar()"
       >
@@ -36,7 +36,7 @@
           *appActionsMenuButton
           appIconButton="outline"
           circled
-          [attr.aria-label]="actionsToggleLabel()"
+          [attr.aria-label]="i18nToggleActionsMenu()"
         >
           <ng-icon [svg]="icon.matMoreHoriz" />
         </button>

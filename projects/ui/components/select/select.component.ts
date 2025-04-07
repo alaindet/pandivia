@@ -23,7 +23,6 @@ import { FormOption } from '@common/types';
 import { cssClassesList, uniqueId } from '@common/utils';
 
 import { FormFieldStatus } from '../form-field';
-import { SelectComponentLabels } from './types';
 
 const SELECT_FORM_PROVIDER: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -53,7 +52,7 @@ export class SelectComponent implements ControlValueAccessor {
   options = input<FormOption[]>([]);
   width = input<string>();
   withDefaultOption = input(true, { transform: booleanAttribute });
-  labels = input<SelectComponentLabels>();
+  i18nDefaultOption = input('Select...');
 
   selected = output<string | null>();
 

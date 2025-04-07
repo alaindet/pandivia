@@ -68,10 +68,8 @@
           [itemActionsFn]="getItemContextualMenu"
           [withCounters]="true"
           [isPinned]="pinnedCategory() === group.category"
-          [labels]="{
-            pinned: t('common.unpin'),
-            unpinned: t('common.pin')
-          }"
+          [i18nPin]="t('common.pin')"
+          [i18nUnpin]="t('common.unpin')"
           (listActionClicked)="onCategoryAction(group.category, $event)"
           (itemActionClicked)="onItemAction($event)"
           (pinned)="onPinCategory(group.category, $event)"

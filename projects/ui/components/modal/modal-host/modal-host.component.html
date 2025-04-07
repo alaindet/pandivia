@@ -42,7 +42,7 @@
         (click)="onDismiss()"
       >
         <ng-icon [svg]="icon.matClose" />
-        {{ labels()?.cancel ?? "Cancel" }}
+        {{ i18nCancel() }}
       </button>
 
       <!-- Confirm -->
@@ -54,7 +54,7 @@
         (click)="onConfirm()"
       >
         <ng-icon [svg]="icon.matCheck" />
-        {{ labels()?.confirm ?? "Confirm" }}
+        {{ i18nConfirm() }}
       </button>
     </div>
     }

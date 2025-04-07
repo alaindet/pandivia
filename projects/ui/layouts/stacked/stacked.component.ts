@@ -50,8 +50,9 @@ export class StackedLayoutComponent {
   withSearch = input(false, { transform: booleanAttribute });
   withVisibleSearch = input(false, { transform: booleanAttribute });
   searchQuery = input('');
-  searchBarButtonLabel = input('Toggle search bar');
-  actionsToggleLabel = input('Toggle actions menu');
+  i18nGoToPreviousPage = input('Go to previous page');
+  i18nToggleSearchBar = input('Toggle search bar');
+  i18nToggleActionsMenu = input('Toggle actions menu');
 
   headerActionClicked = output<string>();
   footerActionClicked = output<string>();

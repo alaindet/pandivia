@@ -23,10 +23,10 @@
     appIconButton="ghost"
     circled
     size="extra-small"
-    [attr.aria-label]="clearLabel()"
+    [attr.aria-label]="i18nClearContent()"
     (click)="onClearInput()"
   >
-    &times;
+    <ng-icon [svg]="icon.matClear" />
   </button>
   }
 

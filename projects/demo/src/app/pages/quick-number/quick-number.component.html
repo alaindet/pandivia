@@ -1,12 +1,13 @@
 <h2>In a form</h2>
 <form [formGroup]="myForm">
   <pre>{{ { value: myForm.value, errors: myForm.errors } | json }}</pre>
-  <app-quick-number formControlName="myQuickNumber" />
+  <app-quick-number id="in-form" formControlName="myQuickNumber" />
 </form>
 
-<!-- <h2>With min/max limits</h2>
+<h2>With min/max limits</h2>
 <p>Min: {{ min }}, Max: {{ max }}</p>
 <app-quick-number
+  id="with-min-max-limits"
   [value]="value"
   [min]="min"
   [max]="max"
@@ -15,7 +16,18 @@
 
 <h2>With full width</h2>
 <app-quick-number
+  id="with-full-width"
   [value]="value"
   fullWidth
   (changed)="consoleLog('changed', $event)"
-/> -->
+/>
+
+<h2>i18n</h2>
+<app-quick-number
+  id="translated"
+  [value]="value"
+  fullWidth
+  i18nIncrement="Incrementa il valore di 1"
+  i18nDecrement="Decrementa il valore di 1"
+  (changed)="consoleLog('changed', $event)"
+/>

@@ -44,6 +44,16 @@
   (changed)="consoleLog('changed', $event)"
 />
 
+<h2>With multiple icons</h2>
+<app-text-input
+  type="text"
+  value="Some uselessly long content"
+  clearable
+  withStatusIcon
+  status="success"
+  (changed)="consoleLog('changed', $event)"
+/>
+
 <h2>Disabled</h2>
 <app-text-input
   type="text"
@@ -83,6 +93,17 @@
     value="Custom width (30rem)"
     placeholder="Custom width (30rem)"
     width="30rem"
+    (changed)="consoleLog('changed', $event)"
+  />
+</p>
+
+<h2>i18n</h2>
+<p>
+  <app-text-input
+    type="text"
+    value="Cancellabile"
+    clearable
+    i18nClearContent="Cancella contenuto"
     (changed)="consoleLog('changed', $event)"
   />
 </p>

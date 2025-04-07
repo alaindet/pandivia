@@ -1,20 +1,20 @@
 <app-layout-stacked
   [title]="title()"
-
   [headerActions]="headerActions()"
   [headerCounters]="headerCounters()"
+  [i18nToggleSearchBar]="i18n.toggleSearchBar"
+  [i18nToggleActionsMenu]="i18n.toggleActionsMenu"
+  [i18nGoToPreviousPage]="i18n.goToPreviousPage"
   (headerActionClicked)="onHeaderActionClicked($event)"
-
   [withSearch]="searchEnabled()"
   [withVisibleSearch]="searchVisible()"
   [searchQuery]="searchQuery()"
   (toggledSearch)="onToggleSearchBox()"
   (searched)="onTypeSearchQuery($event)"
   (searchCleared)="onClearSearchQuery()"
-
   [footerActions]="bottomNavigationItems()"
   [footerCurrentAction]="bottomNavigationCurrent()"
   (footerActionClicked)="onBottomNavigation($event)"
 >
-  <router-outlet></router-outlet>
+  <router-outlet />
 </app-layout-stacked>

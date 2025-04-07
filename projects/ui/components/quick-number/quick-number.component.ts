@@ -56,8 +56,8 @@ export class QuickNumberComponent implements ControlValueAccessor {
   });
   withErrorId = input<string | null>(null);
   fullWidth = input(false, { transform: booleanAttribute });
-  decrementLabel = input('Decrement by one');
-  incrementLabel = input('Increment by one');
+  i18nDecrement = input('Decrement by one');
+  i18nIncrement = input('Increment by one');
 
   changed = output<number>();
 

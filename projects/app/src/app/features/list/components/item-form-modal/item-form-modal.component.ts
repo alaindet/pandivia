@@ -252,7 +252,7 @@ export class ListItemFormModalComponent
         item?.name ?? '',
 
         // Sync validators
-        [required, minLength(2), maxLength(100)],
+        [required, minLength(1), maxLength(100)],
 
         // Async validators,
         [
