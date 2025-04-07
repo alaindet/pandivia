@@ -29,6 +29,17 @@ export class LoggedPageCollectionComponent {
   searchEnabled = this.layout.search.enabled;
   searchVisible = this.layout.search.visible;
   searchQuery = this.layout.search.query;
+  i18n = {
+    toggleSearchBar: this.transloco.translate(
+      'layouts.stacked.toggleSearchBar'
+    ),
+    toggleActionsMenu: this.transloco.translate(
+      'layouts.stacked.toggleActionsMenu'
+    ),
+    goToPreviousPage: this.transloco.translate(
+      'components.pageHeader.goToPreviousPage'
+    ),
+  };
 
   onBottomNavigation(actionId: BottomMenuItem['id']) {
     this.router.navigate([NAVIGATION_ROUTES[actionId]]);
