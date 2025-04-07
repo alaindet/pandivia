@@ -38,9 +38,16 @@ export class AutocompleteDemoPageComponent {
   asyncOptions: AutocompleteAsyncOptionsFn = (
     query: string
   ): Observable<AutocompleteOption[]> => {
-    const filteredOptions = this.options.filter((opt) =>
-      opt.id.includes(query)
-    );
+    const _query = query.toLowerCase();
+    const filteredOptions = this.options.filter((opt) => {
+      if (opt.id.toLowerCase().includes(_query)) {
+        return true;
+      }
+      if (opt.word.toLowerCase().includes(_query)) {
+        return true;
+      }
+      return false;
+    });
     return of(filteredOptions).pipe(delay(800));
   };
 

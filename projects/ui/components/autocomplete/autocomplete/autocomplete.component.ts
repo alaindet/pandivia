@@ -163,7 +163,7 @@ export class AutocompleteComponent implements OnInit {
     const valuePicker = this.svc.getValuePicker();
     this.svc.confirmedEvent.subscribe((option) => {
       const value = valuePicker(option);
-      this.inputComponent().setValue(value);
+      this.inputComponent().setValue(value, true);
       this.confirmed.emit(option);
       this.svc.closeDropdown();
     });
@@ -227,6 +227,5 @@ export class AutocompleteComponent implements OnInit {
 
   private onClickOut(): void {
     this.svc.closeDropdown();
-    this.nativeInput.focus();
   }
 }

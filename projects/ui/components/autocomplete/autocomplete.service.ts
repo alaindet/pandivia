@@ -75,9 +75,9 @@ export class AutocompleteService implements OnDestroy {
     minChars = 0
   ): void {
     element.autocomplete = 'off';
-    this.listenToFocusAndBlur(element, searchOnEmpty, minChars);
+    this.listenToFocusEvent(element, searchOnEmpty, minChars);
     this.listenToQuery(element, delay, searchOnEmpty, minChars);
-    this.listenToKeyboardControls(element);
+    this.listenToKeyboardEvents(element);
   }
 
   setAsyncOptions(optionsFn: AutocompleteAsyncOptionsFn): void {
@@ -102,6 +102,13 @@ export class AutocompleteService implements OnDestroy {
     this.open.set(false);
     this.focusedIndex.set(null);
     this.updateFocusedId(null);
+    this.closed.next();
+  }
+
+  confirm(option: AutocompleteOption): void {
+    this.focusedIndex.set(null);
+    this.open.set(false);
+    this.confirmedEvent.next(option);
     this.closed.next();
   }
 
@@ -137,7 +144,7 @@ export class AutocompleteService implements OnDestroy {
     return filteredOptions;
   }
 
-  private listenToFocusAndBlur(
+  private listenToFocusEvent(
     element: HTMLInputElement,
     searchOnEmpty: boolean,
     minChars = 0
@@ -220,7 +227,7 @@ export class AutocompleteService implements OnDestroy {
     });
   }
 
-  private listenToKeyboardControls(element: HTMLInputElement): void {
+  private listenToKeyboardEvents(element: HTMLInputElement): void {
     fromEvent<KeyboardEvent>(element, 'keydown')
       .pipe(takeUntil(this.destroy$))
       .subscribe((event) => {
@@ -297,13 +304,6 @@ export class AutocompleteService implements OnDestroy {
     const index = focusedIndex + 1;
     this.focusedIndex.set(index);
     this.updateFocusedId(index);
-  }
-
-  confirm(option: AutocompleteOption): void {
-    this.focusedIndex.set(null);
-    this.open.set(false);
-    this.confirmedEvent.next(option);
-    this.closed.next();
   }
 
   private confirmFocused(): void {

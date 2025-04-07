@@ -37,6 +37,4 @@ import { DemoRoute } from '../../types';
 export class DemoNavigationMenuComponent {
   routePrefix = input('');
   routes = input.required<DemoRoute[]>();
-
-  _ = effect(() => console.log('routePrefix', this.routePrefix()));
 }

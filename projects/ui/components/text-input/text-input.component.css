@@ -8,12 +8,10 @@
  * --app-form-control-foreground
  * --app-form-control-placeholder
  */
-
-app-text-input {
-  --_width: fit-content;
-}
-
 .app-text-input {
+  --_width: fit-content;
+  --_padding-right: 1rem;
+
   position: relative;
   display: inline-flex;
   justify-content: space-between;
@@ -43,8 +41,18 @@ app-text-input {
   width: 100% !important;
 }
 
-.app-text-input.-clearable ._input {
-  padding-right: 0.75rem;
+.app-text-input.-status-success,
+.app-text-input.-status-error {
+  --_padding-right: 2rem;
+}
+
+.app-text-input.-clearable {
+  --_padding-right: 2.25rem;
+}
+
+.app-text-input.-clearable.-status-success,
+.app-text-input.-clearable.-status-error {
+  --_padding-right: 3.5rem;
 }
 
 .app-text-input ._icons {
@@ -59,6 +67,7 @@ app-text-input {
   min-width: 19.25rem;
   height: 2.8rem;
   padding: 0 1rem;
+  padding-right: var(--_padding-right);
   background-color: var(--app-form-control-background);
   color: var(--app-form-control-foreground);
   transition: 0.15s border-color ease-in-out;

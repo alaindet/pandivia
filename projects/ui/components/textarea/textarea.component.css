@@ -10,6 +10,8 @@
  */
 
 .app-textarea {
+  --_padding-right: 0.5rem;
+
   position: relative;
   display: inline-flex;
   flex-wrap: wrap;
@@ -36,8 +38,18 @@
   width: 100% !important;
 }
 
-.app-textarea.-clearable ._textarea {
-  padding-right: 0.75rem;
+.app-textarea.-status-success,
+.app-textarea.-status-error {
+  --_padding-right: 1.5rem;
+}
+
+.app-textarea.-clearable {
+  --_padding-right: 2rem;
+}
+
+.app-textarea.-clearable.-status-success,
+.app-textarea.-clearable.-status-error {
+  --_padding-right: 3.5rem;
 }
 
 .app-textarea.-clearable ._icons {
@@ -56,6 +68,7 @@
   line-height: 1rem;
   min-width: 19.25rem;
   padding: 0.5rem;
+  padding-right: var(--_padding-right);
   background-color: var(--app-form-control-background);
   color: var(--app-form-control-foreground);
   transition: 0.15s border-color ease-in-out;

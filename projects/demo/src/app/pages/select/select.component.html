@@ -59,3 +59,11 @@
 
 <h2>Disabled</h2>
 <app-select id="disabled" [options]="options" [isDisabled]="true" />
+
+<h2>i18n</h2>
+<app-select
+  id="translated"
+  i18nDefaultOption="Seleziona opzione..."
+  [options]="options"
+  (selected)="consoleLog('selected', $event)"
+/>
