@@ -1,6 +1,8 @@
 <ng-container *transloco="let t">
   <header>
-    <app-page-header>
+    <app-page-header
+      [i18nGoToPreviousPage]="t('components.pageHeader.goToPreviousPage')"
+    >
       <h1>{{ t("auth.signUp") }}</h1>
     </app-page-header>
   </header>
@@ -21,6 +23,7 @@
           [formControlName]="FIELD.NAME.id"
           [status]="fName | appFieldStatus"
           [placeholder]="t('common.form.field.name') + '...'"
+          [i18nClearContent]="t('common.clearContent')"
           fullWidth
           [withStatusIcon]="true"
           [withErrorId]="fName | appFieldErrorId:{

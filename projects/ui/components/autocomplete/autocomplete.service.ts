@@ -8,6 +8,7 @@ import {
   switchMap,
   take,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { KEYBOARD_KEY as KB } from '@common/types';
 import { createDebouncedInputEvent } from '@common/utils';
@@ -74,7 +75,7 @@ export class AutocompleteService implements OnDestroy {
     minChars = 0
   ): void {
     element.autocomplete = 'off';
-    this.listenToFocusAndBlur(element);
+    this.listenToFocusAndBlur(element, searchOnEmpty, minChars);
     this.listenToQuery(element, delay, searchOnEmpty, minChars);
     this.listenToKeyboardControls(element);
   }
@@ -136,17 +137,28 @@ export class AutocompleteService implements OnDestroy {
     return filteredOptions;
   }
 
-  private listenToFocusAndBlur(element: HTMLInputElement): void {
-    fromEvent<Event>(element, 'focus')
-      .pipe(
-        takeUntil(this.destroy$),
-        filter(() => !!element.value)
-      )
-      .subscribe(() => {
-        this.onQuery(element.value);
-        this.open.set(true);
-        this.opened.next();
-      });
+  private listenToFocusAndBlur(
+    element: HTMLInputElement,
+    searchOnEmpty: boolean,
+    minChars = 0
+  ): void {
+    let focus$ = fromEvent<Event>(element, 'focus').pipe(
+      takeUntil(this.destroy$)
+    );
+
+    if (!searchOnEmpty) {
+      focus$ = focus$.pipe(filter(() => element.value !== ''));
+    }
+
+    if (minChars) {
+      focus$ = focus$.pipe(filter(() => element.value.length >= minChars));
+    }
+
+    focus$.subscribe(() => {
+      this.onQuery(element.value);
+      this.open.set(true);
+      this.opened.next();
+    });
   }
 
   private listenToQuery(

@@ -27,7 +27,7 @@ export class PageHeaderComponent {
 
   withBackButton = input(false, { transform: booleanAttribute });
   withControlledBackButton = input(false, { transform: booleanAttribute });
-  backLabel = input('Go back');
+  i18nGoToPreviousPage = input('Go to previous page');
 
   backClicked = output<void>();
 

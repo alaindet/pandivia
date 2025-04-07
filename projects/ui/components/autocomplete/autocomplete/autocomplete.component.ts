@@ -25,7 +25,6 @@ import {
   AUTOCOMPLETE_ITEMS_TEMPLATE,
   AUTOCOMPLETE_SOURCE_TYPE,
   AutocompleteAsyncOptionsFn,
-  AutocompleteComponentLabels,
   AutocompleteCurrentTemplate,
   AutocompleteOption,
   AutocompleteOptionValuePicker,
@@ -49,7 +48,6 @@ export class AutocompleteComponent implements OnInit {
   // Input
   inputComponent = input.required<TextInputComponent>();
   sourceType = input.required<AutocompleteSourceType>();
-  labels = input<AutocompleteComponentLabels>();
   minChars = input(0, { transform: numberAttribute });
   filteringDelay = input(400, { transform: numberAttribute });
   searchOnEmpty = input(false, { transform: booleanAttribute });
@@ -61,6 +59,8 @@ export class AutocompleteComponent implements OnInit {
   showEmptyOptions = input(true, { transform: booleanAttribute });
   width = input('19.25rem');
   offsetY = input('0');
+  i18nNothingFound = input('Nothing found');
+  i18nLoading = input('Loading...');
 
   // Output
   confirmed = output<AutocompleteOption>();

@@ -23,7 +23,7 @@
           [svg]="isPinned() ? icon.matClear : icon.matPushPin"
           size="1.2rem"
         />
-        {{ isPinned() ? pinnedLabel() ?? "Unpin" : unpinnedLabel() ?? "Pin" }}
+        {{ isPinned() ? i18nUnpin() : i18nPin() }}
       </button>
     </div>
   </div>

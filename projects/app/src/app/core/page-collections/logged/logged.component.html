@@ -1,20 +1,21 @@
 <app-layout-stacked
+  *transloco="let t"
   [title]="title()"
-
   [headerActions]="headerActions()"
   [headerCounters]="headerCounters()"
+  [i18nToggleSearchBar]="t('layouts.stacked.toggleSearchBar')"
+  [i18nToggleActionsMenu]="t('layouts.stacked.toggleActionsMenu')"
+  [i18nGoToPreviousPage]="t('components.pageHeader.goToPreviousPage')"
   (headerActionClicked)="onHeaderActionClicked($event)"
-
   [withSearch]="searchEnabled()"
   [withVisibleSearch]="searchVisible()"
   [searchQuery]="searchQuery()"
   (toggledSearch)="onToggleSearchBox()"
   (searched)="onTypeSearchQuery($event)"
   (searchCleared)="onClearSearchQuery()"
-
   [footerActions]="bottomNavigationItems()"
   [footerCurrentAction]="bottomNavigationCurrent()"
   (footerActionClicked)="onBottomNavigation($event)"
 >
-  <router-outlet></router-outlet>
+  <router-outlet />
 </app-layout-stacked>

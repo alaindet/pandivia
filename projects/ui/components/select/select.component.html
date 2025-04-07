@@ -7,14 +7,12 @@
   (change)="onSelectChange()"
 >
   @if (withDefaultOption()) {
-    <option value="" [selected]="selectedValue() === null">
-      {{ labels()?.defaultOption ?? 'Select...'}}
-    </option>
-  }
-
-  @for (option of options(); track option.value) {
-    <option [value]="option.value" [selected]="selectedValue() === option.value">
-      {{ option.label }}
-    </option>
+  <option value="" [selected]="selectedValue() === null">
+    {{ i18nDefaultOption() }}
+  </option>
+  } @for (option of options(); track option.value) {
+  <option [value]="option.value" [selected]="selectedValue() === option.value">
+    {{ option.label }}
+  </option>
   }
 </select>

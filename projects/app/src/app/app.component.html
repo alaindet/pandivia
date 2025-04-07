@@ -21,8 +21,6 @@
 <!-- Stack level: 3 -->
 <app-modal-host
   *transloco="let t"
-  [labels]="{
-    cancel: t('components.modal.cancel'),
-    confirm: t('components.modal.confirm'),
-  }"
+  [i18nConfirm]="t('components.modal.confirm')"
+  [i18nCancel]="t('components.modal.cancel')"
 />

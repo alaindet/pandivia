@@ -68,10 +68,8 @@
           [isPinned]="pinnedCategory() === group.category"
           [withCounters]="true"
           [checkboxColor]="themeConfig().checkboxColor"
-          [labels]="{
-            pinned: t('common.unpin'),
-            unpinned: t('common.pin')
-          }"
+          [i18nPin]="t('common.pin')"
+          [i18nUnpin]="t('common.unpin')"
           (listActionClicked)="onCategoryAction(group.category, $event)"
           (itemActionClicked)="onItemAction($event)"
           (itemToggled)="onItemToggle($event)"

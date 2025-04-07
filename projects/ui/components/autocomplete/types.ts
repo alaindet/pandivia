@@ -41,8 +41,3 @@ export const AUTOCOMPLETE_ITEMS_TEMPLATE = {
 export type AutocompleteItemsTemplate = EnumLike<
   typeof AUTOCOMPLETE_ITEMS_TEMPLATE
 >;
-
-export type AutocompleteComponentLabels = {
-  loading: string;
-  nothingFound: string;
-};

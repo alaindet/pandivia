@@ -22,7 +22,6 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonComponent } from '../../button';
 import { IconButtonComponent } from '../../icon-button';
 import { ModalService } from '../modal.service';
-import { ModalHostLabels } from '../types';
 import {
   ModalKeyboardController,
   createModalKeyboardController,
@@ -45,7 +44,8 @@ import {
 export class ModalHostComponent implements OnDestroy {
   private modalService = inject(ModalService);
 
-  labels = input<ModalHostLabels>();
+  i18nConfirm = input('Confirm');
+  i18nCancel = input('Cancel');
 
   icon = {
     matCheck,

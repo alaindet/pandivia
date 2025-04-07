@@ -45,7 +45,6 @@ export class TextareaComponent implements ControlValueAccessor {
   withStatusIcon = input(true, { transform: booleanAttribute });
   rows = input(7, { transform: numberAttribute });
   clearable = input(false, { transform: booleanAttribute });
-  clearLabel = input('Clear content');
   placeholder = input('');
   maxChars = input(500, { transform: numberAttribute });
   withCharsCounter = input(false, { transform: booleanAttribute });
@@ -56,6 +55,7 @@ export class TextareaComponent implements ControlValueAccessor {
     transform: booleanAttribute,
   });
   attrs = input<Record<string, string | number | boolean> | null>(null);
+  i18nClearContent = input('Clear content');
 
   changed = output<string>();
   inputChanged = output<string>();

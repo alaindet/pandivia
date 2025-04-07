@@ -22,6 +22,7 @@
       [status]="fName | appFieldStatus"
       [placeholder]="t('common.form.field.name') + '...'"
       fullWidth
+      [i18nClearContent]="t('common.clearContent')"
       [withStatusIcon]="true"
       [withErrorId]="
         fName
@@ -68,6 +69,7 @@
       [formControlName]="FIELD.DESCRIPTION.id"
       [status]="fDesc | appFieldStatus"
       [placeholder]="t('common.form.field.description') + '...'"
+      [i18nClearContent]="t('common.clearContent')"
       [withCharsCounter]="true"
       [maxChars]="100"
       [withStatusIcon]="true"
@@ -116,10 +118,8 @@
       [showEmptyOptions]="false"
       [asyncOptions]="categoryFieldOptions"
       [minChars]="1"
-      [labels]="{
-        loading: t('components.autocomplete.loading'),
-        nothingFound: t('components.autocomplete.nothingFound')
-      }"
+      [i18nLoading]="t('components.autocomplete.loading')"
+      [i18nNothingFound]="t('components.autocomplete.nothingFound')"
       width="16rem"
       offsetY="0.5rem"
       (confirmed)="onConfirmCategory($event)"

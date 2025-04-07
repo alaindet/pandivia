@@ -30,7 +30,6 @@ import {
   ActionsMenuItem,
 } from '../actions-menu';
 import {
-  CardListComponentLabels,
   CardListCounters,
   CardListItem,
   CardListItemActionOutput,
@@ -59,19 +58,18 @@ export class CardListComponent {
   listActions = input.required<ActionsMenuItem[]>();
   items = input.required<CardListItem[]>();
   itemActionsFn = input.required<CardListItemActionsFn>();
-  labels = input<CardListComponentLabels>();
   withMutedTitle = input(false, { transform: booleanAttribute });
   isSelectable = input(true, { transform: booleanAttribute });
   _isPinned = input(true, { alias: 'isPinned', transform: booleanAttribute });
   withCounters = input(true, { transform: booleanAttribute });
   checkboxColor = input<CheckboxColor>('black');
+  i18nPin = input('Pin');
+  i18nUnpin = input('Unpin');
 
   listActionClicked = output<string>();
   itemActionClicked = output<CardListItemActionOutput>();
   itemToggled = output<CardListItemToggledOutput>();
   pinned = output<boolean>();
-  pinnedLabel = computed(() => this.labels()?.pinned);
-  unpinnedLabel = computed(() => this.labels()?.unpinned);
   icon = {
     matCheck,
     matClear,

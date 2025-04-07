@@ -45,7 +45,6 @@ export class TextInputComponent implements ControlValueAccessor {
   value = input<string>();
   status = input<FormFieldStatus>();
   clearable = input(false, { transform: booleanAttribute });
-  clearLabel = input('Clear content');
   placeholder = input('');
   autocomplete = input<string>();
   withStatusIcon = input(true, { transform: booleanAttribute });
@@ -57,6 +56,7 @@ export class TextInputComponent implements ControlValueAccessor {
   });
   width = input<string>();
   attrs = input<Record<string, string | number | boolean> | null>(null);
+  i18nClearContent = input('Clear content');
 
   changed = output<string>();
   inputChanged = output<string>();
