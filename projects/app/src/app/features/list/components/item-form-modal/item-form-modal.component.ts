@@ -7,30 +7,6 @@ import {
 } from '@angular/forms';
 import { FormOption } from '@common/types';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-import {
-  AutocompleteComponent,
-  AutocompleteOptionDirective,
-  AutocompleteAsyncOptionsFn,
-  AutocompleteOption,
-} from '@ui/components';
-import { ButtonComponent } from '@ui/components';
-import {
-  FormFieldComponent,
-  FormFieldErrorComponent,
-  FormFieldHintComponent,
-  FormFieldLabelComponent,
-} from '@ui/components';
-import {
-  BaseModalComponent,
-  ModalFooterDirective,
-  ModalHeaderDirective,
-} from '@ui/components';
-import { QuickNumberComponent } from '@ui/components';
-import { TextInputComponent } from '@ui/components';
-import { TextareaComponent } from '@ui/components';
-import { ToggleComponent } from '@ui/components';
-import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
-import { MediaQueryService } from '@ui/services';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NgIcon } from '@ng-icons/core';
 import {
@@ -40,6 +16,26 @@ import {
   matPlaylistAdd,
   matSync,
 } from '@ng-icons/material-icons/baseline';
+import {
+  AutocompleteAsyncOptionsFn,
+  AutocompleteComponent,
+  AutocompleteOption,
+  AutocompleteOptionDirective,
+  BaseModalComponent,
+  ButtonComponent,
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldHintComponent,
+  FormFieldLabelComponent,
+  ModalFooterDirective,
+  ModalHeaderDirective,
+  QuickNumberComponent,
+  TextInputComponent,
+  TextareaComponent,
+  ToggleComponent,
+} from '@ui/components';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
+import { MediaQueryService } from '@ui/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';

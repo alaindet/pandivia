@@ -1,12 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
-import { LinearSpinnerComponent } from '@ui/components';
-import { ModalHostComponent } from '@ui/components';
-import { NotificationsHostComponent } from '@ui/components';
+import {
+  LinearSpinnerComponent,
+  ModalHostComponent,
+  ModalService,
+  NotificationsHostComponent,
+} from '@ui/components';
 
 import { SoftwareUpdateService } from '@app/core/sw-update';
-import { UiStore, NOTIFICATION_TIMEOUT } from '@app/core/ui';
+import { NOTIFICATION_TIMEOUT, UiStore } from '@app/core/ui';
 import { UserStore } from '@app/features/user/store/feature';
 
 @Component({
@@ -25,6 +28,8 @@ export class AppComponent implements OnInit {
   private uiStore = inject(UiStore);
   private swUpdate = inject(SoftwareUpdateService);
   private userStore = inject(UserStore);
+
+  private modal = inject(ModalService); // TODO: Remove
 
   NOTIFICATION_TIMEOUT = NOTIFICATION_TIMEOUT;
   notification = this.uiStore.notifications.notification;
