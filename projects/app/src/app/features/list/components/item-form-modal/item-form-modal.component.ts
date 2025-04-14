@@ -7,32 +7,6 @@ import {
 } from '@angular/forms';
 import { FormOption } from '@common/types';
 import { getFieldDescriptor as fDescribe } from '@common/utils';
-import {
-  AutocompleteComponent,
-  AutocompleteOptionDirective,
-  AutocompleteAsyncOptionsFn,
-  AutocompleteOption,
-  ConfirmPromptModalComponent,
-  ModalService,
-} from '@ui/components';
-import { ButtonComponent } from '@ui/components';
-import {
-  FormFieldComponent,
-  FormFieldErrorComponent,
-  FormFieldHintComponent,
-  FormFieldLabelComponent,
-} from '@ui/components';
-import {
-  BaseModalComponent,
-  ModalFooterDirective,
-  ModalHeaderDirective,
-} from '@ui/components';
-import { QuickNumberComponent } from '@ui/components';
-import { TextInputComponent } from '@ui/components';
-import { TextareaComponent } from '@ui/components';
-import { ToggleComponent } from '@ui/components';
-import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
-import { MediaQueryService } from '@ui/services';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NgIcon } from '@ng-icons/core';
 import {
@@ -42,7 +16,27 @@ import {
   matPlaylistAdd,
   matSync,
 } from '@ng-icons/material-icons/baseline';
-import { Observable, Subject, take, takeUntil } from 'rxjs';
+import {
+  AutocompleteAsyncOptionsFn,
+  AutocompleteComponent,
+  AutocompleteOption,
+  AutocompleteOptionDirective,
+  BaseModalComponent,
+  ButtonComponent,
+  FormFieldComponent,
+  FormFieldErrorComponent,
+  FormFieldHintComponent,
+  FormFieldLabelComponent,
+  ModalFooterDirective,
+  ModalHeaderDirective,
+  QuickNumberComponent,
+  TextInputComponent,
+  TextareaComponent,
+  ToggleComponent,
+} from '@ui/components';
+import { FieldErrorIdPipe, FieldErrorPipe, FieldStatusPipe } from '@ui/pipes';
+import { MediaQueryService } from '@ui/services';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UiStore } from '@app/core/ui';
@@ -93,7 +87,6 @@ export class ListItemFormModalComponent
   private listStore = inject(ListStore);
   private inventoryStore = inject(InventoryStore);
   isMobile = inject(MediaQueryService).getFromMobileDown();
-  private modalSvc = inject(ModalService);
 
   nameRef = viewChild.required('nameRef', { read: TextInputComponent });
 
@@ -300,24 +293,6 @@ export class ListItemFormModalComponent
         fn();
         stop$.next();
         stop$.complete();
-      });
-  }
-
-  // TODO: Remove
-  onOpenUpgradeVersion() {
-    const modal$ = this.modalSvc.open(ConfirmPromptModalComponent, {
-      action: 'upgrade-application',
-      title: 'Upgrade',
-      message:
-        'A new version of the application was installed. Do you want to activate it now? If not, it will activate automatically next time.',
-    });
-
-    modal$
-      .closed()
-      .pipe(take(1))
-      .subscribe({
-        error: () => console.log('Canceled'),
-        next: () => console.log('Confirmed'),
       });
   }
 }

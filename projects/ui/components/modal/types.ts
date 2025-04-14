@@ -32,5 +32,6 @@ export class BaseModalComponent<TInput extends any, TOutput extends any> {
 }
 
 export type ModalOptions = {
-  fullPage: boolean;
+  fullPage?: boolean;
+  withDefaultFooter?: boolean;
 };

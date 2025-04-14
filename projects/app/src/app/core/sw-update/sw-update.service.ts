@@ -31,7 +31,9 @@ export class SoftwareUpdateService {
         message: this.transloco.translate(UPGRADE_APPLICATION_PROMPT.message),
       };
 
-      const modal$ = this.modal.open(ConfirmPromptModalComponent, prompt);
+      const modal$ = this.modal.open(ConfirmPromptModalComponent, prompt, {
+        withDefaultFooter: true,
+      });
       modal$
         .closed()
         .pipe(take(1))

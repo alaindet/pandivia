@@ -121,6 +121,10 @@ export class ModalService implements OnDestroy {
       this.isFullPage.set(true);
     }
 
+    if (!!options?.withDefaultFooter) {
+      this.footerTemplate.set(null);
+    }
+
     if (!this.target) {
       throw new Error('Missing modal target');
     }
