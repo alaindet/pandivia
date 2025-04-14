@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { matCheck, matClose } from '@ng-icons/material-icons/baseline';
 
 import { ModalHeaderDirective } from '../modal-header.directive';
@@ -10,15 +10,19 @@ import { ConfirmPromptModalInput, ConfirmPromptModalOutput } from './types';
   imports: [ModalHeaderDirective],
   templateUrl: './confirm-prompt-modal.component.html',
 })
-export class ConfirmPromptModalComponent extends BaseModalComponent<
-  ConfirmPromptModalInput,
-  ConfirmPromptModalOutput
-> {
+export class ConfirmPromptModalComponent
+  extends BaseModalComponent<ConfirmPromptModalInput, ConfirmPromptModalOutput>
+  implements OnInit
+{
   icon = {
     matCheck,
     matClose,
   };
 
-  i18nCancel = 'Cancel'; // TODO: Translate
-  i18nConfirm = 'Confirm'; // TODO: Translate
+  ngOnInit() {
+    this.registerOnConfirm(() => {
+      const { action } = this.modal.data;
+      this.modal.confirm({ action });
+    });
+  }
 }

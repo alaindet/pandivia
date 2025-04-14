@@ -4,7 +4,6 @@ import { TranslocoModule } from '@jsverse/transloco';
 import {
   LinearSpinnerComponent,
   ModalHostComponent,
-  ModalService,
   NotificationsHostComponent,
 } from '@ui/components';
 
@@ -28,8 +27,6 @@ export class AppComponent implements OnInit {
   private uiStore = inject(UiStore);
   private swUpdate = inject(SoftwareUpdateService);
   private userStore = inject(UserStore);
-
-  private modal = inject(ModalService); // TODO: Remove
 
   NOTIFICATION_TIMEOUT = NOTIFICATION_TIMEOUT;
   notification = this.uiStore.notifications.notification;
