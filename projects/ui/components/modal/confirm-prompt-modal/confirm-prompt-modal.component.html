@@ -3,3 +3,31 @@
 </ng-container>
 
 <p>{{ modal.data.message }}</p>
+
+<ng-container *appModalFooter>
+  <div class="default-footer">
+    <!-- Cancel -->
+    <button
+      type="button"
+      appButton="outline"
+      size="small"
+      withIcon="left"
+      (click)="modal.cancel()"
+    >
+      <ng-icon [svg]="icon.matClose" />
+      {{ i18nCancel }}
+    </button>
+
+    <!-- Confirm -->
+    <button
+      type="button"
+      appButton="primary"
+      withIcon="left"
+      size="small"
+      (click)="modal.confirm({ action: modal.data.action })"
+    >
+      <ng-icon [svg]="icon.matCheck" />
+      {{ i18nConfirm }}
+    </button>
+  </div>
+</ng-container>

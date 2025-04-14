@@ -12,6 +12,8 @@ import {
   AutocompleteOptionDirective,
   AutocompleteAsyncOptionsFn,
   AutocompleteOption,
+  ConfirmPromptModalComponent,
+  ModalService,
 } from '@ui/components';
 import { ButtonComponent } from '@ui/components';
 import {
@@ -40,7 +42,7 @@ import {
   matPlaylistAdd,
   matSync,
 } from '@ng-icons/material-icons/baseline';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 
 import { DEFAULT_CATEGORY } from '@app/core/constants';
 import { UiStore } from '@app/core/ui';
@@ -91,6 +93,7 @@ export class ListItemFormModalComponent
   private listStore = inject(ListStore);
   private inventoryStore = inject(InventoryStore);
   isMobile = inject(MediaQueryService).getFromMobileDown();
+  private modalSvc = inject(ModalService);
 
   nameRef = viewChild.required('nameRef', { read: TextInputComponent });
 
@@ -297,6 +300,24 @@ export class ListItemFormModalComponent
         fn();
         stop$.next();
         stop$.complete();
+      });
+  }
+
+  // TODO: Remove
+  onOpenUpgradeVersion() {
+    const modal$ = this.modalSvc.open(ConfirmPromptModalComponent, {
+      action: 'upgrade-application',
+      title: 'Upgrade',
+      message:
+        'A new version of the application was installed. Do you want to activate it now? If not, it will activate automatically next time.',
+    });
+
+    modal$
+      .closed()
+      .pipe(take(1))
+      .subscribe({
+        error: () => console.log('Canceled'),
+        next: () => console.log('Confirmed'),
       });
   }
 }

@@ -25,11 +25,11 @@ export class SoftwareUpdateService {
     );
 
     newVersionExists$.subscribe(() => {
-      const title = this.transloco.translate(UPGRADE_APPLICATION_PROMPT.title);
-      const message = this.transloco.translate(
-        UPGRADE_APPLICATION_PROMPT.message
-      );
-      const prompt = { ...UPGRADE_APPLICATION_PROMPT, title, message };
+      const prompt = {
+        ...UPGRADE_APPLICATION_PROMPT,
+        title: this.transloco.translate(UPGRADE_APPLICATION_PROMPT.title),
+        message: this.transloco.translate(UPGRADE_APPLICATION_PROMPT.message),
+      };
 
       const modal$ = this.modal.open(ConfirmPromptModalComponent, prompt);
       modal$
