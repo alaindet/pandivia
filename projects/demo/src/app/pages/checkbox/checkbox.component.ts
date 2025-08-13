@@ -13,15 +13,13 @@ import { ButtonComponent } from '@ui/components';
   selector: 'app-demo-checkbox',
   imports: [JsonPipe, ReactiveFormsModule, CheckboxComponent, ButtonComponent],
   templateUrl: './checkbox.component.html',
-  styles: [
-    `
-      .demo-cases {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-    `,
-  ],
+  styles: `
+    .demo-cases {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  `,
 })
 export class CheckboxDemoPageComponent {
   consoleLog = console.log;

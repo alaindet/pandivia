@@ -15,24 +15,22 @@ import { DemoRoute } from '../../types';
       }
     </ul>
   `,
-  styles: [
-    `
-      :host {
-        display: block;
-        white-space: nowrap;
-        width: var(--app-width-demo-navigation);
-      }
+  styles: `
+    :host {
+      display: block;
+      white-space: nowrap;
+      width: var(--app-width-demo-navigation);
+    }
 
-      ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-    `,
-  ],
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  `,
 })
 export class DemoNavigationMenuComponent {
   routePrefix = input('');

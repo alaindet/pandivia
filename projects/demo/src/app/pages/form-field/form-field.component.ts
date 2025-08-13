@@ -24,17 +24,15 @@ import { TextInputComponent } from '@ui/components';
     TextInputComponent,
   ],
   templateUrl: './form-field.component.html',
-  styles: [
-    `
-      :host > h2 {
-        margin-top: 3rem;
-      }
+  styles: `
+    :host > h2 {
+      margin-top: 3rem;
+    }
 
-      :host > h2:first-of-type {
-        margin-top: 0;
-      }
-    `,
-  ],
+    :host > h2:first-of-type {
+      margin-top: 0;
+    }
+  `,
 })
 export class FormFieldDemoPageComponent {
   myForm = new FormGroup({

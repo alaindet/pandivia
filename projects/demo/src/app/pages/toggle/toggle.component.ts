@@ -24,21 +24,19 @@ import { ToggleComponent } from '@ui/components';
     FormFieldLabelComponent,
   ],
   templateUrl: './toggle.component.html',
-  styles: [
-    `
-      .demo-cases {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
+  styles: `
+    .demo-cases {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-      .demo-cage {
-        width: clamp(200px, 50vw, 90vw);
-        border: 2px dashed black;
-        padding: 1rem;
-      }
-    `,
-  ],
+    .demo-cage {
+      width: clamp(200px, 50vw, 90vw);
+      border: 2px dashed black;
+      padding: 1rem;
+    }
+  `,
 })
 export class ToggleDemoPageComponent {
   outsideForm = true;
