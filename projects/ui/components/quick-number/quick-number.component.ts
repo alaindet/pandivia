@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Injector,
   Provider,
@@ -43,6 +44,7 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
     '[attr.aria-errormessage]': 'withErrorId()',
   },
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [QUICK_NUMBER_FORM_PROVIDER],
 })
 export class QuickNumberComponent implements ControlValueAccessor {
