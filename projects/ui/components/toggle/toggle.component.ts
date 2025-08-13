@@ -1,7 +1,5 @@
 import {
-  AfterRenderRef,
   Component,
-  HostBinding,
   Injector,
   Provider,
   ViewEncapsulation,
@@ -14,12 +12,12 @@ import {
   input,
   output,
   runInInjectionContext,
-  signal,
+  signal
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { cssClassesList, uniqueId } from '@common/utils';
 import { EnumLike } from '@common/types';
+import { cssClassesList, uniqueId } from '@common/utils';
 
 export const TOGGLE_LABEL_POSITION = {
   LEFT: 'left',
@@ -42,7 +40,13 @@ const TOGGLE_FORM_PROVIDER: Provider = {
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
   styleUrl: './toggle.component.css',
-  host: { class: 'app-toggle' },
+  host: {
+    '[class]': 'cssClasses()',
+    '[class.-checked]': 'isChecked()',
+    '[class.-disabled]': 'isDisabled()',
+    '[style.--_bullet-size]': 'size()',
+    '[attr.aria-errormessage]': 'withErrorId()',
+  },
   encapsulation: ViewEncapsulation.None,
   providers: [TOGGLE_FORM_PROVIDER],
 })
@@ -65,44 +69,17 @@ export class ToggleComponent implements ControlValueAccessor {
   withErrorId = input<string | null>(null);
 
   changed = output<boolean>();
-
-  @HostBinding('class')
-  get getCssClass() {
-    return this.cssClass();
-  }
-
-  @HostBinding('class.-checked')
-  get cssClassChecked() {
-    return this.isChecked();
-  }
-
-  @HostBinding('class.-disabled')
-  get cssClassDisabled() {
-    return this.isDisabled();
-  }
-
-  @HostBinding('style.--_bullet-size')
-  get styleBulletSize() {
-    return this.size();
-  }
-
-  @HostBinding('attr.aria-errormessage')
-  get attrAriaErrorMessage() {
-    return this.withErrorId();
-  }
-
   LABEL = TOGGLE_LABEL_POSITION;
   isChecked = signal(false);
   isDisabled = signal(false);
   toggleValue = signal(false);
   id = computed(() => uniqueId(this._id(), 'app-toggle'));
   idLabel = computed(() => `${this.id()}-label`);
-  cssClass = computed(() =>
-    cssClassesList([
-      `-with-label-${this.withLabel()}`,
-      `-color-${this.color()}`,
-    ])
-  );
+  cssClasses = computed(() => cssClassesList([
+    'app-toggle',
+    `-with-label-${this.withLabel()}`,
+    `-color-${this.color()}`,
+  ]));
 
   checkedEffect = effect(() => this.isChecked.set(this._isChecked()));
   disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));

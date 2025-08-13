@@ -12,6 +12,9 @@ export function createButtonElementController(parent: ActionsMenuService) {
   const el = signal<HTMLButtonElement | null>(null);
   const destroy$ = new Subject<void>();
 
+  effect(_focusMovedEffect);
+  effect(_toggleMenuEffect);
+
   function init(inputEl: HTMLButtonElement) {
     if (el() !== null) {
       return;
@@ -19,8 +22,6 @@ export function createButtonElementController(parent: ActionsMenuService) {
 
     el.set(inputEl);
     listenToReady(inputEl);
-    listenToFocus(inputEl);
-    listenToMenuOpen(inputEl);
     listenToClick(inputEl);
     listenToKeyboard(inputEl);
   }
@@ -30,25 +31,6 @@ export function createButtonElementController(parent: ActionsMenuService) {
       renderer.setAttribute(el, 'id', parent.ids.button());
       renderer.setAttribute(el, 'aria-haspopup', 'menu');
       renderer.setAttribute(el, 'aria-controls', parent.ids.items());
-    });
-  }
-
-  function listenToFocus(el: HTMLButtonElement) {
-    effect(() => {
-      const focused = parent.focus.focused();
-      if (focused === ACTIONS_MENU_BUTTON_FOCUSED) {
-        el.focus();
-      }
-    });
-  }
-
-  function listenToMenuOpen(el: HTMLButtonElement) {
-    effect(() => {
-      if (parent.menu.isOpen()) {
-        renderer.setAttribute(el, 'aria-expanded', 'true');
-      } else {
-        renderer.removeAttribute(el, 'aria-expanded');
-      }
     });
   }
 
@@ -115,6 +97,34 @@ export function createButtonElementController(parent: ActionsMenuService) {
 
   function destroy() {
     destroy$.complete();
+  }
+
+  function _focusMovedEffect() {
+    const buttonEl = el();
+    if (buttonEl === null) {
+      return;
+    }
+
+    const focusedEl = parent.focus.focused();
+    if (focusedEl !== ACTIONS_MENU_BUTTON_FOCUSED) {
+      return;
+    }
+
+    buttonEl.focus();
+  }
+
+  function _toggleMenuEffect() {
+    const buttonEl = el();
+    if (buttonEl === null) {
+      return;
+    }
+
+    if (parent.menu.isOpen()) {
+      renderer.setAttribute(buttonEl, 'aria-expanded', 'true');
+      return;
+    }
+
+    renderer.removeAttribute(buttonEl, 'aria-expanded');
   }
 
   return {

@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   Injector,
   Provider,
   ViewEncapsulation,
@@ -42,7 +41,16 @@ const CHECKBOX_FORM_PROVIDER: Provider = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CHECKBOX_FORM_PROVIDER],
   host: {
-    class: 'app-checkbox',
+    '[class]': 'cssClass()',
+    '[class.-interactable]': 'isInteractable()',
+    '[tabindex]': 'tabIndex()',
+    '[attr.id]': 'id()',
+    '[class.-checked]': 'isChecked()',
+    '[attr.aria-checked]': 'isChecked()',
+    '[style.--_size]': 'size()',
+    '[class.-disabled]': 'isDisabled()',
+    '[attr.aria-labelledby]': 'ariaLabelledBy()',
+    '[attr.aroa-errormessage]': 'withErrorId()',
     role: 'checkbox',
   },
 })
@@ -67,52 +75,6 @@ export class CheckboxComponent implements ControlValueAccessor {
 
   changed = output<boolean>();
 
-  @HostBinding('class')
-  get getCssClass() {
-    return this.cssClass();
-  }
-
-  @HostBinding('class.-interactable')
-  get cssClassInteractable() {
-    return this.isInteractable();
-  }
-
-  @HostBinding('tabindex')
-  get getTabIndex() {
-    return this.tabIndex();
-  }
-
-  @HostBinding('attr.id')
-  get attrId() {
-    return this.id();
-  }
-
-  @HostBinding('class.-checked')
-  @HostBinding('attr.aria-checked')
-  get getClassChecked() {
-    return this.isChecked();
-  }
-
-  @HostBinding('style.--_size')
-  get styleSize() {
-    return this.size();
-  }
-
-  @HostBinding('class.-disabled')
-  get cssClassDisabled() {
-    return this.isDisabled();
-  }
-
-  @HostBinding('attr.aria-labelledby')
-  get attrAriaLabelledBy() {
-    return this.ariaLabelledBy();
-  }
-
-  @HostBinding('attr.aria-errormessage')
-  get attrAriaErrorMessage() {
-    return this.withErrorId();
-  }
-
   private onChange!: (val: any) => void;
   private onTouched!: () => void;
   private interactiveSub: Subscription | null = null;
@@ -121,7 +83,7 @@ export class CheckboxComponent implements ControlValueAccessor {
   isDisabled = signal(false);
   isChecked = signal(false);
   tabIndex = computed(() => (this.isDisabled() ? '-1' : '0'));
-  cssClass = computed(() => cssClassesList([`-color-${this.color()}`]));
+  cssClass = computed(() => cssClassesList(['app-checkbox', `-color-${this.color()}`]));
   checkedEffect = effect(() => this.isChecked.set(this._isChecked()));
   disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 

@@ -1,14 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   ViewEncapsulation,
   booleanAttribute,
   computed,
   effect,
   input,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import {
@@ -21,14 +20,14 @@ import {
   matPushPin,
 } from '@ng-icons/material-icons/baseline';
 
-import { CheckboxComponent, CheckboxColor } from '../checkbox';
-import { ButtonComponent } from '../button';
-import { IconButtonComponent } from '../icon-button';
 import {
-  ActionsMenuComponent,
   ActionsMenuButtonDirective,
+  ActionsMenuComponent,
   ActionsMenuItem,
 } from '../actions-menu';
+import { ButtonComponent } from '../button';
+import { CheckboxColor, CheckboxComponent } from '../checkbox';
+import { IconButtonComponent } from '../icon-button';
 import {
   CardListCounters,
   CardListItem,
@@ -49,7 +48,12 @@ import {
   ],
   templateUrl: './card-list.component.html',
   styleUrl: './card-list.component.css',
-  host: { class: 'app-card-list' },
+  host: {
+    class: 'app-card-list',
+    '[class.-muted-title]': 'withMutedTitle()',
+    '[class.-selectable]': 'isSelectable()',
+    '[class.-completed]': 'isCompleted()',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -79,21 +83,6 @@ export class CardListComponent {
     matMoreHoriz,
     matPushPin,
   };
-
-  @HostBinding('class.-muted-title')
-  get cssClassMutedTitle() {
-    return this.withMutedTitle();
-  }
-
-  @HostBinding('class.-selectable')
-  get cssClassSelectable() {
-    return this.isSelectable();
-  }
-
-  @HostBinding('class.-completed')
-  get cssClassCompleted() {
-    return this.isCompleted();
-  }
 
   itemActionsMap = new Map<string, ActionsMenuItem[]>();
   itemsDescriptionMap = new Map<string, boolean>();

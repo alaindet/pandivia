@@ -2,12 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   ViewEncapsulation,
   booleanAttribute,
   computed,
   inject,
-  input,
+  input
 } from '@angular/core';
 import { cssClassesList } from '@common/utils';
 
@@ -26,7 +25,14 @@ export type IconButtonFloatingType = 'container' | 'fixed';
   selector: 'button[appIconButton]',
   template: '<ng-content />',
   styleUrl: './icon-button.component.css',
-  host: { class: 'app-icon-button' },
+  host: {
+    '[class]': 'cssClasses()',
+    '[attr.type]': 'type()',
+    '[style.--_top]': 'floatingTop()',
+    '[style.--_right]': 'floatingRight()',
+    '[style.--_bottom]': 'floatingBottom()',
+    '[style.--left]': 'floatingLeft()',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -46,50 +52,19 @@ export class IconButtonComponent {
   floatingBottom = input('auto');
   floatingLeft = input('auto');
 
-  @HostBinding('attr.type')
-  get attributeType() {
-    return this.type();
-  }
-
-  @HostBinding('style.--_top')
-  get styleTop() {
-    return this.floatingTop();
-  }
-
-  @HostBinding('style.--_right')
-  get styleRight() {
-    return this.floatingRight();
-  }
-
-  @HostBinding('style.--_bottom')
-  get styleBottom() {
-    return this.floatingBottom();
-  }
-
-  @HostBinding('style.--_left')
-  get styleLeft() {
-    return this.floatingLeft();
-  }
-
-  @HostBinding('class')
-  get cssClass() {
-    return this.cssClasses();
-  }
-
   private cssColorClass = computed(() => {
     const main = this.mainInput();
     const color = this.color();
     return cssClassesList([`-color-${!!main ? main : color}`]);
   });
 
-  private cssClasses = computed(() =>
-    cssClassesList([
-      this.cssColorClass(),
-      `-size-${this.size()}`,
-      this.circled() ? '-circled' : null,
-      !!this.floating ? `-floating -${this.floating()}` : null,
-    ])
-  );
+  cssClasses = computed(() => cssClassesList([
+    'app-icon-button',
+    this.cssColorClass(),
+    `-size-${this.size()}`,
+    this.circled() ? '-circled' : null,
+    !!this.floating ? `-floating -${this.floating()}` : null,
+  ]));
 
   // @publicApi
   getNativeElement(): HTMLButtonElement {

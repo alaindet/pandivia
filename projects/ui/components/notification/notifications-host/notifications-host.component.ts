@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   ViewEncapsulation,
   computed,
   input,
@@ -24,7 +23,9 @@ import { NotificationComponent } from '../notification/notification.component';
   styleUrl: './notifications-host.component.css',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'app-notifications-host' },
+  host: {
+    '[class]': 'cssClasses()',
+  },
 })
 export class NotificationsHostComponent {
   notification = input<RuntimeNotification | null>(null);
@@ -33,15 +34,9 @@ export class NotificationsHostComponent {
 
   dismissed = output<void>();
 
-  @HostBinding('class')
-  get cssClass() {
-    return this.cssClasses();
-  }
-
-  cssClasses = computed(() =>
-    cssClassesList([
-      this.notification() !== null ? '-open' : null,
-      `-position-${this.position()}`,
-    ])
-  );
+  cssClasses = computed(() => cssClassesList([
+    'app-notifications-host',
+    this.notification() !== null ? '-open' : null,
+    `-position-${this.position()}`,
+  ]));
 }

@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   ViewEncapsulation,
   booleanAttribute,
-  input,
+  computed,
+  input
 } from '@angular/core';
+
+import { cssClassesList } from '@common/utils';
 
 export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
 
@@ -15,7 +17,9 @@ export type LinearSpinnerColor = 'primary' | 'secondary' | 'tertiary';
   selector: 'app-linear-spinner',
   template: `<div class="_bar"><div></div></div>`,
   styleUrl: './linear-spinner.component.css',
-  host: { class: 'app-linear-spinner' },
+  host: {
+    '[class]': 'cssClasses()',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -23,13 +27,9 @@ export class LinearSpinnerComponent {
   fixed = input(false, { transform: booleanAttribute });
   color = input<LinearSpinnerColor>('primary');
 
-  @HostBinding('class.-fixed')
-  get cssClassFixed() {
-    return this.fixed();
-  }
-
-  @HostBinding('class')
-  get cssClass() {
-    return `-color-${this.color()}`;
-  }
+  cssClasses = computed(() => cssClassesList([
+    'app-linear-spinner',
+    this.fixed() ? '-fixed' : null,
+    `-color-${this.color()}`,
+  ]));
 }

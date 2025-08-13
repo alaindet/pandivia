@@ -2,12 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   ViewEncapsulation,
   booleanAttribute,
   computed,
   inject,
-  input,
+  input
 } from '@angular/core';
 import { cssClassesList } from '@common/utils';
 
@@ -24,7 +23,10 @@ export type ButtonSize = 'extra-small' | 'small' | 'medium' | 'large';
   selector: 'button[appButton]',
   template: '<ng-content />',
   styleUrl: './button.component.css',
-  host: { class: 'app-button' },
+  host: {
+    '[class]': 'cssClasses()',
+    '[attr.type]': 'type()',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -37,16 +39,6 @@ export class ButtonComponent {
   size = input<ButtonSize>('medium');
   fullWidth = input(false, { transform: booleanAttribute });
   withIcon = input<'' | 'left' | 'right' | boolean>(false);
-
-  @HostBinding('attr.type')
-  get attributeType() {
-    return this.type();
-  }
-
-  @HostBinding('class')
-  get cssClass() {
-    return this.cssClasses();
-  }
 
   private cssIconColorClass = computed(() => {
     switch (this.withIcon()) {
@@ -67,6 +59,7 @@ export class ButtonComponent {
     const color = this.color();
 
     return cssClassesList([
+      'app-button',
       `-color-${!!main ? main : color}`,
       this.fullWidth() ? '-full-width' : null,
       `-size-${this.size()}`,

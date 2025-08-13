@@ -1,9 +1,8 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
-  HostListener,
   OnInit,
   ViewEncapsulation,
   booleanAttribute,
@@ -12,9 +11,8 @@ import {
   inject,
   input,
   numberAttribute,
-  output,
+  output
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 import { TextInputComponent } from '../../text-input';
 
 import { AutocompleteOptionComponent } from '../autocomplete-option/autocomplete-option.component';
@@ -36,7 +34,13 @@ import {
   imports: [NgTemplateOutlet, AutocompleteOptionComponent],
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.css',
-  host: { class: 'app-autocomplete' },
+  host: {
+    class: 'app-autocomplete',
+    '[class.-open]': 'isOpen()',
+    '[style.--_width]': 'width()',
+    '[style.--_offset-y]': 'offsetY()',
+    '(mousemove)': 'onMouseMove()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [AutocompleteService],
@@ -62,24 +66,7 @@ export class AutocompleteComponent implements OnInit {
   i18nNothingFound = input('Nothing found');
   i18nLoading = input('Loading...');
 
-  // Output
   confirmed = output<AutocompleteOption>();
-
-  // Host bindings
-  @HostBinding('style.--_width')
-  get styleWidth() {
-    return this.width();
-  }
-
-  @HostBinding('style.--_offset-y')
-  get styleOffsetY() {
-    return this.offsetY();
-  }
-
-  @HostBinding('class.-open')
-  get cssClassOpen() {
-    return this.isOpen();
-  }
 
   inputId!: string;
   ITEMS_TEMPLATE = AUTOCOMPLETE_ITEMS_TEMPLATE;
@@ -116,7 +103,6 @@ export class AutocompleteComponent implements OnInit {
     this.initClickOut();
   }
 
-  @HostListener('mousemove')
   onMouseMove(): void {
     this.svc.clearFocused();
   }

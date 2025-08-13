@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
   Provider,
   ViewEncapsulation,
   booleanAttribute,
@@ -35,7 +34,13 @@ const TEXT_INPUT_FORM_PROVIDER: Provider = {
   imports: [NgIcon, IconButtonComponent],
   templateUrl: './text-input.component.html',
   styleUrl: './text-input.component.css',
-  host: { class: 'app-text-input' },
+  host: {
+    '[class]': 'cssClasses()',
+    '[class.-clearable]': 'clearable()',
+    '[class.-full-width]': 'fullWidth()',
+    '[class.-disabled]': 'isDisabled()',
+    '[style.--_width]': 'cssWidth()',
+  },
   encapsulation: ViewEncapsulation.None,
   providers: [TEXT_INPUT_FORM_PROVIDER],
 })
@@ -67,40 +72,14 @@ export class TextInputComponent implements ControlValueAccessor {
   private inputRef =
     viewChild.required<ElementRef<HTMLInputElement>>('inputRef');
 
-  @HostBinding('class')
-  get getCssClass() {
-    return this.cssClass();
-  }
-
-  @HostBinding('style.--_width')
-  get getStyleWidth() {
-    return this.cssWidth();
-  }
-
-  @HostBinding('class.-clearable')
-  get cssClassClearable() {
-    return this.clearable();
-  }
-
-  @HostBinding('class.-full-width')
-  get cssClassFullWidth() {
-    return this.fullWidth();
-  }
-
-  @HostBinding('class.-disabled')
-  get cssClassDisabled() {
-    return this.isDisabled();
-  }
-
   id = computed(() => uniqueId(this._id(), 'app-text-input'));
   isDisabled = signal(false);
   nativeInput = computed(() => this.inputRef().nativeElement);
-  cssClass = computed(() =>
-    cssClassesList([
-      this.status() ? `-status-${this.status()}` : null,
-      this.width() ? '-with-custom-width' : null,
-    ])
-  );
+  cssClasses = computed(() => cssClassesList([
+    'app-text-input',
+    this.status() ? `-status-${this.status()}` : null,
+    this.width() ? '-with-custom-width' : null,
+  ]));
   cssWidth = computed(() => this.width() ?? 'fit-content');
 
   disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));

@@ -3,9 +3,9 @@ import {
   Component,
   EffectCleanupRegisterFn,
   ElementRef,
-  HostBinding,
   Renderer2,
   ViewEncapsulation,
+  computed,
   effect,
   inject,
   input,
@@ -30,7 +30,10 @@ const NOTIFICATION_ICON: Record<NotificationType, string> = {
   imports: [NgIcon],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.css',
-  host: { class: 'app-notification' },
+  host: {
+    class: 'app-notification',
+    '[style.--_transition-duration]': 'cssDuration()',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -45,13 +48,8 @@ export class NotificationComponent {
 
   dismissed = output<void>();
 
-  @HostBinding('style.--_transition-duration')
-  get cssDuration(): string {
-    return `${this.dismissAfter()}ms`;
-  }
-
+  cssDuration = computed(() => `${this.dismissAfter()}ms`);
   notificationIcon = signal('');
-
   notificationEffect = effect(this.effectOnNotificationType.bind(this));
 
   notificationIdEffect = effect(() => {

@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
   Provider,
   ViewEncapsulation,
   booleanAttribute,
@@ -34,7 +33,12 @@ const TEXTAREA_FORM_PROVIDER: Provider = {
   imports: [NgIcon, IconButtonComponent],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.css',
-  host: { class: 'app-textarea' },
+  host: {
+    '[class]': 'cssClasses()',
+    '[class.-clearable]': 'clearable()',
+    '[class.-full-width]': 'fullWidth()',
+    '[class.-disabled]': 'isDisabled()',
+  },
   encapsulation: ViewEncapsulation.None,
   providers: [TEXTAREA_FORM_PROVIDER],
 })
@@ -65,26 +69,6 @@ export class TextareaComponent implements ControlValueAccessor {
     matClear,
   };
 
-  @HostBinding('class')
-  get getCssClass() {
-    return this.cssClass();
-  }
-
-  @HostBinding('class.-clearable')
-  get cssClassClearable() {
-    return this.clearable();
-  }
-
-  @HostBinding('class.-full-width')
-  get cssClassFullWidth() {
-    return this.fullWidth();
-  }
-
-  @HostBinding('class.-disabled')
-  get cssClassDisabled() {
-    return this.isDisabled();
-  }
-
   private textareaRef =
     viewChild.required<ElementRef<HTMLTextAreaElement>>('textareaRef');
 
@@ -94,9 +78,10 @@ export class TextareaComponent implements ControlValueAccessor {
   charsCounter = computed(() => this.inputValue().length);
   nativeInput = computed(() => this.textareaRef().nativeElement);
   attrsController = new HTMLAttributes();
-  cssClass = computed(() =>
-    cssClassesList([this.status() ? `-status-${this.status()}` : null])
-  );
+  cssClasses = computed(() => cssClassesList([
+    'app-textarea',
+    this.status() ? `-status-${this.status()}` : null,
+  ]));
 
   disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
