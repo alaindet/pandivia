@@ -224,14 +224,14 @@
       {{ t("common.form.field.addToInventory") }}
     </app-form-field-label>
 
-    <app-toggle
+    <app-checkbox
       [formControlName]="FIELD.ADD_TO_INVENTORY.id"
       [id]="FIELD.ADD_TO_INVENTORY.htmlId"
       color="primary"
       class="_add-to-inventory-toggle"
     >
       {{ t("common.form.field.addToInventory") }}?
-    </app-toggle>
+    </app-checkbox>
 
     <app-form-field-hint>
       {{ t("list.hint.addToInventory") }}
