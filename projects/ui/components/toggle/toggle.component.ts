@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Injector,
   Provider,
@@ -49,6 +50,7 @@ const TOGGLE_FORM_PROVIDER: Provider = {
     '[attr.aria-errormessage]': 'withErrorId()',
   },
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TOGGLE_FORM_PROVIDER],
 })
 export class ToggleComponent implements ControlValueAccessor {

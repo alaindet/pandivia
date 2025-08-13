@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-form-field-hint',
@@ -6,5 +6,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrl: './form-field-hint.component.css',
   host: { class: 'app-form-field-hint' },
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormFieldHintComponent {}

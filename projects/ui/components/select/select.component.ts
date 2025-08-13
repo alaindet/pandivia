@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Injector,
@@ -38,6 +39,7 @@ const SELECT_FORM_PROVIDER: Provider = {
     '[style.--_width]': 'styleWidth()',
   },
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SELECT_FORM_PROVIDER],
 })
 export class SelectComponent implements ControlValueAccessor {

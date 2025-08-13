@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
   input
@@ -13,6 +14,7 @@ import {
     '[attr.id]': 'errorId()',
   },
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormFieldErrorComponent {
   errorId = input('');
