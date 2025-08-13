@@ -6,7 +6,7 @@ import {
 
 @Component({
   selector: 'app-form-field-error',
-  template: `<ng-content></ng-content>`,
+  template: `<ng-content />`,
   styleUrl: './form-field-error.component.css',
   host: {
     class: 'app-form-field-error',

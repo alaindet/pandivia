@@ -12,7 +12,7 @@ import {
 
 @Component({
   selector: 'app-autocomplete-option',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   styleUrl: './autocomplete-option.component.css',
   host: {
     class: 'app-autocomplete-option',
