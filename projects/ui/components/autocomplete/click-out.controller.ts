@@ -1,8 +1,17 @@
+export type ClickOutControllerOptions = {
+  element: HTMLElement;
+  callback: () => void;
+  eventName: 'click' | 'mousedown';
+};
+
+export type ClickOutController = {
+  start: () => void;
+  stop: () => void;
+};
+
 export function createClickOutController(
-  element: HTMLElement,
-  callback: () => void,
-  eventName: 'click' | 'mousedown' = 'click',
-) {
+  { element, callback, eventName }: ClickOutControllerOptions,
+): ClickOutController {
 
   let abortController: AbortController | null = null;
 
