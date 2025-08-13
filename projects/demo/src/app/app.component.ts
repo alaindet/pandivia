@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+
+import { Component, inject, OnInit, DOCUMENT } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
   ActivatedRoute,

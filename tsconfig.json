@@ -14,20 +14,35 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
     "resolveJsonModule": true,
-    "lib": ["ES2022", "dom"],
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
     "paths": {
-      "@root/*": ["./*"],
-      "@app/*": ["projects/app/src/app/*"],
-      "@app/environment": ["projects/app/src/environments/environment.ts"],
-      "@demo/*": ["projects/demo/src/app/*"],
-      "@common/*": ["dist/common/*"],
-      "@ui/*": ["dist/ui/*"]
+      "@root/*": [
+        "./*"
+      ],
+      "@app/*": [
+        "projects/app/src/app/*"
+      ],
+      "@app/environment": [
+        "projects/app/src/environments/environment.ts"
+      ],
+      "@demo/*": [
+        "projects/demo/src/app/*"
+      ],
+      "@common/*": [
+        "dist/common/*"
+      ],
+      "@ui/*": [
+        "dist/ui/*"
+      ]
     }
   },
   "angularCompilerOptions": {
