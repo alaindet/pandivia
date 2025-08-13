@@ -4,10 +4,9 @@ import {
   ViewEncapsulation,
   booleanAttribute,
   computed,
-  effect,
   input,
-  output,
-  signal
+  linkedSignal,
+  output
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import {
@@ -64,7 +63,7 @@ export class CardListComponent {
   itemActionsFn = input.required<CardListItemActionsFn>();
   withMutedTitle = input(false, { transform: booleanAttribute });
   isSelectable = input(true, { transform: booleanAttribute });
-  _isPinned = input(true, { alias: 'isPinned', transform: booleanAttribute });
+  _isPinned = input(false, { alias: 'isPinned', transform: booleanAttribute });
   withCounters = input(true, { transform: booleanAttribute });
   checkboxColor = input<CheckboxColor>('black');
   i18nPin = input('Pin');
@@ -84,23 +83,11 @@ export class CardListComponent {
     matPushPin,
   };
 
-  itemActionsMap = new Map<string, ActionsMenuItem[]>();
   itemsDescriptionMap = new Map<string, boolean>();
-  counters = signal<CardListCounters | null>(null);
   isCompleted = computed(() => this.computeIsCompleted());
-  isPinned = signal(true);
-
-  itemsEffect = effect(() => {
-    const items = this.items();
-    this.itemActionsMap = this.updateActionsByItemMap(items);
-    if (this.withCounters()) {
-      this.updateCounters(items);
-    }
-  });
-
-  isPinnedEffect = effect(() => {
-    this.isPinned.set(this._isPinned());
-  });
+  isPinned = linkedSignal(() => this._isPinned());
+  counters = computed(() => this.computeCounters());
+  itemActionsMap = computed(() => this.computeItemActionsMap());
 
   onListAction(action: string) {
     this.listActionClicked.emit(action);
@@ -143,23 +130,32 @@ export class CardListComponent {
     return counters.done === counters.total;
   }
 
-  private updateActionsByItemMap(
-    items: CardListItem[]
-  ): Map<string, ActionsMenuItem[]> {
+  private computeItemActionsMap(): Map<string, ActionsMenuItem[]> {
     const itemActionsMap = new Map<string, ActionsMenuItem[]>();
     const fn = this.itemActionsFn();
-    items.forEach((item) => itemActionsMap.set(item.id, fn(item)));
+
+    for (const item of this.items()) {
+      itemActionsMap.set(item.id, fn(item));
+    }
+
     return itemActionsMap;
   }
 
-  private updateCounters(items: CardListItem[]) {
+  private computeCounters(): CardListCounters | null {
+    if (!this.withCounters()) {
+      return null;
+    }
+
     let done = 0;
-    items.forEach((item) => {
+    const items = this.items();
+
+    for (const item of items) {
       if (item.isDone) {
         done++;
       }
-    });
+    }
+
     const total = items.length;
-    this.counters.set({ done, total });
+    return { done, total };
   }
 }

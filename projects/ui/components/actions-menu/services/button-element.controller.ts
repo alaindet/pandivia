@@ -13,7 +13,7 @@ export function createButtonElementController(parent: ActionsMenuService) {
   const destroy$ = new Subject<void>();
 
   effect(_focusMovedEffect);
-  effect(_toggleMenuEffect);
+  effect(_toggledMenuEffect);
 
   function init(inputEl: HTMLButtonElement) {
     if (el() !== null) {
@@ -113,7 +113,7 @@ export function createButtonElementController(parent: ActionsMenuService) {
     buttonEl.focus();
   }
 
-  function _toggleMenuEffect() {
+  function _toggledMenuEffect() {
     const buttonEl = el();
     if (buttonEl === null) {
       return;

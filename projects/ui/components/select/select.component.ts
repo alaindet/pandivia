@@ -7,19 +7,18 @@ import {
   afterNextRender,
   booleanAttribute,
   computed,
-  effect,
   forwardRef,
   inject,
   input,
+  linkedSignal,
   output,
   runInInjectionContext,
-  signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TranslocoModule } from '@jsverse/transloco';
 import { FormOption } from '@common/types';
 import { cssClassesList, uniqueId } from '@common/utils';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import { FormFieldStatus } from '../form-field';
 
@@ -58,8 +57,8 @@ export class SelectComponent implements ControlValueAccessor {
 
   selected = output<string | null>();
 
-  selectedValue = signal<string | null>(null);
-  isDisabled = signal(false);
+  selectedValue = linkedSignal(() => this.value() ?? null);
+  isDisabled = linkedSignal(() => this._isDisabled());
   id = computed(() => uniqueId(this._id(), 'app-select'));
   styleWidth = computed(() => this.width() ?? 'fit-content');
   cssClasses = computed(() => cssClassesList([
@@ -73,9 +72,6 @@ export class SelectComponent implements ControlValueAccessor {
     viewChild.required<ElementRef<HTMLSelectElement>>('selectRef');
   private onChange!: (val: any) => {};
   private onTouched!: () => {};
-
-  valueEffect = effect(() => this.selectedValue.set(this.value() ?? null));
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   // Thanks to https://linuxhint.com/select-onchange-javascript/
   onSelectChange() {

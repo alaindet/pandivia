@@ -6,23 +6,22 @@ import {
   afterNextRender,
   booleanAttribute,
   computed,
-  effect,
   forwardRef,
   inject,
   input,
+  linkedSignal,
   numberAttribute,
   output,
-  runInInjectionContext,
-  signal,
+  runInInjectionContext
 } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { uniqueId } from '@common/utils';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matRemove } from '@ng-icons/material-icons/baseline';
-import { uniqueId } from '@common/utils';
 
 import { IconButtonColor, IconButtonComponent } from '../icon-button';
 
@@ -67,17 +66,14 @@ export class QuickNumberComponent implements ControlValueAccessor {
 
   icon = { matAdd, matRemove };
 
-  value = signal<number>(1);
-  isDisabled = signal(false);
+  value = linkedSignal(() => this._value());
+  isDisabled = linkedSignal(() => this._isDisabled());
   isDecrementDisabled = computed(() => this.value() <= this.min());
   isIncrementDisabled = computed(() => this.value() >= this.max());
   id = computed(() => uniqueId(this._id(), 'app-quick-number'));
 
   private onChange!: (value: number | null) => void;
   private onTouched!: () => void;
-
-  valueEffect = effect(() => this.value.set(this._value()));
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   // @publicApi
   decrement() {
