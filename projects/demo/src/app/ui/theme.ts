@@ -1,5 +1,5 @@
-import { computed, effect, inject, signal } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { computed, effect, inject, signal, DOCUMENT } from '@angular/core';
+
 import { Meta } from '@angular/platform-browser';
 
 import { LocalStorageItem } from '@common/utils';
