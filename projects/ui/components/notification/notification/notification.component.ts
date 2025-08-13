@@ -53,9 +53,9 @@ export class NotificationComponent {
   notificationEffect = effect(this.effectOnNotificationType.bind(this));
 
   notificationIdEffect = effect(() => {
-    this.notificationId(); // <-- Create dependency
+    const delay = 0 * this.notificationId(); // Create fake dependency
     this.stopAnimation();
-    setTimeout(() => this.startAnimation());
+    setTimeout(() => this.startAnimation(), delay);
   });
 
   private effectOnNotificationType(onCleanup: EffectCleanupRegisterFn): void {

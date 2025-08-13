@@ -10,6 +10,7 @@ import {
   forwardRef,
   inject,
   input,
+  linkedSignal,
   output,
   runInInjectionContext,
   signal
@@ -70,9 +71,8 @@ export class ToggleComponent implements ControlValueAccessor {
 
   changed = output<boolean>();
   LABEL = TOGGLE_LABEL_POSITION;
-  isChecked = signal(false);
-  isDisabled = signal(false);
-  toggleValue = signal(false);
+  isChecked = linkedSignal(() => this._isChecked());
+  isDisabled = linkedSignal(() => this._isDisabled());
   id = computed(() => uniqueId(this._id(), 'app-toggle'));
   idLabel = computed(() => `${this.id()}-label`);
   cssClasses = computed(() => cssClassesList([
@@ -80,9 +80,6 @@ export class ToggleComponent implements ControlValueAccessor {
     `-with-label-${this.withLabel()}`,
     `-color-${this.color()}`,
   ]));
-
-  checkedEffect = effect(() => this.isChecked.set(this._isChecked()));
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   private onChange!: (val: any) => {};
   private onTouched!: () => {};

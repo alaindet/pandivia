@@ -85,9 +85,9 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   counters = this.inventoryStore.counters;
   icon = { matAdd, matClear };
 
-  pageCountersEffect = effect(() =>
-    this.layout.headerCounters.set(this.counters())
-  );
+  pageCountersEffect = effect(() => {
+    this.layout.headerCounters.set(this.counters());
+  });
 
   ngOnInit() {
     this.initPageMetadata();

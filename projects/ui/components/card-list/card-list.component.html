@@ -100,7 +100,7 @@
         <!-- Actions -->
         <app-actions-menu
           [id]="item.id + '-menu'"
-          [actions]="itemActionsMap.get(item.id) ?? []"
+          [actions]="itemActionsMap().get(item.id) ?? []"
           position="left"
           (actionConfirmed)="onItemAction(item.id, $event)"
         >

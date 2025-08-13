@@ -12,14 +12,14 @@ import {
   forwardRef,
   inject,
   input,
+  linkedSignal,
   output,
-  runInInjectionContext,
-  signal,
+  runInInjectionContext
 } from '@angular/core';
-import { Subscription, filter, fromEvent, merge } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { KEYBOARD_KEY as KB } from '@common/types';
 import { cssClassesList, uniqueId } from '@common/utils';
+import { Subscription, filter, fromEvent, merge } from 'rxjs';
 
 export type CheckboxColor = 'primary' | 'secondary' | 'tertiary' | 'black';
 
@@ -34,7 +34,7 @@ const CHECKBOX_FORM_PROVIDER: Provider = {
   exportAs: 'app-checkbox',
   template: `
     <span class="_checkmark"></span>
-    <span class="_content"><ng-content></ng-content></span>
+    <span class="_content"><ng-content /></span>
   `,
   styleUrl: './checkbox.component.css',
   encapsulation: ViewEncapsulation.None,
@@ -80,12 +80,13 @@ export class CheckboxComponent implements ControlValueAccessor {
   private interactiveSub: Subscription | null = null;
 
   id = computed(() => uniqueId(this._id(), 'app-select'));
-  isDisabled = signal(false);
-  isChecked = signal(false);
+  isChecked = linkedSignal(() => this._isChecked());
+  isDisabled = linkedSignal(() => this._isDisabled());
   tabIndex = computed(() => (this.isDisabled() ? '-1' : '0'));
-  cssClass = computed(() => cssClassesList(['app-checkbox', `-color-${this.color()}`]));
-  checkedEffect = effect(() => this.isChecked.set(this._isChecked()));
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
+  cssClass = computed(() => cssClassesList([
+    'app-checkbox',
+    `-color-${this.color()}`,
+  ]));
 
   interactivityEffect = effect((onCleanup) => {
     if (!this.isInteractable() || this.isDisabled()) {

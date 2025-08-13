@@ -8,6 +8,7 @@ import {
   effect,
   forwardRef,
   input,
+  linkedSignal,
   numberAttribute,
   output,
   signal,
@@ -73,8 +74,8 @@ export class TextareaComponent implements ControlValueAccessor {
     viewChild.required<ElementRef<HTMLTextAreaElement>>('textareaRef');
 
   id = computed(() => uniqueId(this._id(), 'app-textarea'));
-  isDisabled = signal(false);
-  inputValue = signal('');
+  isDisabled = linkedSignal(() => this._isDisabled());
+  inputValue = linkedSignal(() => this.value() ?? '');
   charsCounter = computed(() => this.inputValue().length);
   nativeInput = computed(() => this.textareaRef().nativeElement);
   attrsController = new HTMLAttributes();
@@ -83,19 +84,12 @@ export class TextareaComponent implements ControlValueAccessor {
     this.status() ? `-status-${this.status()}` : null,
   ]));
 
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
-
   attributesEffect = effect(() => {
     this.attrsController.apply(this.nativeInput(), this.attrs());
   });
 
   valueEffect = effect(() => {
-    const value = this.value();
-    if (value === undefined) {
-      return;
-    }
-    this.inputValue.set(value);
-    this.nativeInput().value = value;
+    this.nativeInput().value = this.inputValue();
   });
 
   private onChange!: (val: any) => {};

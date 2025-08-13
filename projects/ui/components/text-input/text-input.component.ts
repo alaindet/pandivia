@@ -8,6 +8,7 @@ import {
   effect,
   forwardRef,
   input,
+  linkedSignal,
   output,
   signal,
   viewChild,
@@ -73,7 +74,7 @@ export class TextInputComponent implements ControlValueAccessor {
     viewChild.required<ElementRef<HTMLInputElement>>('inputRef');
 
   id = computed(() => uniqueId(this._id(), 'app-text-input'));
-  isDisabled = signal(false);
+  isDisabled = linkedSignal(() => this._isDisabled());
   nativeInput = computed(() => this.inputRef().nativeElement);
   cssClasses = computed(() => cssClassesList([
     'app-text-input',
@@ -81,8 +82,6 @@ export class TextInputComponent implements ControlValueAccessor {
     this.width() ? '-with-custom-width' : null,
   ]));
   cssWidth = computed(() => this.width() ?? 'fit-content');
-
-  disabledEffect = effect(() => this.isDisabled.set(this._isDisabled()));
 
   attributesEffect = effect(() => {
     this.htmlAttrs.apply(this.inputRef().nativeElement, this.attrs());
