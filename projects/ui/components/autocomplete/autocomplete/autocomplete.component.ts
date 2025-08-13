@@ -80,11 +80,11 @@ export class AutocompleteComponent implements OnInit {
   currentOptionsTemplate = computed(() => this.computeCurrentOptionsTemplate());
 
   private nativeInput!: HTMLInputElement;
-  private clickOut = createClickOutController(
-    this.host.nativeElement,
-    () => this.onClickOut(),
-    'mousedown'
-  );
+  private clickOut = createClickOutController({
+    eventName: 'mousedown',
+    element: this.host.nativeElement,
+    callback: () => this.onClickOut(),
+  });
 
   onStaticOptionsChangeEffect = effect(() => {
     if (this.sourceType() !== AUTOCOMPLETE_SOURCE_TYPE.STATIC) return;
