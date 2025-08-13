@@ -1,9 +1,9 @@
 <h2>In page</h2>
-<app-linear-spinner color="primary"></app-linear-spinner>
+<app-linear-spinner color="primary" />
 &nbsp;
-<app-linear-spinner color="secondary"></app-linear-spinner>
+<app-linear-spinner color="secondary" />
 &nbsp;
-<app-linear-spinner color="tertiary"></app-linear-spinner>
+<app-linear-spinner color="tertiary" />
 
 <h2>Fixed to viewport</h2>
 <button type="button" appButton (click)="fixedToViewport = !fixedToViewport">
@@ -11,5 +11,5 @@
 </button>
 
 @if (fixedToViewport) {
-  <app-linear-spinner [fixed]="true"></app-linear-spinner>
+  <app-linear-spinner [fixed]="true" />
 }
