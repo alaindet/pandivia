@@ -2,7 +2,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
-  HostBinding,
   OnDestroy,
   ViewContainerRef,
   ViewEncapsulation,
@@ -38,7 +37,11 @@ import {
   ],
   templateUrl: './modal-host.component.html',
   styleUrl: './modal-host.component.css',
-  host: { class: 'app-modal-host' },
+  host: {
+    class: 'app-modal-host',
+    '[class.-open]': 'isOpen()',
+    '[class.-full-page]': 'isFullPage()',
+  },
   encapsulation: ViewEncapsulation.None,
 })
 export class ModalHostComponent implements OnDestroy {
@@ -46,22 +49,14 @@ export class ModalHostComponent implements OnDestroy {
 
   i18nConfirm = input('Confirm');
   i18nCancel = input('Cancel');
+  isOpen = this.modalService.isOpen;
+  isFullPage = this.modalService.isFullPage;
 
   icon = {
     matCheck,
     matClear,
     matClose,
   };
-
-  @HostBinding('class.-open')
-  get cssClassOpen() {
-    return this.modalService.isOpen();
-  }
-
-  @HostBinding('class.-full-page')
-  get cssClassFullPage() {
-    return this.modalService.isFullPage();
-  }
 
   modalTarget = viewChild.required('modalTarget', { read: ViewContainerRef });
   modalRef = viewChild.required<ElementRef<HTMLElement>>('modalRef');

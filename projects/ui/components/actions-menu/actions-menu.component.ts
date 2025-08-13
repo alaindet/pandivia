@@ -3,10 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   Injector,
   OnInit,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   contentChild,
   effect,
@@ -14,11 +14,11 @@ import {
   input,
   output,
   runInInjectionContext,
-  viewChild,
+  viewChild
 } from '@angular/core';
+import { doOnce } from '@common/utils';
 import { NgIcon } from '@ng-icons/core';
 import { matMoreHoriz } from '@ng-icons/material-icons/baseline';
-import { doOnce } from '@common/utils';
 
 import { IconButtonComponent } from '../icon-button';
 import { ActionsMenuButtonDirective } from './directives/actions-menu-button.directive';
@@ -31,7 +31,10 @@ import { ActionsMenuItem } from './types';
   imports: [NgTemplateOutlet, IconButtonComponent, NgIcon],
   templateUrl: './actions-menu.component.html',
   styleUrl: './actions-menu.component.css',
-  host: { class: 'app-actions-menu' },
+  host: {
+    class: 'app-actions-menu',
+    '[style.--_offset-y]': 'cssOffsetY()',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ActionsMenuService],
@@ -52,7 +55,7 @@ export class ActionsMenuComponent implements OnInit {
     this.svc.actions.initOrUpdate(this.actions());
   });
 
-  private cssOffsetY = computed(() => {
+  cssOffsetY = computed(() => {
     const offsetY = this.offsetY();
     return typeof offsetY === 'number' ? `${offsetY}px` : offsetY;
   });
@@ -65,11 +68,6 @@ export class ActionsMenuComponent implements OnInit {
   buttonId = this.svc.ids.button;
   focused = this.svc.focus.focused;
   menuActions = this.svc.actions.actions;
-
-  @HostBinding('style.--_offset-y')
-  get styleOffsetY() {
-    return this.cssOffsetY();
-  }
 
   itemsElementRef = viewChild<ElementRef<HTMLElement>>('itemsElementRef');
   itemsElementRefEffect = effect(() => {
@@ -109,16 +107,13 @@ export class ActionsMenuComponent implements OnInit {
     event.preventDefault();
   }
 
-  // TODO: Refactor
   private initButtonElement(): void {
-    doOnce(() => {
-      setTimeout(() => {
-        runInInjectionContext(this.injector, () => {
-          const buttonQuery = '.app-actions-menu-button button';
-          const button = this.host.nativeElement.querySelector(buttonQuery);
-          this.svc.buttonElement.init(button);
-        });
-      }, 100);
-    })();
+    runInInjectionContext(this.injector, () => {
+      afterNextRender(() => {
+        const buttonQuery = '.app-actions-menu-button button';
+        const button = this.host.nativeElement.querySelector(buttonQuery);
+        this.svc.buttonElement.init(button);
+      });
+    });
   }
 }

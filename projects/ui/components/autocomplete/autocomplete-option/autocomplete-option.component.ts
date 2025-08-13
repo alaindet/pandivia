@@ -2,20 +2,23 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   ViewEncapsulation,
   booleanAttribute,
   effect,
   inject,
   input,
-  output,
+  output
 } from '@angular/core';
 
 @Component({
   selector: 'app-autocomplete-option',
   template: '<ng-content></ng-content>',
   styleUrl: './autocomplete-option.component.css',
-  host: { class: 'app-autocomplete-option' },
+  host: {
+    class: 'app-autocomplete-option',
+    '[class.-focused]': 'isFocused()',
+    '[attr.aria-selected]': 'isFocused()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
@@ -26,17 +29,7 @@ export class AutocompleteOptionComponent {
   isFocused = input(false, { transform: booleanAttribute });
 
   confirmed = output<void>();
-
-  @HostBinding('class.-focused')
-  get cssClassFocused() {
-    return this.isFocused();
-  }
-
-  @HostBinding('attr.aria-selected')
-  get attrAriaSelected() {
-    return this.isFocused();
-  }
-
+  
   scrollEffect = effect(() => {
     if (this.isFocused() && this.isDropdownOpen()) {
       const scrollOptions = { behavior: 'smooth', block: 'nearest' };

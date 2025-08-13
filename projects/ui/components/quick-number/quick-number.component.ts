@@ -1,6 +1,5 @@
 import {
   Component,
-  HostBinding,
   Injector,
   Provider,
   ViewEncapsulation,
@@ -38,7 +37,12 @@ const QUICK_NUMBER_FORM_PROVIDER: Provider = {
   imports: [NgIcon, ReactiveFormsModule, IconButtonComponent],
   templateUrl: './quick-number.component.html',
   styleUrl: './quick-number.component.css',
-  host: { class: 'app-quick-number' },
+  host: {
+    class: 'app-quick-number',
+    '[class.-full-width]': 'fullWidth()',
+    '[attr.id]': 'id()',
+    '[attr.aria-errormessage]': 'withErrorId()',
+  },
   encapsulation: ViewEncapsulation.None,
   providers: [QUICK_NUMBER_FORM_PROVIDER],
 })
@@ -62,21 +66,6 @@ export class QuickNumberComponent implements ControlValueAccessor {
   changed = output<number>();
 
   icon = { matAdd, matRemove };
-
-  @HostBinding('attr.aria-errormessage')
-  get attrAriaErrorMessage() {
-    return this.withErrorId();
-  }
-
-  @HostBinding('attr.id')
-  get attrId() {
-    return this.id();
-  }
-
-  @HostBinding('class.-full-width')
-  get cssClassFullWidth() {
-    return this.fullWidth();
-  }
 
   value = signal<number>(1);
   isDisabled = signal(false);

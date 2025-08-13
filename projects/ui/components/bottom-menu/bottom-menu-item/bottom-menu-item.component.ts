@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   ViewEncapsulation,
   booleanAttribute,
-  input,
+  input
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 
@@ -16,6 +15,7 @@ import { NgIcon } from '@ng-icons/core';
   host: {
     class: 'app-bottom-menu-item',
     tabindex: '0',
+    '[class.-selected]': 'isSelected()',
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,9 +24,4 @@ export class BottomMenuItemComponent {
   id = input.required<string>();
   icon = input.required<string>();
   isSelected = input(false, { transform: booleanAttribute });
-
-  @HostBinding('class.-selected')
-  get cssClassSelected() {
-    return this.isSelected();
-  }
 }

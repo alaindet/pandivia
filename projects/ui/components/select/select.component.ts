@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  HostBinding,
   Injector,
   Provider,
   ViewEncapsulation,
@@ -35,7 +34,10 @@ const SELECT_FORM_PROVIDER: Provider = {
   imports: [TranslocoModule],
   templateUrl: './select.component.html',
   styleUrl: './select.component.css',
-  host: { class: 'app-select' },
+  host: {
+    '[class]': 'cssClasses()',
+    '[style.--_width]': 'styleWidth()',
+  },
   encapsulation: ViewEncapsulation.None,
   providers: [SELECT_FORM_PROVIDER],
 })
@@ -56,33 +58,16 @@ export class SelectComponent implements ControlValueAccessor {
 
   selected = output<string | null>();
 
-  @HostBinding('class.-disabled')
-  get cssClassDisabled() {
-    return this.isDisabled();
-  }
-
-  @HostBinding('style.--_width')
-  get getStyleWidth() {
-    return this.styleWidth();
-  }
-
-  @HostBinding('class')
-  get getCssClass() {
-    return this.cssClass();
-  }
-
-  @HostBinding('class.-with-custom-width')
-  get getCssClassWithCustomWidth() {
-    return this.width() !== undefined;
-  }
-
   selectedValue = signal<string | null>(null);
   isDisabled = signal(false);
   id = computed(() => uniqueId(this._id(), 'app-select'));
   styleWidth = computed(() => this.width() ?? 'fit-content');
-  cssClass = computed(() =>
-    cssClassesList([this.status() ? `-status-${this.status()}` : null])
-  );
+  cssClasses = computed(() => cssClassesList([
+    'app-select',
+    this.isDisabled() ? '-disabled' : null,
+    this.status() ? `-status-${this.status()}` : null,
+    this.width() !== undefined ? '-with-custom-width' : null,
+  ]));
 
   private selectRef =
     viewChild.required<ElementRef<HTMLSelectElement>>('selectRef');
