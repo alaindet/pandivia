@@ -83,6 +83,17 @@
   <!-- Template: No items -->
   <ng-template #noItemsRef>
     <p>{{ t("list.noItems") }}</p>
+
+    @if (searchedTerm(); as searchedTerm) {
+      <button
+        appButton="primary"
+        withIcon="left"
+        (click)="onShowCreateItemModal(searchedTerm)"
+      >
+        <ng-icon [svg]="icon.matAdd" />
+        {{ t("common.createMissingItem") }}
+      </button>
+    }
   </ng-template>
 
   <!-- Template: Error status -->

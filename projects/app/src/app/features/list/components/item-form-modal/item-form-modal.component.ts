@@ -126,7 +126,10 @@ export class ListItemFormModalComponent
   }
 
   ngOnInit() {
-    this.inventoryStore.allItems.fetch();
+    this.inventoryStore.allItems.fetch({
+      force: false,
+      withNotifications: false,
+    });
     this.isEditing.set(!!this.modal.data?.item);
     this.initForm();
   }
@@ -232,7 +235,7 @@ export class ListItemFormModalComponent
   };
 
   private initForm(): void {
-    const { item, category } = this.modal.data;
+    const { item, category, name } = this.modal.data;
     const { required, minLength, maxLength, min, max } = Validators;
 
     let fieldCategory = !!this.modal.data?.item
@@ -246,7 +249,7 @@ export class ListItemFormModalComponent
     const controls: any = {
       [FIELD.NAME.id]: [
         // Value
-        item?.name ?? '',
+        item?.name ?? name ?? '',
 
         // Sync validators
         [required, minLength(1), maxLength(100)],

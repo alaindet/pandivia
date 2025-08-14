@@ -7,24 +7,33 @@ import { InventoryStore } from './feature';
 export class InventoryAllItemsSubstore {
   constructor(private parent: InventoryStore) {}
 
-  fetch(force = false): Subscription | undefined {
+  fetch({ force, withNotifications }: {
+    force: boolean;
+    withNotifications: boolean;
+  }): Subscription | undefined {
+
     if (!force && !this.parent.shouldFetch()) {
       this.parent.status.set(LOADING_STATUS.IDLE);
       this.parent.ui.loader.stop();
       return;
     }
 
-    return updateStore(this.parent.api.fetchItems())
-      .withFeedback(this.parent.feedback)
-      .withNotifications(
+    const storeUpdater = updateStore(this.parent.api.fetchItems())
+      .withFeedback(this.parent.feedback);
+
+    if (withNotifications) {
+      storeUpdater.withNotifications(
         'common.async.fetchItemsSuccess',
         'common.async.fetchItemsError'
-      )
-      .onSuccess((items) => {
-        this.parent.lastUpdated.set(Date.now());
-        this.parent.items.set(items);
-      })
-      .update();
+      );
+    }
+
+    storeUpdater.onSuccess((items) => {
+      this.parent.lastUpdated.set(Date.now());
+      this.parent.items.set(items);
+    });
+
+    return storeUpdater.update();
   }
 
   remove(): Subscription {

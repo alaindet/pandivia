@@ -202,6 +202,10 @@ export class ListStore {
     this.status.set(LOADING_STATUS.PRISTINE);
     this.lastUpdated.set(null);
     this.itemModalSuccessCounter.set(0);
+    this.resetFilters();
+  }
+
+  resetFilters(): void {
     this.filters.set({
       [LIST_FILTER.CATEGORY]: null,
       [LIST_FILTER.IS_DONE]: null,

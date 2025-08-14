@@ -69,6 +69,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
+  searchedTerm = computed(() => this.layout.search.query().trim());
   itemGroups = this.listStore.getCategorizedFilteredItems();
   loaded = this.listStore.isLoaded;
   inErrorStatus = this.listStore.isError;
@@ -88,7 +89,11 @@ export class ListPageComponent implements OnInit, OnDestroy {
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
     this.initSearchFeature();
-    this.listStore.allItems.fetch();
+    this.listStore.resetFilters();
+    this.listStore.allItems.fetch({
+      force: false,
+      withNotifications: false,
+    });
   }
 
   ngOnDestroy() {
@@ -99,7 +104,10 @@ export class ListPageComponent implements OnInit, OnDestroy {
   onListAction(action: string) {
     switch (action) {
       case listMenu.LIST_ACTION_REFRESH.id:
-        this.listStore.allItems.fetch(true);
+        this.listStore.allItems.fetch({
+          force: true,
+          withNotifications: true,
+        });
         break;
 
       case listMenu.LIST_ACTION_COMPLETE.id:
@@ -203,9 +211,12 @@ export class ListPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onShowCreateItemModal(): void {
+  onShowCreateItemModal(name?: string): void {
     const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: ListItemFormModalInput = { title };
+    if (name) {
+      modalInput.name = name;
+    }
     this.modal.open(ListItemFormModalComponent, modalInput, {
       fullPage: this.isMobile(),
     });
