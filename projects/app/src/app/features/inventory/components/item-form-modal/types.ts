@@ -4,6 +4,7 @@ export type InventoryItemFormModalInput = {
   title: string;
   item?: InventoryItem;
   category?: string;
+  name?: string;
 };
 
 export type CreateInventoryItemFormModalOutput = {

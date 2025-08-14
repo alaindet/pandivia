@@ -101,9 +101,11 @@ export class InventoryItemFormModalComponent
   get fName() {
     return fDescribe(this.theForm, FIELD.NAME.id);
   }
+
   get fDesc() {
     return fDescribe(this.theForm, FIELD.DESCRIPTION.id);
   }
+
   get fCategory() {
     return fDescribe(this.theForm, FIELD.CATEGORY.id);
   }
@@ -201,7 +203,7 @@ export class InventoryItemFormModalComponent
   }
 
   private initForm(): void {
-    const { item, category } = this.modal.data;
+    const { item, category, name } = this.modal.data;
     const { required, minLength, maxLength } = Validators;
 
     let fieldCategory = !!this.modal.data?.item
@@ -214,7 +216,7 @@ export class InventoryItemFormModalComponent
 
     const controls: any = {
       [FIELD.NAME.id]: [
-        item?.name ?? '',
+        item?.name ?? name ?? '',
         // Sync validators
         [required, minLength(2), maxLength(100)],
         // Async validators

@@ -75,6 +75,7 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   isMobile = inject(MediaQueryService).getFromMobileDown();
   DEFAULT_CATEGORY = DEFAULT_CATEGORY;
   categoryContextualMenu!: ActionsMenuItem[];
+  searchedTerm = computed(() => this.layout.search.query().trim());
   itemGroups = this.inventoryStore.getCategorizedFilteredItems();
   loaded = this.inventoryStore.isLoaded;
   inErrorStatus = this.inventoryStore.isError;
@@ -94,7 +95,11 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     this.initListContextualMenu();
     this.initCategoryContextualMenu();
     this.initSearchFeature();
-    this.inventoryStore.allItems.fetch();
+    this.inventoryStore.resetFilters();
+    this.inventoryStore.allItems.fetch({
+      force: false,
+      withNotifications: false,
+    });
   }
 
   ngOnDestroy() {
@@ -105,7 +110,10 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
   onListAction(action: string) {
     switch (action) {
       case listMenu.LIST_ACTION_REFRESH.id: {
-        this.inventoryStore.allItems.fetch(true);
+        this.inventoryStore.allItems.fetch({
+          force: true,
+          withNotifications: true,
+        });
         break;
       }
     }
@@ -169,9 +177,12 @@ export class InventoryPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onShowCreateItemModal(): void {
+  onShowCreateItemModal(name?: string): void {
     const title = this.transloco.translate('common.itemModal.createTitle');
     const modalInput: InventoryItemFormModalInput = { title };
+    if (name) {
+      modalInput.name = name;
+    }
     this.modal.open(InventoryItemFormModalComponent, modalInput, {
       fullPage: this.isMobile(),
     });

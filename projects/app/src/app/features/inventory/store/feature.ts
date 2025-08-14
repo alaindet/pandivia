@@ -185,6 +185,10 @@ export class InventoryStore {
     this.status.set(LOADING_STATUS.PRISTINE);
     this.lastUpdated.set(null);
     this.itemModalSuccessCounter.set(0);
+    this.resetFilters();
+  }
+
+  resetFilters(): void {
     this.filters.set({
       [INVENTORY_FILTER.CATEGORY]: null,
       [INVENTORY_FILTER.SEARCH_QUERY]: null,

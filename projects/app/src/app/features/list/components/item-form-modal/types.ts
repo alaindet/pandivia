@@ -4,6 +4,7 @@ export type ListItemFormModalInput = {
   title: string;
   item?: ListItem;
   category?: string;
+  name?: string;
 };
 
 export type CreateListItemFormModalOutput = {
