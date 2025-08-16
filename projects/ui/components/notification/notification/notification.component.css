@@ -1,6 +1,4 @@
 app-notification {
-  --_transition-width: 0;
-  --_transition-duration: 3000ms;
   --_background: black;
   --_min-width: 350px;
   --_max-width: 450px;
@@ -30,18 +28,6 @@ app-notification {
 
 .app-notification.-type-error {
   --_background: var(--app-color-error);
-}
-
-.app-notification.-animating {
-  --_transition-width: 0;
-}
-
-.app-notification.-stopped {
-  --_transition-width: 1;
-}
-
-.app-notification.-stopped > ._progress {
-  transition: none;
 }
 
 .app-notification > ._icon {
@@ -97,12 +83,9 @@ app-notification {
 
 .app-notification > ._progress {
   position: absolute;
-  right: 0;
   left: 0;
   bottom: 0;
+  width: 100%;
   height: var(--app-height-notification-progress);
   background-color: rgba(255, 255, 255, 0.5);
-  transform-origin: left;
-  transition: transform var(--_transition-duration) linear;
-  transform: scaleX(var(--_transition-width));
 }

@@ -19,6 +19,7 @@ import { DemoHeaderComponent } from './components/header/header.component';
 import { DemoLayoutComponent } from './components/layout/layout.component';
 import { DemoNavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
 import { UiStore } from './ui';
+import { NOTIFICATION_TIMEOUT } from './ui/constants';
 
 @Component({
   selector: 'demo-root',
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
   document = inject(DOCUMENT);
   uiStore = inject(UiStore);
 
-  NOTIFICATION_TIMEOUT = 3_000;
+  NOTIFICATION_TIMEOUT = NOTIFICATION_TIMEOUT;
   notification = this.uiStore.notifications.notification;
   loading = this.uiStore.loader.loading;
   themeConfig = this.uiStore.theme.config;

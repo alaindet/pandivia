@@ -3,7 +3,11 @@
 </div>
 
 <div class="_message">
-  <ng-content />
+  @if (message(); as message) {
+    {{ message }}
+  } @else {
+    <ng-content />
+  }
 </div>
 
 @if (more() > 0) {
@@ -14,4 +18,4 @@
   &times;
 </button>
 
-<div class="_progress"></div>
+<div class="_progress" #progress></div>

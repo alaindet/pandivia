@@ -8,7 +8,6 @@ import {
 } from '@ui/components';
 
 import { NOTIFICATION_TIMEOUT } from './constants';
-import { HashMap } from '@jsverse/transloco';
 
 export function createUiNotificationController() {
   const notifications = signal<Notification[]>([]);
