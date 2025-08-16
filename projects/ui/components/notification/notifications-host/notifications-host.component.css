@@ -8,6 +8,8 @@
 .app-notifications-host.-position-top-right {
   top: 2rem;
   right: 2rem;
+  bottom: auto;
+  left: auto;
 }
 
 /* TODO: Add other positions... */

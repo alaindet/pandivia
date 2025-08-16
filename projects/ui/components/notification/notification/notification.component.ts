@@ -1,23 +1,23 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  EffectCleanupRegisterFn,
   ElementRef,
-  Renderer2,
+  OnDestroy,
   ViewEncapsulation,
   computed,
-  effect,
-  inject,
   input,
   numberAttribute,
   output,
-  signal,
+  viewChild
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import {
   matCheckCircle,
   matReportProblem,
 } from '@ng-icons/material-icons/baseline';
+
+import { cssClassesList } from '@common/utils';
 import { NOTIFICATION_TYPE, NotificationType } from '../types';
 
 const NOTIFICATION_ICON: Record<NotificationType, string> = {
@@ -31,54 +31,51 @@ const NOTIFICATION_ICON: Record<NotificationType, string> = {
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.css',
   host: {
-    class: 'app-notification',
+    '[class]': 'cssClasses()',
     '[style.--_transition-duration]': 'cssDuration()',
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificationComponent {
-  private host = inject(ElementRef);
-  private renderer = inject(Renderer2);
+export class NotificationComponent implements AfterViewInit, OnDestroy {
 
   notificationId = input.required<number>();
   notificationType = input.required<NotificationType>();
+  message = input<string>();
   more = input(0, { transform: numberAttribute });
   dismissAfter = input(3_000);
 
   dismissed = output<void>();
 
+  progressRef = viewChild.required('progress', { read: ElementRef });
+  progressAnimation: Animation | null = null;
+
   cssDuration = computed(() => `${this.dismissAfter()}ms`);
-  notificationIcon = signal('');
-  notificationEffect = effect(this.effectOnNotificationType.bind(this));
+  notificationIcon = computed(() => NOTIFICATION_ICON[this.notificationType()]);
+  cssClasses = computed(() => cssClassesList([
+    'app-notification',
+    `-type-${this.notificationType()}`,
+  ]));
 
-  notificationIdEffect = effect(() => {
-    const delay = 0 * this.notificationId(); // Create fake dependency
-    this.stopAnimation();
-    setTimeout(() => this.startAnimation(), delay);
-  });
+  ngAfterViewInit() {
+    const progressEl = <HTMLDivElement>this.progressRef().nativeElement;
 
-  private effectOnNotificationType(onCleanup: EffectCleanupRegisterFn): void {
-    const notificationType = this.notificationType();
-    this.notificationIcon.set(NOTIFICATION_ICON[notificationType]);
-    this.renderer.addClass(
-      this.host.nativeElement,
-      `-type-${notificationType}`
+    this.progressAnimation = progressEl.animate(
+      [
+        { width: '100%' },
+        { width: '0%' },
+      ],
+      {
+        duration: this.dismissAfter(),
+        easing: 'linear',
+        fill: 'forwards',
+      },
     );
-
-    onCleanup(() => {
-      const cssPrev = `-type-${notificationType}`;
-      this.renderer.removeClass(this.host.nativeElement, cssPrev);
-    });
   }
 
-  private stopAnimation(): void {
-    this.renderer.removeClass(this.host.nativeElement, '-animating');
-    this.renderer.addClass(this.host.nativeElement, '-stopped');
-  }
-
-  private startAnimation(): void {
-    this.renderer.removeClass(this.host.nativeElement, '-stopped');
-    this.renderer.addClass(this.host.nativeElement, '-animating');
+  ngOnDestroy() {
+    if (this.progressAnimation) {
+      this.progressAnimation.cancel();
+    }
   }
 }
