@@ -1,6 +1,6 @@
 {
   "name": "pandivia",
-  "version": "0.26.0",
+  "version": "0.26.1",
   "scripts": {
     "start": "npm run app:serve",
     "build": "npm run common:build && npm run ui:build && npm run app:build",
