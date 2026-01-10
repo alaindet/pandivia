@@ -54,7 +54,7 @@ export class ButtonComponent {
     }
   });
 
-  private cssClasses = computed(() => {
+  cssClasses = computed(() => {
     const main = this.mainInput();
     const color = this.color();
 

@@ -1,5 +1,4 @@
 import { WritableSignal } from '@angular/core';
-import { HashMap } from '@jsverse/transloco';
 
 import { LOADING_STATUS, LoadingStatus } from '@common/types';
 import { StoreFeedback } from './update-store';
@@ -21,10 +20,10 @@ export function provideFeedback(
       success: () => status.set(LOADING_STATUS.IDLE),
     },
     notifier: {
-      error: (message: string, params?: HashMap) => {
+      error: (message: string, params?: Record<string, any>) => {
         uiStore.notifications.error(message, params);
       },
-      success: (message: string, params?: HashMap) => {
+      success: (message: string, params?: Record<string, any>) => {
         uiStore.notifications.success(message, params);
       },
     },

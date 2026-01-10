@@ -20,10 +20,6 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "resolveJsonModule": true,
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
     "paths": {
       "@root/*": [
         "./*"

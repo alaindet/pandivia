@@ -7,7 +7,7 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { HashMap, TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { NgIcon } from '@ng-icons/core';
 import { matAdd, matClear } from '@ng-icons/material-icons/baseline';
 import {
@@ -281,7 +281,7 @@ export class ListPageComponent implements OnInit, OnDestroy {
 
   private confirmPrompt(
     prompt: ConfirmPromptModalInput,
-    messageParams?: HashMap
+    messageParams?: Record<string, any>,
   ) {
     const title = this.transloco.translate(prompt.title);
     const message = this.transloco.translate(prompt.message, messageParams);

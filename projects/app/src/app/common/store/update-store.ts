@@ -1,5 +1,4 @@
 import { finalize, Observable, Subscription } from 'rxjs';
-import { HashMap } from '@jsverse/transloco';
 
 export type StoreLoader = {
   start: () => void;
@@ -7,8 +6,8 @@ export type StoreLoader = {
 };
 
 export type StoreNotifier = {
-  error: (message: string, params?: HashMap) => void;
-  success: (message: string, params?: HashMap) => void;
+  error: (message: string, params?: Record<string, any>) => void;
+  success: (message: string, params?: Record<string, any>) => void;
 };
 
 export type StoreStatus = {
@@ -26,8 +25,8 @@ export type StoreFeedback = {
 export type StoreUpdateOptions<T = any> = {
   source: Observable<T>;
   notifications: {
-    ok: string | [string, HashMap] | null;
-    err: string | [string, HashMap] | null;
+    ok: string | [string, Record<string, any>] | null;
+    err: string | [string, Record<string, any>] | null;
   } | null;
   onSuccess: ((data: T) => void) | null;
   loader: StoreLoader | null;
@@ -69,8 +68,8 @@ export function updateStore<T = any>(
       return this;
     },
     withNotifications(
-      ok: string | [string, HashMap] | null,
-      err: string | [string, HashMap] | null,
+      ok: string | [string, Record<string, any>] | null,
+      err: string | [string, Record<string, any>] | null,
     ) {
       options.notifications = { ok, err };
       return this;
@@ -87,7 +86,7 @@ export function updateStore<T = any>(
       options.status?.loading();
 
       const notify = (
-        content: string | [string, HashMap] | null,
+        content: string | [string, Record<string, any>] | null,
         type: 'error' | 'success',
       ) => {
 
@@ -96,7 +95,7 @@ export function updateStore<T = any>(
         }
 
         let message: string;
-        let params: HashMap | undefined = undefined;
+        let params: Record<string, any> | undefined = undefined;
 
         if (Array.isArray(content)) {
           message = content[0];

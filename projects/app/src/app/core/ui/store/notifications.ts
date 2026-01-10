@@ -8,7 +8,7 @@ import {
 } from '@ui/components';
 
 import { NOTIFICATION_TIMEOUT } from '../constants';
-import { HashMap, TranslocoService } from '@jsverse/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 export function createUiNotificationController() {
   const transloco = inject(TranslocoService);
@@ -19,7 +19,7 @@ export function createUiNotificationController() {
   function add(
     notifType: NotificationType,
     message: string,
-    messageParams?: HashMap
+    messageParams?: Record<string, any>
   ) {
     const id = Date.now() + Math.random();
     const notif = {
@@ -30,11 +30,11 @@ export function createUiNotificationController() {
     notifications.update((notifs) => [...notifs, notif]);
   }
 
-  function success(message: string, messageParams?: HashMap) {
+  function success(message: string, messageParams?: Record<string, any>) {
     add(NOTIFICATION_TYPE.SUCCESS, message, messageParams);
   }
 
-  function error(message: string, messageParams?: HashMap) {
+  function error(message: string, messageParams?: Record<string, any>) {
     add(NOTIFICATION_TYPE.ERROR, message, messageParams);
   }
 
