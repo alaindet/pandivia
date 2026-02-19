@@ -2,10 +2,33 @@
   "name": "ui",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/core": "^21.0.8"
+    "@angular/common": "^21.0.8",
+    "@angular/core": "^21.0.8",
+    "@angular/forms": "^21.0.8",
+    "rxjs": "~7.8.2",
+    "@jsverse/transloco": "^8.2.0",
+    "@ng-icons/core": "^33.0.0",
+    "@ng-icons/material-icons": "^33.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./fesm2022/ui.mjs"
+    },
+    "./components": {
+      "import": "./fesm2022/ui-component.mjs"
+    },
+    "./layouts": {
+      "import": "./fesm2022/ui-layouts.mjs"
+    },
+    "./pipes": {
+      "import": "./fesm2022/ui-pipes.mjs"
+    },
+    "./services": {
+      "import": "./fesm2022/ui-services.mjs"
+    }
+  }
 }

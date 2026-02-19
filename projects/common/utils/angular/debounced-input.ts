@@ -1,5 +1,4 @@
-import { Observable, fromEvent } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { Observable, fromEvent, map, debounceTime, distinctUntilChanged, tap  } from 'rxjs';
 
 /**
  * Subscribes to the "keyup" event of an element (input, textarea) and returns

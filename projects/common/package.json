@@ -2,11 +2,24 @@
   "name": "common",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^21.0.8",
-    "@angular/core": "^21.0.8"
+    "@angular/core": "^21.0.8",
+    "@angular/forms": "^21.0.8",
+    "rxjs": "~7.8.2",
+    "focusable-selectors": "^0.8.4"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./fesm2022/common.mjs"
+    },
+    "./types": {
+      "import": "./fesm2022/common-types.mjs"
+    },
+    "./utils": {
+      "import": "./fesm2022/common-utils.mjs"
+    }
+  }
 }
